@@ -1,0 +1,4 @@
+interface:
+  display_name: "Flutter Pen To Architecture"
+  short_description: "Turn Pencil .pen designs into Flutter architecture guidance"
+  default_prompt: "Use $flutter-pen-to-architecture to translate Pencil .pen files or Pencil MCP output into Flutter-oriented design tokens, light and dark themes, reusable component plans, page architecture, and fidelity-versus-Flutterization decisions without generating code directly."
