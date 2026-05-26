@@ -1,9 +1,9 @@
-# DDD Module Blueprint
+# DDD Feature Blueprint
 
 ## 用途
 
 - 规定 Flutter 项目的默认目录结构
-- 强制按业务边界拆模块，而不是按页面、接口或临时需求堆文件
+- 强制按业务边界拆 feature，而不是按页面、接口或临时需求堆文件
 - 保证后续新增功能时仍然能沿着同一结构演进
 
 ## 顶层目录
@@ -23,8 +23,8 @@ lib/
   shared/
     kernel/
     presentation/
-  modules/
-    <module>/
+  features/
+    <feature>/
       domain/
       application/
       infrastructure/
@@ -40,22 +40,22 @@ lib/
 
 ### `core/`
 
-- 放跨模块基础设施
+- 放跨 feature 基础设施
 - 例如网络客户端、日志、配置、错误模型、存储基座
 - 这里是可复用基础能力，不是所有杂项都往里丢
 
 ### `shared/`
 
-- 只放真正跨模块复用且不属于某个单一业务域的内容
+- 只放真正跨 feature 复用且不属于某个单一业务域的内容
 - 可包含共享展示组件和少量 shared kernel
-- 如果一个东西只服务单模块，就回到模块内部
+- 如果一个东西只服务单 feature，就回到 feature 内部
 
-### `modules/`
+### `features/`
 
 - 每个一级目录都是一个清晰的 bounded context
 - 不按页面数量拆，不按后端接口数量拆
 
-## 模块分层职责
+## Feature 分层职责
 
 ### `domain/`
 
@@ -86,19 +86,19 @@ lib/
 
 - `presentation -> application -> domain`
 - `infrastructure -> domain`
-- `app -> modules / core / shared`
+- `app -> features / core / shared`
 
 禁止下面的方向：
 
 - `domain -> infrastructure`
 - `domain -> presentation`
 - `presentation -> infrastructure` 直接跳过应用层
-- 模块 A 直接引用模块 B 的内部实现细节
+- feature A 直接引用 feature B 的内部实现细节
 
-## 模块模板
+## Feature 模板
 
 ```text
-modules/
+features/
   auth/
     domain/
       entities/
@@ -118,7 +118,7 @@ modules/
 
 ## 命名与组织规则
 
-- 一个模块下的文件名按职责命名，不用 `utils.dart`、`manager.dart`、`common.dart` 这类模糊名字
-- 页面状态如果只服务当前页面，优先留在模块内部
-- 跨模块复用要先证明真的跨模块，再上提到 `shared`
-- 新需求先判断是扩现有模块还是新建 bounded context，不要默认继续往老模块里塞
+- 一个 feature 下的文件名按职责命名，不用 `utils.dart`、`manager.dart`、`common.dart` 这类模糊名字
+- 页面状态如果只服务当前页面，优先留在当前 feature 内部
+- 跨 feature 复用要先证明真的跨 feature，再上提到 `shared`
+- 新需求先判断是扩现有 feature 还是新建 bounded context，不要默认继续往老 feature 里塞

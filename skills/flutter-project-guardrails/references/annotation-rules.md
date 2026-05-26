@@ -60,7 +60,7 @@ dart run build_runner watch --delete-conflicting-outputs
 
 ## 输出检查
 
-每次初始化或新增模块后，至少确认：
+每次初始化或新增 feature 后，至少确认：
 
 - provider 已成功生成
 - DTO / state 已成功生成
