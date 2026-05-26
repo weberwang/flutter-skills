@@ -20,7 +20,20 @@
 3. 再按 RD 能力补充场景型包
 4. 任何新增包都必须立刻有落点，不允许先加着以后再用
 
-### 3. 建立顶层目录
+### 3. 处理插件重配开关
+
+1. 检查请求里是否显式包含 `--force`
+2. 如果包含：
+   - 重新执行当前 RD 范围内的插件配置
+   - 覆盖或刷新已有插件接入产物
+   - 然后继续后续初始化步骤
+3. 如果不包含：
+   - 先检查当前 RD 范围内所需插件是否已经配置
+   - 如果还没配置，执行首次插件配置
+   - 如果已经配置，保留现有插件配置，不重复覆盖
+   - 然后继续后续初始化步骤
+
+### 4. 建立顶层目录
 
 默认顶层结构：
 
@@ -47,7 +60,7 @@ lib/
       presentation/
 ```
 
-### 4. 搭基础设施
+### 5. 搭基础设施
 
 - `app/bootstrap`: 启动入口、ProviderScope、全局初始化
 - `app/router`: `go_router` 路由树与守卫
@@ -56,7 +69,7 @@ lib/
 - `core/logging`: 统一日志封装
 - `core/error`: 通用失败模型、异常映射、用户可见错误翻译
 
-### 5. 搭模块骨架
+### 6. 搭模块骨架
 
 每个首批模块至少生成：
 
@@ -71,7 +84,7 @@ lib/
 - `presentation/widgets`
 - `presentation/providers` 或仅保留应用层 provider 入口
 
-### 6. 接入注解与代码生成
+### 7. 接入注解与代码生成
 
 - Provider 使用 `@riverpod`
 - DTO / 状态 / 值对象优先使用 `@freezed`
@@ -79,14 +92,14 @@ lib/
 - API 接口使用 `@RestApi`、`@GET`、`@POST` 等
 - 跑一次 `dart run build_runner build --delete-conflicting-outputs`
 
-### 7. 生成项目内 `flutter-dev`
+### 8. 生成项目内 `flutter-dev`
 
 1. 从 `assets/flutter-dev-template/` 复制出 `skills/flutter-dev/`
 2. 回填项目名、模块清单、环境信息、核心命令、集成能力、决策日志
 3. 明确声明它继承 `flutter-project-guardrails`
 4. 不要保留模板占位符到最终项目里
 
-### 8. 初始化验证
+### 9. 初始化验证
 
 至少执行：
 
@@ -105,6 +118,8 @@ flutter test
 
 - 已创建哪些模块
 - 已接入哪些强制依赖
+- 是否触发了 `--force` 插件重配，或是否执行了首次插件配置
+- 本次处理了哪些插件，哪些插件保持不变
 - 已生成哪些 `flutter-dev` 项目约束内容
 - 哪些能力只是预留扩展点，还没写业务实现
 - 哪些 RD 缺口仍然阻塞后续开发

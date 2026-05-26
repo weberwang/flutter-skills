@@ -9,11 +9,20 @@ description: Use when initializing a Flutter project from an RD document generat
 
 Turn a reviewable Flutter RD into an implementation-ready project baseline. Focus on project scaffold, module boundaries, required package wiring, annotation-based code generation, and generation of a project-local `flutter-dev` skill so the team starts from a consistent foundation instead of an ad hoc app shell.
 
+## Invocation Parameters
+
+- Support an optional `--force` flag.
+- When `--force` is present, reconfigure plugin integrations that belong to the current RD scope, even if the project already contains earlier plugin wiring.
+- When `--force` is absent and no plugin setup exists yet, perform the first-time plugin configuration by default.
+- When `--force` is absent and plugin setup already exists, keep the current plugin setup and continue the remaining initialization or follow-up tasks.
+
 ## Quick Start
 
 - If the input is still a PRD, feature brief, or需求描述 rather than an RD, use `flutter-prd-rd-writer` first and do not scaffold directly.
 - Before touching `pubspec.yaml`, project folders, or generated code, always load `flutter-project-guardrails`. That skill defines the mandatory package stack, DDD module rules, and annotation rules that this skill must obey.
 - After the base project scaffold is created, always generate a project-local `skills/flutter-dev/` from `assets/flutter-dev-template/` and fill in the project-specific decisions from the RD.
+- If the request includes `--force`, treat plugin setup as a refresh task and rerun plugin configuration before continuing later steps.
+- If the request does not include `--force` but the required plugin setup does not exist yet, perform the first-time plugin configuration before continuing later steps.
 - If the RD leaves open decisions that would change module boundaries, auth design, storage mode, route guards, or code generation setup, output `前提假设` and `待确认项` before creating files.
 - Read `references/rd-to-bootstrap-map.md` first when the RD is long or spans multiple bounded contexts.
 
@@ -22,11 +31,12 @@ Turn a reviewable Flutter RD into an implementation-ready project baseline. Focu
 1. Validate that the input is an RD suitable for scaffolding.
 2. Extract the bootstrap contract from the RD: app type, modules, routes, auth, data sources, local storage, tests, and release constraints.
 3. Lock the initialization baseline with `flutter-project-guardrails`, including mandatory packages, DDD module shape, and annotation coverage.
-4. Scaffold the Flutter project shell, app bootstrap, environment baseline, and shared infrastructure.
-5. Create bounded modules under `lib/modules/` with `domain` / `application` / `infrastructure` / `presentation` layers.
-6. Wire required packages and code generation so providers, models, API clients, and serialization all have a working first pass.
-7. Generate `skills/flutter-dev/` inside the target project from `assets/flutter-dev-template/`, then fill in the project-specific module map, commands, and decisions.
-8. Run bootstrap verification and summarize what was scaffolded, what remains implementation-specific, and what still needs confirmation.
+4. Decide how plugin configuration should run. If `--force` is present, rerun plugin configuration. If no plugin setup exists yet, run the first-time plugin configuration. Otherwise, keep the existing plugin configuration and continue.
+5. Scaffold the Flutter project shell, app bootstrap, environment baseline, and shared infrastructure.
+6. Create bounded modules under `lib/modules/` with `domain` / `application` / `infrastructure` / `presentation` layers.
+7. Wire required packages and code generation so providers, models, API clients, and serialization all have a working first pass.
+8. Generate `skills/flutter-dev/` inside the target project from `assets/flutter-dev-template/`, then fill in the project-specific module map, commands, and decisions.
+9. Run bootstrap verification and summarize what was scaffolded, what remains implementation-specific, and what still needs confirmation.
 
 ## Hard Rules
 
@@ -36,6 +46,8 @@ Turn a reviewable Flutter RD into an implementation-ready project baseline. Focu
 - Do not add third-party packages for later. If a package is added, it must be wired into the scaffold and used by a concrete owner.
 - Do not hand-write boilerplate that should come from `@riverpod`, `@freezed`, `@JsonSerializable`, or `@RestApi`.
 - Do not stop after generating the code scaffold. The initialization is incomplete until the project-local `flutter-dev` skill is generated and filled.
+- Do not silently overwrite an existing plugin setup unless `--force` is explicitly present.
+- Do not skip the first plugin configuration when the project still lacks the required plugin setup.
 - Do not invent missing RD details to force progress. Surface `前提假设` and `待确认项` instead.
 - If exact package versions or Flutter toolchain details are sensitive to current ecosystem state, verify official docs or pub.dev before pinning numbers in the project.
 
@@ -54,4 +66,5 @@ Turn a reviewable Flutter RD into an implementation-ready project baseline. Focu
 - Read `references/rd-to-bootstrap-map.md` to map RD sections into scaffold decisions.
 - Read `references/bootstrap-workflow.md` for the step-by-step initialization sequence and verification commands.
 - Read `references/project-output-checklist.md` for the expected output tree and completion checklist.
+- Read `references/plugin-reconfigure-rules.md` when the request includes `--force`, when plugin setup already exists, or when you need to determine whether first-time plugin configuration is still missing.
 - Copy and customize `assets/flutter-dev-template/` when generating the project-local `flutter-dev` skill.
