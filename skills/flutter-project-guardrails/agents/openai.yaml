@@ -1,4 +1,0 @@
-interface:
-  display_name: "Flutter Project Guardrails"
-  short_description: "Enforce DDD, packages, and annotations"
-  default_prompt: "Use $flutter-project-guardrails to enforce the mandatory Flutter package stack, DDD module boundaries, and annotation-driven code generation during Flutter project setup or implementation."
