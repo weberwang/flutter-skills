@@ -218,16 +218,138 @@ Avoid mixing:
 - multiple mocking styles in the same team conventions
 - code generation without CI validation for stale generated files
 
+## 通用基础组合
+
+Use this section when the PRD does not require a special exception. This is the default “base stack” guidance for many Flutter projects before feature-specific packages are added.
+
+### 国际化基础
+
+Recommended default:
+
+- `flutter_localizations` + `intl` + Flutter `gen_l10n`
+
+Best bundles:
+
+- `flutter_localizations` provides framework localization glue
+- `intl` supports formatting for dates, numbers, currencies, and messages
+- `gen_l10n` keeps the translation flow aligned with Flutter's built-in tooling
+
+Alternatives:
+
+- `slang` when the team wants stronger typed translation access, modular language packs, or a more package-driven i18n workflow
+
+Avoid mixing:
+
+- `gen_l10n` and another full translation runtime as co-primary systems
+- manual string maps plus a generated i18n pipeline in the same app layer
+
+When to recommend:
+
+- recommend by default for any product that might expand beyond a single language region
+- do not postpone i18n if copy volume, formatting rules, or regional rollout are already visible in the PRD
+
+### 数据模型与不可变对象基础
+
+Recommended default:
+
+- `freezed` + `freezed_annotation` + `json_annotation` + `json_serializable` + `build_runner`
+
+Best bundles:
+
+- `freezed` for immutable models, unions, and explicit state shapes
+- `json_serializable` for generated DTO parsing
+- `build_runner` keeps code generation consistent across the project
+
+Alternatives:
+
+- `equatable` + hand-written classes for smaller apps with very few models
+- plain Dart classes plus `json_serializable` when sealed unions are unnecessary
+
+Avoid mixing:
+
+- hand-written immutable patterns in some modules and `freezed` unions in others without a clear rule
+- multiple model-generation styles in the same feature boundary
+
+When to recommend:
+
+- recommend this as the default base when the app has moderate or higher API and state complexity
+- for very small MVPs, it is acceptable to simplify, but call out the future migration cost
+
+### JSON 解析与映射基础
+
+Recommended default:
+
+- `json_annotation` + `json_serializable`
+
+Best bundles:
+
+- pair with `freezed` when request and response models also serve as immutable state or union types
+- pair with `dio` or `retrofit` for a consistent transport-to-model pipeline
+
+Alternatives:
+
+- manual parsing only for trivial prototypes or one-off payloads
+
+Avoid mixing:
+
+- generated JSON in one repository layer and ad hoc `Map<String, dynamic>` traversal in another without a boundary
+- leaking raw JSON maps into widget or state layers
+
+When to recommend:
+
+- recommend as the default for any project that values maintainability, testability, and DTO clarity
+
+### 函数式错误与结果流基础
+
+Recommended default:
+
+- do not add `fpdart` by default for every project
+
+Best bundles when needed:
+
+- `fpdart` + `freezed` for typed result and failure modeling
+- pair with repository and use-case layers when the team wants explicit success/failure pipelines
+- fit best in enterprise or domain-heavy products where validation and branching logic grow quickly
+
+Alternatives:
+
+- `freezed`-based sealed failures without `fpdart`
+- exception-based flows with strict boundary mapping in smaller teams or simpler apps
+
+Avoid mixing:
+
+- `fpdart`-style `Either` flows in one domain and uncontrolled exception-driven flows in the same path
+- introducing `fpdart` only for stylistic reasons when the team is not prepared to use the pattern consistently
+
+When to recommend:
+
+- recommend only when the PRD implies complex validation chains, multi-step business rules, explicit domain failures, or high-value error recoverability
+- for small and medium apps, call it out as an optional enhancement instead of a default dependency
+
+## 默认通用基础栈
+
+Use this as the baseline recommendation unless the PRD justifies a simpler or more specialized path:
+
+- `flutter_localizations` + `intl` + `gen_l10n`
+- `freezed` + `freezed_annotation`
+- `json_annotation` + `json_serializable`
+- `build_runner`
+- add `fpdart` only when domain complexity and failure modeling requirements clearly justify it
+
+When writing the final研发文档, explicitly say whether this baseline stack is adopted as-is, simplified, or replaced.
+
 ## Scenario Bundles
 
 ### 轻交付组合
 
 Use when speed matters more than heavy infrastructure:
 
+- `flutter_localizations` + `intl`
 - `flutter_riverpod`
 - `go_router`
 - `dio`
 - `freezed` + `json_serializable`
+- `build_runner`
 - `shared_preferences`
 - `flutter_secure_storage`
 - `mocktail`
@@ -236,10 +358,12 @@ Use when speed matters more than heavy infrastructure:
 
 Use when analytics, experiments, and release control matter:
 
+- `flutter_localizations` + `intl`
 - `flutter_riverpod`
 - `go_router`
 - `dio` + `retrofit`
 - `freezed` + `json_serializable`
+- `build_runner`
 - `flutter_secure_storage`
 - `firebase_analytics`
 - `firebase_remote_config`
@@ -249,10 +373,13 @@ Use when analytics, experiments, and release control matter:
 
 Use when maintainability, observability, and domain complexity are higher:
 
+- `flutter_localizations` + `intl`
 - `flutter_riverpod` or `bloc` depending on team discipline
 - `go_router` or `auto_route` with explicit route ownership
 - `dio` + `retrofit`
 - `freezed` + `json_serializable`
+- `build_runner`
+- `fpdart` when domain failures and validation pipelines are first-class concerns
 - `drift`
 - `flutter_secure_storage`
 - `sentry_flutter` or `firebase_crashlytics` based on observability stack

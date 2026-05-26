@@ -1,0 +1,4 @@
+interface:
+  display_name: "Flutter Dev"
+  short_description: "Project-specific Flutter development rules"
+  default_prompt: "Use $flutter-dev to implement or extend the {{PROJECT_NAME}} Flutter app while following the project's DDD modules, package rules, commands, and code-generation conventions."

@@ -78,6 +78,7 @@ Cover at least:
 - routing and guards
 - network layer
 - model serialization
+- common foundation stack decision for i18n, immutable models, JSON generation, and optional functional error modeling
 - local storage and secure storage
 - login state and session refresh
 - error handling and fallback strategy
@@ -88,6 +89,8 @@ Cover at least:
 ### 6. 第三方包选型与最佳搭档
 
 Do not write a package dump. Use capability domains and package stacks.
+
+Also state whether the project adopts the default `通用基础组合`, simplifies it, or replaces parts of it. This prevents common infrastructure such as i18n, model generation, JSON strategy, and optional domain error modeling from being skipped silently.
 
 ### 7. 后端协作与接口契约要求
 
