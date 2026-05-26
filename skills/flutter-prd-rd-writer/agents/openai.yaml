@@ -1,0 +1,4 @@
+interface:
+  display_name: "Flutter PRD RD Writer"
+  short_description: "Generate full Flutter RD docs from PRDs"
+  default_prompt: "Use $flutter-prd-rd-writer to turn a PRD into a full Flutter研发文档 with architecture, package choices, best bundles, and fullchain delivery guidance."
