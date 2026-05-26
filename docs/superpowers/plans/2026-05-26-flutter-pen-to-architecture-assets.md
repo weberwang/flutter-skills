@@ -4,9 +4,9 @@
 
 **Goal:** 为 `flutter-pen-to-architecture` 增加图片资源导出能力，使其能优先从 `.pen` 提取图片、在必要时回退到 `Pencil MCP` 资源引用、导出到 Flutter 项目的 `assets/images/`、自动补齐 `pubspec.yaml` 资源声明，并把这些图片纳入最终还原方案。
 
-**Architecture:** 保持现有 skill 主体不拆分，在其下新增两个独立脚本和一个新的参考文档。`export_pen_assets.py` 只负责资源提取与导出，`ensure_flutter_assets.py` 只负责 Flutter 资源声明接入；`SKILL.md` 与现有 references 负责把这两段能力接回原有的设计解构流程与输出契约。
+**Architecture:** 保持现有 skill 主体不拆分，在其下新增两个独立 Node.js 脚本和一个新的参考文档。`export_pen_assets.mjs` 只负责资源提取与导出，`ensure_flutter_assets.mjs` 只负责 Flutter 资源声明接入；`SKILL.md` 与现有 references 负责把这两段能力接回原有的设计解构流程与输出契约。
 
-**Tech Stack:** Python 3.12, `unittest`, `zipfile`, `base64`, Markdown skill files, YAML-like text patching for `pubspec.yaml`
+**Tech Stack:** Node.js 24, `node:test`, `jszip`, `Buffer` base64 decoding, Markdown skill files, YAML-like text patching for `pubspec.yaml`
 
 ---
 

@@ -1,6 +1,6 @@
 ---
 name: flutter-pen-to-architecture
-description: Use when translating Pencil `.pen` design files or Pencil MCP structured output into a Flutter-oriented design architecture plan, especially when the task is to extract global design tokens, define light and dark themes, decompose reusable components, plan multi-screen page architecture, and decide what should be restored faithfully versus refactored to fit Flutter design philosophy instead of generating code directly.
+description: Use when translating Pencil `.pen` design files or Pencil MCP structured output into a Flutter-oriented design architecture plan, especially when the task is to export image assets into a Flutter project, register `assets/images/` in `pubspec.yaml`, extract global design tokens, define light and dark themes, decompose reusable components, and decide what should be restored faithfully versus refactored to fit Flutter design philosophy instead of generating code directly.
 ---
 
 # Flutter Pen To Architecture
@@ -16,17 +16,21 @@ Turn `Pencil` design sources into a Flutter-facing implementation architecture i
 - If the user only wants visual direction refinement or Pencil prompt tuning, use `mobile-ui-design-coach` first instead of this skill.
 - If variables, layout hierarchy, or component-instance relationships are missing, output `前提假设` and `待确认项` before giving conclusions.
 - If the user asks for direct Flutter code, finish this architecture pass first or hand off the final summary to the downstream implementation skill.
+- 如果任务包含 Flutter 项目落地，优先把图片资源导出到 `assets/images/`，再讨论这些资源如何进入还原方案。
 
 ## Workflow
 
-1. Identify the real input surface: `.pen`, MCP node tree, variables, layout, reusable instances, and any missing structural data.
-2. Scan the whole design system first: page families, navigation shells, information hierarchy, repeated motifs, and semantic surfaces.
-3. Extract design tokens for color, typography, spacing, radius, elevation, and status semantics.
-4. Build a dual-theme strategy for light and dark instead of treating dark mode as a color inversion.
-5. Decompose the UI into reusable layers: primitives, composite widgets, business widgets, and page sections.
-6. Plan screen architecture across the whole flow: shells, content regions, state zones, overlays, and transitions between screens.
-7. Classify key decisions into `建议高保真还原`, `建议 Flutter 化重构`, or `建议简化处理`, and explain why.
-8. Produce an output pack that a Flutter team and `flutter-init` can consume directly.
+1. Identify the real input surface: `.pen`, MCP node tree, variables, layout, reusable instances, missing structural data, and whether a Flutter project root is available.
+2. Resolve image assets first: prefer `.pen` embedded resources, and use Pencil MCP asset manifests only when `.pen` cannot provide enough exportable images.
+3. Export selected images into the Flutter project's `assets/images/`, recording overwrite behavior when files share the same name.
+4. Ensure `pubspec.yaml` declares `assets/images/` so the exported assets can be consumed directly by Flutter.
+5. Scan the whole design system first: page families, navigation shells, information hierarchy, repeated motifs, and semantic surfaces.
+6. Extract design tokens for color, typography, spacing, radius, elevation, and status semantics.
+7. Build a dual-theme strategy for light and dark instead of treating dark mode as a color inversion.
+8. Decompose the UI into reusable layers: primitives, composite widgets, business widgets, and page sections.
+9. Plan screen architecture across the whole flow: shells, content regions, state zones, overlays, and transitions between screens.
+10. Classify key decisions into `建议高保真还原`, `建议 Flutter 化重构`, or `建议简化处理`, and explain why.
+11. Produce an output pack that a Flutter team and `flutter-init` can consume directly, including asset export and mapping results.
 
 ## Hard Rules
 
@@ -37,12 +41,16 @@ Turn `Pencil` design sources into a Flutter-facing implementation architecture i
 - Do not return generic design commentary. Always land on Flutter-facing tokens, themes, components, screen architecture, and implementation boundaries.
 - Do not generate page code in this skill. This skill ends at architecture and implementation guidance.
 - For every meaningful visual or structural decision, explicitly mark whether it should be faithfully restored, Flutterized, or simplified.
+- 当导出图片资源时，默认允许同名文件覆盖，但必须在输出中明确记录覆盖行为与使用建议。
 
 ## Deliverables
 
 Every result should cover at least:
 
 - `输入摘要`
+- `图片资源导出结果`
+- `图片资源映射表`
+- `Flutter 资源接入结果`
 - `全局设计结构`
 - `设计 Token 归纳`
 - `亮色主题方案`
@@ -76,6 +84,7 @@ The final output must help another Flutter-focused agent continue without re-rea
 ## References
 
 - Read `references/pen-input-contract.md` to decide whether the available `.pen` and MCP data are sufficient and how to downgrade safely when they are not.
+- Read `references/asset-extraction-and-mapping.md` to decide which image resources should be exported, how they map into `assets/images/`, and how overwrite or fallback behavior should be described.
 - Read `references/design-token-extraction.md` to normalize raw design styles into Flutter-ready tokens.
 - Read `references/dual-theme-strategy.md` to derive light and dark themes with semantic consistency.
 - Read `references/component-decomposition.md` to decide which parts deserve reusable widgets and which should stay local to a screen.

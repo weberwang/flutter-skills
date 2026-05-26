@@ -1,4 +1,4 @@
 interface:
   display_name: "Flutter Pen To Architecture"
-  short_description: "Turn Pencil .pen designs into Flutter architecture guidance"
-  default_prompt: "Use $flutter-pen-to-architecture to translate Pencil .pen files or Pencil MCP output into Flutter-oriented design tokens, light and dark themes, reusable component plans, page architecture, and fidelity-versus-Flutterization decisions without generating code directly."
+  short_description: "Export Pencil image assets and map them into Flutter restoration guidance"
+  default_prompt: "Use $flutter-pen-to-architecture to export image assets from Pencil .pen files into a Flutter project's assets/images/, register the folder in pubspec.yaml, and fold those assets into Flutter-oriented restoration guidance with tokens, themes, reusable components, and fidelity-versus-Flutterization decisions."

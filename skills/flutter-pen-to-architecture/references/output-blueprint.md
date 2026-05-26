@@ -7,16 +7,25 @@ Keep every result from this skill structurally stable so that human teams and do
 ## Recommended Output Order
 
 1. `输入摘要`
-2. `全局设计结构`
-3. `设计 Token 归纳`
-4. `亮色主题方案`
-5. `暗色主题方案`
-6. `组件拆解清单`
-7. `页面实现骨架`
-8. `高保真 / Flutter 化取舍说明`
-9. `实现边界建议`
-10. `可供 flutter-init 消费的规范摘要`
-11. `风险与待确认项`
+2. `图片资源导出结果`
+3. `图片资源映射表`
+4. `Flutter 资源接入结果`
+5. `全局设计结构`
+6. `设计 Token 归纳`
+7. `亮色主题方案`
+8. `暗色主题方案`
+9. `组件拆解清单`
+10. `页面实现骨架`
+11. `高保真 / Flutter 化取舍说明`
+12. `实现边界建议`
+13. `可供 flutter-init 消费的规范摘要`
+14. `风险与待确认项`
+
+## Additional Output Sections
+
+1. `图片资源导出结果`
+2. `图片资源映射表`
+3. `Flutter 资源接入结果`
 
 ## Required Row Schema
 
@@ -28,6 +37,12 @@ For important sections, components, or theme decisions, prefer a row or grouped 
 - `是否进入主题层`
 - `是否抽成复用组件`
 - `风险/备注`
+
+对于图片资源映射，至少补充以下判断：
+
+- `建议用途`
+- `是否建议高保真使用`
+- `是否发生同名覆盖`
 
 ## flutter-init Summary Contract
 

@@ -62,8 +62,8 @@ skills/
     agents/
       openai.yaml
     scripts/
-      export_pen_assets.py
-      ensure_flutter_assets.py
+      export_pen_assets.mjs
+      ensure_flutter_assets.mjs
     references/
       pen-input-contract.md
       design-token-extraction.md
@@ -77,7 +77,7 @@ skills/
 
 ### 5.1 新增脚本职责
 
-#### `scripts/export_pen_assets.py`
+#### `scripts/export_pen_assets.mjs`
 
 负责：
 
@@ -96,7 +96,7 @@ skills/
 - 是否成功导出
 - 失败原因
 
-#### `scripts/ensure_flutter_assets.py`
+#### `scripts/ensure_flutter_assets.mjs`
 
 负责：
 
@@ -264,7 +264,7 @@ assets/images/
 扩展完成后，至少要验证以下能力：
 
 1. 给定真实 `.pen` 文件时，脚本能导出图片到 `assets/images/`
-2. 重复运行 `ensure_flutter_assets.py` 不会重复写入同一资源目录
+2. 重复运行 `ensure_flutter_assets.mjs` 不会重复写入同一资源目录
 3. 导出结果能稳定生成结构化映射表
 4. 最终 skill 输出能把图片资源纳入“还原方案”，而不是孤立下载结果
 

@@ -67,3 +67,9 @@ If the user only has those inputs, recommend a design-direction skill first or e
 - Prefer repeated patterns over isolated edge cases.
 - Prefer variables and instances over manual visual guessing.
 - If two data sources conflict, trust `.pen` structure and reusable-instance relationships before screenshot appearance.
+
+## Asset Fallback
+
+- Prefer `.pen` embedded assets.
+- Use Pencil MCP only when `.pen` does not provide enough exportable image data.
+- 如果发生同名资源覆盖，需要在结果中显式标记，方便后续 Flutter 还原核对来源与最新版本。
