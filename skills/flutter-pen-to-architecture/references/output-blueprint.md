@@ -2,7 +2,7 @@
 
 ## Goal
 
-Keep every result from this skill structurally stable so that human teams and downstream skills can consume it without re-parsing the design.
+Keep every result from this skill structurally stable so that human teams and downstream skills can consume it without reopening the design tree.
 
 ## Recommended Output Order
 
@@ -21,11 +21,33 @@ Keep every result from this skill structurally stable so that human teams and do
 13. `可供 flutter-init 消费的规范摘要`
 14. `风险与待确认项`
 
-## Additional Output Sections
+## 图片资源导出结果
 
-1. `图片资源导出结果`
-2. `图片资源映射表`
-3. `Flutter 资源接入结果`
+- 汇总 `export_nodes` 的执行结果，包括成功数量、失败数量、默认导出目录 `<projectRoot>/assets/images/`、默认格式 `png`。
+- 对每个导出批次说明是否存在重名调整、人工命名修正或需要重新导出的异常情况。
+- 这里只报告实际导出结果，不延伸声称 Flutter 工程已自动接入这些资源。
+
+## 图片资源映射表
+
+资源映射表应至少覆盖以下字段：
+
+- `节点 ID`
+- `节点名称`
+- `导出文件绝对路径`
+- `Flutter 相对路径`
+- `建议业务命名`
+- `页面/组件归属`
+- `建议用途`
+- `是否建议高保真使用`
+- `备注`
+
+如果某些节点经过筛选后不导出，也应在备注中说明原因，例如“建议改用 Flutter 原生绘制”或“仅作为布局参考”。
+
+## Flutter 资源接入结果
+
+- 只报告 `pubspec.yaml` 中是否已声明相关 `Flutter assets`，例如“已声明”“未声明”“无法确认”。
+- 明确区分“检查结果”和“修改动作”：这里不能声称已经修改 `pubspec.yaml`、移动文件或自动接入资源。
+- 如果发现声明缺失，可以给出建议声明路径，但结果表述仍应保持为检查结论。
 
 ## Required Row Schema
 
@@ -38,11 +60,11 @@ For important sections, components, or theme decisions, prefer a row or grouped 
 - `是否抽成复用组件`
 - `风险/备注`
 
-对于图片资源映射，至少补充以下判断：
+对于图片资源相关条目，至少补充以下判断：
 
 - `建议用途`
 - `是否建议高保真使用`
-- `是否发生同名覆盖`
+- `Flutter 资源接入状态`
 
 ## flutter-init Summary Contract
 

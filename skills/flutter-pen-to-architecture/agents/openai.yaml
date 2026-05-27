@@ -1,4 +1,4 @@
 interface:
   display_name: "Flutter Pen To Architecture"
-  short_description: "Export Pencil image assets and map them into Flutter restoration guidance"
-  default_prompt: "Use $flutter-pen-to-architecture to export image assets from Pencil .pen files into a Flutter project's assets/images/, register the folder in pubspec.yaml, and fold those assets into Flutter-oriented restoration guidance with tokens, themes, reusable components, and fidelity-versus-Flutterization decisions."
+  short_description: "Inspect Pencil MCP design structure and turn it into whole-project Flutter architecture guidance"
+  default_prompt: "Use $flutter-pen-to-architecture to inspect Pencil design data through Pencil MCP, default to whole-project analysis instead of single-screen optimization, start with get_editor_state(include_schema: true), gather targeted structure with batch_get, inspect key relationships with snapshot_layout, identify export nodes, produce only the necessary exported assets with export_nodes, verify Flutter assets through a read-only check of whether pubspec.yaml already declares the needed asset path, and return architecture guidance only. This skill does not generate page code."
