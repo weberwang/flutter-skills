@@ -31,7 +31,7 @@ Turn `Pencil` design sources into a Flutter-facing implementation architecture i
 8. Extract design tokens for color, typography, spacing, radius, elevation, and status semantics.
 9. Preserve any frozen global theme role names and values, then build the Flutter mapping strategy for light and dark instead of treating dark mode as a color inversion.
 10. Decompose the UI into reusable layers: primitives, composite widgets, business widgets, and page sections.
-11. Plan screen architecture across the whole flow: shells, content regions, state zones, overlays, and transitions between screens.
+11. Plan screen architecture across the whole flow: shells, content regions, state zones, overlays, scroll regions, sticky regions, and transitions between screens.
 12. Classify key decisions into `preserve_faithfully`, `flutterize`, or `simplify`, and explain why.
 13. Produce an output pack that a Flutter team and `flutter-init` can consume directly, including asset export and mapping results.
 
@@ -46,6 +46,7 @@ Turn `Pencil` design sources into a Flutter-facing implementation architecture i
 - Do not rename, reinterpret, or recalculate frozen theme roles from `design-preview-to-global-guidelines`; only map them into Flutter theme layers.
 - Do not read, unzip, or parse `.pen` files directly. Use Pencil MCP tools for `.pen` access and asset export.
 - Do not depend on local export scripts for image export.
+- Do not assume a tall design frame is enough to describe scrolling behavior; derive explicit Flutter scroll architecture from continuous frames or structured scroll notes when present.
 - For every meaningful visual or structural decision, explicitly mark whether it should be faithfully restored, Flutterized, or simplified.
 
 ## Deliverables
@@ -63,6 +64,7 @@ Every result should cover at least:
 - `dark_theme_strategy`
 - `component_decomposition`
 - `screen_architecture`
+- `scroll_architecture`
 - `fidelity_vs_flutterization`
 - `implementation_boundaries`
 - `flutter_init_summary`
