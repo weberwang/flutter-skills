@@ -2,7 +2,9 @@
 
 ## Tool Policy
 
-- Use `image_gen` for preview creation when raster previews are needed.
+- Use `$gpt-image-2-generator` for every generated preview comp.
+- Keep preview generation pinned to `gpt-image-2` through `$gpt-image-2-generator`; do not route preview creation through a generic image tool or substitute another model.
+- If `$gpt-image-2-generator` cannot confirm `gpt-image-2`, or its required environment is unavailable, stop before generation and report the blocker instead of substituting another model.
 - Generate one to three options in a round.
 - Change one major design variable per round.
 - Keep each round labeled clearly: `preview-v1`, `preview-v2`, `preview-v3`.

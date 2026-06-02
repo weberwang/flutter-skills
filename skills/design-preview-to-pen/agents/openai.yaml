@@ -1,4 +1,4 @@
 interface:
   display_name: "Design Preview To Pen"
-  short_description: "Run preview-first design exploration and structured Pencil handoff"
-  default_prompt: "Use $design-preview-to-pen to clarify the design brief with HIG as the default behavior baseline, generate and critique preview comps, freeze an approved direction, plan reusable assets, and rebuild the result structurally in Pencil."
+  short_description: "Run gpt-image-2 preview exploration through $gpt-image-2-generator and structured Pencil handoff"
+  default_prompt: "Use $design-preview-to-pen to clarify the design brief with HIG as the default behavior baseline, delegate all preview image generation to $gpt-image-2-generator with gpt-image-2 only, freeze an approved direction, plan reusable assets, and rebuild the result structurally in Pencil."

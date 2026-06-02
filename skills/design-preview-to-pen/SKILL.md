@@ -20,6 +20,7 @@ Act like a production designer moving an approved art direction into an editable
 - If the user wants direct Pencil editing without preview exploration, use a Pencil-focused skill instead of this one.
 - If the user provides a `mobile-ui-design-coach` packet or design freeze card, treat it as the upstream source of truth.
 - If no platform rule is specified, use HIG as the default mobile behavior baseline.
+- Preview comps must be generated with `gpt-image-2` through `$gpt-image-2-generator`; if that skill, its required environment, or the active image-generation surface cannot use or confirm `gpt-image-2`, stop before preview generation and report the blocker.
 - If the Pencil desktop app is not connected, complete the pre-Pencil phases and stop before any MCP read or write call.
 
 ## Workflow
@@ -27,7 +28,7 @@ Act like a production designer moving an approved art direction into an editable
 1. Clarify the design brief and acceptance gates.
 2. Lock the platform baseline, defaulting to HIG behavior rules unless the user explicitly chooses another baseline.
 3. Lock the art direction inputs: layout posture, density, palette, material language, type personality, icon posture, illustration posture, and motion role.
-4. Generate preview candidates with a controlled prompt set and one major variable per round.
+4. Generate preview candidates by delegating every image-generation call to `$gpt-image-2-generator`, using `gpt-image-2`, a controlled prompt set, and one major variable per round.
 5. Critique the previews against the brief, not only visual taste.
 6. Wait for explicit user approval and record the design freeze card.
 7. Build an asset and system plan before touching Pencil.
@@ -54,7 +55,8 @@ Act like a production designer moving an approved art direction into an editable
 ### 2. Preview Generation
 
 - Read `references/preview-generation.md`.
-- Use `image_gen` for preview comps and keep the prompt set stable across iterations.
+- Route every preview-generation request through `$gpt-image-2-generator`, and keep the prompt set stable across iterations.
+- Treat the preview model as a production constraint: do not substitute another image model for convenience.
 - Generate one to three directions at a time. Change one major variable per round: layout, palette, illustration language, or density.
 - Treat preview comps as communication artifacts, not as final production assets.
 - After each round, summarize the deltas, critique each option against the brief, recommend one, and ask the user to choose, merge, or revise.
@@ -108,6 +110,7 @@ Act like a production designer moving an approved art direction into an editable
 ## Hard Rules
 
 - Do not extract assets or write to Pencil before explicit user approval of a preview direction.
+- Do not generate preview comps outside `$gpt-image-2-generator`, and do not use any model other than `gpt-image-2`; if `gpt-image-2` is unavailable or cannot be confirmed, stop and surface the blocker.
 - Do not treat a flattened preview as the final production artifact.
 - Do not crop bitmap icons from a preview when a redraw or vector-safe replacement is practical.
 - Do not rebuild an entire page as one image unless the user explicitly accepts a non-editable result.
