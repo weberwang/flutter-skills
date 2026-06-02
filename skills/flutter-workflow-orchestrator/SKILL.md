@@ -7,7 +7,7 @@ description: Use when coordinating modular Flutter PRD/RD, UI/UX design, static-
 
 ## Overview
 
-Route a Flutter module through the approved PRD -> global technical baseline -> detailed module design -> UI direction -> static-source freeze -> Pencil -> architecture -> implementation workflow. This skill is the traffic controller: it selects the next specialist skill, records state, blocks skipped gates, waits for explicit user confirmation before switching to the next process, and maintains one stable workflow record document for the whole project.
+Route a Flutter module through the approved PRD -> global technical baseline -> UI direction -> static-source freeze -> detailed module design -> Pencil -> architecture -> implementation workflow. This skill is the traffic controller: it selects the next specialist skill, records state, blocks skipped gates, waits for explicit user confirmation before switching to the next process, and maintains one stable workflow record document for the whole project.
 
 ## Workflow Record
 
@@ -38,11 +38,11 @@ Use one state per module:
 | State | Meaning | Allowed Next Move |
 | --- | --- | --- |
 | `prd_ready` | PRD or feature brief exists | `flutter-prd-rd-writer` |
-| `technical_baseline_ready` | Global architecture, package stack, backend collaboration, and delivery assumptions exist without detailed module breakdown | `flutter-rd-module-splitter` |
-| `modules_split` | Detailed modules, paired doc paths, module detail cards, and global baseline references exist | `mobile-ui-design-coach` or `design-preview-to-global-guidelines` |
+| `technical_baseline_ready` | Global architecture, package stack, backend collaboration, and delivery assumptions exist without frozen UI direction or detailed module breakdown | `mobile-ui-design-coach` or `design-preview-to-global-guidelines` |
 | `uiux_draft` | UI/UX direction exists but is not frozen | `mobile-ui-design-coach` or `design-preview-to-global-guidelines` |
 | `global_guidelines_frozen` | Approved screenshots or preview comps have been converted into frozen global guidance and dual-theme artifacts | `flutter-design-freeze-gate` |
-| `design_freeze_ready` | Design packet plus any required global freeze artifacts are ready for approval | `flutter-design-freeze-gate` |
+| `design_freeze_ready` | Design packet plus any required global freeze artifacts are ready for approval | `flutter-rd-module-splitter` |
+| `modules_split` | Detailed modules, paired doc paths, module detail cards, and global baseline references exist after the visual direction has been approved | `design-preview-to-pen` |
 | `pen_ready` | Approved design can move to Pencil | `design-preview-to-pen` |
 | `pen_frozen` | `.pen` and UI/UX source are frozen | `flutter-design-source-control` or `flutter-pen-to-architecture` |
 | `impl_rd_ready` | Module implementation RD references UI/UX RD, `.pen`, and the global technical baseline | `flutter-pen-to-architecture` |
@@ -59,10 +59,10 @@ Use one state per module:
 3. If the user explicitly confirms a pending transition, promote `pending_next_stage` into `current_stage`, promote `pending_next_skill` into `next_skill`, set `confirmation_status` to `confirmed` for that routing update, clear pending transition fields, and then continue normal routing from the newly confirmed stage.
 4. If the user rejects a pending transition, keep `current_stage` unchanged, set `confirmation_status` to `rejected`, keep or replace blockers with the rejection reason, and route back to the skill that must revise the artifacts.
 5. If the input is only a PRD, broad RD, or feature brief, use `flutter-prd-rd-writer` first to create the global technical baseline and package decisions without detailed module splitting.
-6. If a global technical baseline exists but detailed modules and paired doc paths do not, use `flutter-rd-module-splitter`.
-7. If a module lacks UI/UX direction, page states, or commercial design decisions, use `mobile-ui-design-coach`.
-8. If approved screenshots, preview comps, or static mockups must become a reusable global design-source contract with fixed light and dark theme values, use `design-preview-to-global-guidelines`, then record the module as `global_guidelines_frozen` as `pending_next_stage` until the user confirms the switch.
-9. If UI/UX has a candidate design but no explicit approval, use `flutter-design-freeze-gate`.
+6. If a global technical baseline exists but the workflow still lacks UI/UX direction, page states, or commercial design decisions, use `mobile-ui-design-coach`.
+7. If approved screenshots, preview comps, or static mockups must become a reusable global design-source contract with fixed light and dark theme values, use `design-preview-to-global-guidelines`, then record the module as `global_guidelines_frozen` as `pending_next_stage` until the user confirms the switch.
+8. If UI/UX has a candidate design but no explicit approval, use `flutter-design-freeze-gate`.
+9. If the visual direction has been approved but detailed modules and paired doc paths do not exist yet, use `flutter-rd-module-splitter`.
 10. If an approved visual direction must become Pencil, use `design-preview-to-pen`.
 11. If a frozen `.pen` or UI/UX source is about to be consumed by implementation RD or code, use `flutter-design-source-control`.
 12. If module implementation details are missing after splitting, return to `flutter-rd-module-splitter`; do not use `flutter-prd-rd-writer` for module-level detailed design.
