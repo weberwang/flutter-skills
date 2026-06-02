@@ -5,6 +5,7 @@
 - choosing the right clarifying question when the design direction is vague
 - explaining why a mobile screen feels too native, plain, or generic
 - selecting a stronger commercial direction before writing prompts
+- distinguishing visual polish problems from missing commercial completeness
 
 ## Four-Axis Interview
 
@@ -43,6 +44,19 @@ What should do the heavy lifting when removing the default system look?
 - `illustration or imagery`: controlled hero assets, not decoration spam
 - `motion`: restrained transitions, feedback, reveal timing
 
+## Designer Interview Add-On
+
+Use this only when the design needs commercial polish, stakeholder review, or downstream Pencil and Flutter work.
+
+Ask the smallest missing question:
+
+1. `商业时刻`: what moment should make the user trust, return, pay, or continue?
+2. `平台基线`: should HIG remain the default behavior baseline, or is there an explicit Android or custom baseline?
+3. `视觉记忆点`: should the product be remembered through type, material, motif, illustration, or motion?
+4. `不可牺牲项`: what must survive preview, Pencil, and Flutter implementation?
+5. `状态范围`: which non-happy states must be designed now?
+6. `参考边界`: what products, moods, colors, or patterns must be avoided?
+
 ## Native-Feel Diagnosis Checklist
 
 Use these signals to explain why a screen feels too native:
@@ -57,6 +71,33 @@ Use these signals to explain why a screen feels too native:
 - the page copies web dashboard conventions into a phone layout
 
 When diagnosing, translate symptoms into design action. Example: “All modules look equal” should become “Create one dominant zone, one secondary zone, and one passive support zone.”
+
+## Commercial Completeness Diagnosis
+
+Use these signals when a screen looks polished but still does not feel production-ready:
+
+- the design shows only the happy path
+- the primary business or retention moment is invisible
+- there is no clear first-use, return-use, or post-action loop
+- empty, loading, error, permission, and locked states are unspecified
+- typography, spacing, surfaces, and actions cannot be reused as a system
+- the screen depends on decorative style instead of product-specific hierarchy
+- placeholder copy or fake numbers hide real content constraints
+- the design cannot be handed to Pencil or Flutter without the implementer guessing
+
+Convert each symptom into a concrete gate. Example: “Only happy path exists” should become “Add state map before calling the design commercial-grade.”
+
+## Designer Critique Checklist
+
+Use this before recommending a direction:
+
+- Is there one clear focal zone, or does the page ask the user to read everything at once?
+- Does the first screen communicate product value through the task itself instead of a decorative hero?
+- Would the same layout work for a different app with only text changed? If yes, the direction is still too generic.
+- Are surfaces, type, icons, and motion behaving like one system?
+- Are the state boundaries visible enough for production, not hidden behind a perfect portfolio mockup?
+- Can the direction be described as components, tokens, and acceptance gates?
+- Does custom styling preserve HIG-baseline behavior and interaction expectations?
 
 ## Direction Archetypes
 
@@ -100,8 +141,11 @@ Use when the product needs stronger brand presence or a more memorable mood.
 
 After diagnosis, structure the answer in this order:
 
-1. short direction summary
-2. why the current UI feels native
-3. recommended direction
-4. prompt pack or page guidance
-5. implementation guardrails
+1. design brief
+2. platform baseline
+3. why the current UI feels native, generic, or incomplete
+4. designer critique
+5. recommended art direction
+6. design freeze card
+7. prompt pack or page guidance
+8. implementation guardrails

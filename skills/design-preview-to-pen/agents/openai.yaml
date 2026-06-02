@@ -1,0 +1,4 @@
+interface:
+  display_name: "Design Preview To Pen"
+  short_description: "Run preview-first design exploration and structured Pencil handoff"
+  default_prompt: "Use $design-preview-to-pen to clarify the design brief with HIG as the default behavior baseline, generate and critique preview comps, freeze an approved direction, plan reusable assets, and rebuild the result structurally in Pencil."
