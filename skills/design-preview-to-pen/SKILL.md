@@ -7,11 +7,11 @@ description: Use when preview comps, approved visual directions, image assets, o
 
 ## Overview
 
-Run a strict designer production workflow: clarify the brief, explore preview directions, critique and freeze one approved direction, plan reusable assets, rebuild the design structurally in Pencil, and verify visual parity. Bias toward maintainable Pencil structure and reusable assets, not a one-off flattened mockup.
+Run a strict designer production workflow: clarify the brief, explore preview directions, critique and freeze one approved direction, plan reusable assets, rebuild the design structurally in Pencil, complete non-page-level reusable component design, and verify visual parity. Bias toward maintainable Pencil structure and reusable assets, not a one-off flattened mockup.
 
 ## Designer Role
 
-Act like a production designer moving an approved art direction into an editable design file. Preserve intent, hierarchy, and system decisions while allowing small engineering cleanup that improves maintainability.
+Act like a production designer moving an approved art direction into an editable design file. Preserve intent, hierarchy, and system decisions while allowing small engineering cleanup that improves maintainability. Treat a completed design draft as both finished page compositions and finished non-page-level reusable component design.
 
 ## Quick Start
 
@@ -35,8 +35,9 @@ Act like a production designer moving an approved art direction into an editable
 7. Wait for explicit user approval and record the design freeze card.
 8. Build an asset and system plan before touching Pencil.
 9. Extract, regenerate, or redraw assets by type instead of blindly slicing everything.
-10. Rebuild the approved direction in Pencil with variables first and sections second.
-11. Compare the Pencil result against the approved preview, freeze card, and any frozen global guidance artifacts, then close remaining gaps.
+10. Rebuild the approved direction in Pencil with variables first, reusable component design second, and sections third.
+11. Complete non-page-level component design for repeated controls, cards, bars, list items, dialogs, chips, and other shared building blocks, including names, states, and variant boundaries.
+12. Compare the Pencil result against the approved preview, freeze card, any frozen global guidance artifacts, and the required component set, then close remaining gaps.
 
 ## Phase Rules
 
@@ -87,12 +88,22 @@ Act like a production designer moving an approved art direction into an editable
   6. decorative details
 - Prefer `set_variables` before large `batch_design` passes so spacing, color, and typography stay maintainable.
 - Add redline notes or named variables for decisions Flutter must preserve.
+- Do not treat page-level completion as design-draft completion until the non-page-level reusable components are also designed in Pencil.
+- Complete reusable component design for shared UI building blocks, including at least naming, structural boundaries, reusable variables, and key state or variant differences when the approved direction implies them.
 
-### 6. Visual Parity Review
+### 6. Component Design Completion
+
+- Identify which non-page-level building blocks are shared across screens or sections, instead of leaving them embedded only inside page frames.
+- Extract or rebuild those building blocks as maintainable reusable component structures in Pencil.
+- Cover the component states or variants that downstream Flutter work would otherwise have to guess, such as primary versus secondary emphasis, selected versus default, enabled versus disabled, filled versus outline, or inline versus elevated posture.
+- Ensure the component set is consistent with frozen global guidance artifacts when those artifacts exist.
+- If a repeated building block is intentionally kept local, document why it is not promoted into a reusable component.
+
+### 7. Visual Parity Review
 
 - Read `references/acceptance-checklist.md`.
 - Use `snapshot_layout` for structure checks and `get_screenshot` only after a meaningful section or full page is ready.
-- Review parity against the approved preview, freeze card, and any frozen global guidance artifacts, not against an older draft.
+- Review parity against the approved preview, freeze card, any frozen global guidance artifacts, and the completed reusable component set, not against an older draft.
 - Close gaps in a controlled order: layout first, typography second, color and materials third, asset fit last.
 
 ## Hard Rules
@@ -105,6 +116,8 @@ Act like a production designer moving an approved art direction into an editable
 - Do not let a pretty preview override the approved brief, art direction, state scope, or freeze card.
 - Do not recalculate global theme roles or localize palette semantics when frozen theme files already exist.
 - Do not skip designer critique between preview generation and approval.
+- Do not treat page frames alone as a completed design draft; non-page-level reusable component design must also be finished.
+- Do not leave shared controls or repeated building blocks only inside page compositions when downstream Flutter implementation needs explicit reusable component design.
 - Do not break HIG-baseline safe areas, tap targets, navigation, destructive actions, permission flows, readability, feedback, or accessibility.
 - Do not call Pencil tools other than `get_editor_state(include_schema: true)` before the schema is loaded.
 - Do not hide the Pencil connection blocker; surface it immediately when the app is unavailable.
@@ -123,6 +136,7 @@ Every substantial result should leave these artifacts in the conversation:
 - `consumed_global_freeze_artifacts`
 - `asset_manifest`
 - `pencil_rebuild_progress`
+- `component_design_progress`
 - `parity_gap_list`
 
 ## References

@@ -23,19 +23,23 @@ Use this order to preserve editability:
 
 1. root frame and page bounds
 2. spacing, color, typography, radius, shadow, and border variables
-3. major sections and containers
-4. headings, body text, controls, cards, and navigation
-5. icons and illustrations
-6. decorative accents and polish
-7. redline notes for Flutter handoff
+3. reusable non-page-level component structures and their key variants
+4. major sections and containers
+5. headings, body text, controls, cards, and navigation
+6. icons and illustrations
+7. decorative accents and polish
+8. redline notes for Flutter handoff
 
 ## Designer Reconstruction Rules
 
 - Use variables before large section passes so tokens stay consistent.
+- Complete reusable component design before declaring the design draft finished.
 - Name sections by their product role, not just visual shape.
+- Name reusable components by product meaning and shared role, not by one screen position.
 - Preserve the dominant, secondary, and support zones from the approved direction.
 - Keep text and controls editable unless the freeze card explicitly permits rasterization.
 - Translate preview-only artifacts into maintainable Pencil structure.
+- Promote repeated controls, list items, cards, bars, and dialog patterns into reusable component structures when they are shared beyond a single page section.
 - Preserve HIG-baseline safe areas, tap targets, navigation behavior, readability, feedback, and accessibility.
 
 ## Recovery Rule
