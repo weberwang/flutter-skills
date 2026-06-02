@@ -1,0 +1,87 @@
+---
+name: gpt-image-2-generator
+description: Use when Codex needs to generate concept art, design previews, UI mockups, hero images, marketing visuals, icons, or illustration drafts with gpt-image-2, especially when the request should run through a custom OpenAI-compatible base URL and API key loaded from environment variables and the output needs to be written to local image files.
+---
+
+# GPT Image 2 Generator
+
+## Overview
+
+Generate local image files with `gpt-image-2` through the bundled `scripts/image_gen.py` helper. This skill is a focused, generation-only extraction of the system image generation workflow, narrowed to repeatable CLI execution, explicit prompt shaping, and local file output.
+
+## Quick Start
+
+- Confirm both environment variables exist before running anything:
+  - `IMAGE_BASE_URL`
+  - `IMAGE_API_KEY`
+- Start with a dry run when the prompt is new, text-heavy, or uses a custom size.
+- Save single-image jobs with `--out` and multi-image jobs with `--out-dir`.
+
+```bash
+rtk python skills/gpt-image-2-generator/scripts/image_gen.py \
+  --prompt "A polished mobile banking dashboard in a bright editorial 3D style" \
+  --dry-run
+```
+
+## Workflow
+
+1. Clarify the target artifact: subject, use case, style, aspect ratio, visible text, and anything the image must avoid.
+2. When the request is broad or under-specified, read `references/prompt-patterns.md` and translate the request into structured fields instead of relying on one long freeform prompt.
+3. Prefer the structured prompt flags when control matters: `--use-case`, `--scene`, `--subject`, `--style`, `--composition`, `--lighting`, `--palette`, `--materials`, `--text`, `--constraints`, and `--negative`.
+4. Run `--dry-run` first for unusual sizes, `--n > 1`, or text-in-image requests so the payload can be reviewed before spending tokens.
+5. Run the live request and write outputs to an explicit local path.
+6. Report the output path, the final prompt summary, and any quality risks that still need a second pass.
+
+## Command Patterns
+
+### Single image
+
+```bash
+rtk python skills/gpt-image-2-generator/scripts/image_gen.py \
+  --prompt "A clean fintech hero illustration with two devices on a desk" \
+  --out output/imagegen/fintech-hero.png
+```
+
+### Structured prompt
+
+```bash
+rtk python skills/gpt-image-2-generator/scripts/image_gen.py \
+  --prompt "Design preview for a premium sleep tracking app" \
+  --use-case "Mobile App Store preview" \
+  --subject "Three iPhone screens showing onboarding, dashboard, and bedtime routine" \
+  --style "Premium product render with soft realism" \
+  --composition "Front-facing triptych with centered hero focus" \
+  --lighting "Soft diffused studio light" \
+  --palette "Deep navy, cyan, coral accent" \
+  --constraints "Readable UI hierarchy, no extra floating cards" \
+  --negative "warped phones, unreadable text, busy background" \
+  --out output/imagegen/sleep-preview.png
+```
+
+### Multiple images
+
+```bash
+rtk python skills/gpt-image-2-generator/scripts/image_gen.py \
+  --prompt "Sticker-style mascot for a developer tooling brand" \
+  --n 3 \
+  --out-dir output/imagegen/mascot-set
+```
+
+## Environment Rules
+
+- `IMAGE_BASE_URL` and `IMAGE_API_KEY` are required. Do not hardcode them and do not pass secrets through prompt files.
+- `IMAGE_BASE_URL` should point to the API root, for example `https://your-endpoint.example/v1`. The script appends `/images/generations` automatically unless the value already ends with that path.
+- The bundled script targets `gpt-image-2` only. If the request depends on transparent backgrounds, image editing, or a different model family, stop and use another workflow.
+
+## Hard Rules
+
+- Do not silently substitute another model when the request explicitly requires `gpt-image-2`.
+- Do not send a live request when either environment variable is missing.
+- Do not claim text rendered inside an image is correct unless it was visually checked afterward.
+- Do not assume transparent output is available; this skill is generation-only and does not implement the transparent-background fallback path.
+- Do not bypass script validation for custom sizes; let the helper reject invalid dimensions first.
+
+## References
+
+- Read `references/prompt-patterns.md` when prompt quality is the main bottleneck.
+- Read `references/environment-and-outputs.md` when the endpoint format, output naming, or response handling is unclear.
