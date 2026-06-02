@@ -1,0 +1,4 @@
+interface:
+  display_name: "Flutter Design Parity Reviewer"
+  short_description: "Review implemented Flutter UI against frozen Pen design"
+  default_prompt: "Use $flutter-design-parity-reviewer to compare implemented Flutter screens against the frozen UI/UX RD and Pencil design source, report parity gaps, and route redesign requests back to design control."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Flutter Design Source Control"
+  short_description: "Control frozen design sources and post-freeze changes"
+  default_prompt: "Use $flutter-design-source-control to enforce Pencil as the single design source after freeze, route post-freeze UI changes back through design approval, and prevent code-stage redesign."

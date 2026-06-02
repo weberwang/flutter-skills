@@ -1,0 +1,4 @@
+interface:
+  display_name: "Flutter Design Freeze Gate"
+  short_description: "Enforce explicit design approval before Pen or Flutter work"
+  default_prompt: "Use $flutter-design-freeze-gate to verify that a Flutter module has an approved UI/UX freeze card, immutable design constraints, and the right approval state before Pencil or code work proceeds."
