@@ -58,21 +58,22 @@ Use one state per module:
 2. If `confirmation_status` is `pending_confirmation`, do not switch to the next process. Keep `next_skill` as `none`, preserve the current confirmed stage, surface `pending_next_stage` and `pending_next_skill`, and wait for explicit user confirmation.
 3. If the user explicitly confirms a pending transition, promote `pending_next_stage` into `current_stage`, promote `pending_next_skill` into `next_skill`, set `confirmation_status` to `confirmed` for that routing update, clear pending transition fields, and then continue normal routing from the newly confirmed stage.
 4. If the user rejects a pending transition, keep `current_stage` unchanged, set `confirmation_status` to `rejected`, keep or replace blockers with the rejection reason, and route back to the skill that must revise the artifacts.
-5. If the input is only a PRD, broad RD, or feature brief, use `flutter-prd-rd-writer` first to create the global technical baseline and package decisions without detailed module splitting.
-6. If a global technical baseline exists but the workflow still lacks UI/UX direction, page states, or commercial design decisions, use `mobile-ui-design-coach`.
-7. If approved screenshots, preview comps, or static mockups must become a reusable global design-source contract with fixed light and dark theme values, use `design-preview-to-global-guidelines`, then record the module as `global_guidelines_frozen` as `pending_next_stage` until the user confirms the switch.
-8. If the workflow requests global design freezing but no reference screenshots or usable preview images exist, do not route to `design-preview-to-global-guidelines`; return the module as blocked and ask the user whether to fall back.
-9. If UI/UX has a candidate design but no explicit approval, use `flutter-design-freeze-gate`.
-10. If the visual direction has been approved but detailed modules and paired doc paths do not exist yet, use `flutter-rd-module-splitter`.
-11. If an approved visual direction must become Pencil, use `design-preview-to-pen`.
-12. If a frozen `.pen` or UI/UX source is about to be consumed by implementation RD or code, use `flutter-design-source-control`.
-13. If module implementation details are missing after splitting, return to `flutter-rd-module-splitter`; do not use `flutter-prd-rd-writer` for module-level detailed design.
-14. If Pencil design must become Flutter-facing tokens, assets, components, and screen architecture, use `flutter-pen-to-architecture`.
-15. If the module is `architecture_ready` and the target project has not been scaffolded yet or does not contain project-local `skills/flutter-dev/`, use `flutter-init`.
-16. If `flutter-init` has completed and the project-local `skills/flutter-dev/` exists, record `project_initialized` as `pending_next_stage` and wait for confirmation before switching to the project-local `flutter-dev`.
-17. If the project is already initialized and implementation work should begin or continue, use the project-local `flutter-dev`.
-18. If code is complete or screenshots exist, use `flutter-design-parity-reviewer`.
-19. If the user requests UI, layout, interaction, hierarchy, visual token, or state changes after freeze, use `flutter-design-source-control`.
+5. If a specialist skill returns `blocked`, do not advance to the next process. Keep `current_stage` on the last confirmed stage, clear `pending_next_stage` and `pending_next_skill` to `none`, set `next_skill` to `none` unless the blocker response explicitly names a remediation step, and record the blocker before any further routing.
+6. If the input is only a PRD, broad RD, or feature brief, use `flutter-prd-rd-writer` first to create the global technical baseline and package decisions without detailed module splitting.
+7. If a global technical baseline exists but the workflow still lacks UI/UX direction, page states, or commercial design decisions, use `mobile-ui-design-coach`.
+8. If approved screenshots, preview comps, or static mockups must become a reusable global design-source contract with fixed light and dark theme values, use `design-preview-to-global-guidelines`, then record the module as `global_guidelines_frozen` as `pending_next_stage` until the user confirms the switch.
+9. If the workflow requests global design freezing but no reference screenshots or usable preview images exist, do not route to `design-preview-to-global-guidelines`; return the module as blocked and ask the user whether to fall back.
+10. If UI/UX has a candidate design but no explicit approval, use `flutter-design-freeze-gate`.
+11. If the visual direction has been approved but detailed modules and paired doc paths do not exist yet, use `flutter-rd-module-splitter`.
+12. If an approved visual direction must become Pencil, use `design-preview-to-pen`.
+13. If a frozen `.pen` or UI/UX source is about to be consumed by implementation RD or code, use `flutter-design-source-control`.
+14. If module implementation details are missing after splitting, return to `flutter-rd-module-splitter`; do not use `flutter-prd-rd-writer` for module-level detailed design.
+15. If Pencil design must become Flutter-facing tokens, assets, components, and screen architecture, use `flutter-pen-to-architecture`.
+16. If the module is `architecture_ready` and the target project has not been scaffolded yet or does not contain project-local `skills/flutter-dev/`, use `flutter-init`.
+17. If `flutter-init` has completed and the project-local `skills/flutter-dev/` exists, record `project_initialized` as `pending_next_stage` and wait for confirmation before switching to the project-local `flutter-dev`.
+18. If the project is already initialized and implementation work should begin or continue, use the project-local `flutter-dev`.
+19. If code is complete or screenshots exist, use `flutter-design-parity-reviewer`.
+20. If the user requests UI, layout, interaction, hierarchy, visual token, or state changes after freeze, use `flutter-design-source-control`.
 
 ## Workflow Record Update Rules
 
@@ -83,6 +84,7 @@ Use one state per module:
 - Keep one row per module in the module status table and update that row instead of appending duplicate rows.
 - When no module is selected yet, store project-level routing in the summary and leave module-specific fields as `not_selected`.
 - When a step is waiting for review, keep `current_stage` at the last confirmed stage, set `next_skill` to `none`, and store the candidate transition in `pending_next_stage` plus `pending_next_skill`.
+- When a step returns `blocked`, keep `current_stage` at the last confirmed stage and clear any queued transition instead of changing the workflow to the next process.
 - Move the project or module to `project_initialized` only after `flutter-init` has produced a usable scaffold and generated the project-local `skills/flutter-dev/`, and only switch into that stage after explicit user confirmation.
 
 ## Hard Rules
@@ -96,6 +98,7 @@ Use one state per module:
 - Do not let implementation rewrite design intent. Design changes after freeze must return to design control.
 - Do not route directly from `architecture_ready` to project-local `flutter-dev`; new project scaffolding must pass through `flutter-init`.
 - Do not switch to the next process automatically after a specialist skill finishes; wait for explicit user confirmation whenever `pending_next_stage` and `pending_next_skill` are set.
+- Do not treat a `blocked` result as a pending transition; blocked work must stay on the current confirmed stage.
 - Do not invoke `pending_next_skill` while `confirmation_status` is `pending_confirmation`.
 - Do not ask an execution skill to do workflow bookkeeping that belongs here.
 - Do not treat one module's state as proof that another module is ready.

@@ -80,6 +80,8 @@ Record the next skill, why it is next, and the minimum required inputs.
 
 If the workflow is waiting for user confirmation, set the actionable `next_skill` to `none` and move the queued transition into the confirmation section instead of pretending the next skill is already allowed to run.
 
+If the workflow is `blocked`, do not point `next_skill` at the next process stage and do not preserve a stale queued transition from a failed routing attempt.
+
 ### `confirmation_gate`
 
 Record:
@@ -133,6 +135,7 @@ Append short dated entries only when a stage changes, a blocker is cleared, or a
 - If a step result is ready for review, keep `current_stage` on the last confirmed stage, set `confirmation_status: pending_confirmation`, set `next_skill: none`, and record the candidate transition in `pending_next_stage` and `pending_next_skill`.
 - If the user confirms a pending transition, move `pending_next_stage` into `current_stage`, move `pending_next_skill` into `next_skill`, clear both pending fields to `none`, and set `confirmation_status: confirmed` for that update.
 - If the user rejects a pending transition, keep the current confirmed stage, set `confirmation_status: rejected`, and write the rejection reason into blockers plus the decision log.
+- If a step returns `blocked`, keep `current_stage` unchanged, clear `pending_next_stage` and `pending_next_skill` to `none`, and do not rewrite the module into the next workflow state.
 - If `flutter-init` completes, update the global artifact index with the project root, initialization summary, and `skills/flutter-dev/` path, then queue the relevant stage as `project_initialized` instead of switching immediately.
 - If a module is blocked, write the blocker both in the metadata summary section and in the module row.
 - If the workflow completes, set `workflow_status: completed`.
@@ -145,4 +148,6 @@ Append short dated entries only when a stage changes, a blocker is cleared, or a
 - Do not mark a stage as advanced until the required artifacts for that stage are actually available.
 - Do not switch to the next process while `confirmation_status` is `pending_confirmation`.
 - Do not store a queued transition only in prose; always persist it in `pending_next_stage` and `pending_next_skill`.
+- Do not keep `pending_next_stage` or `pending_next_skill` populated after a `blocked` result.
+- Do not rewrite `current_stage` to a later workflow state when the latest routing result is `blocked`.
 - Do not mark `project_initialized` unless both the scaffold and project-local `skills/flutter-dev/` exist.
