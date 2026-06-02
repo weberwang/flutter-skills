@@ -40,6 +40,8 @@ For important sections, components, or theme decisions, prefer a row or grouped 
 
 对于图片资源映射，至少补充以下判断：
 
+- `Pencil 节点 ID`
+- `MCP 返回路径`
 - `建议用途`
 - `是否建议高保真使用`
 - `是否发生同名覆盖`

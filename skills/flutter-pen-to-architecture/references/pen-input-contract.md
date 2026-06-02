@@ -68,8 +68,10 @@ If the user only has those inputs, recommend a design-direction skill first or e
 - Prefer variables and instances over manual visual guessing.
 - If two data sources conflict, trust `.pen` structure and reusable-instance relationships before screenshot appearance.
 
-## Asset Fallback
+## Asset Handling
 
-- Prefer `.pen` embedded assets.
-- Use Pencil MCP only when `.pen` does not provide enough exportable image data.
+- Access `.pen` files through Pencil MCP only; do not read, unzip, or parse `.pen` files directly.
+- Use Pencil MCP structure, variables, and layout snapshots to decide which nodes deserve image export.
+- Use Pencil MCP `export_nodes` when a Flutter project root is available and selected image nodes should land in `assets/images/`.
+- Verify exported files and `pubspec.yaml` registration by reading files or directory listings after the operation.
 - 如果发生同名资源覆盖，需要在结果中显式标记，方便后续 Flutter 还原核对来源与最新版本。
