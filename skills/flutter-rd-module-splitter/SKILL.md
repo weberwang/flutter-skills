@@ -41,9 +41,9 @@ Do not create a module only because a screen exists. Small screens that share on
 8. Assign document paths:
    - `docs/rd/modules/<module>/<module>.ui-ux.md`
    - `docs/rd/modules/<module>/<module>.impl.md`
-   - Optional state note: `docs/rd/modules/<module>/<module>.workflow.md`
-9. Generate or update `docs/rd/00-module-index.md` when the user asks for files to be written.
-10. Mark each module with its initial workflow state, normally `modules_split`.
+9. Ensure the global workflow record path is reserved as `docs/rd/00-workflow-record.md`; stage tracking belongs there, not inside per-module workflow notes.
+10. Generate or update `docs/rd/00-module-index.md` when the user asks for files to be written.
+11. Mark each module with its initial workflow state, normally `modules_split`, so `flutter-workflow-orchestrator` can write that state into the global workflow record.
 
 ## UI/UX RD Contract
 
@@ -53,8 +53,8 @@ Each `<module>.ui-ux.md` must include:
 - Page scope and navigation entry.
 - Core user path.
 - State matrix: ideal, empty, loading, error, permission, partial data, disabled, success, locked or premium when relevant.
-- Design source section with future Pencil path.
-- Design freeze card placeholder.
+- Design source section with future Pencil path and future `global-design-guidelines.md`, `light-theme-freeze.yaml`, and `dark-theme-freeze.yaml` references when approved static previews exist.
+- Design freeze card section reserved for later approval.
 - Acceptance gates for UI/UX and Pencil handoff.
 
 ## Implementation RD Contract
@@ -74,10 +74,12 @@ Each `<module>.impl.md` must include:
 ## Hard Rules
 
 - Do not write visual direction; route that to `mobile-ui-design-coach`.
+- Do not freeze screenshot-based global guidance or concrete theme values here; route that to `design-preview-to-global-guidelines`.
 - Do not rebuild Pencil or plan assets; route that to `design-preview-to-pen`.
 - Do not choose packages or create the global technical scheme; route that to `flutter-prd-rd-writer`.
 - Do not override package or architecture decisions from the global technical baseline; record exceptions as open questions.
 - Do not generate Flutter screen architecture from `.pen`; route that to `flutter-pen-to-architecture` after `.pen` is frozen.
+- Do not create per-module workflow state files; use `docs/rd/00-workflow-record.md` through `flutter-workflow-orchestrator`.
 - Do not split implementation modules from a raw PRD unless the user explicitly asks for a rough discovery split and accepts that technical decisions are pending.
 - Do not output module names only. Each module needs enough detail for its paired UI/UX and implementation RD documents.
 - Do not merge UI/UX RD and implementation RD into one document.

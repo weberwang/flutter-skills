@@ -18,12 +18,13 @@ Turn a reviewable Flutter RD into an implementation-ready project baseline. Focu
 
 ## Quick Start
 
-- If the input is still a PRD, feature brief, or需求描述 rather than an RD, use `flutter-prd-rd-writer` first and do not scaffold directly.
+- If the input is still a PRD, feature brief, or rough requirement note rather than an RD, use `flutter-prd-rd-writer` first and do not scaffold directly.
 - Before touching `pubspec.yaml`, project folders, or generated code, always load `flutter-project-guardrails`. That skill defines the mandatory package stack, DDD feature rules, and annotation rules that this skill must obey.
+- If `docs/rd/00-workflow-record.md` exists, treat it as the current workflow source and return enough artifact paths for `flutter-workflow-orchestrator` to move the project to `project_initialized`.
 - After the base project scaffold is created, always generate a project-local `skills/flutter-dev/` from `assets/flutter-dev-template/` and fill in the project-specific decisions from the RD.
 - If the request includes `--force`, treat plugin setup as a refresh task and rerun plugin configuration before continuing later steps.
 - If the request does not include `--force` but the required plugin setup does not exist yet, perform the first-time plugin configuration before continuing later steps.
-- If the RD leaves open decisions that would change feature boundaries, auth design, storage mode, route guards, or code generation setup, output `前提假设` and `待确认项` before creating files.
+- If the RD leaves open decisions that would change feature boundaries, auth design, storage mode, route guards, or code generation setup, output `assumptions` and `needs_confirmation` before creating files.
 - Read `references/rd-to-bootstrap-map.md` first when the RD is long or spans multiple bounded contexts.
 
 ## Workflow
@@ -37,6 +38,7 @@ Turn a reviewable Flutter RD into an implementation-ready project baseline. Focu
 7. Wire required packages and code generation so providers, models, API clients, and serialization all have a working first pass.
 8. Generate `skills/flutter-dev/` inside the target project from `assets/flutter-dev-template/`, then fill in the project-specific feature map, commands, and decisions.
 9. Run bootstrap verification and summarize what was scaffolded, what remains implementation-specific, and what still needs confirmation.
+10. If a workflow record exists, return the project root path, generated `skills/flutter-dev/` path, and initialization summary so `flutter-workflow-orchestrator` can advance the stage to `project_initialized`.
 
 ## Hard Rules
 
@@ -48,7 +50,7 @@ Turn a reviewable Flutter RD into an implementation-ready project baseline. Focu
 - Do not stop after generating the code scaffold. The initialization is incomplete until the project-local `flutter-dev` skill is generated and filled.
 - Do not silently overwrite an existing plugin setup unless `--force` is explicitly present.
 - Do not skip the first plugin configuration when the project still lacks the required plugin setup.
-- Do not invent missing RD details to force progress. Surface `前提假设` and `待确认项` instead.
+- Do not invent missing RD details to force progress. Surface `assumptions` and `needs_confirmation` instead.
 - Plugin and package versions must prefer the latest release that is compatible with the current Flutter SDK.
 - After configuring plugins or packages, run validation and fix any incompatibility until the setup is compatible with the current Flutter SDK and verification passes.
 
@@ -62,6 +64,7 @@ Turn a reviewable Flutter RD into an implementation-ready project baseline. Focu
 - A generated project-local `skills/flutter-dev/` skill that inherits the guardrails and records project-specific decisions.
 - A verified dependency and plugin setup that is aligned with the current Flutter SDK.
 - A short initialization summary that states scaffolded features, generated layers, remaining business code gaps, and unresolved confirmation items.
+- The project root path and generated `skills/flutter-dev/` path, so `flutter-workflow-orchestrator` can record `project_initialized`.
 
 ## References
 

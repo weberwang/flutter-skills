@@ -1,4 +1,4 @@
 interface:
   display_name: "Flutter Workflow Orchestrator"
-  short_description: "Route Flutter global baseline, detailed modules, design, Pen, and build stages"
-  default_prompt: "Use $flutter-workflow-orchestrator to route Flutter work through global technical baseline, detailed module design, UI/UX design, Pencil handoff, implementation readiness, and review gates without skipping package or design checkpoints."
+  short_description: "Route Flutter stages and keep one workflow record"
+  default_prompt: "Use $flutter-workflow-orchestrator to initialize or update docs/rd/00-workflow-record.md, route Flutter work through global technical baseline, module design, static-preview freezing, architecture extraction, flutter-init project scaffolding, and review gates, and keep the current stage stable."
