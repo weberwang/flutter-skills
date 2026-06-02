@@ -61,7 +61,7 @@ Use one state per module:
 5. If the input is only a PRD, broad RD, or feature brief, use `flutter-prd-rd-writer` first to create the global technical baseline and package decisions without detailed module splitting.
 6. If a global technical baseline exists but the workflow still lacks UI/UX direction, page states, or commercial design decisions, use `mobile-ui-design-coach`.
 7. If approved screenshots, preview comps, or static mockups must become a reusable global design-source contract with fixed light and dark theme values, use `design-preview-to-global-guidelines`, then record the module as `global_guidelines_frozen` as `pending_next_stage` until the user confirms the switch.
-8. If the workflow requests global design freezing but no reference screenshots or usable preview images exist, do not route to `design-preview-to-global-guidelines`; return the module as blocked and route to `mobile-ui-design-coach`.
+8. If the workflow requests global design freezing but no reference screenshots or usable preview images exist, do not route to `design-preview-to-global-guidelines`; return the module as blocked and ask the user whether to fall back.
 9. If UI/UX has a candidate design but no explicit approval, use `flutter-design-freeze-gate`.
 10. If the visual direction has been approved but detailed modules and paired doc paths do not exist yet, use `flutter-rd-module-splitter`.
 11. If an approved visual direction must become Pencil, use `design-preview-to-pen`.
@@ -92,7 +92,7 @@ Use one state per module:
 - Do not let code implementation begin before `technical_baseline_ready`, `modules_split`, `pen_frozen`, and `impl_rd_ready` exist for the module.
 - Do not route around `flutter-design-freeze-gate` on implied approval.
 - Do not let screenshot-based design freezing skip `design-preview-to-global-guidelines` when downstream skills need stable global principles or concrete theme values.
-- Do not attempt `global_guidelines_frozen` when no reference screenshots or usable preview images exist; block and return to UI exploration instead.
+- Do not attempt `global_guidelines_frozen` when no reference screenshots or usable preview images exist; block and ask the user whether to fall back instead.
 - Do not let implementation rewrite design intent. Design changes after freeze must return to design control.
 - Do not route directly from `architecture_ready` to project-local `flutter-dev`; new project scaffolding must pass through `flutter-init`.
 - Do not switch to the next process automatically after a specialist skill finishes; wait for explicit user confirmation whenever `pending_next_stage` and `pending_next_skill` are set.
@@ -125,7 +125,7 @@ Return:
 - User says "split modules first, choose packages later": block and require at least a baseline architecture and package decision.
 - User says "the design is basically fine, make the Pen file first": require `flutter-design-freeze-gate`.
 - User says "these previews are final, let Flutter use the colors directly": route to `design-preview-to-global-guidelines`, queue `global_guidelines_frozen` for confirmation, and only then switch to `flutter-design-freeze-gate`.
-- User says "there is no reference image, freeze the global design anyway": block and route to `mobile-ui-design-coach`.
+- User says "there is no reference image, freeze the global design anyway": block and ask whether to fall back.
 - User says "the architecture summary is done, start coding": if the scaffold or `skills/flutter-dev/` does not exist yet, route to `flutter-init` first.
 - User says "the last step looks good, continue": if `confirmation_status` is `pending_confirmation`, promote the recorded pending transition and switch to the next process.
 - User says "adjust button hierarchy during implementation": route to `flutter-design-source-control`.
