@@ -30,6 +30,7 @@ Approve only when all items are present:
 - Core path and return loop.
 - Art direction and hierarchy decisions.
 - Visual system contract: typography, spacing, color roles, radius, surfaces, icon posture, motion role.
+- Module-level component freeze exists for reusable controls and repeated building blocks, including their frozen states, variant boundaries, immutable parts, and allowed adjustments.
 - State matrix: ideal, empty, loading, error, permission, partial data, disabled, success, locked or premium when relevant.
 - Global design freeze artifacts exist when the workflow depends on static visual sources:
   - `global-design-guidelines.md`
@@ -55,6 +56,7 @@ Use these outcomes:
 - Do not infer approval from silence or enthusiasm.
 - Do not allow Pencil work before the design direction is frozen.
 - Do not allow Flutter implementation to reinterpret hierarchy, spacing, states, or visual tokens.
+- Do not allow module-level reusable components to enter Pencil or Flutter handoff without an explicit component-freeze decision.
 - Do not allow global design freeze to pass when reference screenshots or preview images are missing; block and ask the user whether to fall back.
 - Do not let downstream skills infer missing theme values from static previews; require `design-preview-to-global-guidelines` to freeze them first.
 - Do not decide visual alternatives here; route unresolved choices to `mobile-ui-design-coach` or `design-preview-to-global-guidelines` depending on whether the missing work is exploratory or contract-freezing.
@@ -76,6 +78,7 @@ Return:
 
 - User says "this direction is fine, continue": ask whether that is explicit approval if the target artifact is Pencil or code.
 - User says "there is no reference image, freeze the global design first": block and ask whether to fall back.
+- User says "the page is frozen, components can be decided later": block until module-level component freeze is explicit.
 - User says "we can add states later": block production freeze.
 - User says "Flutter can decide the dark theme later": block until `light-theme-freeze.yaml` and `dark-theme-freeze.yaml` are frozen.
 - User says "optimize visuals during implementation": block and route to `flutter-design-source-control`.

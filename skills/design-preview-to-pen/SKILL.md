@@ -62,7 +62,7 @@ Act like a production designer moving an approved art direction into an editable
 
 - Do not continue on implied approval. Wait for an explicit user decision.
 - If `global-design-guidelines.md` exists, link the freeze card to that contract and do not restate or mutate global theme role definitions locally.
-- Convert the chosen direction into a design freeze card with immutable items, allowed engineering adjustments, icon and illustration handling, state scope, and acceptance criteria.
+- Convert the chosen direction into a design freeze card with immutable items, allowed engineering adjustments, icon and illustration handling, module-level component freeze decisions, state scope, and acceptance criteria.
 - If the user wants a hybrid of multiple previews, freeze that hybrid explicitly before asset work.
 
 ### 4. Asset Extraction
@@ -98,6 +98,7 @@ Act like a production designer moving an approved art direction into an editable
 - Identify which non-page-level building blocks are shared across screens or sections, instead of leaving them embedded only inside page frames.
 - Extract or rebuild those building blocks as maintainable reusable component structures in Pencil.
 - Cover the component states or variants that downstream Flutter work would otherwise have to guess, such as primary versus secondary emphasis, selected versus default, enabled versus disabled, filled versus outline, or inline versus elevated posture.
+- Freeze the module-level component decisions explicitly: which components are reusable, which states and variants are frozen now, which parts are immutable, and which engineering adjustments remain allowed.
 - Ensure the component set is consistent with frozen global guidance artifacts when those artifacts exist.
 - If a repeated building block is intentionally kept local, document why it is not promoted into a reusable component.
 
@@ -132,6 +133,7 @@ Act like a production designer moving an approved art direction into an editable
 - Do not skip designer critique between preview generation and approval.
 - Do not treat page frames alone as a completed design draft; non-page-level reusable component design must also be finished.
 - Do not leave shared controls or repeated building blocks only inside page compositions when downstream Flutter implementation needs explicit reusable component design.
+- Do not treat module-level reusable components as frozen implicitly; record their frozen scope, states, and allowed adjustments in the freeze artifacts.
 - Do not assume a long page is self-explanatory just because the frame is taller; if Flutter could misread the scroll structure, add continuous frames or an equivalent structured scroll specification.
 - Do not require continuous frames for every page when a single fixed viewport plus explicit scroll specification already makes the Flutter mapping unambiguous.
 - Do not break HIG-baseline safe areas, tap targets, navigation, destructive actions, permission flows, readability, feedback, or accessibility.
@@ -149,6 +151,7 @@ Every substantial result should leave these artifacts in the conversation:
 - `preview_options_summary`
 - `design_critique`
 - `freeze_card`
+- `module_component_freeze`
 - `consumed_global_freeze_artifacts`
 - `asset_manifest`
 - `pencil_rebuild_progress`

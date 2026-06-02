@@ -44,7 +44,7 @@ Use one state per module:
 | `design_freeze_ready` | Design packet plus any required global freeze artifacts are ready for approval | `flutter-rd-module-splitter` |
 | `modules_split` | Detailed modules, paired doc paths, module detail cards, and global baseline references exist after the visual direction has been approved | `design-preview-to-pen` |
 | `pen_ready` | Approved design can move to Pencil | `design-preview-to-pen` |
-| `pen_frozen` | `.pen` and UI/UX source are frozen, including non-page-level reusable component design required for implementation handoff | `flutter-design-source-control` or `flutter-pen-to-architecture` |
+| `pen_frozen` | `.pen` and UI/UX source are frozen, including non-page-level reusable component design and module-level component freeze decisions required for implementation handoff | `flutter-design-source-control` or `flutter-pen-to-architecture` |
 | `impl_rd_ready` | Module implementation RD references UI/UX RD, `.pen`, and the global technical baseline | `flutter-pen-to-architecture` |
 | `architecture_ready` | Tokens, assets, components, screen plan, and scaffold contract exist | `flutter-init` |
 | `project_initialized` | `flutter-init` has created the project scaffold and generated project-local `skills/flutter-dev/` | project-local `flutter-dev` plus `flutter-project-guardrails` |
