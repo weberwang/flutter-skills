@@ -16,6 +16,7 @@ Decide whether a module's UI/UX work is approved enough to move forward. This sk
 - Design packet from `mobile-ui-design-coach` and, when static previews are the frozen source, artifacts from `design-preview-to-global-guidelines`.
 - Preview decision when previews were generated.
 - State matrix and acceptance gates.
+- Reference screenshots or preview images when the module claims `global_guidelines_frozen` from static visual sources.
 - `global-design-guidelines.md`, `light-theme-freeze.yaml`, and `dark-theme-freeze.yaml` when the module relies on approved screenshots or preview comps as a reusable source contract.
 - Explicit user approval or a documented approval marker.
 
@@ -54,6 +55,7 @@ Use these outcomes:
 - Do not infer approval from silence or enthusiasm.
 - Do not allow Pencil work before the design direction is frozen.
 - Do not allow Flutter implementation to reinterpret hierarchy, spacing, states, or visual tokens.
+- Do not allow global design freeze to pass when reference screenshots or preview images are missing; block and send the workflow back to `mobile-ui-design-coach`.
 - Do not let downstream skills infer missing theme values from static previews; require `design-preview-to-global-guidelines` to freeze them first.
 - Do not decide visual alternatives here; route unresolved choices to `mobile-ui-design-coach` or `design-preview-to-global-guidelines` depending on whether the missing work is exploratory or contract-freezing.
 - Do not treat a pretty preview as frozen unless it has an approval record.
@@ -73,6 +75,7 @@ Return:
 ## Pressure Scenarios
 
 - User says "this direction is fine, continue": ask whether that is explicit approval if the target artifact is Pencil or code.
+- User says "there is no reference image, freeze the global design first": block and route to `mobile-ui-design-coach`.
 - User says "we can add states later": block production freeze.
 - User says "Flutter can decide the dark theme later": block until `light-theme-freeze.yaml` and `dark-theme-freeze.yaml` are frozen.
 - User says "optimize visuals during implementation": block and route to `flutter-design-source-control`.

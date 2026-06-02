@@ -13,11 +13,12 @@ Use this reference when the input is a screenshot, preview comp, effect mockup, 
 ## Not A Good Entry Surface
 
 - Text-only requests with no visual evidence
+- No reference screenshots or usable preview images for the target flow
 - Multiple materially different directions without an approved baseline
 - A single decorative hero shot with no usable UI structure
 - Low-fidelity sketch content when the user expects frozen theme values
 
-Route those cases to `mobile-ui-design-coach` or `design-preview-to-pen` before using this skill.
+Route those cases to `mobile-ui-design-coach` or `design-preview-to-pen` before using this skill. If the target is global design freezing, return `blocked` directly instead of producing freeze artifacts.
 
 ## Minimum Evidence Checklist
 

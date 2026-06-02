@@ -15,7 +15,7 @@ Act like a product designer and design-systems lead. Infer stable product rules 
 
 ## Quick Start
 
-- If the user only has a text brief and no usable visual evidence, use `mobile-ui-design-coach` first.
+- If the user only has a text brief and no usable visual evidence or reference screenshots, return `blocked` immediately and route to `mobile-ui-design-coach` first.
 - If the user still needs preview exploration or direction comparison, use `mobile-ui-design-coach` or `design-preview-to-pen` first, then return here after a direction is chosen.
 - If multiple previews represent materially different directions and no single direction is approved, stop and require a chosen baseline before freezing.
 - If downstream Pencil, Flutter architecture, implementation, or parity work must not reinterpret theme values or global UI rules, use this skill before `flutter-design-freeze-gate`, `design-preview-to-pen`, or `flutter-pen-to-architecture`.
@@ -23,7 +23,7 @@ Act like a product designer and design-systems lead. Infer stable product rules 
 
 ## Workflow
 
-1. Read `references/image-intake-and-analysis.md` to confirm the visual input is strong enough for freezing.
+1. Read `references/image-intake-and-analysis.md` to confirm the visual input is strong enough for freezing. If no reference screenshots or usable preview images exist, return `analysis_status: blocked` immediately.
 2. Separate confirmed evidence from missing evidence. If multiple competing directions still exist, stop and require a single chosen baseline.
 3. Infer the product posture, target users, core scenarios, and the global experience promise from the visuals.
 4. Extract stable global rules for hierarchy, page structure, repeated components, interaction posture, state handling, and visual restraint.
@@ -40,6 +40,7 @@ Act like a product designer and design-systems lead. Infer stable product rules 
 - Do not omit required files, required sections, or required role families.
 - Do not treat dark mode as light mode with inverted colors.
 - Do not let one-off local decoration become a global token unless the pattern is clearly systemic.
+- Do not continue global design freezing without reference screenshots, preview comps, or other usable visual evidence; return `blocked` instead.
 - Do not continue when multiple materially different directions are still unresolved.
 - Do not rewrite the approved visual intent for implementation convenience.
 
