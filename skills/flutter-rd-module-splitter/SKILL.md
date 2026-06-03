@@ -55,12 +55,13 @@ Do not create a module only because a screen exists. Small screens that share on
    - Implementation refinement mode if the active module already has paired docs and the workflow is preparing that module for page-level Pen and code.
 8. In initial split mode:
    - Build a module map with module name, responsibility, pages, data owner, package or architecture constraints, upstream dependencies, downstream dependencies, implementation preconditions, and release value.
-   - For each module, write a module detail card covering user job, page/state scope, domain responsibility, application state, infrastructure/API boundary, analytics, tests, release value, and implementation dependency notes.
+   - For each module, write a module detail card covering user job, page/state scope, non-page-level component scope, domain responsibility, application state, infrastructure/API boundary, analytics, tests, release value, and implementation dependency notes.
    - Classify the modules into implementation stages or waves that show which modules can run in parallel and which modules must wait for upstream completion.
    - Assign document paths:
       - `docs/rd/modules/<module>/<module>.ui-ux.md`
       - `docs/rd/modules/<module>/<module>.impl.md`
    - Write both docs as `split_draft`, not implementation-final.
+   - Mark each module with its initial workflow state, normally `modules_split`, so `flutter-workflow-orchestrator` can write that state into the global workflow record.
 9. In implementation refinement mode:
    - Refine only the active module's existing docs.
    - Expand the paired docs to implementation-final granularity.
@@ -110,6 +111,11 @@ Each `<module>.ui-ux.md` must include these minimum sections:
 - State matrix.
 - Design source section.
 - Design freeze card section.
+- Module-level non-page component design skeleton covering repeated controls, cards, bars, list items, dialogs, chips, or other shared building blocks that belong to the module.
+- For each important module-level component, document at least intended usage scope, expected states or variants, reuse boundaries, and whether the component is expected to be frozen later in Pencil.
+- State matrix: ideal, empty, loading, error, permission, partial data, disabled, success, locked or premium when relevant.
+- Design source section with future Pencil path and future `global-design-guidelines.md`, `light-theme-freeze.yaml`, and `dark-theme-freeze.yaml` references when approved static previews exist.
+- Design freeze card section reserved for later approval, including reserved fields for module-level component freeze decisions.
 - Acceptance gates for UI/UX and Pencil handoff.
 
 ### Split-draft minimum
@@ -144,6 +150,7 @@ Each `<module>.impl.md` must include:
 - Business capability and bounded context.
 - Inherited global package stack and module-specific usage notes.
 - Domain model, application state, infrastructure dependencies, presentation boundary.
+- Module-level component implementation notes that reference the paired UI/UX RD component skeleton instead of inventing reusable components from scratch later.
 - API, repository, storage, permission, and backend collaboration notes.
 - Data, security, analytics, monitoring, rollout, and test scope.
 - Module-specific implementation constraints that do not override global decisions.
@@ -191,6 +198,7 @@ In implementation refinement mode, expand the same document to directly implemen
 - Do not freeze module page-level or module-private component design on the initial split pass.
 - Do not mark `uiux_status` or `impl_status` as `landed` here. Landed status only happens after the corresponding page-level Pen is delivered and confirmed through the orchestrator.
 - Do not refine unrelated modules when only one active module is entering implementation preparation.
+- Do not leave module-level reusable components completely undefined in UI/UX RD when the module clearly contains repeated non-page building blocks.
 
 ## Output Contract
 
@@ -213,6 +221,7 @@ Return:
 - A PRD lists ten screens but one user job: group by workflow, not by screen count.
 - A raw PRD has no package or architecture decision: route to `flutter-prd-rd-writer` before creating implementation module docs.
 - A split contains only module names: fail the output and add module detail cards.
+- A module UI/UX RD only lists pages and states but omits obvious shared module components: fail the output and add a component design skeleton.
 - A module has backend-heavy logic but no UI: still create paired docs; UI/UX RD can declare no visible page and explain state surfaces.
 - User asks for a new global package or architecture decision during splitting: stop and route to `flutter-prd-rd-writer`.
 - User asks to start building one module that still has draft docs: stay focused on that module and refine it to implementation-final instead of re-splitting the whole project.

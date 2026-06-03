@@ -48,6 +48,7 @@ Approve `shared_pre_split` only when all items are present:
   - `global-design-guidelines.md`
   - `light-theme-freeze.yaml`
   - `dark-theme-freeze.yaml`
+- The global design freeze artifacts explicitly freeze the global public component set, including globally allowed states or variants and immutable component rules.
 - The guideline document keeps its required sections and the theme files contain concrete values instead of downstream TODOs.
 - Immutable items that later modules, Pencil, and code may not change without returning to design control.
 - Explicit approval from the user.
@@ -94,7 +95,8 @@ Use these outcomes:
 - Do not allow Pencil work for an active module before that module's page-level design is frozen.
 - Do not allow Flutter implementation to reinterpret hierarchy, spacing, states, or visual tokens.
 - Do not treat premium decoration as compensation for weak typography hierarchy, low contrast, or a buried CTA.
-- Do not allow module-private reusable components to enter Pencil or Flutter handoff without an explicit component-freeze decision for that active module.
+- Do not allow module-private or other module-level reusable components to enter Pencil or Flutter handoff without an explicit component-freeze decision for that active module.
+- Do not allow global public components to remain only implied inside theme files or prose; require explicit frozen global component decisions.
 - Do not allow global design freeze to pass when reference screenshots or preview images are missing; block and ask the user whether to fall back.
 - Do not let downstream skills infer missing theme values from static previews; require `design-preview-to-global-guidelines` to freeze them first.
 - Do not decide visual alternatives here; route unresolved choices to `mobile-ui-design-coach` or `design-preview-to-global-guidelines` depending on whether the missing work is exploratory or contract-freezing.
@@ -118,7 +120,8 @@ Return:
 - User says "this direction is fine, continue": ask whether that is explicit approval if the target artifact is module splitting, Pencil, or code.
 - User says "there is no reference image, freeze the global design first": block and ask whether to fall back.
 - User says "shared styles are frozen, pages can be decided later": allow shared freeze only for module splitting, not for Pencil or code handoff.
-- User says "the page is frozen, components can be decided later": block until module-private component freeze is explicit for that active module.
+- User says "the page is frozen, components can be decided later": block until module-private or other module-level component freeze is explicit for that active module.
+- User says "the theme is frozen, global shared components can be decided later": block until the global public component freeze is explicit.
 - User says "we can add states later": block production freeze.
 - User says "Flutter can decide the dark theme later": block until `light-theme-freeze.yaml` and `dark-theme-freeze.yaml` are frozen.
 - User says "the draft looks premium enough, skip review": block and require `visual-design-reviewer`.

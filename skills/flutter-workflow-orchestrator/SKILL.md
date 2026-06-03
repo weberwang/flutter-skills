@@ -73,14 +73,14 @@ Use one state per module:
 | State | Meaning | Allowed Next Move |
 | --- | --- | --- |
 | `prd_ready` | PRD or feature brief exists | `flutter-prd-rd-writer` |
-| `technical_baseline_ready` | Global architecture, package stack, backend collaboration, and delivery assumptions exist without frozen shared design direction or module breakdown | `mobile-ui-design-coach` or `design-preview-to-global-guidelines` |
+| `technical_baseline_ready` | Global architecture, package stack, backend collaboration, and delivery assumptions exist without frozen shared UI direction or detailed module breakdown | `mobile-ui-design-coach` or `design-preview-to-global-guidelines` |
 | `uiux_draft` | Shared UI/UX direction exists but is not frozen | `mobile-ui-design-coach`, `visual-design-reviewer`, or `design-preview-to-global-guidelines` |
-| `global_guidelines_frozen` | Approved screenshots or preview comps have been converted into frozen shared guidance, theme artifacts, and shared/public component constraints only | `flutter-design-freeze-gate` |
-| `design_freeze_ready` | The shared design packet plus any required shared freeze artifacts are ready for approval before module splitting | `flutter-rd-module-splitter` |
-| `modules_split` | Detailed modules, paired doc paths, module detail cards, and global baseline references exist. Each module's `uiux_status` and `impl_status` start as `split_draft` unless already confirmed otherwise. | `flutter-rd-module-splitter` |
+| `global_guidelines_frozen` | Approved screenshots or preview comps have been converted into frozen global/shared guidance, explicit global public component decisions, and dual-theme artifacts | `flutter-design-freeze-gate` |
+| `design_freeze_ready` | The shared design packet plus any required global freeze artifacts are ready for approval before module splitting | `flutter-rd-module-splitter` |
+| `modules_split` | Detailed modules, paired doc paths, module detail cards, global baseline references, and module-level component design skeletons exist. Each module's `uiux_status` and `impl_status` start as `split_draft` unless already confirmed otherwise. | `flutter-rd-module-splitter` |
 | `pen_ready` | The active module has entered implementation preparation. Split drafts may now be refined into implementation-final docs before page-level Pen production. | `flutter-rd-module-splitter`, `design-preview-to-pen`, or `visual-design-reviewer` |
-| `pen_frozen` | The active module's page-level Pen and module-private component design are frozen during implementation preparation, after the module docs were refined beyond split drafts | `flutter-design-source-control` or `flutter-pen-to-architecture` |
-| `impl_rd_ready` | The active module's UI/UX RD and implementation RD are implementation-final or landed, reference the current Pen source, and are confirmed as implementable | `flutter-pen-to-architecture` |
+| `pen_frozen` | The active module's page-level Pen and module-private component design are frozen during implementation preparation, including reusable component decisions required for implementation handoff | `flutter-design-source-control` or `flutter-pen-to-architecture` |
+| `impl_rd_ready` | The active module's UI/UX RD and implementation RD are implementation-final or landed, reference the current Pen source and global technical baseline, and are confirmed as implementable | `flutter-pen-to-architecture` |
 | `architecture_ready` | Tokens, assets, components, screen plan, and scaffold contract exist | `flutter-init` |
 | `project_initialized` | `flutter-init` has created the project scaffold and generated project-local `skills/flutter-dev/` | project-local `flutter-dev` plus `flutter-project-guardrails` |
 | `implementing` | Code work is in progress inside the initialized project after the active module's page-level Pen has landed and the module docs are no longer split drafts | project-local `flutter-dev` plus `flutter-project-guardrails` |

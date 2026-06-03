@@ -26,15 +26,16 @@ Use these exact section ids and keep this exact order:
 5. `information_hierarchy_principles`
 6. `layout_and_page_structure_principles`
 7. `component_system_principles`
-8. `interaction_behavior_principles`
-9. `state_and_feedback_principles`
-10. `content_and_copy_principles`
-11. `visual_system_rules`
-12. `light_theme_rationale`
-13. `dark_theme_rationale`
-14. `design_prohibitions`
-15. `engineering_guardrails`
-16. `downstream_reference_index`
+8. `global_public_component_freeze`
+9. `interaction_behavior_principles`
+10. `state_and_feedback_principles`
+11. `content_and_copy_principles`
+12. `visual_system_rules`
+13. `light_theme_rationale`
+14. `dark_theme_rationale`
+15. `design_prohibitions`
+16. `engineering_guardrails`
+17. `downstream_reference_index`
 
 ## Section Expectations
 
@@ -65,6 +66,16 @@ Describe recurring page skeletons, regions, spacing logic, and when to use eleva
 ### `component_system_principles`
 
 Describe component families, reuse expectations, and which variants are globally allowed.
+
+### `global_public_component_freeze`
+
+Record the frozen global public component set, including:
+
+- which component families belong to the shared global system
+- which states or variants are globally allowed
+- which parts are immutable for downstream Pencil and Flutter work
+- which engineering adjustments remain allowed without design rollback
+- which components are explicitly not part of the global shared layer
 
 ### `interaction_behavior_principles`
 
