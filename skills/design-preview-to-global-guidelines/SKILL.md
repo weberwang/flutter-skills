@@ -1,6 +1,6 @@
 ---
 name: design-preview-to-global-guidelines
-description: Use when screenshots, visual previews, effect mockups, or approved static comps must be analyzed into a stable global UI/UX guidance contract, especially when downstream Pencil, Flutter architecture, implementation, or parity-review skills need fixed design principles plus concrete light and dark theme values without branching or reinterpretation.
+description: Use when screenshots, visual previews, effect mockups, or approved static comps must be analyzed into a stable global UI/UX guidance contract, especially when downstream Flutter architecture, implementation, or parity-review skills need fixed design principles plus concrete light and dark theme values without branching or reinterpretation.
 ---
 
 # Design Preview To Global Guidelines
@@ -16,12 +16,10 @@ Act like a product designer and design-systems lead. Infer stable product rules 
 ## Quick Start
 
 - If the user only has a text brief and no usable visual evidence or reference screenshots, return `blocked` immediately and ask the user whether to fall back before continuing.
-- If the user still needs preview exploration or direction comparison, use `mobile-ui-design-coach` or `design-preview-to-pen` first, then return here after a direction is chosen.
+- If the user still needs preview exploration or direction comparison, use `flutter-taste-router` first, then return here after a direction is chosen.
 - If multiple previews represent materially different directions and no single direction is approved, stop and require a chosen baseline before freezing.
-- If a complete visual draft has not yet been commercially reviewed for typography hierarchy, contrast, and CTA clarity, use `visual-design-reviewer` in a fresh subagent before freezing shared artifacts.
-- If the latest freeze-facing review score is below `90` or still requires changes, do not continue freezing shared artifacts; return to `mobile-ui-design-coach` for exactly one shared preview-regeneration pass first, then stop the current review cycle without another automatic `visual-design-reviewer` run.
-- If the current visuals are only the one allowed post-failure shared revision and no new explicit user restart exists, return `blocked` instead of reopening review or freezing.
-- If downstream Pencil, Flutter architecture, implementation, or parity work must not reinterpret theme values or global UI rules, use this skill before `flutter-design-freeze-gate`, `design-preview-to-pen`, or `flutter-pen-to-architecture`.
+- If a complete visual draft still leaves hierarchy, contrast, CTA clarity, or state coverage ambiguous, do not continue freezing shared artifacts; return to `flutter-taste-router` for exactly one shared preview-regeneration pass first, then stop the current correction cycle.
+- If downstream Flutter architecture, implementation, or parity work must not reinterpret theme values or global UI rules, use this skill before `flutter-design-freeze-gate` and architecture planning.
 - When the user wants written artifacts, default to exactly these files: `global-design-guidelines.md`, `light-theme-freeze.yaml`, and `dark-theme-freeze.yaml`.
 
 ## Workflow
@@ -45,8 +43,8 @@ Act like a product designer and design-systems lead. Infer stable product rules 
 - Do not treat dark mode as light mode with inverted colors.
 - Do not leave primary CTA emphasis implicit when the visuals clearly define it.
 - Do not let premium styling reduce reading contrast or action clarity in the frozen contract.
-- Do not continue shared freezing on a freeze-facing review score below `90`.
-- Do not treat a post-failure single shared revision as if it had already passed visual review.
+- Do not continue shared freezing when the design package still leaves hierarchy, contrast, CTA, or state coverage ambiguous.
+- Do not treat a post-failure single shared revision as if it had already passed freeze-quality evaluation.
 - Do not let one-off local decoration become a global token unless the pattern is clearly systemic.
 - Do not treat global public components as frozen implicitly; record their allowed variants, immutable parts, and reuse expectations explicitly in the frozen artifacts.
 - Do not continue global design freezing without reference screenshots, preview comps, or other usable visual evidence; return `blocked` and ask the user whether to fall back instead.

@@ -1,4 +1,0 @@
-interface:
-  display_name: "Visual Design Reviewer"
-  short_description: "Review complete design drafts with commercial designer standards"
-  default_prompt: "Use $visual-design-reviewer in a fresh subagent with a minimal context packet to review the effect image, preview pack, static visual draft, or Pencil-ready UI result against commercial designer standards, prioritizing information hierarchy, key-task guidance, typography hierarchy, contrast, CTA clarity, strengths, weaknesses, and a final 100-point score. For freeze-facing reviews, any score below 90 must route to exactly one scope-matched design revision and then stop without another review in the same cycle."

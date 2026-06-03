@@ -1,0 +1,4 @@
+interface:
+  display_name: "Flutter UIUX To Architecture"
+  short_description: "Map frozen UI/UX design sources into Flutter architecture"
+  default_prompt: "Use $flutter-uiux-to-architecture to translate frozen Flutter UI/UX RD, implementation RD, taste constraints, theme artifacts, visual evidence, and module design-source packets into Flutter tokens, assets, component decomposition, screen architecture, state architecture, and implementation boundaries without requiring Pen or Pencil."

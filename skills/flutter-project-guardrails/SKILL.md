@@ -7,7 +7,7 @@ description: Use when initializing or implementing a Flutter project that must f
 
 ## Overview
 
-Enforce a single Flutter engineering baseline for this workspace: mandatory package bundles, DDD modular boundaries, and annotation-first generation. Use this skill as the reusable base policy behind `flutter-init` and the generated project-local `flutter-dev` skill so initialization and ongoing implementation do not drift into mixed stacks, flat folders, or hand-written boilerplate.
+Enforce a single Flutter engineering baseline for this workspace: mandatory package bundles, DDD modular boundaries, annotation-first generation, and taste-aligned presentation guardrails. Use this skill as the reusable base policy behind `flutter-init` and the generated project-local `flutter-dev` skill so initialization and ongoing implementation do not drift into mixed stacks, flat folders, hand-written boilerplate, or generic-looking display layers.
 
 ## Quick Start
 
@@ -15,6 +15,7 @@ Enforce a single Flutter engineering baseline for this workspace: mandatory pack
 - After initialization, the day-to-day entry point should usually be the generated project-local `flutter-dev`; this skill remains the base policy layer behind it.
 - When extending an existing project, read `references/mandatory-package-bundle.md` and `references/ddd-feature-blueprint.md` before editing features or dependencies.
 - When a requirement seems to justify another package or another architecture style, prove why the current baseline fails first. Do not mix stacks by default.
+- For presentation-layer work, keep taste guidance active as implementation guardrails: hierarchy, spacing, typography, contrast, CTA salience, motion restraint, and anti-template composition.
 - If a requirement conflicts with these guardrails, state the conflict explicitly and keep one clear main plan plus one explicit fallback instead of silent compromise.
 
 ## Workflow
@@ -23,8 +24,9 @@ Enforce a single Flutter engineering baseline for this workspace: mandatory pack
 2. Apply the mandatory package baseline and any capability-triggered package bundle from the references.
 3. Enforce the DDD feature blueprint so responsibilities stay inside `domain`, `application`, `infrastructure`, and `presentation`.
 4. Enforce annotation coverage for providers, models, serialization, and API declarations.
-5. Reject overlap, hidden globals, manual boilerplate, and unused dependencies.
-6. Output a short compliance checklist describing what follows the standard and what still violates it.
+5. For `presentation` work, compare the implementation against frozen UI/UX, theme artifacts, and taste guardrails before accepting layout or widget choices.
+6. Reject overlap, hidden globals, manual boilerplate, unused dependencies, and display-layer choices that flatten frozen hierarchy or reintroduce AI-template patterns.
+7. Output a short compliance checklist describing what follows the standard and what still violates it.
 
 ## Hard Rules
 
@@ -38,12 +40,15 @@ Enforce a single Flutter engineering baseline for this workspace: mandatory pack
 - Providers, DTOs, unions, and API declarations must prefer annotations over hand-written boilerplate.
 - Do not mix `provider`, `bloc`, `get_it`, `http`, `chopper`, manual JSON mapping, or duplicate storage stacks into the same responsibility path unless the skill itself is updated with a deliberate exception.
 - If package version selection is time-sensitive, verify before pinning exact versions.
+- Taste guidance may refine implementation craft, but it must not override frozen UI/UX intent, theme roles, state coverage, or approved component hierarchy.
+- If a taste issue requires changing design meaning, route to `flutter-design-source-control` instead of silently changing code.
 
 ## Deliverables
 
 - A clear package decision and usage plan.
 - A compliant feature structure with explicit layer ownership.
 - Annotation rules applied to providers, models, serialization, and API clients.
+- Presentation-layer guardrails applied against frozen UI/UX and taste constraints.
 - A reusable policy layer that can be referenced by the generated project-local `flutter-dev`.
 - A short allowed / not allowed note for the current change so future edits stay aligned.
 

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Flutter Taste Router"
+  short_description: "Route taste-skill family outputs into one Flutter design packet"
+  default_prompt: "Use $flutter-taste-router to choose the correct taste-skill source for the current Flutter design task, consolidate that output into a single design packet with platform baseline, art direction, taste constraints, state matrix, freeze scope, and handoff guardrails, and route that packet into the downstream Flutter workflow."

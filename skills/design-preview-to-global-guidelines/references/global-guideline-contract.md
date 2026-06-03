@@ -73,7 +73,7 @@ Record the frozen global public component set, including:
 
 - which component families belong to the shared global system
 - which states or variants are globally allowed
-- which parts are immutable for downstream Pencil and Flutter work
+- which parts are immutable for downstream Flutter work and any optional external design adapter
 - which engineering adjustments remain allowed without design rollback
 - which components are explicitly not part of the global shared layer
 

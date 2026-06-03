@@ -1,6 +1,6 @@
 ---
 name: flutter-pen-to-architecture
-description: Use when translating Pencil `.pen` design files or Pencil MCP design data into Flutter architecture plans, especially when assets, `pubspec.yaml`, tokens, themes, reusable components, screen structure, or fidelity-versus-Flutterization decisions are needed before implementation.
+description: Optional external-design adapter. Use only when the user explicitly provides Pencil `.pen` design files or Pencil MCP design data that must be translated into Flutter architecture plans. This skill is not part of the default Flutter implementation workflow.
 ---
 
 # Flutter Pen To Architecture
@@ -9,11 +9,14 @@ description: Use when translating Pencil `.pen` design files or Pencil MCP desig
 
 Turn `Pencil` design sources into a Flutter-facing implementation architecture instead of a node-by-node rebuild. Default to whole-project analysis: extract global tokens, derive light and dark themes, decompose reusable components, plan multi-screen page structure, and explain where high fidelity should yield to Flutter-native structure.
 
+This is an optional adapter. The default Flutter workflow now plans architecture directly from frozen UI/UX RD, theme artifacts, visual evidence, and module design-source packets. Do not route here unless the user explicitly chooses a Pencil workflow.
+
 ## Quick Start
 
 - If the user provides `.pen` files or Pencil MCP output, start with global analysis instead of single-screen local optimization.
+- If the user has no `.pen` file and no Pencil MCP data, stop and route to default architecture planning from frozen UI/UX artifacts.
 - If the input only covers one screen, still try to infer reusable tokens, shared shells, and component families before discussing that screen in isolation.
-- If the user only wants visual direction refinement or Pencil prompt tuning, use `mobile-ui-design-coach` first instead of this skill.
+- If the user only wants visual direction refinement or Pencil prompt tuning, use `flutter-taste-router` first instead of this skill.
 - If `global-design-guidelines.md`, `light-theme-freeze.yaml`, or `dark-theme-freeze.yaml` exist, consume them as frozen design-source inputs before re-deriving global design rules from `.pen`.
 - If variables, layout hierarchy, or component-instance relationships are missing, output `assumptions` and `needs_confirmation` before giving conclusions.
 - If the user asks for direct Flutter code, finish this architecture pass first or hand off the final summary to the downstream implementation skill.
