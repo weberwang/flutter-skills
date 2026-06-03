@@ -1,4 +1,4 @@
 interface:
   display_name: "Mobile UI Design Coach"
   short_description: "Shape commercial mobile UI direction and handoff gates"
-  default_prompt: "Use $mobile-ui-design-coach to diagnose native or template-like mobile UI, use HIG as the default behavior baseline, define the commercial design brief, art direction, state matrix, visual system, and handoff guardrails before preview, Pencil, or Flutter work."
+  default_prompt: "Use $mobile-ui-design-coach to diagnose native or template-like mobile UI, use HIG as the default behavior baseline, and define the commercial design brief, typography hierarchy, contrast strategy, CTA posture, state matrix, visual system, and handoff guardrails before preview, Pencil, or Flutter work."

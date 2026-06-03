@@ -1,15 +1,17 @@
 ---
 name: flutter-workflow-orchestrator
-description: Use when coordinating modular Flutter PRD/RD, shared design freezing, module draft splitting, implementation-stage page/Pencil freezing, architecture planning, implementation readiness, parity review, workflow state, or when a user asks what stage should happen next.
+description: Use when coordinating modular Flutter PRD/RD, shared design freezing, complete design review, module draft splitting, implementation-stage page/Pencil freezing, architecture planning, implementation readiness, parity review, workflow state, or when a user asks what stage should happen next.
 ---
 
 # Flutter Workflow Orchestrator
 
 ## Overview
 
-Route a Flutter module through the approved PRD -> global technical baseline -> shared design direction -> shared freeze -> split drafts -> implementation-stage module refinement -> module Pencil freeze -> architecture -> implementation workflow.
+Route a Flutter module through the approved PRD -> global technical baseline -> shared design direction -> complete design review -> shared freeze -> split drafts -> implementation-stage module refinement -> module design review -> module Pencil freeze -> architecture -> implementation workflow.
 
 This skill is the traffic controller. It chooses the next specialist skill, records state, blocks skipped gates, waits for explicit user confirmation before promoting any stage or status change, and maintains one stable workflow record document for the whole project.
+
+When it routes to `visual-design-reviewer`, it must dispatch that review in a fresh subagent with a bounded context packet instead of running the review inline in the parent thread.
 
 ## Workflow Record
 
@@ -72,11 +74,11 @@ Use one state per module:
 | --- | --- | --- |
 | `prd_ready` | PRD or feature brief exists | `flutter-prd-rd-writer` |
 | `technical_baseline_ready` | Global architecture, package stack, backend collaboration, and delivery assumptions exist without frozen shared design direction or module breakdown | `mobile-ui-design-coach` or `design-preview-to-global-guidelines` |
-| `uiux_draft` | Shared UI/UX direction exists but is not frozen | `mobile-ui-design-coach` or `design-preview-to-global-guidelines` |
+| `uiux_draft` | Shared UI/UX direction exists but is not frozen | `mobile-ui-design-coach`, `visual-design-reviewer`, or `design-preview-to-global-guidelines` |
 | `global_guidelines_frozen` | Approved screenshots or preview comps have been converted into frozen shared guidance, theme artifacts, and shared/public component constraints only | `flutter-design-freeze-gate` |
 | `design_freeze_ready` | The shared design packet plus any required shared freeze artifacts are ready for approval before module splitting | `flutter-rd-module-splitter` |
 | `modules_split` | Detailed modules, paired doc paths, module detail cards, and global baseline references exist. Each module's `uiux_status` and `impl_status` start as `split_draft` unless already confirmed otherwise. | `flutter-rd-module-splitter` |
-| `pen_ready` | The active module has entered implementation preparation. Split drafts may now be refined into implementation-final docs before page-level Pen production. | `flutter-rd-module-splitter` or `design-preview-to-pen` |
+| `pen_ready` | The active module has entered implementation preparation. Split drafts may now be refined into implementation-final docs before page-level Pen production. | `flutter-rd-module-splitter`, `design-preview-to-pen`, or `visual-design-reviewer` |
 | `pen_frozen` | The active module's page-level Pen and module-private component design are frozen during implementation preparation, after the module docs were refined beyond split drafts | `flutter-design-source-control` or `flutter-pen-to-architecture` |
 | `impl_rd_ready` | The active module's UI/UX RD and implementation RD are implementation-final or landed, reference the current Pen source, and are confirmed as implementable | `flutter-pen-to-architecture` |
 | `architecture_ready` | Tokens, assets, components, screen plan, and scaffold contract exist | `flutter-init` |
@@ -97,28 +99,30 @@ Use one state per module:
 8. If approved screenshots, preview comps, or static mockups must become a reusable shared design-source contract with fixed light and dark theme values, use `design-preview-to-global-guidelines`, then record the module as `global_guidelines_frozen` as `pending_next_stage` until the user confirms the switch.
 9. If the workflow requests shared design freezing but no reference screenshots or usable preview images exist, do not route to `design-preview-to-global-guidelines`; return the module as blocked and ask the user whether to fall back.
 10. Before `modules_split`, treat design freezing as shared/public freeze only. Do not treat `global_guidelines_frozen` or `design_freeze_ready` as module page freeze or module-private component freeze.
-11. If shared design has a candidate direction but no explicit approval, use `flutter-design-freeze-gate`.
-12. If the shared visual direction has been approved but detailed modules and paired doc paths do not exist yet, use `flutter-rd-module-splitter`. Its first pass creates split drafts, not implementation-final docs.
-13. If a module has been selected for implementation preparation and its `uiux_status` or `impl_status` is still `split_draft`, keep or promote the module to `pen_ready` and use `flutter-rd-module-splitter` again to refine only that active module's existing docs to implementation-final granularity.
-14. When module refinement produces implementation-final docs, keep `current_stage` at the last confirmed stage, queue the relevant `pending_status_updates` such as `<module>.uiux_status=implementation_final` and `<module>.impl_status=implementation_final`, and wait for confirmation before routing to page-level Pen work.
-15. After the active module docs are implementation-final and confirmed, use `design-preview-to-pen` to create the active module's page-level Pen and module-private component Pen artifacts.
-16. When page-level Pen artifacts are produced, do not immediately mark the module landed. Queue `pending_next_stage=pen_frozen`, queue `pending_status_updates` for `pen_status=landed`, and if the docs have been updated to reference the delivered Pen source also queue `uiux_status=landed` and `impl_status=landed`, then wait for explicit confirmation.
-17. If a frozen `.pen` or UI/UX source is about to be consumed by implementation RD or code, use `flutter-design-source-control`.
-18. If Pencil design must become Flutter-facing tokens, assets, components, and screen architecture, use `flutter-pen-to-architecture`.
-19. Do not move a module into `implementing` until `technical_baseline_ready`, `modules_split`, `pen_frozen`, and `impl_rd_ready` exist for the module, and the confirmed module maturity is at least `uiux_status=landed`, `impl_status=landed`, and `pen_status=landed`.
-20. If the module is `architecture_ready` and the target project has not been scaffolded yet or does not contain project-local `skills/flutter-dev/`, use `flutter-init`.
-21. If `flutter-init` has completed and the project-local `skills/flutter-dev/` exists, record `project_initialized` as `pending_next_stage` and wait for confirmation before switching to the project-local `flutter-dev`.
-22. If the project is already initialized and implementation work should begin or continue, use the project-local `flutter-dev`.
-23. When code implementation starts, keep `code_status` at the last confirmed value and only queue `code_status=in_progress` if the status change itself needs to be recorded for review. Do not mark `code_status=landed` until code output actually exists and the user confirms that state change.
-24. If code is complete or screenshots exist, use `flutter-design-parity-reviewer`.
-25. If the user requests UI, layout, interaction, hierarchy, visual token, or state changes after shared freeze or module page freeze, use `flutter-design-source-control`.
+11. If shared design has a visually complete draft and no current `visual-design-reviewer` record, or the last review findings are no longer trustworthy after substantial design changes, dispatch `visual-design-reviewer` in a fresh subagent before shared freeze approval.
+12. If shared design has a candidate direction but no explicit approval, use `flutter-design-freeze-gate`.
+13. If the shared visual direction has been approved but detailed modules and paired doc paths do not exist yet, use `flutter-rd-module-splitter`. Its first pass creates split drafts, not implementation-final docs.
+14. If a module has been selected for implementation preparation and its `uiux_status` or `impl_status` is still `split_draft`, keep or promote the module to `pen_ready` and use `flutter-rd-module-splitter` again to refine only that active module's existing docs to implementation-final granularity.
+15. When module refinement produces implementation-final docs, keep `current_stage` at the last confirmed stage, queue the relevant `pending_status_updates` such as `<module>.uiux_status=implementation_final` and `<module>.impl_status=implementation_final`, and wait for confirmation before routing to page-level Pen work.
+16. After the active module docs are implementation-final and confirmed, use `design-preview-to-pen` to create the active module's page-level Pen and module-private component Pen artifacts.
+17. If a complete active-module visual draft or Pencil result exists and no current `visual-design-reviewer` record exists for that latest draft, dispatch `visual-design-reviewer` in a fresh subagent before queueing `pen_frozen` or landed Pen status updates.
+18. When page-level Pen artifacts are produced and the latest complete draft has passed `visual-design-reviewer` in a fresh subagent, do not immediately mark the module landed. Queue `pending_next_stage=pen_frozen`, queue `pending_status_updates` for `pen_status=landed`, and if the docs have been updated to reference the delivered Pen source also queue `uiux_status=landed` and `impl_status=landed`, then wait for explicit confirmation.
+19. If a frozen `.pen` or UI/UX source is about to be consumed by implementation RD or code, use `flutter-design-source-control`.
+20. If Pencil design must become Flutter-facing tokens, assets, components, and screen architecture, use `flutter-pen-to-architecture`.
+21. Do not move a module into `implementing` until `technical_baseline_ready`, `modules_split`, `pen_frozen`, and `impl_rd_ready` exist for the module, and the confirmed module maturity is at least `uiux_status=landed`, `impl_status=landed`, and `pen_status=landed`.
+22. If the module is `architecture_ready` and the target project has not been scaffolded yet or does not contain project-local `skills/flutter-dev/`, use `flutter-init`.
+23. If `flutter-init` has completed and the project-local `skills/flutter-dev/` exists, record `project_initialized` as `pending_next_stage` and wait for confirmation before switching to the project-local `flutter-dev`.
+24. If the project is already initialized and implementation work should begin or continue, use the project-local `flutter-dev`.
+25. When code implementation starts, keep `code_status` at the last confirmed value and only queue `code_status=in_progress` if the status change itself needs to be recorded for review. Do not mark `code_status=landed` until code output actually exists and the user confirms that state change.
+26. If code is complete or screenshots exist, use `flutter-design-parity-reviewer`.
+27. If the user requests UI, layout, interaction, hierarchy, visual token, or state changes after shared freeze or module page freeze, use `flutter-design-source-control`.
 
 ## Workflow Record Update Rules
 
 - Always update `workflow_summary` with the latest project-level stage summary.
 - Always update `current_stage`, `current_module`, `confirmation_status`, `next_skill`, and `pending_status_updates`.
 - Record blockers explicitly instead of hiding them in prose.
-- Add or refresh artifact paths when new module docs, frozen theme files, `.pen` files, architecture summaries, project roots, or `skills/flutter-dev/` become available.
+- Add or refresh artifact paths when new module docs, subagent-produced visual review reports, frozen theme files, `.pen` files, architecture summaries, project roots, or `skills/flutter-dev/` become available.
 - Keep one row per module in the module status table and update that row instead of appending duplicate rows.
 - When no module is selected yet, store project-level routing in the summary and leave module-specific fields as `not_selected`.
 - When a step is waiting for review, keep `current_stage` at the last confirmed stage, set `next_skill` to `none`, and store the candidate transition in `pending_next_stage`, `pending_next_skill`, and `pending_status_updates`.
@@ -138,6 +142,9 @@ Use one state per module:
 - Do not mark `uiux_status=landed` or `impl_status=landed` until the corresponding module page-level Pen exists and has been confirmed.
 - Do not mark `code_status=landed` until the code output exists and the landed status change has been explicitly confirmed.
 - Do not route around `flutter-design-freeze-gate` on implied approval.
+- Do not let a complete shared or module design draft skip `visual-design-reviewer` before freeze or Pen landed-state promotion, especially when information hierarchy or task guidance is still being tuned.
+- Do not run `visual-design-reviewer` inline in the parent orchestration thread.
+- Do not accept a visual review result that inherited unnecessary parent-thread context when a bounded subagent packet should have been used.
 - Do not let screenshot-based design freezing skip `design-preview-to-global-guidelines` when downstream skills need stable global principles or concrete theme values.
 - Do not attempt `global_guidelines_frozen` when no reference screenshots or usable preview images exist; block and ask the user whether to fall back instead.
 - Do not let implementation rewrite design intent. Design changes after freeze must return to design control.
@@ -172,9 +179,11 @@ Return:
 
 - User says "implement this home page directly" with only a PRD: route to `flutter-prd-rd-writer` for the global technical baseline, not module split or code.
 - User says "split modules first, choose packages later": block and require at least a baseline architecture and package decision.
+- User says "the design draft is complete, just freeze it": dispatch `visual-design-reviewer` in a fresh subagent first, then `flutter-design-freeze-gate`.
 - User says "the shared design is basically fine, freeze it and split": require `flutter-design-freeze-gate`, but freeze only the shared/public layer before `modules_split`.
 - User says "modules are split, now refine only the home module to implementation level": keep the active module in `pen_ready` and route to `flutter-rd-module-splitter` for refinement, not a full project re-split.
 - User says "the docs are final, start drawing the page Pen": require explicit confirmation for the queued `implementation_final` status change before routing to `design-preview-to-pen`.
+- User says "the Pen draft is done, continue": if the latest complete draft has not been reviewed, dispatch `visual-design-reviewer` in a fresh subagent before queuing landed state updates.
 - User says "the Pen file is done, start coding": if the module docs are not yet landed against that Pen source, queue the landed status updates first and wait for confirmation before code.
 - User says "the architecture summary is done, start coding": if the scaffold or `skills/flutter-dev/` does not exist yet, route to `flutter-init` first.
 - User says "the last step looks good, continue": if `confirmation_status` is `pending_confirmation`, promote the recorded pending transition and pending status updates, then switch to the next process.

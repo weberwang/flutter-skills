@@ -62,9 +62,12 @@ Ask the smallest missing question:
 Use these signals to explain why a screen feels too native:
 
 - every card, block, and control has the same visual weight
+- headings, body copy, metadata, and CTA labels all share nearly the same reading emphasis
 - system-default radii, padding, and proportions dominate the page
 - the screen reads like a settings page or form, not a product surface
 - there is no focal point or hero hierarchy
+- the CTA is visually buried or competes with secondary actions
+- contrast is so soft that speed and trust drop
 - actions and data are all presented at the same level
 - decoration is missing, or present but purposeless
 - the motion language is unspecified, so the result feels static
@@ -92,6 +95,8 @@ Convert each symptom into a concrete gate. Example: “Only happy path exists”
 Use this before recommending a direction:
 
 - Is there one clear focal zone, or does the page ask the user to read everything at once?
+- Is the typography ladder strong enough that the user knows what matters first without decorative help?
+- Can the user identify the primary CTA within three seconds?
 - Does the first screen communicate product value through the task itself instead of a decorative hero?
 - Would the same layout work for a different app with only text changed? If yes, the direction is still too generic.
 - Are surfaces, type, icons, and motion behaving like one system?

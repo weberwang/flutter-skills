@@ -56,7 +56,7 @@ List global interaction principles that should remain true across screens.
 
 ### `information_hierarchy_principles`
 
-Describe how information prominence, scanning order, and focus management work globally.
+Describe how information prominence, scanning order, focus management, typography hierarchy, and CTA dominance work globally.
 
 ### `layout_and_page_structure_principles`
 
@@ -68,7 +68,7 @@ Describe component families, reuse expectations, and which variants are globally
 
 ### `interaction_behavior_principles`
 
-Describe action emphasis, gestures, toggles, navigation cues, and destructive-action behavior.
+Describe action emphasis, primary CTA posture, secondary-action restraint, gestures, toggles, navigation cues, and destructive-action behavior.
 
 ### `state_and_feedback_principles`
 
@@ -80,7 +80,7 @@ Describe writing tone, label economy, helper text strategy, and alert/empty-stat
 
 ### `visual_system_rules`
 
-Describe the global rules for typography, spacing, surface depth, icon posture, illustration posture, motion role, and decorative limits.
+Describe the global rules for typography ladder, reading contrast, CTA contrast posture, spacing, surface depth, icon posture, illustration posture, motion role, and decorative limits.
 
 ### `light_theme_rationale`
 
@@ -92,11 +92,11 @@ Explain why the frozen dark theme values differ from light mode and how readabil
 
 ### `design_prohibitions`
 
-List what downstream skills may not reinterpret or override.
+List what downstream skills may not reinterpret or override, especially typography hierarchy, CTA priority, and contrast intent.
 
 ### `engineering_guardrails`
 
-List what implementation may simplify, what must stay faithful, and what requires design rollback.
+List what implementation may simplify, what must stay faithful, and what requires design rollback, including any non-negotiable typography, contrast, and CTA decisions.
 
 ### `downstream_reference_index`
 

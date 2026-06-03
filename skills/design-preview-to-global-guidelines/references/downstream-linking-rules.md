@@ -20,6 +20,7 @@ Must verify:
 - metadata block exists in `global-design-guidelines.md`
 - required sections exist in the correct order
 - light and dark theme files contain concrete values
+- the frozen guidance is detailed enough to preserve typography hierarchy, contrast intent, and CTA priority
 
 If any condition fails, return `blocked` and route to `design-preview-to-global-guidelines`.
 
@@ -48,3 +49,9 @@ Must add the three artifacts to the frozen source priority and route any change 
 ### `flutter-design-parity-reviewer`
 
 Must compare implementation evidence against both the frozen theme files and the relevant guideline sections, not against memory or informal taste.
+
+### `visual-design-reviewer`
+
+When frozen shared artifacts already exist, it must use them to judge whether typography hierarchy, contrast, and CTA emphasis are being preserved instead of critiquing against personal taste.
+
+It must run in a fresh subagent with a bounded context packet, not inline in the parent design workflow.

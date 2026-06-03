@@ -26,6 +26,8 @@ Before freezing, confirm as much of this as the input allows:
 
 - Primary screen or page family is visible
 - Main call to action is visible
+- Typography hierarchy is readable enough to judge first, second, and third reading levels
+- Primary CTA and nearby secondary actions can be distinguished
 - Surface hierarchy can be distinguished
 - Typography or information density is readable
 - Repeated components exist, or the absence of reuse is itself obvious
@@ -47,6 +49,7 @@ Before freezing, confirm as much of this as the input allows:
 Infer when the screen strongly implies a stable rule, such as:
 
 - text contrast hierarchy
+- CTA contrast and primary-action prominence
 - primary versus secondary action treatment
 - spacing rhythm
 - radius family

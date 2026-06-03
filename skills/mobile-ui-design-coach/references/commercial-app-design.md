@@ -12,6 +12,8 @@ A commercial-grade mobile app design must be:
 
 - `sellable`: the value proposition and business moment are visible without feeling like an ad
 - `usable`: the primary path is obvious, thumb-safe, and glanceable
+- `guided`: the information hierarchy and key task path tell the user what to do next without interpretation effort
+- `readable`: typography hierarchy, contrast, and CTA emphasis are obvious within the first scan
 - `complete`: important states are designed, not left to engineering guesses
 - `systematic`: typography, spacing, color, surfaces, icons, and motion behave as a coherent system
 - `buildable`: the design can become components, tokens, assets, and acceptance checks
@@ -35,7 +37,7 @@ Use this flow before preview generation, Pencil rebuild, or Flutter implementati
 3. `设计诊断`: native-feel symptoms, template signals, missing hierarchy, missing states, weak brand memory
 4. `艺术指导`: posture, density, temperature, material language, type personality, icon and illustration posture
 5. `移动骨架`: first impression, primary action, result feedback, next best action, return loop, boundary states
-6. `视觉系统`: typography, spacing, color roles, surfaces, radii, borders, icons, motion
+6. `视觉系统`: typography hierarchy, contrast bands, CTA posture, spacing, color roles, surfaces, radii, borders, icons, motion
 7. `状态矩阵`: production states and which states must be designed now
 8. `冻结卡`: what must stay identical, what may be engineered, and what must be checked later
 
@@ -71,7 +73,10 @@ Every key screen needs:
 - one dominant zone
 - one secondary zone
 - one support zone
+- one unmistakable current task
 - one clear primary action
+- a CTA that is unmistakably more actionable than surrounding controls
+- a next-step path that can be understood without reading the whole page
 - secondary actions that do not compete with the primary action
 - navigation that stays useful but visually quieter than the task
 
@@ -93,7 +98,8 @@ Production design must name the important states:
 
 Specify the system, not just the mood:
 
-- typography scale and contrast
+- typography ladder and reading contrast
+- CTA treatment: placement, visual weight, and label directness
 - spacing rhythm and density
 - surface model: flat, layered, carded, editorial, or workspace-like
 - color roles: background, surface, text, accent, semantic, warning, success
@@ -106,6 +112,9 @@ Specify the system, not just the mood:
 Before recommending a direction, critique it like a designer:
 
 - `focal intent`: what the eye sees first and why
+- `task guidance`: whether the screen tells the user what to do now and what happens next
+- `type ladder`: whether headings, body, metadata, and captions create clear reading depth
+- `cta salience`: whether the primary CTA wins within three seconds
 - `composition balance`: whether the page has a clear dominant, secondary, and support zone
 - `brand memory`: what makes this product recognizable after the user leaves
 - `affordance`: whether controls still look tappable and stateful
@@ -128,12 +137,14 @@ Choose one or two primary levers:
 Before calling a design commercial-grade, verify:
 
 - The primary task is understandable within three seconds.
+- The dominant zone and next-step path are understandable within three seconds.
+- The primary CTA is unmistakable within three seconds.
 - The business or retention moment is visible but not intrusive.
 - The screen does not look like a default iOS or Android settings page.
 - The design covers more than the happy path when the feature is production-facing.
 - Realistic content replaces lorem ipsum and fake placeholder numbers.
 - Components can be reused across adjacent screens.
-- Typography, spacing, surfaces, and action hierarchy are consistent.
+- Typography hierarchy, contrast, surfaces, and action hierarchy are consistent.
 - Thumb reach, tap target size, and scanning speed are preserved.
 - Decorative elements have a job: hierarchy, brand memory, warmth, or state feedback.
 - A developer or Pencil rebuild can preserve the design without guessing.
@@ -153,7 +164,7 @@ Return this packet when the user asks for commercial-grade app design or when an
 - `页面范围`: screen, section, flow, or full feature
 - `艺术指导`: posture, density, temperature, de-native strategy, brand memory, polish lever
 - `信息层级`: dominant zone, secondary zone, support zone, primary action
-- `视觉系统`: type, spacing, color roles, surfaces, radius, icons, motion
+- `视觉系统`: type hierarchy, contrast strategy, CTA posture, spacing, color roles, surfaces, radius, icons, motion
 - `状态矩阵`: required states and which ones must be designed now
 - `商业化触点`: subscription, upgrade, reminder, sharing, account, or trust moment when relevant
 - `必须一致项`: hierarchy, proportions, key copy, colors, assets, motion, or other items that must survive later stages

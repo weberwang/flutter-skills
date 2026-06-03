@@ -119,6 +119,7 @@ Add explicit minimum rules such as:
 - `body_text_on_background: ">= 4.5:1"`
 - `body_text_on_surface: ">= 4.5:1"`
 - `text_on_primary: ">= 4.5:1"`
+- `cta_text_on_primary: ">= 4.5:1"`
 - `essential_iconography: ">= 3:1"`
 
 ## Forbidden Overrides

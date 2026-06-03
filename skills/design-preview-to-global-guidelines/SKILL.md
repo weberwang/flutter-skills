@@ -7,7 +7,7 @@ description: Use when screenshots, visual previews, effect mockups, or approved 
 
 ## Overview
 
-Turn approved visual evidence into a design-source contract that downstream skills can consume directly. The goal is not taste commentary alone; it is to freeze one global guidance document plus two concrete theme files so later skills stop guessing.
+Turn approved visual evidence into a design-source contract that downstream skills can consume directly. The goal is not taste commentary alone; it is to freeze one global guidance document plus two concrete theme files so later skills stop guessing about typography hierarchy, contrast behavior, CTA emphasis, and global theme values.
 
 ## Designer Role
 
@@ -18,6 +18,7 @@ Act like a product designer and design-systems lead. Infer stable product rules 
 - If the user only has a text brief and no usable visual evidence or reference screenshots, return `blocked` immediately and ask the user whether to fall back before continuing.
 - If the user still needs preview exploration or direction comparison, use `mobile-ui-design-coach` or `design-preview-to-pen` first, then return here after a direction is chosen.
 - If multiple previews represent materially different directions and no single direction is approved, stop and require a chosen baseline before freezing.
+- If a complete visual draft has not yet been commercially reviewed for typography hierarchy, contrast, and CTA clarity, use `visual-design-reviewer` in a fresh subagent before freezing shared artifacts.
 - If downstream Pencil, Flutter architecture, implementation, or parity work must not reinterpret theme values or global UI rules, use this skill before `flutter-design-freeze-gate`, `design-preview-to-pen`, or `flutter-pen-to-architecture`.
 - When the user wants written artifacts, default to exactly these files: `global-design-guidelines.md`, `light-theme-freeze.yaml`, and `dark-theme-freeze.yaml`.
 
@@ -26,7 +27,7 @@ Act like a product designer and design-systems lead. Infer stable product rules 
 1. Read `references/image-intake-and-analysis.md` to confirm the visual input is strong enough for freezing. If no reference screenshots or usable preview images exist, return `analysis_status: blocked` immediately and ask the user whether to fall back.
 2. Separate confirmed evidence from missing evidence. If multiple competing directions still exist, stop and require a single chosen baseline.
 3. Infer the product posture, target users, core scenarios, and the global experience promise from the visuals.
-4. Extract stable global rules for hierarchy, page structure, repeated components, interaction posture, state handling, and visual restraint.
+4. Extract stable global rules for hierarchy, page structure, repeated components, interaction posture, typography ladder, contrast strategy, CTA posture, state handling, and visual restraint.
 5. Read `references/global-guideline-contract.md` and produce `global-design-guidelines.md` with the exact metadata block, exact section ids, and exact section order.
 6. Read `references/theme-freeze-schema.md` and `references/value-freeze-strategy.md`, then freeze concrete light and dark theme values in `light-theme-freeze.yaml` and `dark-theme-freeze.yaml`.
 7. Read `references/downstream-linking-rules.md` and fill `downstream_reference_index` so later skills know which sections and files they must cite.
@@ -39,6 +40,8 @@ Act like a product designer and design-systems lead. Infer stable product rules 
 - Do not let downstream skills infer missing global token values when this skill can freeze them now.
 - Do not omit required files, required sections, or required role families.
 - Do not treat dark mode as light mode with inverted colors.
+- Do not leave primary CTA emphasis implicit when the visuals clearly define it.
+- Do not let premium styling reduce reading contrast or action clarity in the frozen contract.
 - Do not let one-off local decoration become a global token unless the pattern is clearly systemic.
 - Do not continue global design freezing without reference screenshots, preview comps, or other usable visual evidence; return `blocked` and ask the user whether to fall back instead.
 - Do not continue when multiple materially different directions are still unresolved.
@@ -64,7 +67,7 @@ Each theme file must:
 - follow the exact schema from `references/theme-freeze-schema.md`
 - use concrete values for every required leaf
 - freeze global component-state roles for repeated controls
-- include explicit contrast rules and forbidden overrides
+- include explicit contrast rules, CTA-related contrast intent, and forbidden overrides
 
 ## References
 

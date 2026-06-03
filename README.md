@@ -7,12 +7,34 @@
 3. 维护唯一流程记录文件 `docs/rd/00-workflow-record.md`。
 4. 卡住所有未经确认的阶段切换和状态改写。
 
-这次规则更新后，最重要的变化只有两条：
+这次规则更新后，最重要的变化有三条：
 
 1. `modules_split` 之前只冻结共享层，不冻结页面级设计。
 2. 模块页面级设计、模块私有组件设计、`ui-ux.md` / `impl.md` 的实施级细化，都放到模块实施准备阶段完成，并且每次状态改写都要确认。
+3. 每次完整设计稿产出后，都要先走 `visual-design-reviewer`，重点检查字体层级、对比度和 CTA 质量，再决定能不能冻结或继续下游。
 
 ## 先看懂两层冻结
+
+### 先看懂自动视觉审阅
+
+这次新增的 `visual-design-reviewer` 不是新的大阶段，而是完整设计稿的自动审阅关卡。
+
+这个审阅必须在 fresh subagent 中执行，只给子代理最小必要设计包，不能在主代理当前线程里内联审阅。这样做的目的，是避免主线程已经积累的大量上下文、历史判断和流程噪音污染设计判断。
+
+它会在两个地方出现：
+
+- 共享层视觉稿完整后，先审阅，再进入共享冻结审批
+- 模块 page-level 设计稿完整后，先审阅，再进入 Pen 落地确认或后续 handoff
+
+它关注的不是“好不好看”这么宽泛，而是五件直接影响商业质量的事：
+
+- 信息层级是否清楚
+- 关键任务引导是否明确
+- 字体层级是否足够清楚
+- 对比度是否足够可读、可扫、可点
+- CTA 是否在 3 秒内足够明确
+
+如果这几项里有明显问题，就不应该继续走冻结和交接。
 
 ### 共享层冻结
 
@@ -49,11 +71,13 @@ flowchart LR
     A["prd_ready"] --> B["technical_baseline_ready"]
     B --> C["uiux_draft"]
     B --> D["global_guidelines_frozen<br/>仅共享层冻结"]
-    C --> E["design_freeze_ready"]
+    C --> R1["visual-design-reviewer<br/>共享完整设计稿审阅"]
+    R1 --> E["design_freeze_ready"]
     D --> E
     E --> F["modules_split<br/>模块文档初稿"]
     F --> G["pen_ready<br/>模块实施准备"]
-    G --> H["pen_frozen<br/>模块页面 Pen 冻结"]
+    G --> R2["visual-design-reviewer<br/>模块完整设计稿审阅"]
+    R2 --> H["pen_frozen<br/>模块页面 Pen 冻结"]
     H --> I["impl_rd_ready<br/>模块文档终稿并落地"]
     I --> J["architecture_ready"]
     J --> K["project_initialized"]
@@ -83,6 +107,8 @@ flowchart LR
 
 这里是共享层 UI/UX 候选稿阶段。可以有视觉方向，可以有静态图，但还没有冻结。
 
+只要共享层视觉稿已经完整，就会先自动调用 `visual-design-reviewer`，并且这一步必须由 fresh subagent 执行，重点检查字体层级、对比度和 CTA，再决定能不能进入冻结审批。
+
 ### `global_guidelines_frozen`
 
 这里的冻结不再代表页面已经冻结。
@@ -105,6 +131,8 @@ flowchart LR
 - 共享设计原则是否足够稳定
 - 共享组件是否能先作为全局输入
 - 是否允许进入模块拆分
+
+这里默认已经有一份最近的 `visual-design-reviewer` 结果；没有的话，不应该直接进冻结审批。
 
 ### `modules_split`
 
@@ -139,6 +167,8 @@ flowchart LR
 2. 准备该模块的 page-level Pen 和模块私有组件设计输入
 
 所以 `pen_ready` 更像“模块实施前精修阶段”。
+
+当模块视觉稿已经完整时，也会先走一次 `visual-design-reviewer`，并且这一步也必须由 fresh subagent 执行，避免页面还没审清楚就直接把 Pen 当成可落地产物。
 
 ### `pen_frozen`
 
@@ -237,6 +267,7 @@ pending_status_updates: home.uiux_status=implementation_final; home.impl_status=
 
 - `uiux_status`
 - `impl_status`
+- `visual_review`
 - `pen_status`
 - `code_status`
 - `pending_status_updates`
@@ -345,8 +376,9 @@ pending_status_updates: home.uiux_status=implementation_final; home.impl_status=
 3. `pending_status_updates`
 4. 当前模块的 `uiux_status`
 5. 当前模块的 `impl_status`
-6. 当前模块的 `pen_status`
-7. 当前模块的 `code_status`
+6. 当前模块的 `visual_review`
+7. 当前模块的 `pen_status`
+8. 当前模块的 `code_status`
 
 如果你看到：
 

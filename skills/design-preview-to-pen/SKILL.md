@@ -7,7 +7,7 @@ description: Use when preview comps, approved visual directions, image assets, o
 
 ## Overview
 
-Run a strict designer production workflow: clarify the brief, explore preview directions, critique and freeze one approved direction, plan reusable assets, rebuild the design structurally in Pencil, complete non-page-level reusable component design, and verify visual parity. Bias toward maintainable Pencil structure and reusable assets, not a one-off flattened mockup.
+Run a strict designer production workflow: clarify the brief, explore preview directions, critique and freeze one approved direction, plan reusable assets, rebuild the design structurally in Pencil, complete non-page-level reusable component design, and verify visual parity. Bias toward maintainable Pencil structure, reusable assets, and commercially strong typography hierarchy, contrast, and CTA clarity rather than a one-off flattened mockup.
 
 ## Designer Role
 
@@ -38,7 +38,8 @@ Act like a production designer moving an approved art direction into an editable
 10. Rebuild the approved direction in Pencil with variables first, reusable component design second, and sections third.
 11. Complete non-page-level component design for repeated controls, cards, bars, list items, dialogs, chips, and other shared building blocks, including names, states, and variant boundaries.
 12. When a page scrolls beyond the fixed viewport, decide whether the scroll structure is clear enough from one frame; if not, provide continuous frames or an equivalent structured scroll specification before claiming the design draft is complete.
-13. Compare the Pencil result against the approved preview, freeze card, any frozen global guidance artifacts, the required component set, and the scroll-structure expression, then close remaining gaps.
+13. Compare the Pencil result against the approved preview, freeze card, any frozen global guidance artifacts, the required component set, and the scroll-structure expression.
+14. When the design draft is complete enough to judge visually, dispatch `visual-design-reviewer` in a fresh subagent, address the findings, then close remaining gaps before handoff.
 
 ## Phase Rules
 
@@ -132,6 +133,7 @@ Act like a production designer moving an approved art direction into an editable
 - Do not recalculate global theme roles or localize palette semantics when frozen theme files already exist.
 - Do not skip designer critique between preview generation and approval.
 - Do not treat page frames alone as a completed design draft; non-page-level reusable component design must also be finished.
+- Do not claim a complete design draft is handoff-ready until `visual-design-reviewer` has checked typography hierarchy, contrast, and CTA clarity in a fresh subagent.
 - Do not leave shared controls or repeated building blocks only inside page compositions when downstream Flutter implementation needs explicit reusable component design.
 - Do not treat module-level reusable components as frozen implicitly; record their frozen scope, states, and allowed adjustments in the freeze artifacts.
 - Do not assume a long page is self-explanatory just because the frame is taller; if Flutter could misread the scroll structure, add continuous frames or an equivalent structured scroll specification.
@@ -157,6 +159,7 @@ Every substantial result should leave these artifacts in the conversation:
 - `pencil_rebuild_progress`
 - `component_design_progress`
 - `scroll_expression`
+- `visual_design_review`
 - `parity_gap_list`
 
 ## References
