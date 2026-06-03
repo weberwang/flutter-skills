@@ -23,6 +23,7 @@ This file is the single stable source for project workflow state. It should let 
 - what artifacts already exist
 - whether the latest shared or module design draft has a visual review record
 - whether that visual review record was produced in a fresh subagent
+- what the latest freeze-facing visual review score and decision were
 - whether a module document is still a split draft, already implementation-final, or already landed
 - whether page-level Pen has landed for the active module
 - whether code has landed for the active module
@@ -114,7 +115,7 @@ Record the active module, or `not_selected` if the workflow is still global.
 
 Summarize the module's current `uiux_status`, `impl_status`, `pen_status`, and `code_status`.
 
-Mention the latest module-level `visual_review` artifact when it exists, including whether it came from a fresh subagent run.
+Mention the latest module-level `visual_review` artifact when it exists, including whether it came from a fresh subagent run, its latest score, and whether it is freeze-ready.
 
 ### `next_action`
 
@@ -155,6 +156,7 @@ Track project-level artifact paths when known, such as:
 - `dark-theme-freeze.yaml`
 - shared visual design review report
 - whether the shared visual review was produced by a fresh subagent
+- the latest shared visual review score and freeze decision
 - architecture summary
 - Flutter project root
 - `flutter-init` summary
@@ -183,7 +185,9 @@ Append short dated entries only when a stage changes, a blocker is cleared, a ro
 - Keep `current_stage` and the active module row in sync.
 - Keep `confirmation_status`, `pending_next_stage`, `pending_next_skill`, and `pending_status_updates` in sync between the metadata block and the active module row.
 - If `design-preview-to-global-guidelines` artifacts are created, update the relevant module row and queue `global_guidelines_frozen` in `pending_next_stage` instead of switching immediately.
-- If `visual-design-reviewer` produces a shared review, index that artifact in `global_artifact_index` and note that it came from a fresh subagent. If it produces a module review, update the module row's `visual_review` and note the same.
+- If `visual-design-reviewer` produces a shared review, index that artifact in `global_artifact_index` and note that it came from a fresh subagent, its latest score, and whether it is freeze-ready. If it produces a module review, update the module row's `visual_review` and note the same.
+- If the latest shared freeze-facing visual review score is below `90` or the review still requires changes, keep the current stage unchanged, clear any queued freeze promotion, and route back to `mobile-ui-design-coach` plus shared preview regeneration before another review.
+- If the latest active-module freeze-facing visual review score is below `90` or the review still requires changes, keep the current stage unchanged, clear any queued freeze promotion, and route back to updating the active module `ui/ux` doc plus modifying the current module design draft in Pen before another review.
 - If a step result is ready for review, keep `current_stage` on the last confirmed stage, set `confirmation_status: pending_confirmation`, set `next_skill: none`, and record the candidate transition and candidate status changes in `pending_next_stage`, `pending_next_skill`, and `pending_status_updates`.
 - If the user confirms a pending transition, move `pending_next_stage` into `current_stage`, move `pending_next_skill` into `next_skill` only for that routing update, apply `pending_status_updates`, clear all pending fields to `none`, and set `confirmation_status: confirmed` for that update.
 - If the user confirms only queued status changes and there is no stage switch, keep `current_stage` unchanged, apply `pending_status_updates`, clear all pending fields to `none`, and set `confirmation_status: confirmed` for that update.
@@ -205,6 +209,7 @@ Append short dated entries only when a stage changes, a blocker is cleared, a ro
 - Do not mark `code_status=landed` before code output actually exists.
 - Do not treat a complete design draft as freeze-ready when the required `visual_review` artifact is missing.
 - Do not treat an inline parent-thread review as a valid `visual_review` artifact.
+- Do not treat a freeze-facing visual review score below `90` as passable for freeze.
 - Do not switch to the next process while `confirmation_status` is `pending_confirmation`.
 - Do not store a queued transition or queued maturity change only in prose; always persist it in `pending_next_stage`, `pending_next_skill`, and `pending_status_updates`.
 - Do not keep `pending_next_stage`, `pending_next_skill`, or `pending_status_updates` populated after a `blocked` result.

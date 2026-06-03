@@ -103,9 +103,7 @@ Critical failures:
 ## Score Bands
 
 - `90-100`: excellent commercial draft
-- `85-89`: strong and nearly freeze-ready
-- `75-84`: promising but revision needed
-- `<75`: materially weak or incomplete
+- `<90`: not freeze-ready and must re-enter the correct regeneration loop before review
 
 ## Review Language
 
@@ -115,6 +113,13 @@ Always write:
 - `weaknesses`: what is visibly weak now
 - `risks`: what could break downstream freeze or implementation
 - `recommended_fixes`: the smallest changes that would most improve quality
+- `re_review_required`: whether the draft must loop back through requirements analysis and regenerated visuals before another review
+- `re_review_loop_type`: `shared_regeneration` or `module_regeneration`
 
 Be specific about typography hierarchy, contrast, and CTA before discussing decorative polish.
 Be even more specific about information hierarchy and key-task guidance before discussing visual polish.
+For freeze-facing reviews, a score below `90` is an automatic fail even if the design looks close.
+Choose the regeneration loop by scope:
+
+- `shared_regeneration`: for global/shared drafts before `modules_split`
+- `module_regeneration`: for active-module drafts during implementation preparation, where the current module `ui/ux` doc is adjusted and the current module design draft is modified in Pen before re-review

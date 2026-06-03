@@ -25,7 +25,7 @@ It validates explicit design approval, state coverage, immutable constraints, an
 - Current workflow state.
 - Paired UI/UX RD path when the target is module-specific.
 - Design packet from `mobile-ui-design-coach` and, when static previews are the frozen source, artifacts from `design-preview-to-global-guidelines`.
-- `visual-design-reviewer` output whenever the target draft is visually complete enough to review, and that output must come from a fresh subagent run.
+- `visual-design-reviewer` output whenever the target draft is visually complete enough to review, and that output must come from a fresh subagent run against the effect image, preview pack, static comp, or complete visual draft being frozen.
 - Preview decision when previews were generated.
 - State matrix and acceptance gates.
 - Reference screenshots or preview images when the workflow claims `global_guidelines_frozen` from static visual sources.
@@ -42,7 +42,7 @@ Approve `shared_pre_split` only when all items are present:
 - Platform baseline, normally iOS HIG for mobile behavior.
 - Shared art direction, information hierarchy, and key-task guidance decisions.
 - Visual system contract: typography hierarchy, contrast strategy, CTA posture, spacing, color roles, radius, surfaces, icon posture, motion role.
-- A completed `visual-design-reviewer` record from a fresh subagent exists, and it does not report unresolved critical issues in information hierarchy, key-task guidance, typography hierarchy, contrast, or CTA clarity.
+- A completed `visual-design-reviewer` record from a fresh subagent exists, it reviews the freeze-facing visual draft itself, its score is `>= 90`, and it does not report unresolved critical issues in information hierarchy, key-task guidance, typography hierarchy, contrast, or CTA clarity.
 - Shared/public component freeze exists for reusable controls that should be stable before module splitting.
 - Global design freeze artifacts exist when the workflow depends on static visual sources:
   - `global-design-guidelines.md`
@@ -63,7 +63,7 @@ Approve `module_impl_prep` only when all items are present:
 - Page scope and navigation entry for the active module.
 - Core path and return loop.
 - Page hierarchy, key-task guidance, and state details at implementation-final granularity.
-- A completed `visual-design-reviewer` record from a fresh subagent exists, and it does not report unresolved critical issues in information hierarchy, key-task guidance, typography hierarchy, contrast, or CTA clarity.
+- A completed `visual-design-reviewer` record from a fresh subagent exists, it reviews the freeze-facing visual draft itself, its score is `>= 90`, and it does not report unresolved critical issues in information hierarchy, key-task guidance, typography hierarchy, contrast, or CTA clarity.
 - Module-private component freeze exists for repeated building blocks inside that module, including frozen states, variant boundaries, immutable parts, and allowed adjustments.
 - State matrix: ideal, empty, loading, error, permission, partial data, disabled, success, locked or premium when relevant.
 - Immutable items that code and Pencil may not change.
@@ -87,6 +87,8 @@ Use these outcomes:
 - Do not let a visually complete draft skip `visual-design-reviewer` before freeze.
 - Do not accept an inline parent-thread review as a valid `visual-design-reviewer` result.
 - Do not let strong decorative polish mask unclear information hierarchy or weak task guidance.
+- Do not allow a draft with `visual-design-reviewer` score below `90` to enter freeze.
+- Do not treat “close enough” as a valid exception to the 90-point freeze threshold.
 - Do not allow module splitting to treat shared freeze as page-level freeze.
 - Do not allow Pencil work for an active module before that module's page-level design is frozen.
 - Do not allow Flutter implementation to reinterpret hierarchy, spacing, states, or visual tokens.
@@ -120,6 +122,8 @@ Return:
 - User says "Flutter can decide the dark theme later": block until `light-theme-freeze.yaml` and `dark-theme-freeze.yaml` are frozen.
 - User says "the draft looks premium enough, skip review": block and require `visual-design-reviewer`.
 - User says "I already reviewed it in the main thread": block and require a fresh-subagent `visual-design-reviewer` run.
+- User says "the score is 88, just freeze it and we will polish later": block and send the work back through the correct scope-matched regeneration loop before another review.
+- User says "the module draft failed review, rerun module splitting": block unless the problem is actually global; default to updating the current module `ui/ux` doc and modifying the current module design draft in Pen.
 - User says "users can figure out the flow after reading carefully": block if the key task still needs interpretation instead of guidance.
 - User says "the CTA is subtle on purpose": block if the primary action is no longer clearly dominant.
 - User says "optimize visuals during implementation": block and route to `flutter-design-source-control`.
