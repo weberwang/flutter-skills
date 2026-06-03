@@ -11,10 +11,10 @@ Split broad Flutter product requirements into executable modules after the globa
 
 This skill has two modes:
 
-1. Initial split mode: create paired `ui-ux` and `impl` draft documents for each module during `modules_split`.
+1. Initial split mode: create paired `ui-ux` and `impl` draft documents for each module during `modules_split`, while defining module dependencies and parallel implementation stages in the module index.
 2. Implementation refinement mode: revisit one active module during implementation preparation and refine its existing draft docs to implementation-final granularity.
 
-The initial split is not page-level freeze and not implementation-ready by default. It creates structured drafts and module boundaries. The later refinement pass turns one active module into an implementation-ready document set without pretending the whole product is already landed.
+The initial split is not page-level freeze and not implementation-ready by default. It creates structured drafts, module boundaries, and an explicit implementation-order view. The later refinement pass turns one active module into an implementation-ready document set without pretending the whole product is already landed.
 
 ## Required Inputs
 
@@ -54,11 +54,12 @@ Do not create a module only because a screen exists. Small screens that share on
    - Initial split mode if paired module docs do not exist yet.
    - Implementation refinement mode if the active module already has paired docs and the workflow is preparing that module for page-level Pen and code.
 8. In initial split mode:
-   - Build a module map with module name, responsibility, pages, data owner, package or architecture constraints, upstream dependencies, downstream dependencies, and release value.
-   - For each module, write a module detail card covering user job, page/state scope, domain responsibility, application state, infrastructure/API boundary, analytics, tests, and release value.
+   - Build a module map with module name, responsibility, pages, data owner, package or architecture constraints, upstream dependencies, downstream dependencies, implementation preconditions, and release value.
+   - For each module, write a module detail card covering user job, page/state scope, domain responsibility, application state, infrastructure/API boundary, analytics, tests, release value, and implementation dependency notes.
+   - Classify the modules into implementation stages or waves that show which modules can run in parallel and which modules must wait for upstream completion.
    - Assign document paths:
-     - `docs/rd/modules/<module>/<module>.ui-ux.md`
-     - `docs/rd/modules/<module>/<module>.impl.md`
+      - `docs/rd/modules/<module>/<module>.ui-ux.md`
+      - `docs/rd/modules/<module>/<module>.impl.md`
    - Write both docs as `split_draft`, not implementation-final.
 9. In implementation refinement mode:
    - Refine only the active module's existing docs.
@@ -67,9 +68,37 @@ Do not create a module only because a screen exists. Small screens that share on
    - Add the detail needed for page-level Pen production and later code implementation, but do not mark the docs as landed here.
 10. Ensure the global workflow record path is reserved as `docs/rd/00-workflow-record.md`; stage tracking belongs there, not inside per-module workflow notes.
 11. Generate or update `docs/rd/00-module-index.md` when the user asks for files to be written.
-12. Return workflow recommendations instead of editing the workflow record directly:
+12. Treat `docs/rd/00-module-index.md` as the canonical split-stage coordination index:
+   - Include a module table with module name, responsibility summary, paired doc paths, `depends_on`, `unblocks`, `parallel_group`, recommended implementation stage, and blocking assumptions.
+   - Include a parallel execution section that groups modules by stage or wave and explicitly states which modules can be implemented in the same stage.
+   - Include dependency notes that explain why a module must precede another module when the dependency is not obvious from the table alone.
+13. In implementation refinement mode, update only the affected module row and any directly impacted stage or dependency notes unless the refinement reveals a real module-boundary change.
+14. Return workflow recommendations instead of editing the workflow record directly:
    - Initial split mode normally recommends `current_state=modules_split`, `uiux_status=split_draft`, and `impl_status=split_draft`.
    - Implementation refinement mode normally recommends `current_state=pen_ready`, `uiux_status=implementation_final`, and `impl_status=implementation_final`.
+
+## Module Index Contract
+
+When `docs/rd/00-module-index.md` is written or updated, it must be useful for both planning and execution handoff.
+
+At minimum, the index must contain:
+
+- A module summary table.
+- A dependency summary for upstream and downstream relationships.
+- A parallel execution plan that groups modules into implementation stages or waves.
+- Notes for assumptions or unresolved constraints that make a parallel decision conditional.
+
+For each module row, include at least:
+
+- `module_name`
+- `goal_or_scope`
+- `uiux_doc`
+- `impl_doc`
+- `depends_on`
+- `unblocks`
+- `parallel_group`
+- `recommended_stage`
+- `parallelization_notes`
 
 ## UI/UX RD Contract
 
@@ -128,6 +157,7 @@ In initial split mode, the implementation RD must identify:
 - Data owners and backend dependencies.
 - High-level application state and persistence boundaries.
 - Package usage notes inherited from the baseline.
+- Dependencies on shared shells, contracts, or prerequisite modules that affect implementation order.
 - Early risks and open questions.
 
 ### Implementation-final expansion
@@ -154,6 +184,9 @@ In implementation refinement mode, expand the same document to directly implemen
 - Do not output module names only. Each module needs enough detail for its paired UI/UX and implementation RD documents.
 - Do not merge UI/UX RD and implementation RD into one document.
 - Do not let implementation RD exist without a reference to the paired UI/UX RD.
+- Do not hide implementation sequencing only inside prose. Dependency and parallel-execution decisions must be visible in `docs/rd/00-module-index.md` and in the structured output.
+- Do not mark two modules as safe to implement in parallel when they still share an unresolved backend contract, shared route shell, shared permission owner, or unfrozen shared component dependency.
+- Do not guess at safe parallelism when critical dependencies are unknown; record the uncertainty in `open_questions` and mark the parallel decision as conditional.
 - Do not treat the first split output as implementation-ready.
 - Do not freeze module page-level or module-private component design on the initial split pass.
 - Do not mark `uiux_status` or `impl_status` as `landed` here. Landed status only happens after the corresponding page-level Pen is delivered and confirmed through the orchestrator.
@@ -167,6 +200,7 @@ Return:
 - `document_paths`
 - `module_detail_cards`
 - `module_dependencies`
+- `parallel_execution_plan`
 - `global_technical_baseline`
 - `initial_workflow_states`
 - `document_maturity_recommendation`
@@ -182,3 +216,5 @@ Return:
 - A module has backend-heavy logic but no UI: still create paired docs; UI/UX RD can declare no visible page and explain state surfaces.
 - User asks for a new global package or architecture decision during splitting: stop and route to `flutter-prd-rd-writer`.
 - User asks to start building one module that still has draft docs: stay focused on that module and refine it to implementation-final instead of re-splitting the whole project.
+- Two modules share no unresolved navigation, backend, permission, or state-owner dependency: place them in the same recommended implementation stage and record that they are safe to run in parallel.
+- A shared shell or foundation module must land before feature modules can proceed: place the shell module in an earlier stage and record the feature modules as dependent, not parallel peers.
