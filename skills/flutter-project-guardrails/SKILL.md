@@ -15,6 +15,8 @@ Enforce a single Flutter engineering baseline for this workspace: mandatory pack
 - After initialization, the day-to-day entry point should usually be the generated project-local `flutter-dev`; this skill remains the base policy layer behind it.
 - When extending an existing project, read `references/mandatory-package-bundle.md` and `references/ddd-feature-blueprint.md` before editing features or dependencies.
 - When a requirement seems to justify another package or another architecture style, prove why the current baseline fails first. Do not mix stacks by default.
+- If a provider, model, serializer, API declaration, or comparable scaffold can be expressed through the approved annotation toolchain, treat annotations as mandatory instead of optional and reject equivalent hand-written boilerplate.
+- If the project has already introduced `flutter_hooks` or `hooks_riverpod`, treat hooks as a mandatory implementation style in every applicable widget or provider composition path instead of falling back to duplicated lifecycle or local-state boilerplate.
 - For presentation-layer work, keep taste guidance active as implementation guardrails: hierarchy, spacing, typography, contrast, CTA salience, motion restraint, and anti-template composition.
 - If a requirement conflicts with these guardrails, state the conflict explicitly and keep one clear main plan plus one explicit fallback instead of silent compromise.
 
@@ -23,22 +25,27 @@ Enforce a single Flutter engineering baseline for this workspace: mandatory pack
 1. Identify which bounded context, layer, or engineering capability is being touched.
 2. Apply the mandatory package baseline and any capability-triggered package bundle from the references.
 3. Enforce the DDD feature blueprint so responsibilities stay inside `domain`, `application`, `infrastructure`, and `presentation`.
-4. Enforce annotation coverage for providers, models, serialization, and API declarations.
-5. For `presentation` work, compare the implementation against frozen UI/UX, theme artifacts, and taste guardrails before accepting layout or widget choices.
-6. Reject overlap, hidden globals, manual boilerplate, unused dependencies, and display-layer choices that flatten frozen hierarchy or reintroduce AI-template patterns.
-7. Output a short compliance checklist describing what follows the standard and what still violates it.
+4. Enforce annotation coverage for providers, models, serialization, and API declarations, and replace any newly introduced hand-written boilerplate when the approved annotations can express the same contract.
+5. If `flutter_hooks` or `hooks_riverpod` is present, audit whether the touched UI path should use hooks for controller lifecycle, effect orchestration, memoized derived values, or provider composition, and convert those spots instead of adding parallel `StatefulWidget` or manual listener code.
+6. For `presentation` work, compare the implementation against frozen UI/UX, theme artifacts, and taste guardrails before accepting layout or widget choices.
+7. Reject overlap, hidden globals, manual boilerplate, unused dependencies, and display-layer choices that flatten frozen hierarchy or reintroduce AI-template patterns.
+8. Output a short compliance checklist describing what follows the standard and what still violates it.
 
 ## Hard Rules
 
 - Default architecture is DDD by bounded feature: `lib/features/<feature>/domain`, `application`, `infrastructure`, `presentation`.
 - Default state and dependency organization is `flutter_riverpod` with `riverpod_annotation` and `riverpod_generator`.
+- If the approved annotation toolchain can cover the current provider, DTO, union, serializer, or API contract, it must be implemented with annotations and generators instead of hand-written equivalents.
+- If `flutter_hooks` or `hooks_riverpod` is part of the project stack, every applicable widget or provider composition path must use hooks first; do not keep `StatefulWidget`, manual `initState` / `dispose`, or duplicated listener glue where hooks can express the same behavior directly.
 - Default routing is `go_router`.
 - Default HTTP stack is `dio` plus `retrofit`.
 - Default model/state generation is `freezed_annotation` plus `json_annotation`, generated through `build_runner`.
 - Sensitive data must use `flutter_secure_storage`; `shared_preferences` is only for non-sensitive lightweight preferences.
 - Added packages must have a concrete owner and real usage in the scaffold or implementation. If they are not used, remove them.
-- Providers, DTOs, unions, and API declarations must prefer annotations over hand-written boilerplate.
+- Providers, DTOs, unions, serializers, and API declarations must use annotations whenever the current standard toolchain supports that shape.
 - Do not mix `provider`, `bloc`, `get_it`, `http`, `chopper`, manual JSON mapping, or duplicate storage stacks into the same responsibility path unless the skill itself is updated with a deliberate exception.
+- Do not keep or add hand-written provider wiring, DTO copy logic, JSON mapping, or API client glue in places where `@riverpod`, `@freezed`, `@JsonSerializable`, or `@RestApi` can express the same contract.
+- Do not add `flutter_hooks` or `hooks_riverpod` and then continue writing new applicable code in a non-hooks style.
 - If package version selection is time-sensitive, verify before pinning exact versions.
 - Taste guidance may refine implementation craft, but it must not override frozen UI/UX intent, theme roles, state coverage, or approved component hierarchy.
 - If a taste issue requires changing design meaning, route to `flutter-design-source-control` instead of silently changing code.

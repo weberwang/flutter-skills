@@ -20,6 +20,7 @@ Turn a reviewable Flutter RD into an implementation-ready project baseline. Focu
 
 - If the input is still a PRD, feature brief, or rough requirement note rather than an RD, use `flutter-prd-rd-writer` first and do not scaffold directly.
 - Before touching `pubspec.yaml`, project folders, or generated code, always load `flutter-project-guardrails`. That skill defines the mandatory package stack, DDD feature rules, and annotation rules that this skill must obey.
+- During scaffolding, if a provider, DTO, serializer, state union, or API client can be represented by the approved annotation chain, generate that path with annotations first instead of leaving equivalent hand-written boilerplate in the baseline.
 - If `docs/rd/00-workflow-record.md` exists, treat it as the current workflow source and return enough artifact paths for `flutter-workflow-orchestrator` to move the project to `project_initialized`.
 - After the base project scaffold is created, always generate a project-local `skills/flutter-dev/` from `assets/flutter-dev-template/` and fill in the project-specific decisions from the RD.
 - If the request includes `--force`, treat plugin setup as a refresh task and rerun plugin configuration before continuing later steps.
@@ -35,7 +36,7 @@ Turn a reviewable Flutter RD into an implementation-ready project baseline. Focu
 4. Decide how plugin configuration should run. If `--force` is present, rerun plugin configuration. If no plugin setup exists yet, run the first-time plugin configuration. Otherwise, keep the existing plugin configuration and continue.
 5. Scaffold the Flutter project shell, app bootstrap, environment baseline, and shared infrastructure.
 6. Create bounded features under `lib/features/` with `domain` / `application` / `infrastructure` / `presentation` layers.
-7. Wire required packages and code generation so providers, models, API clients, and serialization all have a working first pass.
+7. Wire required packages and code generation so providers, models, API clients, and serialization all have a working first pass, and remove equivalent hand-written scaffold code whenever annotations already cover it.
 8. Generate `skills/flutter-dev/` inside the target project from `assets/flutter-dev-template/`, then fill in the project-specific feature map, commands, and decisions.
 9. Run bootstrap verification and summarize what was scaffolded, what remains implementation-specific, and what still needs confirmation.
 10. If a workflow record exists, return the project root path, generated `skills/flutter-dev/` path, and initialization summary so `flutter-workflow-orchestrator` can advance the stage to `project_initialized`.
@@ -47,6 +48,7 @@ Turn a reviewable Flutter RD into an implementation-ready project baseline. Focu
 - Do not create a flat `features/` or page-driven folder tree. The default structure must be DDD by bounded feature.
 - Do not add third-party packages for later. If a package is added, it must be wired into the scaffold and used by a concrete owner.
 - Do not hand-write boilerplate that should come from `@riverpod`, `@freezed`, `@JsonSerializable`, or `@RestApi`.
+- When the approved annotation toolchain can cover the current provider, model, serializer, or API contract, annotations are mandatory and hand-written equivalents are not allowed in the scaffold.
 - Do not stop after generating the code scaffold. The initialization is incomplete until the project-local `flutter-dev` skill is generated and filled.
 - Do not silently overwrite an existing plugin setup unless `--force` is explicitly present.
 - Do not skip the first plugin configuration when the project still lacks the required plugin setup.

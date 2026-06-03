@@ -33,16 +33,20 @@ Operate on the initialized {{PROJECT_NAME}} Flutter app using the project decisi
 
 1. Map the task to an existing bounded feature or decide whether a new feature is required.
 2. Re-check the feature boundary, route ownership, data source ownership, and generation impact before editing files.
-3. Follow the project command set and environment conventions defined in the references.
-4. When adding new project-specific decisions, update the decision log instead of hiding them in implementation details.
+3. If the touched provider, model, serializer, union state, or API contract can be expressed through the approved annotation toolchain, implement it with annotations first and remove equivalent hand-written boilerplate instead of keeping parallel styles.
+4. If the project stack includes `flutter_hooks` or `hooks_riverpod`, inspect the touched widget and provider path first and implement every applicable lifecycle, ephemeral state, and composition concern with hooks instead of parallel non-hooks boilerplate.
+5. Follow the project command set and environment conventions defined in the references.
+6. When adding new project-specific decisions, update the decision log instead of hiding them in implementation details.
 
 ## Hard Rules
 
 - Do not bypass DDD layers defined for this project.
 - Do not add packages outside the approved project bundle without recording the reason and impact.
 - Do not hand-edit generated `.g.dart` or `.freezed.dart` files.
+- If `@riverpod`, `@freezed`, `@JsonSerializable`, or `@RestApi` can express the current contract, do not ship a hand-written equivalent implementation.
 - Do not create cross-feature dependencies without updating the feature map and rationale.
 - Do not take over initialization, plugin setup, or force-based reconfiguration responsibilities.
+- If this project uses `flutter_hooks` or `hooks_riverpod`, do not write new applicable UI logic as `StatefulWidget` or manual lifecycle glue where hooks can express it directly.
 - Replace every `{{PLACEHOLDER}}` before shipping this generated skill with the project.
 
 ## Project Conventions
