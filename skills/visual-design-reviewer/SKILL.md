@@ -45,11 +45,11 @@ Review complete design drafts the way a strong commercial product designer would
 8. Evaluate system quality: spacing rhythm, surfaces, icon posture, reusable patterns, and whether the design can survive Pencil or Flutter handoff without guessing.
 9. Evaluate state completeness: ideal, empty, loading, error, permission, disabled, and paid or locked states when relevant.
 10. Score the draft with the rubric and return a concise but designer-grade review.
-11. For freeze workflows, treat `90` as the minimum pass line. Any score below `90`, or any review that still requires design changes, must return to a scope-matched regeneration loop before another review.
+11. For freeze workflows, treat `90` as the minimum pass line. Any score below `90`, or any review that still requires design changes, must return to exactly one scope-matched revision pass. That revision pass ends the current review cycle and must not trigger another `visual-design-reviewer` run automatically.
 12. Route the next move:
   - `ready_for_freeze_review` -> `flutter-design-freeze-gate`
-  - `needs_shared_regeneration_loop` -> `mobile-ui-design-coach` -> shared preview regeneration -> `visual-design-reviewer`
-  - `needs_module_regeneration_loop` -> update the active module `ui/ux` documentation -> modify the active module design draft in Pen through `design-preview-to-pen` -> `visual-design-reviewer`
+  - `needs_shared_single_revision` -> `mobile-ui-design-coach` -> shared preview regeneration once -> stop and wait for explicit user restart if another review cycle is desired
+  - `needs_module_single_revision` -> update the active module `ui/ux` documentation -> modify the active module design draft in Pen through `design-preview-to-pen` once -> stop and wait for explicit user restart if another review cycle is desired
   - `blocked` -> whichever upstream skill must provide the missing evidence
 
 ## Hard Rules
@@ -63,6 +63,8 @@ Review complete design drafts the way a strong commercial product designer would
 - Do not route a sub-90 shared draft into the module implementation loop.
 - Do not route a sub-90 module implementation draft back into the shared global-analysis loop unless the problem is genuinely global.
 - Do not treat a module-stage design review failure as a reason to redo module splitting.
+- Do not ask for or imply a second review inside the same failed-review correction cycle.
+- Do not turn one failed review into an endless regenerate -> re-review loop.
 - Do not run this review inline in the parent thread.
 - Do not inherit the full upstream conversation when a compact review packet would suffice.
 - Do not review implementation screenshots as if they were the design source when frozen design artifacts already exist.
@@ -82,8 +84,10 @@ Return:
 - `hierarchy_assessment`
 - `task_guidance_assessment`
 - `cta_assessment`
-- `re_review_required`
-- `re_review_loop_type`
+- `revision_required`
+- `revision_scope`
+- `revision_limit`
+- `post_revision_policy`
 - `recommended_fixes`
 - `next_skill`
 - `freeze_readiness_note`
@@ -91,13 +95,15 @@ Return:
 ## Score Interpretation
 
 - `90-100`: strong commercial draft, freeze-ready if no critical blocker remains.
-- `<90`: not ready for freeze; must return to requirements analysis, image generation, and another review.
+- `<90`: not ready for freeze; must receive one scope-matched revision pass and then stop without another review in the same cycle.
 
 If information hierarchy, key-task guidance, typography hierarchy, contrast, or CTA clarity has a critical failure, do not return a freeze-ready decision even when the total score is otherwise high.
 
 Set `review_execution_mode` to `fresh_subagent` for successful reviews.
-Set `re_review_required` to `true` whenever the score is below `90` or design changes are still required.
-Set `re_review_loop_type` to `shared_regeneration` or `module_regeneration` when re-review is required.
+Set `revision_required` to `true` whenever the score is below `90` or design changes are still required.
+Set `revision_scope` to `shared_single_revision` or `module_single_revision` when revision is required.
+Set `revision_limit` to `one_pass_only` when revision is required; otherwise use `none`.
+Set `post_revision_policy` to `stop_no_re_review` when revision is required; otherwise use `none`.
 
 ## References
 

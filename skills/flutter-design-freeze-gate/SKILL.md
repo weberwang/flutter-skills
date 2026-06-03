@@ -88,6 +88,7 @@ Use these outcomes:
 - Do not accept an inline parent-thread review as a valid `visual-design-reviewer` result.
 - Do not let strong decorative polish mask unclear information hierarchy or weak task guidance.
 - Do not allow a draft with `visual-design-reviewer` score below `90` to enter freeze.
+- Do not treat a post-failure single revision without a new passing review as a substitute for a valid freeze review result.
 - Do not treat “close enough” as a valid exception to the 90-point freeze threshold.
 - Do not allow module splitting to treat shared freeze as page-level freeze.
 - Do not allow Pencil work for an active module before that module's page-level design is frozen.
@@ -122,7 +123,7 @@ Return:
 - User says "Flutter can decide the dark theme later": block until `light-theme-freeze.yaml` and `dark-theme-freeze.yaml` are frozen.
 - User says "the draft looks premium enough, skip review": block and require `visual-design-reviewer`.
 - User says "I already reviewed it in the main thread": block and require a fresh-subagent `visual-design-reviewer` run.
-- User says "the score is 88, just freeze it and we will polish later": block and send the work back through the correct scope-matched regeneration loop before another review.
+- User says "the score is 88, just freeze it and we will polish later": block and send the work back through exactly one correct scope-matched revision pass; after that pass, keep freeze blocked until the user explicitly restarts a new design cycle.
 - User says "the module draft failed review, rerun module splitting": block unless the problem is actually global; default to updating the current module `ui/ux` doc and modifying the current module design draft in Pen.
 - User says "users can figure out the flow after reading carefully": block if the key task still needs interpretation instead of guidance.
 - User says "the CTA is subtle on purpose": block if the primary action is no longer clearly dominant.

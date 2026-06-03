@@ -33,8 +33,8 @@ Act like a product designer and art director, not a prompt decorator. Protect th
 7. Produce the state matrix: ideal, empty, loading, error, permission, partial-data, disabled, success, and locked or premium states when relevant.
 8. Propose two or three directions and recommend one with a designer critique focused on information hierarchy, key-task guidance, typography hierarchy, contrast quality, CTA clarity, and commercial fit, not just style preference.
 9. Output a design freeze card plus prompt, Pencil, or Flutter guardrails depending on the next workflow, and hand approved static-source freezing to `design-preview-to-global-guidelines` when the workflow needs a reusable contract.
-10. When a complete visual draft exists, route it through `visual-design-reviewer` in a fresh subagent before calling the draft freeze-ready or handoff-ready.
-11. If the latest shared/global review score is below `90` or still requires changes, reopen shared requirements analysis, tighten the brief, and prepare the next shared image-generation round instead of trying to freeze the current draft.
+10. When a complete visual draft exists, route it through `visual-design-reviewer` in a fresh subagent before calling the draft freeze-ready or handoff-ready, unless the current draft is only the single allowed post-review shared revision.
+11. If the latest shared/global review score is below `90` or still requires changes, reopen shared requirements analysis once, tighten the brief, and prepare exactly one next shared image-generation round instead of trying to freeze the current draft. After that revised draft is produced, stop the current review chain and return control to the parent workflow or user instead of sending it back into `visual-design-reviewer` automatically.
 12. Keep every recommendation mobile-specific: thumb reach, glanceability, state clarity, and restrained motion matter more than decorative flourish.
 
 ## Hard Rules
@@ -44,6 +44,7 @@ Act like a product designer and art director, not a prompt decorator. Protect th
 - Do not call a design commercial-grade if it only covers the happy path or a single polished home screen.
 - Do not call a design commercial-grade if typography hierarchy, contrast, or CTA emphasis is still ambiguous.
 - Do not treat a sub-90 shared/global visual review as “just a small polish pass”; re-run shared requirements analysis before generating the next draft.
+- Do not send the single allowed post-failure shared revision back into `visual-design-reviewer` automatically within the same correction cycle.
 - Do not skip loading, empty, error, permission, partial-data, and paid or locked states when the work is meant for production.
 - Do not let hero art, decorative effects, or trend styling hide the primary task or business moment.
 - Do not bury the primary CTA under equally weighted secondary actions or ornamental content.
@@ -68,8 +69,8 @@ Act like a product designer and art director, not a prompt decorator. Protect th
 - For Flutter-facing work, add a short implementation note explaining what should be preserved and what should not be copied literally.
 - For approved screenshots or static preview packs that must become a reusable design-source contract, hand the frozen direction to `design-preview-to-global-guidelines` instead of inventing a second global theme contract here.
 - For `design-preview-to-pen`, return an upstream packet covering: design brief, platform baseline, business goal, core path, page scope, art direction, visual system, state matrix, prompt constraints, and acceptance gates.
-- For complete visual drafts, explicitly point the workflow to `visual-design-reviewer` in a fresh subagent before claiming freeze readiness.
-- If the shared/global visual review score is below `90` or still requires changes, return a revised brief and the next preview-generation constraints instead of a freeze-ready recommendation.
+- For complete visual drafts, explicitly point the workflow to `visual-design-reviewer` in a fresh subagent before claiming freeze readiness, unless the current draft is only the single allowed post-review shared revision.
+- If the shared/global visual review score is below `90` or still requires changes, return a revised brief and the next preview-generation constraints for exactly one new shared draft instead of a freeze-ready recommendation, then stop the current review chain.
 
 ## References
 

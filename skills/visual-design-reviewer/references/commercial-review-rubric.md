@@ -103,7 +103,7 @@ Critical failures:
 ## Score Bands
 
 - `90-100`: excellent commercial draft
-- `<90`: not freeze-ready and must re-enter the correct regeneration loop before review
+- `<90`: not freeze-ready and must take exactly one scope-matched revision pass, then stop without another review in the same cycle
 
 ## Review Language
 
@@ -113,13 +113,15 @@ Always write:
 - `weaknesses`: what is visibly weak now
 - `risks`: what could break downstream freeze or implementation
 - `recommended_fixes`: the smallest changes that would most improve quality
-- `re_review_required`: whether the draft must loop back through requirements analysis and regenerated visuals before another review
-- `re_review_loop_type`: `shared_regeneration` or `module_regeneration`
+- `revision_required`: whether the draft must take a scope-matched revision pass
+- `revision_scope`: `shared_single_revision` or `module_single_revision`
+- `revision_limit`: `one_pass_only` when revision is required
+- `post_revision_policy`: `stop_no_re_review` when revision is required
 
 Be specific about typography hierarchy, contrast, and CTA before discussing decorative polish.
 Be even more specific about information hierarchy and key-task guidance before discussing visual polish.
 For freeze-facing reviews, a score below `90` is an automatic fail even if the design looks close.
-Choose the regeneration loop by scope:
+Choose the revision scope by scope:
 
-- `shared_regeneration`: for global/shared drafts before `modules_split`
-- `module_regeneration`: for active-module drafts during implementation preparation, where the current module `ui/ux` doc is adjusted and the current module design draft is modified in Pen before re-review
+- `shared_single_revision`: for global/shared drafts before `modules_split`
+- `module_single_revision`: for active-module drafts during implementation preparation, where the current module `ui/ux` doc is adjusted and the current module design draft is modified in Pen once

@@ -7,11 +7,12 @@
 3. 维护唯一流程记录文件 `docs/rd/00-workflow-record.md`。
 4. 卡住所有未经确认的阶段切换和状态改写。
 
-这次规则更新后，最重要的变化有三条：
+这次规则更新后，最重要的变化有四条：
 
 1. `modules_split` 之前只冻结共享层，不冻结页面级设计。
 2. 模块页面级设计、模块私有组件设计、`ui-ux.md` / `impl.md` 的实施级细化，都放到模块实施准备阶段完成，并且每次状态改写都要确认。
 3. 每次完整设计稿产出后，都要先走 `visual-design-reviewer`，重点检查信息层级、关键任务引导、字体层级、对比度和 CTA 质量，再决定能不能冻结或继续下游。
+4. 无论共享层还是模块层，只要评审不通过，都只允许按对应范围修改一次设计稿或效果图；这次修改完成后，本轮不再继续评审。
 
 ## 先看懂两层冻结
 
@@ -41,7 +42,8 @@
 - 审的是效果图、预览图、静态视觉稿或完整视觉结果
 - `visual-design-reviewer` 评分必须 `>= 90`
 - 只要 `< 90`，或者 review 仍要求改动，就不能冻结
-- 必须回到对应范围的返工闭环，而不是所有场景都走同一条路
+- 只允许按对应范围返工一次
+- 这次返工完成后，本轮流程停止，不再继续评审；若要继续，必须由用户显式重启新的设计轮次
 
 ### 共享层冻结
 
@@ -116,9 +118,11 @@ flowchart LR
 
 只要共享层视觉稿已经完整，就会先自动调用 `visual-design-reviewer`，并且这一步必须由 fresh subagent 执行，重点检查信息层级、关键任务引导、字体层级、对比度和 CTA，再决定能不能进入冻结审批。
 
-如果共享层效果图评分不到 `90`，或者审阅明确要求修改，就不能直接继续冻结，而是必须重新回到共享层返工闭环：
+如果共享层效果图评分不到 `90`，或者审阅明确要求修改，就不能直接继续冻结，而是只允许回到共享层返工一次：
 
-`mobile-ui-design-coach` -> 共享预览/效果图重出 -> `visual-design-reviewer`
+`mobile-ui-design-coach` -> 共享预览/效果图重出
+
+这次共享返工完成后，本轮流程停止，不再自动或默认再次进入 `visual-design-reviewer`。如果还要继续，只能由用户显式重新发起新的共享设计轮次。
 
 ### `global_guidelines_frozen`
 
@@ -181,9 +185,11 @@ flowchart LR
 
 当模块视觉稿已经完整时，也会先走一次 `visual-design-reviewer`，并且这一步也必须由 fresh subagent 执行，避免页面还没审清楚就直接把 Pen 当成可落地产物。
 
-如果模块级效果图或完整视觉稿评分不到 `90`，同样不能进入冻结，但它走的是模块级返工闭环，不是共享层返工闭环：
+如果模块级效果图或完整视觉稿评分不到 `90`，同样不能进入冻结，但它走的是模块级返工一次，不是共享层返工闭环：
 
-更新当前模块 `ui/ux` 文档 -> 在 Pen 中修改当前模块设计稿 -> `visual-design-reviewer`
+更新当前模块 `ui/ux` 文档 -> 在 Pen 中修改当前模块设计稿
+
+这次模块返工完成后，本轮流程停止，不再自动或默认再次进入 `visual-design-reviewer`。如果还要继续，只能由用户显式重新发起新的模块设计轮次。
 
 ### `pen_frozen`
 
@@ -283,9 +289,16 @@ pending_status_updates: home.uiux_status=implementation_final; home.impl_status=
 - `uiux_status`
 - `impl_status`
 - `visual_review`
+- `review_followup_status`
 - `pen_status`
 - `code_status`
 - `pending_status_updates`
+
+其中 `review_followup_status` 用来表达失败评审后的那次唯一返工是否已经用掉：
+
+- `not_needed`
+- `revision_pending`
+- `revision_completed_no_re_review`
 
 ## 这些状态怎么理解
 
