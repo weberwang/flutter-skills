@@ -33,6 +33,7 @@ This file is the single stable source for project workflow state. It should let 
 - whether code has landed for the active module
 - what blockers still prevent the next move
 - whether `flutter-init` has already produced the scaffold and project-local `skills/flutter-dev/`
+- whether the shared bootstrap-critical baseline is already clear enough to trigger `flutter-init`
 - whether the orchestrator is currently running in manual mode or `--auto`
 - whether `--auto` is still actively advancing remaining modules or has reached a valid stop condition
 
@@ -225,6 +226,7 @@ Append short dated entries only when a stage changes, a blocker is cleared, a ro
 - If a freeze evaluation fails, keep the current stage unchanged, clear any queued freeze promotion, and route back to the correct upstream skill for exactly one scope-matched revision pass.
 - If `execution_mode=auto`, the orchestrator should apply deterministic queued transitions and queued status updates without pausing for ordinary downstream confirmation, and it must stop only when the implementation boundary is reached or when a blocker appears.
 - If `execution_mode=auto`, the orchestrator must not stop just because one module reached a local milestone such as `implementation_final`, `module_design_frozen`, `impl_rd_ready`, or `architecture_ready`.
+- If the shared bootstrap-critical baseline is ready and the project scaffold is still missing, the orchestrator should prefer `flutter-init` before waiting for every feature module to reach later architecture milestones.
 - If `execution_mode=auto`, after one module reaches a local milestone, immediately update `current_module`, `current_stage`, `next_skill`, the active module row, and `decision_log` to reflect the next real pre-implementation action.
 - If `execution_mode=auto`, `current_module` means only the module being processed now. It must not imply that the current auto run is scoped to that single module.
 - If `execution_mode=auto`, `workflow_summary` and `next_action` must explicitly state which modules remain to be advanced. Do not imply that auto is complete while target modules are still pending.
@@ -237,6 +239,7 @@ Append short dated entries only when a stage changes, a blocker is cleared, a ro
 - If the user rejects a pending transition or pending status change, keep the current confirmed stage and maturity values, set `confirmation_status: rejected`, and write the rejection reason into blockers plus the decision log.
 - If a step returns `blocked`, keep `current_stage` unchanged, clear `pending_next_stage`, `pending_next_skill`, and `pending_status_updates` to `none`, and do not rewrite the module into the next workflow state or next maturity level.
 - If `flutter-init` completes, update the global artifact index with the project root, initialization summary, and `skills/flutter-dev/` path, then queue the relevant stage as `project_initialized` instead of switching immediately.
+- If `flutter-init` has not run yet, record whether the shared bootstrap-critical baseline is already ready or still blocked, so the next routing decision can tell whether initialization should happen now.
 - If the workflow is entering module implementation, record that execution must run through `@superpowers`; if corresponding page-image evidence exists, mention that display-layer landing should consult `$image-to-code`.
 - If architecture planning decides that a visual must become a bitmap asset, record the selected asset path or the pending `$imagegen` generation need explicitly.
 - If display-layer readiness preflight is required, record whether the main preview, detail previews, structure semantics, and display-layer decision table are all ready.
@@ -269,5 +272,6 @@ Append short dated entries only when a stage changes, a blocker is cleared, a ro
 - Do not rewrite `current_stage` to a later workflow state when the latest routing result is `blocked`.
 - Do not mark `project_initialized` unless both the scaffold and project-local `skills/flutter-dev/` exist.
 - Do not let `execution_mode=auto` enter `implementing` or set `code_status=in_progress`.
+- Do not wait for every feature module to finish late-stage architecture planning before triggering `flutter-init` when the shared bootstrap-critical baseline is already sufficient.
 - Do not hide the `@superpowers` implementation ownership or `$image-to-code` display-layer dependency when the module is already at the implementation boundary and those controls are relevant.
 - Do not require `pen_file`, `pen_status`, page-level Pen, `.pen`, or Pencil MCP data in the default workflow record.
