@@ -32,6 +32,20 @@ rtk python skills/gpt-image-2-generator/scripts/image_gen.py \
 5. Run the live request and write outputs to an explicit local path.
 6. Report the output path, the final prompt summary, and any quality risks that still need a second pass.
 
+## Flutter Workflow Usage
+
+When this skill is called from the Flutter workflow:
+
+1. Treat the target as app-page visual evidence, not a generic collage.
+2. Generate one file per page or screen and name the output file after that page or screen.
+3. Save shared or global reference images under `docs/rd/`.
+4. Save module-specific page images under `docs/rd/modules/<module>/`.
+5. If one generated module page is selected as the global reference, copy that same image into both locations:
+   - `docs/rd/<page-name>.<ext>`
+   - `docs/rd/modules/<module>/<page-name>.<ext>`
+6. If `IMAGE_BASE_URL` or `IMAGE_API_KEY` is missing, do not send a request. Return control so the upstream workflow can continue without generated images.
+7. Prefer prompts that describe a concrete app page, state, and information hierarchy. Avoid mood-board phrasing when the output will drive implementation.
+
 ## Command Patterns
 
 ### Single image
@@ -67,11 +81,25 @@ rtk python skills/gpt-image-2-generator/scripts/image_gen.py \
   --out-dir output/imagegen/mascot-set
 ```
 
+### Flutter page evidence
+
+```bash
+rtk python skills/gpt-image-2-generator/scripts/image_gen.py \
+  --prompt "Rewards home page for a mobile lifestyle app" \
+  --use-case "Flutter module freeze visual evidence" \
+  --subject "Single mobile app page named rewards-home with header, progress card, offers list, and bottom action area" \
+  --style "High-fidelity mobile product preview" \
+  --composition "One app page per file, front-facing, readable hierarchy" \
+  --constraints "No collage, no second screen, preserve realistic mobile spacing" \
+  --out docs/rd/modules/rewards/rewards-home.png
+```
+
 ## Environment Rules
 
 - `IMAGE_BASE_URL` and `IMAGE_API_KEY` are required. Do not hardcode them and do not pass secrets through prompt files.
 - `IMAGE_BASE_URL` should point to the API root, for example `https://your-endpoint.example/v1`. The script appends `/images/generations` automatically unless the value already ends with that path.
 - The bundled script targets `gpt-image-2` only. If the request depends on transparent backgrounds, image editing, or a different model family, stop and use another workflow.
+- Upstream workflow skills should check whether both environment variables exist before invoking a live generation request. If either value is missing, skip generation instead of treating that as a blocker.
 
 ## Hard Rules
 
@@ -80,6 +108,8 @@ rtk python skills/gpt-image-2-generator/scripts/image_gen.py \
 - Do not claim text rendered inside an image is correct unless it was visually checked afterward.
 - Do not assume transparent output is available; this skill is generation-only and does not implement the transparent-background fallback path.
 - Do not bypass script validation for custom sizes; let the helper reject invalid dimensions first.
+- Do not generate unnamed image sets when the Flutter workflow needs page-addressable evidence for module freeze or display-layer implementation.
+- Do not generate a multi-screen board when the downstream task expects one app page per file.
 
 ## References
 

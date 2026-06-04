@@ -1,6 +1,6 @@
 ---
 name: flutter-rd-module-splitter
-description: Use when a Flutter PRD plus global technical baseline must be decomposed into bounded modules with paired draft UI/UX and implementation RDs, or when an active module entering implementation preparation must refine those drafts into implementation-final documents.
+description: Use when a Flutter PRD plus global technical baseline must be decomposed into bounded modules with paired draft UI/UX and implementation RDs, or when an active module entering implementation preparation needs the paired-doc refinement contract that `@superpowers` should execute against.
 ---
 
 # Flutter RD Module Splitter
@@ -12,11 +12,11 @@ Split broad Flutter product requirements into executable modules after the globa
 This skill has two modes:
 
 1. Initial split mode: create paired `ui-ux` and `impl` draft documents for each module during `modules_split`, while defining module dependencies and parallel implementation stages in the module index.
-2. Implementation refinement mode: revisit one active module during implementation preparation and refine its existing draft docs to implementation-final granularity after shared taste direction is available.
+2. Implementation refinement contract mode: define how one active module's existing paired docs must be refined to implementation-final granularity after shared taste direction is available.
 
-The initial split is not page-level freeze and not implementation-ready by default. It creates structured drafts, module boundaries, and an explicit implementation-order view. The later refinement pass turns one active module into an implementation-ready document set without pretending the whole product is already landed. The default workflow no longer prepares page-level Pen artifacts; it prepares a frozen UI/UX design-source packet for Flutter architecture and code.
+The initial split is not page-level freeze and not implementation-ready by default. It creates structured drafts, module boundaries, and an explicit implementation-order view. The later refinement contract defines what one active module must contain before design freeze and code without pretending the whole product is already landed. In the default workflow, that refinement execution should be carried out through `@superpowers`, while this skill remains the source of truth for paired-doc structure and refinement completeness. The default workflow no longer prepares page-level Pen artifacts; it prepares a frozen UI/UX design-source packet for Flutter architecture and code.
 
-This skill refines one active module per call. When `flutter-workflow-orchestrator --auto` is driving the workflow, the orchestrator must call this skill repeatedly across dependency-safe modules until all target modules reach the pre-implementation boundary, not stop after one refined module.
+This skill defines one active module's refinement target per call. When `flutter-workflow-orchestrator --auto` is driving the workflow, the orchestrator should reuse this contract across dependency-safe modules until all target modules reach the pre-implementation boundary, not stop after one refined module.
 
 ## Required Inputs
 
@@ -66,7 +66,7 @@ Do not default to a vague technical module name like `main`. Prefer a responsibi
 6. If global package or architecture decisions are missing, block splitting and route to `flutter-prd-rd-writer`.
 7. Decide the mode:
    - Initial split mode if paired module docs do not exist yet.
-   - Implementation refinement mode if the active module already has paired docs and the workflow is preparing that module for module design freeze and code.
+   - Implementation refinement contract mode if the active module already has paired docs and the workflow is preparing that module for module design freeze and code.
 8. In initial split mode:
    - Build a module map with module name, responsibility, pages, data owner, package or architecture constraints, upstream dependencies, downstream dependencies, implementation preconditions, and release value.
    - Evaluate whether the product needs a dedicated `app-shell` module before feature-module decomposition. If multiple features share one root scaffold, root navigation state, or shell-level routing logic, split that shell out explicitly instead of hiding it inside prose.
@@ -77,22 +77,23 @@ Do not default to a vague technical module name like `main`. Prefer a responsibi
       - `docs/rd/modules/<module>/<module>.impl.md`
    - Write both docs as `split_draft`, not implementation-final.
    - Mark each module with its initial workflow state, normally `modules_split`, so `flutter-workflow-orchestrator` can write that state into the global workflow record.
-9. In implementation refinement mode:
+9. In implementation refinement contract mode:
    - Refine only the active module's existing docs.
    - Expand the paired docs to implementation-final granularity.
    - Keep inherited global package and architecture decisions unchanged unless the user explicitly requests a baseline revision upstream.
    - Add the detail needed for module design-source freeze and later code implementation, but do not mark the docs as landed here.
    - Incorporate taste direction into page hierarchy, typography intent, contrast posture, CTA priority, spacing rhythm, motion role, and anti-template rules.
+   - In the default workflow, treat this as the document contract that `@superpowers` must execute rather than a reason to bypass `@superpowers`.
 10. Ensure the global workflow record path is reserved as `docs/rd/00-workflow-record.md`; stage tracking belongs there, not inside per-module workflow notes.
 11. Generate or update `docs/rd/00-module-index.md` when the user asks for files to be written.
 12. Treat `docs/rd/00-module-index.md` as the canonical split-stage coordination index:
    - Include a module table with module name, responsibility summary, paired doc paths, `depends_on`, `unblocks`, `parallel_group`, recommended implementation stage, and blocking assumptions.
    - Include a parallel execution section that groups modules by stage or wave and explicitly states which modules can be implemented in the same stage.
    - Include dependency notes that explain why a module must precede another module when the dependency is not obvious from the table alone.
-13. In implementation refinement mode, update only the affected module row and any directly impacted stage or dependency notes unless the refinement reveals a real module-boundary change.
+13. In implementation refinement contract mode, update only the affected module row and any directly impacted stage or dependency notes unless the refinement reveals a real module-boundary change.
 14. Return workflow recommendations instead of editing the workflow record directly:
    - Initial split mode normally recommends `current_state=modules_split`, `uiux_status=split_draft`, and `impl_status=split_draft`.
-   - Implementation refinement mode normally recommends `current_state=module_uiux_refinement`, `uiux_status=implementation_final`, and `impl_status=implementation_final`.
+   - Implementation refinement contract mode normally recommends `current_state=module_uiux_refinement`, `uiux_status=implementation_final`, and `impl_status=implementation_final`.
    - Those recommendations are local module results, not an instruction for `--auto` to stop after the current module.
 
 ## Module Index Contract
@@ -150,7 +151,7 @@ In initial split mode, the document must cover:
 
 ### Implementation-final expansion
 
-In implementation refinement mode, expand the same document to directly implementable granularity:
+In implementation refinement contract mode, expand the same document to directly implementable granularity:
 
 - Page-by-page structure and section hierarchy.
 - Component inventory and reuse boundaries for that module.
@@ -189,7 +190,7 @@ In initial split mode, the implementation RD must identify:
 
 ### Implementation-final expansion
 
-In implementation refinement mode, expand the same document to directly implementable granularity:
+In implementation refinement contract mode, expand the same document to directly implementable granularity:
 
 - Screen-level state ownership and coordination.
 - Detailed loading, empty, retry, permission, and failure behavior.
@@ -219,6 +220,7 @@ In implementation refinement mode, expand the same document to directly implemen
 - Do not mark `uiux_status` or `impl_status` as `landed` here. Landed status only happens after the module design-source packet is frozen and confirmed through the orchestrator.
 - Do not refine unrelated modules when only one active module is entering implementation preparation.
 - Do not reinterpret one module's refinement result as completion of the whole auto run. Cross-module continuation belongs to `flutter-workflow-orchestrator`.
+- Do not let this skill bypass `@superpowers` for default-workflow module refinement execution.
 - Do not leave module-level reusable components completely undefined in UI/UX RD when the module clearly contains repeated non-page building blocks.
 - Do not perform detailed module UI/UX refinement before taste direction exists. If taste direction is missing, block and route upstream.
 - Do not hide a real root-shell dependency inside multiple feature modules. If the shell has independent state or routing responsibility, split it explicitly as `app-shell` or `root-shell`.

@@ -1,4 +1,4 @@
 interface:
   display_name: "Flutter UIUX To Architecture"
   short_description: "Map frozen UI/UX design sources into Flutter architecture"
-  default_prompt: "Use $flutter-uiux-to-architecture to translate frozen Flutter UI/UX RD, implementation RD, taste constraints, theme artifacts, visual evidence, and module design-source packets into Flutter tokens, assets, component decomposition, screen architecture, state architecture, and implementation boundaries without requiring Pen or Pencil."
+  default_prompt: "Use $flutter-uiux-to-architecture to translate frozen Flutter UI/UX RD, implementation RD, taste constraints, theme artifacts, visual evidence, and module design-source packets into Flutter tokens, assets, component decomposition, screen architecture, state architecture, implementation boundaries, and a native-vs-bitmap decision for visually complex effects. When a visual cannot be reproduced natively in Flutter with reasonable fidelity and cost, record it as a `$imagegen` project asset fallback instead of forcing a code-only rebuild."
