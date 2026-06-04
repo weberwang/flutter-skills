@@ -240,7 +240,7 @@ Append short dated entries only when a stage changes, a blocker is cleared, a ro
 - If a step returns `blocked`, keep `current_stage` unchanged, clear `pending_next_stage`, `pending_next_skill`, and `pending_status_updates` to `none`, and do not rewrite the module into the next workflow state or next maturity level.
 - If `flutter-init` completes, update the global artifact index with the project root, initialization summary, and `skills/flutter-dev/` path, then queue the relevant stage as `project_initialized` instead of switching immediately.
 - If `flutter-init` has not run yet, record whether the shared bootstrap-critical baseline is already ready or still blocked, so the next routing decision can tell whether initialization should happen now.
-- If the workflow is entering module implementation, record that execution must run through `@superpowers`; if corresponding page-image evidence exists, mention that display-layer landing should consult `$image-to-code`.
+- If the workflow is entering module refinement or module implementation, record that execution must be explicitly invoked through `@superpowers`; if corresponding page-image evidence exists, mention that display-layer landing should consult `$image-to-code`.
 - If architecture planning decides that a visual must become a bitmap asset, record the selected asset path or the pending `$imagegen` generation need explicitly.
 - If display-layer readiness preflight is required, record whether the main preview, detail previews, structure semantics, and display-layer decision table are all ready.
 - If a module is blocked, write the blocker both in the metadata summary section and in the module row.
@@ -274,4 +274,5 @@ Append short dated entries only when a stage changes, a blocker is cleared, a ro
 - Do not let `execution_mode=auto` enter `implementing` or set `code_status=in_progress`.
 - Do not wait for every feature module to finish late-stage architecture planning before triggering `flutter-init` when the shared bootstrap-critical baseline is already sufficient.
 - Do not hide the `@superpowers` implementation ownership or `$image-to-code` display-layer dependency when the module is already at the implementation boundary and those controls are relevant.
+- Do not record a refinement or implementation step as valid if it was routed directly to a downstream execution skill without explicit `@superpowers` invocation.
 - Do not require `pen_file`, `pen_status`, page-level Pen, `.pen`, or Pencil MCP data in the default workflow record.

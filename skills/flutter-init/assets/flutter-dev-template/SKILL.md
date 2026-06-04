@@ -14,6 +14,7 @@ Operate on the initialized {{PROJECT_NAME}} Flutter app using the project decisi
 - This skill only constrains code implementation work inside the initialized project.
 - Do not use this skill to handle project initialization, plugin setup, plugin reconfiguration, or `--force` flows.
 - Initialization and plugin handling stay in `flutter-init`.
+- In the default Flutter workflow, do not invoke this skill as a standalone replacement for `@superpowers`. Module refinement and module implementation must still be explicitly triggered through `@superpowers`, with this skill serving only as project-local implementation context.
 
 ## Required Base Policy
 
@@ -46,6 +47,7 @@ Operate on the initialized {{PROJECT_NAME}} Flutter app using the project decisi
 - If `@riverpod`, `@freezed`, `@JsonSerializable`, or `@RestApi` can express the current contract, do not ship a hand-written equivalent implementation.
 - Do not create cross-feature dependencies without updating the feature map and rationale.
 - Do not take over initialization, plugin setup, or force-based reconfiguration responsibilities.
+- Do not use this skill as a standalone path that bypasses explicit `@superpowers` invocation for module refinement or module implementation.
 - If this project uses `flutter_hooks` or `hooks_riverpod`, do not write new applicable UI logic as `StatefulWidget` or manual lifecycle glue where hooks can express it directly.
 - Replace every `{{PLACEHOLDER}}` before shipping this generated skill with the project.
 

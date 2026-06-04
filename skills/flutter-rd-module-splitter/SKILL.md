@@ -14,7 +14,7 @@ This skill has two modes:
 1. Initial split mode: create paired `ui-ux` and `impl` draft documents for each module during `modules_split`, while defining module dependencies and parallel implementation stages in the module index.
 2. Implementation refinement contract mode: define how one active module's existing paired docs must be refined to implementation-final granularity after shared taste direction is available.
 
-The initial split is not page-level freeze and not implementation-ready by default. It creates structured drafts, module boundaries, and an explicit implementation-order view. The later refinement contract defines what one active module must contain before design freeze and code without pretending the whole product is already landed. In the default workflow, that refinement execution should be carried out through `@superpowers`, while this skill remains the source of truth for paired-doc structure and refinement completeness. The default workflow no longer prepares page-level Pen artifacts; it prepares a frozen UI/UX design-source packet for Flutter architecture and code.
+The initial split is not page-level freeze and not implementation-ready by default. It creates structured drafts, module boundaries, and an explicit implementation-order view. The later refinement contract defines what one active module must contain before design freeze and code without pretending the whole product is already landed. In the default workflow, that refinement execution must be explicitly carried out through `@superpowers`, while this skill remains the source of truth for paired-doc structure and refinement completeness. The default workflow no longer prepares page-level Pen artifacts; it prepares a frozen UI/UX design-source packet for Flutter architecture and code.
 
 This skill defines one active module's refinement target per call. When `flutter-workflow-orchestrator --auto` is driving the workflow, the orchestrator should reuse this contract across dependency-safe modules until all target modules reach the pre-implementation boundary, not stop after one refined module.
 
@@ -83,7 +83,7 @@ Do not default to a vague technical module name like `main`. Prefer a responsibi
    - Keep inherited global package and architecture decisions unchanged unless the user explicitly requests a baseline revision upstream.
    - Add the detail needed for module design-source freeze and later code implementation, but do not mark the docs as landed here.
    - Incorporate taste direction into page hierarchy, typography intent, contrast posture, CTA priority, spacing rhythm, motion role, and anti-template rules.
-   - In the default workflow, treat this as the document contract that `@superpowers` must execute rather than a reason to bypass `@superpowers`.
+   - In the default workflow, treat this as the document contract that `@superpowers` must explicitly execute rather than a reason to bypass `@superpowers`.
 10. Ensure the global workflow record path is reserved as `docs/rd/00-workflow-record.md`; stage tracking belongs there, not inside per-module workflow notes.
 11. Generate or update `docs/rd/00-module-index.md` when the user asks for files to be written.
 12. Treat `docs/rd/00-module-index.md` as the canonical split-stage coordination index:
@@ -232,6 +232,7 @@ In implementation refinement contract mode, expand the same document to directly
 - Do not refine unrelated modules when only one active module is entering implementation preparation.
 - Do not reinterpret one module's refinement result as completion of the whole auto run. Cross-module continuation belongs to `flutter-workflow-orchestrator`.
 - Do not let this skill bypass `@superpowers` for default-workflow module refinement execution.
+- Do not directly use this skill as the execution engine for active-module refinement in the default workflow; the actual refinement step must be invoked through `@superpowers`.
 - Do not leave module-level reusable components completely undefined in UI/UX RD when the module clearly contains repeated non-page building blocks.
 - Do not leave scroll, list, overlay, relative-layout, or sticky behavior to image-only interpretation when the module is entering implementation preparation.
 - Do not perform detailed module UI/UX refinement before taste direction exists. If taste direction is missing, block and route upstream.
