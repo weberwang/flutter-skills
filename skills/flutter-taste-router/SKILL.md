@@ -64,7 +64,7 @@ Optional:
 4. Normalize the result into one Flutter-facing design packet.
 5. Before a freeze decision, inspect the matching shared or module directory for existing static page images that already satisfy the needed evidence.
 6. If static evidence is missing, check `IMAGE_BASE_URL` and `IMAGE_API_KEY`.
-7. If both environment variables exist, call `gpt-image-2-generator` to generate page-specific app preview images, save each file with its page or screen name, and when one module page is chosen as the global reference, save that selected preview under `docs/rd/` and copy the same file into the related module directory.
+7. If both environment variables exist, call `gpt-image-2-generator` to generate light-mode page-specific app preview images, save each file with its page or screen name, and when one module page is chosen as the global reference, save that selected preview under `docs/rd/` and copy the same file into the related module directory.
 8. If either environment variable is missing, continue with the textual design packet instead of blocking on image generation.
 9. If static visual evidence is approved and should become reusable frozen global guidance, route the result into `design-preview-to-global-guidelines`.
 10. If the packet is still too weak for freeze, return one scope-matched revision plan instead of pretending it is ready.
@@ -129,6 +129,7 @@ Every successful run must return one packet with at least:
 - Do not route to code or architecture directly from taste exploration without producing the packet first.
 - Do not skip the textual normalization pass before looking at static visuals.
 - Do not generate new app previews before checking whether the target directories already contain usable page images.
+- Do not treat dark-mode previews as the default workflow evidence set; default generated and selected workflow previews must remain in light mode unless the user explicitly overrides that choice.
 - Do not block the workflow on static visuals when `IMAGE_BASE_URL` or `IMAGE_API_KEY` is missing; continue with the textual packet and mark the gap explicitly.
 - Do not generate generic mood boards or unnamed collages when the workflow needs app-page evidence; generate page-specific app previews named after the corresponding page.
 - In `--auto` mode, do not stop for missing shared static visuals when `gpt-image-2-generator` can generate them; generate the missing page previews and continue.

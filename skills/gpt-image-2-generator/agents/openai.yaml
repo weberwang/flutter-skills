@@ -1,4 +1,4 @@
 interface:
   display_name: "GPT Image 2 Generator"
   short_description: "Generate local images through custom gpt-image-2 API"
-  default_prompt: "Use $gpt-image-2-generator to generate one or more local images with gpt-image-2 through a custom base URL and API key loaded from environment variables. In the Flutter workflow, generate page-specific app preview images, save them to explicit shared or module paths using the corresponding page names, and do not send a live request when IMAGE_BASE_URL or IMAGE_API_KEY is missing."
+  default_prompt: "Use $gpt-image-2-generator to generate one or more local images with gpt-image-2 through a custom base URL and API key loaded from environment variables. In the Flutter workflow, generate light-mode page-specific app preview images, save them to explicit shared or module paths using the corresponding page names, and do not send a live request when IMAGE_BASE_URL or IMAGE_API_KEY is missing."

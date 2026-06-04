@@ -38,13 +38,14 @@ When this skill is called from the Flutter workflow:
 
 1. Treat the target as app-page visual evidence, not a generic collage.
 2. Generate one file per page or screen and name the output file after that page or screen.
-3. Save shared or global reference images under `docs/rd/`.
-4. Save module-specific page images under `docs/rd/modules/<module>/`.
-5. If one generated module page is selected as the global reference, copy that same image into both locations:
+3. Use light mode as the default visual baseline for all workflow previews unless the upstream request explicitly overrides that requirement.
+4. Save shared or global reference images under `docs/rd/`.
+5. Save module-specific page images under `docs/rd/modules/<module>/`.
+6. If one generated module page is selected as the global reference, copy that same image into both locations:
    - `docs/rd/<page-name>.<ext>`
    - `docs/rd/modules/<module>/<page-name>.<ext>`
-6. If `IMAGE_BASE_URL` or `IMAGE_API_KEY` is missing, do not send a request. Return control so the upstream workflow can continue without generated images.
-7. Prefer prompts that describe a concrete app page, state, and information hierarchy. Avoid mood-board phrasing when the output will drive implementation.
+7. If `IMAGE_BASE_URL` or `IMAGE_API_KEY` is missing, do not send a request. Return control so the upstream workflow can continue without generated images.
+8. Prefer prompts that describe a concrete app page, state, and information hierarchy. Avoid mood-board phrasing when the output will drive implementation.
 
 ## Command Patterns
 
@@ -105,6 +106,7 @@ rtk python skills/gpt-image-2-generator/scripts/image_gen.py \
 
 - Do not silently substitute another model when the request explicitly requires `gpt-image-2`.
 - Do not send a live request when either environment variable is missing.
+- Do not generate dark-mode workflow previews by default. Use light mode unless the upstream workflow explicitly requests another mode.
 - Do not claim text rendered inside an image is correct unless it was visually checked afterward.
 - Do not assume transparent output is available; this skill is generation-only and does not implement the transparent-background fallback path.
 - Do not bypass script validation for custom sizes; let the helper reject invalid dimensions first.

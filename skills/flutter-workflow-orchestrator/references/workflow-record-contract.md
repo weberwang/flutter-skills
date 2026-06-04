@@ -25,7 +25,9 @@ This file is the single stable source for project workflow state. It should let 
 - whether freeze preparation already passed through `flutter-taste-router` textual normalization
 - whether a shared or module design-source package has already been freeze-evaluated
 - whether shared or module page-level static visual evidence already exists in the expected directories
+- whether the accepted workflow preview set is confirmed as light-mode evidence
 - whether implementation planning identified any non-native visual asset that should be generated through `$imagegen`
+- whether display-layer readiness preflight is complete before implementation begins
 - whether a module document is still a split draft, already implementation-final, or already landed
 - whether the module design-source packet is frozen
 - whether code has landed for the active module
@@ -122,6 +124,8 @@ If the active module still has `split_draft` docs, say so explicitly.
 
 If freeze preparation is in progress, state whether `flutter-taste-router` textual normalization is already complete and whether static-image directory inspection has already happened.
 
+If previews are present, state whether the workflow is using the required light-mode preview baseline or an explicitly approved override.
+
 ### `current_module_detail`
 
 Record the active module, or `not_selected` if the workflow is still global.
@@ -133,6 +137,8 @@ Mention the latest freeze decision or blocker for that module when it exists.
 If the module is entering implementation, mention whether its paired `ui-ux.md` and `impl.md` are both implementation-final and whether corresponding page-image evidence exists for display-layer landing.
 
 If implementation planning already identified bitmap-only visual effects, mention whether they are pending generation, already saved into the project, or already wired into the implementation plan.
+
+If display-layer work is about to begin, mention whether the readiness preflight passed and whether a concrete display-layer decision table already exists.
 
 ### `next_action`
 
@@ -178,6 +184,7 @@ Track project-level artifact paths when known, such as:
 - `dark-theme-freeze.yaml`
 - shared freeze evidence or freeze decision
 - shared global preview image under `docs/rd/`
+- whether the shared preview set is light mode or an explicitly approved override
 - architecture summary
 - Flutter project root
 - `flutter-init` summary
@@ -213,6 +220,7 @@ Append short dated entries only when a stage changes, a blocker is cleared, a ro
 - If taste direction is produced, index its artifact path in `global_artifact_index` and link it from active module rows when relevant.
 - If `flutter-taste-router` completes textual normalization, record that status in the relevant summary or decision entry before any freeze promotion is queued.
 - If freeze preparation inspects static-image directories, record whether existing evidence was reused, skipped due to missing environment variables, or newly generated.
+- If previews are accepted for workflow use, record whether they satisfy the default light-mode requirement.
 - If `design-preview-to-global-guidelines` artifacts are created, update the relevant module row and queue `global_guidelines_frozen` in `pending_next_stage` instead of switching immediately.
 - If a freeze evaluation fails, keep the current stage unchanged, clear any queued freeze promotion, and route back to the correct upstream skill for exactly one scope-matched revision pass.
 - If `execution_mode=auto`, the orchestrator should apply deterministic queued transitions and queued status updates without pausing for ordinary downstream confirmation, and it must stop only when the implementation boundary is reached or when a blocker appears.
@@ -231,6 +239,7 @@ Append short dated entries only when a stage changes, a blocker is cleared, a ro
 - If `flutter-init` completes, update the global artifact index with the project root, initialization summary, and `skills/flutter-dev/` path, then queue the relevant stage as `project_initialized` instead of switching immediately.
 - If the workflow is entering module implementation, record that execution must run through `@superpowers`; if corresponding page-image evidence exists, mention that display-layer landing should consult `$image-to-code`.
 - If architecture planning decides that a visual must become a bitmap asset, record the selected asset path or the pending `$imagegen` generation need explicitly.
+- If display-layer readiness preflight is required, record whether the main preview, detail previews, structure semantics, and display-layer decision table are all ready.
 - If a module is blocked, write the blocker both in the metadata summary section and in the module row.
 - If the workflow completes, set `workflow_status: completed`.
 
@@ -245,7 +254,9 @@ Append short dated entries only when a stage changes, a blocker is cleared, a ro
 - Do not mark `uiux_status=landed` or `impl_status=landed` before the docs reference a confirmed frozen design-source packet.
 - Do not mark `code_status=landed` before code output actually exists.
 - Do not claim static visual evidence was generated before recording whether the directory was checked first and whether the image environment variables were actually available.
+- Do not accept preview evidence into the workflow record without stating whether it meets the default light-mode requirement.
 - Do not hide a required `$imagegen` bitmap fallback inside prose without indexing the asset path or pending generation note.
+- Do not mark a module ready for display-layer landing while the required preflight inputs or decision table are still missing.
 - Do not treat a complete design draft as freeze-ready when the design package is still incomplete.
 - Do not switch to the next process while `confirmation_status` is `pending_confirmation`, unless `execution_mode=auto` and the next move is still before the implementation boundary.
 - Do not let `execution_mode=auto` stop because one module reached a local completed state while other target modules still remain.

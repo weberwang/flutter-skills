@@ -128,11 +128,19 @@ Each `<module>.ui-ux.md` must include these minimum sections:
 - Page scope and navigation entry.
 - Core user path.
 - State matrix.
+- Structure semantics section.
 - Design source section.
 - Design freeze card section.
 - Module-level non-page component design skeleton covering repeated controls, cards, bars, list items, dialogs, chips, or other shared building blocks that belong to the module.
 - For each important module-level component, document at least intended usage scope, expected states or variants, reuse boundaries, and whether the component is expected to be frozen in the module design-source packet.
 - State matrix: ideal, empty, loading, error, permission, partial data, disabled, success, locked or premium when relevant.
+- Structure semantics section must include at least:
+  - `scroll_model`: whole-page scroll, local scroll, fixed zone, or mixed
+  - `list_model`: static block, repeated list, grouped list, grid, or mixed
+  - `overlay_model`: none, floating action, badge overlay, bottom action area, modal layer, or mixed
+  - `layout_model`: linear, layered, relative-positioned, or mixed
+  - `sticky_model`: none, sticky header, sticky tab/filter, sticky footer, or mixed
+  - `component_repeatability`: which parts must become reusable repeated components
 - Design source section with taste direction, future visual evidence, and future `global-design-guidelines.md`, `light-theme-freeze.yaml`, and `dark-theme-freeze.yaml` references when approved static previews exist.
 - Design freeze card section reserved for later approval, including reserved fields for module-level component freeze decisions.
 - Acceptance gates for UI/UX, module design freeze, and code handoff.
@@ -145,6 +153,7 @@ In initial split mode, the document must cover:
 - Page family and navigation ownership.
 - Core path and key alternate states.
 - Coarse state matrix: ideal, empty, loading, error, permission, partial data, disabled, success, locked or premium when relevant.
+- Initial structure semantics for scroll, list, overlay, layout, sticky behavior, and component repeatability.
 - Shared design references, taste constraints, and future visual-evidence placeholders when approved static previews exist.
 - Open questions that block implementation-level detail later.
 - If a shell module exists, the document must state whether navigation ownership belongs to that shell or to the current module.
@@ -154,6 +163,7 @@ In initial split mode, the document must cover:
 In implementation refinement contract mode, expand the same document to directly implementable granularity:
 
 - Page-by-page structure and section hierarchy.
+- Explicit structure semantics refined enough for implementation decisions. Do not leave scroll, list, overlay, or sticky behavior implied only by screenshots.
 - Component inventory and reuse boundaries for that module.
 - Interaction rules, transitions, disabled logic, and recovery paths.
 - Edge-state handling that code must preserve.
@@ -198,6 +208,7 @@ In implementation refinement contract mode, expand the same document to directly
 - Repository/service responsibilities and mutation boundaries.
 - Analytics events, monitoring hooks, and test scope at implementation level.
 - Explicit notes about how the later frozen design-source packet must be consumed by code.
+- Display-layer decision notes that explain which parts are visually inferred from preview images and which parts are fixed by documented interaction or state semantics.
 
 ## Hard Rules
 
@@ -222,6 +233,7 @@ In implementation refinement contract mode, expand the same document to directly
 - Do not reinterpret one module's refinement result as completion of the whole auto run. Cross-module continuation belongs to `flutter-workflow-orchestrator`.
 - Do not let this skill bypass `@superpowers` for default-workflow module refinement execution.
 - Do not leave module-level reusable components completely undefined in UI/UX RD when the module clearly contains repeated non-page building blocks.
+- Do not leave scroll, list, overlay, relative-layout, or sticky behavior to image-only interpretation when the module is entering implementation preparation.
 - Do not perform detailed module UI/UX refinement before taste direction exists. If taste direction is missing, block and route upstream.
 - Do not hide a real root-shell dependency inside multiple feature modules. If the shell has independent state or routing responsibility, split it explicitly as `app-shell` or `root-shell`.
 - Do not create a generic `main` module name. Use a responsibility-driven shell name instead.
