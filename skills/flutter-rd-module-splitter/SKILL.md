@@ -185,6 +185,14 @@ Each `<module>.impl.md` must include:
 - Data, security, analytics, monitoring, rollout, and test scope.
 - Module-specific implementation constraints that do not override global decisions.
 - Statement that implementation must not change approved UI/UX decisions after freeze.
+- A scan-friendly refinement provenance block with `superpowers_refinement_status`.
+- Optional `superpowers_refinement_date` and `superpowers_refinement_notes` when the provenance needs extra audit detail.
+
+Use these provenance values consistently:
+
+- `verified_executed`: only when the active module refinement was truly executed through explicit `@superpowers` invocation and the execution can be traced in the workflow record or a project-level execution trace.
+- `not_executed`: the document exists, but this module has not yet gone through a real `@superpowers` refinement pass.
+- `unknown`: the document existed before the current audit and the team cannot yet prove whether the refinement was truly executed through `@superpowers`.
 
 ### Split-draft minimum
 
@@ -197,6 +205,7 @@ In initial split mode, the implementation RD must identify:
 - Dependencies on shared shells, contracts, or prerequisite modules that affect implementation order.
 - Early risks and open questions.
 - If `app-shell` exists, the implementation RD must state which root navigation, redirect, or shell-state responsibilities stay in the shell and which belong to the module.
+- Set `superpowers_refinement_status: not_executed` because initial split output is not a real refinement pass.
 
 ### Implementation-final expansion
 
@@ -209,6 +218,9 @@ In implementation refinement contract mode, expand the same document to directly
 - Analytics events, monitoring hooks, and test scope at implementation level.
 - Explicit notes about how the later frozen design-source packet must be consumed by code.
 - Display-layer decision notes that explain which parts are visually inferred from preview images and which parts are fixed by documented interaction or state semantics.
+- Update the refinement provenance block so it reflects reality instead of document completeness alone.
+- Set `superpowers_refinement_status: verified_executed` only after a real `@superpowers` refinement run on this active module.
+- If the document was manually edited, batch-generated, or retroactively reconstructed without a real `@superpowers` execution trace, keep `superpowers_refinement_status` as `not_executed` or `unknown`.
 
 ## Hard Rules
 
@@ -233,6 +245,8 @@ In implementation refinement contract mode, expand the same document to directly
 - Do not reinterpret one module's refinement result as completion of the whole auto run. Cross-module continuation belongs to `flutter-workflow-orchestrator`.
 - Do not let this skill bypass `@superpowers` for default-workflow module refinement execution.
 - Do not directly use this skill as the execution engine for active-module refinement in the default workflow; the actual refinement step must be invoked through `@superpowers`.
+- Do not set `superpowers_refinement_status=verified_executed` from manual doc edits, inferred completeness, or post-hoc bookkeeping.
+- Do not leave the refinement provenance block out of `<module>.impl.md`; the status must stay explicit even when it is `not_executed` or `unknown`.
 - Do not leave module-level reusable components completely undefined in UI/UX RD when the module clearly contains repeated non-page building blocks.
 - Do not leave scroll, list, overlay, relative-layout, or sticky behavior to image-only interpretation when the module is entering implementation preparation.
 - Do not perform detailed module UI/UX refinement before taste direction exists. If taste direction is missing, block and route upstream.

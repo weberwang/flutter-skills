@@ -63,12 +63,15 @@ After `modules_split`, `--auto` must behave as a loop:
 
 1. Select the next dependency-safe target module that is not yet at the implementation boundary.
 2. Set that module as `current_module` and update the workflow record immediately.
-3. Refine that module until its docs reach implementation-final maturity.
-4. Run module freeze and freeze the design-source packet when the packet is explicit enough.
-5. Advance the module to implementation-ready maturity.
-6. Produce any required architecture output for that module.
-7. Update `current_stage`, `next_skill`, `module_status_table`, and `decision_log`.
-8. Re-evaluate the remaining modules and immediately continue with the next dependency-safe module.
+3. Verify that the selected module really exists in the module index and that its paired `ui-ux.md` and `impl.md` files already exist on disk from `modules_split`. If any of those artifacts is missing, record a real blocker and stop auto-advancement instead of inventing the module state.
+4. Record why that module is dependency-safe right now before refinement begins.
+5. Refine that module until its docs reach implementation-final maturity, strictly through explicit `@superpowers` execution.
+6. If the refinement did not truly execute, mark that step as `not_executed` or `未执行` in the workflow record and any project-level execution trace, then stop instead of promoting later stages.
+7. Run module freeze and freeze the design-source packet when the packet is explicit enough.
+8. Advance the module to implementation-ready maturity.
+9. Produce any required architecture output for that module.
+10. Update `current_stage`, `next_skill`, `module_status_table`, and `decision_log`.
+11. Re-evaluate the remaining modules and immediately continue with the next dependency-safe module.
 
 `current_module` is only the module being processed right now. It must never be interpreted as the only module covered by the current `--auto` run.
 
@@ -100,6 +103,23 @@ It must not stop because one module finished its local pre-implementation flow, 
 - Read `references/workflow-record-contract.md` before initializing or updating the workflow record.
 - After every routing decision, update the record with the current stage, current module, confirmation status, next skill, blockers, pending next-stage data, pending status updates, confirmed artifact paths, and whether `--auto` is still advancing remaining modules.
 - If `--auto` is active, persist that execution mode in the workflow record so downstream agents know why confirmation gates were auto-applied.
+
+## Real Execution Trace
+
+When `module_uiux_refinement`, module freeze, implementation-readiness, or architecture work is being advanced in the default workflow, keep a real execution trace in the workflow record and optionally in a project-level document such as `docs/rd/00-superpowers-execution-trace.md`.
+
+For each touched module, record:
+
+- `current_module`
+- why the module is dependency-safe right now
+- the exact `@superpowers` refinement input
+- the real refinement output
+- whether `implementation_final` was truly reached
+- the module freeze result
+- the architecture output
+- whether the workflow switched to the next module or stopped
+
+If any item above did not really happen, write `未执行`, `not_executed`, or `unknown` explicitly. Document completeness alone is never proof that the execution really happened.
 
 ## Confirmation Gate
 
@@ -276,6 +296,7 @@ Use one state per module:
 - Do not stop `--auto` just because the current module reached `implementation_final`, `module_design_frozen`, `impl_rd_ready`, or `architecture_ready` while other target modules still remain.
 - Do not treat `current_module` as the only module covered by an `--auto` run; it is only the module currently being processed.
 - Do not leave `next_skill` as a passive handoff recommendation after a local module milestone when `execution_mode=auto` and more target modules are still pending.
+- Do not continue `--auto` past `modules_split` when the selected active module, its module-index row, or its paired docs cannot be verified on disk.
 - Do not skip directory inspection and environment-variable checks before auto-generating static visual evidence in `--auto` mode.
 - Do not continue into shared/global freeze when `IMAGE_BASE_URL` or `IMAGE_API_KEY` is missing and approved effect images still do not exist.
 - Do not require static images for module freeze when `flutter-taste-router` has already produced a sufficiently explicit module design packet.
@@ -285,6 +306,8 @@ Use one state per module:
 - Do not let module refinement or code landing bypass `@superpowers`.
 - Do not directly route module refinement to `flutter-rd-module-splitter`, `flutter-dev`, project-local implementation skills, or any other execution path without explicit `@superpowers` invocation.
 - Do not directly route module implementation to `flutter-dev` or project-local execution skills without explicit `@superpowers` invocation.
+- Do not treat a complete-looking `ui-ux.md` or `impl.md` as proof that `@superpowers` refinement really happened.
+- Do not let `.impl.md` claim `superpowers_refinement_status=verified_executed` unless the workflow record or execution trace contains the real `@superpowers` inputs and outputs for that module.
 - Do not start display-layer landing before the preflight inputs are complete enough to avoid image-only guessing.
 - Do not let display-layer code land without consulting the corresponding page image through `$image-to-code` when such image evidence exists.
 - Do not let preview images alone decide final Flutter widget strategy when documented interaction or architecture semantics say otherwise.
@@ -322,6 +345,7 @@ Return:
 - User says "the shared effect image looks close enough, just freeze it": block and route back through exactly one shared revision pass, then stop.
 - User says "skip global effect images and freeze directly": block. Shared/global design freeze requires approved effect images, and generated previews are capped at 3 before choosing the direction.
 - User says "modules are split, now refine only the home module": keep the active module in `module_uiux_refinement` and strictly route to `@superpowers` for focused paired-doc refinement using the `flutter-rd-module-splitter` contract.
+- User says "continue auto from modules_split" but the module index or paired docs are missing: treat that as a real blocker, record `未执行` for refinement-related steps, and stop instead of reconstructing fake progress.
 - User asks why a root navigation host was split separately: explain that an `app-shell` module is valid when shared route hosting, root redirects, or shell-level state has independent implementation value.
 - User says "the docs are final, start coding": require explicit confirmation for queued `implementation_final` and design-source freeze updates before code.
 - User says "run `flutter-workflow-orchestrator --auto`": keep advancing through shared freeze, module split, per-module paired-doc refinement, module freeze, implementation-readiness preparation, and any required architecture output for every dependency-safe target module until all target modules are waiting at the implementation boundary, then stop before code. Before each freeze, normalize text through `flutter-taste-router`, inspect static-image directories, and only generate missing page images when the image environment variables are present.

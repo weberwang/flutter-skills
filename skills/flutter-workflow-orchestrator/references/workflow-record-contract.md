@@ -32,6 +32,7 @@ This file is the single stable source for project workflow state. It should let 
 - whether implementation planning identified any non-native visual asset that should be generated through `$imagegen`
 - whether display-layer readiness preflight is complete before implementation begins
 - whether a module document is still a split draft, already implementation-final, or already landed
+- whether the active module's `.impl.md` records `superpowers_refinement_status`, and whether that status is truly evidenced by real execution
 - whether the module design-source packet is frozen
 - whether code has landed for the active module
 - what blockers still prevent the next move
@@ -137,6 +138,8 @@ Record the active module, or `not_selected` if the workflow is still global.
 
 Summarize the module's current `uiux_status`, `impl_status`, `design_source_status`, and `code_status`.
 
+Also record the module's current `superpowers_refinement_status` when an `.impl.md` exists. If the active module has not truly gone through `@superpowers` refinement, say that explicitly.
+
 Mention the latest freeze decision or blocker for that module when it exists.
 
 If the module is entering implementation, mention whether its paired `ui-ux.md` and `impl.md` are both implementation-final and whether corresponding page-image evidence exists for display-layer landing.
@@ -194,6 +197,7 @@ Track project-level artifact paths when known, such as:
 - Flutter project root
 - `flutter-init` summary
 - project-local `skills/flutter-dev/`
+- project-level `@superpowers` execution trace when one exists
 - any approved generated bitmap assets that implementation must consume
 
 When the chosen global preview originates from a module page, also index the copied module-local path so downstream implementation can trace the same image in both locations.
@@ -204,8 +208,8 @@ If the shared/public component freeze is tracked in a dedicated artifact, index 
 
 Use one row per module with these columns:
 
-| module | current_state | confirmation_status | next_skill | pending_next_stage | pending_next_skill | pending_status_updates | uiux_rd | uiux_status | impl_rd | impl_status | global_guidelines | light_theme | dark_theme | taste_direction | visual_evidence | design_source_status | code_status | init_status | blockers |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| module | current_state | confirmation_status | next_skill | pending_next_stage | pending_next_skill | pending_status_updates | uiux_rd | uiux_status | impl_rd | impl_status | superpowers_refinement_status | global_guidelines | light_theme | dark_theme | taste_direction | visual_evidence | design_source_status | code_status | init_status | blockers |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 
 Update the existing row for a module instead of creating duplicates.
 
@@ -216,6 +220,8 @@ If `execution_mode=auto`, the table must make it obvious which modules are alrea
 ### `decision_log`
 
 Append short dated entries only when a stage changes, a blocker is cleared, a routing decision changes, or a confirmed artifact maturity change is applied.
+
+When the workflow attempts module refinement in the default path, each dated entry should also capture the dependency-safe reason, the real `@superpowers` refinement input and output, and `未执行` when a claimed downstream step did not really happen.
 
 ## Update Rules
 
@@ -249,6 +255,7 @@ Append short dated entries only when a stage changes, a blocker is cleared, a ro
 - If `flutter-init` completes, also record that feature implementation has not started yet and that initialization stopped at scaffold/bootstrap boundaries.
 - If `flutter-init` has not run yet, record whether the shared bootstrap-critical baseline is already ready or still blocked, so the next routing decision can tell whether initialization should happen now.
 - If the workflow is entering module refinement or module implementation, record that execution must be explicitly invoked through `@superpowers`; if corresponding page-image evidence exists, mention that display-layer landing should consult `$image-to-code`.
+- If a selected module or its paired docs cannot be verified on disk, record the blocker and keep all refinement, freeze, and architecture trace fields as `未执行`, `not_executed`, or `unknown`.
 - If architecture planning decides that a visual must become a bitmap asset, record the selected asset path or the pending `$imagegen` generation need explicitly.
 - If display-layer readiness preflight is required, record whether the main preview, detail previews, structure semantics, and display-layer decision table are all ready.
 - If a module is blocked, write the blocker both in the metadata summary section and in the module row.
@@ -287,4 +294,6 @@ Append short dated entries only when a stage changes, a blocker is cleared, a ro
 - Do not wait for every feature module to finish late-stage architecture planning before triggering `flutter-init` when the shared bootstrap-critical baseline is already sufficient.
 - Do not hide the `@superpowers` implementation ownership or `$image-to-code` display-layer dependency when the module is already at the implementation boundary and those controls are relevant.
 - Do not record a refinement or implementation step as valid if it was routed directly to a downstream execution skill without explicit `@superpowers` invocation.
+- Do not infer `superpowers_refinement_status=verified_executed` from polished documents, manual backfill, or missing traces.
+- Do not hide a missing module index row, missing paired docs, or other failed refinement precondition behind a later stage label.
 - Do not require `pen_file`, `pen_status`, page-level Pen, `.pen`, or Pencil MCP data in the default workflow record.
