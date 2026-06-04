@@ -9,6 +9,8 @@ description: Use when initializing a Flutter project from an RD document generat
 
 Turn a reviewable Flutter RD into an implementation-ready project baseline. Focus on project scaffold, feature boundaries, required package wiring, annotation-based code generation, and generation of a project-local `flutter-dev` skill so the team starts from a consistent foundation instead of an ad hoc app shell.
 
+This skill does initialization only. It must not implement feature code, page code, business logic, or module-specific display/data behavior during initialization.
+
 ## Invocation Parameters
 
 - Support an optional `--force` flag.
@@ -38,8 +40,9 @@ Turn a reviewable Flutter RD into an implementation-ready project baseline. Focu
 6. Create bounded features under `lib/features/` with `domain` / `application` / `infrastructure` / `presentation` layers.
 7. Wire required packages and code generation so providers, models, serialization, and any project-required API clients all have a working first pass, and remove equivalent hand-written scaffold code whenever annotations already cover it.
 8. Generate `skills/flutter-dev/` inside the target project from `assets/flutter-dev-template/`, then fill in the project-specific feature map, commands, and decisions.
-9. Run bootstrap verification and summarize what was scaffolded, what remains implementation-specific, and what still needs confirmation.
-10. If a workflow record exists, return the project root path, generated `skills/flutter-dev/` path, and initialization summary so `flutter-workflow-orchestrator` can advance the stage to `project_initialized`.
+9. Stop at initialization boundaries: directory layout, shared bootstrap, wiring, placeholders, annotation-ready contracts, and project-local skill generation. Do not continue into feature behavior or page implementation.
+10. Run bootstrap verification and summarize what was scaffolded, what remains implementation-specific, and what still needs confirmation.
+11. If a workflow record exists, return the project root path, generated `skills/flutter-dev/` path, and initialization summary so `flutter-workflow-orchestrator` can advance the stage to `project_initialized`.
 
 ## Hard Rules
 
@@ -48,6 +51,8 @@ Turn a reviewable Flutter RD into an implementation-ready project baseline. Focu
 - Do not create a flat `features/` or page-driven folder tree. The default structure must be DDD by bounded feature.
 - Do not add third-party packages for later. If a package is added, it must be wired into the scaffold and used by a concrete owner.
 - Do not add network packages or API-client scaffolding when the RD does not require remote data or network capabilities.
+- Do not implement feature pages, feature business flows, feature state machines, or module-specific interaction logic in `flutter-init`.
+- Do not turn initialization placeholders or contracts into real feature behavior during `flutter-init`.
 - Do not hand-write boilerplate that should come from `@riverpod`, `@freezed`, `@JsonSerializable`, or `@RestApi`.
 - When the approved annotation toolchain can cover the current provider, model, serializer, or API contract, annotations are mandatory and hand-written equivalents are not allowed in the scaffold.
 - Do not stop after generating the code scaffold. The initialization is incomplete until the project-local `flutter-dev` skill is generated and filled.
@@ -66,7 +71,7 @@ Turn a reviewable Flutter RD into an implementation-ready project baseline. Focu
 - Annotation-enabled models, providers, and API definitions ready for `build_runner`.
 - A generated project-local `skills/flutter-dev/` skill that inherits the guardrails and records project-specific decisions.
 - A verified dependency and plugin setup that is aligned with the current Flutter SDK.
-- A short initialization summary that states scaffolded features, generated layers, remaining business code gaps, and unresolved confirmation items.
+- A short initialization summary that states scaffolded features, generated layers, remaining business code gaps, unresolved confirmation items, and the fact that feature implementation has not been started.
 - The project root path and generated `skills/flutter-dev/` path, so `flutter-workflow-orchestrator` can record `project_initialized`.
 
 ## References

@@ -166,7 +166,7 @@ Use one state per module:
 | `module_design_frozen` | The active module's implementation-final docs, visual evidence, component freeze, state matrix, and design-source packet are frozen and confirmed | `flutter-design-source-control` or `flutter-uiux-to-architecture` |
 | `impl_rd_ready` | The active module's UI/UX RD and implementation RD are implementation-final or landed, reference the frozen design source packet and global technical baseline, and are confirmed as implementable | `flutter-uiux-to-architecture` |
 | `architecture_ready` | Tokens, assets, components, screen plan, non-native visual asset strategy, and scaffold contract exist | `flutter-init`, especially once the shared public baseline is clear enough to initialize the project before feature-module code |
-| `project_initialized` | `flutter-init` has created the project scaffold and generated project-local `skills/flutter-dev/` | project-local `flutter-dev` plus `flutter-project-guardrails` |
+| `project_initialized` | `flutter-init` has created the project scaffold and generated project-local `skills/flutter-dev/`, but has not started any feature implementation code | project-local `flutter-dev` plus `flutter-project-guardrails` |
 | `implementing` | Code work is in progress after the active module's design source is frozen and the paired module docs are no longer split drafts; execution must be strictly invoked through `@superpowers`, and display-layer work must inspect the corresponding page image through `$image-to-code` first when such evidence exists | strictly call `@superpowers` with project-local `flutter-dev`, `flutter-project-guardrails`, and `$image-to-code` for display-layer landing |
 | `parity_reviewed` | Implementation has been checked against the frozen UI/UX source, theme artifacts, visual evidence, and required states | fix issues or mark `module_done` |
 | `module_done` | Shared freeze is confirmed, module docs are landed, design source is frozen, code is landed, and parity review has passed | maintain index only |
@@ -220,26 +220,27 @@ Use one state per module:
 38. In `--auto` mode, after a module becomes locally complete for the current step, immediately update `current_module`, `current_stage`, `next_skill`, `module_status_table`, and `decision_log` to reflect the next remaining work. Do not leave `next_skill` as a passive future suggestion if unresolved target modules still exist.
 39. If a module dependency prevents the next module from being refined safely, keep the workflow active but stop auto-advancement and record the blocker explicitly.
 40. If the shared bootstrap-critical baseline is ready and the target project has not been scaffolded yet or does not contain project-local `skills/flutter-dev/`, use `flutter-init` before feature-module implementation begins. Do not delay this just because unrelated feature modules still lack later-stage architecture output.
-41. If `flutter-init` has completed and project-local `skills/flutter-dev/` exists, record `project_initialized` as `pending_next_stage`.
-42. If `--auto` is active, do not stop for `project_initialized`, `implementation_final`, `module_design_frozen`, `impl_rd_ready`, `architecture_ready`, or other downstream confirmation gates. Keep advancing until the implementation boundary is reached for all target modules or a blocker appears.
-43. If `--auto` is active and all target modules are implementation-ready, stop here instead of entering `implementing`.
-44. If implementation work should begin or continue, strictly call `@superpowers` together with project-local `flutter-dev` and `flutter-project-guardrails`.
-45. During module implementation, split execution into `uiux` and `impl` tracks when the work naturally separates presentation from behavior or data contracts. Both tracks must still be executed through explicit `@superpowers` invocation, not by directly running downstream implementation skills on their own.
-46. The default module landing order is: define the minimum data contract first, then land the display layer skeleton and main user path, then connect the real data layer. The minimum data contract should cover interface fields, state enums, loading or empty or error states, and interaction input-output boundaries without forcing full data-layer completion first.
-47. For ordinary business-page modules, prefer `minimum data contract -> display layer -> data integration`. For infrastructure-heavy modules such as auth guards, route shells, sync engines, caches, payment orchestration, or backend-first flows, it is allowed to land the minimum process or data layer first and then attach display surfaces later.
-48. Before display-layer code begins, run a display-layer readiness preflight. At minimum, verify:
+41. `flutter-init` must stop at initialization boundaries. It may scaffold folders, shared bootstrap, shared wiring, and annotation-ready contracts, but it must not implement feature code, page code, or module-specific business logic.
+42. If `flutter-init` has completed and project-local `skills/flutter-dev/` exists, record `project_initialized` as `pending_next_stage`.
+43. If `--auto` is active, do not stop for `project_initialized`, `implementation_final`, `module_design_frozen`, `impl_rd_ready`, `architecture_ready`, or other downstream confirmation gates. Keep advancing until the implementation boundary is reached for all target modules or a blocker appears.
+44. If `--auto` is active and all target modules are implementation-ready, stop here instead of entering `implementing`.
+45. If implementation work should begin or continue, strictly call `@superpowers` together with project-local `flutter-dev` and `flutter-project-guardrails`.
+46. During module implementation, split execution into `uiux` and `impl` tracks when the work naturally separates presentation from behavior or data contracts. Both tracks must still be executed through explicit `@superpowers` invocation, not by directly running downstream implementation skills on their own.
+47. The default module landing order is: define the minimum data contract first, then land the display layer skeleton and main user path, then connect the real data layer. The minimum data contract should cover interface fields, state enums, loading or empty or error states, and interaction input-output boundaries without forcing full data-layer completion first.
+48. For ordinary business-page modules, prefer `minimum data contract -> display layer -> data integration`. For infrastructure-heavy modules such as auth guards, route shells, sync engines, caches, payment orchestration, or backend-first flows, it is allowed to land the minimum process or data layer first and then attach display surfaces later.
+49. Before display-layer code begins, run a display-layer readiness preflight. At minimum, verify:
    - the page has a readable main preview image
    - complex areas have readable detail previews when needed
    - `ui-ux.md` explicitly records scroll, list, overlay, layout, sticky, and component-repeatability semantics
    - `flutter-uiux-to-architecture` has already produced a concrete display-layer decision table
    - non-native visual effects are already classified as native code or asset fallback
-49. During display-layer implementation, keep taste guidance active as a guardrail for hierarchy, spacing, typography, contrast, CTA salience, motion restraint, and anti-template composition. Taste must not override frozen UI/UX intent. If corresponding page images exist, inspect them through `$image-to-code` before landing display-layer code.
-50. Treat preview images as visual-structure evidence, not as the only source of truth for Flutter implementation choices. Final scroll, list, sticky, overlay, and layout decisions must follow the combination of `ui-ux.md`, `impl.md`, and `flutter-uiux-to-architecture`.
-51. If the page effect image contains a bitmap visual, texture, illustration, composite, or other effect that Flutter cannot reproduce natively with reasonable cost and fidelity, do not force a code-only rebuild. Record it as a generated asset requirement, use `$imagegen` to generate the needed bitmap asset, move the selected result into the project, and let implementation consume that asset explicitly.
-52. Only use `$imagegen` for visuals that are genuinely better as raster assets. Do not use it for shapes, simple gradients, icons that belong to an existing vector system, or effects that Flutter can reproduce cleanly with native code.
-53. If code is complete or screenshots exist, use `flutter-design-parity-reviewer`.
-54. If the user requests UI, layout, interaction, hierarchy, visual token, or state changes after shared freeze or module design freeze, use `flutter-design-source-control`.
-55. Only route to Pen/Pencil skills when the user explicitly requests Pencil tooling or provides a `.pen` workflow. That optional path must not become a default gate for Flutter implementation.
+50. During display-layer implementation, keep taste guidance active as a guardrail for hierarchy, spacing, typography, contrast, CTA salience, motion restraint, and anti-template composition. Taste must not override frozen UI/UX intent. If corresponding page images exist, inspect them through `$image-to-code` before landing display-layer code.
+51. Treat preview images as visual-structure evidence, not as the only source of truth for Flutter implementation choices. Final scroll, list, sticky, overlay, and layout decisions must follow the combination of `ui-ux.md`, `impl.md`, and `flutter-uiux-to-architecture`.
+52. If the page effect image contains a bitmap visual, texture, illustration, composite, or other effect that Flutter cannot reproduce natively with reasonable cost and fidelity, do not force a code-only rebuild. Record it as a generated asset requirement, use `$imagegen` to generate the needed bitmap asset, move the selected result into the project, and let implementation consume that asset explicitly.
+53. Only use `$imagegen` for visuals that are genuinely better as raster assets. Do not use it for shapes, simple gradients, icons that belong to an existing vector system, or effects that Flutter can reproduce cleanly with native code.
+54. If code is complete or screenshots exist, use `flutter-design-parity-reviewer`.
+55. If the user requests UI, layout, interaction, hierarchy, visual token, or state changes after shared freeze or module design freeze, use `flutter-design-source-control`.
+56. Only route to Pen/Pencil skills when the user explicitly requests Pencil tooling or provides a `.pen` workflow. That optional path must not become a default gate for Flutter implementation.
 
 ## Hard Rules
 
@@ -257,6 +258,7 @@ Use one state per module:
 - Do not let a feature module start landing before the required global public code baseline is present.
 - Do not force a network baseline into projects or modules that do not require remote data or network capabilities.
 - Do not postpone `flutter-init` until every feature module is fully architecture-ready when the shared bootstrap-critical baseline is already sufficient to initialize the project.
+- Do not let `flutter-init` implement feature pages, feature business flows, or module-specific behavior while initializing the project.
 - Do not mark `uiux_status=landed` or `impl_status=landed` until the docs reference a confirmed frozen design-source packet.
 - Do not start ordinary page-module implementation by fully building the data layer first when a minimum contract is enough to unblock the display layer.
 - Do not mark `code_status=landed` until code output exists and the landed status change has been explicitly confirmed.
