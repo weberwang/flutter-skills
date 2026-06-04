@@ -46,6 +46,17 @@ When this skill is called from the Flutter workflow:
    - `docs/rd/modules/<module>/<page-name>.<ext>`
 7. If `IMAGE_BASE_URL` or `IMAGE_API_KEY` is missing, do not send a request. Return control so the upstream workflow can continue without generated images.
 8. Prefer prompts that describe a concrete app page, state, and information hierarchy. Avoid mood-board phrasing when the output will drive implementation.
+9. When the request is for shared/global design freeze, generate no more than 3 preview images in total before the workflow chooses the approved direction.
+10. When the request comes from the Flutter workflow, explicitly write the inherited style constraints into the prompt or structured fields. At minimum, include:
+   - `art_direction`
+   - `taste_constraints`
+   - `visual_system`
+   - `cta_posture`
+   - palette direction
+   - typography mood
+   - component family cues
+   - image-treatment posture when available
+11. If the request is for a module preview after a shared direction already exists, preserve the same visual world instead of inventing a new palette, typography mood, component family, or image-treatment language.
 
 ## Command Patterns
 
@@ -107,6 +118,9 @@ rtk python skills/gpt-image-2-generator/scripts/image_gen.py \
 - Do not silently substitute another model when the request explicitly requires `gpt-image-2`.
 - Do not send a live request when either environment variable is missing.
 - Do not generate dark-mode workflow previews by default. Use light mode unless the upstream workflow explicitly requests another mode.
+- Do not generate more than 3 shared/global workflow previews for one global freeze cycle.
+- Do not send Flutter workflow generation prompts without explicit style constraints when the design packet already defines them.
+- Do not let module preview generation drift away from the approved shared/global style system.
 - Do not claim text rendered inside an image is correct unless it was visually checked afterward.
 - Do not assume transparent output is available; this skill is generation-only and does not implement the transparent-background fallback path.
 - Do not bypass script validation for custom sizes; let the helper reject invalid dimensions first.

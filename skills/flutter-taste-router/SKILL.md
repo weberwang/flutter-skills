@@ -63,17 +63,29 @@ Optional:
 3. Apply that skill's direction rules without letting multiple taste skills compete for authority in the same pass.
 4. Normalize the result into one Flutter-facing design packet.
 5. Before a freeze decision, inspect the matching shared or module directory for existing static page images that already satisfy the needed evidence.
-6. If static evidence is missing, check `IMAGE_BASE_URL` and `IMAGE_API_KEY`.
-7. If both environment variables exist, call `gpt-image-2-generator` to generate light-mode page-specific app preview images, save each file with its page or screen name, and when one module page is chosen as the global reference, save that selected preview under `docs/rd/` and copy the same file into the related module directory.
-8. If either environment variable is missing, continue with the textual design packet instead of blocking on image generation.
-9. If static visual evidence is approved and should become reusable frozen global guidance, route the result into `design-preview-to-global-guidelines`.
-10. If the packet is still too weak for freeze, return one scope-matched revision plan instead of pretending it is ready.
+6. If shared/global freeze still lacks static evidence, check `IMAGE_BASE_URL` and `IMAGE_API_KEY`.
+7. If both environment variables exist, call `gpt-image-2-generator` to generate light-mode page-specific app preview images. For shared/global freeze, generate no more than 3 images total before selecting the approved direction. Save each file with its page or screen name, and when one module page is chosen as the global reference, save that selected preview under `docs/rd/` and copy the same file into the related module directory.
+8. If shared/global freeze still lacks static evidence and either environment variable is missing, stop and return a blocker instead of pretending the packet is ready for global freeze.
+9. For module freeze, if image generation credentials are missing, continue with the textual design packet only when the packet is already explicit enough.
+10. Whenever the workflow calls image generation, write the design packet's style constraints into the generation input explicitly instead of relying on loose reference behavior. At minimum, the generation input must carry forward:
+   - `art_direction`
+   - `taste_constraints`
+   - `visual_system`
+   - `cta_posture`
+   - the approved palette direction
+   - typography mood
+   - component family cues
+   - image treatment rules when they already exist
+11. If module-level previews are generated after a global direction already exists, those module previews must inherit the global style system instead of redefining a new visual world.
+12. If static visual evidence is approved and should become reusable frozen global guidance, route the result into `design-preview-to-global-guidelines`.
+13. If the packet is still too weak for freeze, return one scope-matched revision plan instead of pretending it is ready.
 
 When `--auto` is active:
 
-- if shared freeze requires static visual evidence and it is missing, this skill should first inspect the target directories, then call `gpt-image-2-generator` only when both image environment variables exist, generate the missing page-specific app preview images automatically, and fold those images into `visual_evidence`
+- if shared freeze requires static visual evidence and it is missing, this skill should first inspect the target directories, then call `gpt-image-2-generator` only when both image environment variables exist, generate no more than 3 shared app preview images automatically, and fold those images into `visual_evidence`
 - if module freeze is being prepared, this skill may determine UI/UX directly from the design packet without static images, as long as hierarchy, CTA posture, state scope, and component freeze are explicit enough
-- if the environment variables are missing, this skill should continue with the normalized textual packet and explicitly note that image generation was skipped because credentials were unavailable
+- if the environment variables are missing during shared/global freeze and no approved effect images exist yet, this skill should stop and mark shared freeze blocked
+- if the environment variables are missing during module freeze, this skill should continue with the normalized textual packet only when the packet is already explicit enough
 
 ## Downstream Consumers
 
@@ -102,6 +114,7 @@ Every successful run must return one packet with at least:
 - `allowed_engineering_adjustments`
 - `visual_evidence`
 - `acceptance_gates`
+- `style_generation_constraints`
 
 ### Minimum meanings
 
@@ -117,12 +130,17 @@ Every successful run must return one packet with at least:
 - `component_freeze_scope`
   Must identify which repeated controls or building blocks are globally shared, module-private, or intentionally local.
 
+- `style_generation_constraints`
+  Must make image-generation style constraints explicit enough to be written into prompts. At minimum, include palette direction, typography mood, component family cues, and image-treatment posture whenever those decisions already exist.
+
 ## Hard Rules
 
 - Do not let multiple taste skills define competing visual directions in the same pass.
 - Do not let a raw image-generation skill become the only source of freeze truth; always normalize its output into the design packet.
 - Do not use `design-taste-frontend` alone as if it already contains mobile freeze artifacts; it is a direction source, not the final packet.
 - Do not use `imagegen-frontend-mobile` alone as if generated images already define state scope or handoff rules; convert them into the packet.
+- Do not send image generation requests from the Flutter workflow without explicitly embedding the current style constraints into the prompt or structured fields.
+- Do not let module-generated previews drift away from the approved global style system once the shared direction exists.
 - Do not skip platform baseline, state matrix, or allowed engineering adjustments.
 - Do not claim freeze readiness when hierarchy, contrast, CTA clarity, or state coverage are still ambiguous.
 - Do not reopen shared brand direction inside a module-specific refinement pass unless the problem is genuinely global.
@@ -130,7 +148,9 @@ Every successful run must return one packet with at least:
 - Do not skip the textual normalization pass before looking at static visuals.
 - Do not generate new app previews before checking whether the target directories already contain usable page images.
 - Do not treat dark-mode previews as the default workflow evidence set; default generated and selected workflow previews must remain in light mode unless the user explicitly overrides that choice.
-- Do not block the workflow on static visuals when `IMAGE_BASE_URL` or `IMAGE_API_KEY` is missing; continue with the textual packet and mark the gap explicitly.
+- Do not let shared/global freeze proceed without approved effect images.
+- Do not generate more than 3 new shared/global preview images before choosing the global direction.
+- Do not continue shared/global freeze when `IMAGE_BASE_URL` or `IMAGE_API_KEY` is missing and approved effect images still do not exist.
 - Do not generate generic mood boards or unnamed collages when the workflow needs app-page evidence; generate page-specific app previews named after the corresponding page.
 - In `--auto` mode, do not stop for missing shared static visuals when `gpt-image-2-generator` can generate them; generate the missing page previews and continue.
 - In `--auto` mode, allow module freeze to proceed without static images when the packet is already explicit enough.
@@ -149,8 +169,9 @@ Return:
 ## Pressure Scenarios
 
 - User asks for mobile app direction with no visuals yet: prefer `imagegen-frontend-mobile`, then normalize into the packet.
-- `--auto` mode reaches shared freeze with no static mobile previews: inspect the target directories, then call `gpt-image-2-generator` only when both image environment variables exist, generate the missing page app preview images, and normalize them into the packet.
+- `--auto` mode reaches shared freeze with no static mobile previews: inspect the target directories, then call `gpt-image-2-generator` only when both image environment variables exist, generate no more than 3 shared page app preview images, and normalize them into the packet. If credentials are missing, block shared freeze instead of continuing.
 - `--auto` mode reaches module freeze with no static mobile previews: determine UI/UX from the consolidated packet first; generate images only if the packet is still too ambiguous to freeze.
+- A module preview starts drifting in palette or typography from the chosen global preview: treat that as a style-system violation, regenerate with the explicit global style constraints, and do not accept the drift as a new direction.
 - User asks for a Flutter shared direction with strong verbal style cues but no image request: prefer `design-taste-frontend`, then normalize into the packet.
 - User asks for redesign of an existing app: prefer `redesign-existing-projects`, then normalize into the packet.
 - User asks for branding first: use `brandkit`, then convert the brand direction into UI-facing taste constraints.

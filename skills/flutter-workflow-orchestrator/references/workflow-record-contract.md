@@ -26,6 +26,9 @@ This file is the single stable source for project workflow state. It should let 
 - whether a shared or module design-source package has already been freeze-evaluated
 - whether shared or module page-level static visual evidence already exists in the expected directories
 - whether the accepted workflow preview set is confirmed as light-mode evidence
+- whether shared/global effect-image generation stayed within the 3-image cap
+- whether shared/global freeze already has the required approved effect images
+- whether generated previews explicitly inherited the approved global style constraints
 - whether implementation planning identified any non-native visual asset that should be generated through `$imagegen`
 - whether display-layer readiness preflight is complete before implementation begins
 - whether a module document is still a split draft, already implementation-final, or already landed
@@ -34,6 +37,7 @@ This file is the single stable source for project workflow state. It should let 
 - what blockers still prevent the next move
 - whether `flutter-init` has already produced the scaffold and project-local `skills/flutter-dev/`
 - whether the shared bootstrap-critical baseline is already clear enough to trigger `flutter-init`
+- whether initialization has stopped at scaffold/bootstrap boundaries without starting feature implementation
 - whether the orchestrator is currently running in manual mode or `--auto`
 - whether `--auto` is still actively advancing remaining modules or has reached a valid stop condition
 
@@ -222,6 +226,9 @@ Append short dated entries only when a stage changes, a blocker is cleared, a ro
 - If `flutter-taste-router` completes textual normalization, record that status in the relevant summary or decision entry before any freeze promotion is queued.
 - If freeze preparation inspects static-image directories, record whether existing evidence was reused, skipped due to missing environment variables, or newly generated.
 - If previews are accepted for workflow use, record whether they satisfy the default light-mode requirement.
+- If shared/global effect images were generated, record how many were generated and whether the run stayed within the 3-image cap.
+- If shared/global freeze is under review, record whether the required approved effect images now exist or whether freeze is still blocked on image generation.
+- If generated previews were created after a shared/global direction existed, record whether palette direction, typography mood, component family cues, CTA posture, visual system, and image treatment were explicitly inherited.
 - If `design-preview-to-global-guidelines` artifacts are created, update the relevant module row and queue `global_guidelines_frozen` in `pending_next_stage` instead of switching immediately.
 - If a freeze evaluation fails, keep the current stage unchanged, clear any queued freeze promotion, and route back to the correct upstream skill for exactly one scope-matched revision pass.
 - If `execution_mode=auto`, the orchestrator should apply deterministic queued transitions and queued status updates without pausing for ordinary downstream confirmation, and it must stop only when the implementation boundary is reached or when a blocker appears.
@@ -239,6 +246,7 @@ Append short dated entries only when a stage changes, a blocker is cleared, a ro
 - If the user rejects a pending transition or pending status change, keep the current confirmed stage and maturity values, set `confirmation_status: rejected`, and write the rejection reason into blockers plus the decision log.
 - If a step returns `blocked`, keep `current_stage` unchanged, clear `pending_next_stage`, `pending_next_skill`, and `pending_status_updates` to `none`, and do not rewrite the module into the next workflow state or next maturity level.
 - If `flutter-init` completes, update the global artifact index with the project root, initialization summary, and `skills/flutter-dev/` path, then queue the relevant stage as `project_initialized` instead of switching immediately.
+- If `flutter-init` completes, also record that feature implementation has not started yet and that initialization stopped at scaffold/bootstrap boundaries.
 - If `flutter-init` has not run yet, record whether the shared bootstrap-critical baseline is already ready or still blocked, so the next routing decision can tell whether initialization should happen now.
 - If the workflow is entering module refinement or module implementation, record that execution must be explicitly invoked through `@superpowers`; if corresponding page-image evidence exists, mention that display-layer landing should consult `$image-to-code`.
 - If architecture planning decides that a visual must become a bitmap asset, record the selected asset path or the pending `$imagegen` generation need explicitly.
@@ -258,6 +266,9 @@ Append short dated entries only when a stage changes, a blocker is cleared, a ro
 - Do not mark `code_status=landed` before code output actually exists.
 - Do not claim static visual evidence was generated before recording whether the directory was checked first and whether the image environment variables were actually available.
 - Do not accept preview evidence into the workflow record without stating whether it meets the default light-mode requirement.
+- Do not accept shared/global preview evidence into the workflow record without stating whether the 3-image generation cap was respected.
+- Do not accept generated preview evidence into the workflow record without stating whether the approved style constraints were explicitly inherited.
+- Do not present shared/global freeze as ready in the workflow record while the required approved effect images are still missing.
 - Do not hide a required `$imagegen` bitmap fallback inside prose without indexing the asset path or pending generation note.
 - Do not mark a module ready for display-layer landing while the required preflight inputs or decision table are still missing.
 - Do not treat a complete design draft as freeze-ready when the design package is still incomplete.
@@ -271,6 +282,7 @@ Append short dated entries only when a stage changes, a blocker is cleared, a ro
 - Do not keep `pending_next_stage`, `pending_next_skill`, or `pending_status_updates` populated after a `blocked` result.
 - Do not rewrite `current_stage` to a later workflow state when the latest routing result is `blocked`.
 - Do not mark `project_initialized` unless both the scaffold and project-local `skills/flutter-dev/` exist.
+- Do not treat `project_initialized` as proof that any feature, page, or module implementation code already exists.
 - Do not let `execution_mode=auto` enter `implementing` or set `code_status=in_progress`.
 - Do not wait for every feature module to finish late-stage architecture planning before triggering `flutter-init` when the shared bootstrap-critical baseline is already sufficient.
 - Do not hide the `@superpowers` implementation ownership or `$image-to-code` display-layer dependency when the module is already at the implementation boundary and those controls are relevant.
