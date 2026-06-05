@@ -11,22 +11,24 @@ from pathlib import Path
 import re
 import sys
 import time
-from typing import Dict, List, Optional, Tuple
+from typing import Final
 from urllib import error, request
 
-DEFAULT_MODEL = "gpt-image-2"
-DEFAULT_SIZE = "auto"
-DEFAULT_QUALITY = "medium"
-DEFAULT_OUTPUT_FORMAT = "png"
-DEFAULT_OUTPUT_PATH = "output/imagegen/output.png"
-MAX_IMAGE_COUNT = 10
-MIN_PIXELS = 655_360
-MAX_PIXELS = 8_294_400
-MAX_EDGE = 3840
-MAX_RATIO = 3.0
-ALLOWED_QUALITIES = {"low", "medium", "high", "auto"}
-ALLOWED_OUTPUT_FORMATS = {"png", "jpeg", "jpg", "webp"}
-ALLOWED_BACKGROUNDS = {"opaque", "auto", None}
+DEFAULT_MODEL: Final[str] = "gpt-image-2"
+DEFAULT_SIZE: Final[str] = "auto"
+DEFAULT_QUALITY: Final[str] = "medium"
+DEFAULT_OUTPUT_FORMAT: Final[str] = "png"
+DEFAULT_OUTPUT_PATH: Final[str] = "output/imagegen/output.png"
+MAX_IMAGE_COUNT: Final[int] = 10
+MIN_PIXELS: Final[int] = 655_360
+MAX_PIXELS: Final[int] = 8_294_400
+MAX_EDGE: Final[int] = 3840
+MAX_RATIO: Final[float] = 3.0
+ALLOWED_QUALITIES: Final[set[str]] = {"low", "medium", "high", "auto"}
+ALLOWED_OUTPUT_FORMATS: Final[set[str]] = {"png", "jpeg", "jpg", "webp"}
+ALLOWED_BACKGROUNDS: Final[set[str | None]] = {"opaque", "auto", None}
+TASK_POLL_INTERVAL_SECONDS: Final[int] = 2
+DOWNLOAD_USER_AGENT: Final[str] = "Mozilla/5.0"
 
 
 def _die(message: str, code: int = 1) -> None:
@@ -35,7 +37,7 @@ def _die(message: str, code: int = 1) -> None:
     raise SystemExit(code)
 
 
-def _read_prompt(prompt: Optional[str], prompt_file: Optional[str]) -> str:
+def _read_prompt(prompt: str | None, prompt_file: str | None) -> str:
     """读取用户提供的提示词内容。"""
     if prompt and prompt_file:
         _die("Use --prompt or --prompt-file, not both.")
@@ -47,7 +49,6 @@ def _read_prompt(prompt: Optional[str], prompt_file: Optional[str]) -> str:
     if prompt:
         return prompt.strip()
     _die("Missing prompt. Use --prompt or --prompt-file.")
-    return ""
 
 
 def _require_env(name: str) -> str:
@@ -58,10 +59,10 @@ def _require_env(name: str) -> str:
     return value
 
 
-def _parse_size(size: str) -> Optional[Tuple[int, int]]:
-    """解析 WIDTHxHEIGHT 格式的尺寸字符串。"""
+def _parse_size(size: str) -> tuple[int, int] | None:
+    """解析 WIDTHxHEIGHT 格式尺寸。"""
     match = re.fullmatch(r"([1-9][0-9]*)x([1-9][0-9]*)", size)
-    if not match:
+    if match is None:
         return None
     return int(match.group(1)), int(match.group(2))
 
@@ -70,16 +71,13 @@ def _validate_size(size: str) -> None:
     """校验 gpt-image-2 支持的尺寸范围。"""
     if size == "auto":
         return
-
     parsed = _parse_size(size)
     if parsed is None:
         _die("size must be auto or WIDTHxHEIGHT, for example 1024x1024.")
-
     width, height = parsed
     long_edge = max(width, height)
     short_edge = min(width, height)
     total_pixels = width * height
-
     if width % 16 != 0 or height % 16 != 0:
         _die("gpt-image-2 size width and height must be multiples of 16.")
     if long_edge > MAX_EDGE:
@@ -90,14 +88,16 @@ def _validate_size(size: str) -> None:
         _die("gpt-image-2 total pixels must be between 655,360 and 8,294,400.")
 
 
-def _normalize_output_format(output_format: Optional[str]) -> str:
+def _normalize_output_format(output_format: str | None) -> str:
     """规范化输出格式名称。"""
-    if not output_format:
+    if output_format is None:
         return DEFAULT_OUTPUT_FORMAT
     normalized = output_format.lower()
     if normalized not in ALLOWED_OUTPUT_FORMATS:
         _die("output-format must be png, jpeg, jpg, or webp.")
-    return "jpeg" if normalized == "jpg" else normalized
+    if normalized == "jpg":
+        return "jpeg"
+    return normalized
 
 
 def _validate_quality(quality: str) -> None:
@@ -106,146 +106,84 @@ def _validate_quality(quality: str) -> None:
         _die("quality must be one of low, medium, high, or auto.")
 
 
-def _validate_background(background: Optional[str]) -> None:
+def _validate_background(background: str | None) -> None:
     """校验背景参数。"""
     if background not in ALLOWED_BACKGROUNDS:
         _die("background must be opaque or auto for gpt-image-2.")
 
 
 def _build_endpoint(base_url: str) -> str:
-    """根据环境变量拼出最终的生成接口地址。"""
+    """根据环境变量拼出最终生成接口地址。"""
     trimmed = base_url.rstrip("/")
     if trimmed.endswith("/images/generations"):
         return trimmed
     return f"{trimmed}/images/generations"
 
 
-def _fields_from_args(args: argparse.Namespace) -> Dict[str, Optional[str]]:
-    """提取用于结构化补全提示词的字段。"""
-    return {
-        "use_case": args.use_case,
-        "scene": args.scene,
-        "subject": args.subject,
-        "style": args.style,
-        "composition": args.composition,
-        "lighting": args.lighting,
-        "palette": args.palette,
-        "materials": args.materials,
-        "text": args.text,
-        "constraints": args.constraints,
-        "negative": args.negative,
-    }
-
-
 def _augment_prompt(args: argparse.Namespace, prompt: str) -> str:
-    """按固定结构扩展提示词，减少多轮重写。"""
+    """按固定结构拼接提示词。"""
     if not args.augment:
         return prompt
-
-    fields = _fields_from_args(args)
-    sections: List[str] = []
-    if fields["use_case"]:
-        sections.append(f"Use case: {fields['use_case']}")
-    sections.append(f"Primary request: {prompt}")
-    if fields["scene"]:
-        sections.append(f"Scene/background: {fields['scene']}")
-    if fields["subject"]:
-        sections.append(f"Subject: {fields['subject']}")
-    if fields["style"]:
-        sections.append(f"Style/medium: {fields['style']}")
-    if fields["composition"]:
-        sections.append(f"Composition/framing: {fields['composition']}")
-    if fields["lighting"]:
-        sections.append(f"Lighting/mood: {fields['lighting']}")
-    if fields["palette"]:
-        sections.append(f"Color palette: {fields['palette']}")
-    if fields["materials"]:
-        sections.append(f"Materials/textures: {fields['materials']}")
-    if fields["text"]:
-        sections.append(f'Text (verbatim): "{fields["text"]}"')
-    if fields["constraints"]:
-        sections.append(f"Constraints: {fields['constraints']}")
-    if fields["negative"]:
-        sections.append(f"Avoid: {fields['negative']}")
+    sections = [f"Primary request: {prompt}"]
+    for label, value in (
+        ("Use case", args.use_case),
+        ("Scene/background", args.scene),
+        ("Subject", args.subject),
+        ("Style/medium", args.style),
+        ("Composition/framing", args.composition),
+        ("Lighting/mood", args.lighting),
+        ("Color palette", args.palette),
+        ("Materials/textures", args.materials),
+        ("Text (verbatim)", f'"{args.text}"' if args.text else None),
+        ("Constraints", args.constraints),
+        ("Avoid", args.negative),
+    ):
+        if value:
+            sections.append(f"{label}: {value}")
     return "\n".join(sections)
 
 
-def _build_output_paths(
-    out: str,
-    output_format: str,
-    count: int,
-    out_dir: Optional[str],
-) -> List[Path]:
-    """根据单图或多图模式生成输出文件路径。"""
-    suffix = "." + output_format
-
+def _build_output_paths(out: str, output_format: str, count: int, out_dir: str | None) -> list[Path]:
+    """根据单图或多图模式生成输出路径。"""
+    suffix = f".{output_format}"
     if out_dir:
         base_dir = Path(out_dir)
         base_dir.mkdir(parents=True, exist_ok=True)
         return [base_dir / f"image_{index}{suffix}" for index in range(1, count + 1)]
-
     out_path = Path(out)
     if out_path.exists() and out_path.is_dir():
-        out_path.mkdir(parents=True, exist_ok=True)
         return [out_path / f"image_{index}{suffix}" for index in range(1, count + 1)]
-
     if out_path.suffix == "":
         out_path = out_path.with_suffix(suffix)
-
     if count == 1:
         return [out_path]
-
-    return [
-        out_path.with_name(f"{out_path.stem}-{index}{out_path.suffix}")
-        for index in range(1, count + 1)
-    ]
+    return [out_path.with_name(f"{out_path.stem}-{index}{out_path.suffix}") for index in range(1, count + 1)]
 
 
-def _decode_and_write(images: List[str], outputs: List[Path], force: bool) -> None:
-    """将 base64 图片写入本地文件。"""
-    for index, image_b64 in enumerate(images):
-        if index >= len(outputs):
-            break
-        output = outputs[index]
-        if output.exists() and not force:
-            _die(f"Output already exists: {output} (use --force to overwrite)")
-        output.parent.mkdir(parents=True, exist_ok=True)
-        output.write_bytes(base64.b64decode(image_b64))
-        print(f"Wrote {output}")
-
-
-def _print_payload(endpoint: str, payload: Dict[str, object], outputs: List[Path]) -> None:
-    """打印 dry-run 结果，便于在真正请求前复核参数。"""
-    preview = {
-        "endpoint": endpoint,
-        "outputs": [str(path) for path in outputs],
-        **payload,
-    }
+def _print_payload(endpoint: str, payload: dict[str, object], outputs: list[Path]) -> None:
+    """打印 dry-run 结果，便于在发送前复核。"""
+    preview = {"endpoint": endpoint, "outputs": [str(path) for path in outputs], **payload}
     print(json.dumps(preview, indent=2, ensure_ascii=False))
 
 
-def _request_generation(
-    endpoint: str,
+def _request_json(
+    url: str,
     api_key: str,
-    payload: Dict[str, object],
     timeout_seconds: int,
-) -> Dict[str, object]:
-    """调用自定义 OpenAI 兼容接口发起生图请求。"""
-    body = json.dumps(payload).encode("utf-8")
-    req = request.Request(
-        endpoint,
-        data=body,
-        headers={
-            "Authorization": f"Bearer {api_key}",
-            "Content-Type": "application/json",
-        },
-        method="POST",
-    )
+    *,
+    method: str = "GET",
+    payload: dict[str, object] | None = None,
+) -> dict[str, object]:
+    """发送 JSON 请求并解析 JSON 响应。"""
+    body = None if payload is None else json.dumps(payload).encode("utf-8")
+    headers = {"Authorization": f"Bearer {api_key}"}
+    if payload is not None:
+        headers["Content-Type"] = "application/json"
+    req = request.Request(url, data=body, headers=headers, method=method)
     try:
         with request.urlopen(req, timeout=timeout_seconds) as response:
             charset = response.headers.get_content_charset() or "utf-8"
-            raw = response.read().decode(charset)
-            return json.loads(raw)
+            return json.loads(response.read().decode(charset))
     except error.HTTPError as exc:
         details = exc.read().decode("utf-8", errors="replace")
         _die(f"HTTP {exc.code} from image endpoint: {details}")
@@ -253,112 +191,170 @@ def _request_generation(
         _die(f"Failed to reach image endpoint: {exc.reason}")
     except json.JSONDecodeError as exc:
         _die(f"Response is not valid JSON: {exc}")
-    return {}
 
 
-def _extract_images(response: Dict[str, object]) -> List[str]:
-    """从接口返回中提取 base64 图片数组。"""
+def _extract_sync_b64_images(response: dict[str, object]) -> list[bytes]:
+    """从同步接口响应中提取图片字节。"""
     data = response.get("data")
     if not isinstance(data, list) or not data:
         _die(f"Unexpected response shape, expected a non-empty data array: {response}")
-
-    images: List[str] = []
-    for index, item in enumerate(data, start=1):
+    image_bytes: list[bytes] = []
+    for index, item in enumerate(data):
         if not isinstance(item, dict):
-            _die(f"Unexpected item at data[{index - 1}]: {item}")
+            _die(f"Unexpected item at data[{index}]: {item}")
         b64_json = item.get("b64_json")
         if not isinstance(b64_json, str) or not b64_json.strip():
-            _die(f"Missing b64_json at data[{index - 1}]: {item}")
-        images.append(b64_json)
-    return images
+            _die(f"Missing b64_json at data[{index}]: {item}")
+        image_bytes.append(base64.b64decode(b64_json))
+    return image_bytes
+
+
+def _build_task_status_endpoint(base_url: str, task_id: str) -> str:
+    """构造异步任务状态查询地址。"""
+    trimmed = base_url.rstrip("/")
+    if trimmed.endswith("/images/generations"):
+        trimmed = trimmed[: -len("/images/generations")]
+    return f"{trimmed}/tasks/{task_id}"
+
+
+def _download_bytes(url: str, timeout_seconds: int) -> bytes:
+    """下载异步任务完成后的最终图片。"""
+    req = request.Request(url, headers={"User-Agent": DOWNLOAD_USER_AGENT}, method="GET")
+    try:
+        with request.urlopen(req, timeout=timeout_seconds) as response:
+            return response.read()
+    except error.HTTPError as exc:
+        details = exc.read().decode("utf-8", errors="replace")
+        _die(f"HTTP {exc.code} while downloading generated image: {details}")
+    except error.URLError as exc:
+        _die(f"Failed to download generated image: {exc.reason}")
+
+
+def _extract_image_urls(task_response: dict[str, object]) -> list[str]:
+    """从异步任务完成响应中提取图片 URL。"""
+    data = task_response.get("data")
+    if not isinstance(data, dict):
+        _die(f"Unexpected async task response shape: {task_response}")
+    result = data.get("result")
+    if not isinstance(result, dict):
+        _die(f"Missing async task result payload: {task_response}")
+    images = result.get("images")
+    if not isinstance(images, list) or not images:
+        _die(f"Missing async task images payload: {task_response}")
+    urls: list[str] = []
+    for item in images:
+        if not isinstance(item, dict):
+            _die(f"Unexpected async image item: {item}")
+        url_value = item.get("url")
+        match url_value:
+            case str() as single_url if single_url.strip():
+                urls.append(single_url)
+            case [str() as first_url, *rest]:
+                del rest
+                urls.append(first_url)
+            case _:
+                _die(f"Missing image URL in async task result: {item}")
+    return urls
+
+
+def _resolve_image_bytes(*, base_url: str, api_key: str, response: dict[str, object], timeout_seconds: int) -> list[bytes]:
+    """统一处理同步 b64 响应与异步 task 响应。"""
+    data = response.get("data")
+    if isinstance(data, list) and data and all(
+        isinstance(item, dict) and isinstance(item.get("b64_json"), str) and item.get("b64_json", "").strip()
+        for item in data
+    ):
+        return _extract_sync_b64_images(response)
+    if not isinstance(data, list) or not data or not isinstance(data[0], dict):
+        _die(f"Unexpected response shape, expected a task response: {response}")
+    task_id = data[0].get("task_id")
+    if not isinstance(task_id, str) or not task_id.strip():
+        _die(f"Missing b64_json at data[0]: {data[0]}")
+    task_endpoint = _build_task_status_endpoint(base_url, task_id)
+    deadline = time.monotonic() + timeout_seconds
+    # 某些兼容网关会先返回 task_id，这里轮询直到任务完成再下载图片。
+    while time.monotonic() <= deadline:
+        task_response = _request_json(task_endpoint, api_key, timeout_seconds)
+        task_data = task_response.get("data")
+        if not isinstance(task_data, dict):
+            _die(f"Unexpected async task response shape: {task_response}")
+        task_status = task_data.get("status")
+        if not isinstance(task_status, str) or not task_status.strip():
+            _die(f"Missing async task status in task response: {task_response}")
+        normalized_status = task_status.lower()
+        if normalized_status == "completed":
+            return [_download_bytes(url, timeout_seconds) for url in _extract_image_urls(task_response)]
+        if normalized_status in {"failed", "cancelled", "canceled"}:
+            _die(f"Async image task {task_id} ended with status {task_status}: {task_response}")
+        time.sleep(TASK_POLL_INTERVAL_SECONDS)
+    _die(f"Timed out while waiting for async image task {task_id}.")
+
+
+def _write_image_bytes(images: list[bytes], outputs: list[Path], force: bool) -> None:
+    """将图片字节写入本地文件。"""
+    for index, image_bytes in enumerate(images):
+        if index >= len(outputs):
+            break
+        output = outputs[index]
+        if output.exists() and not force:
+            _die(f"Output already exists: {output} (use --force to overwrite)")
+        output.parent.mkdir(parents=True, exist_ok=True)
+        output.write_bytes(image_bytes)
+        print(f"Wrote {output}")
 
 
 def _create_parser() -> argparse.ArgumentParser:
     """创建命令行参数解析器。"""
-    parser = argparse.ArgumentParser(
-        description="Generate images with gpt-image-2 via a custom OpenAI-compatible endpoint."
-    )
-    parser.add_argument("--prompt")
-    parser.add_argument("--prompt-file")
+    parser = argparse.ArgumentParser(description="Generate images with gpt-image-2 via a custom OpenAI-compatible endpoint.")
+    for flag in ("--prompt", "--prompt-file", "--background", "--output-format", "--moderation", "--out-dir", "--use-case", "--scene", "--subject", "--style", "--composition", "--lighting", "--palette", "--materials", "--text", "--constraints", "--negative"):
+        parser.add_argument(flag)
     parser.add_argument("--n", type=int, default=1)
     parser.add_argument("--size", default=DEFAULT_SIZE)
     parser.add_argument("--quality", default=DEFAULT_QUALITY)
-    parser.add_argument("--background")
-    parser.add_argument("--output-format")
     parser.add_argument("--output-compression", type=int)
-    parser.add_argument("--moderation")
     parser.add_argument("--out", default=DEFAULT_OUTPUT_PATH)
-    parser.add_argument("--out-dir")
     parser.add_argument("--force", action="store_true")
     parser.add_argument("--dry-run", action="store_true")
     parser.add_argument("--timeout", type=int, default=300)
     parser.add_argument("--augment", dest="augment", action="store_true")
     parser.add_argument("--no-augment", dest="augment", action="store_false")
     parser.set_defaults(augment=True)
-
-    parser.add_argument("--use-case")
-    parser.add_argument("--scene")
-    parser.add_argument("--subject")
-    parser.add_argument("--style")
-    parser.add_argument("--composition")
-    parser.add_argument("--lighting")
-    parser.add_argument("--palette")
-    parser.add_argument("--materials")
-    parser.add_argument("--text")
-    parser.add_argument("--constraints")
-    parser.add_argument("--negative")
     return parser
 
 
 def main() -> int:
     """执行脚本主流程。"""
-    parser = _create_parser()
-    args = parser.parse_args()
-
+    args = _create_parser().parse_args()
     if args.n < 1 or args.n > MAX_IMAGE_COUNT:
         _die("--n must be between 1 and 10.")
     if args.output_compression is not None and not (0 <= args.output_compression <= 100):
         _die("--output-compression must be between 0 and 100.")
     if args.timeout < 1:
         _die("--timeout must be >= 1.")
-
     prompt = _augment_prompt(args, _read_prompt(args.prompt, args.prompt_file))
     output_format = _normalize_output_format(args.output_format)
     _validate_size(args.size)
     _validate_quality(args.quality)
     _validate_background(args.background)
-
-    # 使用独立环境变量名，避免和通用 OpenAI SDK 约定发生混淆。
     base_url = _require_env("IMAGE_BASE_URL")
     api_key = _require_env("IMAGE_API_KEY")
     endpoint = _build_endpoint(base_url)
-
-    payload: Dict[str, object] = {
-        "model": DEFAULT_MODEL,
-        "prompt": prompt,
-        "n": args.n,
-        "size": args.size,
-        "quality": args.quality,
-        "output_format": output_format,
-    }
+    payload: dict[str, object] = {"model": DEFAULT_MODEL, "prompt": prompt, "n": args.n, "size": args.size, "quality": args.quality, "output_format": output_format}
     if args.background is not None:
         payload["background"] = args.background
     if args.output_compression is not None:
         payload["output_compression"] = args.output_compression
     if args.moderation is not None:
         payload["moderation"] = args.moderation
-
     outputs = _build_output_paths(args.out, output_format, args.n, args.out_dir)
     if args.dry_run:
         _print_payload(endpoint, payload, outputs)
         return 0
-
-    # 这里先打印目标接口与耗时，便于在自定义网关场景下排查路由与性能问题。
     print(f"Calling {endpoint}", file=sys.stderr)
     started = time.time()
-    response = _request_generation(endpoint, api_key, payload, args.timeout)
-    images = _extract_images(response)
-    _decode_and_write(images, outputs, args.force)
+    response = _request_json(endpoint, api_key, args.timeout, method="POST", payload=payload)
+    images = _resolve_image_bytes(base_url=base_url, api_key=api_key, response=response, timeout_seconds=args.timeout)
+    _write_image_bytes(images, outputs, args.force)
     print(f"Generation completed in {time.time() - started:.1f}s.", file=sys.stderr)
     return 0
 
