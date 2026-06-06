@@ -1,4 +1,4 @@
 interface:
   display_name: "Design Preview To Pen"
-  short_description: "Run gpt-image-2 preview exploration through $gpt-image-2-generator and structured Pencil handoff"
-  default_prompt: "Use $design-preview-to-pen to clarify the design brief with HIG as the default behavior baseline, delegate all preview image generation to $gpt-image-2-generator with gpt-image-2 only, freeze an approved direction, plan reusable assets, rebuild the result structurally in Pencil, and run visual-design-reviewer in a fresh subagent on complete drafts before handoff, but do not automatically re-review the one allowed post-failure module revision."
+  short_description: "Optional adapter for explicit preview-to-Pencil handoff"
+  default_prompt: "Use $design-preview-to-pen only when the user explicitly requests Pencil. Clarify the design brief with HIG as the default behavior baseline, delegate preview image generation to $gpt-image-2-generator with gpt-image-2 only, freeze an approved direction, plan reusable assets, rebuild the result structurally in Pencil, and pass the completed freeze package through $flutter-design-freeze-gate before handoff."

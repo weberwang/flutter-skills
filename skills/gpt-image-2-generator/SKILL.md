@@ -32,6 +32,32 @@ rtk python skills/gpt-image-2-generator/scripts/image_gen.py \
 5. Run the live request and write outputs to an explicit local path.
 6. Report the output path, the final prompt summary, and any quality risks that still need a second pass.
 
+## Flutter Workflow Usage
+
+When this skill is called from the Flutter workflow:
+
+1. Treat the target as app-page visual evidence, not a generic collage.
+2. Generate one file per page or screen and name the output file after that page or screen.
+3. Use light mode as the default visual baseline for all workflow previews unless the upstream request explicitly overrides that requirement.
+4. Save shared or global reference images under `docs/rd/`.
+5. Save module-specific page images under `docs/rd/modules/<module>/`.
+6. If one generated module page is selected as the global reference, copy that same image into both locations:
+   - `docs/rd/<page-name>.<ext>`
+   - `docs/rd/modules/<module>/<page-name>.<ext>`
+7. If `IMAGE_BASE_URL` or `IMAGE_API_KEY` is missing, do not send a request. Return control so the upstream workflow can continue without generated images.
+8. Prefer prompts that describe a concrete app page, state, and information hierarchy. Avoid mood-board phrasing when the output will drive implementation.
+9. When the request is for shared/global design freeze, generate no more than 3 preview images in total before the workflow chooses the approved direction.
+10. When the request comes from the Flutter workflow, explicitly write the inherited style constraints into the prompt or structured fields. At minimum, include:
+   - `art_direction`
+   - `taste_constraints`
+   - `visual_system`
+   - `cta_posture`
+   - palette direction
+   - typography mood
+   - component family cues
+   - image-treatment posture when available
+11. If the request is for a module preview after a shared direction already exists, preserve the same visual world instead of inventing a new palette, typography mood, component family, or image-treatment language.
+
 ## Command Patterns
 
 ### Single image
@@ -67,19 +93,39 @@ rtk python skills/gpt-image-2-generator/scripts/image_gen.py \
   --out-dir output/imagegen/mascot-set
 ```
 
+### Flutter page evidence
+
+```bash
+rtk python skills/gpt-image-2-generator/scripts/image_gen.py \
+  --prompt "Rewards home page for a mobile lifestyle app" \
+  --use-case "Flutter module freeze visual evidence" \
+  --subject "Single mobile app page named rewards-home with header, progress card, offers list, and bottom action area" \
+  --style "High-fidelity mobile product preview" \
+  --composition "One app page per file, front-facing, readable hierarchy" \
+  --constraints "No collage, no second screen, preserve realistic mobile spacing" \
+  --out docs/rd/modules/rewards/rewards-home.png
+```
+
 ## Environment Rules
 
 - `IMAGE_BASE_URL` and `IMAGE_API_KEY` are required. Do not hardcode them and do not pass secrets through prompt files.
 - `IMAGE_BASE_URL` should point to the API root, for example `https://your-endpoint.example/v1`. The script appends `/images/generations` automatically unless the value already ends with that path.
 - The bundled script targets `gpt-image-2` only. If the request depends on transparent backgrounds, image editing, or a different model family, stop and use another workflow.
+- Upstream workflow skills should check whether both environment variables exist before invoking a live generation request. If either value is missing, skip generation instead of treating that as a blocker.
 
 ## Hard Rules
 
 - Do not silently substitute another model when the request explicitly requires `gpt-image-2`.
 - Do not send a live request when either environment variable is missing.
+- Do not generate dark-mode workflow previews by default. Use light mode unless the upstream workflow explicitly requests another mode.
+- Do not generate more than 3 shared/global workflow previews for one global freeze cycle.
+- Do not send Flutter workflow generation prompts without explicit style constraints when the design packet already defines them.
+- Do not let module preview generation drift away from the approved shared/global style system.
 - Do not claim text rendered inside an image is correct unless it was visually checked afterward.
 - Do not assume transparent output is available; this skill is generation-only and does not implement the transparent-background fallback path.
 - Do not bypass script validation for custom sizes; let the helper reject invalid dimensions first.
+- Do not generate unnamed image sets when the Flutter workflow needs page-addressable evidence for module freeze or display-layer implementation.
+- Do not generate a multi-screen board when the downstream task expects one app page per file.
 
 ## References
 

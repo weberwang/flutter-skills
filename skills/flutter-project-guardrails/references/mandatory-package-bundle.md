@@ -76,6 +76,12 @@
 - 主方案：`flutter_riverpod` + `riverpod_annotation` + `riverpod_generator`
 - 说明：既负责状态，也承担显式依赖组织；不要再叠加第二套全局状态框架
 
+### Hooks 扩展
+
+- 当项目引入 `flutter_hooks` 或 `hooks_riverpod` 时，hooks 不再是可选语法糖，而是适用场景下的强制实现方式
+- 对控制器生命周期、本地瞬时状态、effect 绑定、provider 组合、滚动/输入监听等可直接由 hooks 表达的逻辑，优先改用 hooks
+- 既然已经选择 hooks，就不要在同一类场景继续新增 `StatefulWidget`、手写 `initState` / `dispose`、重复 listener 装配这类并行写法
+
 ### 路由
 
 - 主方案：`go_router`
@@ -94,6 +100,7 @@
 ## 禁止混搭
 
 - `flutter_riverpod` 与 `provider` / `bloc` 并存承担同一职责
+- 已接入 `flutter_hooks` / `hooks_riverpod`，却在可适用场景继续新增非 hooks 的生命周期样板
 - `dio` 与 `http` / `chopper` 在同一业务链路并存
 - 手写 JSON mapping 与 `json_serializable` / `freezed` 并存
 - `get_it` 作为隐藏全局容器，再叠加 Riverpod 管理同一批依赖

@@ -18,7 +18,7 @@ Use this reference when the input is a screenshot, preview comp, effect mockup, 
 - A single decorative hero shot with no usable UI structure
 - Low-fidelity sketch content when the user expects frozen theme values
 
-Route those cases to `mobile-ui-design-coach` or `design-preview-to-pen` before using this skill. If the target is global design freezing, return `blocked` directly, ask the user whether to fall back, and do not produce freeze artifacts.
+Route those cases to `flutter-taste-router` before using this skill. If the target is global design freezing, return `blocked` directly, ask the user whether to fall back, and do not produce freeze artifacts.
 
 ## Minimum Evidence Checklist
 
