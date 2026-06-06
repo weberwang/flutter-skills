@@ -96,6 +96,141 @@ When this stop condition is reached, the orchestrator should surface that the pr
 
 It must not stop because one module finished its local pre-implementation flow, because a downstream skill recommendation was produced, or because `current_module` changed from one module to another.
 
+## Route Lock Contract
+
+Treat this workflow as a locked state machine, not as a loose recommendation graph.
+
+For every routing turn, the orchestrator must derive and persist one route lock before invoking any downstream skill:
+
+- `expected_stage`: the current confirmed workflow state that authorizes the next move
+- `expected_module`: the active module for this turn, or `not_selected` for global work
+- `expected_next_skill`: the only downstream skill allowed to run next for this turn
+- `expected_next_stage`: the only stage that may be queued or promoted after a successful result
+- `expected_status_delta`: the only status fields that may change on success
+
+The route lock belongs to the orchestrator, not to downstream specialist skills. A specialist skill may produce artifacts, blockers, or revision feedback, but it must not reinterpret the workflow and invent a different route.
+
+If a downstream result implies a different module, a different stage, a different skill, or extra status promotion beyond the persisted route lock, treat that as route drift. Record the mismatch, mark the turn as `blocked`, clear queued promotions, and return control to the orchestrator instead of half-applying the result.
+
+## Preflight Gate
+
+Before every routing decision and before every downstream invocation, run a preflight gate.
+
+The preflight gate must verify at minimum:
+
+- `docs/rd/00-workflow-record.md` exists and matches the latest confirmed state
+- `current_stage` really authorizes the intended `next_skill`
+- `confirmation_status` does not forbid execution for this turn
+- `current_module` is valid for module-scoped work
+- the selected module exists in the module index when module-scoped work is requested
+- all required artifact paths for the intended move exist on disk
+- all required maturity prerequisites are already confirmed, not merely implied in prose
+- the next move does not cross the implementation boundary when `--auto` is active
+
+If any preflight check fails, stop immediately. Record the exact failed check as a blocker. Do not let a downstream skill try to compensate for missing prerequisites by reconstructing state, inferring approvals, or backfilling artifacts opportunistically.
+
+## Specialist Receipt Contract
+
+Every downstream specialist result must be consumed as a structured receipt, not as free-form optimism.
+
+At minimum, the orchestrator must verify these receipt fields before applying any transition:
+
+- `receipt_status`: `advanced`, `blocked`, `rejected`, or `not_executed`
+- `artifacts_produced`: exact artifact paths that now exist
+- `status_updates`: only the maturity or stage-adjacent fields actually proven by artifacts
+- `evidence_paths`: files, screenshots, traces, or packet paths that justify the claimed progress
+- `execution_trace`: the real execution input and output when `@superpowers` or another execution-bound step was required
+- `blockers`: explicit reasons when the step did not advance
+
+If the receipt is missing, ambiguous, or not provable from real artifacts, treat the result as `not_executed` or `blocked`. Do not promote `current_stage`, do not apply queued maturity changes, and do not infer success from polished documents alone.
+
+Only the orchestrator may:
+
+- change `current_stage`
+- set or clear `pending_next_stage`
+- set or clear `pending_next_skill`
+- set or clear `pending_status_updates`
+- confirm that a receipt satisfies the route lock
+
+## No-Progress Stop Rule
+
+In `--auto` mode, every loop iteration must produce one of only two valid outcomes:
+
+- the remaining pre-implementation workload shrinks in a provable way
+- a new real blocker is recorded
+
+If neither happened, the iteration is invalid and must stop as route drift or empty progress.
+
+Treat the following as no-progress failures:
+
+- `current_module` changed but no artifact, status, or blocker changed
+- a downstream skill recommended a future move but did not produce a valid receipt
+- a local milestone was described in prose but the remaining module set was not re-evaluated
+- the workflow record was rewritten into a later posture without any new proof on disk
+
+When a no-progress failure occurs, keep the last confirmed stage, clear queued promotions, record the cause in `decision_log`, and stop instead of continuing with speculative auto-advancement.
+
+## Subagent Execution Boundary
+
+Subagents may execute specialist work, but they must not own workflow control.
+
+Treat subagent usage in this workflow with three categories:
+
+### Orchestrator-only steps
+
+These steps must stay in the orchestrator and must not be delegated:
+
+- choose or confirm `current_stage`
+- choose or confirm `current_module`
+- derive and persist the route lock
+- run the preflight gate
+- decide whether a blocker is real enough to stop advancement
+- validate downstream receipts against the active route lock
+- apply or reject `pending_next_stage`, `pending_next_skill`, and `pending_status_updates`
+- update `docs/rd/00-workflow-record.md` as the single source of truth
+- decide whether `--auto` should continue, stop at the implementation boundary, or stop for no progress
+
+These actions define workflow truth. If a subagent performs them, route drift becomes unverifiable.
+
+### Subagent-eligible specialist stages
+
+The following specialist stages may run inside a subagent, as long as the orchestrator locks the route first and validates the receipt after the run:
+
+- `flutter-prd-rd-writer` for PRD or broad RD expansion into a technical baseline
+- `flutter-taste-router` for shared or module textual design normalization
+- `design-preview-to-global-guidelines` for turning approved shared visuals into reusable global guidelines
+- `flutter-design-freeze-gate` for freeze evaluation and revision feedback, both at shared scope and module scope
+- `flutter-rd-module-splitter` for creating module index rows and paired split-draft docs
+- module-scoped `@superpowers` execution for `module_uiux_refinement`
+- `flutter-design-source-control` when post-freeze design changes must be incorporated in a controlled way
+- `flutter-uiux-to-architecture` for architecture mapping, display-layer decision tables, and native-vs-bitmap decisions
+- `flutter-init` for scaffold and bootstrap generation, as long as it stops at initialization boundaries
+- module implementation through explicit `@superpowers` with project-local `flutter-dev` and `flutter-project-guardrails`
+- `flutter-design-parity-reviewer` for implementation-vs-design verification
+- `$imagegen` when the workflow already proved a raster asset is the correct implementation fallback
+
+The subagent may create or revise artifacts, run specialist reasoning, and report blockers. It must return those results as a receipt. It must not promote workflow state on its own.
+
+### Subagent constraints
+
+Even when a step is subagent-eligible, these constraints still apply:
+
+- only one active route-locked specialist step may run at a time for the same workflow record
+- `--auto` after `modules_split` still advances one dependency-safe module at a time; do not refine multiple active modules in parallel against the same record
+- any subagent touching module docs must be given the exact active module, expected artifact paths, and expected status delta
+- any subagent doing refinement or implementation must preserve a real execution trace suitable for receipt validation
+- any subagent that discovers a blocker may report it, but only the orchestrator may classify it as stage-blocking and rewrite the workflow record
+
+### Not subagent-eligible by default
+
+The following work must not be delegated by default unless the user explicitly requests a different control model and the workflow contract is updated accordingly:
+
+- cross-module scheduling decisions in `--auto`
+- confirmation-gate application or rejection
+- route-drift judgment
+- no-progress stop judgment
+- final interpretation of whether a step truly reached `implementation_final`, `frozen`, `landed`, or `project_initialized`
+
 ## Workflow Record
 
 - On the first run, always create `docs/rd/00-workflow-record.md` if it does not exist.
@@ -103,6 +238,8 @@ It must not stop because one module finished its local pre-implementation flow, 
 - Read `references/workflow-record-contract.md` before initializing or updating the workflow record.
 - After every routing decision, update the record with the current stage, current module, confirmation status, next skill, blockers, pending next-stage data, pending status updates, confirmed artifact paths, and whether `--auto` is still advancing remaining modules.
 - If `--auto` is active, persist that execution mode in the workflow record so downstream agents know why confirmation gates were auto-applied.
+- Persist the active route lock and the latest receipt evaluation in the workflow record so the next turn can detect route drift instead of silently continuing from an invalid assumption.
+- Persist whether the current step is orchestrator-only or subagent-eligible, so downstream execution ownership stays explicit.
 
 ## Real Execution Trace
 
@@ -194,36 +331,37 @@ Use one state per module:
 ## Routing Rules
 
 1. Start by ensuring `docs/rd/00-workflow-record.md` exists. If it is missing, create it before any stage routing.
-2. If `confirmation_status` is `pending_confirmation`, do not switch to the next process and do not apply queued status changes, unless `--auto` is active. In `--auto` mode, downstream confirmation gates are auto-confirmed until the implementation boundary or a blocker is reached, and the orchestrator must continue routing after the queued values are applied instead of stopping on the newly reached local milestone.
-3. If the user explicitly confirms a pending transition or status update, promote the queued values, clear pending fields, and continue normal routing from the newly confirmed state.
-4. If the user rejects a pending transition or status update, keep the current confirmed state, write the rejection reason, and route back to the skill that must revise artifacts.
-5. If a specialist skill returns `blocked`, do not advance. Keep `current_stage` on the last confirmed stage, clear queued transitions, and record the blocker.
-6. If the input is only a PRD, broad RD, or feature brief, use `flutter-prd-rd-writer` first.
-7. If a global technical baseline exists but the workflow lacks shared visual posture, commercial design decisions, or anti-template constraints, route to `flutter-taste-router`.
-8. Do not fully refine module UI/UX before taste direction exists. The safe order is rough module split -> taste direction -> module UI/UX refinement.
-9. Before any global design freeze or module design freeze, always let `flutter-taste-router` normalize the textual design packet first.
-10. After textual normalization and before freeze, inspect the expected artifact directory for matching static visuals. Prefer existing images over regeneration.
-11. If approved screenshots, preview comps, or static mockups must become a reusable shared design-source contract with fixed light and dark theme values, use `design-preview-to-global-guidelines`, then record `global_guidelines_frozen` as `pending_next_stage` until the user confirms.
-12. If the workflow requests shared design freezing but no reference screenshots or usable preview images exist, do not route to `design-preview-to-global-guidelines` immediately. First check `IMAGE_BASE_URL` and `IMAGE_API_KEY`; if both exist, call `gpt-image-2-generator` to create the missing shared app previews. Shared freeze may generate at most 3 images total before selecting the approved direction. If either variable is missing, stop and record that global freeze is blocked by missing effect-image generation credentials.
-13. All newly generated shared or module app previews must be light-mode visuals. Do not generate dark-mode freeze evidence unless the user explicitly requests a dark-only or dual-mode design cycle.
-14. Before `modules_split`, treat design freezing as shared/public freeze only. Do not treat it as module page freeze or module-private component freeze.
-15. If shared design has a candidate direction or a complete visual draft but no explicit freeze decision, use `flutter-design-freeze-gate` directly.
-16. If `--auto` is active and shared freeze still needs static visual evidence after directory inspection, call `gpt-image-2-generator` only when both image environment variables exist; generate no more than 3 shared previews, save the selected global preview under `docs/rd/` and copy it into the owning module directory, then continue through `flutter-taste-router` and `flutter-design-freeze-gate`. Every generated preview must explicitly include the current style constraints in its generation input. If credentials are missing, stop and record a blocker instead of continuing toward shared freeze.
-17. If `flutter-design-freeze-gate` finds hierarchy, task guidance, typography, contrast, CTA clarity, or state coverage still weak, do not route to freeze. Allow one shared revision pass through `flutter-taste-router` plus optional preview regeneration, then stop unless the user explicitly restarts the design cycle.
-18. If the shared visual direction has been approved but detailed modules and paired doc paths do not exist yet, use `flutter-rd-module-splitter`. Its first pass creates split drafts, not implementation-final docs.
-19. If multiple feature modules depend on one shared route host, root redirect layer, tab shell, or shell-level state, allow `flutter-rd-module-splitter` to split an `app-shell` or `root-shell` module first instead of burying that responsibility inside feature modules.
-20. If a module has been selected for implementation preparation and its `uiux_status` or `impl_status` is still `split_draft`, keep or promote the module to `module_uiux_refinement` and strictly call `@superpowers` to refine only that active module's existing paired docs while following the document contracts defined by `flutter-rd-module-splitter`.
-21. In module implementation preparation, refine `docs/rd/modules/<module>/<module>.ui-ux.md` and `docs/rd/modules/<module>/<module>.impl.md` before attempting module design freeze. Do not freeze a module whose paired docs are not both implementation-final.
-22. When module refinement produces implementation-final docs, keep `current_stage` at the last confirmed stage, queue `<module>.uiux_status=implementation_final` and `<module>.impl_status=implementation_final`, and wait for confirmation before design freeze. In `--auto` mode, auto-apply those queued updates and continue directly into module freeze for the same module.
-23. In module freeze, static visual evidence is optional. If the active module has no static preview but the `flutter-taste-router` design packet is explicit enough, route that packet directly to `flutter-design-freeze-gate`.
-24. If a complete active-module visual draft, preview pack, or implementation-facing design-source packet exists, route to `flutter-design-freeze-gate` before queueing `module_design_frozen`.
-25. In `--auto` mode, module freeze should rely on `flutter-taste-router` to determine and consolidate module UI/UX. Do not require auto-generated static images for module freeze unless the packet is still too ambiguous to freeze safely.
-26. If `flutter-design-freeze-gate` finds the active-module design package not yet strong enough to freeze, keep the workflow on the active module, update the active module UI/UX doc plus design packet and optional visual evidence exactly once, and stop without another automatic freeze pass unless the user explicitly restarts a design cycle.
-27. When `flutter-design-freeze-gate` approves the active module design source, do not immediately mark it frozen. Queue `pending_next_stage=module_design_frozen`, queue `design_source_status=frozen`, and if docs reference the frozen design source packet, also queue `uiux_status=landed` and `impl_status=landed`. In `--auto` mode, auto-apply that promotion and immediately decide whether the same module still needs implementation-readiness or architecture output before switching modules.
-28. If a frozen UI/UX source is about to be consumed by implementation RD or code, use `flutter-design-source-control`.
-29. If frozen UI/UX, theme values, component rules, and visual evidence must become Flutter-facing tokens, assets, components, screen architecture, and non-native visual fallback decisions, route to `flutter-uiux-to-architecture`. Do not require `.pen`.
-30. Do not move a module into `implementing` until `technical_baseline_ready`, `modules_split`, `module_design_frozen`, and `impl_rd_ready` exist for the module, confirmed maturity is at least `uiux_status=landed`, `impl_status=landed`, and `design_source_status=frozen`, and the required global public code baseline is already landed.
-31. The required global public code baseline before module implementation must include at least:
+2. Before deciding or invoking anything downstream, derive one route lock and run the preflight gate. If either step fails, stop and record a blocker instead of letting the downstream skill reinterpret the workflow.
+3. If `confirmation_status` is `pending_confirmation`, do not switch to the next process and do not apply queued status changes, unless `--auto` is active. In `--auto` mode, downstream confirmation gates are auto-confirmed until the implementation boundary or a blocker is reached, and the orchestrator must continue routing after the queued values are applied instead of stopping on the newly reached local milestone.
+4. If the user explicitly confirms a pending transition or status update, promote the queued values, clear pending fields, and continue normal routing from the newly confirmed state.
+5. If the user rejects a pending transition or status update, keep the current confirmed state, write the rejection reason, and route back to the skill that must revise artifacts.
+6. If a specialist skill returns `blocked`, `not_executed`, or a receipt that fails route-lock validation, do not advance. Keep `current_stage` on the last confirmed stage, clear queued transitions, and record the blocker or route-drift reason.
+7. If the input is only a PRD, broad RD, or feature brief, use `flutter-prd-rd-writer` first.
+8. If a global technical baseline exists but the workflow lacks shared visual posture, commercial design decisions, or anti-template constraints, route to `flutter-taste-router`.
+9. Do not fully refine module UI/UX before taste direction exists. The safe order is rough module split -> taste direction -> module UI/UX refinement.
+10. Before any global design freeze or module design freeze, always let `flutter-taste-router` normalize the textual design packet first.
+11. After textual normalization and before freeze, inspect the expected artifact directory for matching static visuals. Prefer existing images over regeneration.
+12. If approved screenshots, preview comps, or static mockups must become a reusable shared design-source contract with fixed light and dark theme values, use `design-preview-to-global-guidelines`, then record `global_guidelines_frozen` as `pending_next_stage` until the user confirms.
+13. If the workflow requests shared design freezing but no reference screenshots or usable preview images exist, do not route to `design-preview-to-global-guidelines` immediately. First check `IMAGE_BASE_URL` and `IMAGE_API_KEY`; if both exist, call `gpt-image-2-generator` to create the missing shared app previews. Shared freeze may generate at most 3 images total before selecting the approved direction. If either variable is missing, stop and record that global freeze is blocked by missing effect-image generation credentials.
+14. All newly generated shared or module app previews must be light-mode visuals. Do not generate dark-mode freeze evidence unless the user explicitly requests a dark-only or dual-mode design cycle.
+15. Before `modules_split`, treat design freezing as shared/public freeze only. Do not treat it as module page freeze or module-private component freeze.
+16. If shared design has a candidate direction or a complete visual draft but no explicit freeze decision, use `flutter-design-freeze-gate` directly.
+17. If `--auto` is active and shared freeze still needs static visual evidence after directory inspection, call `gpt-image-2-generator` only when both image environment variables exist; generate no more than 3 shared previews, save the selected global preview under `docs/rd/` and copy it into the owning module directory, then continue through `flutter-taste-router` and `flutter-design-freeze-gate`. Every generated preview must explicitly include the current style constraints in its generation input. If credentials are missing, stop and record a blocker instead of continuing toward shared freeze.
+18. If `flutter-design-freeze-gate` finds hierarchy, task guidance, typography, contrast, CTA clarity, or state coverage still weak, do not route to freeze. Allow one shared revision pass through `flutter-taste-router` plus optional preview regeneration, then stop unless the user explicitly restarts the design cycle.
+19. If the shared visual direction has been approved but detailed modules and paired doc paths do not exist yet, use `flutter-rd-module-splitter`. Its first pass creates split drafts, not implementation-final docs.
+20. If multiple feature modules depend on one shared route host, root redirect layer, tab shell, or shell-level state, allow `flutter-rd-module-splitter` to split an `app-shell` or `root-shell` module first instead of burying that responsibility inside feature modules.
+21. If a module has been selected for implementation preparation and its `uiux_status` or `impl_status` is still `split_draft`, keep or promote the module to `module_uiux_refinement` and strictly call `@superpowers` to refine only that active module's existing paired docs while following the document contracts defined by `flutter-rd-module-splitter`.
+22. In module implementation preparation, refine `docs/rd/modules/<module>/<module>.ui-ux.md` and `docs/rd/modules/<module>/<module>.impl.md` before attempting module design freeze. Do not freeze a module whose paired docs are not both implementation-final.
+23. When module refinement produces implementation-final docs, keep `current_stage` at the last confirmed stage, queue `<module>.uiux_status=implementation_final` and `<module>.impl_status=implementation_final`, and wait for confirmation before design freeze. In `--auto` mode, auto-apply those queued updates and continue directly into module freeze for the same module.
+24. In module freeze, static visual evidence is optional. If the active module has no static preview but the `flutter-taste-router` design packet is explicit enough, route that packet directly to `flutter-design-freeze-gate`.
+25. If a complete active-module visual draft, preview pack, or implementation-facing design-source packet exists, route to `flutter-design-freeze-gate` before queueing `module_design_frozen`.
+26. In `--auto` mode, module freeze should rely on `flutter-taste-router` to determine and consolidate module UI/UX. Do not require auto-generated static images for module freeze unless the packet is still too ambiguous to freeze safely.
+27. If `flutter-design-freeze-gate` finds the active-module design package not yet strong enough to freeze, keep the workflow on the active module, update the active module UI/UX doc plus design packet and optional visual evidence exactly once, and stop without another automatic freeze pass unless the user explicitly restarts a design cycle.
+28. When `flutter-design-freeze-gate` approves the active module design source, do not immediately mark it frozen. Queue `pending_next_stage=module_design_frozen`, queue `design_source_status=frozen`, and if docs reference the frozen design source packet, also queue `uiux_status=landed` and `impl_status=landed`. In `--auto` mode, auto-apply that promotion and immediately decide whether the same module still needs implementation-readiness or architecture output before switching modules.
+29. If a frozen UI/UX source is about to be consumed by implementation RD or code, use `flutter-design-source-control`.
+30. If frozen UI/UX, theme values, component rules, and visual evidence must become Flutter-facing tokens, assets, components, screen architecture, and non-native visual fallback decisions, route to `flutter-uiux-to-architecture`. Do not require `.pen`.
+31. Do not move a module into `implementing` until `technical_baseline_ready`, `modules_split`, `module_design_frozen`, and `impl_rd_ready` exist for the module, confirmed maturity is at least `uiux_status=landed`, `impl_status=landed`, and `design_source_status=frozen`, and the required global public code baseline is already landed.
+32. The required global public code baseline before module implementation must include at least:
    - app bootstrap and environment initialization
    - root router or route host plus root redirect policy
    - global dependency injection or provider scope entry
@@ -231,40 +369,43 @@ Use one state per module:
    - global error mapping and logging baseline
    - shared theme or design-token baseline required by the frozen design source
    - the shared shell layer when feature modules depend on an `app-shell` or `root-shell`
-32. Add network baseline and API client wiring to the global public code baseline only when the project or target modules actually require remote data, API access, upload, sync, or other network capabilities. Do not force network infrastructure into purely local, offline, or static-flow projects.
-33. As soon as the shared public baseline is explicit enough, prefer triggering `flutter-init` before feature-module code begins. The best trigger point is after shared design freeze, module split, shared shell or global public baseline clarification, and the first architecture output that defines bootstrap-critical inputs.
-34. Bootstrap-critical inputs for that early `flutter-init` trigger include at least the global public code baseline, any required `app-shell` or `root-shell`, shared theme or token baseline, route host or redirect policy, storage baseline, error/logging baseline, and network baseline only when the project actually needs it.
-35. Do not wait for every feature module to reach `architecture_ready` before triggering `flutter-init` when the shared baseline above is already clear enough.
-36. When `--auto` is active after `modules_split`, iterate all target modules in dependency-safe order and continue refinement until every module reaches implementation-ready maturity, but allow `flutter-init` to run as soon as the shared bootstrap-critical baseline is ready.
-37. In `--auto` mode, after one module reaches any local stable node such as `implementation_final`, `module_design_frozen`, `impl_rd_ready`, or `architecture_ready`, immediately choose the next valid pre-implementation action. That may mean continuing the same module, switching `current_module` to the next dependency-safe module, or triggering `flutter-init` if the shared baseline is ready and the scaffold is still missing.
-38. In `--auto` mode, after a module becomes locally complete for the current step, immediately update `current_module`, `current_stage`, `next_skill`, `module_status_table`, and `decision_log` to reflect the next remaining work. Do not leave `next_skill` as a passive future suggestion if unresolved target modules still exist.
-39. If a module dependency prevents the next module from being refined safely, keep the workflow active but stop auto-advancement and record the blocker explicitly.
-40. If the shared bootstrap-critical baseline is ready and the target project has not been scaffolded yet or does not contain project-local `skills/flutter-dev/`, use `flutter-init` before feature-module implementation begins. Do not delay this just because unrelated feature modules still lack later-stage architecture output.
-41. `flutter-init` must stop at initialization boundaries. It may scaffold folders, shared bootstrap, shared wiring, and annotation-ready contracts, but it must not implement feature code, page code, or module-specific business logic.
-42. If `flutter-init` has completed and project-local `skills/flutter-dev/` exists, record `project_initialized` as `pending_next_stage`.
-43. If `--auto` is active, do not stop for `project_initialized`, `implementation_final`, `module_design_frozen`, `impl_rd_ready`, `architecture_ready`, or other downstream confirmation gates. Keep advancing until the implementation boundary is reached for all target modules or a blocker appears.
-44. If `--auto` is active and all target modules are implementation-ready, stop here instead of entering `implementing`.
-45. If implementation work should begin or continue, strictly call `@superpowers` together with project-local `flutter-dev` and `flutter-project-guardrails`.
-46. During module implementation, split execution into `uiux` and `impl` tracks when the work naturally separates presentation from behavior or data contracts. Both tracks must still be executed through explicit `@superpowers` invocation, not by directly running downstream implementation skills on their own.
-47. The default module landing order is: define the minimum data contract first, then land the display layer skeleton and main user path, then connect the real data layer. The minimum data contract should cover interface fields, state enums, loading or empty or error states, and interaction input-output boundaries without forcing full data-layer completion first.
-48. For ordinary business-page modules, prefer `minimum data contract -> display layer -> data integration`. For infrastructure-heavy modules such as auth guards, route shells, sync engines, caches, payment orchestration, or backend-first flows, it is allowed to land the minimum process or data layer first and then attach display surfaces later.
-49. Before display-layer code begins, run a display-layer readiness preflight. At minimum, verify:
+33. Add network baseline and API client wiring to the global public code baseline only when the project or target modules actually require remote data, API access, upload, sync, or other network capabilities. Do not force network infrastructure into purely local, offline, or static-flow projects.
+34. As soon as the shared public baseline is explicit enough, prefer triggering `flutter-init` before feature-module code begins. The best trigger point is after shared design freeze, module split, shared shell or global public baseline clarification, and the first architecture output that defines bootstrap-critical inputs.
+35. Bootstrap-critical inputs for that early `flutter-init` trigger include at least the global public code baseline, any required `app-shell` or `root-shell`, shared theme or token baseline, route host or redirect policy, storage baseline, error/logging baseline, and network baseline only when the project actually needs it.
+36. Do not wait for every feature module to reach `architecture_ready` before triggering `flutter-init` when the shared baseline above is already clear enough.
+37. When `--auto` is active after `modules_split`, iterate all target modules in dependency-safe order and continue refinement until every module reaches implementation-ready maturity, but allow `flutter-init` to run as soon as the shared bootstrap-critical baseline is ready.
+38. In `--auto` mode, after one module reaches any local stable node such as `implementation_final`, `module_design_frozen`, `impl_rd_ready`, or `architecture_ready`, immediately choose the next valid pre-implementation action. That may mean continuing the same module, switching `current_module` to the next dependency-safe module, or triggering `flutter-init` if the shared baseline is ready and the scaffold is still missing.
+39. In `--auto` mode, after a module becomes locally complete for the current step, immediately update `current_module`, `current_stage`, `next_skill`, `module_status_table`, and `decision_log` to reflect the next remaining work. Do not leave `next_skill` as a passive future suggestion if unresolved target modules still exist.
+40. If a module dependency prevents the next module from being refined safely, keep the workflow active but stop auto-advancement and record the blocker explicitly.
+41. If the shared bootstrap-critical baseline is ready and the target project has not been scaffolded yet or does not contain project-local `skills/flutter-dev/`, use `flutter-init` before feature-module implementation begins. Do not delay this just because unrelated feature modules still lack later-stage architecture output.
+42. `flutter-init` must stop at initialization boundaries. It may scaffold folders, shared bootstrap, shared wiring, and annotation-ready contracts, but it must not implement feature code, page code, or module-specific business logic.
+43. If `flutter-init` has completed and project-local `skills/flutter-dev/` exists, record `project_initialized` as `pending_next_stage`.
+44. If `--auto` is active, do not stop for `project_initialized`, `implementation_final`, `module_design_frozen`, `impl_rd_ready`, `architecture_ready`, or other downstream confirmation gates. Keep advancing until the implementation boundary is reached for all target modules or a blocker appears.
+45. If `--auto` is active and all target modules are implementation-ready, stop here instead of entering `implementing`.
+46. If implementation work should begin or continue, strictly call `@superpowers` together with project-local `flutter-dev` and `flutter-project-guardrails`.
+47. During module implementation, split execution into `uiux` and `impl` tracks when the work naturally separates presentation from behavior or data contracts. Both tracks must still be executed through explicit `@superpowers` invocation, not by directly running downstream implementation skills on their own.
+48. The default module landing order is: define the minimum data contract first, then land the display layer skeleton and main user path, then connect the real data layer. The minimum data contract should cover interface fields, state enums, loading or empty or error states, and interaction input-output boundaries without forcing full data-layer completion first.
+49. For ordinary business-page modules, prefer `minimum data contract -> display layer -> data integration`. For infrastructure-heavy modules such as auth guards, route shells, sync engines, caches, payment orchestration, or backend-first flows, it is allowed to land the minimum process or data layer first and then attach display surfaces later.
+50. Before display-layer code begins, run a display-layer readiness preflight. At minimum, verify:
    - the page has a readable main preview image
    - complex areas have readable detail previews when needed
    - `ui-ux.md` explicitly records scroll, list, overlay, layout, sticky, and component-repeatability semantics
    - `flutter-uiux-to-architecture` has already produced a concrete display-layer decision table
    - non-native visual effects are already classified as native code or asset fallback
-50. During display-layer implementation, keep taste guidance active as a guardrail for hierarchy, spacing, typography, contrast, CTA salience, motion restraint, and anti-template composition. Taste must not override frozen UI/UX intent. If corresponding page images exist, inspect them through `$image-to-code` before landing display-layer code.
-51. Treat preview images as visual-structure evidence, not as the only source of truth for Flutter implementation choices. Final scroll, list, sticky, overlay, and layout decisions must follow the combination of `ui-ux.md`, `impl.md`, and `flutter-uiux-to-architecture`.
-52. If the page effect image contains a bitmap visual, texture, illustration, composite, or other effect that Flutter cannot reproduce natively with reasonable cost and fidelity, do not force a code-only rebuild. Record it as a generated asset requirement, use `$imagegen` to generate the needed bitmap asset, move the selected result into the project, and let implementation consume that asset explicitly.
-53. Only use `$imagegen` for visuals that are genuinely better as raster assets. Do not use it for shapes, simple gradients, icons that belong to an existing vector system, or effects that Flutter can reproduce cleanly with native code.
-54. If code is complete or screenshots exist, use `flutter-design-parity-reviewer`.
-55. If the user requests UI, layout, interaction, hierarchy, visual token, or state changes after shared freeze or module design freeze, use `flutter-design-source-control`.
-56. Only route to Pen/Pencil skills when the user explicitly requests Pencil tooling or provides a `.pen` workflow. That optional path must not become a default gate for Flutter implementation.
+51. During display-layer implementation, keep taste guidance active as a guardrail for hierarchy, spacing, typography, contrast, CTA salience, motion restraint, and anti-template composition. Taste must not override frozen UI/UX intent. If corresponding page images exist, inspect them through `$image-to-code` before landing display-layer code.
+52. Treat preview images as visual-structure evidence, not as the only source of truth for Flutter implementation choices. Final scroll, list, sticky, overlay, and layout decisions must follow the combination of `ui-ux.md`, `impl.md`, and `flutter-uiux-to-architecture`.
+53. If the page effect image contains a bitmap visual, texture, illustration, composite, or other effect that Flutter cannot reproduce natively with reasonable cost and fidelity, do not force a code-only rebuild. Record it as a generated asset requirement, use `$imagegen` to generate the needed bitmap asset, move the selected result into the project, and let implementation consume that asset explicitly.
+54. Only use `$imagegen` for visuals that are genuinely better as raster assets. Do not use it for shapes, simple gradients, icons that belong to an existing vector system, or effects that Flutter can reproduce cleanly with native code.
+55. If code is complete or screenshots exist, use `flutter-design-parity-reviewer`.
+56. If the user requests UI, layout, interaction, hierarchy, visual token, or state changes after shared freeze or module design freeze, use `flutter-design-source-control`.
+57. Only route to Pen/Pencil skills when the user explicitly requests Pencil tooling or provides a `.pen` workflow. That optional path must not become a default gate for Flutter implementation.
 
 ## Hard Rules
 
 - Do not split implementation modules from a raw PRD before a global technical baseline and package stack exist.
+- Do not treat routing as a best-effort recommendation flow; it is a locked state machine owned by the orchestrator.
+- Do not invoke a downstream skill until the route lock is persisted and the preflight gate passes.
+- Do not delegate workflow truth ownership to a subagent.
 - Do not use `flutter-prd-rd-writer` for detailed module design.
 - Do not skip taste direction before detailed module UI/UX refinement.
 - Do not skip `flutter-taste-router` textual normalization before any shared freeze or module freeze check.
@@ -315,6 +456,12 @@ Use one state per module:
 - Do not use `$imagegen` as an excuse to skip native implementation for visuals that Flutter can reproduce cleanly.
 - Do not switch to the next process automatically after a specialist skill finishes; wait for explicit user confirmation whenever queued transitions or status updates exist.
 - Do not ask an execution skill to do workflow bookkeeping that belongs here.
+- Do not let a downstream skill change `current_stage`, `pending_next_stage`, `pending_next_skill`, or `pending_status_updates` by implication.
+- Do not accept a downstream result without a verifiable receipt containing artifacts, evidence, and blockers.
+- Do not treat an iteration with no status delta and no new blocker as valid progress in `--auto`.
+- Do not continue auto-advancement after route drift, receipt mismatch, or empty progress.
+- Do not run multiple subagents in parallel against the same active module or the same workflow record when their outputs could race.
+- Do not let a subagent decide whether `--auto` should switch modules, stop, or promote a stage.
 - Do not treat one module's state as proof that another module is ready.
 - Do not create per-module workflow state files; keep stage tracking in `docs/rd/00-workflow-record.md`.
 
@@ -331,6 +478,11 @@ Return:
 - `pending_next_stage`
 - `pending_next_skill`
 - `pending_status_updates`
+- `route_lock`
+- `execution_owner`
+- `receipt_status`
+- `receipt_summary`
+- `progress_delta`
 - `required_inputs`
 - `blockers`
 - `allowed_next_actions`

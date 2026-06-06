@@ -41,6 +41,10 @@ This file is the single stable source for project workflow state. It should let 
 - whether initialization has stopped at scaffold/bootstrap boundaries without starting feature implementation
 - whether the orchestrator is currently running in manual mode or `--auto`
 - whether `--auto` is still actively advancing remaining modules or has reached a valid stop condition
+- what the active route lock is for the current turn
+- whether the current turn is orchestrator-owned or delegated to a subagent
+- whether the latest downstream receipt actually matched the locked route
+- whether the latest auto iteration made provable progress or stopped on a blocker
 
 ## Initialization Rule
 
@@ -65,6 +69,10 @@ next_skill: <skill-name-or-none>
 pending_next_stage: <workflow-state-or-none>
 pending_next_skill: <skill-name-or-none>
 pending_status_updates: <module.field=target list-or-none>
+route_lock: <stage|module|skill|stage_delta|status_delta summary-or-none>
+execution_owner: orchestrator | subagent:<skill-name> | none
+last_receipt_status: advanced | blocked | rejected | not_executed | route_drift | none
+auto_progress_delta: <what actually advanced this turn-or-none>
 ```
 
 Use `pending_status_updates` as a short semicolon-separated summary such as:
@@ -132,6 +140,10 @@ If freeze preparation is in progress, state whether `flutter-taste-router` textu
 
 If previews are present, state whether the workflow is using the required light-mode preview baseline or an explicitly approved override.
 
+Also state the current route lock for this turn and whether the next move is still inside that lock.
+
+If the next move is delegated, also state which subagent-owned specialist step is running and what remains orchestrator-owned.
+
 ### `current_module_detail`
 
 Record the active module, or `not_selected` if the workflow is still global.
@@ -160,6 +172,10 @@ If `execution_mode=auto`, `next_action` must describe the next real auto step fo
 
 If the workflow is `blocked`, do not point `next_skill` at the next process stage and do not preserve a stale queued transition or stale queued status change from a failed routing attempt.
 
+If the latest downstream result drifted from the route lock, say so explicitly here and require the orchestrator to re-route instead of pretending the next move is already authorized.
+
+If the current step is delegated, describe the expected receipt boundary instead of implying the subagent may decide the next workflow state.
+
 ### `confirmation_gate`
 
 Record:
@@ -178,6 +194,8 @@ If the workflow is waiting only on artifact maturity changes and not a stage swi
 List blockers explicitly. Use `none` if there are no blockers.
 
 If the workflow is waiting on approval, include `waiting_for_user_confirmation` unless a stronger blocker already exists.
+
+If route drift, receipt mismatch, or no-progress auto advancement occurred, list that blocker explicitly instead of burying it inside the decision log only.
 
 ### `global_artifact_index`
 
@@ -223,11 +241,15 @@ Append short dated entries only when a stage changes, a blocker is cleared, a ro
 
 When the workflow attempts module refinement in the default path, each dated entry should also capture the dependency-safe reason, the real `@superpowers` refinement input and output, and `未执行` when a claimed downstream step did not really happen.
 
+When route drift, receipt mismatch, or no-progress auto stopping happens, add a dated entry that states the expected route lock, the actual downstream result, and why the orchestrator refused to advance.
+
 ## Update Rules
 
 - Update the metadata block on every orchestrator run.
 - Keep `current_stage` and the active module row in sync.
 - Keep `confirmation_status`, `pending_next_stage`, `pending_next_skill`, and `pending_status_updates` in sync between the metadata block and the active module row.
+- Keep `route_lock`, `last_receipt_status`, and `auto_progress_delta` in sync with the latest routing turn.
+- Keep `execution_owner` in sync with the latest routing turn.
 - If taste direction is produced, index its artifact path in `global_artifact_index` and link it from active module rows when relevant.
 - If `flutter-taste-router` completes textual normalization, record that status in the relevant summary or decision entry before any freeze promotion is queued.
 - If freeze preparation inspects static-image directories, record whether existing evidence was reused, skipped due to missing environment variables, or newly generated.
@@ -239,11 +261,17 @@ When the workflow attempts module refinement in the default path, each dated ent
 - If a freeze evaluation fails, keep the current stage unchanged, clear any queued freeze promotion, and route back to the correct upstream skill for exactly one scope-matched revision pass.
 - If `execution_mode=auto`, the orchestrator should apply deterministic queued transitions and queued status updates without pausing for ordinary downstream confirmation, and it must stop only when the implementation boundary is reached or when a blocker appears.
 - If `execution_mode=auto`, the orchestrator must not stop just because one module reached a local milestone such as `implementation_final`, `module_design_frozen`, `impl_rd_ready`, or `architecture_ready`.
+- Before any downstream invocation, persist one route lock that names the expected stage, module, next skill, next stage delta, and status delta.
+- Before any delegated specialist invocation, persist `execution_owner` as the exact subagent-owned step for this turn.
+- After any downstream invocation, evaluate the receipt against that route lock and store the result in `last_receipt_status`.
+- If the receipt is missing, ambiguous, or not provable from real artifacts, store `last_receipt_status` as `not_executed` or `route_drift`, clear queued promotions, and stop advancement.
 - If the shared bootstrap-critical baseline is ready and the project scaffold is still missing, the orchestrator should prefer `flutter-init` before waiting for every feature module to reach later architecture milestones.
 - If `execution_mode=auto`, after one module reaches a local milestone, immediately update `current_module`, `current_stage`, `next_skill`, the active module row, and `decision_log` to reflect the next real pre-implementation action.
 - If `execution_mode=auto`, `current_module` means only the module being processed now. It must not imply that the current auto run is scoped to that single module.
 - If `execution_mode=auto`, `workflow_summary` and `next_action` must explicitly state which modules remain to be advanced. Do not imply that auto is complete while target modules are still pending.
 - If `execution_mode=auto`, do not use a generic "recommended next skill" as a stopping placeholder when unresolved target modules still exist. The record must reflect active continuation, not deferred manual pickup.
+- If `execution_mode=auto`, each loop must either reduce the remaining pre-implementation work in a provable way or add a new blocker. Record that outcome in `auto_progress_delta`.
+- If `execution_mode=auto` changed modules, rewrote `next_skill`, or rewrote stage posture without new proof or blocker, record `auto_progress_delta: none`, set a blocker, and stop.
 - If the active module design-source packet is confirmed, queue or apply `design_source_status=frozen` according to the confirmation gate.
 - If docs reference the frozen design-source packet and the user confirms, apply `uiux_status=landed` and `impl_status=landed`.
 - If a step result is ready for review, keep `current_stage` on the last confirmed stage, set `confirmation_status: pending_confirmation`, set `next_skill: none`, and record candidate transitions and status changes in `pending_next_stage`, `pending_next_skill`, and `pending_status_updates`.
@@ -266,6 +294,8 @@ When the workflow attempts module refinement in the default path, each dated ent
 - Do not create separate workflow state files per module.
 - Do not delete historical decisions from `decision_log`; append short entries instead.
 - Do not hide blockers in prose outside the `blockers` section.
+- Do not leave `route_lock`, `last_receipt_status`, or `auto_progress_delta` blank once routing has started.
+- Do not leave `execution_owner` blank once a turn has selected local orchestration or delegated specialist ownership.
 - Do not mark a stage as advanced until the required artifacts for that stage are actually available.
 - Do not mark a maturity upgrade as confirmed until the artifact that proves it actually exists.
 - Do not treat `split_draft` as implementation-ready.
@@ -286,6 +316,10 @@ When the workflow attempts module refinement in the default path, each dated ent
 - Do not write `next_skill: none` as if auto were finished when the real state is "this module is done but other modules remain".
 - Do not store an "auto completed" interpretation when the actual state is only "one module reached a local stable node and the next module has not been selected yet".
 - Do not store a queued transition or queued maturity change only in prose; always persist it in `pending_next_stage`, `pending_next_skill`, and `pending_status_updates`.
+- Do not let a downstream receipt redefine the locked route for the same turn.
+- Do not let `execution_owner=subagent:*` imply that the subagent owns workflow bookkeeping or stage promotion.
+- Do not treat a downstream recommendation, polished prose, or module switch by itself as progress.
+- Do not keep auto running when `auto_progress_delta` is `none` and no new blocker was recorded.
 - Do not keep `pending_next_stage`, `pending_next_skill`, or `pending_status_updates` populated after a `blocked` result.
 - Do not rewrite `current_stage` to a later workflow state when the latest routing result is `blocked`.
 - Do not mark `project_initialized` unless both the scaffold and project-local `skills/flutter-dev/` exist.
