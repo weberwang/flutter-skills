@@ -389,16 +389,21 @@ Use one state per module:
 50. Before display-layer code begins, run a display-layer readiness preflight. At minimum, verify:
    - the page has a readable main preview image
    - complex areas have readable detail previews when needed
+   - fidelity-critical regions have enough evidence coverage, including state, scroll-position, and overlay evidence when those dimensions materially affect the layout
    - `ui-ux.md` explicitly records scroll, list, overlay, layout, sticky, and component-repeatability semantics
    - `flutter-uiux-to-architecture` has already produced a concrete display-layer decision table
+   - every important page region is classified as `preserve_faithfully`, `flutterize`, or `simplify`
+   - every fidelity-critical region has an explicit `layout_anchor`, `spacing_lock_rule`, `z_axis_rule`, and `pixel_tolerance`
    - non-native visual effects are already classified as native code or asset fallback
-51. During display-layer implementation, keep taste guidance active as a guardrail for hierarchy, spacing, typography, contrast, CTA salience, motion restraint, and anti-template composition. Taste must not override frozen UI/UX intent. If corresponding page images exist, inspect them through `$image-to-code` before landing display-layer code.
-52. Treat preview images as visual-structure evidence, not as the only source of truth for Flutter implementation choices. Final scroll, list, sticky, overlay, and layout decisions must follow the combination of `ui-ux.md`, `impl.md`, and `flutter-uiux-to-architecture`.
-53. If the page effect image contains a bitmap visual, texture, illustration, composite, or other effect that Flutter cannot reproduce natively with reasonable cost and fidelity, do not force a code-only rebuild. Record it as a generated asset requirement, use `$imagegen` to generate the needed bitmap asset, move the selected result into the project, and let implementation consume that asset explicitly.
-54. Only use `$imagegen` for visuals that are genuinely better as raster assets. Do not use it for shapes, simple gradients, icons that belong to an existing vector system, or effects that Flutter can reproduce cleanly with native code.
-55. If code is complete or screenshots exist, use `flutter-design-parity-reviewer`.
-56. If the user requests UI, layout, interaction, hierarchy, visual token, or state changes after shared freeze or module design freeze, use `flutter-design-source-control`.
-57. Only route to Pen/Pencil skills when the user explicitly requests Pencil tooling or provides a `.pen` workflow. That optional path must not become a default gate for Flutter implementation.
+51. Treat hero regions, CTA clusters, branded illustration zones, layered backgrounds, sticky headers, and overlay-heavy regions as fidelity-critical by default unless the frozen design source explicitly says otherwise.
+52. During display-layer implementation, keep taste guidance active as a guardrail for hierarchy, spacing, typography, contrast, CTA salience, motion restraint, and anti-template composition. Taste must not override frozen UI/UX intent. If corresponding page images exist, inspect them through `$image-to-code` before landing display-layer code.
+53. Treat preview images as visual-structure evidence, not as the only source of truth for Flutter implementation choices. Final scroll, list, sticky, overlay, and layout decisions must follow the combination of `ui-ux.md`, `impl.md`, and `flutter-uiux-to-architecture`.
+54. If the architecture output marks a region `preserve_faithfully`, do not normalize away its locked spacing, hierarchy, layering, or asset usage for engineering convenience. Any such change must return to `flutter-design-source-control`.
+55. If the page effect image contains a bitmap visual, texture, illustration, composite, or other effect that Flutter cannot reproduce natively with reasonable cost and fidelity, do not force a code-only rebuild. Record it as a generated asset requirement, use `$imagegen` to generate the needed bitmap asset, move the selected result into the project, and let implementation consume that asset explicitly.
+56. Only use `$imagegen` for visuals that are genuinely better as raster assets. Do not use it for shapes, simple gradients, icons that belong to an existing vector system, or effects that Flutter can reproduce cleanly with native code.
+57. If code is complete or screenshots exist, use `flutter-design-parity-reviewer`.
+58. If the user requests UI, layout, interaction, hierarchy, visual token, or state changes after shared freeze or module design freeze, use `flutter-design-source-control`.
+59. Only route to Pen/Pencil skills when the user explicitly requests Pencil tooling or provides a `.pen` workflow. That optional path must not become a default gate for Flutter implementation.
 
 ## Hard Rules
 
@@ -450,8 +455,11 @@ Use one state per module:
 - Do not treat a complete-looking `ui-ux.md` or `impl.md` as proof that `@superpowers` refinement really happened.
 - Do not let `.impl.md` claim `superpowers_refinement_status=verified_executed` unless the workflow record or execution trace contains the real `@superpowers` inputs and outputs for that module.
 - Do not start display-layer landing before the preflight inputs are complete enough to avoid image-only guessing.
+- Do not start high-fidelity display-layer landing with only a broad page preview when fidelity-critical regions still lack detail, state, scroll, or overlay evidence.
 - Do not let display-layer code land without consulting the corresponding page image through `$image-to-code` when such image evidence exists.
 - Do not let preview images alone decide final Flutter widget strategy when documented interaction or architecture semantics say otherwise.
+- Do not leave a fidelity-critical region without an explicit `preserve_faithfully`, `flutterize`, or `simplify` classification in architecture output.
+- Do not let engineering convenience flatten locked spacing, layer depth, or CTA dominance for regions marked `preserve_faithfully`.
 - Do not force Flutter-native reconstruction for visuals that are clearly better shipped as generated bitmap assets; route those through `$imagegen` and store them inside the project.
 - Do not use `$imagegen` as an excuse to skip native implementation for visuals that Flutter can reproduce cleanly.
 - Do not switch to the next process automatically after a specialist skill finishes; wait for explicit user confirmation whenever queued transitions or status updates exist.

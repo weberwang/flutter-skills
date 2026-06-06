@@ -31,6 +31,8 @@ This file is the single stable source for project workflow state. It should let 
 - whether generated previews explicitly inherited the approved global style constraints
 - whether implementation planning identified any non-native visual asset that should be generated through `$imagegen`
 - whether display-layer readiness preflight is complete before implementation begins
+- whether the display evidence pack is complete enough for fidelity-critical regions
+- whether the architecture output classified important regions into `preserve_faithfully`, `flutterize`, or `simplify`
 - whether a module document is still a split draft, already implementation-final, or already landed
 - whether the active module's `.impl.md` records `superpowers_refinement_status`, and whether that status is truly evidenced by real execution
 - whether the module design-source packet is frozen
@@ -158,7 +160,7 @@ If the module is entering implementation, mention whether its paired `ui-ux.md` 
 
 If implementation planning already identified bitmap-only visual effects, mention whether they are pending generation, already saved into the project, or already wired into the implementation plan.
 
-If display-layer work is about to begin, mention whether the readiness preflight passed and whether a concrete display-layer decision table already exists.
+If display-layer work is about to begin, mention whether the readiness preflight passed, whether a concrete display-layer decision table already exists, whether the display evidence pack covers fidelity-critical regions, and whether those regions already have explicit fidelity classifications.
 
 ### `next_action`
 
@@ -211,6 +213,7 @@ Track project-level artifact paths when known, such as:
 - shared freeze evidence or freeze decision
 - shared global preview image under `docs/rd/`
 - whether the shared preview set is light mode or an explicitly approved override
+- fidelity-critical display evidence pack paths when known
 - architecture summary
 - Flutter project root
 - `flutter-init` summary
@@ -285,7 +288,7 @@ When route drift, receipt mismatch, or no-progress auto stopping happens, add a 
 - If the workflow is entering module refinement or module implementation, record that execution must be explicitly invoked through `@superpowers`; if corresponding page-image evidence exists, mention that display-layer landing should consult `$image-to-code`.
 - If a selected module or its paired docs cannot be verified on disk, record the blocker and keep all refinement, freeze, and architecture trace fields as `未执行`, `not_executed`, or `unknown`.
 - If architecture planning decides that a visual must become a bitmap asset, record the selected asset path or the pending `$imagegen` generation need explicitly.
-- If display-layer readiness preflight is required, record whether the main preview, detail previews, structure semantics, and display-layer decision table are all ready.
+- If display-layer readiness preflight is required, record whether the main preview, detail previews, structure semantics, display-layer decision table, fidelity classifications, and region-level evidence coverage are all ready.
 - If a module is blocked, write the blocker both in the metadata summary section and in the module row.
 - If the workflow completes, set `workflow_status: completed`.
 
@@ -308,6 +311,7 @@ When route drift, receipt mismatch, or no-progress auto stopping happens, add a 
 - Do not present shared/global freeze as ready in the workflow record while the required approved effect images are still missing.
 - Do not hide a required `$imagegen` bitmap fallback inside prose without indexing the asset path or pending generation note.
 - Do not mark a module ready for display-layer landing while the required preflight inputs or decision table are still missing.
+- Do not mark a fidelity-critical module ready for display-layer landing while its evidence pack still lacks the detail, state, scroll, or overlay coverage needed for faithful implementation.
 - Do not treat a complete design draft as freeze-ready when the design package is still incomplete.
 - Do not switch to the next process while `confirmation_status` is `pending_confirmation`, unless `execution_mode=auto` and the next move is still before the implementation boundary.
 - Do not let `execution_mode=auto` stop because one module reached a local completed state while other target modules still remain.
