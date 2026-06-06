@@ -17,6 +17,8 @@ The default workflow no longer requires Pen, Pencil, page-level `.pen`, or Penci
 
 Before any global design freeze or module design freeze, always run `flutter-taste-router` to normalize the textual design packet first. After that normalization, inspect the matching artifact directories for static visual evidence. Before global design freeze, approved effect images are required. If global static evidence is missing, check `IMAGE_BASE_URL` and `IMAGE_API_KEY`. If both variables exist, call `gpt-image-2-generator` to generate global app preview images, save them under the matching page or module directory using the corresponding page name, and when one module page is selected as the global reference, store that chosen global preview under `docs/rd/` and copy the same file into the related module directory. The global preview should be the module page that shows the richest overall app surface. Global design-freeze generation must produce no more than 3 preview images in total. Every generation request must explicitly include the current style constraints, not just a loose theme reference. At minimum, write `art_direction`, `taste_constraints`, `visual_system`, `cta_posture`, palette direction, typography mood, component family cues, and image-treatment posture into the generation input whenever those values already exist. If either environment variable is missing while global freeze still lacks approved effect images, stop and record a blocker instead of continuing. All workflow preview images, whether generated or accepted as new references, must use light mode instead of dark mode unless the user explicitly changes that requirement upstream.
 
+For module implementation, high-fidelity visual fidelity is the first design-freeze priority. Before queueing or applying `module_design_frozen`, the orchestrator must verify that `flutter-design-freeze-gate` evaluated the module's high-fidelity visual contract first: hierarchy, spacing, typography, layer depth, image or texture treatment, component states, fidelity-critical regions, and any approved Flutterization or bitmap fallback. If this contract is missing, vague, or weaker than the implementation target requires, keep the module unfrozen and route back to the correct scope-matched design revision instead of treating later architecture or engineering planning as the place to polish visuals.
+
 ## `--auto`
 
 This skill supports an `--auto` execution parameter.
@@ -33,6 +35,7 @@ The `--auto` goal is:
 - split modules
 - iterate every module through paired `ui-ux.md` and `impl.md` refinement in `module_uiux_refinement`
 - freeze each module design-source packet
+- treat each module's high-fidelity visual contract as the first acceptance criterion for module design freeze
 - advance each module to implementation-ready document maturity
 - continue until every target module is ready to enter implementation, but before any module actually starts code implementation
 
@@ -87,7 +90,7 @@ After `modules_split`, `--auto` must behave as a loop:
 4. Record why that module is dependency-safe right now before refinement begins.
 5. Refine that module until its docs reach implementation-final maturity, strictly through explicit `@superpowers` execution.
 6. If the refinement did not truly execute, mark that step as `not_executed` or `未执行` in the workflow record and any project-level execution trace, then stop instead of promoting later stages.
-7. Run module freeze and freeze the design-source packet when the packet is explicit enough.
+7. Run module freeze and freeze the design-source packet only when the packet is explicit enough and the high-fidelity visual contract has passed as the first freeze priority.
 8. Advance the module to implementation-ready maturity.
 9. Produce any required architecture output for that module.
 10. Update `current_stage`, `next_skill`, `module_status_table`, and `decision_log`.
@@ -145,6 +148,7 @@ The preflight gate must verify at minimum:
 - the selected module exists in the module index when module-scoped work is requested
 - all required artifact paths for the intended move exist on disk
 - all required maturity prerequisites are already confirmed, not merely implied in prose
+- `platform_identifier` is explicit before architecture, implementation-readiness, parity-review, or implementation work that depends on a concrete validation surface
 - the next move does not cross the implementation boundary when `--auto` is active
 
 If any preflight check fails, stop immediately. Record the exact failed check as a blocker. Do not let a downstream skill try to compensate for missing prerequisites by reconstructing state, inferring approvals, or backfilling artifacts opportunistically.
@@ -340,7 +344,7 @@ Use one state per module:
 | `design_freeze_ready` | The shared design packet plus required global freeze artifacts are ready for approval before module splitting | `flutter-rd-module-splitter` |
 | `modules_split` | Detailed modules, paired doc paths, module detail cards, global baseline references, and module-level component skeletons exist. Each module's `uiux_status` and `impl_status` start as `split_draft` unless confirmed otherwise. | `flutter-rd-module-splitter` |
 | `module_uiux_refinement` | The active module is being refined from split draft into paired implementation-final `ui-ux.md` and `impl.md`, incorporating taste, global freeze constraints, and page-level visual references when available | strictly call `@superpowers`, using `flutter-rd-module-splitter` contracts, then `flutter-design-freeze-gate` |
-| `module_design_frozen` | The active module's implementation-final docs, visual evidence, component freeze, state matrix, and design-source packet are frozen and confirmed | `flutter-design-source-control` or `flutter-uiux-to-architecture` |
+| `module_design_frozen` | The active module's implementation-final docs, high-fidelity visual contract, visual evidence, component freeze, state matrix, and design-source packet are frozen and confirmed | `flutter-design-source-control` or `flutter-uiux-to-architecture` |
 | `impl_rd_ready` | The active module's UI/UX RD and implementation RD are implementation-final or landed, reference the frozen design source packet and global technical baseline, and are confirmed as implementable | `flutter-uiux-to-architecture` |
 | `architecture_ready` | Tokens, assets, components, screen plan, non-native visual asset strategy, and scaffold contract exist | `flutter-init`, especially once the shared public baseline is clear enough to initialize the project before feature-module code |
 | `project_initialized` | `flutter-init` has created the project scaffold and generated project-local `skills/flutter-dev/`, but has not started any feature implementation code | project-local `flutter-dev` plus `flutter-project-guardrails` |
@@ -374,16 +378,17 @@ Use one state per module:
 22. In module implementation preparation, refine `docs/rd/modules/<module>/<module>.ui-ux.md` and `docs/rd/modules/<module>/<module>.impl.md` before attempting module design freeze. Do not freeze a module whose paired docs are not both implementation-final.
 23. When module refinement produces implementation-final docs, keep `current_stage` at the last confirmed stage, queue `<module>.uiux_status=implementation_final` and `<module>.impl_status=implementation_final`, and wait for confirmation before design freeze. In `--auto` mode, auto-apply those queued updates and continue directly into module freeze for the same module.
 24. In module freeze, static visual evidence is optional. If the active module has no static preview but the `flutter-taste-router` design packet is explicit enough, route that packet directly to `flutter-design-freeze-gate`.
-25. If a complete active-module visual draft, preview pack, or implementation-facing design-source packet exists, route to `flutter-design-freeze-gate` before queueing `module_design_frozen`.
+25. If a complete active-module visual draft, preview pack, or implementation-facing design-source packet exists, route to `flutter-design-freeze-gate` before queueing `module_design_frozen`. Treat the module's high-fidelity visual contract as the first freeze question; it must be accepted, explicitly reduced by design-source control, or returned for revision before any architecture or code handoff.
 26. In `--auto` mode, module freeze should rely on `flutter-taste-router` to determine and consolidate module UI/UX. Do not require auto-generated static images for module freeze unless the packet is still too ambiguous to freeze safely.
 27. During `module_uiux_refinement` and module freeze preparation, do not generate new module real-device previews by default. Generate them only when `--perviewer` is explicitly active for the current run.
 28. When `--perviewer` is active and module previews are generated, write that opt-in plus the generated module preview paths into `global-design-guidelines.md` so downstream implementation and parity review know those previews were intentional module-stage evidence.
 29. If `flutter-design-freeze-gate` finds the active-module design package not yet strong enough to freeze, keep the workflow on the active module, update the active module UI/UX doc plus design packet and optional visual evidence exactly once, and stop without another automatic freeze pass unless the user explicitly restarts a design cycle.
-30. When `flutter-design-freeze-gate` approves the active module design source, do not immediately mark it frozen. Queue `pending_next_stage=module_design_frozen`, queue `design_source_status=frozen`, and if docs reference the frozen design source packet, also queue `uiux_status=landed` and `impl_status=landed`. In `--auto` mode, auto-apply that promotion and immediately decide whether the same module still needs implementation-readiness or architecture output before switching modules.
+30. When `flutter-design-freeze-gate` approves the active module design source, first verify its receipt includes `high_fidelity_freeze_status=passed` or an explicit approved reduction. Do not immediately mark it frozen. Queue `pending_next_stage=module_design_frozen`, queue `design_source_status=frozen`, and if docs reference the frozen design source packet, also queue `uiux_status=landed` and `impl_status=landed`. In `--auto` mode, auto-apply that promotion and immediately decide whether the same module still needs implementation-readiness or architecture output before switching modules.
 31. If a frozen UI/UX source is about to be consumed by implementation RD or code, use `flutter-design-source-control`.
 32. If frozen UI/UX, theme values, component rules, and visual evidence must become Flutter-facing tokens, assets, components, screen architecture, and non-native visual fallback decisions, route to `flutter-uiux-to-architecture`. Do not require `.pen`.
-33. Do not move a module into `implementing` until `technical_baseline_ready`, `modules_split`, `module_design_frozen`, and `impl_rd_ready` exist for the module, confirmed maturity is at least `uiux_status=landed`, `impl_status=landed`, and `design_source_status=frozen`, and the required global public code baseline is already landed.
-34. The required global public code baseline before module implementation must include at least:
+33. Before architecture planning, implementation-readiness confirmation, parity review, or code implementation, verify that `platform_identifier` is explicit enough for the real validation surface. Do not treat `platform_baseline` such as `ios_hig` as if it already meant `android_emulator`, `windows_desktop`, or `web_browser`.
+34. Do not move a module into `implementing` until `technical_baseline_ready`, `modules_split`, `module_design_frozen`, and `impl_rd_ready` exist for the module, confirmed maturity is at least `uiux_status=landed`, `impl_status=landed`, and `design_source_status=frozen`, and the required global public code baseline is already landed.
+35. The required global public code baseline before module implementation must include at least:
    - app bootstrap and environment initialization
    - root router or route host plus root redirect policy
    - global dependency injection or provider scope entry
@@ -435,6 +440,7 @@ Use one state per module:
 - Do not delegate workflow truth ownership to a subagent.
 - Do not use `flutter-prd-rd-writer` for detailed module design.
 - Do not skip taste direction before detailed module UI/UX refinement.
+- Do not confuse `platform_baseline` with a verified `platform_identifier`.
 - Do not skip `flutter-taste-router` textual normalization before any shared freeze or module freeze check.
 - Do not generate new static visuals before checking whether the target directories already contain usable page images.
 - Do not accept or generate dark-mode effect images as the default workflow reference set; the default preview baseline is light mode.
@@ -445,6 +451,7 @@ Use one state per module:
 - Do not let shared freeze before `modules_split` claim that module pages or module-private components are frozen.
 - Do not treat `modules_split` output as implementation-ready.
 - Do not attempt module freeze before both paired module docs, `ui-ux.md` and `impl.md`, have been refined to implementation-final maturity.
+- Do not freeze a module for implementation while its high-fidelity visual contract is missing, vague, or deferred to later code polish.
 - Do not let code implementation begin before `technical_baseline_ready`, `modules_split`, `module_design_frozen`, and `impl_rd_ready` exist for the module.
 - Do not let code implementation begin while `uiux_status` or `impl_status` is still `split_draft`.
 - Do not let a feature module start landing before the required global public code baseline is present.
@@ -457,6 +464,7 @@ Use one state per module:
 - Do not route around `flutter-design-freeze-gate` on implied approval.
 - Do not let a complete shared or module design draft skip `flutter-design-freeze-gate` before freeze.
 - Do not allow design packages with unresolved hierarchy, task guidance, typography, contrast, CTA, or state-coverage defects to advance into shared freeze or module design freeze.
+- Do not treat architecture planning, Flutterization, or implementation convenience as a substitute for resolving high-fidelity visual decisions during module design freeze.
 - Do not let `--auto` cross the boundary into `implementing`.
 - Do not let `--auto` skip blockers, unresolved dependencies, or missing design inputs.
 - Do not let `--auto` pretend a module is implementation-ready when its docs are still `split_draft` or its design source is not frozen.
@@ -532,8 +540,10 @@ Return:
 - User says "continue auto from modules_split" but the module index or paired docs are missing: treat that as a real blocker, record `未执行` for refinement-related steps, and stop instead of reconstructing fake progress.
 - User asks why a root navigation host was split separately: explain that an `app-shell` module is valid when shared route hosting, root redirects, or shell-level state has independent implementation value.
 - User says "the docs are final, start coding": require explicit confirmation for queued `implementation_final` and design-source freeze updates before code.
+- User says "we can make it high fidelity during implementation": block module freeze and route to the correct design revision path; high-fidelity visual fidelity is the first module design-freeze priority, not a later code-polish task.
 - User says "run `flutter-workflow-orchestrator --auto`": keep advancing through shared freeze, module split, per-module paired-doc refinement, module freeze, implementation-readiness preparation, and any required architecture output for every dependency-safe target module until all target modules are waiting at the implementation boundary, then stop before code. Before each freeze, normalize text through `flutter-taste-router`, inspect static-image directories, and only generate missing page images when the image environment variables are present.
 - User says "模块细化时也生成真机效果图": do not do that by default; require explicit `--perviewer`, and if it is active, record the opt-in plus generated paths into `global-design-guidelines.md`.
+- User says "验证平台是 android 模拟器、Windows 或 Web": record that as explicit `platform_identifier` instead of hiding it under a generic mobile baseline.
 - User says "use a dark-mode preview as the workflow reference": treat that as a special override request. The default workflow reference previews remain light mode unless the user explicitly changes the design requirement.
 - User says "this module is done, what next": if `--auto` is active and other target modules still remain, do not stop to ask. Select the next dependency-safe module, update the workflow record, and continue automatically.
 - User says "why did auto stop after one module reached architecture_ready": treat that as incorrect behavior. `--auto` must continue unless all target modules are implementation-ready or a real blocker was recorded.

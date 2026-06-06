@@ -22,8 +22,10 @@ This file is the single stable source for project workflow state. It should let 
 - what skill should run next
 - what artifacts already exist
 - whether taste direction exists and which constraints it introduced
+- whether `platform_baseline` exists and whether `platform_identifier` has been explicitly verified
 - whether freeze preparation already passed through `flutter-taste-router` textual normalization
 - whether a shared or module design-source package has already been freeze-evaluated
+- whether the active module's high-fidelity visual contract was evaluated as the first module design-freeze priority
 - whether shared or module page-level static visual evidence already exists in the expected directories
 - whether the accepted workflow preview set is confirmed as light-mode evidence
 - whether shared/global effect-image generation stayed within the 3-image cap
@@ -142,7 +144,11 @@ If the active module still has `split_draft` docs, say so explicitly.
 
 If freeze preparation is in progress, state whether `flutter-taste-router` textual normalization is already complete and whether static-image directory inspection has already happened.
 
+If module design freeze is in progress, state whether the high-fidelity visual contract has passed, is explicitly reduced by design-source control, or is blocking freeze.
+
 If previews are present, state whether the workflow is using the required light-mode preview baseline or an explicitly approved override.
+
+If the workflow is moving toward freeze, architecture, or implementation, state whether `platform_identifier` is already explicit, and do not treat `platform_baseline` as a substitute.
 
 Also state the current route lock for this turn and whether the next move is still inside that lock.
 
@@ -157,6 +163,8 @@ Summarize the module's current `uiux_status`, `impl_status`, `design_source_stat
 Also record the module's current `superpowers_refinement_status` when an `.impl.md` exists. If the active module has not truly gone through `@superpowers` refinement, say that explicitly.
 
 Mention the latest freeze decision or blocker for that module when it exists.
+
+Mention the module's current `high_fidelity_freeze_status` when module freeze, architecture, or implementation-readiness is being considered.
 
 If the module is entering implementation, mention whether its paired `ui-ux.md` and `impl.md` are both implementation-final and whether corresponding page-image evidence exists for display-layer landing.
 
@@ -208,6 +216,7 @@ Track project-level artifact paths when known, such as:
 - PRD
 - global technical baseline
 - taste direction packet
+- verified platform identifier or target validation surface
 - module index
 - `global-design-guidelines.md`
 - `light-theme-freeze.yaml`
@@ -232,8 +241,8 @@ If the shared/public component freeze is tracked in a dedicated artifact, index 
 
 Use one row per module with these columns:
 
-| module | current_state | confirmation_status | next_skill | pending_next_stage | pending_next_skill | pending_status_updates | uiux_rd | uiux_status | impl_rd | impl_status | superpowers_refinement_status | global_guidelines | light_theme | dark_theme | taste_direction | visual_evidence | design_source_status | code_status | init_status | blockers |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| module | current_state | confirmation_status | next_skill | pending_next_stage | pending_next_skill | pending_status_updates | uiux_rd | uiux_status | impl_rd | impl_status | superpowers_refinement_status | global_guidelines | light_theme | dark_theme | taste_direction | visual_evidence | high_fidelity_freeze_status | design_source_status | code_status | init_status | blockers |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 
 Update the existing row for a module instead of creating duplicates.
 
@@ -257,6 +266,7 @@ When route drift, receipt mismatch, or no-progress auto stopping happens, add a 
 - Keep `route_lock`, `last_receipt_status`, and `auto_progress_delta` in sync with the latest routing turn.
 - Keep `execution_owner` in sync with the latest routing turn.
 - If taste direction is produced, index its artifact path in `global_artifact_index` and link it from active module rows when relevant.
+- If `platform_identifier` becomes explicit, record it in the relevant summary or artifact index instead of leaving it implicit in prose.
 - If `flutter-taste-router` completes textual normalization, record that status in the relevant summary or decision entry before any freeze promotion is queued.
 - If freeze preparation inspects static-image directories, record whether existing evidence was reused, skipped due to missing environment variables, or newly generated.
 - If previews are accepted for workflow use, record whether they satisfy the default light-mode requirement.
@@ -278,6 +288,7 @@ When route drift, receipt mismatch, or no-progress auto stopping happens, add a 
 - If `execution_mode=auto`, do not use a generic "recommended next skill" as a stopping placeholder when unresolved target modules still exist. The record must reflect active continuation, not deferred manual pickup.
 - If `execution_mode=auto`, each loop must either reduce the remaining pre-implementation work in a provable way or add a new blocker. Record that outcome in `auto_progress_delta`.
 - If `execution_mode=auto` changed modules, rewrote `next_skill`, or rewrote stage posture without new proof or blocker, record `auto_progress_delta: none`, set a blocker, and stop.
+- If module design freeze is evaluated, record `high_fidelity_freeze_status` as `passed`, `approved_reduction`, `blocked`, or `not_evaluated`. Do not queue `design_source_status=frozen` when the value is `blocked` or `not_evaluated`.
 - If the active module design-source packet is confirmed, queue or apply `design_source_status=frozen` according to the confirmation gate.
 - If docs reference the frozen design-source packet and the user confirms, apply `uiux_status=landed` and `impl_status=landed`.
 - If a step result is ready for review, keep `current_stage` on the last confirmed stage, set `confirmation_status: pending_confirmation`, set `next_skill: none`, and record candidate transitions and status changes in `pending_next_stage`, `pending_next_skill`, and `pending_status_updates`.
@@ -300,12 +311,14 @@ When route drift, receipt mismatch, or no-progress auto stopping happens, add a 
 - Do not create separate workflow state files per module.
 - Do not delete historical decisions from `decision_log`; append short entries instead.
 - Do not hide blockers in prose outside the `blockers` section.
+- Do not treat `platform_baseline` as if it already verified the real target surface.
 - Do not leave `route_lock`, `last_receipt_status`, or `auto_progress_delta` blank once routing has started.
 - Do not leave `execution_owner` blank once a turn has selected local orchestration or delegated specialist ownership.
 - Do not mark a stage as advanced until the required artifacts for that stage are actually available.
 - Do not mark a maturity upgrade as confirmed until the artifact that proves it actually exists.
 - Do not treat `split_draft` as implementation-ready.
 - Do not mark `uiux_status=landed` or `impl_status=landed` before the docs reference a confirmed frozen design-source packet.
+- Do not mark `design_source_status=frozen` for module implementation when `high_fidelity_freeze_status` is `blocked`, `not_evaluated`, or missing.
 - Do not mark `code_status=landed` before code output actually exists.
 - Do not claim static visual evidence was generated before recording whether the directory was checked first and whether the image environment variables were actually available.
 - Do not accept preview evidence into the workflow record without stating whether it meets the default light-mode requirement.

@@ -16,6 +16,8 @@ This gate has two different responsibilities:
 
 It validates explicit design approval, state coverage, immutable constraints, and the presence of required freeze artifacts. It does not create the design or rebuild it in Pencil. The default workflow no longer requires `.pen` or Pencil MCP data.
 
+For module implementation handoff, high-fidelity visual fidelity is the first freeze priority. The gate must evaluate the module's visual contract before secondary implementation-readiness concerns: hierarchy, spacing, typography, layer depth, image or texture treatment, component states, fidelity-critical regions, and any approved Flutterization or bitmap fallback.
+
 A successful module freeze decision is only a local gate result. In `flutter-workflow-orchestrator --auto`, it must be consumed as one step inside the broader all-module advancement loop, not as a reason to stop the run.
 
 ## Required Inputs
@@ -27,6 +29,7 @@ A successful module freeze decision is only a local gate result. In `flutter-wor
 - Current workflow state.
 - Paired UI/UX RD path when the target is module-specific.
 - Consolidated design packet from `flutter-taste-router` when the target is module-specific.
+- High-fidelity visual contract when the target is module-specific, including locked hierarchy, spacing, typography, layer depth, state coverage, fidelity-critical region handling, and approved asset fallback or Flutterization decisions.
 - When static previews are the frozen source, artifacts from `design-preview-to-global-guidelines`.
 - Preview decision when previews were generated.
 - State matrix and acceptance gates.
@@ -70,6 +73,7 @@ Approve `module_impl_prep` only when all items are present:
 - Either:
   - the freeze-facing visual draft, preview pack, or approved screenshot evidence is complete enough that hierarchy, task guidance, typography, contrast, CTA clarity, and state scope can be judged directly from the design package
   - or the consolidated design packet from `flutter-taste-router` is explicit enough that the module UI/UX can be judged and frozen without static images
+- High-fidelity visual contract is evaluated first and is either accepted for implementation or explicitly reduced by design-source control. The accepted contract must cover hierarchy, spacing, typography, layer depth, image or texture treatment, component states, fidelity-critical regions, and approved Flutterization or bitmap fallback.
 - Module-private component freeze exists for repeated building blocks inside that module, including frozen states, variant boundaries, immutable parts, and allowed adjustments.
 - State matrix: ideal, empty, loading, error, permission, partial data, disabled, success, locked or premium when relevant.
 - Immutable items that code may not change.
@@ -91,6 +95,8 @@ Use these outcomes:
 
 - Do not infer approval from silence or enthusiasm.
 - Do not let a visually complete draft skip direct freeze-quality evaluation before freeze.
+- Do not evaluate secondary architecture or implementation handoff readiness before evaluating high-fidelity visual fidelity for module implementation.
+- Do not freeze a module when high-fidelity visual fidelity is vague, missing, or deferred to implementation polish.
 - Do not let strong decorative polish mask unclear information hierarchy or weak task guidance.
 - Do not allow a draft with unresolved hierarchy, task guidance, typography, contrast, CTA, or state-coverage defects to enter freeze.
 - Do not treat a post-failure single revision without a new explicit freeze decision as a substitute for a valid freeze result.
@@ -112,6 +118,7 @@ Use these outcomes:
 Return:
 
 - `freeze_decision`
+- `high_fidelity_freeze_status`: `passed`, `approved_reduction`, `blocked`, or `not_evaluated`
 - `missing_items`
 - `required_artifacts`
 - `review_requirement_status`
@@ -133,6 +140,7 @@ Return:
 - User says "the draft looks premium enough, skip review": block and evaluate the freeze package directly.
 - User says "I already reviewed it in the main thread": ignore the informal review and judge the freeze package directly.
 - User says "we will polish later": block and send the work back through exactly one correct scope-matched revision pass; after that pass, keep freeze blocked until the user explicitly restarts a new design cycle.
+- User says "make it high fidelity during implementation": block module freeze; high-fidelity visual fidelity must be resolved before the module design-source packet is frozen.
 - User says "the module draft failed review, rerun module splitting": block unless the problem is actually global; default to updating the current module `ui/ux` doc and refreshing module visual evidence once.
 - User says "users can figure out the flow after reading carefully": block if the key task still needs interpretation instead of guidance.
 - User says "the CTA is subtle on purpose": block if the primary action is no longer clearly dominant.
