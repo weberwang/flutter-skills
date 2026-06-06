@@ -49,7 +49,15 @@ Must add the three artifacts to the frozen source priority and route any change 
 ### `flutter-design-parity-reviewer`
 
 Must compare implementation evidence against both the frozen theme files and the relevant guideline sections, not against memory or informal taste.
+Must also respect `module_preview_policy` so module-stage generated previews are only treated as approved evidence when `perviewer_opt_in: enabled` and the matching generated paths are explicitly recorded.
 
 ### `flutter-design-freeze-gate`
 
 When frozen shared artifacts already exist, it must use them to judge whether typography hierarchy, contrast, CTA emphasis, and global component rules are being preserved instead of re-inventing the design direction.
+
+### `flutter-workflow-orchestrator`
+
+Must treat `module_preview_policy` as the frozen default for module-stage preview generation:
+
+- no new module previews during refinement or module freeze unless `--perviewer` is explicitly active
+- when `--perviewer` is active, generated module preview paths must be written back into `global-design-guidelines.md`

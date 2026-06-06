@@ -30,9 +30,13 @@ Act like a product designer and design-systems lead. Infer stable product rules 
 4. Extract stable global rules for hierarchy, page structure, repeated components, interaction posture, typography ladder, contrast strategy, CTA posture, state handling, and visual restraint.
 5. Freeze the global public component set: identify which repeated controls and shared building blocks belong to the global system, which states or variants are globally allowed, which parts are immutable, and which implementation adjustments remain allowed.
 6. Read `references/global-guideline-contract.md` and produce `global-design-guidelines.md` with the exact metadata block, exact section ids, and exact section order.
-7. Read `references/theme-freeze-schema.md` and `references/value-freeze-strategy.md`, then freeze concrete light and dark theme values in `light-theme-freeze.yaml` and `dark-theme-freeze.yaml`.
-8. Read `references/downstream-linking-rules.md` and fill `downstream_reference_index` so later skills know which sections and files they must cite.
-9. If some evidence is incomplete, keep the contract structure intact and use only `not_provided`, `not_applicable`, or `needs_confirmation`; do not omit sections or push missing values downstream.
+7. In `global-design-guidelines.md`, explicitly freeze the module-preview policy:
+   - `module_refinement_default: no_generate`
+   - `perviewer_opt_in: enabled` only when the current approved workflow explicitly used `--perviewer`; otherwise `disabled`
+   - `generated_module_preview_paths`: only the approved generated module preview paths for that freeze cycle, otherwise `[]`
+8. Read `references/theme-freeze-schema.md` and `references/value-freeze-strategy.md`, then freeze concrete light and dark theme values in `light-theme-freeze.yaml` and `dark-theme-freeze.yaml`.
+9. Read `references/downstream-linking-rules.md` and fill `downstream_reference_index` so later skills know which sections and files they must cite.
+10. If some evidence is incomplete, keep the contract structure intact and use only `not_provided`, `not_applicable`, or `needs_confirmation`; do not omit sections or push missing values downstream.
 
 ## Hard Rules
 
@@ -50,6 +54,8 @@ Act like a product designer and design-systems lead. Infer stable product rules 
 - Do not continue global design freezing without reference screenshots, preview comps, or other usable visual evidence; return `blocked` and ask the user whether to fall back instead.
 - Do not continue when multiple materially different directions are still unresolved.
 - Do not rewrite the approved visual intent for implementation convenience.
+- Do not leave module-stage preview generation policy implicit once global artifacts are frozen.
+- Do not mark `perviewer_opt_in: enabled` unless the current approved workflow explicitly requested `--perviewer`.
 
 ## Deliverables
 

@@ -29,6 +29,8 @@ This file is the single stable source for project workflow state. It should let 
 - whether shared/global effect-image generation stayed within the 3-image cap
 - whether shared/global freeze already has the required approved effect images
 - whether generated previews explicitly inherited the approved global style constraints
+- whether module-stage preview generation stayed disabled by default unless `--perviewer` was explicitly enabled
+- whether `global-design-guidelines.md` records the current `module_preview_policy` and generated module preview paths
 - whether implementation planning identified any non-native visual asset that should be generated through `$imagegen`
 - whether display-layer readiness preflight is complete before implementation begins
 - whether the display evidence pack is complete enough for fidelity-critical regions
@@ -213,6 +215,7 @@ Track project-level artifact paths when known, such as:
 - shared freeze evidence or freeze decision
 - shared global preview image under `docs/rd/`
 - whether the shared preview set is light mode or an explicitly approved override
+- module preview policy recorded in `global-design-guidelines.md`
 - fidelity-critical display evidence pack paths when known
 - architecture summary
 - Flutter project root

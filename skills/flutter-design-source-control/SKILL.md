@@ -41,8 +41,9 @@ Classify every requested change:
 3. For fidelity work, keep implementation inside the frozen design source.
 4. For allowed engineering adaptation, record why the adaptation is allowed and where it appears in the architecture or freeze card.
 5. If the requested change touches `global-design-guidelines.md` or either theme freeze file, classify it as a design change unless the current contract explicitly allows it.
-6. For design changes, route back to design and require a new freeze before code continues.
-7. Return a concise decision record that the next agent can follow.
+6. Treat `module_preview_policy`, `perviewer_opt_in`, and `generated_module_preview_paths` inside `global-design-guidelines.md` as frozen source fields once shared artifacts are approved.
+7. For design changes, route back to design and require a new freeze before code continues.
+8. Return a concise decision record that the next agent can follow.
 
 ## Hard Rules
 
@@ -51,6 +52,7 @@ Classify every requested change:
 - Do not use screenshots of implemented code as the new design source.
 - Do not override the frozen design-source packet with memory of an older preview.
 - Do not let implementation locally rewrite frozen theme values or global guidance sections.
+- Do not let implementation silently enable module-stage preview generation after freeze; changes to `module_preview_policy` require design rollback.
 - Do not require `.pen` or Pencil MCP data in the default design-source control workflow.
 
 ## Output Contract
@@ -71,3 +73,4 @@ Return:
 - Developer says "Flutter cannot reproduce this effect": classify as `implementation_constraint`, not silent redesign.
 - User says "make dark mode a bit bluer in code": classify as `design_change` unless `dark-theme-freeze.yaml` already allows that variation.
 - User provides a new screenshot after freeze: treat it as a change request, not source replacement.
+- User says "模块细化时默认也生图吧": classify as `design_change` unless the frozen `module_preview_policy` already enabled `--perviewer`.

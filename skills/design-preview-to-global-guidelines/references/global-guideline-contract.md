@@ -10,6 +10,10 @@ Place this block at the top of the document:
 artifact_type: global_design_guidelines
 freeze_status: frozen | blocked
 source_type: screenshot | preview_comp | multi_screen_pack | mixed
+module_preview_policy:
+  module_refinement_default: no_generate
+  perviewer_opt_in: enabled | disabled
+  generated_module_preview_paths: []
 theme_freeze_files:
   light: light-theme-freeze.yaml
   dark: dark-theme-freeze.yaml
@@ -108,6 +112,12 @@ List what downstream skills may not reinterpret or override, especially typograp
 ### `engineering_guardrails`
 
 List what implementation may simplify, what must stay faithful, and what requires design rollback, including any non-negotiable typography, contrast, and CTA decisions.
+
+Also record the module-preview policy that downstream module refinement and parity review must follow:
+
+- module refinement does not generate new real-device previews by default
+- `--perviewer` is the only opt-in that allows module-stage preview generation
+- any generated module preview path list must stay explicit instead of being implied from prose
 
 ### `downstream_reference_index`
 

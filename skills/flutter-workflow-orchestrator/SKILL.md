@@ -57,6 +57,26 @@ Those generated page previews should be treated as:
 
 The auto-generated previews do not remove the need for freeze-quality evaluation; they only satisfy the missing static-visual prerequisite.
 
+## `--perviewer`
+
+This skill also supports a `--perviewer` execution parameter.
+
+`--perviewer` is a module-preview opt-in flag for module refinement and module freeze preparation.
+
+Without `--perviewer`:
+
+- module refinement must not generate new real-device or module-stage preview images by default
+- module freeze should prefer the textual design packet plus already approved evidence
+- downstream work may consume existing module visuals, but it must not auto-generate new module previews merely for convenience
+
+With `--perviewer`:
+
+- module-stage preview generation is allowed when the current module still benefits from page-addressable visual evidence
+- generated module previews must inherit the approved shared/global style system instead of opening a new visual direction
+- the workflow must record that opt-in decision and any generated module preview paths into `global-design-guidelines.md`
+
+`--perviewer` does not weaken the shared/global freeze policy. Shared/global freeze may still auto-generate up to 3 shared previews when required by the existing workflow.
+
 ## Auto Loop Contract
 
 After `modules_split`, `--auto` must behave as a loop:
@@ -356,12 +376,14 @@ Use one state per module:
 24. In module freeze, static visual evidence is optional. If the active module has no static preview but the `flutter-taste-router` design packet is explicit enough, route that packet directly to `flutter-design-freeze-gate`.
 25. If a complete active-module visual draft, preview pack, or implementation-facing design-source packet exists, route to `flutter-design-freeze-gate` before queueing `module_design_frozen`.
 26. In `--auto` mode, module freeze should rely on `flutter-taste-router` to determine and consolidate module UI/UX. Do not require auto-generated static images for module freeze unless the packet is still too ambiguous to freeze safely.
-27. If `flutter-design-freeze-gate` finds the active-module design package not yet strong enough to freeze, keep the workflow on the active module, update the active module UI/UX doc plus design packet and optional visual evidence exactly once, and stop without another automatic freeze pass unless the user explicitly restarts a design cycle.
-28. When `flutter-design-freeze-gate` approves the active module design source, do not immediately mark it frozen. Queue `pending_next_stage=module_design_frozen`, queue `design_source_status=frozen`, and if docs reference the frozen design source packet, also queue `uiux_status=landed` and `impl_status=landed`. In `--auto` mode, auto-apply that promotion and immediately decide whether the same module still needs implementation-readiness or architecture output before switching modules.
-29. If a frozen UI/UX source is about to be consumed by implementation RD or code, use `flutter-design-source-control`.
-30. If frozen UI/UX, theme values, component rules, and visual evidence must become Flutter-facing tokens, assets, components, screen architecture, and non-native visual fallback decisions, route to `flutter-uiux-to-architecture`. Do not require `.pen`.
-31. Do not move a module into `implementing` until `technical_baseline_ready`, `modules_split`, `module_design_frozen`, and `impl_rd_ready` exist for the module, confirmed maturity is at least `uiux_status=landed`, `impl_status=landed`, and `design_source_status=frozen`, and the required global public code baseline is already landed.
-32. The required global public code baseline before module implementation must include at least:
+27. During `module_uiux_refinement` and module freeze preparation, do not generate new module real-device previews by default. Generate them only when `--perviewer` is explicitly active for the current run.
+28. When `--perviewer` is active and module previews are generated, write that opt-in plus the generated module preview paths into `global-design-guidelines.md` so downstream implementation and parity review know those previews were intentional module-stage evidence.
+29. If `flutter-design-freeze-gate` finds the active-module design package not yet strong enough to freeze, keep the workflow on the active module, update the active module UI/UX doc plus design packet and optional visual evidence exactly once, and stop without another automatic freeze pass unless the user explicitly restarts a design cycle.
+30. When `flutter-design-freeze-gate` approves the active module design source, do not immediately mark it frozen. Queue `pending_next_stage=module_design_frozen`, queue `design_source_status=frozen`, and if docs reference the frozen design source packet, also queue `uiux_status=landed` and `impl_status=landed`. In `--auto` mode, auto-apply that promotion and immediately decide whether the same module still needs implementation-readiness or architecture output before switching modules.
+31. If a frozen UI/UX source is about to be consumed by implementation RD or code, use `flutter-design-source-control`.
+32. If frozen UI/UX, theme values, component rules, and visual evidence must become Flutter-facing tokens, assets, components, screen architecture, and non-native visual fallback decisions, route to `flutter-uiux-to-architecture`. Do not require `.pen`.
+33. Do not move a module into `implementing` until `technical_baseline_ready`, `modules_split`, `module_design_frozen`, and `impl_rd_ready` exist for the module, confirmed maturity is at least `uiux_status=landed`, `impl_status=landed`, and `design_source_status=frozen`, and the required global public code baseline is already landed.
+34. The required global public code baseline before module implementation must include at least:
    - app bootstrap and environment initialization
    - root router or route host plus root redirect policy
    - global dependency injection or provider scope entry
@@ -369,24 +391,24 @@ Use one state per module:
    - global error mapping and logging baseline
    - shared theme or design-token baseline required by the frozen design source
    - the shared shell layer when feature modules depend on an `app-shell` or `root-shell`
-33. Add network baseline and API client wiring to the global public code baseline only when the project or target modules actually require remote data, API access, upload, sync, or other network capabilities. Do not force network infrastructure into purely local, offline, or static-flow projects.
-34. As soon as the shared public baseline is explicit enough, prefer triggering `flutter-init` before feature-module code begins. The best trigger point is after shared design freeze, module split, shared shell or global public baseline clarification, and the first architecture output that defines bootstrap-critical inputs.
-35. Bootstrap-critical inputs for that early `flutter-init` trigger include at least the global public code baseline, any required `app-shell` or `root-shell`, shared theme or token baseline, route host or redirect policy, storage baseline, error/logging baseline, and network baseline only when the project actually needs it.
-36. Do not wait for every feature module to reach `architecture_ready` before triggering `flutter-init` when the shared baseline above is already clear enough.
-37. When `--auto` is active after `modules_split`, iterate all target modules in dependency-safe order and continue refinement until every module reaches implementation-ready maturity, but allow `flutter-init` to run as soon as the shared bootstrap-critical baseline is ready.
-38. In `--auto` mode, after one module reaches any local stable node such as `implementation_final`, `module_design_frozen`, `impl_rd_ready`, or `architecture_ready`, immediately choose the next valid pre-implementation action. That may mean continuing the same module, switching `current_module` to the next dependency-safe module, or triggering `flutter-init` if the shared baseline is ready and the scaffold is still missing.
-39. In `--auto` mode, after a module becomes locally complete for the current step, immediately update `current_module`, `current_stage`, `next_skill`, `module_status_table`, and `decision_log` to reflect the next remaining work. Do not leave `next_skill` as a passive future suggestion if unresolved target modules still exist.
-40. If a module dependency prevents the next module from being refined safely, keep the workflow active but stop auto-advancement and record the blocker explicitly.
-41. If the shared bootstrap-critical baseline is ready and the target project has not been scaffolded yet or does not contain project-local `skills/flutter-dev/`, use `flutter-init` before feature-module implementation begins. Do not delay this just because unrelated feature modules still lack later-stage architecture output.
-42. `flutter-init` must stop at initialization boundaries. It may scaffold folders, shared bootstrap, shared wiring, and annotation-ready contracts, but it must not implement feature code, page code, or module-specific business logic.
-43. If `flutter-init` has completed and project-local `skills/flutter-dev/` exists, record `project_initialized` as `pending_next_stage`.
-44. If `--auto` is active, do not stop for `project_initialized`, `implementation_final`, `module_design_frozen`, `impl_rd_ready`, `architecture_ready`, or other downstream confirmation gates. Keep advancing until the implementation boundary is reached for all target modules or a blocker appears.
-45. If `--auto` is active and all target modules are implementation-ready, stop here instead of entering `implementing`.
-46. If implementation work should begin or continue, strictly call `@superpowers` together with project-local `flutter-dev` and `flutter-project-guardrails`.
-47. During module implementation, split execution into `uiux` and `impl` tracks when the work naturally separates presentation from behavior or data contracts. Both tracks must still be executed through explicit `@superpowers` invocation, not by directly running downstream implementation skills on their own.
-48. The default module landing order is: define the minimum data contract first, then land the display layer skeleton and main user path, then connect the real data layer. The minimum data contract should cover interface fields, state enums, loading or empty or error states, and interaction input-output boundaries without forcing full data-layer completion first.
-49. For ordinary business-page modules, prefer `minimum data contract -> display layer -> data integration`. For infrastructure-heavy modules such as auth guards, route shells, sync engines, caches, payment orchestration, or backend-first flows, it is allowed to land the minimum process or data layer first and then attach display surfaces later.
-50. Before display-layer code begins, run a display-layer readiness preflight. At minimum, verify:
+35. Add network baseline and API client wiring to the global public code baseline only when the project or target modules actually require remote data, API access, upload, sync, or other network capabilities. Do not force network infrastructure into purely local, offline, or static-flow projects.
+36. As soon as the shared public baseline is explicit enough, prefer triggering `flutter-init` before feature-module code begins. The best trigger point is after shared design freeze, module split, shared shell or global public baseline clarification, and the first architecture output that defines bootstrap-critical inputs.
+37. Bootstrap-critical inputs for that early `flutter-init` trigger include at least the global public code baseline, any required `app-shell` or `root-shell`, shared theme or token baseline, route host or redirect policy, storage baseline, error/logging baseline, and network baseline only when the project actually needs it.
+38. Do not wait for every feature module to reach `architecture_ready` before triggering `flutter-init` when the shared baseline above is already clear enough.
+39. When `--auto` is active after `modules_split`, iterate all target modules in dependency-safe order and continue refinement until every module reaches implementation-ready maturity, but allow `flutter-init` to run as soon as the shared bootstrap-critical baseline is ready.
+40. In `--auto` mode, after one module reaches any local stable node such as `implementation_final`, `module_design_frozen`, `impl_rd_ready`, or `architecture_ready`, immediately choose the next valid pre-implementation action. That may mean continuing the same module, switching `current_module` to the next dependency-safe module, or triggering `flutter-init` if the shared baseline is ready and the scaffold is still missing.
+41. In `--auto` mode, after a module becomes locally complete for the current step, immediately update `current_module`, `current_stage`, `next_skill`, `module_status_table`, and `decision_log` to reflect the next remaining work. Do not leave `next_skill` as a passive future suggestion if unresolved target modules still exist.
+42. If a module dependency prevents the next module from being refined safely, keep the workflow active but stop auto-advancement and record the blocker explicitly.
+43. If the shared bootstrap-critical baseline is ready and the target project has not been scaffolded yet or does not contain project-local `skills/flutter-dev/`, use `flutter-init` before feature-module implementation begins. Do not delay this just because unrelated feature modules still lack later-stage architecture output.
+44. `flutter-init` must stop at initialization boundaries. It may scaffold folders, shared bootstrap, shared wiring, and annotation-ready contracts, but it must not implement feature code, page code, or module-specific business logic.
+45. If `flutter-init` has completed and project-local `skills/flutter-dev/` exists, record `project_initialized` as `pending_next_stage`.
+46. If `--auto` is active, do not stop for `project_initialized`, `implementation_final`, `module_design_frozen`, `impl_rd_ready`, `architecture_ready`, or other downstream confirmation gates. Keep advancing until the implementation boundary is reached for all target modules or a blocker appears.
+47. If `--auto` is active and all target modules are implementation-ready, stop here instead of entering `implementing`.
+48. If implementation work should begin or continue, strictly call `@superpowers` together with project-local `flutter-dev` and `flutter-project-guardrails`.
+49. During module implementation, split execution into `uiux` and `impl` tracks when the work naturally separates presentation from behavior or data contracts. Both tracks must still be executed through explicit `@superpowers` invocation, not by directly running downstream implementation skills on their own.
+50. The default module landing order is: define the minimum data contract first, then land the display layer skeleton and main user path, then connect the real data layer. The minimum data contract should cover interface fields, state enums, loading or empty or error states, and interaction input-output boundaries without forcing full data-layer completion first.
+51. For ordinary business-page modules, prefer `minimum data contract -> display layer -> data integration`. For infrastructure-heavy modules such as auth guards, route shells, sync engines, caches, payment orchestration, or backend-first flows, it is allowed to land the minimum process or data layer first and then attach display surfaces later.
+52. Before display-layer code begins, run a display-layer readiness preflight. At minimum, verify:
    - the page has a readable main preview image
    - complex areas have readable detail previews when needed
    - fidelity-critical regions have enough evidence coverage, including state, scroll-position, and overlay evidence when those dimensions materially affect the layout
@@ -395,15 +417,15 @@ Use one state per module:
    - every important page region is classified as `preserve_faithfully`, `flutterize`, or `simplify`
    - every fidelity-critical region has an explicit `layout_anchor`, `spacing_lock_rule`, `z_axis_rule`, and `pixel_tolerance`
    - non-native visual effects are already classified as native code or asset fallback
-51. Treat hero regions, CTA clusters, branded illustration zones, layered backgrounds, sticky headers, and overlay-heavy regions as fidelity-critical by default unless the frozen design source explicitly says otherwise.
-52. During display-layer implementation, keep taste guidance active as a guardrail for hierarchy, spacing, typography, contrast, CTA salience, motion restraint, and anti-template composition. Taste must not override frozen UI/UX intent. If corresponding page images exist, inspect them through `$image-to-code` before landing display-layer code.
-53. Treat preview images as visual-structure evidence, not as the only source of truth for Flutter implementation choices. Final scroll, list, sticky, overlay, and layout decisions must follow the combination of `ui-ux.md`, `impl.md`, and `flutter-uiux-to-architecture`.
-54. If the architecture output marks a region `preserve_faithfully`, do not normalize away its locked spacing, hierarchy, layering, or asset usage for engineering convenience. Any such change must return to `flutter-design-source-control`.
-55. If the page effect image contains a bitmap visual, texture, illustration, composite, or other effect that Flutter cannot reproduce natively with reasonable cost and fidelity, do not force a code-only rebuild. Record it as a generated asset requirement, use `$imagegen` to generate the needed bitmap asset, move the selected result into the project, and let implementation consume that asset explicitly.
-56. Only use `$imagegen` for visuals that are genuinely better as raster assets. Do not use it for shapes, simple gradients, icons that belong to an existing vector system, or effects that Flutter can reproduce cleanly with native code.
-57. If code is complete or screenshots exist, use `flutter-design-parity-reviewer`.
-58. If the user requests UI, layout, interaction, hierarchy, visual token, or state changes after shared freeze or module design freeze, use `flutter-design-source-control`.
-59. Only route to Pen/Pencil skills when the user explicitly requests Pencil tooling or provides a `.pen` workflow. That optional path must not become a default gate for Flutter implementation.
+53. Treat hero regions, CTA clusters, branded illustration zones, layered backgrounds, sticky headers, and overlay-heavy regions as fidelity-critical by default unless the frozen design source explicitly says otherwise.
+54. During display-layer implementation, keep taste guidance active as a guardrail for hierarchy, spacing, typography, contrast, CTA salience, motion restraint, and anti-template composition. Taste must not override frozen UI/UX intent. If corresponding page images exist, inspect them through `$image-to-code` before landing display-layer code.
+55. Treat preview images as visual-structure evidence, not as the only source of truth for Flutter implementation choices. Final scroll, list, sticky, overlay, and layout decisions must follow the combination of `ui-ux.md`, `impl.md`, and `flutter-uiux-to-architecture`.
+56. If the architecture output marks a region `preserve_faithfully`, do not normalize away its locked spacing, hierarchy, layering, or asset usage for engineering convenience. Any such change must return to `flutter-design-source-control`.
+57. If the page effect image contains a bitmap visual, texture, illustration, composite, or other effect that Flutter cannot reproduce natively with reasonable cost and fidelity, do not force a code-only rebuild. Record it as a generated asset requirement, use `$imagegen` to generate the needed bitmap asset, move the selected result into the project, and let implementation consume that asset explicitly.
+58. Only use `$imagegen` for visuals that are genuinely better as raster assets. Do not use it for shapes, simple gradients, icons that belong to an existing vector system, or effects that Flutter can reproduce cleanly with native code.
+59. If code is complete or screenshots exist, use `flutter-design-parity-reviewer`.
+60. If the user requests UI, layout, interaction, hierarchy, visual token, or state changes after shared freeze or module design freeze, use `flutter-design-source-control`.
+61. Only route to Pen/Pencil skills when the user explicitly requests Pencil tooling or provides a `.pen` workflow. That optional path must not become a default gate for Flutter implementation.
 
 ## Hard Rules
 
@@ -446,6 +468,8 @@ Use one state per module:
 - Do not skip directory inspection and environment-variable checks before auto-generating static visual evidence in `--auto` mode.
 - Do not continue into shared/global freeze when `IMAGE_BASE_URL` or `IMAGE_API_KEY` is missing and approved effect images still do not exist.
 - Do not require static images for module freeze when `flutter-taste-router` has already produced a sufficiently explicit module design packet.
+- Do not generate new module real-device previews during module refinement or module freeze by default; require explicit `--perviewer` opt-in.
+- Do not treat `--perviewer` as permission to redefine the approved shared/global style direction; it only enables module-stage preview evidence generation.
 - Do not require page-level Pen, `.pen`, Pencil MCP data, or `pen_status` in the default Flutter implementation workflow.
 - Do not let implementation rewrite design intent. Design changes after freeze must return to design control.
 - Do not route directly from `architecture_ready` to project-local `flutter-dev`; new project scaffolding must pass through `flutter-init`.
@@ -509,6 +533,7 @@ Return:
 - User asks why a root navigation host was split separately: explain that an `app-shell` module is valid when shared route hosting, root redirects, or shell-level state has independent implementation value.
 - User says "the docs are final, start coding": require explicit confirmation for queued `implementation_final` and design-source freeze updates before code.
 - User says "run `flutter-workflow-orchestrator --auto`": keep advancing through shared freeze, module split, per-module paired-doc refinement, module freeze, implementation-readiness preparation, and any required architecture output for every dependency-safe target module until all target modules are waiting at the implementation boundary, then stop before code. Before each freeze, normalize text through `flutter-taste-router`, inspect static-image directories, and only generate missing page images when the image environment variables are present.
+- User says "模块细化时也生成真机效果图": do not do that by default; require explicit `--perviewer`, and if it is active, record the opt-in plus generated paths into `global-design-guidelines.md`.
 - User says "use a dark-mode preview as the workflow reference": treat that as a special override request. The default workflow reference previews remain light mode unless the user explicitly changes the design requirement.
 - User says "this module is done, what next": if `--auto` is active and other target modules still remain, do not stop to ask. Select the next dependency-safe module, update the workflow record, and continue automatically.
 - User says "why did auto stop after one module reached architecture_ready": treat that as incorrect behavior. `--auto` must continue unless all target modules are implementation-ready or a real blocker was recorded.

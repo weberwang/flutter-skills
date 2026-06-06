@@ -142,6 +142,7 @@ Each `<module>.ui-ux.md` must include these minimum sections:
   - `sticky_model`: none, sticky header, sticky tab/filter, sticky footer, or mixed
   - `component_repeatability`: which parts must become reusable repeated components
 - Design source section with taste direction, future visual evidence, and future `global-design-guidelines.md`, `light-theme-freeze.yaml`, and `dark-theme-freeze.yaml` references when approved static previews exist.
+- Design source section must not assume new module real-device preview generation by default. If module-stage preview generation is intended, reserve that as explicit `--perviewer` opt-in instead of implied future work.
 - Design freeze card section reserved for later approval, including reserved fields for module-level component freeze decisions.
 - Acceptance gates for UI/UX, module design freeze, and code handoff.
 
@@ -155,6 +156,7 @@ In initial split mode, the document must cover:
 - Coarse state matrix: ideal, empty, loading, error, permission, partial data, disabled, success, locked or premium when relevant.
 - Initial structure semantics for scroll, list, overlay, layout, sticky behavior, and component repeatability.
 - Shared design references, taste constraints, and future visual-evidence placeholders when approved static previews exist.
+- If the module still lacks approved module-stage visuals, keep that as an explicit optional placeholder. Do not imply that refinement will auto-generate new previews unless `--perviewer` is part of the approved workflow.
 - Open questions that block implementation-level detail later.
 - If a shell module exists, the document must state whether navigation ownership belongs to that shell or to the current module.
 
@@ -169,6 +171,7 @@ In implementation refinement contract mode, expand the same document to directly
 - Edge-state handling that code must preserve.
 - Immutable visual or behavioral constraints versus explicitly adjustable items.
 - Exact inputs needed for module design-source freeze and architecture planning.
+- If module-stage preview generation is requested, state that it is explicit `--perviewer` opt-in evidence, not a default refinement side effect.
 - Acceptance gates for module design freeze and code handoff.
 
 ## Implementation RD Contract
@@ -249,6 +252,7 @@ In implementation refinement contract mode, expand the same document to directly
 - Do not leave the refinement provenance block out of `<module>.impl.md`; the status must stay explicit even when it is `not_executed` or `unknown`.
 - Do not leave module-level reusable components completely undefined in UI/UX RD when the module clearly contains repeated non-page building blocks.
 - Do not leave scroll, list, overlay, relative-layout, or sticky behavior to image-only interpretation when the module is entering implementation preparation.
+- Do not imply that module refinement will auto-generate new real-device previews; that requires explicit `--perviewer` workflow opt-in.
 - Do not perform detailed module UI/UX refinement before taste direction exists. If taste direction is missing, block and route upstream.
 - Do not hide a real root-shell dependency inside multiple feature modules. If the shell has independent state or routing responsibility, split it explicitly as `app-shell` or `root-shell`.
 - Do not create a generic `main` module name. Use a responsibility-driven shell name instead.
