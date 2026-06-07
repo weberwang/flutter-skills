@@ -13,6 +13,7 @@
 - `flutter_riverpod`
 - `riverpod_annotation`
 - `go_router`
+- `flutter_screenutil: ^5.9.3`
 - `dio`
 - `retrofit`
 - `freezed_annotation`
@@ -56,6 +57,12 @@
 - `cached_network_image`
 - `image_picker`
 
+### 分页加载
+
+当 RD 明确存在分页列表、无限滚动、游标分页或分页刷新场景时，追加：
+
+- `infinite_scroll_pagination: ^5.1.1`
+
 ### 实时通信
 
 当 RD 明确需要 WebSocket 或轻量实时通道时，追加：
@@ -70,6 +77,18 @@
 - 如果能力不成立，就不要把对应包加进来。
 
 ## 强制搭配
+
+### 尺寸与适配基线
+
+- 主方案：`flutter_screenutil: ^5.9.3`
+- 说明：所有项目默认必须接入这一套尺寸适配基线；不要在不同页面、不同 feature 里混用手写比例换算、另一套屏幕适配库，或完全无约束的裸数字尺寸策略
+- 约束：如果项目要放弃 `flutter_screenutil` 或替换版本，必须先更新 guardrails，而不是在具体项目里临时例外
+
+### 分页加载基线
+
+- 主方案：`infinite_scroll_pagination: ^5.1.1`
+- 说明：只要项目进入分页加载场景，就必须统一使用这一套分页加载方案；不要在不同 feature 里混用自写滚动触底分页、另一套分页库，或各自维护不一致的分页状态机
+- 约束：如果项目存在分页加载需求，就不能省略这个包，也不能替换版本，除非先更新 guardrails
 
 ### 状态与依赖组织
 
@@ -102,6 +121,7 @@
 - `flutter_riverpod` 与 `provider` / `bloc` 并存承担同一职责
 - 已接入 `flutter_hooks` / `hooks_riverpod`，却在可适用场景继续新增非 hooks 的生命周期样板
 - `dio` 与 `http` / `chopper` 在同一业务链路并存
+- 存在分页加载需求时，`infinite_scroll_pagination: ^5.1.1` 与自写分页方案或其他分页库并存
 - 手写 JSON mapping 与 `json_serializable` / `freezed` 并存
 - `get_it` 作为隐藏全局容器，再叠加 Riverpod 管理同一批依赖
 - 多个主存储方案同时承担同一离线职责

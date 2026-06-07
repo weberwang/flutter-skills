@@ -47,6 +47,8 @@ If an artifact belongs to the app's real startup path or shared runtime path, it
 
 - If the input is still a PRD, feature brief, or rough requirement note rather than an RD, use `flutter-prd-rd-writer` first and do not scaffold directly.
 - Before touching `pubspec.yaml`, project folders, or generated code, always load `flutter-project-guardrails`. That skill defines the mandatory package stack, DDD feature rules, and annotation rules that this skill must obey.
+- The default mandatory package baseline includes `flutter_screenutil: ^5.9.3`; initialization must carry that exact package into the project baseline unless the guardrails are revised first.
+- If the RD includes paginated loading, infinite lists, cursor paging, or refresh-plus-load-more flows, initialization must include `infinite_scroll_pagination: ^5.1.1` as the default pagination baseline.
 - During scaffolding, if a provider, DTO, serializer, state union, or API client can be represented by the approved annotation chain, generate that path with annotations first instead of leaving equivalent hand-written boilerplate in the baseline.
 - If a workflow-record runtime artifact already exists for the current run, treat it as the current workflow source and return enough artifact paths for `flutter-workflow-orchestrator` to move the project to `project_initialized`.
 - After the base project shell is created, always generate a project-local `skills/flutter-dev/` from `assets/flutter-dev-template/` and fill in the project-specific decisions from the RD.
@@ -91,6 +93,8 @@ If an artifact belongs to the app's real startup path or shared runtime path, it
 
 - A clean `flutter create` baseline with demo code removed.
 - A `pubspec.yaml` aligned with the minimal mandatory package bundle required before bootstrap.
+- The mandatory package baseline must include `flutter_screenutil: ^5.9.3`.
+- When the RD includes paginated loading requirements, the package baseline must include `infinite_scroll_pagination: ^5.1.1`.
 - `lib/app`, `lib/core`, `lib/shared`, and `lib/features` scaffolded with clear responsibilities.
 - Directory-first placeholders or contracts required by the later bootstrap stage.
 - A generated project-local `skills/flutter-dev/` skill that inherits the guardrails and records project-specific decisions.

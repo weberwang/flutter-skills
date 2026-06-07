@@ -35,6 +35,8 @@ Enforce a single Flutter engineering baseline for this workspace: mandatory pack
 
 - Default architecture is DDD by bounded feature: `lib/features/<feature>/domain`, `application`, `infrastructure`, `presentation`.
 - Default state and dependency organization is `flutter_riverpod` with `riverpod_annotation` and `riverpod_generator`.
+- Default screen adaptation baseline is `flutter_screenutil: ^5.9.3`.
+- Default pagination baseline, when the product actually has paginated loading, is `infinite_scroll_pagination: ^5.1.1`.
 - If the approved annotation toolchain can cover the current provider, DTO, union, serializer, or API contract, it must be implemented with annotations and generators instead of hand-written equivalents.
 - If `flutter_hooks` or `hooks_riverpod` is part of the project stack, every applicable widget or provider composition path must use hooks first; do not keep `StatefulWidget`, manual `initState` / `dispose`, or duplicated listener glue where hooks can express the same behavior directly.
 - Default routing is `go_router`.
@@ -44,6 +46,9 @@ Enforce a single Flutter engineering baseline for this workspace: mandatory pack
 - Added packages must have a concrete owner and real usage in the scaffold or implementation. If they are not used, remove them.
 - Providers, DTOs, unions, serializers, and API declarations must use annotations whenever the current standard toolchain supports that shape.
 - Do not mix `provider`, `bloc`, `get_it`, `http`, `chopper`, manual JSON mapping, or duplicate storage stacks into the same responsibility path unless the skill itself is updated with a deliberate exception.
+- Do not replace, omit, or version-drift `flutter_screenutil: ^5.9.3` in the default project baseline unless the guardrails themselves are explicitly revised first.
+- Do not replace, omit, or version-drift `infinite_scroll_pagination: ^5.1.1` when the project has paginated loading requirements, unless the guardrails themselves are explicitly revised first.
+- Do not keep or add self-built infinite-scroll pagination glue or another pagination package in a responsibility path that already uses the default pagination baseline.
 - Do not keep or add hand-written provider wiring, DTO copy logic, JSON mapping, or API client glue in places where `@riverpod`, `@freezed`, `@JsonSerializable`, or `@RestApi` can express the same contract.
 - Do not add `flutter_hooks` or `hooks_riverpod` and then continue writing new applicable code in a non-hooks style.
 - If package version selection is time-sensitive, verify before pinning exact versions.
