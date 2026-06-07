@@ -1,0 +1,43 @@
+# Pressure Scenarios
+
+Use this reference when the user request resembles one of these examples or tries to skip a workflow gate.
+
+- User says "做一个会员系统" or gives another raw one-line requirement with no PRD: enter `requirements_brainstorming`, brainstorm the requirement space, build a question ledger, resolve decision-blocking questions, then generate the PRD before technical baseline.
+- User says "先别写 PRD，直接定技术方案": block. Raw demand must pass requirements brainstorming and PRD generation before technical baseline or executable module document generation.
+- User says "implement this home page directly" with only a PRD: route to `flutter-prd-rd-writer`, not executable module document generation or code.
+- User says "split modules first, choose packages later": block and require baseline architecture and package decisions.
+- User says "refine visual design first, taste later": block detailed refinement; require PRD-based final product design direction confirmation plus taste direction first.
+- User says "the design draft is complete, just freeze it": route to `flutter-design-freeze-gate`.
+- User says "the shared effect image looks close enough, just freeze it": block and route back through exactly one shared revision pass, then stop.
+- User says "skip final product direction confirmation and generate images directly": block. Effect-image generation requires explicit user confirmation of the final product design direction from the PRD.
+- User says "generate all page effect images now" before the representative image is confirmed: block. Generate one representative effect image first, wait for user confirmation or revision feedback, then generate the remaining pages.
+- User says "run `--auto` and keep going after the first effect image": block. `--auto` must stop at the representative effect-image confirmation gate and wait for user confirmation or revision feedback.
+- User says "skip global effect images and freeze directly": block. Shared/global design freeze requires approved light-mode effect images for every in-scope page.
+- User says "use Stitch as design source": treat Stitch as the only structured design-source adapter, require `modelId=GEMINI_3_1_PRO`, keep effect images as the visual baseline, and never write literal API keys into repo docs.
+- User says "generate Stitch designs for all pages": run page-scoped Stitch design in subagents with at most 6 parallel page designs; block if a subagent tries to own workflow state or more than one page in the same batch.
+- User says "restore the Stitch design exactly": allow page subagents to download approved image assets and use those local assets directly; record source and local paths instead of forcing Flutter-native reconstruction.
+- User says "enter Stitch design now" but has not chosen new vs existing Stitch project: block, record `required_inputs=stitch_project_mode:new_or_existing`, and do not call Stitch.
+- User chooses "new Stitch project" but project creation did not return a frozen id: block, record `required_inputs=stitch_project_creation`, and do not generate a Stitch design-source packet.
+- User says "enter Stitch design now" after choosing existing project but `stitch_project_id` is missing or not frozen: block, record `required_inputs=stitch_project_id`, and do not call Stitch.
+- User says "change the Stitch project mode or project id after freeze": route through `flutter-design-source-control` and revalidate existing Stitch packets.
+- User says "Stitch is not available but continue freeze": block when the current design-source policy requires Stitch; record `stitch_status=unavailable` instead of falling back silently to raw effect images.
+- User says "modules are split, now refine only the home module": block the separate refinement stage. Route back to the combined executable module document generation step for a scope-matched regeneration of `home.impl.md`.
+- User says "continue auto after module docs" but the module index, executable module `impl.md`, or frozen Stitch design-source packet is missing: treat that as a real blocker, record `未执行` for generation/freeze-related steps, and stop instead of reconstructing fake progress.
+- User asks why a root navigation host was split separately: explain that an `app-shell` module is valid when shared route hosting, root redirects, or shell-level state has independent implementation value.
+- User says "the docs are final, start coding": require explicit confirmation for queued `implementation_final` and design-source freeze updates before code.
+- User says "we can make it high fidelity during implementation": block module freeze and route to the correct design revision path; high-fidelity visual fidelity is the first module design-freeze priority, not a later code-polish task.
+- User says "run `flutter-workflow-orchestrator --auto`": keep advancing through PRD-based final product design direction confirmation, all-page light-mode effect-image generation, shared freeze, executable module `impl.md` generation, module freeze, implementation-readiness preparation, and any required architecture output for every dependency-safe target module until all target modules are waiting at the implementation boundary, then stop before code. Before effect-image generation, confirm the final product design direction; before each freeze, normalize text through `flutter-taste-router`, inspect static-image directories, and only generate missing page images when the image environment variables are present.
+- User says "模块细化时也生成真机效果图": do not do that by default; require explicit `--perviewer`, and if it is active, record the opt-in plus generated paths into `global-design-guidelines.md`.
+- User says "验证平台是 android 模拟器、Windows 或 Web": record that as explicit `platform_identifier` instead of hiding it under a generic mobile baseline.
+- User says "use a dark-mode effect image as the workflow reference": treat that as a special override request. The default workflow reference effect images remain light mode unless the user explicitly changes the design requirement.
+- User says "this module is done, what next": if `--auto` is active and other target modules still remain, do not stop to ask. Select the next dependency-safe module, update the workflow record, and continue automatically.
+- User says "why did auto stop after one module reached architecture_ready": treat that as incorrect behavior. `--auto` must continue unless all target modules are implementation-ready or a real blocker was recorded.
+- User says "when should project initialization happen": explain that the preferred trigger is once the shared global public baseline and bootstrap-critical architecture inputs are clear, before feature-module code starts, not after every feature reaches late-stage architecture output.
+- User says "where is the Pen file": explain that Pen is optional and not required by the default workflow.
+- User says "adjust button hierarchy during implementation": route to `flutter-design-source-control`.
+- User says "implement the screen layer now": strictly route to `@superpowers` and require `$image-to-code` to inspect the corresponding page image first when that image exists.
+- User says "start implementing this feature module now": first verify that the required global public code baseline is already landed; if not, block module implementation and land the missing global code first.
+- User says "start coding directly" after the implementation boundary: block direct execution and require `@superpowers` `Spec` first, then `@superpowers` `Plan`, before any code implementation begins.
+- User says "just implement it serially": keep parallel implementation as the default after `Spec` and `Plan`; only allow serial fallback when shared-file or shared-state conflicts are explicit and recorded.
+- User says "this effect cannot be written natively in Flutter": classify whether it should become a project bitmap asset; if yes, route to `$imagegen`, save the chosen asset into the workspace, and reference it from the implementation plan instead of forcing a brittle code imitation.
+- User says "the code is done, check whether it matches the design": stop and request human visual inspection against the frozen Stitch design source and approved page effect images; do not create a separate automatic review workflow stage.

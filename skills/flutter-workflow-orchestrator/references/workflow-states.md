@@ -1,0 +1,25 @@
+# Workflow States
+
+Use this reference when classifying `current_stage`, module maturity, or allowed next moves.
+
+Use one state per module:
+
+| State | Meaning | Allowed Next Move |
+| --- | --- | --- |
+| `requirements_brainstorming` | Raw requirements, a one-line feature idea, or a partially specified request exists, but no PRD artifact is ready. The orchestrator must brainstorm goals, users, scope, risks, assumptions, and unresolved questions before generating the PRD. | internal requirements-to-PRD flow, then `flutter-prd-rd-writer` when ambiguities are resolved |
+| `prd_ready` | PRD or feature brief exists | PRD-based final product design direction confirmation |
+| `product_direction_confirmed` | The user has explicitly confirmed the final product design direction based on the PRD before effect-image generation. | `flutter-taste-router` plus representative effect-image generation |
+| `technical_baseline_ready` | Global architecture, package stack, backend collaboration, and delivery assumptions exist without a taste-aligned shared visual direction | taste direction through `flutter-taste-router` |
+| `shared_taste_direction` | Project-level visual posture, anti-template rules, information density, typography hierarchy, contrast posture, CTA model, motion role, and platform baseline are defined | representative effect-image generation |
+| `global_effect_image_pilot_ready` | One representative light-mode effect image has been generated for the page that best represents the product's overall visual system, and the workflow is waiting for user confirmation or revision feedback before generating the remaining pages. | user confirmation, then remaining all-page effect-image generation |
+| `global_effect_images_ready` | The representative effect image has been confirmed, and all remaining required light-mode page effect images exist, are page-addressable, and are approved as visual baseline evidence before global design freeze. | Stitch structured design-source generation or validation |
+| `stitch_design_source_ready` | Stitch has generated or validated the structured design-source packet from all approved page effect images, with frozen `stitch_project_id`. | `design-preview-to-global-guidelines` or `flutter-design-freeze-gate` |
+| `global_guidelines_frozen` | Approved all-page effect images and Stitch design-source output have been converted into frozen shared guidance, explicit global public component decisions, and dual-theme artifacts. | `flutter-design-freeze-gate` |
+| `design_freeze_ready` | The shared design packet, all-page effect images, and Stitch design-source artifacts are ready for approval before executable module document generation. | `flutter-rd-module-splitter` |
+| `module_impl_docs_ready` | Detailed modules, module index rows, module detail cards, global baseline references, module-level component skeletons, and executable module `impl.md` documents exist from one combined generation step. Each `impl.md` is already implementation-final enough for module freeze and implementation readiness; separate refinement documents are not required. | `flutter-design-freeze-gate` |
+| `module_design_frozen` | The active module's implementation-final `impl.md`, Stitch design-source packet, high-fidelity visual contract, visual evidence, component freeze, and state matrix are frozen and confirmed. | `flutter-design-source-control` or `flutter-uiux-to-architecture` |
+| `impl_rd_ready` | The active module's implementation RD is implementation-final or landed, references the frozen Stitch design-source packet and global technical baseline, and is confirmed as implementable. | `flutter-uiux-to-architecture` |
+| `architecture_ready` | Tokens, assets, components, screen plan, non-native visual asset strategy, and scaffold contract exist. | `flutter-init`, especially once the shared public baseline is clear enough to initialize the project before feature-module code |
+| `project_initialized` | `flutter-init` has only created the directory skeleton and project-local `skills/flutter-dev/` container, but has not started bootstrap code, shared wiring, or any feature implementation code. | `@superpowers` `Spec` for implementation entry |
+| `implementing` | Implementation entry begins only after the active module's Stitch design source is frozen and the module `impl.md` is executable. The module must first pass through `@superpowers` `Spec`, then `@superpowers` `Plan`, and only then execute code work. Execution defaults to parallel implementation of independent work packages with explicit ownership boundaries; display-layer work must inspect the corresponding page image through `$image-to-code` first when such evidence exists. | `@superpowers` `Spec` -> `@superpowers` `Plan` -> parallel implementation execution -> human visual inspection |
+| `module_done` | Shared freeze is confirmed, module implementation docs are landed, Stitch design source is frozen, code is landed, and the user has accepted the human visual inspection result. | maintain index only |

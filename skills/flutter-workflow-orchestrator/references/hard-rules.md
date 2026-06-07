@@ -1,0 +1,94 @@
+# Hard Rules
+
+Use this reference before applying any state/status promotion, freeze decision, implementation handoff, visual-evidence decision, or downstream delegation.
+
+- Do not split implementation modules from a raw PRD before a global technical baseline and package stack exist.
+- Do not route raw requirements, a one-line feature idea, or an ambiguity-heavy request directly into technical baseline, taste direction, executable module document generation, architecture, or implementation before the requirements-to-PRD flow has resolved decision-blocking questions and produced a PRD artifact.
+- Do not treat assumptions as resolved requirements unless the PRD records them explicitly with rationale and risk.
+- Do not treat routing as a best-effort recommendation flow; it is a locked state machine owned by the orchestrator.
+- Do not invoke a downstream skill until the route lock is persisted and the preflight gate passes.
+- Do not delegate workflow truth ownership to a subagent.
+- Do not use `flutter-prd-rd-writer` for detailed module design.
+- Do not skip taste direction before Stitch design-source generation or executable module implementation document generation.
+- Do not confuse `platform_baseline` with a verified `platform_identifier`.
+- Do not skip `flutter-taste-router` textual normalization before any shared freeze or module freeze check.
+- Do not generate new static visuals before checking whether the target directories already contain usable page images.
+- Do not use effect images as the only design source when Stitch MCP is available; convert or validate them into a Stitch design-source packet first.
+- Do not enter Stitch design-source generation or validation unless the user has first chosen `stitch_project_mode=new` or `stitch_project_mode=existing`.
+- Do not enter Stitch design-source generation or validation unless `stitch_project_id` is confirmed and frozen after the mode choice.
+- Do not run more than 6 Stitch page-design subagents in parallel.
+- Do not let a Stitch page-design subagent own more than one page in the same parallel batch.
+- Do not freeze a Stitch design-source packet until every in-scope page has a successful page-level Stitch receipt and the orchestrator has merged the receipts.
+- Do not block direct image-asset use when the image can be downloaded from the approved Stitch/effect-image source and saved into the project asset tree.
+- Do not mark a Stitch design-source packet as frozen when required downloaded image assets lack recorded source paths, local asset paths, and intended page regions.
+- Do not change `stitch_project_mode` or `stitch_project_id` after freeze without routing through `flutter-design-source-control`.
+- Do not freeze a Stitch design-source packet until it has been checked against the original effect image or approved visual comp.
+- Do not commit or document literal Stitch API keys.
+- Do not accept or generate dark-mode effect images as the default workflow reference set; the default effect-image baseline is light mode.
+- Do not let shared design freeze proceed without approved effect images.
+- Do not let `--auto` cross the representative effect-image confirmation gate.
+- Do not generate the remaining page-effect set before one representative effect image has been explicitly confirmed.
+- Do not enter global design freeze until every required page has an approved light-mode effect image.
+- Do not send shared/global or module-stage effect-image generation requests without explicit style constraints once the design packet already defines them.
+- Do not let module-stage effect-image generation redefine palette, typography mood, component family, image treatment, or CTA posture after a shared/global direction has been approved.
+- Do not let shared freeze before executable module document generation claim that module pages or module-private components are frozen.
+- Do not let `flutter-rd-module-splitter` emit non-executable split drafts that require a later refinement node.
+- Do not attempt module freeze before the module `impl.md` has implementation-final maturity and references the frozen Stitch design-source packet.
+- Do not freeze a module for implementation while its high-fidelity visual contract is missing, vague, or deferred to later code polish.
+- Do not let code implementation begin before `technical_baseline_ready`, executable module `impl.md`, `module_design_frozen`, and `impl_rd_ready` exist for the module.
+- Do not let code implementation begin while `impl_status` is anything earlier than `implementation_final`.
+- Do not let a feature module start landing before the required global public code baseline is present.
+- Do not force a network baseline into projects or modules that do not require remote data or network capabilities.
+- Do not postpone `flutter-init` until every feature module is fully architecture-ready when the shared bootstrap-critical baseline is already sufficient to initialize the project.
+- Do not let `flutter-init` implement bootstrap code, feature pages, feature business flows, shared wiring, or module-specific behavior while initializing the project.
+- Do not mark `impl_status=landed` until the module `impl.md` references a confirmed frozen Stitch design-source packet.
+- Do not start ordinary page-module implementation by fully building the data layer first when a minimum contract is enough to unblock the display layer.
+- Do not mark `code_status=landed` until code output exists and the landed status change has been explicitly confirmed.
+- Do not route around `flutter-design-freeze-gate` on implied approval.
+- Do not let a complete shared or module design draft skip `flutter-design-freeze-gate` before freeze.
+- Do not allow design packages with unresolved hierarchy, task guidance, typography, contrast, CTA, or state-coverage defects to advance into shared freeze or module design freeze.
+- Do not treat architecture planning, Flutterization, or implementation convenience as a substitute for resolving high-fidelity visual decisions during module design freeze.
+- Do not let `--auto` cross the boundary into `implementing`.
+- Do not let `--auto` skip blockers, unresolved dependencies, or missing design inputs.
+- Do not let `--auto` pretend a module is implementation-ready when its executable `impl.md` is missing or its design source is not frozen.
+- Do not stop `--auto` for ordinary downstream confirmation gates before the implementation boundary.
+- Do not stop `--auto` just because the current module reached `implementation_final`, `module_design_frozen`, `impl_rd_ready`, or `architecture_ready` while other target modules still remain.
+- Do not treat `current_module` as the only module covered by an `--auto` run; it is only the module currently being processed.
+- Do not leave `next_skill` as a passive handoff recommendation after a local module milestone when `execution_mode=auto` and more target modules are still pending.
+- Do not continue `--auto` past executable module document generation when the selected active module, its module-index row, or its `impl.md` cannot be verified on disk.
+- Do not skip directory inspection and environment-variable checks before auto-generating static visual evidence in `--auto` mode.
+- Do not continue into shared/global freeze when `IMAGE_BASE_URL` or `IMAGE_API_KEY` is missing and approved effect images still do not exist.
+- Do not treat textual packets as a substitute for the frozen Stitch design-source packet during module freeze.
+- Do not generate new module real-device effect images during executable module document generation or module freeze by default; require explicit `--perviewer` opt-in.
+- Do not treat `--perviewer` as permission to redefine the approved shared/global style direction; it only enables module-stage effect-image evidence generation.
+- Do not require page-level Pen, `.pen`, Pencil MCP data, or `pen_status` in the default Flutter implementation workflow; Stitch is the default structured design-source adapter.
+- Do not let implementation rewrite design intent. Design changes after freeze must return to design control.
+- Do not route directly from `architecture_ready` to project-local `flutter-dev`; new project scaffolding must pass through `flutter-init`.
+- Do not let delegated module document generation or code landing bypass `@superpowers` when real execution ownership is required.
+- Do not enter implementation execution before `@superpowers` has produced both `Spec` and `Plan` for the active module.
+- Do not fall back to serial-only implementation by default once `Spec` and `Plan` exist, unless shared-file or shared-state conflicts make parallel execution unsafe.
+- Do not directly route module implementation to `flutter-rd-module-splitter`, `flutter-dev`, project-local implementation skills, or any other execution path without explicit `@superpowers` invocation.
+- Do not directly route module implementation to `flutter-dev` or project-local execution skills without explicit `@superpowers` invocation.
+- Do not let parallel implementation subagents overlap ownership of the same file, generated asset path, or mutable state contract in one execution batch.
+- Do not treat a complete-looking `impl.md` as proof that delegated generation or execution really happened.
+- Do not let `.impl.md` claim `generation_trace_status=verified_executed` unless the workflow record or execution trace contains the real delegated inputs and outputs for that module.
+- Do not start display-layer landing before the preflight inputs are complete enough to avoid image-only guessing.
+- Do not start high-fidelity display-layer landing with only a broad page effect image when fidelity-critical regions still lack detail, state, scroll, or overlay evidence.
+- Do not let display-layer code land without consulting the corresponding page image through `$image-to-code` when such image evidence exists.
+- Do not let effect images alone decide final Flutter widget strategy when documented interaction or architecture semantics say otherwise.
+- Do not leave a fidelity-critical region without an explicit `preserve_faithfully`, `flutterize`, or `simplify` classification in architecture output.
+- Do not let engineering convenience flatten locked spacing, layer depth, or CTA dominance for regions marked `preserve_faithfully`.
+- Do not force Flutter-native reconstruction for visuals that are clearly better shipped as image assets; download approved source images directly when available, otherwise route missing or unusable images through `$imagegen` and store them inside the project.
+- Do not use `$imagegen` as an excuse to skip native implementation for visuals that Flutter can reproduce cleanly.
+- In manual mode, do not switch to the next process automatically after a specialist skill finishes; wait for explicit user confirmation whenever queued transitions or status updates exist.
+- In `--auto`, do not wait at ordinary downstream confirmation gates before the implementation boundary, but still stop for blockers, route drift, missing evidence, or any move that would enter implementation.
+- Do not ask an execution skill to do workflow bookkeeping that belongs here.
+- Do not let a downstream skill change `current_stage`, `pending_next_stage`, `pending_next_skill`, or `pending_status_updates` by implication.
+- Do not accept a downstream result without a verifiable receipt containing artifacts, evidence, and blockers.
+- Do not treat an iteration with no status delta and no new blocker as valid progress in `--auto`.
+- Do not continue auto-advancement after route drift, receipt mismatch, or empty progress.
+- Do not run multiple subagents in parallel against the same active module or the same workflow record when their outputs could race, except for the route-locked Stitch page-design batch with at most 6 page-scoped subagents.
+- Do not treat the Stitch page-design parallelism exception as permission to parallelize module freeze, implementation, workflow-record updates, or stage promotion.
+- Do not let a subagent decide whether `--auto` should switch modules, stop, or promote a stage.
+- Do not treat one module's state as proof that another module is ready.
+- Do not create per-module workflow state files; keep stage tracking in `docs/rd/00-workflow-record.md`.
