@@ -29,13 +29,14 @@ flowchart LR
 
 1. Stitch 是唯一默认设计源。效果图只是视觉基线，不再把效果图本身当结构化设计源。
 2. 全局视觉设计必须先头脑风暴，再确认最终方向，然后才允许出效果图。
-3. 效果图采用代表页优先：先出 1 张代表页，等你确认后再生成其余页面。
-4. 效果图统一存放在全局目录 `docs/rd/`，不再要求落到模块目录。
-5. `project_initialized` 只表示创建目录骨架和项目内 `skills/flutter-dev/`，不包含 bootstrap 代码。
-6. `bootstrap_code_ready` 单独成阶段，负责 app 入口、app shell、共享启动 wiring、根路由宿主等全局公共代码。
-7. `implementing` 阶段必须先通过 `@superpowers` 的 `Spec`，再通过 `Plan`，之后默认并行实现。
-8. `parity_reviewed` 已移除，代码完成后的视觉对齐改为人工检查。
-9. `workflow record` 和 `superpowers execution trace` 属于运行期过程产物，不再作为 skill 的稳定文件长期维护。
+3. 出效果图之前必须先同意并冻结统一公共壳，至少包括 `app-shell` / `root-shell`、导航宿主、顶层 tabs/header/footer 和 shell 级 overlay 语言。
+4. 效果图采用代表页优先：先出 1 张代表页，等你确认后再生成其余页面。
+5. 效果图统一存放在全局目录 `docs/rd/`，不再要求落到模块目录。
+6. `project_initialized` 只表示创建目录骨架和项目内 `skills/flutter-dev/`，不包含 bootstrap 代码。
+7. `bootstrap_code_ready` 单独成阶段，负责 app 入口、app shell、共享启动 wiring、根路由宿主等全局公共代码。
+8. `implementing` 阶段必须先通过 `@superpowers` 的 `Spec`，再通过 `Plan`，之后默认并行实现。
+9. `parity_reviewed` 已移除，代码完成后的视觉对齐改为人工检查。
+10. `workflow record` 和 `superpowers execution trace` 属于运行期过程产物，不再作为 skill 的稳定文件长期维护。
 
 ## 阶段说明
 
@@ -55,7 +56,10 @@ PRD 已存在，但还不能直接进设计或代码。下一步先用 `flutter-
 
 这里是全局视觉设计头脑风暴阶段。要产出产品气质、信息密度、层级、排版、色彩、组件家族、CTA 姿态、反模板化规则，以及验证平台基线。
 
-这个阶段结束后，还不能直接出图，必须先和你确认最终产品设计方向。
+这个阶段结束后，还不能直接出图，必须先：
+
+1. 同意统一公共壳
+2. 再确认最终产品设计方向
 
 ### `product_direction_confirmed`
 
@@ -226,9 +230,12 @@ PRD 已存在，但还不能直接进设计或代码。下一步先用 `flutter-
 1. Stitch 是唯一默认结构化设计源
 2. 进入 Stitch 前必须先确认是新建项目还是已有项目
 3. `stitch_project_id` 一旦冻结，后续不能随便改
-4. Stitch 页面设计在子代理中执行，最多 6 个页面并行
-5. 还原 Stitch 设计稿时，允许下载批准后的图片并直接作为项目资产使用
-6. 不再在仓库文档中记录任何 Stitch MCP 配置或 API key
+4. 进入 Stitch 之前，必须先冻结一份全局设计母版 packet，所有页面都基于这份 packet 展开
+5. Stitch 页面设计在子代理中执行，最多 6 个页面并行
+6. 页面子代理只允许展开页面，不允许私自重定义全局风格、CTA 模型、导航壳层或核心组件家族
+7. 还原 Stitch 设计稿时，允许下载批准后的图片并直接作为项目资产使用
+8. merge 阶段必须检查全局统一性：token、排版层级、组件家族、shell、CTA、密度、图片处理姿态必须一致
+9. 不再在仓库文档中记录任何 Stitch MCP 配置或 API key
 
 ## 平台记录规则
 

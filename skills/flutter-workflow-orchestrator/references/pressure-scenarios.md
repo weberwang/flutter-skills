@@ -10,12 +10,15 @@ Use this reference when the user request resembles one of these examples or trie
 - User says "the design draft is complete, just freeze it": route to `flutter-design-freeze-gate`.
 - User says "the shared effect image looks close enough, just freeze it": block and route back through exactly one shared revision pass, then stop.
 - User says "skip visual brainstorming and confirm direction directly": block. Final product design direction confirmation requires a prior global visual design brainstorming step.
+- User says "generate the effect image first, we can decide the common shell later": block. Representative and remaining page effect-image generation both require explicit agreement on the common public shell first.
 - User says "skip final product direction confirmation and generate images directly": block. Effect-image generation requires explicit user confirmation of the final product design direction after the brainstorming step.
 - User says "generate all page effect images now" before the representative image is confirmed: block. Generate one representative effect image first, wait for user confirmation or revision feedback, then generate the remaining pages.
 - User says "run `--auto` and keep going after the first effect image": block. `--auto` must stop at the representative effect-image confirmation gate and wait for user confirmation or revision feedback.
 - User says "skip global effect images and freeze directly": block. Shared/global design freeze requires approved light-mode effect images for every in-scope page.
 - User says "use Stitch as design source": treat Stitch as the only structured design-source adapter, require `modelId=GEMINI_3_1_PRO`, keep effect images as the visual baseline, and never write literal API keys into repo docs.
 - User says "generate Stitch designs for all pages": run page-scoped Stitch design in subagents with at most 6 parallel page designs; block if a subagent tries to own workflow state or more than one page in the same batch.
+- User says "let each Stitch page decide its own style": block. Page subagents must expand pages from one frozen shared design master packet and may not redefine global style locally.
+- User says "this page needs a better component, just change it inside Stitch": if the change affects cross-page component families or shell rules, route back to orchestrator-owned shared-packet revision instead of allowing page-local redesign.
 - User says "restore the Stitch design exactly": allow page subagents to download approved image assets and use those local assets directly; record source and local paths instead of forcing Flutter-native reconstruction.
 - User says "enter Stitch design now" but has not chosen new vs existing Stitch project: block, record `required_inputs=stitch_project_mode:new_or_existing`, and do not call Stitch.
 - User chooses "new Stitch project" but project creation did not return a frozen id: block, record `required_inputs=stitch_project_creation`, and do not generate a Stitch design-source packet.

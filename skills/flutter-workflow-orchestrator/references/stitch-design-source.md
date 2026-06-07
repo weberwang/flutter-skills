@@ -8,6 +8,8 @@ Stitch is the only default structured design-source adapter. Effect images remai
 
 Before global design freeze, the workflow must first brainstorm the global visual design direction from the PRD plus the technical baseline, then confirm the final product design direction with the user, then generate and approve light-mode effect images for every in-scope page in one complete set. Stitch consumes that complete effect-image set; it must not be asked to infer missing pages from partial visual evidence.
 
+For a product that requires high visual consistency across the whole app, Stitch must operate as a page-expansion system on top of one frozen global design master, not as a per-page style invention system. The workflow must freeze one shared design master packet before page-level Stitch generation starts, and every page subagent must consume that same packet.
+
 ## Model Requirement
 
 Every Stitch design-source request must use:
@@ -55,32 +57,113 @@ If `stitch_project_mode=existing` and `stitch_project_id` is missing, ambiguous,
 
 Once confirmed, both `stitch_project_mode` and `stitch_project_id` are immutable for the current project workflow. Any later change to either value is a design-source reset and must return through `flutter-design-source-control` before new Stitch output can be trusted.
 
+## Shared Design Master Packet
+
+Before any page-scoped Stitch generation or validation starts, the orchestrator must derive one frozen shared design master packet for the whole app.
+
+That packet must include at minimum:
+
+- final product design direction confirmed by the user
+- representative page effect-image approval decision
+- full approved page-effect set
+- global visual principles and anti-template constraints
+- typography ladder
+- spacing scale
+- color and contrast system
+- radius, border, elevation, and image-treatment posture
+- CTA posture and interaction emphasis model
+- root shell, navigation shell, and layout-grid rules
+- shared component families
+- shared state-surface rules
+- explicit `platform_identifier`
+- fidelity-critical regions and approved reductions already known upstream
+
+If the packet is incomplete, page-scoped Stitch work must not start. Do not ask page subagents to infer missing global style decisions from local page evidence.
+
 ## Flow
 
 1. Start from a user-confirmed final product design direction that already passed the global visual design brainstorming step.
 2. Generate and approve one light-mode effect image for every in-scope page.
-3. Ask the user to choose `stitch_project_mode=new` or `stitch_project_mode=existing`.
-4. For `new`, create the Stitch project and freeze the returned id; for `existing`, collect and freeze the existing `stitch_project_id`.
-5. Split the complete visual evidence set into page-scoped Stitch design tasks.
-6. Run page-scoped Stitch design tasks in subagents with at most 6 concurrent page-design subagents.
-7. Merge page-level receipts into one structured design-source packet.
-8. Compare the Stitch packet against the original effect images before freeze.
-9. Extract or verify tokens, component families, layout hierarchy, spacing, typography, image treatment, and state coverage.
-10. Record every accepted deviation from the effect images as an explicit Flutterization or approved reduction.
-11. Freeze only after the Stitch project mode, Stitch project id, all page receipts, merged Stitch packet, complete page coverage, and high-fidelity visual contract all pass.
+3. Derive and freeze one shared design master packet for the whole app.
+4. Ask the user to choose `stitch_project_mode=new` or `stitch_project_mode=existing`.
+5. For `new`, create the Stitch project and freeze the returned id; for `existing`, collect and freeze the existing `stitch_project_id`.
+6. Split the complete visual evidence set into page-scoped Stitch design tasks.
+7. Run page-scoped Stitch design tasks in subagents with at most 6 concurrent page-design subagents.
+8. Merge page-level receipts into one structured design-source packet.
+9. Compare the Stitch packet against the original effect images before freeze.
+10. Extract or verify tokens, component families, layout hierarchy, spacing, typography, image treatment, and state coverage.
+11. Record every accepted deviation from the effect images as an explicit Flutterization or approved reduction.
+12. Freeze only after the shared design master packet, Stitch project mode, Stitch project id, all page receipts, merged Stitch packet, complete page coverage, and high-fidelity visual contract all pass.
+
+## Page Production Order
+
+To maximize global consistency, prefer this page production order unless the app structure clearly requires another dependency-safe order:
+
+1. root shell or `app-shell`
+2. representative primary page
+3. same-family list or overview pages
+4. detail pages
+5. form or create/edit pages
+6. settings, support, and state-only pages
+
+Do not let page generation order drift randomly when later pages depend on earlier shell, hierarchy, or component decisions.
 
 ## Page Design Parallelism
 
 Stitch page design must run in subagents when more than one page needs design generation or validation.
 
 - Run at most 6 page-design subagents in parallel.
-- Give each subagent exactly one page id/name, one source effect-image path, the frozen `stitch_project_mode`, the frozen `stitch_project_id`, `modelId=GEMINI_3_1_PRO`, and the shared visual constraints.
+- Give each subagent exactly one page id/name, one source effect-image path, the frozen `stitch_project_mode`, the frozen `stitch_project_id`, `modelId=GEMINI_3_1_PRO`, and the frozen shared design master packet.
 - Each subagent may generate or validate only its assigned page's Stitch design output.
 - Each subagent may download image assets needed to faithfully restore its assigned Stitch page and save them as project assets for direct implementation use.
-- Each subagent must return a page-level receipt with produced artifact paths, source effect-image path, Stitch output id/path, visual mismatches, accepted reductions, blockers, and page coverage status.
+- Each subagent must return a page-level receipt with produced artifact paths, source effect-image path, Stitch output id/path, shared components used, requested new shared components if any, visual mismatches, accepted reductions, blockers, and page coverage status.
 - The orchestrator must merge page receipts into the final Stitch design-source packet and update the workflow record.
 - Page-design subagents must not update workflow-state artifacts, freeze design status, change project mode/id, or decide global design acceptance.
 - If any page subagent is blocked or missing a receipt, the whole Stitch design-source packet remains unfrozen.
+
+## Page Subagent Contract
+
+Each Stitch page subagent is a page-expansion worker, not a page-style owner.
+
+It may:
+
+- expand one page using the frozen shared design master packet
+- reuse the frozen token system
+- reuse frozen component families
+- request a new shared component when the page cannot be expressed with the frozen component set
+- download approved image assets for direct use
+
+It must not:
+
+- invent a new global palette
+- invent a new typography mood
+- redefine CTA posture
+- redefine navigation shell or root shell behavior
+- introduce a conflicting page density model
+- silently create a new shared component family
+- reinterpret the representative page into a different visual system
+
+If a page truly needs a new cross-page component or a global style change, return a blocker or revision request to the orchestrator instead of making the change locally.
+
+## Page Receipt Contract
+
+Every page-level Stitch receipt must include:
+
+- `page_id`
+- source effect-image path
+- shared design master packet id or version
+- Stitch output id/path
+- produced artifact paths
+- shared component families used
+- requested new shared components, if any
+- navigation-shell or root-shell dependencies touched by the page
+- visual mismatches
+- accepted reductions
+- downloaded image assets
+- blockers
+- page coverage status
+
+If the receipt cannot show whether the page still conforms to the shared design master packet, treat that receipt as insufficient for merge.
 
 ## Downloaded Image Assets
 
@@ -97,6 +180,7 @@ When restoring a Stitch design, image assets may be downloaded and used directly
 
 The Stitch design-source packet must include:
 
+- shared design master packet id or version
 - source effect-image paths
 - complete in-scope page list and page-to-effect-image mapping
 - page-level Stitch receipt list
@@ -114,15 +198,36 @@ The Stitch design-source packet must include:
 - approved reductions and their rationale
 - unresolved visual mismatches, if any
 
+## Global Consistency Merge Gate
+
+Before freeze, the orchestrator must run a global consistency merge gate over the merged Stitch packet.
+
+At minimum, verify:
+
+- one shared token system is used across pages
+- typography hierarchy stays consistent across pages
+- component families are reused consistently across pages
+- shell, nav, header, footer, and page-grid decisions stay consistent
+- CTA posture and dominance are consistent
+- image-treatment posture is consistent
+- page density and spacing rhythm are consistent
+- state pages follow one coherent state language
+- no page introduced an unapproved shared component family
+
+If a page is visually strong in isolation but violates the shared system, reject the packet or route to a controlled revision. Global consistency is more important than a single page's local polish.
+
 ## Freeze Rules
 
 - Treat the effect image as the visual baseline and the Stitch packet as the structured implementation source.
+- Treat the frozen shared design master packet as the upstream authority for all page-level Stitch expansion.
 - Treat the complete all-page effect-image set as the minimum Stitch input for global design freeze.
 - If the Stitch packet contradicts the effect image, do not freeze until the mismatch is resolved or explicitly approved as a reduction.
 - Do not let Stitch invent a new palette, typography mood, CTA posture, or component family after the shared direction has been approved.
+- Do not let page-level Stitch output redefine shell rules, layout-grid rules, or page density without orchestrator-approved shared-packet revision.
 - Do not mark `design_source_status=frozen` unless the workflow record indexes both the Stitch packet and its source effect-image paths.
 - Do not mark `design_source_status=frozen` when downloaded image assets are required but their local paths are missing from the Stitch packet or workflow record.
 - Do not mark `design_source_status=frozen` unless every in-scope page has a successful page-level Stitch receipt.
+- Do not mark `design_source_status=frozen` unless the merged packet passes the global consistency merge gate.
 - Do not mark `design_source_status=frozen` unless the workflow record indexes the frozen `stitch_project_mode`.
 - Do not mark `design_source_status=frozen` unless the workflow record indexes the frozen `stitch_project_id`.
 - Do not allow implementation to consume Stitch output directly unless `flutter-design-freeze-gate` has accepted it.

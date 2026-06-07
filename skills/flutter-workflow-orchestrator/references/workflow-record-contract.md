@@ -40,6 +40,7 @@ When persisted, this runtime artifact is the single stable source for project wo
 - whether PRD decision-blocking questions are resolved, defaulted, or still blocked
 - where the generated PRD artifact lives
 - whether the global visual design direction has already been brainstormed before asking the user to confirm it
+- whether the common public shell has already been explicitly agreed before any effect-image generation starts
 - whether the final product design direction has been confirmed with the user after the global visual design brainstorming step and before any effect-image generation starts
 - whether one representative light-mode effect image has been generated before remaining page-image generation starts
 - whether the representative effect image is pending confirmation, confirmed, or rejected
@@ -170,6 +171,8 @@ Record why the project is in the current stage and what must become true before 
 
 If the global visual design direction has not yet been brainstormed, say so explicitly and keep final product design direction confirmation blocked.
 
+If the common public shell has not yet been explicitly agreed, say so explicitly and keep effect-image generation blocked.
+
 If the final product design direction has not been confirmed before effect-image generation, say so explicitly and keep image generation blocked.
 
 If the representative effect image exists but is still waiting for user confirmation, say so explicitly and keep remaining page-image generation blocked.
@@ -258,6 +261,7 @@ Track project-level artifact paths when known, such as:
 - PRD question ledger
 - PRD
 - global visual design brainstorming packet
+- public shell confirmation record
 - final product design direction confirmation record
 - representative effect image path
 - representative effect image page
@@ -329,6 +333,7 @@ When route drift, receipt mismatch, or no-progress auto stopping happens, add a 
 - If decision-blocking questions remain unresolved, record them in `required_inputs` or `blockers`, keep `current_stage=requirements_brainstorming`, and do not route to technical baseline, taste direction, executable module document generation, architecture, or implementation.
 - If a default is used to answer a PRD question, record the assumption, rationale, and risk in the workflow record or PRD artifact index.
 - If the PRD exists but the global visual design direction has not yet been brainstormed, keep effect-image generation blocked and route to `flutter-taste-router` before asking for confirmation.
+- If the global visual direction exists but the common public shell has not yet been agreed, keep effect-image generation blocked, record `required_inputs=public_shell_confirmation`, and do not route to representative or full page-effect generation.
 - If the brainstormed direction exists but the final product design direction has not been confirmed with the user, keep effect-image generation blocked, record `required_inputs=final_product_design_direction_confirmation`, and do not route to global effect-image generation.
 - If final product design direction is confirmed, index the confirmation artifact or decision-log entry before generating any effect image.
 - If no representative effect image exists yet, generate exactly one representative effect image first, index its path and selected page, set `confirmation_status=pending_confirmation`, and stop before generating remaining page images.
