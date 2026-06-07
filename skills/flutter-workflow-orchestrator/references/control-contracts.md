@@ -36,7 +36,7 @@ Before every routing decision and before every downstream invocation, run a pref
 
 The preflight gate must verify at minimum:
 
-- `docs/rd/00-workflow-record.md` exists and matches the latest confirmed state
+- orchestrator-owned workflow state is initialized for the current run; if runtime persistence is enabled, the persisted artifact matches the latest confirmed state
 - `current_stage` really authorizes the intended `next_skill`
 - `confirmation_status` does not forbid execution for this turn
 - `current_module` is valid for module-scoped work
@@ -106,7 +106,7 @@ These steps must stay in the orchestrator and must not be delegated:
 - decide whether a blocker is real enough to stop advancement
 - validate downstream receipts against the active route lock
 - apply or reject `pending_next_stage`, `pending_next_skill`, and `pending_status_updates`
-- update `docs/rd/00-workflow-record.md` as the single source of truth
+- update orchestrator-owned workflow state as the single source of truth
 - decide whether `--auto` should continue, stop at the implementation boundary, or stop for no progress
 
 These actions define workflow truth. If a subagent performs them, route drift becomes unverifiable.
@@ -139,7 +139,7 @@ Even when a step is subagent-eligible, these constraints still apply:
 - Stitch page design is the only allowed parallel specialist exception: one route-locked Stitch design batch may run up to 6 page-scoped subagents in parallel, as long as each subagent owns a different page and returns a page-level receipt
 - implementation execution is parallel by default after `Spec` and `Plan`, but only across non-conflicting ownership units defined by `Plan`
 - `--auto` after executable module documents exist still advances one dependency-safe module at a time; do not freeze or implement multiple active modules in parallel against the same record
-- parallel Stitch page-design subagents must not update `docs/rd/00-workflow-record.md`, freeze `design_source_status`, decide project mode/id, or merge the final design-source packet
+- parallel Stitch page-design subagents must not update workflow state artifacts, freeze `design_source_status`, decide project mode/id, or merge the final design-source packet
 - parallel implementation subagents must not overlap ownership of the same file, same generated asset path, or the same mutable state contract in one batch
 - any subagent touching module docs must be given the exact active module, expected artifact paths, and expected status delta
 - any subagent doing module document generation or implementation must preserve a real execution trace suitable for receipt validation
@@ -157,9 +157,9 @@ The following work must not be delegated by default unless the user explicitly r
 
 ## Workflow Record
 
-- On the first run, always create `docs/rd/00-workflow-record.md` if it does not exist.
-- Keep all stage bookkeeping in that one file. Do not split stage tracking across ad-hoc notes or per-module workflow files.
-- Read `references/workflow-record-contract.md` before initializing or updating the workflow record.
+- On the first run, always initialize workflow state for the current run. Persist it only when the run actually needs a runtime artifact.
+- Keep all stage bookkeeping under one orchestrator-owned workflow state model. Do not split stage tracking across ad-hoc notes or per-module workflow files.
+- Read `references/workflow-record-contract.md` before initializing or optionally persisting workflow state.
 - After every routing decision, update the record with the current stage, current module, confirmation status, next skill, blockers, pending next-stage data, pending status updates, confirmed artifact paths, and whether `--auto` is still advancing remaining modules.
 - If `--auto` is active, persist that execution mode in the workflow record so downstream agents know why confirmation gates were auto-applied.
 - Persist the active route lock and the latest receipt evaluation in the workflow record so the next turn can detect route drift instead of silently continuing from an invalid assumption.
@@ -167,7 +167,7 @@ The following work must not be delegated by default unless the user explicitly r
 
 ## Real Execution Trace
 
-When executable module document generation, module freeze, implementation-readiness, or architecture work is being advanced in the default workflow, keep a real execution trace in the workflow record and optionally in a project-level document such as `docs/rd/00-superpowers-execution-trace.md`.
+When executable module document generation, module freeze, implementation-readiness, or architecture work is being advanced in the default workflow, keep a real execution trace in workflow state and optionally in a runtime execution-trace artifact outside the stable skill bundle.
 
 For each touched module, record:
 

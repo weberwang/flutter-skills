@@ -48,7 +48,7 @@ If an artifact belongs to the app's real startup path or shared runtime path, it
 - If the input is still a PRD, feature brief, or rough requirement note rather than an RD, use `flutter-prd-rd-writer` first and do not scaffold directly.
 - Before touching `pubspec.yaml`, project folders, or generated code, always load `flutter-project-guardrails`. That skill defines the mandatory package stack, DDD feature rules, and annotation rules that this skill must obey.
 - During scaffolding, if a provider, DTO, serializer, state union, or API client can be represented by the approved annotation chain, generate that path with annotations first instead of leaving equivalent hand-written boilerplate in the baseline.
-- If `docs/rd/00-workflow-record.md` exists, treat it as the current workflow source and return enough artifact paths for `flutter-workflow-orchestrator` to move the project to `project_initialized`.
+- If a workflow-record runtime artifact already exists for the current run, treat it as the current workflow source and return enough artifact paths for `flutter-workflow-orchestrator` to move the project to `project_initialized`.
 - After the base project shell is created, always generate a project-local `skills/flutter-dev/` from `assets/flutter-dev-template/` and fill in the project-specific decisions from the RD.
 - If the request includes `--force`, treat plugin setup as a refresh task and rerun plugin configuration before continuing later steps.
 - If the request does not include `--force` but the required plugin setup does not exist yet, perform the first-time plugin configuration before continuing later steps.

@@ -79,7 +79,7 @@ Stitch page design must run in subagents when more than one page needs design ge
 - Each subagent may download image assets needed to faithfully restore its assigned Stitch page and save them as project assets for direct implementation use.
 - Each subagent must return a page-level receipt with produced artifact paths, source effect-image path, Stitch output id/path, visual mismatches, accepted reductions, blockers, and page coverage status.
 - The orchestrator must merge page receipts into the final Stitch design-source packet and update the workflow record.
-- Page-design subagents must not update `docs/rd/00-workflow-record.md`, freeze design status, change project mode/id, or decide global design acceptance.
+- Page-design subagents must not update workflow-state artifacts, freeze design status, change project mode/id, or decide global design acceptance.
 - If any page subagent is blocked or missing a receipt, the whole Stitch design-source packet remains unfrozen.
 
 ## Downloaded Image Assets

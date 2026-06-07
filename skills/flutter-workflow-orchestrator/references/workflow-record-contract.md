@@ -1,10 +1,10 @@
 # Workflow Record Contract
 
-Use this reference whenever `flutter-workflow-orchestrator` initializes or updates project workflow tracking.
+Use this reference whenever `flutter-workflow-orchestrator` initializes workflow state or optionally persists project workflow tracking into a runtime artifact.
 
 ## Contents
 
-- [File Path](#file-path)
+- [Runtime Persistence](#runtime-persistence)
 - [Purpose](#purpose)
 - [Initialization Rule](#initialization-rule)
 - [Required Metadata Block](#required-metadata-block)
@@ -14,17 +14,19 @@ Use this reference whenever `flutter-workflow-orchestrator` initializes or updat
 - [Update Rules](#update-rules)
 - [Hard Rules](#hard-rules)
 
-## File Path
+## Runtime Persistence
 
-Always use this path:
+This contract describes the shape of a workflow-record artifact when the orchestrator chooses to persist runtime state.
 
-`docs/rd/00-workflow-record.md`
+Do not treat the artifact as a stable bundled skill resource. If persistence is needed, prefer an untracked runtime location such as:
 
-Create parent directories if they do not exist.
+`tmp/flutter-workflow-orchestrator/workflow-record.md`
+
+Create parent directories only for the current run when persistence is actually enabled.
 
 ## Purpose
 
-This file is the single stable source for project workflow state. It should let any downstream agent answer:
+When persisted, this runtime artifact is the single stable source for project workflow state for that run. It should let any downstream agent answer:
 
 - what stage the project is in now
 - which module is active now
@@ -83,9 +85,9 @@ This file is the single stable source for project workflow state. It should let 
 
 ## Initialization Rule
 
-On the first orchestrator run:
+On the first orchestrator run, if runtime persistence is enabled:
 
-1. Create `docs/rd/00-workflow-record.md` if it does not exist.
+1. Create the runtime workflow-record artifact if it does not exist.
 2. Fill every required section, even if some values are still unknown.
 3. Use `not_started`, `not_selected`, `not_provided`, or `none` instead of leaving blanks.
 

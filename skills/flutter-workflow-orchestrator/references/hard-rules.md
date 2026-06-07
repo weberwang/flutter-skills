@@ -93,4 +93,5 @@ Use this reference before applying any state/status promotion, freeze decision, 
 - Do not treat the Stitch page-design parallelism exception as permission to parallelize module freeze, implementation, workflow-record updates, or stage promotion.
 - Do not let a subagent decide whether `--auto` should switch modules, stop, or promote a stage.
 - Do not treat one module's state as proof that another module is ready.
-- Do not create per-module workflow state files; keep stage tracking in `docs/rd/00-workflow-record.md`.
+- Do not create per-module workflow state files; keep stage tracking under one orchestrator-owned workflow state model or its optional runtime artifact.
+- Do not treat workflow-state artifacts or execution-trace artifacts as stable skill resources; they are runtime process artifacts.

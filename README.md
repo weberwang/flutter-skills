@@ -1,6 +1,6 @@
 # flutter-workflow-orchestrator
 
-`flutter-workflow-orchestrator` 是 Flutter 技能链的总编排器。它负责维护唯一流程记录 `docs/rd/00-workflow-record.md`，锁定当前阶段、下一个 skill、允许的状态变更，并阻止任何绕过门禁的推进。
+`flutter-workflow-orchestrator` 是 Flutter 技能链的总编排器。它负责维护唯一 workflow state，锁定当前阶段、下一个 skill、允许的状态变更，并阻止任何绕过门禁的推进。必要时可以把这些状态落成运行时产物，但它们不属于 skill 的稳定资源。
 
 ## 当前主流程
 
@@ -35,6 +35,7 @@ flowchart LR
 6. `bootstrap_code_ready` 单独成阶段，负责 app 入口、app shell、共享启动 wiring、根路由宿主等全局公共代码。
 7. `implementing` 阶段必须先通过 `@superpowers` 的 `Spec`，再通过 `Plan`，之后默认并行实现。
 8. `parity_reviewed` 已移除，代码完成后的视觉对齐改为人工检查。
+9. `workflow record` 和 `superpowers execution trace` 属于运行期过程产物，不再作为 skill 的稳定文件长期维护。
 
 ## 阶段说明
 

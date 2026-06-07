@@ -9,7 +9,7 @@ description: Use when coordinating raw Flutter requirements intake, requirements
 
 Route a Flutter module through raw requirements intake -> requirements brainstorming -> PRD document generation -> global technical baseline -> global visual design brainstorming -> user confirmation of final product design direction -> representative light-mode effect-image generation -> user confirmation -> remaining all-page effect-image generation -> Stitch structured design source -> shared freeze -> executable module `impl.md` generation -> module design freeze -> implementation RD readiness -> architecture -> project initialization -> bootstrap code generation -> implementation workflow.
 
-This skill is the traffic controller. It chooses the next specialist skill, records state, blocks skipped gates, waits for explicit user confirmation before promoting any stage or status change, and maintains one stable workflow record document for the whole project.
+This skill is the traffic controller. It chooses the next specialist skill, records state, blocks skipped gates, waits for explicit user confirmation before promoting any stage or status change, and maintains one stable workflow truth model for the whole project. When persistence is needed for a live run, it may serialize that state into runtime artifacts, but those artifacts are not part of the stable skill bundle.
 
 In manual mode, pause at confirmation gates after one stage or one module reaches a reviewable milestone. In `--auto` mode, behave as a full-module advancement loop across the whole target module set, not as a single-module recommendation assistant.
 
@@ -19,7 +19,7 @@ The only default design source is Stitch. Effect images remain visual baseline e
 
 Load only the references needed for the current routing decision, but always preserve their authority over the workflow:
 
-- `references/workflow-record-contract.md`: Read before initializing or updating `docs/rd/00-workflow-record.md`.
+- `references/workflow-record-contract.md`: Read before initializing or optionally persisting workflow state for the current run.
 - `references/requirements-prd-flow.md`: Read when the input is raw requirements, a one-line feature idea, a partially specified request, or any request that lacks a PRD artifact.
 - `references/stitch-design-source.md`: Read when effect images, approved visual comps, or module visual evidence must become the structured design source for freeze, architecture, implementation, or human visual inspection.
 - `references/control-contracts.md`: Read before deriving route locks, running preflight, validating receipts, delegating to subagents, applying confirmation gates, or updating maturity.
@@ -43,7 +43,7 @@ For module implementation, high-fidelity visual fidelity is the first design-fre
 
 For every invocation:
 
-1. Ensure `docs/rd/00-workflow-record.md` exists. If missing, create it using `references/workflow-record-contract.md`.
+1. Ensure workflow state is initialized for the current run. If runtime persistence is enabled, use `references/workflow-record-contract.md` to shape the persisted artifact.
 2. Determine whether the run is manual, `--auto`, or `--perviewer`; load `references/execution-modes.md` when relevant.
 3. Read the existing workflow record and any required artifact indexes before choosing a route.
 4. Derive and persist one route lock before invoking anything downstream.
@@ -52,12 +52,12 @@ For every invocation:
 7. If the step is subagent-eligible, delegate only the specialist work and require a structured receipt; keep workflow ownership in the orchestrator.
 8. Validate the receipt against the active route lock before applying any transition or status update.
 9. In manual mode, queue reviewable stage/status changes behind confirmation. In `--auto`, auto-apply deterministic pre-implementation confirmations until the implementation boundary or a blocker.
-10. Update `docs/rd/00-workflow-record.md` as the single source of truth.
+10. Update the orchestrator-owned workflow state as the single source of truth. Persist it only when the current run actually needs a runtime artifact.
 11. Return the output contract fields listed below.
 
 ## Delegation Boundary
 
-Subagents may execute specialist work, but they must not own workflow control. The orchestrator alone may choose `current_stage`, choose `current_module`, persist route locks, run preflight, validate receipts, apply queued transitions, classify blockers, and update `docs/rd/00-workflow-record.md`.
+Subagents may execute specialist work, but they must not own workflow control. The orchestrator alone may choose `current_stage`, choose `current_module`, persist route locks when needed, run preflight, validate receipts, apply queued transitions, classify blockers, and update orchestrator-owned workflow state.
 
 Do not run multiple subagents in parallel against the same active module or the same workflow record when their outputs could race. The only exception is a route-locked Stitch page-design batch with at most 6 page-scoped subagents, where each subagent owns a different page and the orchestrator merges receipts. In `--auto` after executable module documents exist, advance one dependency-safe module at a time.
 

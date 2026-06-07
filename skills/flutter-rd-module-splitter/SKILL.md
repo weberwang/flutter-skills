@@ -60,7 +60,7 @@ Do not default to a vague technical module name like `main`. Prefer a responsibi
 
 1. Read the PRD, RD, feature brief, or user notes.
 2. Read the global technical baseline, especially architecture, package stack, backend contracts, data security, analytics, monitoring, rollout, and release assumptions.
-3. Read the active module row from `docs/rd/00-workflow-record.md` when refining an existing module.
+3. Read the active module row from the current workflow-record runtime artifact when refining an existing module, if that runtime artifact exists for the current run.
 4. Extract business goals, users, flows, pages, states, data dependencies, permissions, analytics, non-goals, and technical constraints.
 5. Identify missing information that changes module boundaries or implementation detail depth and list it under `open_questions`.
 6. If global package or architecture decisions are missing, block splitting and route to `flutter-prd-rd-writer`.
@@ -84,7 +84,7 @@ Do not default to a vague technical module name like `main`. Prefer a responsibi
    - Add the detail needed for module design-source freeze and later code implementation, but do not mark the docs as landed here.
    - Incorporate taste direction into page hierarchy, typography intent, contrast posture, CTA priority, spacing rhythm, motion role, and anti-template rules.
    - In the default workflow, treat this as the document contract that `@superpowers` must explicitly execute rather than a reason to bypass `@superpowers`.
-10. Ensure the global workflow record path is reserved as `docs/rd/00-workflow-record.md`; stage tracking belongs there, not inside per-module workflow notes.
+10. Keep global workflow state under orchestrator ownership; stage tracking belongs there, not inside per-module workflow notes.
 11. Generate or update `docs/rd/00-module-index.md` when the user asks for files to be written.
 12. Treat `docs/rd/00-module-index.md` as the canonical split-stage coordination index:
    - Include a module table with module name, responsibility summary, paired doc paths, `depends_on`, `unblocks`, `parallel_group`, recommended implementation stage, and blocking assumptions.
@@ -233,7 +233,7 @@ In implementation refinement contract mode, expand the same document to directly
 - Do not choose packages or create the global technical scheme; route that to `flutter-prd-rd-writer`.
 - Do not override package or architecture decisions from the global technical baseline; record exceptions as open questions.
 - Do not generate Flutter screen architecture here; route architecture planning after the module design-source packet is frozen.
-- Do not create per-module workflow state files; use `docs/rd/00-workflow-record.md` through `flutter-workflow-orchestrator`.
+- Do not create per-module workflow state files; keep workflow state under `flutter-workflow-orchestrator` control.
 - Do not split implementation modules from a raw PRD unless the user explicitly asks for a rough discovery split and accepts that technical decisions are pending.
 - Do not output module names only. Each module needs enough detail for its paired UI/UX and implementation RD documents.
 - Do not merge UI/UX RD and implementation RD into one document.
