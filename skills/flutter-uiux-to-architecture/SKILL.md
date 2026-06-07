@@ -24,6 +24,7 @@ It must not treat preview images as the only source of truth for concrete Flutte
 - Taste direction packet or consolidated design packet from `flutter-taste-router`.
 - `global-design-guidelines.md` when available.
 - `light-theme-freeze.yaml` and `dark-theme-freeze.yaml` when available.
+- Verified `platform_identifier` for the target validation surface. Use explicit values such as `android_emulator`, `android_device`, `ios_simulator`, `ios_device`, `windows_desktop`, `macos_desktop`, `linux_desktop`, `web_browser`, or `custom`.
 - Visual evidence: approved preview, screenshot pack, rendered mockups, or equivalent evidence.
 - A display evidence pack for fidelity-critical regions whenever the module is visually sensitive. At minimum this should include:
   - one readable main preview for the full page or primary surface
@@ -51,13 +52,14 @@ The contract must identify:
 1. Confirm the active module is at least `module_design_frozen` or has a pending confirmed design-source freeze.
 2. Verify the paired UI/UX and implementation RD are no longer `split_draft`.
 3. Verify the design-source packet references taste constraints, visual evidence, frozen theme values, component freeze decisions, and state matrix.
-4. Verify the display evidence pack is complete enough for fidelity-critical regions. If the page contains dense, branded, layered, scroll-reactive, or overlay-heavy areas and only a single broad preview exists, return a blocker instead of allowing image-only guessing.
-5. Extract Flutter theme roles from the global guideline and theme files without recalculating their meaning.
-6. Map typography, spacing, radius, color, elevation, icon posture, motion, and CTA emphasis into maintainable Flutter token categories.
-7. Separate global tokens from module-scoped tokens. Global theme values remain authoritative; module tokens may only alias global roles, define component-local semantics, or introduce scoped values that the frozen module design-source packet explicitly allows.
-8. Decompose UI into reusable layers: primitives, composite widgets, business widgets, page sections, shells, overlays, and state zones.
-9. Plan screen architecture by flow: route entry, page scaffold, scroll regions, sticky regions, state ownership, loading/error/empty boundaries, and interaction feedback.
-10. Decide asset handling from visual evidence: generated assets, static images, icons, illustrations, textures, or Flutter-native drawing.
+4. Verify `platform_identifier` is explicit enough for downstream architecture and validation. Do not proceed into implementation-facing architecture with only a behavior baseline like `ios_hig` when the real target surface is Android emulator, Windows desktop, or Web browser.
+5. Verify the display evidence pack is complete enough for fidelity-critical regions. If the page contains dense, branded, layered, scroll-reactive, or overlay-heavy areas and only a single broad preview exists, return a blocker instead of allowing image-only guessing.
+6. Extract Flutter theme roles from the global guideline and theme files without recalculating their meaning.
+7. Map typography, spacing, radius, color, elevation, icon posture, motion, and CTA emphasis into maintainable Flutter token categories.
+8. Separate global tokens from module-scoped tokens. Global theme values remain authoritative; module tokens may only alias global roles, define component-local semantics, or introduce scoped values that the frozen module design-source packet explicitly allows.
+9. Decompose UI into reusable layers: primitives, composite widgets, business widgets, page sections, shells, overlays, and state zones.
+10. Plan screen architecture by flow: route entry, page scaffold, scroll regions, sticky regions, state ownership, loading/error/empty boundaries, and interaction feedback.
+11. Decide asset handling from visual evidence: generated assets, static images, icons, illustrations, textures, or Flutter-native drawing.
 11. Classify each visually important element into one of these buckets:
    - `native_flutter`: should be reproduced directly with Flutter layout, paint, gradients, clipping, blur, animation, or composition.
    - `project_bitmap_asset`: should be generated as a bitmap asset and consumed by the app because native reconstruction would be brittle, too expensive, or visibly lower fidelity.
@@ -88,6 +90,8 @@ The contract must identify:
 
 - Do not require `.pen`, Pen, Pencil MCP data, or external design-tool nodes in the default workflow.
 - Do not use taste guidance to override frozen UI/UX intent.
+- Do not treat `platform_baseline` as proof of a verified target validation surface.
+- Do not derive a desktop, browser, simulator, or device target from guesswork when `platform_identifier` is still missing.
 - Do not proceed as if the display contract is high-fidelity when the evidence pack cannot actually support fidelity-critical regions.
 - Do not invent theme values when `light-theme-freeze.yaml` or `dark-theme-freeze.yaml` exists; map them into Flutter instead.
 - Do not let module-scoped tokens override global token names, global theme roles, or cross-module component semantics.

@@ -10,6 +10,7 @@ Place this block at the top of the document:
 artifact_type: global_design_guidelines
 freeze_status: frozen | blocked
 source_type: screenshot | preview_comp | multi_screen_pack | mixed
+platform_identifier: android_emulator | android_device | ios_simulator | ios_device | windows_desktop | macos_desktop | linux_desktop | web_browser | custom | needs_confirmation
 module_preview_policy:
   module_refinement_default: no_generate
   perviewer_opt_in: enabled | disabled
@@ -58,6 +59,8 @@ Describe who uses the product, under what pressure or context, and what the UI m
 ### `global_experience_principles`
 
 List global interaction principles that should remain true across screens.
+
+Also make it explicit when the frozen design is targeting a concrete validation surface such as Android emulator, Windows desktop, or Web browser, so downstream implementation does not confuse behavior baseline with target platform.
 
 ### `information_hierarchy_principles`
 

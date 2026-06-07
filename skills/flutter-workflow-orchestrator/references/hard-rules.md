@@ -9,6 +9,7 @@ Use this reference before applying any state/status promotion, freeze decision, 
 - Do not invoke a downstream skill until the route lock is persisted and the preflight gate passes.
 - Do not delegate workflow truth ownership to a subagent.
 - Do not use `flutter-prd-rd-writer` for detailed module design.
+- Do not confirm the final product design direction before the global visual design direction has first been brainstormed through `flutter-taste-router`.
 - Do not skip taste direction before Stitch design-source generation or executable module implementation document generation.
 - Do not confuse `platform_baseline` with a verified `platform_identifier`.
 - Do not skip `flutter-taste-router` textual normalization before any shared freeze or module freeze check.
@@ -41,6 +42,7 @@ Use this reference before applying any state/status promotion, freeze decision, 
 - Do not force a network baseline into projects or modules that do not require remote data or network capabilities.
 - Do not postpone `flutter-init` until every feature module is fully architecture-ready when the shared bootstrap-critical baseline is already sufficient to initialize the project.
 - Do not let `flutter-init` implement bootstrap code, feature pages, feature business flows, shared wiring, or module-specific behavior while initializing the project.
+- Do not treat `project_initialized` as proof that bootstrap code already exists; bootstrap is a separate stage that must land before feature-module implementation.
 - Do not mark `impl_status=landed` until the module `impl.md` references a confirmed frozen Stitch design-source packet.
 - Do not start ordinary page-module implementation by fully building the data layer first when a minimum contract is enough to unblock the display layer.
 - Do not mark `code_status=landed` until code output exists and the landed status change has been explicitly confirmed.

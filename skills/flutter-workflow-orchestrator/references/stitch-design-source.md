@@ -6,7 +6,7 @@ Use this reference when approved effect images, approved visual comps, or module
 
 Stitch is the only default structured design-source adapter. Effect images remain the visual baseline, but the frozen design source must be a Stitch-generated or Stitch-validated packet whenever Stitch MCP is available. Separate module design documents are not required and must not replace the Stitch packet as the design source.
 
-Before global design freeze, the workflow must confirm the final product design direction with the user from the PRD, then generate and approve light-mode effect images for every in-scope page in one complete set. Stitch consumes that complete effect-image set; it must not be asked to infer missing pages from partial visual evidence.
+Before global design freeze, the workflow must first brainstorm the global visual design direction from the PRD plus the technical baseline, then confirm the final product design direction with the user, then generate and approve light-mode effect images for every in-scope page in one complete set. Stitch consumes that complete effect-image set; it must not be asked to infer missing pages from partial visual evidence.
 
 ## Model Requirement
 
@@ -57,7 +57,7 @@ Once confirmed, both `stitch_project_mode` and `stitch_project_id` are immutable
 
 ## Flow
 
-1. Start from a user-confirmed final product design direction derived from the PRD.
+1. Start from a user-confirmed final product design direction that already passed the global visual design brainstorming step.
 2. Generate and approve one light-mode effect image for every in-scope page.
 3. Ask the user to choose `stitch_project_mode=new` or `stitch_project_mode=existing`.
 4. For `new`, create the Stitch project and freeze the returned id; for `existing`, collect and freeze the existing `stitch_project_id`.

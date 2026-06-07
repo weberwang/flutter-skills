@@ -41,6 +41,7 @@ It may rebuild structure and assets, but it may not redesign global theme roles.
 ### `flutter-uiux-to-architecture`
 
 Must preserve frozen role names and values when mapping into Flutter theme layers. It may explain the mapping, but it may not recalculate the global design system.
+Must also respect the frozen `platform_identifier` instead of treating `platform_baseline` as enough to choose the target validation surface.
 
 ### `flutter-design-source-control`
 
@@ -61,3 +62,4 @@ Must treat `module_preview_policy` as the frozen default for module-stage previe
 
 - no new module previews during refinement or module freeze unless `--perviewer` is explicitly active
 - when `--perviewer` is active, generated module preview paths must be written back into `global-design-guidelines.md`
+Must also require the frozen `platform_identifier` to stay explicit once the workflow is entering architecture or implementation preparation.

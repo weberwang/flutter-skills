@@ -37,7 +37,8 @@ This file is the single stable source for project workflow state. It should let 
 - whether requirements brainstorming has produced a question ledger
 - whether PRD decision-blocking questions are resolved, defaulted, or still blocked
 - where the generated PRD artifact lives
-- whether the final product design direction has been confirmed with the user from the PRD before any effect-image generation starts
+- whether the global visual design direction has already been brainstormed before asking the user to confirm it
+- whether the final product design direction has been confirmed with the user after the global visual design brainstorming step and before any effect-image generation starts
 - whether one representative light-mode effect image has been generated before remaining page-image generation starts
 - whether the representative effect image is pending confirmation, confirmed, or rejected
 - whether every page in scope has an approved light-mode effect image before global design freeze
@@ -72,6 +73,7 @@ This file is the single stable source for project workflow state. It should let 
 - whether `flutter-init` has already produced the directory skeleton and project-local `skills/flutter-dev/`
 - whether the shared bootstrap-critical baseline is already clear enough to trigger `flutter-init`
 - whether initialization has stopped at directory-creation boundaries without starting bootstrap or feature implementation
+- whether the separate bootstrap code stage has landed the required global public code baseline
 - whether the orchestrator is currently running in manual mode or `--auto`
 - whether `--auto` is still actively advancing remaining modules or has reached a valid stop condition
 - what the active route lock is for the current turn
@@ -154,7 +156,7 @@ Use these values consistently:
 
 Summarize the project's overall workflow posture in 2-4 short lines.
 
-Include whether the workflow is still in requirements brainstorming, PRD generation, final product design direction confirmation, representative effect-image confirmation, remaining page-effect generation, shared freeze, executable module document generation, module freeze, or implementation.
+Include whether the workflow is still in requirements brainstorming, PRD generation, global visual design brainstorming, final product design direction confirmation, representative effect-image confirmation, remaining page-effect generation, shared freeze, executable module document generation, module freeze, bootstrap code generation, or implementation.
 
 If `execution_mode=auto`, also state whether the workflow is still auto-advancing or has stopped at the implementation boundary.
 
@@ -163,6 +165,8 @@ If `execution_mode=auto` and not all target modules are implementation-ready yet
 ### `current_stage_detail`
 
 Record why the project is in the current stage and what must become true before the stage can advance.
+
+If the global visual design direction has not yet been brainstormed, say so explicitly and keep final product design direction confirmation blocked.
 
 If the final product design direction has not been confirmed before effect-image generation, say so explicitly and keep image generation blocked.
 
@@ -181,6 +185,8 @@ If module design freeze is in progress, state whether the high-fidelity visual c
 If effect images are present, state whether the workflow is using the required light-mode effect-image baseline or an explicitly approved override.
 
 If the workflow is moving toward freeze, architecture, or implementation, state whether `platform_identifier` is already explicit, and do not treat `platform_baseline` as a substitute.
+
+If the workflow is in or beyond `project_initialized`, state whether bootstrap code is still pending or already landed.
 
 Also state the current route lock for this turn and whether the next move is still inside that lock.
 
@@ -249,6 +255,7 @@ Track project-level artifact paths when known, such as:
 - requirements brainstorming notes
 - PRD question ledger
 - PRD
+- global visual design brainstorming packet
 - final product design direction confirmation record
 - representative effect image path
 - representative effect image page
@@ -279,6 +286,7 @@ Track project-level artifact paths when known, such as:
 - Flutter project root
 - `flutter-init` directory-creation summary
 - project-local `skills/flutter-dev/`
+- bootstrap code artifact summary or execution trace
 - project-level `@superpowers` execution trace when one exists
 - any approved generated bitmap assets that implementation must consume
 
@@ -318,7 +326,8 @@ When route drift, receipt mismatch, or no-progress auto stopping happens, add a 
 - If requirements brainstorming resolves decision-blocking questions, index the generated PRD artifact and queue `pending_next_stage=prd_ready` instead of silently jumping to technical baseline.
 - If decision-blocking questions remain unresolved, record them in `required_inputs` or `blockers`, keep `current_stage=requirements_brainstorming`, and do not route to technical baseline, taste direction, executable module document generation, architecture, or implementation.
 - If a default is used to answer a PRD question, record the assumption, rationale, and risk in the workflow record or PRD artifact index.
-- If the PRD exists but the final product design direction has not been confirmed with the user, keep effect-image generation blocked, record `required_inputs=final_product_design_direction_confirmation`, and do not route to global effect-image generation.
+- If the PRD exists but the global visual design direction has not yet been brainstormed, keep effect-image generation blocked and route to `flutter-taste-router` before asking for confirmation.
+- If the brainstormed direction exists but the final product design direction has not been confirmed with the user, keep effect-image generation blocked, record `required_inputs=final_product_design_direction_confirmation`, and do not route to global effect-image generation.
 - If final product design direction is confirmed, index the confirmation artifact or decision-log entry before generating any effect image.
 - If no representative effect image exists yet, generate exactly one representative effect image first, index its path and selected page, set `confirmation_status=pending_confirmation`, and stop before generating remaining page images.
 - If the representative effect image is still pending confirmation or has been rejected, keep remaining page-image generation blocked and do not advance to full page-image generation.
@@ -367,6 +376,7 @@ When route drift, receipt mismatch, or no-progress auto stopping happens, add a 
 - If `flutter-init` completes, update the global artifact index with the project root, directory-creation summary, and `skills/flutter-dev/` path, then queue the relevant stage as `project_initialized` instead of switching immediately.
 - If `flutter-init` completes, also record that bootstrap code and feature implementation have not started yet and that initialization stopped at directory-creation boundaries.
 - If `flutter-init` has not run yet, record whether the shared bootstrap-critical baseline is already ready or still blocked, so the next routing decision can tell whether initialization should happen now.
+- If bootstrap code lands after initialization, record the execution summary or trace, the covered global public code baseline, and queue or apply `bootstrap_code_ready`.
 - If the workflow is entering delegated module document generation or module implementation, record that execution must be explicitly invoked through `@superpowers`; if corresponding page-image evidence exists, mention that display-layer landing should consult `$image-to-code`.
 - If the workflow is entering implementation, record whether `@superpowers` `Spec` exists, whether `@superpowers` `Plan` exists, and do not treat execution as authorized before both exist.
 - If implementation execution begins, record the parallel execution batch, ownership split, and any serial fallback reason. Default expectation is parallel execution of independent ownership units.
@@ -425,6 +435,7 @@ When route drift, receipt mismatch, or no-progress auto stopping happens, add a 
 - Do not rewrite `current_stage` to a later workflow state when the latest routing result is `blocked`.
 - Do not mark `project_initialized` unless both the directory skeleton and project-local `skills/flutter-dev/` exist.
 - Do not treat `project_initialized` as proof that any feature, page, or module implementation code already exists.
+- Do not mark `bootstrap_code_ready` unless the required global public code baseline actually exists on disk.
 - Do not let `execution_mode=auto` enter `implementing` or set `code_status=in_progress`.
 - Do not wait for every feature module to finish late-stage architecture planning before triggering `flutter-init` when the shared bootstrap-critical baseline is already sufficient.
 - Do not hide the `@superpowers` implementation ownership or `$image-to-code` display-layer dependency when the module is already at the implementation boundary and those controls are relevant.

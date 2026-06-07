@@ -12,19 +12,14 @@
 
 ## 基础文件检查
 
-- 启动入口已替换默认计数器示例
-- 已有统一 app shell，如 `app.dart` / `bootstrap.dart`
-- 已有 `go_router` 路由入口
-- 已有 `dio` 基础客户端和拦截器入口
-- 已有存储抽象与安全存储入口
-- 已有统一错误模型或失败模型
+- 默认 demo 已移除或已明确留待后续 `bootstrap code` 阶段替换
+- 已清楚区分“目录初始化”与“bootstrap code”阶段
+- 未在初始化阶段偷跑真实 app shell、启动入口、路由树或共享 wiring
 
 ## 代码生成检查
 
-- Provider 至少已有一个 `@riverpod` 示例
-- DTO / state 至少已有一个 `@freezed` / `@JsonSerializable` 示例
-- 至少已有一个 `@RestApi` 接口定义或基础 API 模板
-- `build_runner` 可成功生成 `.g.dart` / `.freezed.dart`
+- 如果初始化阶段已经放入注解占位，相关 `@riverpod` / `@freezed` / `@JsonSerializable` / `@RestApi` 示例至少有一个可验证
+- 如果当前阶段只做到目录占位，也允许暂不跑生成，但必须在交付说明里写明原因
 - `skills/flutter-dev/SKILL.md` 与所需 `references/` 已从模板回填完成
 
 ## 插件处理检查
@@ -47,17 +42,19 @@
 ## 验证检查
 
 - `flutter pub get` 通过
-- `dart run build_runner build --delete-conflicting-outputs` 通过
-- `flutter analyze` 通过
-- `flutter test` 通过，或至少有明确说明当前 smoke test 的覆盖边界
+- 如果当前占位已需要代码生成，`dart run build_runner build --delete-conflicting-outputs` 通过
+- `flutter analyze` 通过，或至少明确说明因只完成目录初始化暂未引入可分析源码的边界
+- `flutter test` 通过，或明确说明当前阶段尚未进入 bootstrap/业务代码，不以测试通过作为 `project_initialized` 前置条件
 - 插件和依赖没有遗留 Flutter SDK 兼容性错误
 
 ## 交付说明检查
 
 - 已说明新增依赖及其用途
 - 已说明哪些 feature 只是骨架
+- 已说明哪些文件只是目录占位、契约占位或非运行时 stub
 - 已说明 `--force` 是否生效，或是否执行了首次插件配置，以及对插件配置造成了什么影响
 - 已说明插件或依赖版本是否为与当前 Flutter SDK 兼容的最新版，以及修复了哪些不兼容问题
 - 已说明项目内 `flutter-dev` 承接了哪些项目级约束
+- 已说明哪些内容被明确留给 `bootstrap code` 阶段
 - 已列出仍待确认的 RD 缺口
 - 已明确下一步优先实现顺序

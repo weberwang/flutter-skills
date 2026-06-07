@@ -19,9 +19,11 @@ When `--auto` is present, the orchestrator must keep routing and applying workfl
 
 The `--auto` goal is:
 
+- finish the global technical baseline first
 - finish shared taste direction and shared freeze preparation
+- brainstorm the global visual design direction, then stop if final product design direction confirmation from the user is still missing
 - run `flutter-taste-router` textual normalization before every shared freeze or module freeze decision
-- confirm the final product design direction with the user based on the PRD before generating effect images
+- confirm the final product design direction with the user after the visual brainstorming step and before generating effect images
 - generate one representative light-mode effect image before global design freeze
 - stop for user confirmation or revision feedback on that representative image
 - only after confirmation, generate the remaining all-page light-mode effect-image set
@@ -44,7 +46,7 @@ The `--auto` goal is:
 - stop just because one active module reached a local stable milestone such as `implementation_final`, `module_design_frozen`, `impl_rd_ready`, or `architecture_ready`
 - leave a module-complete handoff behind as a mere `next_skill` suggestion when other target modules are still not implementation-ready
 
-When `--auto` reaches shared freeze and all-page static visual evidence is still missing after the `flutter-taste-router` text packet has been normalized, it must first verify that the final product design direction was explicitly confirmed from the PRD. If confirmation is missing, stop and request confirmation instead of generating images. If confirmation exists and both `IMAGE_BASE_URL` and `IMAGE_API_KEY` exist, automatically call `gpt-image-2-generator` to produce exactly one representative light-mode page effect image first. After that image is generated, stop and wait for explicit user confirmation or revision feedback before generating the remaining page effect images. If either environment variable is missing, stop and record a blocker because shared freeze requires approved all-page effect images. For module freeze, the frozen Stitch design-source packet remains required.
+When `--auto` reaches shared freeze and all-page static visual evidence is still missing after the `flutter-taste-router` text packet has been normalized, it must first verify that the global visual design direction has been brainstormed and that the final product design direction was explicitly confirmed from that brainstorm. If confirmation is missing, stop and request confirmation instead of generating images. If confirmation exists and both `IMAGE_BASE_URL` and `IMAGE_API_KEY` exist, automatically call `gpt-image-2-generator` to produce exactly one representative light-mode page effect image first. After that image is generated, stop and wait for explicit user confirmation or revision feedback before generating the remaining page effect images. If either environment variable is missing, stop and record a blocker because shared freeze requires approved all-page effect images. For module freeze, the frozen Stitch design-source packet remains required.
 
 The representative effect image should be treated as:
 
@@ -78,7 +80,7 @@ With `--perviewer`:
 - generated module-stage effect images must inherit the approved shared/global style system instead of opening a new visual direction
 - the workflow must record that opt-in decision and any generated global effect-image paths into `global-design-guidelines.md`
 
-`--perviewer` does not weaken the shared/global freeze policy. Shared/global freeze must still use the complete all-page light-mode effect-image set generated after PRD-based final product design direction confirmation.
+`--perviewer` does not weaken the shared/global freeze policy. Shared/global freeze must still use the complete all-page light-mode effect-image set generated after the brainstormed global visual direction has been confirmed with the user.
 
 ## Auto Loop Contract
 
