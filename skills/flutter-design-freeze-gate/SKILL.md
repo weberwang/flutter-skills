@@ -44,7 +44,7 @@ A successful module freeze decision is only a local gate result. In `flutter-wor
 Approve `shared_pre_split` only when all items are present:
 
 - Business intent and target user.
-- Platform baseline, normally iOS HIG for mobile behavior.
+- Platform baseline, which for mobile work must default to strict iOS HIG unless the user explicitly approved another baseline.
 - Shared art direction, information hierarchy, and key-task guidance decisions.
 - Visual system contract: typography hierarchy, contrast strategy, CTA posture, spacing, color roles, radius, surfaces, icon posture, motion role.
 - The freeze-facing visual draft, preview pack, or approved screenshot evidence is complete enough that hierarchy, task guidance, typography, contrast, CTA clarity, and state scope can be judged directly from the design package.
@@ -94,6 +94,7 @@ Use these outcomes:
 ## Hard Rules
 
 - Do not infer approval from silence or enthusiasm.
+- Do not treat the mobile platform baseline as negotiable or approximate when the workflow still uses the default; if the user did not explicitly approve another baseline, freeze review must enforce strict iOS HIG behavior expectations.
 - Do not let a visually complete draft skip direct freeze-quality evaluation before freeze.
 - Do not evaluate secondary architecture or implementation handoff readiness before evaluating high-fidelity visual fidelity for module implementation.
 - Do not freeze a module when high-fidelity visual fidelity is vague, missing, or deferred to implementation polish.

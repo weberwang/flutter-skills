@@ -44,7 +44,7 @@ Optional:
 - Global technical baseline when it already exists.
 - Product type, audience, and usage context.
 - Any screenshots, references, preview comps, or existing app surfaces.
-- Platform choice when explicit, otherwise default to iOS HIG behavior baseline for mobile behavior.
+- Platform choice when explicit; otherwise mobile work must default to strict iOS HIG behavior baseline until the user explicitly approves another platform baseline.
 - Platform identifier when the target validation surface is known. Use explicit values such as:
   - `android_emulator`
   - `android_device`
@@ -143,7 +143,7 @@ Every successful run must return one packet with at least:
 ### Minimum meanings
 
 - `platform_baseline`
-  Default to iOS HIG behavior rules for safe areas, touch targets, navigation, readability, feedback, and accessibility unless the user explicitly chooses another platform baseline.
+  Default to strict iOS HIG behavior rules for safe areas, touch targets, navigation, readability, feedback, and accessibility unless the user explicitly chooses another platform baseline. Do not soften this into a vague “Apple-like” preference.
 
 - `platform_identifier`
   The exact target validation surface for downstream implementation and review. Do not use `platform_baseline` as a substitute. For mobile work, it may stay `needs_confirmation` early in the design cycle, but before architecture or implementation it should be explicit.
@@ -167,6 +167,7 @@ Every successful run must return one packet with at least:
 
 - Do not let multiple taste skills define competing visual directions in the same pass.
 - Do not confuse `platform_baseline` with `platform_identifier`.
+- Do not relax the default iOS HIG mobile baseline unless the user explicitly approves another platform baseline.
 - Do not leave desktop, browser, or emulator-specific validation targets implicit once the workflow is entering freeze or implementation preparation.
 - Do not let a raw image-generation skill become the only source of freeze truth; always normalize its output into the design packet.
 - Do not use `design-taste-frontend` alone as if it already contains mobile freeze artifacts; it is a direction source, not the final packet.
