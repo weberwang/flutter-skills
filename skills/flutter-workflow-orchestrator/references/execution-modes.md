@@ -1,11 +1,11 @@
 # Execution Modes
 
-Use this reference when `flutter-workflow-orchestrator` is invoked with `--auto`, `--perviewer`, or when it must decide whether to continue routing after a local module milestone.
+Use this reference when `flutter-workflow-orchestrator` is invoked with `--auto`, `--preview`, or when it must decide whether to continue routing after a local module milestone.
 
 ## Contents
 
 - [`--auto`](#--auto)
-- [`--perviewer`](#--perviewer)
+- [`--preview`](#--preview)
 - [Auto Loop Contract](#auto-loop-contract)
 - [Stop Condition](#stop-condition)
 
@@ -13,110 +13,96 @@ Use this reference when `flutter-workflow-orchestrator` is invoked with `--auto`
 
 This skill supports an `--auto` execution parameter.
 
-When `--auto` is present, the orchestrator must keep routing and applying workflow transitions without stopping for any downstream confirmation gate, as long as the next move is deterministic and no blocker is hit. If optional representative effect-image generation is active in the current run, that confirmation gate is an explicit exception and must stop `--auto`.
+When `--auto` is present, the orchestrator must keep routing and applying workflow transitions without stopping for ordinary downstream confirmation gates, as long as the next move is deterministic and no blocker is hit. If `--preview` is also active, effect-image generation runs automatically without waiting for user confirmation.
 
-`--auto` is a full-module advancement mode, not a current-module recommendation mode. It must keep working through the remaining target modules until every dependency-safe module has been advanced to the implementation boundary and no further pre-implementation move is available.
+`--auto` is a full-workflow advancement mode, not a current-module recommendation mode. It must keep working through the remaining target modules in the confirmed serial module order until every target module has been fully implemented and no further workflow move is available.
 
 The `--auto` goal is:
 
 - finish the global technical baseline first
-- generate module boundaries and executable module `impl.md` documents in one pass immediately after the technical baseline
-- finish shared taste direction and shared freeze preparation from the PRD, technical baseline, and executable module `impl.md` contracts
-- brainstorm the global visual design direction, then stop if final product design direction confirmation from the user is still missing
+- finish shared taste direction and shared freeze preparation from the PRD and technical baseline first
+- stop only if final product design direction confirmation from the user is still missing
 - support two confirmation branches after global visual design: direct human confirmation, or subagent-generated recommendation plus human confirmation
 - write the confirmed direction into `DESIGN.md`
-- run `flutter-taste-router` textual normalization before every shared freeze or module freeze decision
-- confirm the final product design direction with the user after the visual brainstorming step and before structured design-source work
-- generate optional effect images only when they are explicitly requested or when downstream freeze asks for additional visual evidence
-- if optional effect images are in scope, generate one representative light-mode effect image first and stop for user confirmation or revision feedback on that representative image before generating any additional optional page images
+- if `--preview` is active, generate the in-scope light-mode effect images automatically after the relevant prerequisites are ready
+- if `--preview` is not active, skip automatic effect-image generation entirely
 - route into either Stitch or Pencil structured design-source generation, then merge page receipts before freeze
-- treat every generated module `impl.md` as implementation-final enough to drive downstream design-source work and later enter module design freeze; separate refinement documents are not required
-- freeze each module's Stitch design-source packet
+- complete the shared/global design freeze before any module-related work begins
+- generate module boundaries and executable module `impl.md` documents in one pass only after the shared/global design freeze
+- treat every generated module `impl.md` as a detailed module task implementation document constrained by the frozen shared design and interaction principles, and strong enough to drive the active module's page component design draft and later module freeze; separate refinement documents are not required
+- freeze each active module's design-source packet only after its module page component design draft is complete
 - treat each module's high-fidelity visual contract as the first acceptance criterion for module design freeze
-- advance each module to implementation-ready document maturity
-- continue until every target module is ready to enter implementation, but before any module actually starts code implementation
+- advance each module through implementation-ready maturity, architecture, bootstrap prerequisites, and real code implementation
+- continue until every target module is fully implemented and ready for human visual inspection or workflow completion
 
 `--auto` is not allowed to:
 
-- start code implementation
-- mark `code_status=in_progress`
-- switch into `implementing`
-- produce implementation execution before `@superpowers` `Spec` and `@superpowers` `Plan` exist
+- produce implementation execution before `@superpowers` `Spec` and `@superpowers` `Plan` exist for the active module
 - bypass real blockers or missing inputs
 - invent approvals for ambiguous design choices
-- stop just because one active module reached a local stable milestone such as `implementation_final`, `module_design_frozen`, `impl_rd_ready`, or `architecture_ready`
-- leave a module-complete handoff behind as a mere `next_skill` suggestion when other target modules are still not implementation-ready
+- stop just because one active module reached a local stable milestone such as `implementation_final`, `module_design_frozen`, `impl_rd_ready`, `architecture_ready`, or `code_status=landed`
+- leave a module-complete handoff behind as a mere `next_skill` suggestion when other target modules are still unfinished
 
-When `--auto` reaches shared freeze, it must first verify that executable module `impl.md` documents already exist, that the global visual design direction has been brainstormed from those module contracts, that the final product design direction was explicitly confirmed from that brainstorm, and that `DESIGN.md` exists. If confirmation is missing, stop and request confirmation instead of advancing. If effect-image evidence is not required for the active path, `--auto` may continue directly into the chosen structured design-source branch without generating images. If optional effect-image generation is explicitly in scope and both `IMAGE_BASE_URL` and `IMAGE_API_KEY` exist, automatically call `gpt-image-2-generator` to produce exactly one representative light-mode page effect image first. After that image is generated, stop and wait for explicit user confirmation or revision feedback before generating any remaining optional page effect images. If optional effect-image generation is in scope but either environment variable is missing, stop and record a blocker for that branch. For module freeze, the frozen selected structured design-source packet remains required.
-
-The representative effect image, when generated, should be treated as:
-
-- the first approval gate for the shared visual system
-- the page that best represents overall hierarchy, component family, palette, and density
-- a hard prerequisite before remaining page effect images may be generated
-
-After confirmation, any remaining generated page effect images should be treated as:
-
-- shared freeze input after the representative direction is locked
-- optional module freeze input when a module-specific screen pack is still needed
-- page-named evidence files that can be referenced directly by downstream implementation
+When `--auto` reaches shared freeze, it must first verify that the global visual design direction has been brainstormed from the PRD and technical baseline, that the final product design direction was explicitly confirmed from that brainstorm, and that `DESIGN.md` exists. If confirmation is missing, stop and request confirmation instead of advancing. If `--preview` is active and both `IMAGE_BASE_URL` and `IMAGE_API_KEY` exist, automatically call `gpt-image-2-generator` to generate the in-scope light-mode effect images and continue without waiting for user confirmation. If `--preview` is active but either environment variable is missing, stop and record a blocker for that branch. If `--preview` is not active, skip effect-image generation entirely. Only after the shared/global design freeze is complete may `--auto` enter module `impl.md` generation, per-module serial advancement, and later code implementation.
 
 Auto-generated effect images do not remove the need for freeze-quality evaluation; they only provide optional supplemental static visual evidence.
 
-## `--perviewer`
+## `--preview`
 
-This skill also supports a `--perviewer` execution parameter.
+This skill also supports a `--preview` execution parameter.
 
-`--perviewer` is a module-stage effect-image opt-in flag for executable module document generation and module freeze preparation.
+`--preview` is an auto-visualization flag. When present, `--auto` generates the in-scope shared or module-stage effect images needed by the active path after the relevant prerequisites are ready.
 
-Without `--perviewer`:
+Without `--preview`:
 
-- executable module document generation must not generate new real-device or module-stage effect images by default
-- module freeze should prefer the textual design packet plus already approved evidence
-- downstream work may consume existing module visuals, but it must not auto-generate new module-stage effect images merely for convenience
+- `--auto` must not generate new shared or module-stage effect images by default
+- shared and module freeze should prefer the textual design packet plus already approved evidence
+- downstream work may consume existing visuals, but it must not auto-generate new effect images merely for convenience
 
-With `--perviewer`:
+With `--preview`:
 
-- module-stage effect-image generation is allowed when the current module still benefits from page-addressable visual evidence
-- generated module-stage effect images must inherit the approved shared/global style system instead of opening a new visual direction
+- shared or module-stage effect-image generation is allowed when the current path still benefits from page-addressable visual evidence
+- generated effect images must inherit the approved shared/global style system instead of opening a new visual direction
 - the workflow must record that opt-in decision and any generated global effect-image paths into `global-design-guidelines.md`
 
-`--perviewer` does not weaken the shared/global freeze policy. Shared/global freeze still follows the confirmed `DESIGN.md` plus the selected structured design-source packet; any generated effect-image set remains optional supplemental evidence.
+`--preview` does not weaken the shared/global freeze policy. Shared/global freeze still follows the confirmed `DESIGN.md` plus the selected structured design-source packet; any generated effect-image set remains optional supplemental evidence.
 
 ## Auto Loop Contract
 
-After executable module documents are generated and the workflow enters downstream freeze preparation, `--auto` must behave as a loop:
+After the shared/global design freeze is complete and module `impl.md` generation begins, `--auto` must behave as a serial loop:
 
-1. Select the next dependency-safe target module that is not yet at the implementation boundary.
+1. Select the next target module in the confirmed serial module order that is not yet fully implemented.
 2. Set that module as `current_module` and update the workflow record immediately.
-3. Verify that the selected module really exists in the module index, that its executable `impl.md` exists on disk, and that its frozen selected structured design-source packet is available before implementation readiness. If any required artifact is missing, record a real blocker and stop auto-advancement instead of inventing the module state.
-4. Record why that module is dependency-safe right now before module freeze begins.
-5. If the module `impl.md` is not executable enough for implementation readiness, route back to the combined module document generation step for a scope-matched regeneration and stop instead of opening a separate refinement stage.
+3. Verify that the selected module really exists in the module index, that the shared/global design freeze is already complete, that its executable `impl.md` exists on disk, and that its frozen selected structured design-source packet is available before implementation readiness. If any required artifact is missing, record a real blocker and stop auto-advancement instead of inventing the module state.
+4. Record why that module is the correct next serial module right now before module `impl.md` refinement, module freeze, or code execution begins.
+5. If the module `impl.md` is not executable enough as a detailed task implementation document constrained by the frozen shared design and interaction principles, route back to the combined module document generation step for a scope-matched regeneration and stop instead of opening a separate refinement stage.
 6. If combined module document generation did not truly execute, mark that step as `not_executed` or `未执行` in the workflow record and any project-level execution trace, then stop instead of promoting later stages.
-7. Run module freeze and freeze the design-source packet only when the packet is explicit enough and the high-fidelity visual contract has passed as the first freeze priority.
-8. Advance the module to implementation-ready maturity.
+7. Run the active module's page component draft generation and module freeze, and freeze the design-source packet only when the packet is explicit enough and the high-fidelity visual contract has passed as the first freeze priority.
+8. Advance the module through implementation-ready maturity.
 9. Produce any required architecture output for that module.
-10. Update `current_stage`, `next_skill`, `module_status_table`, and `decision_log`.
-11. Re-evaluate the remaining modules and immediately continue with the next dependency-safe module.
+10. Run `@superpowers` `Spec`, then `@superpowers` `Plan`, then execute the active module's serial implementation loop to real code completion.
+11. Update `current_stage`, `next_skill`, `module_status_table`, `code_status`, and `decision_log`.
+12. Re-evaluate the remaining modules and immediately continue with the next serial module.
 
 `current_module` is only the module being processed right now. It must never be interpreted as the only module covered by the current `--auto` run.
 
-If one module reaches `implementation_final`, `module_design_frozen`, `impl_rd_ready`, or `architecture_ready`, that is only a local milestone. In `--auto` mode, the orchestrator must immediately decide whether the same module still needs another pre-implementation step or whether another module should become `current_module`.
+If one module reaches `implementation_final`, `module_design_frozen`, `impl_rd_ready`, `architecture_ready`, or `code_status=landed`, that is only a local milestone. In `--auto` mode, the orchestrator must immediately decide whether the same module still needs another step or whether the next serial module should become `current_module`.
 
 ## Stop Condition
 
 The default stop condition for `--auto` is:
 
-- every module row has at least `impl_status=landed`
-- every module row has `design_source_status=frozen`
+- every target module row has at least `impl_status=landed`
+- every target module row has `design_source_status=frozen`
 - any required architecture outputs for those modules are ready
-- the workflow is waiting at the boundary before module implementation
+- every target module row has `code_status=landed`
+- required human visual inspection handoff artifacts are ready
 
-When this stop condition is reached, the orchestrator should surface that the project is `implementation_ready_waiting` and return control to the user or downstream implementation skill.
+When this stop condition is reached, the orchestrator should surface that the project is `workflow_completed_waiting_review` and return control to the user for review or closeout.
 
 `--auto` may stop only when one of these conditions is true:
 
-- all target modules satisfy the implementation-boundary condition above
+- all target modules satisfy the completion condition above
 - a real blocker appears and the current round cannot safely continue
 
-It must not stop because one module finished its local pre-implementation flow, because a downstream skill recommendation was produced, or because `current_module` changed from one module to another.
+It must not stop because one module finished its local pre-implementation flow, because one module finished implementation, because a downstream skill recommendation was produced, or because `current_module` changed from one module to another.

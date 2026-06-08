@@ -6,7 +6,7 @@ Use this reference when the confirmed `DESIGN.md`, optional approved effect imag
 
 Stitch is one first-class structured design-source adapter alongside Pencil. `DESIGN.md` is the primary upstream packet. Effect images remain optional supplemental visual evidence, but when Stitch is the selected adapter the frozen design source must be a Stitch-generated or Stitch-validated packet. Separate module design documents are not required and must not replace the Stitch packet as the design source.
 
-Before global design freeze, the workflow must first generate executable module `impl.md` documents from the technical baseline, then brainstorm the global visual design direction from the PRD, the technical baseline, and those module contracts, then confirm the final product design direction with the user, then write that direction into the root-level `DESIGN.md`. Optional light-mode effect images may be attached as supplemental evidence when the current revision path asks for them. Stitch must not be asked to infer missing global decisions from partial visual evidence.
+Before global design freeze, the workflow must first brainstorm the global visual design direction from the PRD and the technical baseline, then confirm the final product design direction with the user, then write that direction into the root-level `DESIGN.md`. Optional light-mode effect images may be attached as supplemental evidence when the current revision path asks for them. Only after the shared/global design freeze is complete may module `impl.md` generation begin. For module-scoped page component design drafts, Stitch must wait until the active module's `impl.md` has already fixed the module function, key states, and main task path. Stitch must not be asked to infer missing global decisions from partial visual evidence.
 
 For a product that requires high visual consistency across the whole app, Stitch must operate as a page-expansion system on top of one frozen global design master, not as a per-page style invention system. The workflow must freeze one shared design master packet before page-level Stitch generation starts, and every page subagent must consume that same packet.
 
@@ -188,7 +188,7 @@ When restoring a Stitch design, image assets may be downloaded and used directly
 - Save downloaded images into the project asset tree or the agreed RD asset directory, using stable page or component names.
 - Record each downloaded image's source URL or source artifact path, local asset path, owning page, intended region/component, and whether implementation should use it directly.
 - Treat downloaded image assets as first-class implementation inputs when they preserve fidelity better than native reconstruction.
-- Do not route downloaded images through `$imagegen` unless the source image is missing, unusable, or explicitly needs generation/rework.
+- Do not force downloaded images through a separate generator unless the source image is missing, unusable, or explicitly needs generation/rework; when that happens, let the active MCP / design tool chain decide the concrete generation mechanism.
 - If an image source cannot be downloaded or its usage is unclear, record a blocker instead of silently substituting a different image.
 
 ## Packet Contract

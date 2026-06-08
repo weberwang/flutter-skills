@@ -10,7 +10,7 @@ Use this reference before applying any state/status promotion, freeze decision, 
 - Do not delegate workflow truth ownership to a subagent.
 - Do not use `flutter-prd-rd-writer` for detailed module design.
 - Do not confirm the final product design direction before the global visual design direction has first been brainstormed through `flutter-taste-router`.
-- Do not skip executable module implementation document generation after the technical baseline and before downstream shared visual design, structured design-source generation, or module freeze.
+- Do not start module `impl.md` generation immediately after the technical baseline. All module-related workflow must wait until the shared/global design freeze is complete.
 - Do not skip `DESIGN.md` output after final product design direction confirmation.
 - Do not treat a visually polished `DESIGN.md` as complete if it still lacks task-priority rules, interaction-feedback rules, responsive strategy, or critical-state coverage that the product clearly needs.
 - Do not confuse `platform_baseline` with a verified `platform_identifier`.
@@ -33,15 +33,15 @@ Use this reference before applying any state/status promotion, freeze decision, 
 - Do not commit or document literal Stitch API keys.
 - Do not accept or generate dark-mode effect images as the default workflow reference set; the default effect-image baseline is light mode.
 - Do not treat effect images as a default mandatory gate for shared design freeze. They are optional evidence unless the current revision path explicitly requires them.
-- Do not let `--auto` cross the representative effect-image confirmation gate when the optional effect-image branch is active.
-- Do not generate the remaining optional page-effect set before one representative effect image has been explicitly confirmed.
+- Do not let `--auto --preview` generate effect images without the required `gpt-image-2-generator` credentials.
+- In manual mode, do not generate the remaining optional page-effect set before one representative effect image has been explicitly confirmed.
 - Do not send shared/global or module-stage effect-image generation requests without explicit style constraints once the design packet already defines them.
 - Do not let module-stage effect-image generation redefine palette, typography mood, component family, image treatment, or CTA posture after a shared/global direction has been approved.
-- Do not let shared visual design, structured design-source generation, or shared freeze drift away from the executable module documents generated from the technical baseline.
+- Do not let module `impl.md` generation, module page component design drafts, or module freeze drift away from the already frozen shared visual design, shared interaction principles, shared public shell, or shared component families.
 - Do not let `flutter-rd-module-splitter` emit non-executable split drafts that require a later refinement node.
-- Do not attempt module freeze before the module `impl.md` has implementation-final maturity and references the frozen selected structured design-source packet.
+- Do not attempt module freeze before the shared/global design freeze is complete, the module `impl.md` has implementation-final maturity, fixes the module function and key states clearly enough for display work, and references the frozen selected structured design-source packet.
 - Do not freeze a module for implementation while its high-fidelity visual contract is missing, vague, or deferred to later code polish.
-- Do not let code implementation begin before `technical_baseline_ready`, executable module `impl.md`, `module_design_frozen`, and `impl_rd_ready` exist for the module.
+- Do not let code implementation begin before `technical_baseline_ready`, `design_freeze_ready`, executable module `impl.md`, `module_design_frozen`, and `impl_rd_ready` exist for the module.
 - Do not let code implementation begin while `impl_status` is anything earlier than `implementation_final`.
 - Do not let a feature module start landing before the required global public code baseline is present.
 - Do not force a network baseline into projects or modules that do not require remote data or network capabilities.
@@ -49,7 +49,9 @@ Use this reference before applying any state/status promotion, freeze decision, 
 - Do not let `flutter-init` implement bootstrap code, feature pages, feature business flows, shared wiring, or module-specific behavior while initializing the project.
 - Do not treat `project_initialized` as proof that bootstrap code already exists; bootstrap is a separate stage that must land before feature-module implementation.
 - Do not mark `impl_status=landed` until the module `impl.md` references a confirmed frozen selected structured design-source packet.
-- Do not start ordinary page-module implementation by fully building the data layer first when a minimum contract is enough to unblock the display layer.
+- Do not start module-scoped display-layer design draft generation before the active module's `impl.md` has fixed the module function, key states, main task path, and non-display behavior boundaries.
+- Do not land ordinary page-module display-layer code before the module's non-display behavior, service wiring, and state-flow contracts are stable enough to support that display faithfully.
+- Do not treat module implementation as `display first, behavior later`; the required local order is `impl -> design draft -> non-display code -> display restoration`.
 - Do not mark `code_status=landed` until code output exists and the landed status change has been explicitly confirmed.
 - Do not route around `flutter-design-freeze-gate` on implied approval.
 - Do not let a complete shared or module design draft skip `flutter-design-freeze-gate` before freeze.
@@ -57,28 +59,28 @@ Use this reference before applying any state/status promotion, freeze decision, 
 - Do not allow design packages with unresolved loading, empty, error, disabled, permission-denied, long-content, short-content, or slow-network behavior to advance into shared freeze or module design freeze when those states are relevant to the product.
 - Do not allow a design package to pass freeze if the first-screen task path or primary CTA is still visually ambiguous.
 - Do not treat architecture planning, Flutterization, or implementation convenience as a substitute for resolving high-fidelity visual decisions during module design freeze.
-- Do not let `--auto` cross the boundary into `implementing`.
+- Do not let `--auto` enter `implementing` before `@superpowers` `Spec` and `Plan` exist for the active module.
 - Do not let `--auto` skip blockers, unresolved dependencies, or missing design inputs.
-- Do not let `--auto` pretend a module is implementation-ready when its executable `impl.md` is missing or its design source is not frozen.
-- Do not stop `--auto` for ordinary downstream confirmation gates before the implementation boundary.
+- Do not let `--auto` pretend a module is implementation-ready when the shared/global design freeze is incomplete, its executable `impl.md` is missing, or its design source is not frozen.
+- Do not stop `--auto` for ordinary downstream confirmation gates before workflow completion.
 - Do not stop `--auto` just because the current module reached `implementation_final`, `module_design_frozen`, `impl_rd_ready`, or `architecture_ready` while other target modules still remain.
 - Do not treat `current_module` as the only module covered by an `--auto` run; it is only the module currently being processed.
 - Do not leave `next_skill` as a passive handoff recommendation after a local module milestone when `execution_mode=auto` and more target modules are still pending.
-- Do not continue `--auto` past executable module document generation when the selected active module, its module-index row, or its `impl.md` cannot be verified on disk.
+- Do not continue `--auto` into module workflow when the shared/global design freeze is incomplete, or past executable module document generation when the selected active module, its module-index row, or its `impl.md` cannot be verified on disk.
 - Do not skip directory inspection and environment-variable checks before auto-generating static visual evidence in `--auto` mode.
-- Do not treat missing image-generation credentials as a blocker for the whole workflow unless the optional effect-image branch is actually in scope for the current revision path.
+- Do not treat missing `gpt-image-2-generator` credentials as a blocker for the whole workflow unless the optional effect-image branch is actually in scope for the current revision path.
 - Do not treat textual packets as a substitute for the frozen selected structured design-source packet during module freeze.
-- Do not generate new module real-device effect images during executable module document generation or module freeze by default; require explicit `--perviewer` opt-in.
-- Do not treat `--perviewer` as permission to redefine the approved shared/global style direction; it only enables module-stage effect-image evidence generation.
+- Do not generate new module real-device effect images during module `impl.md` generation or module freeze by default; require explicit `--preview` opt-in.
+- Do not treat `--preview` as permission to redefine the approved shared/global style direction; it only enables effect-image evidence generation.
 - Do not require page-level Pen, `.pen`, Pencil MCP data, or `pen_status` unless the workflow has actually chosen the Pencil design-source branch.
 - Do not let implementation rewrite design intent. Design changes after freeze must return to design control.
 - Do not route directly from `architecture_ready` to project-local `flutter-dev`; new project scaffolding must pass through `flutter-init`.
 - Do not let delegated module document generation or code landing bypass `@superpowers` when real execution ownership is required.
 - Do not enter implementation execution before `@superpowers` has produced both `Spec` and `Plan` for the active module.
-- Do not fall back to serial-only implementation by default once `Spec` and `Plan` exist, unless shared-file or shared-state conflicts make parallel execution unsafe.
+- Do not open parallel module implementation lanes by default once `Spec` and `Plan` exist. Module execution stays serial unless the workflow contract is explicitly changed.
 - Do not directly route module implementation to `flutter-rd-module-splitter`, `flutter-dev`, project-local implementation skills, or any other execution path without explicit `@superpowers` invocation.
 - Do not directly route module implementation to `flutter-dev` or project-local execution skills without explicit `@superpowers` invocation.
-- Do not let parallel implementation subagents overlap ownership of the same file, generated asset path, or mutable state contract in one execution batch.
+- Do not let multiple module implementation subagents run in parallel against different active modules in the default workflow.
 - Do not treat a complete-looking `impl.md` as proof that delegated generation or execution really happened.
 - Do not let `.impl.md` claim `generation_trace_status=verified_executed` unless the workflow record or execution trace contains the real delegated inputs and outputs for that module.
 - Do not start display-layer landing before the preflight inputs are complete enough to avoid image-only guessing.
@@ -87,10 +89,10 @@ Use this reference before applying any state/status promotion, freeze decision, 
 - Do not let effect images alone decide final Flutter widget strategy when documented interaction or architecture semantics say otherwise.
 - Do not leave a fidelity-critical region without an explicit `preserve_faithfully`, `flutterize`, or `simplify` classification in architecture output.
 - Do not let engineering convenience flatten locked spacing, layer depth, or CTA dominance for regions marked `preserve_faithfully`.
-- Do not force Flutter-native reconstruction for visuals that are clearly better shipped as image assets; download approved source images directly when available, otherwise route missing or unusable images through `$imagegen` and store them inside the project.
-- Do not use `$imagegen` as an excuse to skip native implementation for visuals that Flutter can reproduce cleanly.
+- Do not force Flutter-native reconstruction for visuals that are clearly better shipped as image assets; download approved source images directly when available, otherwise let the active MCP / design tool chain choose the concrete generation mechanism and store the result inside the project.
+- Do not use MCP-driven image generation as an excuse to skip native implementation for visuals that Flutter can reproduce cleanly.
 - In manual mode, do not switch to the next process automatically after a specialist skill finishes; wait for explicit user confirmation whenever queued transitions or status updates exist.
-- In `--auto`, do not wait at ordinary downstream confirmation gates before the implementation boundary, but still stop for blockers, route drift, missing evidence, or any move that would enter implementation.
+- In `--auto`, do not wait at ordinary downstream confirmation gates before workflow completion, but still stop for blockers, route drift, or missing evidence.
 - Do not ask an execution skill to do workflow bookkeeping that belongs here.
 - Do not let a downstream skill change `current_stage`, `pending_next_stage`, `pending_next_skill`, or `pending_status_updates` by implication.
 - Do not accept a downstream result without a verifiable receipt containing artifacts, evidence, and blockers.

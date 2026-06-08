@@ -44,7 +44,7 @@ The preflight gate must verify at minimum:
 - all required artifact paths for the intended move exist on disk
 - all required maturity prerequisites are already confirmed, not merely implied in prose
 - `platform_identifier` is explicit before architecture, implementation-readiness, human visual inspection, or implementation work that depends on a concrete validation surface
-- the next move does not cross the implementation boundary when `--auto` is active
+- when `--auto` is active, the next move is still authorized by the current confirmed artifacts and does not skip required execution gates
 
 If any preflight check fails, stop immediately. Record the exact failed check as a blocker. Do not let a downstream skill try to compensate for missing prerequisites by reconstructing state, inferring approvals, or backfilling artifacts opportunistically.
 
@@ -75,7 +75,7 @@ Only the orchestrator may:
 
 In `--auto` mode, every loop iteration must produce one of only two valid outcomes:
 
-- the remaining pre-implementation workload shrinks in a provable way
+- the remaining workflow workload shrinks in a provable way
 - a new real blocker is recorded
 
 If neither happened, the iteration is invalid and must stop as route drift or empty progress.
@@ -107,7 +107,7 @@ These steps must stay in the orchestrator and must not be delegated:
 - validate downstream receipts against the active route lock
 - apply or reject `pending_next_stage`, `pending_next_skill`, and `pending_status_updates`
 - update orchestrator-owned workflow state as the single source of truth
-- decide whether `--auto` should continue, stop at the implementation boundary, or stop for no progress
+- decide whether `--auto` should continue, stop at workflow completion, or stop for no progress
 
 These actions define workflow truth. If a subagent performs them, route drift becomes unverifiable.
 
@@ -121,14 +121,14 @@ The following specialist stages may run inside a subagent, as long as the orches
 - Pencil for page-scoped design generation or validation from `DESIGN.md`, optional approved effect images, or approved visual comps
 - `design-preview-to-global-guidelines` for turning approved shared visuals into reusable global guidelines
 - `flutter-design-freeze-gate` for freeze evaluation and revision feedback, both at shared scope and module scope
-- `flutter-rd-module-splitter` for creating module index rows and executable module `impl.md` documents in one pass
+- `flutter-rd-module-splitter` for creating module index rows and executable module `impl.md` documents in one pass after the shared/global design freeze
 - module-scoped `@superpowers` execution when delegated module document generation or implementation requires real execution ownership
 - `flutter-design-source-control` when post-freeze design changes must be incorporated in a controlled way
 - `flutter-uiux-to-architecture` for architecture mapping, display-layer decision tables, and native-vs-bitmap decisions
 - `flutter-init` for directory-skeleton creation, as long as it stops at initialization boundaries
-- module implementation through explicit `@superpowers` `Spec`, then explicit `@superpowers` `Plan`, then parallel execution of independent ownership units with project-local `flutter-dev` and `flutter-project-guardrails`
+- module implementation through explicit `@superpowers` `Spec`, then explicit `@superpowers` `Plan`, then serial execution of the active module loop with project-local `flutter-dev` and `flutter-project-guardrails`
 - human visual inspection handoff when implementation output or screenshots are ready
-- `$imagegen` when the workflow already proved a raster asset is the correct implementation fallback
+- an MCP-driven image or design tool when the workflow already proved a raster asset is the correct implementation fallback
 
 The subagent may create or revise artifacts, run specialist reasoning, and report blockers. It must return those results as a receipt. It must not promote workflow state on its own.
 
@@ -138,10 +138,10 @@ Even when a step is subagent-eligible, these constraints still apply:
 
 - only one active route-locked specialist step may run at a time for the same workflow record
 - Stitch or Pencil page design is the only allowed parallel specialist exception: one route-locked page-design batch may run up to 6 page-scoped subagents in parallel, as long as each subagent owns a different page and returns a page-level receipt
-- implementation execution is parallel by default after `Spec` and `Plan`, but only across non-conflicting ownership units defined by `Plan`
-- `--auto` after executable module documents exist still advances one dependency-safe module at a time; do not freeze or implement multiple active modules in parallel against the same record
+- implementation execution for module work is serial by default after `Spec` and `Plan`; do not split the active module loop into parallel ownership units unless the workflow contract is explicitly changed
+- `--auto` after the shared/global design freeze still advances one active module at a time; do not generate module docs, freeze modules, or implement multiple active modules in parallel against the same record
 - parallel page-design subagents must not update workflow state artifacts, freeze `design_source_status`, decide adapter mode or project refs, or merge the final design-source packet
-- parallel implementation subagents must not overlap ownership of the same file, same generated asset path, or the same mutable state contract in one batch
+- if the workflow contract explicitly allows an ownership split inside one active module, those implementation subagents must not overlap ownership of the same file, same generated asset path, or the same mutable state contract in one batch
 - any subagent touching module docs must be given the exact active module, expected artifact paths, and expected status delta
 - any subagent doing module document generation or implementation must preserve a real execution trace suitable for receipt validation
 - any subagent that discovers a blocker may report it, but only the orchestrator may classify it as stage-blocking and rewrite the workflow record
@@ -168,12 +168,12 @@ The following work must not be delegated by default unless the user explicitly r
 
 ## Real Execution Trace
 
-When executable module document generation, module freeze, implementation-readiness, or architecture work is being advanced in the default workflow, keep a real execution trace in workflow state and optionally in a runtime execution-trace artifact outside the stable skill bundle.
+When executable module document generation, module freeze, implementation-readiness, architecture work, or real code implementation is being advanced in the default workflow, keep a real execution trace in workflow state and optionally in a runtime execution-trace artifact outside the stable skill bundle.
 
 For each touched module, record:
 
 - `current_module`
-- why the module is dependency-safe right now
+- why the module is the correct next module in the confirmed serial module order right now
 - the exact delegated generation or execution input
 - the real generated module-document or execution output
 - whether `implementation_final` was truly reached
@@ -200,7 +200,7 @@ When a specialist skill finishes and produces the required artifacts for a later
 
 When `--auto` is active, the orchestrator should auto-apply all of its own queued stage transitions and queued status updates instead of waiting for the user, until the auto stop condition is reached or a blocker appears.
 
-In `--auto` mode, a queued transition for one module must immediately be followed by a fresh routing decision for the same module or the next dependency-safe module. Do not leave the workflow record in a pseudo-idle "recommended next skill" state while unresolved target modules still exist.
+In `--auto` mode, a queued transition for one module must immediately be followed by a fresh routing decision for the same module or the next serial module. Do not leave the workflow record in a pseudo-idle "recommended next skill" state while unresolved target modules still exist.
 
 ## Module Artifact Maturity
 
@@ -211,7 +211,7 @@ Track module-stage maturity in addition to `current_stage`.
 | Value | Meaning |
 | --- | --- |
 | `not_started` | The document does not exist yet. |
-| `implementation_final` | The module `impl.md` was generated at directly implementable granularity immediately after the technical baseline and is now the upstream contract for downstream design-source and freeze work. |
+| `implementation_final` | The module `impl.md` was generated after the shared/global design freeze as a detailed module task implementation document. It already fixes the module function and key states under the frozen shared design and interaction principles, and is now the upstream contract for downstream page-component design drafts, design-source work, and freeze. |
 | `landed` | The document references the frozen design source packet and the landed status has been explicitly confirmed. |
 
 ### `design_source_status`

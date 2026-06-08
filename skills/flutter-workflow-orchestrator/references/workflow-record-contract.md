@@ -71,9 +71,9 @@ When persisted, this runtime artifact is the single stable source for project wo
 - whether shared/global effect-image generation covers all pages in the approved product scope
 - whether shared/global freeze already has the approved effect images required by the active revision path, if any
 - whether generated effect images explicitly inherited the approved global style constraints
-- whether module-stage effect-image generation stayed disabled by default unless `--perviewer` was explicitly enabled
+- whether module-stage effect-image generation stayed disabled by default unless `--preview` was explicitly enabled
 - whether `global-design-guidelines.md` records the current effect-image policy and generated global effect-image paths
-- whether implementation planning identified any non-native visual asset that should be generated through `$imagegen`
+- whether implementation planning identified any non-native visual asset that still needs MCP-driven generation or rework
 - whether display-layer readiness preflight is complete before implementation begins
 - whether the display evidence pack is complete enough for fidelity-critical regions
 - whether the architecture output classified important regions into `preserve_faithfully`, `flutterize`, or `simplify`
@@ -168,11 +168,11 @@ Use these values consistently:
 
 Summarize the project's overall workflow posture in 2-4 short lines.
 
-Include whether the workflow is still in requirements brainstorming, PRD generation, executable module document generation, global visual design brainstorming, recommendation review, final product design direction confirmation, `DESIGN.md` output, optional representative effect-image confirmation, optional remaining page-effect generation, shared freeze, module freeze, bootstrap code generation, or implementation.
+Include whether the workflow is still in requirements brainstorming, PRD generation, global visual design brainstorming, recommendation review, final product design direction confirmation, `DESIGN.md` output, optional representative effect-image confirmation, optional remaining page-effect generation, shared freeze, module `impl.md` generation, module page component drafting, module freeze, bootstrap code generation, code implementation, or human visual inspection handoff.
 
-If `execution_mode=auto`, also state whether the workflow is still auto-advancing or has stopped at the implementation boundary.
+If `execution_mode=auto`, also state whether the workflow is still auto-advancing or has stopped at workflow completion.
 
-If `execution_mode=auto` and not all target modules are implementation-ready yet, explicitly name which modules are still pending and which module is being processed now.
+If `execution_mode=auto` and not all target modules are fully implemented yet, explicitly name which modules are still pending and which module is being processed now.
 
 ### `current_stage_detail`
 
@@ -194,11 +194,13 @@ If taste direction is missing before detailed design-source work, say so explici
 
 If the workflow is still in requirements brainstorming, state whether raw requirements are captured, whether the PRD question ledger exists, which decision-blocking questions remain, and whether a PRD artifact has been generated.
 
+If the shared/global design freeze is not complete yet, say so explicitly and keep all module-related workflow blocked.
+
 If the active module lacks an executable `impl.md`, say so explicitly.
 
 If freeze preparation is in progress, state whether `flutter-taste-router` textual normalization is already complete and whether static-image directory inspection has already happened.
 
-If module design freeze is in progress, state whether the high-fidelity visual contract has passed, is explicitly reduced by design-source control, or is blocking freeze.
+If module design freeze is in progress, state whether the module function is already fixed in `impl.md`, whether the module-scoped display-layer design draft already exists, and whether the high-fidelity visual contract has passed, is explicitly reduced by design-source control, or is blocking freeze.
 
 If effect images are present, state whether the workflow is using the optional light-mode effect-image baseline or an explicitly approved override.
 
@@ -222,11 +224,11 @@ Mention the latest freeze decision or blocker for that module when it exists.
 
 Mention the module's current `high_fidelity_freeze_status` when module freeze, architecture, or implementation-readiness is being considered.
 
-If the module is entering implementation, mention whether its `impl.md` is implementation-final, whether it references the frozen selected structured design-source packet, and whether corresponding page-image evidence exists for display-layer landing.
+If the module is entering implementation, mention whether its `impl.md` is implementation-final, whether it references the frozen selected structured design-source packet, whether the frozen module display-layer design draft already exists, and whether corresponding page-image evidence exists for display-layer landing.
 
 If implementation planning already identified bitmap-only visual effects, mention whether they are pending generation, already saved into the project, or already wired into the implementation plan.
 
-If display-layer work is about to begin, mention whether the readiness preflight passed, whether a concrete display-layer decision table already exists, whether the display evidence pack covers fidelity-critical regions, and whether those regions already have explicit fidelity classifications.
+If display-layer work is about to begin, mention whether the readiness preflight passed, whether a concrete display-layer decision table already exists, whether the display evidence pack covers fidelity-critical regions, whether those regions already have explicit fidelity classifications, and whether the required non-display behavior contracts have already stabilized for faithful display restoration.
 
 ### `next_action`
 
@@ -234,9 +236,9 @@ Record the next skill, why it is next, and the minimum required inputs.
 
 If the workflow is waiting for user confirmation, set the actionable `next_skill` to `none` and move the queued transition plus queued status changes into the confirmation section instead of pretending the next skill is already allowed to run.
 
-If `execution_mode=auto`, do not hold the workflow at ordinary downstream confirmation gates. Auto-apply them until the implementation boundary or a blocker is reached, except for the representative effect-image confirmation gate.
+If `execution_mode=auto`, do not hold the workflow at ordinary downstream confirmation gates. Auto-apply them until workflow completion or a blocker is reached.
 
-If `execution_mode=auto`, `next_action` must describe the next real auto step for the same module or the next dependency-safe module. Do not write a pseudo-finished summary that leaves the remaining modules implicit.
+If `execution_mode=auto`, `next_action` must describe the next real auto step for the same module or the next serial module. Do not write a pseudo-finished summary that leaves the remaining modules implicit.
 
 If the workflow is `blocked`, do not point `next_skill` at the next process stage and do not preserve a stale queued transition or stale queued status change from a failed routing attempt.
 
@@ -329,13 +331,13 @@ Update the existing row for a module instead of creating duplicates.
 
 Keep the row values on the last confirmed state. Proposed upgrades go into `pending_status_updates` until the user confirms them.
 
-If `execution_mode=auto`, the table must make it obvious which modules are already at the implementation boundary and which modules are still pending pre-implementation work.
+If `execution_mode=auto`, the table must make it obvious which modules are already fully implemented and which modules are still pending later workflow work.
 
 ### `decision_log`
 
 Append short dated entries only when a stage changes, a blocker is cleared, a routing decision changes, or a confirmed artifact maturity change is applied.
 
-When the workflow attempts executable module document generation in the default path, each dated entry should also capture the dependency-safe reason, the real generation input and output, and `未执行` when a claimed downstream step did not really happen.
+When the workflow attempts executable module document generation in the default path, each dated entry should also capture the confirmed serial-module-order reason, the real generation input and output, and `未执行` when a claimed downstream step did not really happen.
 
 When route drift, receipt mismatch, or no-progress auto stopping happens, add a dated entry that states the expected route lock, the actual downstream result, and why the orchestrator refused to advance.
 
@@ -356,9 +358,10 @@ When route drift, receipt mismatch, or no-progress auto stopping happens, add a 
 - If final product design direction is confirmed, index the confirmation artifact or decision-log entry before writing the root-level `DESIGN.md` or generating any optional effect image.
 - If the root-level `DESIGN.md` is written, index its path before generating any structured design source.
 - If `DESIGN.md` captures task priority, first-screen CTA posture, interaction feedback, responsive strategy, critical states, and content tone, record that quality audit explicitly. If not, record the missing areas as blockers before structured design-source generation.
-- If no representative effect image exists yet and the optional effect-image branch is active, generate exactly one representative effect image first, index its path and selected page, set `confirmation_status=pending_confirmation`, and stop before generating remaining page images.
-- If the representative effect image is still pending confirmation or has been rejected, keep remaining optional page-image generation blocked and do not advance to the broader optional page-image generation step.
-- If the representative effect image is confirmed, record that confirmation explicitly before generating the remaining optional page-effect set.
+- If no representative effect image exists yet and the optional effect-image branch is active in manual mode, generate exactly one representative effect image first, index its path and selected page, set `confirmation_status=pending_confirmation`, and stop before generating remaining page images.
+- If the representative effect image is still pending confirmation or has been rejected in manual mode, keep remaining optional page-image generation blocked and do not advance to the broader optional page-image generation step.
+- If the representative effect image is confirmed in manual mode, record that confirmation explicitly before generating the remaining optional page-effect set.
+- If `execution_mode=auto` and `--preview` is active, generate the in-scope effect images automatically, record their paths, and do not create a confirmation stop.
 - If taste direction is produced, index its artifact path in `global_artifact_index` and link it from active module rows when relevant.
 - If `platform_identifier` becomes explicit, record it in the relevant summary or artifact index instead of leaving it implicit in prose.
 - If `flutter-taste-router` completes textual normalization, record that status in the relevant summary or decision entry before any freeze promotion is queued.
@@ -380,18 +383,18 @@ When route drift, receipt mismatch, or no-progress auto stopping happens, add a 
 - If generated effect images were created after a shared/global direction existed, record whether palette direction, typography mood, component family cues, CTA posture, visual system, and image treatment were explicitly inherited.
 - If `design-preview-to-global-guidelines` artifacts are created, update the relevant module row and queue `global_guidelines_frozen` in `pending_next_stage` instead of switching immediately.
 - If a freeze evaluation fails, keep the current stage unchanged, clear any queued freeze promotion, and route back to the correct upstream skill for exactly one scope-matched revision pass.
-- If `execution_mode=auto`, the orchestrator should apply deterministic queued transitions and queued status updates without pausing for ordinary downstream confirmation, but it must still stop for the representative effect-image confirmation gate, and it must otherwise stop only when the implementation boundary is reached or when a blocker appears.
+- If `execution_mode=auto`, the orchestrator should apply deterministic queued transitions and queued status updates without pausing for ordinary downstream confirmation, and it must otherwise stop only when workflow completion is reached or when a blocker appears.
 - If `execution_mode=auto`, the orchestrator must not stop just because one module reached a local milestone such as `implementation_final`, `module_design_frozen`, `impl_rd_ready`, or `architecture_ready`.
 - Before any downstream invocation, persist one route lock that names the expected stage, module, next skill, next stage delta, and status delta.
 - Before any delegated specialist invocation, persist `execution_owner` as the exact subagent-owned step for this turn.
 - After any downstream invocation, evaluate the receipt against that route lock and store the result in `last_receipt_status`.
 - If the receipt is missing, ambiguous, or not provable from real artifacts, store `last_receipt_status` as `not_executed` or `route_drift`, clear queued promotions, and stop advancement.
 - If the shared bootstrap-critical baseline is ready and the project directory skeleton is still missing, the orchestrator should prefer `flutter-init` before waiting for every feature module to reach later architecture milestones.
-- If `execution_mode=auto`, after one module reaches a local milestone, immediately update `current_module`, `current_stage`, `next_skill`, the active module row, and `decision_log` to reflect the next real pre-implementation action.
+- If `execution_mode=auto`, after one module reaches a local milestone, immediately update `current_module`, `current_stage`, `next_skill`, the active module row, and `decision_log` to reflect the next real workflow action in the confirmed serial module order.
 - If `execution_mode=auto`, `current_module` means only the module being processed now. It must not imply that the current auto run is scoped to that single module.
 - If `execution_mode=auto`, `workflow_summary` and `next_action` must explicitly state which modules remain to be advanced. Do not imply that auto is complete while target modules are still pending.
 - If `execution_mode=auto`, do not use a generic "recommended next skill" as a stopping placeholder when unresolved target modules still exist. The record must reflect active continuation, not deferred manual pickup.
-- If `execution_mode=auto`, each loop must either reduce the remaining pre-implementation work in a provable way or add a new blocker. Record that outcome in `auto_progress_delta`.
+- If `execution_mode=auto`, each loop must either reduce the remaining workflow work in a provable way or add a new blocker. Record that outcome in `auto_progress_delta`.
 - If `execution_mode=auto` changed modules, rewrote `next_skill`, or rewrote stage posture without new proof or blocker, record `auto_progress_delta: none`, set a blocker, and stop.
 - If module design freeze is evaluated, record `high_fidelity_freeze_status` as `passed`, `approved_reduction`, `blocked`, or `not_evaluated`. Do not queue `design_source_status=frozen` when the value is `blocked` or `not_evaluated`.
 - If the active module design-source packet is confirmed, queue or apply `design_source_status=frozen` according to the confirmation gate.
@@ -407,10 +410,10 @@ When route drift, receipt mismatch, or no-progress auto stopping happens, add a 
 - If bootstrap code lands after initialization, record the execution summary or trace, the covered global public code baseline, and queue or apply `bootstrap_code_ready`.
 - If the workflow is entering delegated module document generation or module implementation, record that execution must be explicitly invoked through `@superpowers`; if corresponding page-image evidence exists, mention that display-layer landing should consult `$image-to-code`.
 - If the workflow is entering implementation, record whether `@superpowers` `Spec` exists, whether `@superpowers` `Plan` exists, and do not treat execution as authorized before both exist.
-- If implementation execution begins, record the parallel execution batch, ownership split, and any serial fallback reason. Default expectation is parallel execution of independent ownership units.
+- If implementation execution begins, record the active serial module order, the current active module, and any explicitly approved ownership split. Default expectation is serial module execution.
 - If a selected module, module index row, executable module `impl.md`, or required Stitch design-source packet cannot be verified on disk, record the blocker and keep all generation, freeze, and architecture trace fields as `未执行`, `not_executed`, or `unknown`.
-- If architecture planning decides that a visual must become a bitmap asset, record the selected asset path or the pending `$imagegen` generation need explicitly.
-- If display-layer readiness preflight is required, record whether the main effect image, detail effect images, structure semantics, display-layer decision table, fidelity classifications, and region-level evidence coverage are all ready.
+- If architecture planning decides that a visual must become a bitmap asset, record the selected asset path or the pending MCP-driven generation need explicitly.
+- If display-layer readiness preflight is required, record whether the main effect image, detail effect images, structure semantics, display-layer decision table, fidelity classifications, region-level evidence coverage, and non-display behavior readiness are all ready.
 - If a module is blocked, write the blocker both in the metadata summary section and in the module row.
 - If the workflow completes, set `workflow_status: completed`.
 
@@ -441,14 +444,14 @@ When route drift, receipt mismatch, or no-progress auto stopping happens, add a 
 - Do not store literal Stitch API keys in the workflow record.
 - Do not accept shared/global effect-image evidence into the workflow record without stating whether every in-scope page has an approved light-mode effect image for that optional branch.
 - Do not treat a representative effect image as if the complete all-page effect-image set already exists.
-- Do not generate remaining page effect images before the representative effect image is explicitly confirmed.
+- In manual mode, do not generate remaining page effect images before the representative effect image is explicitly confirmed.
 - Do not accept generated effect-image evidence into the workflow record without stating whether the approved style constraints were explicitly inherited.
 - Do not present shared/global freeze as ready in the workflow record while a revision path that explicitly requires approved effect images is still missing them.
-- Do not hide a required `$imagegen` bitmap fallback inside prose without indexing the asset path or pending generation note.
+- Do not hide a required bitmap fallback or MCP-driven asset-generation need inside prose without indexing the asset path or pending generation note.
 - Do not mark a module ready for display-layer landing while the required preflight inputs or decision table are still missing.
 - Do not mark a fidelity-critical module ready for display-layer landing while its evidence pack still lacks the detail, state, scroll, or overlay coverage needed for faithful implementation.
 - Do not treat a complete design draft as freeze-ready when the design package is still incomplete.
-- Do not switch to the next process while `confirmation_status` is `pending_confirmation`, unless `execution_mode=auto` and the next move is still before the implementation boundary.
+- Do not switch to the next process while `confirmation_status` is `pending_confirmation`, unless `execution_mode=auto`.
 - Do not let `execution_mode=auto` stop because one module reached a local completed state while other target modules still remain.
 - Do not let `workflow_summary` or `next_action` present a single-module milestone as if the whole auto run were complete.
 - Do not hide the remaining auto scope in prose. When `execution_mode=auto`, explicitly say which modules still need advancement.
@@ -464,11 +467,11 @@ When route drift, receipt mismatch, or no-progress auto stopping happens, add a 
 - Do not mark `project_initialized` unless both the directory skeleton and project-local `skills/flutter-dev/` exist.
 - Do not treat `project_initialized` as proof that any feature, page, or module implementation code already exists.
 - Do not mark `bootstrap_code_ready` unless the required global public code baseline actually exists on disk.
-- Do not let `execution_mode=auto` enter `implementing` or set `code_status=in_progress`.
+- Do not let `execution_mode=auto` claim implementation progress without recording the corresponding `@superpowers` gates, execution evidence, and code artifacts.
 - Do not wait for every feature module to finish late-stage architecture planning before triggering `flutter-init` when the shared bootstrap-critical baseline is already sufficient.
-- Do not hide the `@superpowers` implementation ownership or `$image-to-code` display-layer dependency when the module is already at the implementation boundary and those controls are relevant.
+- Do not hide the `@superpowers` implementation ownership or `$image-to-code` display-layer dependency when the module is already in or beyond implementation and those controls are relevant.
 - Do not treat implementation execution as valid before both `@superpowers` `Spec` and `@superpowers` `Plan` are recorded for the active module.
-- Do not treat implementation execution as valid unless the workflow record shows either a parallel ownership split or an explicit serial fallback reason.
+- Do not treat implementation execution as valid unless the workflow record shows the active serial module order, the current active module, and any explicitly approved ownership split when one exists.
 - Do not record delegated module document generation or implementation as valid if it was routed directly to a downstream execution skill without explicit `@superpowers` invocation when execution ownership was required.
 - Do not infer verified execution from polished documents, manual backfill, or missing traces.
 - Do not hide a missing module index row, missing executable module `impl.md`, missing Stitch design-source packet, or other failed generation precondition behind a later stage label.

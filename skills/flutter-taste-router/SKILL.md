@@ -83,9 +83,9 @@ Optional:
 8. If both environment variables exist, call `gpt-image-2-generator` to generate light-mode page-specific app preview images. For shared/global freeze, generate no more than 3 images total before selecting the approved direction. Save each file with its page or screen name, and when one module page is chosen as the global reference, save that selected preview under `docs/rd/` and copy the same file into the related module directory.
 9. If shared/global freeze still lacks static evidence and either environment variable is missing, stop and return a blocker instead of pretending the packet is ready for global freeze.
 10. For module freeze, if image generation credentials are missing, continue with the textual design packet only when the packet is already explicit enough.
-11. For module refinement or module freeze preparation, do not generate new module previews by default. Only generate them when the current workflow explicitly enables `--perviewer`.
+11. For module refinement or module freeze preparation, do not generate new module previews by default. Only generate them when the current workflow explicitly enables `--preview`.
 12. During module freeze preparation, include a `high_fidelity_visual_contract` that locks hierarchy, spacing, typography, layer depth, image or texture treatment, component states, fidelity-critical regions, and any approved Flutterization or bitmap fallback.
-13. If `--perviewer` is active for module-stage preview generation, record that opt-in plus the generated module preview paths into `global-design-guidelines.md` instead of leaving the policy implicit.
+13. If `--preview` is active for module-stage preview generation, record that opt-in plus the generated module preview paths into `global-design-guidelines.md` instead of leaving the policy implicit.
 14. Whenever the workflow calls image generation, write the design packet's style constraints into the generation input explicitly instead of relying on loose reference behavior. At minimum, the generation input must carry forward:
    - `art_direction`
    - `taste_constraints`
@@ -104,8 +104,8 @@ When `--auto` is active:
 - if shared freeze requires static visual evidence and it is missing, this skill should first inspect the target directories, then call `gpt-image-2-generator` only when both image environment variables exist, generate no more than 3 shared app preview images automatically, and fold those images into `visual_evidence`
 - if module freeze is being prepared, this skill may determine UI/UX directly from the design packet without static images, as long as hierarchy, CTA posture, state scope, and component freeze are explicit enough
 - if module freeze is being prepared, the packet must include `high_fidelity_visual_contract`; if that contract cannot be made explicit, return a blocker or revision plan instead of freeze readiness
-- if module refinement or module freeze is running without `--perviewer`, this skill must not auto-generate new module previews
-- if module refinement or module freeze is running with `--perviewer`, this skill may generate module previews only after confirming the shared/global style system remains authoritative
+- if module refinement or module freeze is running without `--preview`, this skill must not auto-generate new module previews
+- if module refinement or module freeze is running with `--preview`, this skill may generate module previews only after confirming the shared/global style system remains authoritative
 - if the environment variables are missing during shared/global freeze and no approved effect images exist yet, this skill should stop and mark shared freeze blocked
 - if the environment variables are missing during module freeze, this skill should continue with the normalized textual packet only when the packet is already explicit enough
 

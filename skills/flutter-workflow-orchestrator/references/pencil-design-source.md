@@ -6,7 +6,7 @@ Use this reference when the confirmed `DESIGN.md` plus any optional effect image
 
 Pencil is a first-class structured design-source adapter alongside Stitch. It consumes the confirmed root-level `DESIGN.md` as the primary source of truth and may also consume optional approved effect images or approved visual comps as supplemental evidence.
 
-Pencil must not invent a new global style after the shared taste direction and final product design direction have been confirmed. It must expand pages from one frozen shared design master packet, not from page-local improvisation.
+Pencil must not invent a new global style after the shared taste direction and final product design direction have been confirmed. It must expand pages from one frozen shared design master packet, not from page-local improvisation. Module-related workflow begins only after the shared/global design freeze is complete. For module-scoped page component design drafts, Pencil must wait until the active module's `impl.md` has already fixed the module function, key states, and main task path.
 
 Regardless of page scope, Pencil output must preserve these four project-wide consistency contracts:
 
