@@ -29,6 +29,7 @@ The goal is not only visual consistency. A high-quality `DESIGN.md` in this work
 - interaction and feedback consistency
 - multi-state coverage
 - responsive and multi-device behavior
+- one frozen base design viewport for the current design cycle
 - content and brand tone consistency
 - shared shell and shared component consistency
 
@@ -132,6 +133,7 @@ If you add these extension sections, place them after `## Components` and before
 - Capture product-level design intent, not page-by-page implementation instructions.
 - Prefer concrete visual language over vague adjectives.
 - Explicitly state what must stay consistent across screens: style direction, theme system, public shell, and shared component families.
+- Explicitly state that page layouts must not be reduced below the frozen base design viewport and that layout density should be solved without collapsing core whitespace.
 - Explicitly state what matters most in the first 3 seconds of the main user journey.
 - Explicitly state how the design behaves under empty, loading, error, disabled, long-content, short-content, and slow-network scenarios.
 - Explicitly state which regions may adapt responsively and which regions are visually locked.
@@ -141,6 +143,7 @@ If you add these extension sections, place them after `## Components` and before
 
 When writing `DESIGN.md`, translate confirmed upstream decisions into this file:
 
+- frozen base design viewport and chosen device preset
 - final product design direction
 - shared public shell posture
 - visual system
@@ -172,6 +175,8 @@ Treat this checklist as the minimum bar for a high-quality design target:
 - Interaction feedback is consistent across taps, hovers, focus, submission, and error recovery.
 - Empty, loading, error, disabled, long-content, and short-content states are intentionally designed rather than implied.
 - The design scales across target devices without inventing a second visual language.
+- Pages do not collapse below the frozen design viewport just to fit more content.
+- Spacing, margins, and structural whitespace remain intentional rather than being compressed away.
 - Shared shell and shared components remain recognizable everywhere.
 - Copy tone matches the product personality and user context.
 

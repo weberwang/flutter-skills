@@ -20,11 +20,12 @@ When `--auto` is present, the orchestrator must keep routing and applying workfl
 The `--auto` goal is:
 
 - finish the global technical baseline first
-- finish shared taste direction and shared freeze preparation from the PRD and technical baseline first
-- stop only if final product design direction confirmation from the user is still missing
-- support two confirmation branches after global visual design: direct human confirmation, or subagent-generated recommendation plus human confirmation
+- freeze the target design-device preset and base resolution before global visual design work begins
+- finish Product Design brief confirmation, shared public-shell convergence, and shared freeze preparation from the PRD and technical baseline first
+- stop only if Product Design brief confirmation, public-shell confirmation, or final product design direction confirmation from the user is still missing
+- route through `@product-design` for design brief playback and design-direction recommendation before `DESIGN.md`
 - write the confirmed direction into `DESIGN.md`
-- if `--preview` is active, generate the in-scope light-mode effect images automatically after the relevant prerequisites are ready
+- if `--preview` is active, generate the in-scope light-mode effect images automatically after the relevant prerequisites are ready, using the approved Product Design visual target as the first baseline when available
 - if `--preview` is not active, skip automatic effect-image generation entirely
 - route into either Stitch or Pencil structured design-source generation, then merge page receipts before freeze
 - complete the shared/global design freeze before any module-related work begins
@@ -43,7 +44,7 @@ The `--auto` goal is:
 - stop just because one active module reached a local stable milestone such as `implementation_final`, `module_design_frozen`, `impl_rd_ready`, `architecture_ready`, or `code_status=landed`
 - leave a module-complete handoff behind as a mere `next_skill` suggestion when other target modules are still unfinished
 
-When `--auto` reaches shared freeze, it must first verify that the global visual design direction has been brainstormed from the PRD and technical baseline, that the final product design direction was explicitly confirmed from that brainstorm, and that `DESIGN.md` exists. If confirmation is missing, stop and request confirmation instead of advancing. If `--preview` is active and both `IMAGE_BASE_URL` and `IMAGE_API_KEY` exist, automatically call `gpt-image-2-generator` to generate the in-scope light-mode effect images and continue without waiting for user confirmation. If `--preview` is active but either environment variable is missing, stop and record a blocker for that branch. If `--preview` is not active, skip effect-image generation entirely. Only after the shared/global design freeze is complete may `--auto` enter module `impl.md` generation, per-module serial advancement, and later code implementation.
+When `--auto` reaches shared freeze, it must first verify that the design viewport is already frozen; if not, auto-freeze `390 x 844 px` as the global design viewport. Then verify that the Product Design brief has been confirmed from the PRD and technical baseline, that the public shell is explicitly agreed, that the final product design direction was explicitly confirmed from the approved Product Design visual target or recommendation, and that `DESIGN.md` exists. If confirmation is missing, stop and request confirmation instead of advancing. If `--preview` is active and `gpt-image-2-generator` is available, automatically generate the in-scope light-mode effect images and continue without waiting for user confirmation. If `--preview` is active but `gpt-image-2-generator` is blocked by missing access, credentials, or upstream capability, stop and record a blocker for that branch. If `--preview` is not active, skip effect-image generation entirely. Only after the shared/global design freeze is complete may `--auto` enter module `impl.md` generation, per-module serial advancement, and later code implementation.
 
 Auto-generated effect images do not remove the need for freeze-quality evaluation; they only provide optional supplemental static visual evidence.
 
@@ -62,7 +63,7 @@ Without `--preview`:
 With `--preview`:
 
 - shared or module-stage effect-image generation is allowed when the current path still benefits from page-addressable visual evidence
-- generated effect images must inherit the approved shared/global style system instead of opening a new visual direction
+- generated effect images must inherit the approved shared/global style system and Product Design visual target instead of opening a new visual direction
 - the workflow must record that opt-in decision and any generated global effect-image paths into `global-design-guidelines.md`
 
 `--preview` does not weaken the shared/global freeze policy. Shared/global freeze still follows the confirmed `DESIGN.md` plus the selected structured design-source packet; any generated effect-image set remains optional supplemental evidence.

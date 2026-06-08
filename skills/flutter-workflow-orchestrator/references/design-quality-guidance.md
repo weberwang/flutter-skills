@@ -98,6 +98,19 @@ This keeps the interface purposeful instead of cluttered.
 
 Mobile requires re-composition, not compression.
 
+Before the global design direction is explored, freeze one base mobile viewport for the whole design cycle. Do not let page ideation, effect-image generation, or structured design-source work switch widths opportunistically from page to page.
+
+Do not design any page at a width or height smaller than the frozen base design viewport for the active design cycle. If content does not fit, solve it through hierarchy, disclosure, paging, or layout restructuring rather than shrinking the page below the frozen design size.
+
+For iPhone-first product work, offer at least these common presets unless the user already chose another target:
+
+- `375 x 667 px` for compact iPhone baseline
+- `390 x 844 px` for standard iPhone baseline
+- `393 x 852 px` for Pro baseline
+- `430 x 932 px` for Pro Max baseline
+
+If the run is `--auto` and no viewport has been frozen yet, default to `390 x 844 px`.
+
 ### Navigation
 
 - Bottom navigation works well when the app has a few primary destinations.
@@ -116,6 +129,7 @@ On mobile:
 - typography often stays similar to desktop or grows larger
 - spacing still needs breathing room
 - dense layouts quickly become fragile
+- leave enough whitespace and structural gaps so the screen can breathe at the frozen design size
 
 ### Layout Direction
 
@@ -299,6 +313,7 @@ When writing `DESIGN.md`:
 
 When generating Stitch or Pencil design source:
 
+- use the frozen global design, the active module design package, and `DESIGN.md` as the only design-guidance inputs
 - preserve shared style direction
 - preserve shared theme system
 - preserve shared shell

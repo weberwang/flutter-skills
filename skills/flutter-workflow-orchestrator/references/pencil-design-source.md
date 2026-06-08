@@ -6,6 +6,8 @@ Use this reference when the confirmed `DESIGN.md` plus any optional effect image
 
 Pencil is a first-class structured design-source adapter alongside Stitch. It consumes the confirmed root-level `DESIGN.md` as the primary source of truth and may also consume optional approved effect images or approved visual comps as supplemental evidence.
 
+Pencil is not an independent design-guidance authority. The only valid design-guidance sources are the frozen global design packet, the active module design package when module scope exists, and `DESIGN.md`. Pencil may structure, restore, validate, and serialize those inputs, but it must not inject Pencil-native internal guidance, hidden defaults, or tool-owned style opinions into the project design contract.
+
 Pencil must not invent a new global style after the shared taste direction and final product design direction have been confirmed. It must expand pages from one frozen shared design master packet, not from page-local improvisation. Module-related workflow begins only after the shared/global design freeze is complete. For module-scoped page component design drafts, Pencil must wait until the active module's `impl.md` has already fixed the module function, key states, and main task path.
 
 Regardless of page scope, Pencil output must preserve these four project-wide consistency contracts:
@@ -81,11 +83,12 @@ The Pencil design-source packet must include:
 
 ## Freeze Rules
 
-- Treat `DESIGN.md` as the primary upstream authority and optional effect images as supplemental evidence.
+- Treat `DESIGN.md`, the frozen global design packet, and the active module design package as the only design-guidance authorities. Treat optional effect images as supplemental evidence.
 - Do not let Pencil invent a new palette, typography mood, CTA posture, or component family after the shared direction has been approved.
 - Do not let Pencil redefine the shared theme system, public shell contract, or shared public component families after the shared direction has been approved.
 - Do not let Pencil quietly change first-screen task priority, CTA discoverability, interaction feedback rhythm, or responsive strategy without orchestrator-approved shared-packet revision.
 - Do not let page-level Pencil output redefine shell rules, layout-grid rules, or page density without orchestrator-approved shared-packet revision.
+- Do not treat any Pencil-native suggestion, adapter-internal guideline, generated helper prose, or tool-side style rationale as valid project design guidance.
 - Do not mark `design_source_status=frozen` unless the workflow record indexes both the Pencil packet and the frozen Pencil source reference.
 - Do not mark `design_source_status=frozen` unless every in-scope page has a successful page-level Pencil receipt when page-scoped generation was required.
 - Do not allow implementation to consume Pencil output directly unless `flutter-design-freeze-gate` has accepted it.

@@ -9,7 +9,9 @@ Use this reference before applying any state/status promotion, freeze decision, 
 - Do not invoke a downstream skill until the route lock is persisted and the preflight gate passes.
 - Do not delegate workflow truth ownership to a subagent.
 - Do not use `flutter-prd-rd-writer` for detailed module design.
-- Do not confirm the final product design direction before the global visual design direction has first been brainstormed through `flutter-taste-router`.
+- Do not begin global design exploration, effect-image generation, or structured design-source preparation before the target design-device preset and base resolution are frozen for the current design cycle.
+- Do not let any page design shrink below the frozen design viewport for the active cycle.
+- Do not confirm the final product design direction before `@product-design` has first confirmed the design brief and produced or validated the direction input for this request.
 - Do not start module `impl.md` generation immediately after the technical baseline. All module-related workflow must wait until the shared/global design freeze is complete.
 - Do not skip `DESIGN.md` output after final product design direction confirmation.
 - Do not treat a visually polished `DESIGN.md` as complete if it still lacks task-priority rules, interaction-feedback rules, responsive strategy, or critical-state coverage that the product clearly needs.
@@ -18,6 +20,7 @@ Use this reference before applying any state/status promotion, freeze decision, 
 - Do not generate new static visuals before checking whether the target directories already contain usable page images.
 - Do not use effect images as the only design source when a structured design-source adapter has been chosen; convert or validate them into the selected design-source packet first.
 - Do not enter structured design-source generation or validation unless the user has first chosen `design_source_adapter=stitch` or `design_source_adapter=pencil`.
+- Do not treat Stitch or Pencil internal guidance, adapter defaults, generated helper prose, or tool-native style suggestions as valid design guidance. Design guidance may come only from the frozen global design, the active module design package, and `DESIGN.md`.
 - Do not allow either Stitch or Pencil to restore pages with a different style direction, different theme system, different public shell, or different shared public component family from the approved shared design master packet.
 - Do not allow either Stitch or Pencil to restore pages with weaker task hierarchy, weaker CTA discoverability, different interaction-feedback rhythm, or a different responsive strategy from the approved shared design master packet.
 - Do not enter Stitch design-source generation or validation unless the user has first chosen `stitch_project_mode=new` or `stitch_project_mode=existing`.
@@ -33,7 +36,7 @@ Use this reference before applying any state/status promotion, freeze decision, 
 - Do not commit or document literal Stitch API keys.
 - Do not accept or generate dark-mode effect images as the default workflow reference set; the default effect-image baseline is light mode.
 - Do not treat effect images as a default mandatory gate for shared design freeze. They are optional evidence unless the current revision path explicitly requires them.
-- Do not let `--auto --preview` generate effect images without the required `gpt-image-2-generator` credentials.
+- Do not let `--auto --preview` generate effect images without `gpt-image-2-generator` being available for that branch.
 - In manual mode, do not generate the remaining optional page-effect set before one representative effect image has been explicitly confirmed.
 - Do not send shared/global or module-stage effect-image generation requests without explicit style constraints once the design packet already defines them.
 - Do not let module-stage effect-image generation redefine palette, typography mood, component family, image treatment, or CTA posture after a shared/global direction has been approved.
@@ -58,6 +61,7 @@ Use this reference before applying any state/status promotion, freeze decision, 
 - Do not allow design packages with unresolved hierarchy, task guidance, typography, contrast, CTA, or state-coverage defects to advance into shared freeze or module design freeze.
 - Do not allow design packages with unresolved loading, empty, error, disabled, permission-denied, long-content, short-content, or slow-network behavior to advance into shared freeze or module design freeze when those states are relevant to the product.
 - Do not allow a design package to pass freeze if the first-screen task path or primary CTA is still visually ambiguous.
+- Do not compress away core whitespace, spacing rhythm, or structural breathing room merely to fit more content into the frozen design viewport.
 - Do not treat architecture planning, Flutterization, or implementation convenience as a substitute for resolving high-fidelity visual decisions during module design freeze.
 - Do not let `--auto` enter `implementing` before `@superpowers` `Spec` and `Plan` exist for the active module.
 - Do not let `--auto` skip blockers, unresolved dependencies, or missing design inputs.
@@ -68,7 +72,7 @@ Use this reference before applying any state/status promotion, freeze decision, 
 - Do not leave `next_skill` as a passive handoff recommendation after a local module milestone when `execution_mode=auto` and more target modules are still pending.
 - Do not continue `--auto` into module workflow when the shared/global design freeze is incomplete, or past executable module document generation when the selected active module, its module-index row, or its `impl.md` cannot be verified on disk.
 - Do not skip directory inspection and environment-variable checks before auto-generating static visual evidence in `--auto` mode.
-- Do not treat missing `gpt-image-2-generator` credentials as a blocker for the whole workflow unless the optional effect-image branch is actually in scope for the current revision path.
+- Do not treat missing `gpt-image-2-generator` access or credentials as a blocker for the whole workflow unless the optional effect-image branch is actually in scope for the current revision path.
 - Do not treat textual packets as a substitute for the frozen selected structured design-source packet during module freeze.
 - Do not generate new module real-device effect images during module `impl.md` generation or module freeze by default; require explicit `--preview` opt-in.
 - Do not treat `--preview` as permission to redefine the approved shared/global style direction; it only enables effect-image evidence generation.

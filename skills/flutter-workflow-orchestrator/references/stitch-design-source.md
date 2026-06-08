@@ -6,6 +6,8 @@ Use this reference when the confirmed `DESIGN.md`, optional approved effect imag
 
 Stitch is one first-class structured design-source adapter alongside Pencil. `DESIGN.md` is the primary upstream packet. Effect images remain optional supplemental visual evidence, but when Stitch is the selected adapter the frozen design source must be a Stitch-generated or Stitch-validated packet. Separate module design documents are not required and must not replace the Stitch packet as the design source.
 
+Stitch is not an independent design-guidance authority. The only valid design-guidance sources are the frozen global design packet, the active module design package when module scope exists, and `DESIGN.md`. Stitch may structure, restore, validate, and serialize those inputs, but it must not inject Stitch-native internal guidance, hidden defaults, or tool-owned style opinions into the project design contract.
+
 Before global design freeze, the workflow must first brainstorm the global visual design direction from the PRD and the technical baseline, then confirm the final product design direction with the user, then write that direction into the root-level `DESIGN.md`. Optional light-mode effect images may be attached as supplemental evidence when the current revision path asks for them. Only after the shared/global design freeze is complete may module `impl.md` generation begin. For module-scoped page component design drafts, Stitch must wait until the active module's `impl.md` has already fixed the module function, key states, and main task path. Stitch must not be asked to infer missing global decisions from partial visual evidence.
 
 For a product that requires high visual consistency across the whole app, Stitch must operate as a page-expansion system on top of one frozen global design master, not as a per-page style invention system. The workflow must freeze one shared design master packet before page-level Stitch generation starts, and every page subagent must consume that same packet.
@@ -91,11 +93,13 @@ That packet must include at minimum:
 - explicit `platform_identifier`
 - fidelity-critical regions and approved reductions already known upstream
 
+Do not append Stitch-internal guidance text, Stitch-inferred style heuristics, or adapter-only design rules to this packet as if they were project design guidance.
+
 If the packet is incomplete, page-scoped Stitch work must not start. Do not ask page subagents to infer missing global style decisions from local page evidence.
 
 ## Flow
 
-1. Start from a user-confirmed final product design direction that already passed the global visual design brainstorming step.
+1. Start from a user-confirmed final product design direction that already passed the Product Design brief and direction confirmation step.
 2. Write the confirmed direction into `DESIGN.md`.
 3. Optionally generate and approve light-mode effect images for in-scope pages when the current path needs them.
 4. Derive and freeze one shared design master packet for the whole app.
@@ -244,7 +248,7 @@ If a page is visually strong in isolation but violates the shared system, reject
 
 ## Freeze Rules
 
-- Treat `DESIGN.md` as the primary upstream authority, optional effect images as supplemental visual evidence, and the Stitch packet as the structured implementation source.
+- Treat `DESIGN.md`, the frozen global design packet, and the active module design package as the only design-guidance authorities. Treat optional effect images as supplemental visual evidence and the Stitch packet as the structured implementation source only.
 - Treat the frozen shared design master packet as the upstream authority for all page-level Stitch expansion.
 - Treat the complete all-page effect-image set as required Stitch input only when the active revision path explicitly chose that broader visual-evidence branch.
 - If the Stitch packet contradicts `DESIGN.md` or any approved optional effect image, do not freeze until the mismatch is resolved or explicitly approved as a reduction.
@@ -252,6 +256,7 @@ If a page is visually strong in isolation but violates the shared system, reject
 - Do not let Stitch redefine the shared theme system, public shell contract, or shared public component families after the shared direction has been approved.
 - Do not let Stitch quietly change first-screen task priority, CTA discoverability, interaction feedback rhythm, or responsive strategy without orchestrator-approved shared-packet revision.
 - Do not let page-level Stitch output redefine shell rules, layout-grid rules, or page density without orchestrator-approved shared-packet revision.
+- Do not treat any Stitch-native suggestion, adapter-internal guideline, generated helper prose, or model-side style rationale as valid project design guidance.
 - Do not mark `design_source_status=frozen` unless the workflow record indexes both the Stitch packet and its source effect-image paths.
 - Do not mark `design_source_status=frozen` when downloaded image assets are required but their local paths are missing from the Stitch packet or workflow record.
 - Do not mark `design_source_status=frozen` unless every in-scope page has a successful page-level Stitch receipt.

@@ -40,9 +40,11 @@ When persisted, this runtime artifact is the single stable source for project wo
 - whether PRD decision-blocking questions are resolved, defaulted, or still blocked
 - where the generated PRD artifact lives
 - whether the global visual design direction has already been brainstormed before asking the user to confirm it
-- whether the workflow used direct confirmation or subagent recommendation before final design-direction confirmation
+- whether the workflow used a confirmed Product Design brief, approved visual source, or Product Design recommendation artifact before final design-direction confirmation
+- whether the target design-device preset and base resolution are already frozen for the current design cycle
+- which iPhone preset or custom viewport was selected
 - whether the common public shell has already been explicitly agreed before any effect-image generation starts
-- whether the final product design direction has been confirmed with the user after the global visual design brainstorming step
+- whether the final product design direction has been confirmed with the user after the Product Design brief and direction step
 - whether a root-level `DESIGN.md` already exists for the confirmed final design direction
 - whether `DESIGN.md` already captures task-priority and first-screen CTA rules
 - whether `DESIGN.md` already captures interaction and feedback rules
@@ -168,7 +170,7 @@ Use these values consistently:
 
 Summarize the project's overall workflow posture in 2-4 short lines.
 
-Include whether the workflow is still in requirements brainstorming, PRD generation, global visual design brainstorming, recommendation review, final product design direction confirmation, `DESIGN.md` output, optional representative effect-image confirmation, optional remaining page-effect generation, shared freeze, module `impl.md` generation, module page component drafting, module freeze, bootstrap code generation, code implementation, or human visual inspection handoff.
+Include whether the workflow is still in requirements brainstorming, PRD generation, Product Design brief confirmation, Product Design recommendation review, final product design direction confirmation, `DESIGN.md` output, optional representative effect-image confirmation, optional remaining page-effect generation, shared freeze, module `impl.md` generation, module page component drafting, module freeze, bootstrap code generation, code implementation, or human visual inspection handoff.
 
 If `execution_mode=auto`, also state whether the workflow is still auto-advancing or has stopped at workflow completion.
 
@@ -179,6 +181,8 @@ If `execution_mode=auto` and not all target modules are fully implemented yet, e
 Record why the project is in the current stage and what must become true before the stage can advance.
 
 If the global visual design direction has not yet been brainstormed, say so explicitly and keep final product design direction confirmation blocked.
+
+If the target design-device preset or base resolution is still missing, say so explicitly and keep Product Design brief confirmation, visual recommendation, and optional effect-image generation blocked.
 
 If the common public shell has not yet been explicitly agreed, say so explicitly and keep design-direction confirmation plus optional effect-image generation blocked.
 
@@ -275,7 +279,8 @@ Track project-level artifact paths when known, such as:
 - requirements brainstorming notes
 - PRD question ledger
 - PRD
-- global visual design brainstorming packet
+- Product Design brief or recommendation packet
+- frozen design-device preset and base resolution record
 - design confirmation mode
 - design recommendation packet
 - public shell confirmation record
@@ -353,6 +358,7 @@ When route drift, receipt mismatch, or no-progress auto stopping happens, add a 
 - If decision-blocking questions remain unresolved, record them in `required_inputs` or `blockers`, keep `current_stage=requirements_brainstorming`, and do not route to technical baseline, taste direction, executable module document generation, architecture, or implementation.
 - If a default is used to answer a PRD question, record the assumption, rationale, and risk in the workflow record or PRD artifact index.
 - If the PRD exists but the global visual design direction has not yet been brainstormed, keep `DESIGN.md`, structured design-source work, and optional effect-image generation blocked and route to `flutter-taste-router` before asking for confirmation.
+- If the technical baseline exists but the target design-device preset or base resolution is still missing, keep `current_stage=technical_baseline_ready`, record `required_inputs=design_device_preset_and_resolution`, and do not route to Product Design brief confirmation yet. In `--auto`, if the viewport is still missing, record that `390 x 844 px` was auto-selected.
 - If the global visual direction exists but the common public shell has not yet been agreed, keep design-direction confirmation and optional effect-image generation blocked, record `required_inputs=public_shell_confirmation`, and do not route to representative or full page-effect generation.
 - If the brainstormed direction exists but the final product design direction has not been confirmed with the user, keep `DESIGN.md`, structured design-source work, and optional effect-image generation blocked, record `required_inputs=final_product_design_direction_confirmation`, and do not route to downstream design-source generation.
 - If final product design direction is confirmed, index the confirmation artifact or decision-log entry before writing the root-level `DESIGN.md` or generating any optional effect image.
@@ -381,6 +387,7 @@ When route drift, receipt mismatch, or no-progress auto stopping happens, add a 
 - If shared/global freeze is under review, record whether the approved effect images required by the active revision path now exist or whether that path is still blocked on image generation.
 - If shared/global freeze is under review, record whether task hierarchy, CTA discoverability, interaction feedback, responsive strategy, and critical-state coverage were explicitly verified.
 - If generated effect images were created after a shared/global direction existed, record whether palette direction, typography mood, component family cues, CTA posture, visual system, and image treatment were explicitly inherited.
+- If shared/global effect images were created, record the frozen base design viewport they were generated against.
 - If `design-preview-to-global-guidelines` artifacts are created, update the relevant module row and queue `global_guidelines_frozen` in `pending_next_stage` instead of switching immediately.
 - If a freeze evaluation fails, keep the current stage unchanged, clear any queued freeze promotion, and route back to the correct upstream skill for exactly one scope-matched revision pass.
 - If `execution_mode=auto`, the orchestrator should apply deterministic queued transitions and queued status updates without pausing for ordinary downstream confirmation, and it must otherwise stop only when workflow completion is reached or when a blocker appears.
@@ -434,7 +441,7 @@ When route drift, receipt mismatch, or no-progress auto stopping happens, add a 
 - Do not mark `impl_status=landed` before the module `impl.md` references a confirmed frozen selected structured design-source packet.
 - Do not mark `design_source_status=frozen` for module implementation when `high_fidelity_freeze_status` is `blocked`, `not_evaluated`, or missing.
 - Do not mark `code_status=landed` before code output actually exists.
-- Do not claim static visual evidence was generated before recording whether the directory was checked first and whether the image environment variables were actually available.
+- Do not claim static visual evidence was generated before recording whether the directory was checked first and whether `gpt-image-2-generator` for that branch was actually available.
 - Do not accept effect-image evidence into the workflow record without stating whether it meets the default light-mode requirement.
 - Do not mark a Stitch design-source packet as frozen before recording the source effect-image paths, `modelId`, and validation result.
 - Do not mark a Stitch design-source packet as frozen before recording the frozen `stitch_project_mode`.
