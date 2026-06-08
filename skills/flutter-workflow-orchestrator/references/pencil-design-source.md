@@ -67,7 +67,11 @@ The Pencil design-source packet must include:
 - generated or validated screen structure
 - tokens and theme values
 - component families and state matrix
+- task hierarchy and primary CTA expectations
+- interaction and feedback behavior expectations
 - explicit shared public shell rules
+- responsive adaptation rules
+- content-tone or naming constraints when relevant
 - region-level hierarchy and layout anchors
 - spacing, typography, z-axis, image-treatment, and motion constraints
 - fidelity-critical region list
@@ -80,6 +84,7 @@ The Pencil design-source packet must include:
 - Treat `DESIGN.md` as the primary upstream authority and optional effect images as supplemental evidence.
 - Do not let Pencil invent a new palette, typography mood, CTA posture, or component family after the shared direction has been approved.
 - Do not let Pencil redefine the shared theme system, public shell contract, or shared public component families after the shared direction has been approved.
+- Do not let Pencil quietly change first-screen task priority, CTA discoverability, interaction feedback rhythm, or responsive strategy without orchestrator-approved shared-packet revision.
 - Do not let page-level Pencil output redefine shell rules, layout-grid rules, or page density without orchestrator-approved shared-packet revision.
 - Do not mark `design_source_status=frozen` unless the workflow record indexes both the Pencil packet and the frozen Pencil source reference.
 - Do not mark `design_source_status=frozen` unless every in-scope page has a successful page-level Pencil receipt when page-scoped generation was required.

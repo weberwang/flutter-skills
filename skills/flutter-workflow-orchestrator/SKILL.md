@@ -21,6 +21,7 @@ Load only the references needed for the current routing decision, but always pre
 
 - `references/workflow-record-contract.md`: Read before initializing or optionally persisting workflow state for the current run.
 - `references/requirements-prd-flow.md`: Read when the input is raw requirements, a one-line feature idea, a partially specified request, or any request that lacks a PRD artifact.
+- `references/design-quality-guidance.md`: Read when defining global visual direction, writing `DESIGN.md`, or judging whether a design is strong enough to freeze.
 - `references/design-md-template.md`: Read when the final product design direction is confirmed and the workflow must write a root-level `DESIGN.md`.
 - `references/stitch-design-source.md`: Read when effect images, approved visual comps, or module visual evidence must become the structured design source for freeze, architecture, implementation, or human visual inspection.
 - `references/pencil-design-source.md`: Read when the selected structured design-source adapter is Pencil and the confirmed `DESIGN.md` plus any optional visual evidence must become the frozen implementation source.

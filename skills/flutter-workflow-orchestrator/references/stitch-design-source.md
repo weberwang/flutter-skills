@@ -75,15 +75,19 @@ That packet must include at minimum:
 - representative page effect-image approval decision, when it exists
 - full approved page-effect set, when it exists
 - global visual principles and anti-template constraints
+- task-priority and first-screen hierarchy rules
 - typography ladder
 - spacing scale
 - color and contrast system
 - radius, border, elevation, and image-treatment posture
 - CTA posture and interaction emphasis model
+- interaction and feedback behavior rules
 - root shell, navigation shell, and layout-grid rules
 - shared component families
 - shared state-surface rules
 - explicit shared theme values and theme-behavior rules
+- responsive and multi-device adaptation rules when relevant
+- content tone and naming rules when relevant
 - explicit `platform_identifier`
 - fidelity-critical regions and approved reductions already known upstream
 
@@ -101,7 +105,7 @@ If the packet is incomplete, page-scoped Stitch work must not start. Do not ask 
 8. Run page-scoped Stitch design tasks in subagents with at most 6 concurrent page-design subagents.
 9. Merge page-level receipts into one structured design-source packet.
 10. Compare the Stitch packet against `DESIGN.md` and any optional effect images before freeze.
-11. Extract or verify tokens, component families, layout hierarchy, spacing, typography, image treatment, and state coverage.
+11. Extract or verify tokens, component families, layout hierarchy, spacing, typography, image treatment, task hierarchy, interaction feedback, responsive behavior, and state coverage.
 12. Record every accepted deviation from the upstream design evidence as an explicit Flutterization or approved reduction.
 13. Freeze only after the shared design master packet, Stitch project mode, Stitch project id, all required page receipts, merged Stitch packet, and high-fidelity visual contract all pass.
 
@@ -172,6 +176,7 @@ Every page-level Stitch receipt must include:
 - downloaded image assets
 - blockers
 - page coverage status
+- whether the page preserves task hierarchy, feedback behavior, shared shell, and shared component contracts
 
 If the receipt cannot show whether the page still conforms to the shared design master packet, treat that receipt as insufficient for merge.
 
@@ -202,6 +207,10 @@ The Stitch design-source packet must include:
 - generated or validated screen structure
 - tokens and theme values
 - component families and state matrix
+- task hierarchy and primary CTA expectations
+- interaction and feedback behavior expectations
+- responsive adaptation rules
+- content-tone or naming constraints when relevant
 - region-level hierarchy and layout anchors
 - spacing, typography, z-axis, image-treatment, and motion constraints
 - fidelity-critical region list
@@ -218,12 +227,16 @@ At minimum, verify:
 - one shared token system is used across pages
 - one shared style direction is preserved across pages
 - one shared theme system is preserved across pages
+- main task hierarchy stays consistent across pages
+- first-screen CTA posture stays consistent across pages
 - typography hierarchy stays consistent across pages
 - component families are reused consistently across pages
 - shell, nav, header, footer, and page-grid decisions stay consistent
 - CTA posture and dominance are consistent
+- interaction and feedback behavior are consistent
 - image-treatment posture is consistent
 - page density and spacing rhythm are consistent
+- responsive adaptation stays within one design language
 - state pages follow one coherent state language
 - no page introduced an unapproved shared component family
 
@@ -237,6 +250,7 @@ If a page is visually strong in isolation but violates the shared system, reject
 - If the Stitch packet contradicts `DESIGN.md` or any approved optional effect image, do not freeze until the mismatch is resolved or explicitly approved as a reduction.
 - Do not let Stitch invent a new palette, typography mood, CTA posture, or component family after the shared direction has been approved.
 - Do not let Stitch redefine the shared theme system, public shell contract, or shared public component families after the shared direction has been approved.
+- Do not let Stitch quietly change first-screen task priority, CTA discoverability, interaction feedback rhythm, or responsive strategy without orchestrator-approved shared-packet revision.
 - Do not let page-level Stitch output redefine shell rules, layout-grid rules, or page density without orchestrator-approved shared-packet revision.
 - Do not mark `design_source_status=frozen` unless the workflow record indexes both the Stitch packet and its source effect-image paths.
 - Do not mark `design_source_status=frozen` when downloaded image assets are required but their local paths are missing from the Stitch packet or workflow record.

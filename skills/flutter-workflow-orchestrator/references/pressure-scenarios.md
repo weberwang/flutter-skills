@@ -10,6 +10,9 @@ Use this reference when the user request resembles one of these examples or trie
 - User says "the design draft is complete, just freeze it": route to `flutter-design-freeze-gate`.
 - User says "the shared effect image looks close enough, just freeze it": block and route back through exactly one shared revision pass, then stop.
 - User says "skip visual brainstorming and confirm direction directly": block. Final product design direction confirmation requires a prior global visual design brainstorming step.
+- User says "先把主态做漂亮，空态和错误态后面再补": block. Critical states belong to the design target, not post-hoc polish.
+- User says "移动端先这样，平板和桌面以后再说" when multi-device support is already in scope: block. Responsive and multi-device strategy must be part of the shared design target before freeze.
+- User says "只要风格统一就行，任务效率后面再优化": block. First-screen hierarchy and CTA discoverability are part of the design goal, not a later optimization.
 - User says "generate the effect image first, we can decide the common shell later": block. Optional representative and remaining page effect-image generation still require explicit agreement on the common public shell first.
 - User says "skip final product direction confirmation and generate images directly": block. Optional effect-image generation still requires explicit user confirmation of the final product design direction after the brainstorming step.
 - User says "确认了设计方向就直接进 Stitch，不写 DESIGN.md": block. Final product direction confirmation must be followed by `DESIGN.md` output before any structured design-source branch.
@@ -17,6 +20,7 @@ Use this reference when the user request resembles one of these examples or trie
 - User says "generate all page effect images now" before the representative image is confirmed: block. Generate one representative effect image first, wait for user confirmation or revision feedback, then generate the remaining optional pages when they are actually needed.
 - User says "run `--auto` and keep going after the first effect image": block only when the optional effect-image branch is active. `--auto` must stop at that representative effect-image confirmation gate.
 - User says "skip global effect images and freeze directly": allow if `DESIGN.md` and the selected structured design-source packet are already strong enough. Block only when the current revision path explicitly requires more visual evidence.
+- User says "文案语气不用现在定，先把 UI 出来": block when brand tone or UX writing tone materially affects CTA confidence, onboarding, empty states, or recovery states.
 - User says "use Stitch as design source": treat Stitch as one structured design-source adapter, require `modelId=GEMINI_3_1_PRO`, keep `DESIGN.md` as the primary upstream packet, and never write literal API keys into repo docs.
 - User says "use Pencil as design source": allow as a first-class branch. Require `DESIGN.md`, a frozen Pencil source reference, and a merged Pencil design-source packet before freeze.
 - User says "generate Stitch designs for all pages": run page-scoped Stitch design in subagents with at most 6 parallel page designs; block if a subagent tries to own workflow state or more than one page in the same batch.

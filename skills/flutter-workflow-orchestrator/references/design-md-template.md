@@ -23,6 +23,15 @@ A valid `DESIGN.md` has two layers:
 
 The YAML tokens are the normative machine-readable values. The prose captures design intent that raw tokens alone cannot express.
 
+The goal is not only visual consistency. A high-quality `DESIGN.md` in this workflow must also preserve:
+
+- task completion efficiency
+- interaction and feedback consistency
+- multi-state coverage
+- responsive and multi-device behavior
+- content and brand tone consistency
+- shared shell and shared component consistency
+
 ## Minimum YAML Schema
 
 Use this baseline schema unless the project truly lacks a section:
@@ -80,6 +89,14 @@ Prefer covering these token groups when they are relevant to the product:
 
 Additional token detail such as elevation, shadows, or motion may be expressed either through token-like component properties or through the markdown rationale section when the current schema does not need a separate top-level key.
 
+If the product has mature design-system data, also capture:
+
+- semantic state colors
+- elevation or shadow scales
+- motion timing or motion posture
+- component naming conventions
+- state naming conventions
+
 ## Required Markdown Order
 
 If these sections are present, keep them in this order:
@@ -95,6 +112,16 @@ If these sections are present, keep them in this order:
 
 Sections may be omitted when truly unnecessary, but do not reorder them.
 
+Recommended extension sections for this workflow:
+
+- `## Task Priorities`
+- `## Interaction & Feedback`
+- `## Responsive Strategy`
+- `## States & Edge Cases`
+- `## Content & Tone`
+
+If you add these extension sections, place them after `## Components` and before `## Do's and Don'ts`.
+
 ## Writing Rules
 
 - Keep the file self-contained.
@@ -104,6 +131,11 @@ Sections may be omitted when truly unnecessary, but do not reorder them.
 - Use token references like `{colors.primary}` when a component is intentionally mapped to another token.
 - Capture product-level design intent, not page-by-page implementation instructions.
 - Prefer concrete visual language over vague adjectives.
+- Explicitly state what must stay consistent across screens: style direction, theme system, public shell, and shared component families.
+- Explicitly state what matters most in the first 3 seconds of the main user journey.
+- Explicitly state how the design behaves under empty, loading, error, disabled, long-content, short-content, and slow-network scenarios.
+- Explicitly state which regions may adapt responsively and which regions are visually locked.
+- Explicitly state naming conventions for shared components and shared states when the system is large enough to need them.
 
 ## Workflow Mapping
 
@@ -120,8 +152,28 @@ When writing `DESIGN.md`, translate confirmed upstream decisions into this file:
 - depth and material treatment
 - shape language
 - optional effect-image evidence, when it materially clarifies the design intent
+- core user task priorities
+- first-screen information hierarchy and CTA exposure
+- interaction feedback rhythm
+- responsive behavior across phone, tablet, and desktop surfaces when relevant
+- state design for loading, empty, error, disabled, and transition-heavy flows
+- content tone, brand voice, and writing posture
+- shared naming conventions for components and states
 
 Do not let optional effect images override the confirmed direction. `DESIGN.md` remains the primary upstream packet.
+
+## Quality Goals
+
+Treat this checklist as the minimum bar for a high-quality design target:
+
+- The main user task is obvious within the first 3 seconds.
+- The primary CTA is visible or predictably discoverable on the main path.
+- Information hierarchy is stable across screens.
+- Interaction feedback is consistent across taps, hovers, focus, submission, and error recovery.
+- Empty, loading, error, disabled, long-content, and short-content states are intentionally designed rather than implied.
+- The design scales across target devices without inventing a second visual language.
+- Shared shell and shared components remain recognizable everywhere.
+- Copy tone matches the product personality and user context.
 
 ## Project Template
 
@@ -216,10 +268,39 @@ Describe radius language, corner posture, icon softness, and structural geometry
 
 Describe how buttons, cards, inputs, navigation, lists, and other repeated patterns should behave visually.
 
+## Task Priorities
+
+Describe the product's highest-priority user tasks, what must be visible first, and which actions should dominate the primary path.
+
+## Interaction & Feedback
+
+Describe hover, press, focus, loading, success, warning, error, disabled, and transition feedback. Explain the intended motion restraint or motion emphasis.
+
+## Responsive Strategy
+
+Describe how the design adapts across phone, tablet, desktop, or other target surfaces. State which layouts can reflow and which visual relationships must stay locked.
+
+## States & Edge Cases
+
+Describe empty states, loading states, errors, permission denial, long text, short text, slow network, and multi-step transition behavior.
+
+## Content & Tone
+
+Describe brand voice, UX writing tone, naming patterns, and how CTA language should feel in high-confidence, low-confidence, and recovery moments.
+
 ## Do's and Don'ts
 
 - Do preserve the confirmed hierarchy and CTA posture.
 - Do keep component families visually consistent across screens.
+- Do preserve the same style direction, theme system, shared shell, and shared public component families across all restored pages.
+- Do design all critical states, not only the ideal happy path.
+- Do keep the first-screen task path obvious and low-friction.
+- Do make interaction feedback predictable across primary flows, recovery flows, and disabled states.
+- Do state how the design scales on every target surface that is actually in scope.
 - Don't invent new local styles that contradict the shared system.
+- Don't let responsive adaptation become a second design language.
+- Don't hide core actions behind decorative hierarchy.
+- Don't leave loading, empty, error, or disabled behavior undefined.
+- Don't let copy tone drift between primary flow, support flow, and recovery flow.
 - Don't replace token-backed decisions with ad-hoc page-level styling.
 ```

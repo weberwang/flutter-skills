@@ -12,12 +12,14 @@ Use this reference before applying any state/status promotion, freeze decision, 
 - Do not confirm the final product design direction before the global visual design direction has first been brainstormed through `flutter-taste-router`.
 - Do not skip executable module implementation document generation after the technical baseline and before downstream shared visual design, structured design-source generation, or module freeze.
 - Do not skip `DESIGN.md` output after final product design direction confirmation.
+- Do not treat a visually polished `DESIGN.md` as complete if it still lacks task-priority rules, interaction-feedback rules, responsive strategy, or critical-state coverage that the product clearly needs.
 - Do not confuse `platform_baseline` with a verified `platform_identifier`.
 - Do not skip `flutter-taste-router` textual normalization before any shared freeze or module freeze check.
 - Do not generate new static visuals before checking whether the target directories already contain usable page images.
 - Do not use effect images as the only design source when a structured design-source adapter has been chosen; convert or validate them into the selected design-source packet first.
 - Do not enter structured design-source generation or validation unless the user has first chosen `design_source_adapter=stitch` or `design_source_adapter=pencil`.
 - Do not allow either Stitch or Pencil to restore pages with a different style direction, different theme system, different public shell, or different shared public component family from the approved shared design master packet.
+- Do not allow either Stitch or Pencil to restore pages with weaker task hierarchy, weaker CTA discoverability, different interaction-feedback rhythm, or a different responsive strategy from the approved shared design master packet.
 - Do not enter Stitch design-source generation or validation unless the user has first chosen `stitch_project_mode=new` or `stitch_project_mode=existing`.
 - Do not enter Stitch design-source generation or validation unless `stitch_project_id` is confirmed and frozen after the mode choice.
 - Do not enter Pencil design-source generation or validation unless the Pencil source reference is confirmed and frozen.
@@ -52,6 +54,8 @@ Use this reference before applying any state/status promotion, freeze decision, 
 - Do not route around `flutter-design-freeze-gate` on implied approval.
 - Do not let a complete shared or module design draft skip `flutter-design-freeze-gate` before freeze.
 - Do not allow design packages with unresolved hierarchy, task guidance, typography, contrast, CTA, or state-coverage defects to advance into shared freeze or module design freeze.
+- Do not allow design packages with unresolved loading, empty, error, disabled, permission-denied, long-content, short-content, or slow-network behavior to advance into shared freeze or module design freeze when those states are relevant to the product.
+- Do not allow a design package to pass freeze if the first-screen task path or primary CTA is still visually ambiguous.
 - Do not treat architecture planning, Flutterization, or implementation convenience as a substitute for resolving high-fidelity visual decisions during module design freeze.
 - Do not let `--auto` cross the boundary into `implementing`.
 - Do not let `--auto` skip blockers, unresolved dependencies, or missing design inputs.

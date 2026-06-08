@@ -44,6 +44,11 @@ When persisted, this runtime artifact is the single stable source for project wo
 - whether the common public shell has already been explicitly agreed before any effect-image generation starts
 - whether the final product design direction has been confirmed with the user after the global visual design brainstorming step
 - whether a root-level `DESIGN.md` already exists for the confirmed final design direction
+- whether `DESIGN.md` already captures task-priority and first-screen CTA rules
+- whether `DESIGN.md` already captures interaction and feedback rules
+- whether `DESIGN.md` already captures responsive and multi-device rules
+- whether `DESIGN.md` already captures critical-state coverage and edge-case behavior
+- whether `DESIGN.md` already captures content tone and naming rules when relevant
 - whether one representative light-mode effect image has been generated before remaining optional page-image generation starts
 - whether the representative effect image is pending confirmation, confirmed, or rejected
 - whether every page in scope has an approved light-mode effect image when the optional full effect-image branch is active
@@ -51,6 +56,7 @@ When persisted, this runtime artifact is the single stable source for project wo
 - whether `platform_baseline` exists and whether `platform_identifier` has been explicitly verified
 - whether freeze preparation already passed through `flutter-taste-router` textual normalization
 - whether a shared or module design-source package has already been freeze-evaluated
+- whether freeze evaluation already verified task hierarchy, CTA discoverability, interaction feedback, responsive strategy, and critical-state coverage
 - whether the chosen `design_source_adapter` is Stitch or Pencil
 - whether Stitch MCP was available and which `modelId` was used for structured design-source generation or validation
 - whether `stitch_project_mode` is confirmed as `new` or `existing` before Stitch design-source work starts
@@ -180,6 +186,8 @@ If the final product design direction has not been confirmed, say so explicitly 
 
 If the root-level `DESIGN.md` is missing after final product direction confirmation, say so explicitly and keep structured design-source work blocked.
 
+If `DESIGN.md` exists but still lacks task-priority, interaction-feedback, responsive-strategy, critical-state, or content-tone coverage that the product clearly needs, say so explicitly and keep freeze and design-source work blocked.
+
 If the representative effect image exists but is still waiting for user confirmation, say so explicitly and keep remaining optional page-image generation blocked.
 
 If taste direction is missing before detailed design-source work, say so explicitly.
@@ -271,6 +279,7 @@ Track project-level artifact paths when known, such as:
 - public shell confirmation record
 - final product design direction confirmation record
 - root-level `DESIGN.md`
+- DESIGN.md quality audit
 - representative effect image path
 - representative effect image page
 - representative effect image status
@@ -346,6 +355,7 @@ When route drift, receipt mismatch, or no-progress auto stopping happens, add a 
 - If the brainstormed direction exists but the final product design direction has not been confirmed with the user, keep `DESIGN.md`, structured design-source work, and optional effect-image generation blocked, record `required_inputs=final_product_design_direction_confirmation`, and do not route to downstream design-source generation.
 - If final product design direction is confirmed, index the confirmation artifact or decision-log entry before writing the root-level `DESIGN.md` or generating any optional effect image.
 - If the root-level `DESIGN.md` is written, index its path before generating any structured design source.
+- If `DESIGN.md` captures task priority, first-screen CTA posture, interaction feedback, responsive strategy, critical states, and content tone, record that quality audit explicitly. If not, record the missing areas as blockers before structured design-source generation.
 - If no representative effect image exists yet and the optional effect-image branch is active, generate exactly one representative effect image first, index its path and selected page, set `confirmation_status=pending_confirmation`, and stop before generating remaining page images.
 - If the representative effect image is still pending confirmation or has been rejected, keep remaining optional page-image generation blocked and do not advance to the broader optional page-image generation step.
 - If the representative effect image is confirmed, record that confirmation explicitly before generating the remaining optional page-effect set.
@@ -366,6 +376,7 @@ When route drift, receipt mismatch, or no-progress auto stopping happens, add a 
 - If shared/global effect images were generated, record the complete page list, one approved image path per page, and whether every in-scope page is covered for that optional branch.
 - If the representative effect image was generated, record its path, selected page, and approval status.
 - If shared/global freeze is under review, record whether the approved effect images required by the active revision path now exist or whether that path is still blocked on image generation.
+- If shared/global freeze is under review, record whether task hierarchy, CTA discoverability, interaction feedback, responsive strategy, and critical-state coverage were explicitly verified.
 - If generated effect images were created after a shared/global direction existed, record whether palette direction, typography mood, component family cues, CTA posture, visual system, and image treatment were explicitly inherited.
 - If `design-preview-to-global-guidelines` artifacts are created, update the relevant module row and queue `global_guidelines_frozen` in `pending_next_stage` instead of switching immediately.
 - If a freeze evaluation fails, keep the current stage unchanged, clear any queued freeze promotion, and route back to the correct upstream skill for exactly one scope-matched revision pass.
