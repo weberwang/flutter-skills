@@ -117,7 +117,8 @@ The following specialist stages may run inside a subagent, as long as the orches
 
 - `flutter-prd-rd-writer` for PRD or broad RD expansion into a technical baseline
 - `flutter-taste-router` for shared or module textual design normalization
-- Stitch MCP for page-scoped design generation or validation from approved effect images or approved visual comps, using `modelId=GEMINI_3_1_PRO`
+- Stitch MCP for page-scoped design generation or validation from `DESIGN.md`, optional approved effect images, or approved visual comps, using `modelId=GEMINI_3_1_PRO`
+- Pencil for page-scoped design generation or validation from `DESIGN.md`, optional approved effect images, or approved visual comps
 - `design-preview-to-global-guidelines` for turning approved shared visuals into reusable global guidelines
 - `flutter-design-freeze-gate` for freeze evaluation and revision feedback, both at shared scope and module scope
 - `flutter-rd-module-splitter` for creating module index rows and executable module `impl.md` documents in one pass
@@ -136,10 +137,10 @@ The subagent may create or revise artifacts, run specialist reasoning, and repor
 Even when a step is subagent-eligible, these constraints still apply:
 
 - only one active route-locked specialist step may run at a time for the same workflow record
-- Stitch page design is the only allowed parallel specialist exception: one route-locked Stitch design batch may run up to 6 page-scoped subagents in parallel, as long as each subagent owns a different page and returns a page-level receipt
+- Stitch or Pencil page design is the only allowed parallel specialist exception: one route-locked page-design batch may run up to 6 page-scoped subagents in parallel, as long as each subagent owns a different page and returns a page-level receipt
 - implementation execution is parallel by default after `Spec` and `Plan`, but only across non-conflicting ownership units defined by `Plan`
 - `--auto` after executable module documents exist still advances one dependency-safe module at a time; do not freeze or implement multiple active modules in parallel against the same record
-- parallel Stitch page-design subagents must not update workflow state artifacts, freeze `design_source_status`, decide project mode/id, or merge the final design-source packet
+- parallel page-design subagents must not update workflow state artifacts, freeze `design_source_status`, decide adapter mode or project refs, or merge the final design-source packet
 - parallel implementation subagents must not overlap ownership of the same file, same generated asset path, or the same mutable state contract in one batch
 - any subagent touching module docs must be given the exact active module, expected artifact paths, and expected status delta
 - any subagent doing module document generation or implementation must preserve a real execution trace suitable for receipt validation
@@ -210,7 +211,7 @@ Track module-stage maturity in addition to `current_stage`.
 | Value | Meaning |
 | --- | --- |
 | `not_started` | The document does not exist yet. |
-| `implementation_final` | The module `impl.md` was generated at directly implementable granularity and is waiting for Stitch design-source freeze confirmation. |
+| `implementation_final` | The module `impl.md` was generated at directly implementable granularity immediately after the technical baseline and is now the upstream contract for downstream design-source and freeze work. |
 | `landed` | The document references the frozen design source packet and the landed status has been explicitly confirmed. |
 
 ### `design_source_status`

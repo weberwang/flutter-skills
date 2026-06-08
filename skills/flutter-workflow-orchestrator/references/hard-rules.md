@@ -10,13 +10,17 @@ Use this reference before applying any state/status promotion, freeze decision, 
 - Do not delegate workflow truth ownership to a subagent.
 - Do not use `flutter-prd-rd-writer` for detailed module design.
 - Do not confirm the final product design direction before the global visual design direction has first been brainstormed through `flutter-taste-router`.
-- Do not skip taste direction before Stitch design-source generation or executable module implementation document generation.
+- Do not skip executable module implementation document generation after the technical baseline and before downstream shared visual design, structured design-source generation, or module freeze.
+- Do not skip `DESIGN.md` output after final product design direction confirmation.
 - Do not confuse `platform_baseline` with a verified `platform_identifier`.
 - Do not skip `flutter-taste-router` textual normalization before any shared freeze or module freeze check.
 - Do not generate new static visuals before checking whether the target directories already contain usable page images.
-- Do not use effect images as the only design source when Stitch MCP is available; convert or validate them into a Stitch design-source packet first.
+- Do not use effect images as the only design source when a structured design-source adapter has been chosen; convert or validate them into the selected design-source packet first.
+- Do not enter structured design-source generation or validation unless the user has first chosen `design_source_adapter=stitch` or `design_source_adapter=pencil`.
+- Do not allow either Stitch or Pencil to restore pages with a different style direction, different theme system, different public shell, or different shared public component family from the approved shared design master packet.
 - Do not enter Stitch design-source generation or validation unless the user has first chosen `stitch_project_mode=new` or `stitch_project_mode=existing`.
 - Do not enter Stitch design-source generation or validation unless `stitch_project_id` is confirmed and frozen after the mode choice.
+- Do not enter Pencil design-source generation or validation unless the Pencil source reference is confirmed and frozen.
 - Do not run more than 6 Stitch page-design subagents in parallel.
 - Do not let a Stitch page-design subagent own more than one page in the same parallel batch.
 - Do not freeze a Stitch design-source packet until every in-scope page has a successful page-level Stitch receipt and the orchestrator has merged the receipts.
@@ -26,15 +30,14 @@ Use this reference before applying any state/status promotion, freeze decision, 
 - Do not freeze a Stitch design-source packet until it has been checked against the original effect image or approved visual comp.
 - Do not commit or document literal Stitch API keys.
 - Do not accept or generate dark-mode effect images as the default workflow reference set; the default effect-image baseline is light mode.
-- Do not let shared design freeze proceed without approved effect images.
-- Do not let `--auto` cross the representative effect-image confirmation gate.
-- Do not generate the remaining page-effect set before one representative effect image has been explicitly confirmed.
-- Do not enter global design freeze until every required page has an approved light-mode effect image.
+- Do not treat effect images as a default mandatory gate for shared design freeze. They are optional evidence unless the current revision path explicitly requires them.
+- Do not let `--auto` cross the representative effect-image confirmation gate when the optional effect-image branch is active.
+- Do not generate the remaining optional page-effect set before one representative effect image has been explicitly confirmed.
 - Do not send shared/global or module-stage effect-image generation requests without explicit style constraints once the design packet already defines them.
 - Do not let module-stage effect-image generation redefine palette, typography mood, component family, image treatment, or CTA posture after a shared/global direction has been approved.
-- Do not let shared freeze before executable module document generation claim that module pages or module-private components are frozen.
+- Do not let shared visual design, structured design-source generation, or shared freeze drift away from the executable module documents generated from the technical baseline.
 - Do not let `flutter-rd-module-splitter` emit non-executable split drafts that require a later refinement node.
-- Do not attempt module freeze before the module `impl.md` has implementation-final maturity and references the frozen Stitch design-source packet.
+- Do not attempt module freeze before the module `impl.md` has implementation-final maturity and references the frozen selected structured design-source packet.
 - Do not freeze a module for implementation while its high-fidelity visual contract is missing, vague, or deferred to later code polish.
 - Do not let code implementation begin before `technical_baseline_ready`, executable module `impl.md`, `module_design_frozen`, and `impl_rd_ready` exist for the module.
 - Do not let code implementation begin while `impl_status` is anything earlier than `implementation_final`.
@@ -43,7 +46,7 @@ Use this reference before applying any state/status promotion, freeze decision, 
 - Do not postpone `flutter-init` until every feature module is fully architecture-ready when the shared bootstrap-critical baseline is already sufficient to initialize the project.
 - Do not let `flutter-init` implement bootstrap code, feature pages, feature business flows, shared wiring, or module-specific behavior while initializing the project.
 - Do not treat `project_initialized` as proof that bootstrap code already exists; bootstrap is a separate stage that must land before feature-module implementation.
-- Do not mark `impl_status=landed` until the module `impl.md` references a confirmed frozen Stitch design-source packet.
+- Do not mark `impl_status=landed` until the module `impl.md` references a confirmed frozen selected structured design-source packet.
 - Do not start ordinary page-module implementation by fully building the data layer first when a minimum contract is enough to unblock the display layer.
 - Do not mark `code_status=landed` until code output exists and the landed status change has been explicitly confirmed.
 - Do not route around `flutter-design-freeze-gate` on implied approval.
@@ -59,11 +62,11 @@ Use this reference before applying any state/status promotion, freeze decision, 
 - Do not leave `next_skill` as a passive handoff recommendation after a local module milestone when `execution_mode=auto` and more target modules are still pending.
 - Do not continue `--auto` past executable module document generation when the selected active module, its module-index row, or its `impl.md` cannot be verified on disk.
 - Do not skip directory inspection and environment-variable checks before auto-generating static visual evidence in `--auto` mode.
-- Do not continue into shared/global freeze when `IMAGE_BASE_URL` or `IMAGE_API_KEY` is missing and approved effect images still do not exist.
-- Do not treat textual packets as a substitute for the frozen Stitch design-source packet during module freeze.
+- Do not treat missing image-generation credentials as a blocker for the whole workflow unless the optional effect-image branch is actually in scope for the current revision path.
+- Do not treat textual packets as a substitute for the frozen selected structured design-source packet during module freeze.
 - Do not generate new module real-device effect images during executable module document generation or module freeze by default; require explicit `--perviewer` opt-in.
 - Do not treat `--perviewer` as permission to redefine the approved shared/global style direction; it only enables module-stage effect-image evidence generation.
-- Do not require page-level Pen, `.pen`, Pencil MCP data, or `pen_status` in the default Flutter implementation workflow; Stitch is the default structured design-source adapter.
+- Do not require page-level Pen, `.pen`, Pencil MCP data, or `pen_status` unless the workflow has actually chosen the Pencil design-source branch.
 - Do not let implementation rewrite design intent. Design changes after freeze must return to design control.
 - Do not route directly from `architecture_ready` to project-local `flutter-dev`; new project scaffolding must pass through `flutter-init`.
 - Do not let delegated module document generation or code landing bypass `@superpowers` when real execution ownership is required.

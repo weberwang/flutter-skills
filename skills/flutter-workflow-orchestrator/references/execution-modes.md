@@ -13,23 +13,24 @@ Use this reference when `flutter-workflow-orchestrator` is invoked with `--auto`
 
 This skill supports an `--auto` execution parameter.
 
-When `--auto` is present, the orchestrator must keep routing and applying workflow transitions without stopping for any downstream confirmation gate, as long as the next move is deterministic and no blocker is hit. The representative effect-image confirmation gate is an explicit exception and must stop `--auto`.
+When `--auto` is present, the orchestrator must keep routing and applying workflow transitions without stopping for any downstream confirmation gate, as long as the next move is deterministic and no blocker is hit. If optional representative effect-image generation is active in the current run, that confirmation gate is an explicit exception and must stop `--auto`.
 
 `--auto` is a full-module advancement mode, not a current-module recommendation mode. It must keep working through the remaining target modules until every dependency-safe module has been advanced to the implementation boundary and no further pre-implementation move is available.
 
 The `--auto` goal is:
 
 - finish the global technical baseline first
-- finish shared taste direction and shared freeze preparation
+- generate module boundaries and executable module `impl.md` documents in one pass immediately after the technical baseline
+- finish shared taste direction and shared freeze preparation from the PRD, technical baseline, and executable module `impl.md` contracts
 - brainstorm the global visual design direction, then stop if final product design direction confirmation from the user is still missing
+- support two confirmation branches after global visual design: direct human confirmation, or subagent-generated recommendation plus human confirmation
+- write the confirmed direction into `DESIGN.md`
 - run `flutter-taste-router` textual normalization before every shared freeze or module freeze decision
-- confirm the final product design direction with the user after the visual brainstorming step and before generating effect images
-- generate one representative light-mode effect image before global design freeze
-- stop for user confirmation or revision feedback on that representative image
-- only after confirmation, generate the remaining all-page light-mode effect-image set
-- run Stitch page design through page-scoped subagents with at most 6 parallel page designs, then merge page receipts before freeze
-- generate module boundaries and executable module `impl.md` documents in one pass
-- treat every generated module `impl.md` as implementation-final enough to enter module design freeze; separate refinement documents are not required
+- confirm the final product design direction with the user after the visual brainstorming step and before structured design-source work
+- generate optional effect images only when they are explicitly requested or when downstream freeze asks for additional visual evidence
+- if optional effect images are in scope, generate one representative light-mode effect image first and stop for user confirmation or revision feedback on that representative image before generating any additional optional page images
+- route into either Stitch or Pencil structured design-source generation, then merge page receipts before freeze
+- treat every generated module `impl.md` as implementation-final enough to drive downstream design-source work and later enter module design freeze; separate refinement documents are not required
 - freeze each module's Stitch design-source packet
 - treat each module's high-fidelity visual contract as the first acceptance criterion for module design freeze
 - advance each module to implementation-ready document maturity
@@ -46,21 +47,21 @@ The `--auto` goal is:
 - stop just because one active module reached a local stable milestone such as `implementation_final`, `module_design_frozen`, `impl_rd_ready`, or `architecture_ready`
 - leave a module-complete handoff behind as a mere `next_skill` suggestion when other target modules are still not implementation-ready
 
-When `--auto` reaches shared freeze and all-page static visual evidence is still missing after the `flutter-taste-router` text packet has been normalized, it must first verify that the global visual design direction has been brainstormed and that the final product design direction was explicitly confirmed from that brainstorm. If confirmation is missing, stop and request confirmation instead of generating images. If confirmation exists and both `IMAGE_BASE_URL` and `IMAGE_API_KEY` exist, automatically call `gpt-image-2-generator` to produce exactly one representative light-mode page effect image first. After that image is generated, stop and wait for explicit user confirmation or revision feedback before generating the remaining page effect images. If either environment variable is missing, stop and record a blocker because shared freeze requires approved all-page effect images. For module freeze, the frozen Stitch design-source packet remains required.
+When `--auto` reaches shared freeze, it must first verify that executable module `impl.md` documents already exist, that the global visual design direction has been brainstormed from those module contracts, that the final product design direction was explicitly confirmed from that brainstorm, and that `DESIGN.md` exists. If confirmation is missing, stop and request confirmation instead of advancing. If effect-image evidence is not required for the active path, `--auto` may continue directly into the chosen structured design-source branch without generating images. If optional effect-image generation is explicitly in scope and both `IMAGE_BASE_URL` and `IMAGE_API_KEY` exist, automatically call `gpt-image-2-generator` to produce exactly one representative light-mode page effect image first. After that image is generated, stop and wait for explicit user confirmation or revision feedback before generating any remaining optional page effect images. If optional effect-image generation is in scope but either environment variable is missing, stop and record a blocker for that branch. For module freeze, the frozen selected structured design-source packet remains required.
 
-The representative effect image should be treated as:
+The representative effect image, when generated, should be treated as:
 
 - the first approval gate for the shared visual system
 - the page that best represents overall hierarchy, component family, palette, and density
 - a hard prerequisite before remaining page effect images may be generated
 
-After confirmation, the remaining generated page effect images should be treated as:
+After confirmation, any remaining generated page effect images should be treated as:
 
 - shared freeze input after the representative direction is locked
 - optional module freeze input when a module-specific screen pack is still needed
 - page-named evidence files that can be referenced directly by downstream implementation
 
-The auto-generated effect images do not remove the need for freeze-quality evaluation; they only satisfy the missing static-visual prerequisite.
+Auto-generated effect images do not remove the need for freeze-quality evaluation; they only provide optional supplemental static visual evidence.
 
 ## `--perviewer`
 
@@ -80,15 +81,15 @@ With `--perviewer`:
 - generated module-stage effect images must inherit the approved shared/global style system instead of opening a new visual direction
 - the workflow must record that opt-in decision and any generated global effect-image paths into `global-design-guidelines.md`
 
-`--perviewer` does not weaken the shared/global freeze policy. Shared/global freeze must still use the complete all-page light-mode effect-image set generated after the brainstormed global visual direction has been confirmed with the user.
+`--perviewer` does not weaken the shared/global freeze policy. Shared/global freeze still follows the confirmed `DESIGN.md` plus the selected structured design-source packet; any generated effect-image set remains optional supplemental evidence.
 
 ## Auto Loop Contract
 
-After executable module documents are generated, `--auto` must behave as a loop:
+After executable module documents are generated and the workflow enters downstream freeze preparation, `--auto` must behave as a loop:
 
 1. Select the next dependency-safe target module that is not yet at the implementation boundary.
 2. Set that module as `current_module` and update the workflow record immediately.
-3. Verify that the selected module really exists in the module index, that its executable `impl.md` exists on disk, and that its frozen Stitch design-source packet is available before implementation readiness. If any required artifact is missing, record a real blocker and stop auto-advancement instead of inventing the module state.
+3. Verify that the selected module really exists in the module index, that its executable `impl.md` exists on disk, and that its frozen selected structured design-source packet is available before implementation readiness. If any required artifact is missing, record a real blocker and stop auto-advancement instead of inventing the module state.
 4. Record why that module is dependency-safe right now before module freeze begins.
 5. If the module `impl.md` is not executable enough for implementation readiness, route back to the combined module document generation step for a scope-matched regeneration and stop instead of opening a separate refinement stage.
 6. If combined module document generation did not truly execute, mark that step as `not_executed` or `未执行` in the workflow record and any project-level execution trace, then stop instead of promoting later stages.
