@@ -26,8 +26,8 @@ This skill defines one active module's refinement target per call. When `flutter
 - Known non-goals and release constraints.
 - When refining an active module:
   - active module name
-  - existing `docs/rd/modules/<module>/<module>.ui-ux.md`
-  - existing `docs/rd/modules/<module>/<module>.impl.md`
+  - existing `docs/project/modules/<module>/<module>.ui-ux.md`
+  - existing `docs/project/modules/<module>/<module>.impl.md`
   - latest shared freeze artifacts when they exist
   - latest taste direction packet or equivalent taste constraints
   - current workflow record state for that module
@@ -73,8 +73,8 @@ Do not default to a vague technical module name like `main`. Prefer a responsibi
    - For each module, write a module detail card covering user job, page/state scope, non-page-level component scope, domain responsibility, application state, infrastructure/API boundary, analytics, tests, release value, and implementation dependency notes.
    - Classify the modules into implementation stages or waves that show which modules can run in parallel and which modules must wait for upstream completion.
    - Assign document paths:
-      - `docs/rd/modules/<module>/<module>.ui-ux.md`
-      - `docs/rd/modules/<module>/<module>.impl.md`
+      - `docs/project/modules/<module>/<module>.ui-ux.md`
+      - `docs/project/modules/<module>/<module>.impl.md`
    - Write both docs as `split_draft`, not implementation-final.
    - Mark each module with its initial workflow state, normally `modules_split`, so `flutter-workflow-orchestrator` can write that state into the global workflow record.
 9. In implementation refinement contract mode:
@@ -85,8 +85,8 @@ Do not default to a vague technical module name like `main`. Prefer a responsibi
    - Incorporate taste direction into page hierarchy, typography intent, contrast posture, CTA priority, spacing rhythm, motion role, and anti-template rules.
    - In the default workflow, treat this as the document contract that `@superpowers` must explicitly execute rather than a reason to bypass `@superpowers`.
 10. Keep global workflow state under orchestrator ownership; stage tracking belongs there, not inside per-module workflow notes.
-11. Generate or update `docs/rd/00-module-index.md` when the user asks for files to be written.
-12. Treat `docs/rd/00-module-index.md` as the canonical split-stage coordination index:
+11. Generate or update `docs/project/00-module-index.md` when the user asks for files to be written.
+12. Treat `docs/project/00-module-index.md` as the canonical split-stage coordination index:
    - Include a module table with module name, responsibility summary, paired doc paths, `depends_on`, `unblocks`, `parallel_group`, recommended implementation stage, and blocking assumptions.
    - Include a parallel execution section that groups modules by stage or wave and explicitly states which modules can be implemented in the same stage.
    - Include dependency notes that explain why a module must precede another module when the dependency is not obvious from the table alone.
@@ -98,7 +98,7 @@ Do not default to a vague technical module name like `main`. Prefer a responsibi
 
 ## Module Index Contract
 
-When `docs/rd/00-module-index.md` is written or updated, it must be useful for both planning and execution handoff.
+When `docs/project/00-module-index.md` is written or updated, it must be useful for both planning and execution handoff.
 
 At minimum, the index must contain:
 
@@ -238,7 +238,7 @@ In implementation refinement contract mode, expand the same document to directly
 - Do not output module names only. Each module needs enough detail for its paired UI/UX and implementation RD documents.
 - Do not merge UI/UX RD and implementation RD into one document.
 - Do not let implementation RD exist without a reference to the paired UI/UX RD.
-- Do not hide implementation sequencing only inside prose. Dependency and parallel-execution decisions must be visible in `docs/rd/00-module-index.md` and in the structured output.
+- Do not hide implementation sequencing only inside prose. Dependency and parallel-execution decisions must be visible in `docs/project/00-module-index.md` and in the structured output.
 - Do not mark two modules as safe to implement in parallel when they still share an unresolved backend contract, shared route shell, shared permission owner, or unfrozen shared component dependency.
 - Do not guess at safe parallelism when critical dependencies are unknown; record the uncertainty in `open_questions` and mark the parallel decision as conditional.
 - Do not treat the first split output as implementation-ready.

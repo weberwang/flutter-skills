@@ -39,11 +39,11 @@ When this skill is called from the Flutter workflow:
 1. Treat the target as app-page visual evidence, not a generic collage.
 2. Generate one file per page or screen and name the output file after that page or screen.
 3. Use light mode as the default visual baseline for all workflow previews unless the upstream request explicitly overrides that requirement.
-4. Save shared or global reference images under `docs/rd/`.
-5. Save module-specific page images under `docs/rd/modules/<module>/`.
+4. Save shared or global reference images under `docs/project/`.
+5. Save module-specific page images under `docs/project/modules/<module>/`.
 6. If one generated module page is selected as the global reference, copy that same image into both locations:
-   - `docs/rd/<page-name>.<ext>`
-   - `docs/rd/modules/<module>/<page-name>.<ext>`
+   - `docs/project/<page-name>.<ext>`
+   - `docs/project/modules/<module>/<page-name>.<ext>`
 7. If `IMAGE_BASE_URL` or `IMAGE_API_KEY` is missing, do not send a request. Return control so the upstream workflow can continue without generated images.
 8. Prefer prompts that describe a concrete app page, state, and information hierarchy. Avoid mood-board phrasing when the output will drive implementation.
 9. When the request is for shared/global design freeze, generate no more than 3 preview images in total before the workflow chooses the approved direction.
@@ -104,7 +104,7 @@ rtk python skills/gpt-image-2-generator/scripts/image_gen.py \
   --style "High-fidelity mobile product preview" \
   --composition "One app page per file, front-facing, readable hierarchy" \
   --constraints "No collage, no second screen, preserve realistic mobile spacing" \
-  --out docs/rd/modules/rewards/rewards-home.png
+  --out docs/project/modules/rewards/rewards-home.png
 ```
 
 ## Environment Rules

@@ -38,7 +38,7 @@ flowchart LR
 2. 全局视觉设计必须先头脑风暴，再确认最终方向，然后才允许出效果图。
 3. 出效果图之前必须先同意并冻结统一公共壳，至少包括 `app-shell` / `root-shell`、导航宿主、顶层 tabs/header/footer 和 shell 级 overlay 语言。
 4. 效果图采用代表页优先：先出 1 张代表页，等你确认后再生成其余页面。
-5. 效果图统一存放在全局目录 `docs/rd/`，不再要求落到模块目录。
+5. 效果图统一存放在全局目录 `docs/project/`，不再要求落到模块目录。
 6. `project_initialized` 只表示创建目录骨架和项目内 `skills/flutter-dev/`，不包含 bootstrap 代码。
 7. `bootstrap_code_ready` 单独成阶段，负责 app 入口、app shell、共享启动 wiring、根路由宿主等全局公共代码。
 8. `implementing` 阶段必须先通过 `@superpowers` 的 `Spec`，再通过 `Plan`，之后默认按活动模块串行实现。

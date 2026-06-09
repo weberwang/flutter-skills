@@ -24,6 +24,8 @@ Do not treat the artifact as a stable bundled skill resource. If persistence is 
 
 Create parent directories only for the current run when persistence is actually enabled.
 
+Project-level durable workflow artifacts default to `docs/project/` unless a downstream contract or the user explicitly requires another path. Runtime workflow state remains outside that tree.
+
 ## Purpose
 
 When persisted, this runtime artifact is the single stable source for project workflow state for that run. It should let any downstream agent answer:
@@ -300,7 +302,7 @@ Track project-level artifact paths when known, such as:
 - `light-theme-freeze.yaml`
 - `dark-theme-freeze.yaml`
 - shared freeze evidence or freeze decision
-- shared global effect-image directory under `docs/rd/`
+- shared global effect-image directory under `docs/project/`
 - Stitch design-source packet path and `modelId`
 - frozen `stitch_project_mode`
 - frozen `stitch_project_id`
@@ -321,7 +323,7 @@ Track project-level artifact paths when known, such as:
 - project-level `@superpowers` execution trace when one exists
 - any approved generated bitmap assets that implementation must consume
 
-When the chosen global effect image originates from a module page, keep only the global effect-image path under `docs/rd/`; do not require or index a copied module-local path.
+When the chosen global effect image originates from a module page, keep only the global effect-image path under `docs/project/`; do not require or index a copied module-local path.
 
 If the shared/public component freeze is tracked in a dedicated artifact, index it here too.
 

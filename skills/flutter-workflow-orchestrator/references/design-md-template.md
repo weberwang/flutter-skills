@@ -126,7 +126,7 @@ If you add these extension sections, place them after `## Components` and before
 ## Writing Rules
 
 - Keep the file self-contained.
-- Do not say "see `docs/rd/...`" or "follow the theme file".
+- Do not say "see `docs/project/...`" or "follow the theme file".
 - Do not leave placeholder text such as `TODO`, `TBD`, or angle-bracket markers in the final file.
 - Use valid YAML values for token fields.
 - Use token references like `{colors.primary}` when a component is intentionally mapped to another token.

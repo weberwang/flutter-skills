@@ -3,6 +3,7 @@
 Use this reference before applying any state/status promotion, freeze decision, implementation handoff, visual-evidence decision, or downstream delegation.
 
 - Do not split implementation modules from a raw PRD before a global technical baseline and package stack exist.
+- Do not write durable project workflow artifacts outside `docs/project/` unless the user or an explicit downstream contract requires a different path.
 - Do not route raw requirements, a one-line feature idea, or an ambiguity-heavy request directly into technical baseline, taste direction, executable module document generation, architecture, or implementation before the requirements-to-PRD flow has resolved decision-blocking questions and produced a PRD artifact.
 - Do not treat assumptions as resolved requirements unless the PRD records them explicitly with rationale and risk.
 - Do not treat a minimal summary note as workflow-valid PRD readiness unless it passes the PRD completeness gate.

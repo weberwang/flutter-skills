@@ -65,8 +65,8 @@ Optional:
   - freeze-ready design packet
   - redesign of an existing app
 - Optional target output directories for shared and module-level visual evidence. If not provided, default to:
-  - shared/global: `docs/rd/`
-  - module-local: `docs/rd/modules/<module>/`
+  - shared/global: `docs/project/`
+  - module-local: `docs/project/modules/<module>/`
 
 ## Workflow
 
@@ -86,7 +86,7 @@ Optional:
    - if the workflow is targeting desktop, browser, or a specific emulator/device surface, do not leave `platform_identifier` implicit
 7. Before a freeze decision, inspect the matching shared or module directory for existing static page images that already satisfy the needed evidence.
 8. If shared/global freeze still lacks static evidence, check `IMAGE_BASE_URL` and `IMAGE_API_KEY`.
-9. If both environment variables exist, call `gpt-image-2-generator` to generate light-mode page-specific app preview images. For shared/global freeze, generate no more than 3 images total before selecting the approved direction. Save each file with its page or screen name, and when one module page is chosen as the global reference, save that selected preview under `docs/rd/` and copy the same file into the related module directory.
+9. If both environment variables exist, call `gpt-image-2-generator` to generate light-mode page-specific app preview images. For shared/global freeze, generate no more than 3 images total before selecting the approved direction. Save each file with its page or screen name, and when one module page is chosen as the global reference, save that selected preview under `docs/project/` and copy the same file into the related module directory.
 10. If shared/global freeze still lacks static evidence and either environment variable is missing, stop and return a blocker instead of pretending the packet is ready for global freeze.
 11. For module freeze, if image generation credentials are missing, continue with the textual design packet only when the packet is already explicit enough.
 12. For module refinement or module freeze preparation, do not generate new module previews by default. Only generate them when the current workflow explicitly enables `--preview`.
