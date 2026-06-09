@@ -1,19 +1,23 @@
 ---
 name: flutter-taste-router
-description: Use when a Flutter project needs a taste-first shared design direction, mobile design packet, or design-freeze input derived from the taste-skill family. This skill selects the right taste-skill, consolidates its output, and returns a freeze-ready design packet for downstream Flutter workflow skills.
+description: Use when a Flutter workflow needs a freeze-ready design packet, textual normalization before shared or module freeze, or Flutter-facing consolidation of already selected direction and visual evidence.
 ---
 
 # Flutter Taste Router
 
 ## Overview
 
-This skill is the taste-first routing and consolidation layer for the Flutter workflow.
+This skill is the downstream design-packet routing and consolidation layer for the Flutter workflow.
 
 It does not replace the taste-skill family. It decides which taste-skill should lead the current design task, then normalizes the result into one Flutter-facing design packet that downstream skills can freeze, split, refine, and implement against.
+
+In the default orchestrated workflow, this skill is no longer the primary owner of shared/global direction exploration. `@product-design` owns product-surface direction, and the pre-direction `Creative Production` branch may contribute optional commercial visual evidence. `flutter-taste-router` stays in the workflow as the closer: it standardizes approved direction, visual evidence, platform constraints, and freeze expectations into one freeze-ready Flutter packet.
 
 In the default Flutter workflow, this textual normalization pass must happen before every global design freeze and every module design freeze, even when static images already exist.
 
 For module freeze preparation, the normalized packet must expose the high-fidelity visual contract as the first freeze concern. Do not leave visual fidelity as an implementation polish note.
+
+When this skill is used directly to help compare shared/global directions before the shared freeze, it should not jump straight from vague taste exploration to a single hidden answer. In manual mode, it should recommend a small set of concrete style directions and identify one primary recommendation for user confirmation. In `--auto`, if the style recommendation set is already strong enough and no blocker remains, the workflow may adopt the primary recommendation directly without pausing for manual confirmation.
 
 Use this skill instead of calling `mobile-ui-design-coach` directly in the default workflow.
 
@@ -67,26 +71,28 @@ Optional:
 ## Workflow
 
 1. Identify the dominant design job:
-   - shared taste direction
+   - freeze-packet normalization from an approved direction
+   - shared taste repair or shared direction comparison
    - mobile image exploration
    - brand-first direction
    - redesign of an existing surface
 2. Choose the primary taste skill.
 3. Apply that skill's direction rules without letting multiple taste skills compete for authority in the same pass.
-4. Normalize the result into one Flutter-facing design packet.
-5. Validate that `platform_baseline` and `platform_identifier` are not being conflated:
+4. For shared/global direction work in manual mode, produce 2-3 style recommendations with one explicit primary recommendation before freeze.
+5. Normalize the result into one Flutter-facing design packet.
+6. Validate that `platform_baseline` and `platform_identifier` are not being conflated:
    - `platform_baseline` is the design-behavior baseline
    - `platform_identifier` is the actual validation or delivery surface
    - if the workflow is targeting desktop, browser, or a specific emulator/device surface, do not leave `platform_identifier` implicit
-6. Before a freeze decision, inspect the matching shared or module directory for existing static page images that already satisfy the needed evidence.
-7. If shared/global freeze still lacks static evidence, check `IMAGE_BASE_URL` and `IMAGE_API_KEY`.
-8. If both environment variables exist, call `gpt-image-2-generator` to generate light-mode page-specific app preview images. For shared/global freeze, generate no more than 3 images total before selecting the approved direction. Save each file with its page or screen name, and when one module page is chosen as the global reference, save that selected preview under `docs/rd/` and copy the same file into the related module directory.
-9. If shared/global freeze still lacks static evidence and either environment variable is missing, stop and return a blocker instead of pretending the packet is ready for global freeze.
-10. For module freeze, if image generation credentials are missing, continue with the textual design packet only when the packet is already explicit enough.
-11. For module refinement or module freeze preparation, do not generate new module previews by default. Only generate them when the current workflow explicitly enables `--preview`.
-12. During module freeze preparation, include a `high_fidelity_visual_contract` that locks hierarchy, spacing, typography, layer depth, image or texture treatment, component states, fidelity-critical regions, and any approved Flutterization or bitmap fallback.
-13. If `--preview` is active for module-stage preview generation, record that opt-in plus the generated module preview paths into `global-design-guidelines.md` instead of leaving the policy implicit.
-14. Whenever the workflow calls image generation, write the design packet's style constraints into the generation input explicitly instead of relying on loose reference behavior. At minimum, the generation input must carry forward:
+7. Before a freeze decision, inspect the matching shared or module directory for existing static page images that already satisfy the needed evidence.
+8. If shared/global freeze still lacks static evidence, check `IMAGE_BASE_URL` and `IMAGE_API_KEY`.
+9. If both environment variables exist, call `gpt-image-2-generator` to generate light-mode page-specific app preview images. For shared/global freeze, generate no more than 3 images total before selecting the approved direction. Save each file with its page or screen name, and when one module page is chosen as the global reference, save that selected preview under `docs/rd/` and copy the same file into the related module directory.
+10. If shared/global freeze still lacks static evidence and either environment variable is missing, stop and return a blocker instead of pretending the packet is ready for global freeze.
+11. For module freeze, if image generation credentials are missing, continue with the textual design packet only when the packet is already explicit enough.
+12. For module refinement or module freeze preparation, do not generate new module previews by default. Only generate them when the current workflow explicitly enables `--preview`.
+13. During module freeze preparation, include a `high_fidelity_visual_contract` that locks hierarchy, spacing, typography, layer depth, image or texture treatment, component states, fidelity-critical regions, and any approved Flutterization or bitmap fallback.
+14. If `--preview` is active for module-stage preview generation, record that opt-in plus the generated module preview paths into `global-design-guidelines.md` instead of leaving the policy implicit.
+15. Whenever the workflow calls image generation, write the design packet's style constraints into the generation input explicitly instead of relying on loose reference behavior. At minimum, the generation input must carry forward:
    - `art_direction`
    - `taste_constraints`
    - `visual_system`
@@ -95,12 +101,13 @@ Optional:
    - typography mood
    - component family cues
    - image treatment rules when they already exist
-15. If module-level previews are generated after a global direction already exists, those module previews must inherit the global style system instead of redefining a new visual world.
-16. If static visual evidence is approved and should become reusable frozen global guidance, route the result into `design-preview-to-global-guidelines`.
-17. If the packet is still too weak for freeze, return one scope-matched revision plan instead of pretending it is ready.
+16. If module-level previews are generated after a global direction already exists, those module previews must inherit the global style system instead of redefining a new visual world.
+17. If static visual evidence is approved and should become reusable frozen global guidance, route the result into `design-preview-to-global-guidelines`.
+18. If the packet is still too weak for freeze, return one scope-matched revision plan instead of pretending it is ready.
 
 When `--auto` is active:
 
+- if shared/global direction work produced style recommendations with one clear primary recommendation, auto-adopt that primary recommendation instead of waiting for manual confirmation
 - if shared freeze requires static visual evidence and it is missing, this skill should first inspect the target directories, then call `gpt-image-2-generator` only when both image environment variables exist, generate no more than 3 shared app preview images automatically, and fold those images into `visual_evidence`
 - if module freeze is being prepared, this skill may determine UI/UX directly from the design packet without static images, as long as hierarchy, CTA posture, state scope, and component freeze are explicit enough
 - if module freeze is being prepared, the packet must include `high_fidelity_visual_contract`; if that contract cannot be made explicit, return a blocker or revision plan instead of freeze readiness
@@ -123,6 +130,8 @@ The consolidated design packet is the default upstream source for:
 
 Every successful run must return one packet with at least:
 
+- `style_recommendations`
+- `recommended_style_id`
 - `design_brief`
 - `platform_baseline`
 - `platform_identifier`
@@ -139,6 +148,14 @@ Every successful run must return one packet with at least:
 - `visual_evidence`
 - `acceptance_gates`
 - `style_generation_constraints`
+
+### Style recommendation expectations
+
+- `style_recommendations`
+  Must contain 2-3 concrete direction options in manual shared/global direction mode. Each option should express style posture, typography feel, color and depth logic, CTA tone, and when it fits.
+
+- `recommended_style_id`
+  The single style option the skill believes is the strongest default. In `--auto`, this becomes the style that the workflow adopts unless another blocker exists.
 
 ### Minimum meanings
 
@@ -166,6 +183,8 @@ Every successful run must return one packet with at least:
 ## Hard Rules
 
 - Do not let multiple taste skills define competing visual directions in the same pass.
+- Do not use this skill as the primary owner of final product-direction selection inside the default orchestrator flow.
+- Do not enter shared/global freeze from broad taste exploration without first surfacing a small style recommendation set in manual mode, unless the user already approved a concrete direction.
 - Do not confuse `platform_baseline` with `platform_identifier`.
 - Do not relax the default iOS HIG mobile baseline unless the user explicitly approves another platform baseline.
 - Do not leave desktop, browser, or emulator-specific validation targets implicit once the workflow is entering freeze or implementation preparation.
@@ -188,7 +207,7 @@ Every successful run must return one packet with at least:
 - Do not generate generic mood boards or unnamed collages when the workflow needs app-page evidence; generate page-specific app previews named after the corresponding page.
 - In `--auto` mode, do not stop for missing shared static visuals when `gpt-image-2-generator` can generate them; generate the missing page previews and continue.
 - In `--auto` mode, allow module freeze to proceed without static images when the packet is already explicit enough.
-- Do not generate new module-stage previews unless `--perviewer` is explicitly active for the current workflow run.
+- Do not generate new module-stage previews unless `--preview` is explicitly active for the current workflow run.
 
 ## Output Contract
 
@@ -204,6 +223,8 @@ Return:
 ## Pressure Scenarios
 
 - User asks for mobile app direction with no visuals yet: prefer `imagegen-frontend-mobile`, then normalize into the packet.
+- The workflow already has a confirmed Product Design direction plus optional Creative Production evidence, but freeze wording is still inconsistent: keep the approved direction fixed and normalize it into one Flutter-facing packet instead of reopening exploration.
+- User asks "先推荐几种风格我确认": return 2-3 style recommendations and mark one as the primary recommendation before freeze.
 - `--auto` mode reaches shared freeze with no static mobile previews: inspect the target directories, then call `gpt-image-2-generator` only when both image environment variables exist, generate no more than 3 shared page app preview images, and normalize them into the packet. If credentials are missing, block shared freeze instead of continuing.
 - `--auto` mode reaches module freeze with no static mobile previews: determine UI/UX from the consolidated packet first; generate images only if the packet is still too ambiguous to freeze.
 - Module freeze packet says "make it high fidelity during implementation": return a blocker or revision plan; high-fidelity visual fidelity must be explicit before design freeze.

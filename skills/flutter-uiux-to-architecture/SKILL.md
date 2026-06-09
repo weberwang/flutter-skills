@@ -11,6 +11,8 @@ Turn frozen UI/UX design-source artifacts into a Flutter-facing implementation a
 
 It ends at architecture and implementation guidance. It does not write page code and does not reopen design decisions.
 
+Module architecture in this workflow must assume that the frozen module design already considered the real target platform and that premium/high-fidelity quality is a non-negotiable implementation input, not an optional polish pass.
+
 In the default workflow, this skill also decides whether a visual should be implemented natively in Flutter or produced as a project bitmap asset for later consumption.
 
 It must not treat preview images as the only source of truth for concrete Flutter implementation choices. Preview images provide visual structure clues, but final Flutter decisions must combine preview evidence with `ui-ux.md`, `impl.md`, state semantics, and architecture constraints.
@@ -53,6 +55,7 @@ The contract must identify:
 2. Verify the paired UI/UX and implementation RD are no longer `split_draft`.
 3. Verify the design-source packet references taste constraints, visual evidence, frozen theme values, component freeze decisions, and state matrix.
 4. Verify `platform_identifier` is explicit enough for downstream architecture and validation. Do not proceed into implementation-facing architecture with only a behavior baseline like `ios_hig` when the real target surface is Android emulator, Windows desktop, or Web browser.
+4.1 Verify that the frozen module design packet already considered platform-specific behavior that materially affects implementation: safe areas, touch targets, hover/focus, back navigation, density, gesture discoverability, desktop or web pointer expectations, and motion posture.
 5. Verify the display evidence pack is complete enough for fidelity-critical regions. If the page contains dense, branded, layered, scroll-reactive, or overlay-heavy areas and only a single broad preview exists, return a blocker instead of allowing image-only guessing.
 6. Extract Flutter theme roles from the global guideline and theme files without recalculating their meaning.
 7. Map typography, spacing, radius, color, elevation, icon posture, motion, and CTA emphasis into maintainable Flutter token categories.
@@ -84,6 +87,7 @@ The contract must identify:
    - `must_not_flutterize`: `yes` or `no`
 14. Classify each visual decision as `preserve_faithfully`, `flutterize`, or `simplify`, and explain the implementation reason.
 15. Add taste implementation guardrails for presentation code: hierarchy, spacing rhythm, typography ladder, contrast, CTA salience, anti-template composition, and motion restraint.
+15.1 Add premium implementation guardrails for presentation code: preserve the high-confidence, high-fidelity feel of the frozen design through disciplined spacing, typography precision, restrained depth, platform-appropriate interaction feedback, and refusal to flatten fidelity-critical regions for convenience.
 16. Produce an architecture output pack that `flutter-init`, project-local `flutter-dev`, and `flutter-project-guardrails` can consume directly.
 
 ## Hard Rules
@@ -92,12 +96,14 @@ The contract must identify:
 - Do not use taste guidance to override frozen UI/UX intent.
 - Do not treat `platform_baseline` as proof of a verified target validation surface.
 - Do not derive a desktop, browser, simulator, or device target from guesswork when `platform_identifier` is still missing.
+- Do not downgrade a frozen premium design into a generic platform skin during architecture mapping. Platform adaptation must preserve the intended quality bar rather than dilute it.
 - Do not proceed as if the display contract is high-fidelity when the evidence pack cannot actually support fidelity-critical regions.
 - Do not invent theme values when `light-theme-freeze.yaml` or `dark-theme-freeze.yaml` exists; map them into Flutter instead.
 - Do not let module-scoped tokens override global token names, global theme roles, or cross-module component semantics.
 - Do not promote a module-scoped token into the global theme unless the workflow returns to shared design-source control and freezes that global change explicitly.
 - Do not treat visual evidence as more authoritative than the confirmed design-source packet when they conflict.
 - Do not silently fill missing detail with tasteful guesses when the visual region is fidelity-critical.
+- Do not treat premium quality as decorative extras that can be deferred after architecture. If the premium or high-fidelity requirement is not implementable with current evidence, return a blocker.
 - Do not decide scroll, list, sticky, overlay, or relative-layout behavior from preview images alone when the UI/UX or implementation docs define stronger semantics.
 - Do not force every design effect into native Flutter code when a bitmap asset is the more faithful and maintainable choice.
 - Do not choose `$imagegen` for simple visuals that Flutter can reproduce cleanly with native code.

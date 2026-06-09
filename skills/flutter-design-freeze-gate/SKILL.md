@@ -16,7 +16,7 @@ This gate has two different responsibilities:
 
 It validates explicit design approval, state coverage, immutable constraints, and the presence of required freeze artifacts. It does not create the design or rebuild it in Pencil. The default workflow no longer requires `.pen` or Pencil MCP data.
 
-For module implementation handoff, high-fidelity visual fidelity is the first freeze priority. The gate must evaluate the module's visual contract before secondary implementation-readiness concerns: hierarchy, spacing, typography, layer depth, image or texture treatment, component states, fidelity-critical regions, and any approved Flutterization or bitmap fallback.
+For module implementation handoff, high-fidelity visual fidelity is the first freeze priority. The gate must evaluate the module's visual contract before secondary implementation-readiness concerns: hierarchy, spacing, typography, layer depth, image or texture treatment, component states, fidelity-critical regions, platform-specific interaction and layout expectations, and any approved Flutterization or bitmap fallback.
 
 A successful module freeze decision is only a local gate result. In `flutter-workflow-orchestrator --auto`, it must be consumed as one step inside the broader all-module advancement loop, not as a reason to stop the run.
 
@@ -30,6 +30,7 @@ A successful module freeze decision is only a local gate result. In `flutter-wor
 - Paired UI/UX RD path when the target is module-specific.
 - Consolidated design packet from `flutter-taste-router` when the target is module-specific.
 - High-fidelity visual contract when the target is module-specific, including locked hierarchy, spacing, typography, layer depth, state coverage, fidelity-critical region handling, and approved asset fallback or Flutterization decisions.
+- Explicit target `platform_identifier` or a freeze-blocking note that it is still missing. Module design must not freeze against a vague "mobile" or "desktop" label when concrete platform behavior affects layout, navigation, touch targets, hover, density, or motion.
 - When static previews are the frozen source, artifacts from `design-preview-to-global-guidelines`.
 - Preview decision when previews were generated.
 - State matrix and acceptance gates.
@@ -74,6 +75,7 @@ Approve `module_impl_prep` only when all items are present:
   - the freeze-facing visual draft, preview pack, or approved screenshot evidence is complete enough that hierarchy, task guidance, typography, contrast, CTA clarity, and state scope can be judged directly from the design package
   - or the consolidated design packet from `flutter-taste-router` is explicit enough that the module UI/UX can be judged and frozen without static images
 - High-fidelity visual contract is evaluated first and is either accepted for implementation or explicitly reduced by design-source control. The accepted contract must cover hierarchy, spacing, typography, layer depth, image or texture treatment, component states, fidelity-critical regions, and approved Flutterization or bitmap fallback.
+- The module design packet makes the target platform feel native enough for that validation surface while still preserving a premium, high-confidence visual standard. "Premium" here means high-quality hierarchy, spacing rhythm, typography control, contrast discipline, CTA dominance, depth restraint, and state consistency, not decorative styling alone.
 - Module-private component freeze exists for repeated building blocks inside that module, including frozen states, variant boundaries, immutable parts, and allowed adjustments.
 - State matrix: ideal, empty, loading, error, permission, partial data, disabled, success, locked or premium when relevant.
 - Immutable items that code may not change.
@@ -98,7 +100,9 @@ Use these outcomes:
 - Do not let a visually complete draft skip direct freeze-quality evaluation before freeze.
 - Do not evaluate secondary architecture or implementation handoff readiness before evaluating high-fidelity visual fidelity for module implementation.
 - Do not freeze a module when high-fidelity visual fidelity is vague, missing, or deferred to implementation polish.
+- Do not freeze a module when the design still ignores the concrete validation platform's navigation rules, safe areas, input expectations, density posture, or feedback model.
 - Do not let strong decorative polish mask unclear information hierarchy or weak task guidance.
+- Do not treat "premium enough" as a subjective vibe check. Premium quality must survive realistic content, target-platform constraints, and critical states without losing clarity.
 - Do not allow a draft with unresolved hierarchy, task guidance, typography, contrast, CTA, or state-coverage defects to enter freeze.
 - Do not treat a post-failure single revision without a new explicit freeze decision as a substitute for a valid freeze result.
 - Do not treat “close enough” as a valid exception when the design package still leaves critical ambiguity.

@@ -119,6 +119,9 @@ The following specialist stages may run inside a subagent, as long as the orches
 - `flutter-taste-router` for shared or module textual design normalization
 - Stitch MCP for page-scoped design generation or validation from `DESIGN.md`, optional approved effect images, or approved visual comps, using `modelId=GEMINI_3_1_PRO`
 - Pencil for page-scoped design generation or validation from `DESIGN.md`, optional approved effect images, or approved visual comps
+- `Creative Production:explore` for controlled asset-branch intake and path selection after the orchestrator has confirmed that the request is asset-oriented
+- focused Creative Production explorers such as `moodboard-explorer`, `ads-explorer`, `offer-explorer`, `scene-explorer`, `shot-explorer`, and `logo-explorer` when the asset branch already has a locked brief and desired output family
+- `Creative Production:generative-polish` when a selected direction or deterministic base already exists and the asset output is publish-bound
 - `design-preview-to-global-guidelines` for turning approved shared visuals into reusable global guidelines
 - `flutter-design-freeze-gate` for freeze evaluation and revision feedback, both at shared scope and module scope
 - `flutter-rd-module-splitter` for creating module index rows and executable module `impl.md` documents in one pass after the shared/global design freeze

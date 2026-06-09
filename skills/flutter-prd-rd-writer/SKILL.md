@@ -13,6 +13,8 @@ This skill stays at global scope. It may name coarse capability areas, but it mu
 
 ## Start Here
 
+If the upstream PRD comes from the orchestrator's strengthened PRD preparation flow, respect its template sections, completeness result, and handoff boundaries before proposing a technical baseline.
+
 1. Read the PRD or requirement input first.
 2. Read `references/prd-intake-and-gap-analysis.md` before proposing architecture or packages.
 3. Decide whether the user needs a complete研发文档, a focused技术方案, or only a package-selection decision.
@@ -86,6 +88,8 @@ Use `flutter-rd-module-splitter` for module-level detailed design after this glo
 - Do not split the product into detailed modules here. Module-level detailed design belongs to `flutter-rd-module-splitter`.
 - Do not write paired UI/UX and implementation module documents here.
 - 如果某个包、服务或生态结论明显依赖当前状态，先基于官方文档或当前主页核实，再写进最终文档。
+
+Do not silently repair a weak PRD by inventing missing scope. If the upstream PRD is still structurally weak, say so explicitly with `假设前提` and `待确认项`.
 
 ## Output Contract
 

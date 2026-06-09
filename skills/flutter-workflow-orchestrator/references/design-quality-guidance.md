@@ -296,7 +296,28 @@ Before freezing a design, confirm:
 - Copy tone fits both ideal flow and recovery flow.
 - Visual polish does not undermine usability.
 
-## 16. How To Apply This In This Workflow
+## 16. Platform-Aware Premium Quality
+
+High-quality design in this workflow must be both platform-aware and premium by default when the module or product positioning expects a high-confidence feel.
+
+Platform-aware means:
+
+- navigation matches the real target surface
+- safe areas, touch targets, hover, focus, gestures, and density fit the target platform
+- interaction feedback feels native enough for the target validation surface
+
+Premium means:
+
+- hierarchy is crisp and immediate
+- spacing feels intentional rather than compressed
+- typography carries confidence and restraint
+- contrast is controlled, not muddy
+- CTA dominance is obvious without shouting
+- depth, texture, and polish support clarity instead of distracting from it
+
+Do not confuse premium quality with ornament. Premium quality fails if the result is attractive but unclear, fragile under real content, or mismatched to the target platform.
+
+## 17. How To Apply This In This Workflow
 
 When brainstorming global visual direction:
 
@@ -325,3 +346,4 @@ When freezing:
 - reject designs that are attractive but weak in task clarity
 - reject designs that only work in ideal content states
 - reject designs that break under mobile constraints or multi-device adaptation
+- reject module designs that have not yet been tested conceptually against the explicit target platform and premium quality bar

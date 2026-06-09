@@ -9,18 +9,25 @@ flowchart LR
     A["requirements_brainstorming"] --> B["prd_ready"]
     B --> C["technical_baseline_ready"]
     C --> D["shared_taste_direction"]
+    D -.方向探索分支.-> X1["creative_direction_explore"]
+    X1 --> X2["creative_direction_review"]
+    X2 --> E["product_direction_confirmed"]
     D --> E["product_direction_confirmed"]
-    E --> F["global_effect_image_pilot_ready"]
+    E --> E1["design_md_ready"]
+    E1 -.资产生产分支.-> X3["creative_asset_explore"]
+    X3 --> Y["creative_asset_build"]
+    Y --> Z["creative_asset_polish"]
+    E1 --> F["global_effect_image_pilot_ready"]
     F --> G["global_effect_images_ready"]
     G --> H["stitch_design_source_ready"]
-    H --> I["global_guidelines_frozen"]
-    I --> J["design_freeze_ready"]
-    J --> K["module_impl_docs_ready"]
+    H --> I["shared_freeze_gate"]
+    I --> O["project_initialized"]
+    O --> P["bootstrap_code_ready"]
+    I --> K["module_impl_docs_ready"]
     K --> L["module_design_frozen"]
     L --> M["impl_rd_ready"]
     M --> N["architecture_ready"]
-    N --> O["project_initialized"]
-    O --> P["bootstrap_code_ready"]
+    N --> Q["implementing"]
     P --> Q["implementing"]
     Q --> R["module_done"]
 ```
@@ -34,9 +41,12 @@ flowchart LR
 5. 效果图统一存放在全局目录 `docs/rd/`，不再要求落到模块目录。
 6. `project_initialized` 只表示创建目录骨架和项目内 `skills/flutter-dev/`，不包含 bootstrap 代码。
 7. `bootstrap_code_ready` 单独成阶段，负责 app 入口、app shell、共享启动 wiring、根路由宿主等全局公共代码。
-8. `implementing` 阶段必须先通过 `@superpowers` 的 `Spec`，再通过 `Plan`，之后默认并行实现。
+8. `implementing` 阶段必须先通过 `@superpowers` 的 `Spec`，再通过 `Plan`，之后默认按活动模块串行实现。
 9. `parity_reviewed` 已移除，代码完成后的视觉对齐改为人工检查。
 10. `workflow record` 和 `superpowers execution trace` 属于运行期过程产物，不再作为 skill 的稳定文件长期维护。
+11. `Creative Production` 现在拆成两段：前置方向探索分支用于给产品方向确认提供视觉输入，后置资产分支用于创意生产和发布级润色，但都不替代 `@product-design`、`DESIGN.md`、Stitch/Pencil 结构化设计源或 Flutter 实现门禁。
+12. `flutter-taste-router` 保留，但职责收敛为共享冻结和模块冻结前的设计包标准化、文本收口和高保真约束归一，不再主导全局方向探索。
+13. `project_initialized` 和 `bootstrap_code_ready` 前移到共享冻结之后，作为主实现前的公共工程准备，而不是拖到所有模块后置再做。
 
 ## 阶段说明
 
@@ -44,9 +54,15 @@ flowchart LR
 
 输入还是原始需求、半成品 brief 或一句话想法。这里先做需求头脑风暴、问题台账、阻塞问题消解，之后才允许生成 PRD。
 
+当前已强化为 3 个固定动作：
+
+1. 按统一 PRD 模板落产物
+2. 跑 PRD 完整度 Gate
+3. 检查 PRD 到技术基线、产品设计、Creative Production、模块拆分的映射是否成立
+
 ### `prd_ready`
 
-PRD 已存在，但还不能直接进设计或代码。下一步先用 `flutter-prd-rd-writer` 产出全局技术基线。
+PRD 已存在且通过完整度门禁，但还不能直接进设计或代码。下一步先用 `flutter-prd-rd-writer` 产出全局技术基线。
 
 ### `technical_baseline_ready`
 
@@ -56,7 +72,17 @@ PRD 已存在，但还不能直接进设计或代码。下一步先用 `flutter-
 
 这里是全局视觉设计头脑风暴阶段。要产出产品气质、信息密度、层级、排版、色彩、组件家族、CTA 姿态、反模板化规则，以及验证平台基线。
 
-这个阶段结束后，还不能直接出图，必须先：
+这个阶段里，如果需要更多商业化视觉输入，可以先走一段前置 `Creative Production` 方向探索分支，例如：
+
+1. `Creative Production:explore`
+2. `moodboard-explorer` / `ads-explorer` / `offer-explorer` / `scene-explorer`
+3. 回到产品方向确认
+
+这个阶段默认仍由 `@product-design` 负责全局产品方向推荐；`flutter-taste-router` 不再主导这里的方向探索，而是在方向确认后把已批准的方向、视觉证据和冻结约束收敛成 Flutter 可消费的 design packet。
+
+在进入全局设计冻结前，手动模式下这里还应先给出 2 到 3 个设计风格推荐，等你确认最终采用哪一个；`--auto` 模式下则直接采用主推荐风格继续推进。
+
+这个阶段结束后，还不能直接进入实现，必须先：
 
 1. 同意统一公共壳
 2. 再确认最终产品设计方向
@@ -65,9 +91,19 @@ PRD 已存在，但还不能直接进设计或代码。下一步先用 `flutter-
 
 你已经基于 PRD、技术基线和全局视觉设计头脑风暴结果，明确确认最终产品设计方向。此后才允许进入效果图生成。
 
+### `design_md_ready`
+
+最终产品设计方向已经沉淀进根目录 `DESIGN.md`。从这里开始，如果需求是广告、活动、品牌、落地页 hero、社媒素材或发布物料，可以进入后置 `Creative Production` 资产分支：
+
+1. `Creative Production:explore` 做路径分流
+2. 按需进入 `moodboard-explorer` / `ads-explorer` / `offer-explorer` / `scene-explorer` / `shot-explorer` / `logo-explorer`
+3. 方向确定后再进入 `Creative Production:generative-polish`
+
+这个分支只负责“创意 -> 生产 -> 润色”，不负责替代产品页面设计源。
+
 ### `global_effect_image_pilot_ready`
 
-已生成 1 张代表页浅色效果图，正在等待你确认或提出调整。`--auto` 到这里也必须停。
+已生成 1 张代表页浅色效果图，正在等待你确认或提出调整。手动模式会在这里等待确认；`--auto --preview` 可以继续自动推进。
 
 ### `global_effect_images_ready`
 
@@ -86,19 +122,27 @@ PRD 已存在，但还不能直接进设计或代码。下一步先用 `flutter-
 
 ### `global_guidelines_frozen`
 
-全局共享设计规则、主题冻结值、共享组件边界、效果图策略等都已经冻结，但这还不是模块冻结。
+这是共享冻结的内部第一步，用来把 `DESIGN.md`、结构化设计源和批准视觉证据收敛成可冻结的共享设计包。对外可以把它和下一步一起理解成一个“共享冻结门”。
 
 ### `design_freeze_ready`
 
-共享设计冻结审批准备态。这里要保证层级、排版、对比度、CTA、状态覆盖和高保真约束都已经明确。
+这是共享冻结的内部第二步。通过这里以后，就认为共享设计冻结已经完成，后面可以并行启动两类准备：
+
+1. `flutter-init` -> `bootstrap_code_ready`
+2. `module_impl_docs_ready` -> 模块冻结与架构准备
 
 ### `module_impl_docs_ready`
 
-模块拆分和模块细化已经合并成一步，直接产出可执行级别的 `impl.md`。不再要求单独的模块 `ui/ux` 文档，也不再保留单独 refinement 阶段。
+模块拆分和模块细化已经合并成一步，直接产出可执行级别的 `impl.md`。这一步现在放在共享冻结之后、实现之前，与工程初始化准备并行推进。
 
 ### `module_design_frozen`
 
 当前模块的 `impl.md`、Stitch 设计源包、高保真显示层约束、状态矩阵、视觉证据都已冻结。
+
+这里新增一条前提：
+
+1. 模块设计必须已经明确考虑真实使用平台
+2. 模块设计必须以前提性高保真和高级感为目标，而不是留到实现阶段再补
 
 ### `impl_rd_ready`
 
@@ -106,7 +150,7 @@ PRD 已存在，但还不能直接进设计或代码。下一步先用 `flutter-
 
 ### `architecture_ready`
 
-冻结设计已经被翻译成 Flutter 可实现的 token、组件边界、屏幕结构、位图/原生绘制决策、显示层决策表。
+冻结设计已经被翻译成 Flutter 可实现的 token、组件边界、屏幕结构、位图/原生绘制决策、显示层决策表。它不再承担“触发项目初始化”的职责，而是作为进入模块实现前的最后技术准备。
 
 ### `project_initialized`
 
@@ -150,7 +194,7 @@ PRD 已存在，但还不能直接进设计或代码。下一步先用 `flutter-
 
 1. `@superpowers` 产出 `Spec`
 2. `@superpowers` 产出 `Plan`
-3. 按 `Plan` 默认并行执行独立工作包
+3. 按 `Plan` 以串行为主执行当前活动模块，默认不同时打开多个模块实现通道
 
 显示层实现前，如果存在对应页面效果图，必须先通过 `$image-to-code` 检查页面图。Stitch 还原时允许下载的图片资产可以直接使用，不强制再生。
 
@@ -160,27 +204,27 @@ PRD 已存在，但还不能直接进设计或代码。下一步先用 `flutter-
 
 ## `--auto` 会推进到哪里
 
-`--auto` 会一直推进到“实现边界之前”，不会直接开始代码实现。
+`--auto` 会一直推进到工作流完成或遇到 blocker，不会停在普通下游确认点。
 
 它会自动做这些事：
 
 1. 从需求/PRD推进到技术基线
 2. 推进到全局视觉设计头脑风暴
 3. 在你尚未确认最终设计方向时停下
-4. 你确认后，生成 1 张代表页效果图
-5. 再次停下，等待你确认这张代表页
-6. 代表页确认后，再生成剩余页面效果图
-7. 继续推进 Stitch、共享冻结、模块 `impl.md`、模块冻结、实现前文档、架构、项目初始化、bootstrap code
-8. 当所有目标模块都达到实现边界时停止
+4. 你确认后，如果启用了 `--preview`，自动生成代表页效果图
+5. 如果启用了 `--preview`，继续自动生成剩余页面效果图而不在普通确认点停下
+7. 继续推进 Stitch、共享冻结，并在共享冻结后尽早推进项目初始化、bootstrap code、模块 `impl.md`、模块冻结和架构准备
+8. 进入 `@superpowers` 的 `Spec` -> `Plan` -> 模块串行实现
+9. 当所有目标模块都完成实现并进入人工复核交接时停止
 
 `--auto` 不会做这些事：
 
 1. 不会跳过全局视觉设计头脑风暴
 2. 不会跳过“最终产品设计方向确认”
-3. 不会跳过“代表页效果图确认”
+3. 不会在缺少必须确认时伪造人工确认
 4. 不会越过 blocker
-5. 不会直接进入 `implementing`
-6. 不会直接开始代码实现
+5. 不会越过缺失证据强行推进
+6. 不会在缺少 `Spec` / `Plan` 时直接开始代码实现
 
 ## 设计源与高保真还原
 
@@ -259,14 +303,36 @@ PRD 已存在，但还不能直接进设计或代码。下一步先用 `flutter-
 ## 默认路由
 
 1. 需求到 PRD：`flutter-workflow-orchestrator` 内部 requirements-to-PRD 流
-2. PRD 到技术基线：`flutter-prd-rd-writer`
-3. 全局视觉设计头脑风暴：`flutter-taste-router`
-4. 共享冻结产物：`design-preview-to-global-guidelines` -> `flutter-design-freeze-gate`
-5. 模块可执行文档：`flutter-rd-module-splitter`
-6. 设计变更控制：`flutter-design-source-control`
-7. Flutter 架构：`flutter-uiux-to-architecture`
-8. 目录初始化：`flutter-init`
-9. 模块实现：`@superpowers` -> `Spec` -> `Plan` -> 并行实现
+2. PRD 模板、完整度 Gate、阶段映射检查
+3. PRD 到技术基线：`flutter-prd-rd-writer`
+4. 全局产品方向确认：`@product-design get-context` -> `@product-design` 视觉方向推荐
+5. 可选前置方向探索：`Creative Production:explore` -> 聚焦 explorer -> 回流产品方向确认
+6. 产品方向确认后输出 `DESIGN.md`
+7. 冻结前设计包标准化：`flutter-taste-router`
+8. 后置资产型需求分支：`Creative Production:explore` -> 聚焦 explorer -> `Creative Production:generative-polish`
+9. 共享冻结产物：`design-preview-to-global-guidelines` -> `flutter-design-freeze-gate`
+10. 共享冻结后尽早初始化工程：`flutter-init` -> bootstrap code
+11. 模块可执行文档：`flutter-rd-module-splitter`
+12. 设计变更控制：`flutter-design-source-control`
+13. Flutter 架构：`flutter-uiux-to-architecture`
+14. 模块实现：`@superpowers` -> `Spec` -> `Plan` -> 串行实现
+
+## PRD 强化规则
+
+1. `prd_ready` 不再只表示“有一份 PRD 文件”，还要求完整度 Gate 通过。
+2. PRD 必须显式写出范围内功能、明确不做、成功指标、问题台账、假设和风险。
+3. PRD 必须能支撑 4 个下游：技术基线、Product Design、Creative Production、模块拆分。
+4. 下游如果需要脑补核心范围、角色或验收标准，应该回退到 PRD 阶段，而不是在后面偷偷补。
+
+## Creative Production 融入规则
+
+1. `@product-design` 仍然负责产品页面、交互、信息层级和最终产品设计方向。
+2. `Creative Production` 前置分支负责方向探索，后置分支负责活动视觉、广告方向、情绪板、场景图、hero 方向、社媒素材和发布级润色。
+3. `flutter-taste-router` 保留为共享冻结和模块冻结前的设计包标准化与收口层，不负责替代 `@product-design` 做全局方向主导。
+4. 资产型需求优先走 `Creative Production`，不要直接退化成单张效果图生成。
+5. `Creative Production` 产物可以作为视觉证据，但不能直接替代 Stitch/Pencil 结构化设计源，也不能替代 `flutter-taste-router` 的冻结包收口职责。
+6. `generative-polish` 只在方向已定、且需要保留精确文案、Logo、尺寸、图表时使用。
+7. 共享冻结完成后，优先尽早完成 `flutter-init` 和 `bootstrap_code_ready`，不要把公共工程准备拖到模块链路末尾。
 
 ## 硬规则
 
@@ -280,3 +346,6 @@ PRD 已存在，但还不能直接进设计或代码。下一步先用 `flutter-
 8. 不要把 `project_initialized` 误解成“项目骨架代码已经完成”。
 9. 不要在 `bootstrap_code_ready` 之前开始模块实现。
 10. 不要让 `--auto` 进入 `implementing`。
+11. 不要用 `Creative Production` 绕过 `@product-design` 的产品方向确认。
+12. 不要把 mood board、广告图、场景图直接当成 Flutter 的结构化设计源。
+13. 不要在没有确定方向或确定性底稿前直接进入 `generative-polish`。

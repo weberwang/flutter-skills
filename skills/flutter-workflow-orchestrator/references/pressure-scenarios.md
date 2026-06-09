@@ -57,7 +57,7 @@ Use this reference when the user request resembles one of these examples or trie
 - User says "the project is initialized, start feature coding": first verify that the separate bootstrap code stage has landed. Directory creation alone does not authorize feature-module implementation.
 - User says "where is the Pen file": explain that Pencil is now a valid structured design-source branch, but it is only required when the workflow actually selected the Pencil adapter.
 - User says "adjust button hierarchy during implementation": route to `flutter-design-source-control`.
-- User says "implement the screen layer now": strictly route to `@superpowers` and require `$image-to-code` to inspect the corresponding page image first when that image exists.
+- User says "implement the screen layer now": strictly route to `@superpowers` and require the corresponding page image plus frozen design evidence to be inspected first when that evidence exists.
 - User says "start implementing this feature module now": first verify that the required global public code baseline is already landed; if not, block module implementation and land the missing global code first.
 - User says "start coding directly" before `@superpowers` gates exist: block direct execution and require `@superpowers` `Spec` first, then `@superpowers` `Plan`, before any code implementation begins.
 - User says "auto 模式不要停，直接全跑完": allow if prerequisites and credentials are satisfied. `--auto` should run through module implementation completion.
