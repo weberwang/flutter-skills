@@ -44,6 +44,8 @@ Use this reference before applying any state/status promotion, freeze decision, 
 - Do not treat effect images as a default mandatory gate for shared design freeze. They are optional evidence unless the current revision path explicitly requires them.
 - Do not let `--auto --preview` generate effect images without `gpt-image-2-generator` being available for that branch.
 - In manual mode, do not generate the remaining optional page-effect set before one representative effect image has been explicitly confirmed.
+- Do not reopen alternative-direction browsing after a representative effect image or approved direction effect image has been explicitly confirmed for the current design cycle; that confirmation freezes the visual baseline until the user explicitly rejects it or restarts the design cycle.
+- Do not generate, show, or compare other-direction effect images after that confirmation merely for more browsing; only same-direction completion, evidence expansion, or scope-matched revision is allowed.
 - Do not send shared/global or module-stage effect-image generation requests without explicit style constraints once the design packet already defines them.
 - Do not let module-stage effect-image generation redefine palette, typography mood, component family, image treatment, or CTA posture after a shared/global direction has been approved.
 - Do not let module `impl.md` generation, module page component design drafts, or module freeze drift away from the already frozen shared visual design, shared interaction principles, shared public shell, or shared component families.

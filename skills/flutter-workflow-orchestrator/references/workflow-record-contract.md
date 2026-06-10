@@ -55,6 +55,7 @@ When persisted, this runtime artifact is the single stable source for project wo
 - whether `DESIGN.md` already captures content tone and naming rules when relevant
 - whether one representative light-mode effect image has been generated before remaining optional page-image generation starts
 - whether the representative effect image is pending confirmation, confirmed, or rejected
+- whether a confirmed representative or approved direction effect image has frozen the current-cycle visual baseline and closed alternative-direction browsing
 - whether every page in scope has an approved light-mode effect image when the optional full effect-image branch is active
 - whether taste direction exists and which constraints it introduced
 - whether `platform_baseline` exists and whether `platform_identifier` has been explicitly verified
@@ -197,6 +198,8 @@ If `DESIGN.md` exists but still lacks task-priority, interaction-feedback, respo
 
 If the representative effect image exists but is still waiting for user confirmation, say so explicitly and keep remaining optional page-image generation blocked.
 
+If the representative effect image has already been confirmed, say so explicitly, state that alternative-direction browsing is closed for the current design cycle, and allow only same-direction completion work unless the user explicitly restarts or rejects that baseline.
+
 If taste direction is missing before detailed design-source work, say so explicitly.
 
 If the workflow is still in requirements brainstorming, state whether raw requirements are captured, whether the PRD question ledger exists, which decision-blocking questions remain, and whether a PRD artifact has been generated.
@@ -295,6 +298,7 @@ Track project-level artifact paths when known, such as:
 - representative effect image path
 - representative effect image page
 - representative effect image status
+- representative effect-image baseline lock record
 - all-page light-mode effect-image set and approval status, when the optional full image branch is active
 - global technical baseline
 - taste direction packet
