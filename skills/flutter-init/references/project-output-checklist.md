@@ -7,7 +7,7 @@
 - 存在 `lib/core`
 - 存在 `lib/shared`
 - 存在 `lib/features`
-- 存在项目内 `skills/flutter-dev`
+- 存在与 `flutter-init` 同级的 `skills/flutter-dev`
 - 首批业务 feature 都已按 DDD 分层建好目录
 
 ## 基础文件检查
@@ -20,7 +20,7 @@
 
 - 如果初始化阶段已经放入注解占位，相关 `@riverpod` / `@freezed` / `@JsonSerializable` / `@RestApi` 示例至少有一个可验证
 - 如果当前阶段只做到目录占位，也允许暂不跑生成，但必须在交付说明里写明原因
-- `skills/flutter-dev/SKILL.md` 与所需 `references/` 已从模板回填完成
+- `skills/flutter-dev/SKILL.md` 与所需 `references/` 已在同级目录下从模板回填完成
 
 ## 插件处理检查
 
@@ -54,7 +54,7 @@
 - 已说明哪些文件只是目录占位、契约占位或非运行时 stub
 - 已说明 `--force` 是否生效，或是否执行了首次插件配置，以及对插件配置造成了什么影响
 - 已说明插件或依赖版本是否为与当前 Flutter SDK 兼容的最新版，以及修复了哪些不兼容问题
-- 已说明项目内 `flutter-dev` 承接了哪些项目级约束
+- 已说明同级 `flutter-dev` 承接了哪些项目级约束
 - 已说明哪些内容被明确留给 `bootstrap code` 阶段
 - 已列出仍待确认的 RD 缺口
 - 已明确下一步优先实现顺序

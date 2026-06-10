@@ -88,7 +88,7 @@ The contract must identify:
 14. Classify each visual decision as `preserve_faithfully`, `flutterize`, or `simplify`, and explain the implementation reason.
 15. Add taste implementation guardrails for presentation code: hierarchy, spacing rhythm, typography ladder, contrast, CTA salience, anti-template composition, and motion restraint.
 15.1 Add premium implementation guardrails for presentation code: preserve the high-confidence, high-fidelity feel of the frozen design through disciplined spacing, typography precision, restrained depth, platform-appropriate interaction feedback, and refusal to flatten fidelity-critical regions for convenience.
-16. Produce an architecture output pack that `flutter-init`, project-local `flutter-dev`, and `flutter-project-guardrails` can consume directly.
+16. Produce an architecture output pack that `flutter-init`, sibling `flutter-dev`, and `flutter-project-guardrails` can consume directly.
 
 ## Hard Rules
 

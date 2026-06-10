@@ -92,9 +92,9 @@ lib/
 - API 接口使用 `@RestApi`、`@GET`、`@POST` 等
 - 只有当当前占位已经需要验证生成链路时，才跑一次 `dart run build_runner build --delete-conflicting-outputs`
 
-### 8. 生成项目内 `flutter-dev`
+### 8. 生成同级 `flutter-dev`
 
-1. 从 `assets/flutter-dev-template/` 复制出 `skills/flutter-dev/`
+1. 从 `assets/flutter-dev-template/` 复制并回填到与 `flutter-init` 同级的 `skills/flutter-dev/`
 2. 回填项目名、feature 清单、环境信息、核心命令、集成能力、决策日志
 3. 明确声明它继承 `flutter-project-guardrails`
 4. 不要保留模板占位符到最终项目里
@@ -124,7 +124,7 @@ flutter test
 - 本次处理了哪些插件，哪些插件保持不变
 - 本次依赖和插件使用了哪些与当前 Flutter SDK 兼容的最新版
 - 遇到了哪些兼容性问题，以及如何修复
-- 已生成哪些 `flutter-dev` 项目约束内容
+- 已生成哪些同级 `flutter-dev` 项目约束内容
 - 哪些内容只是目录、占位或契约，尚未形成真实运行代码
 - 哪些 bootstrap 代码仍明确留在后续 `bootstrap code` 阶段
 - 哪些能力只是预留扩展点，还没写业务实现

@@ -129,7 +129,7 @@ The following specialist stages may run inside a subagent, as long as the orches
 - `flutter-design-source-control` when post-freeze design changes must be incorporated in a controlled way
 - `flutter-uiux-to-architecture` for architecture mapping, display-layer decision tables, and native-vs-bitmap decisions
 - `flutter-init` for directory-skeleton creation, as long as it stops at initialization boundaries
-- module implementation through explicit `@superpowers` `Spec`, then explicit `@superpowers` `Plan`, then serial execution of the active module loop with project-local `flutter-dev` and `flutter-project-guardrails`
+- module implementation through explicit `@superpowers` `Spec`, then explicit `@superpowers` `Plan`, then serial execution of the active module loop with sibling `flutter-dev` and `flutter-project-guardrails`
 - human visual inspection handoff when implementation output or screenshots are ready
 - an MCP-driven image or design tool when the workflow already proved a raster asset is the correct implementation fallback
 

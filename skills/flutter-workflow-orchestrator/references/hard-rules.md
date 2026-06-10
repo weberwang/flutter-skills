@@ -93,12 +93,12 @@ Use this reference before applying any state/status promotion, freeze decision, 
 - Do not treat `--preview` as permission to redefine the approved shared/global style direction; it only enables effect-image evidence generation.
 - Do not require page-level Pen, `.pen`, Pencil MCP data, or `pen_status` unless the workflow has actually chosen the Pencil design-source branch.
 - Do not let implementation rewrite design intent. Design changes after freeze must return to design control.
-- Do not route directly from `architecture_ready` to project-local `flutter-dev`; new project scaffolding must pass through `flutter-init`.
+- Do not route directly from `architecture_ready` to sibling `flutter-dev`; new project scaffolding must pass through `flutter-init`.
 - Do not let delegated module document generation or code landing bypass `@superpowers` when real execution ownership is required.
 - Do not enter implementation execution before `@superpowers` has produced both `Spec` and `Plan` for the active module.
 - Do not open parallel module implementation lanes by default once `Spec` and `Plan` exist. Module execution stays serial unless the workflow contract is explicitly changed.
-- Do not directly route module implementation to `flutter-rd-module-splitter`, `flutter-dev`, project-local implementation skills, or any other execution path without explicit `@superpowers` invocation.
-- Do not directly route module implementation to `flutter-dev` or project-local execution skills without explicit `@superpowers` invocation.
+- Do not directly route module implementation to `flutter-rd-module-splitter`, `flutter-dev`, sibling implementation skills, or any other execution path without explicit `@superpowers` invocation.
+- Do not directly route module implementation to `flutter-dev` or sibling execution skills without explicit `@superpowers` invocation.
 - Do not let multiple module implementation subagents run in parallel against different active modules in the default workflow.
 - Do not treat a complete-looking `impl.md` as proof that delegated generation or execution really happened.
 - Do not let `.impl.md` claim `generation_trace_status=verified_executed` unless the workflow record or execution trace contains the real delegated inputs and outputs for that module.

@@ -88,7 +88,7 @@ When persisted, this runtime artifact is the single stable source for project wo
 - whether the module design-source packet is frozen
 - whether code has landed for the active module
 - what blockers still prevent the next move
-- whether `flutter-init` has already produced the directory skeleton and project-local `skills/flutter-dev/`
+- whether `flutter-init` has already produced the directory skeleton and sibling `skills/flutter-dev/`
 - whether the shared bootstrap-critical baseline is already clear enough to trigger `flutter-init`
 - whether initialization has stopped at directory-creation boundaries without starting bootstrap or feature implementation
 - whether the separate bootstrap code stage has landed the required global public code baseline
@@ -325,7 +325,7 @@ Track project-level artifact paths when known, such as:
 - architecture summary
 - Flutter project root
 - `flutter-init` directory-creation summary
-- project-local `skills/flutter-dev/`
+- sibling `skills/flutter-dev/`
 - bootstrap code artifact summary or execution trace
 - project-level `@superpowers` execution trace when one exists
 - any approved generated bitmap assets that implementation must consume
@@ -421,7 +421,7 @@ When route drift, receipt mismatch, or no-progress auto stopping happens, add a 
 - If the user confirms only queued status changes and there is no stage switch, keep `current_stage` unchanged, apply `pending_status_updates`, clear all pending fields to `none`, and set `confirmation_status: confirmed`.
 - If the user rejects a pending transition or pending status change, keep the current confirmed stage and maturity values, set `confirmation_status: rejected`, and write the rejection reason into blockers plus the decision log.
 - If a step returns `blocked`, keep `current_stage` unchanged, clear `pending_next_stage`, `pending_next_skill`, and `pending_status_updates` to `none`, and do not rewrite the module into the next workflow state or next maturity level.
-- If `flutter-init` completes, update the global artifact index with the project root, directory-creation summary, and `skills/flutter-dev/` path, then queue the relevant stage as `project_initialized` instead of switching immediately.
+- If `flutter-init` completes, update the global artifact index with the project root, directory-creation summary, and sibling `skills/flutter-dev/` path, then queue the relevant stage as `project_initialized` instead of switching immediately.
 - If `flutter-init` completes, also record that bootstrap code and feature implementation have not started yet and that initialization stopped at directory-creation boundaries.
 - If `flutter-init` has not run yet, record whether the shared bootstrap-critical baseline is already ready or still blocked, so the next routing decision can tell whether initialization should happen now.
 - If bootstrap code lands after initialization, record the execution summary or trace, the covered global public code baseline, and queue or apply `bootstrap_code_ready`.
@@ -481,7 +481,7 @@ When route drift, receipt mismatch, or no-progress auto stopping happens, add a 
 - Do not keep auto running when `auto_progress_delta` is `none` and no new blocker was recorded.
 - Do not keep `pending_next_stage`, `pending_next_skill`, or `pending_status_updates` populated after a `blocked` result.
 - Do not rewrite `current_stage` to a later workflow state when the latest routing result is `blocked`.
-- Do not mark `project_initialized` unless both the directory skeleton and project-local `skills/flutter-dev/` exist.
+- Do not mark `project_initialized` unless both the directory skeleton and sibling `skills/flutter-dev/` exist.
 - Do not treat `project_initialized` as proof that any feature, page, or module implementation code already exists.
 - Do not mark `bootstrap_code_ready` unless the required global public code baseline actually exists on disk.
 - Do not let `execution_mode=auto` claim implementation progress without recording the corresponding `@superpowers` gates, execution evidence, and code artifacts.

@@ -7,12 +7,12 @@ description: Use when initializing or implementing a Flutter project that must f
 
 ## Overview
 
-Enforce a single Flutter engineering baseline for this workspace: mandatory package bundles, DDD modular boundaries, annotation-first generation, and taste-aligned presentation guardrails. Use this skill as the reusable base policy behind `flutter-init` and the generated project-local `flutter-dev` skill so initialization and ongoing implementation do not drift into mixed stacks, flat folders, hand-written boilerplate, or generic-looking display layers.
+Enforce a single Flutter engineering baseline for this workspace: mandatory package bundles, DDD modular boundaries, annotation-first generation, and taste-aligned presentation guardrails. Use this skill as the reusable base policy behind `flutter-init` and the generated sibling `flutter-dev` skill so initialization and ongoing implementation do not drift into mixed stacks, flat folders, hand-written boilerplate, or generic-looking display layers.
 
 ## Quick Start
 
 - Use this skill together with `flutter-init` for every new Flutter project scaffold.
-- After initialization, the day-to-day entry point should usually be the generated project-local `flutter-dev`; this skill remains the base policy layer behind it.
+- After initialization, the day-to-day entry point should usually be the generated sibling `flutter-dev`; this skill remains the base policy layer behind it.
 - When extending an existing project, read `references/mandatory-package-bundle.md` and `references/ddd-feature-blueprint.md` before editing features or dependencies.
 - When a requirement seems to justify another package or another architecture style, prove why the current baseline fails first. Do not mix stacks by default.
 - If a provider, model, serializer, API declaration, or comparable scaffold can be expressed through the approved annotation toolchain, treat annotations as mandatory instead of optional and reject equivalent hand-written boilerplate.
@@ -61,7 +61,7 @@ Enforce a single Flutter engineering baseline for this workspace: mandatory pack
 - A compliant feature structure with explicit layer ownership.
 - Annotation rules applied to providers, models, serialization, and API clients.
 - Presentation-layer guardrails applied against frozen UI/UX and taste constraints.
-- A reusable policy layer that can be referenced by the generated project-local `flutter-dev`.
+- A reusable policy layer that can be referenced by the generated sibling `flutter-dev`.
 - A short allowed / not allowed note for the current change so future edits stay aligned.
 
 ## References
