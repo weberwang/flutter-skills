@@ -26,6 +26,7 @@ Use this reference before applying any state/status promotion, freeze decision, 
 - Do not use Creative Production outputs as the structured design source for Flutter implementation by themselves; they are creative evidence or asset outputs, not the selected adapter packet.
 - Do not enter structured design-source generation or validation unless the user has first chosen `design_source_adapter=stitch` or `design_source_adapter=pencil`.
 - Do not treat Stitch or Pencil internal guidance, adapter defaults, generated helper prose, or tool-native style suggestions as valid design guidance. Design guidance may come only from the frozen global design, the active module design package, and `DESIGN.md`.
+- Do not ask Stitch or Pencil to produce any page design during shared/global design freeze. That stage may generate or validate only the shared theme system, shared public shell, shared public component families, and shared interaction principles.
 - Do not allow either Stitch or Pencil to restore pages with a different style direction, different theme system, different public shell, or different shared public component family from the approved shared design master packet.
 - Do not allow either Stitch or Pencil to restore pages with weaker task hierarchy, weaker CTA discoverability, different interaction-feedback rhythm, or a different responsive strategy from the approved shared design master packet.
 - Do not enter Stitch design-source generation or validation unless the user has first chosen `stitch_project_mode=new` or `stitch_project_mode=existing`.
@@ -33,7 +34,7 @@ Use this reference before applying any state/status promotion, freeze decision, 
 - Do not enter Pencil design-source generation or validation unless the Pencil source reference is confirmed and frozen.
 - Do not run more than 6 Stitch page-design subagents in parallel.
 - Do not let a Stitch page-design subagent own more than one page in the same parallel batch.
-- Do not freeze a Stitch design-source packet until every in-scope page has a successful page-level Stitch receipt and the orchestrator has merged the receipts.
+- Do not freeze a Stitch design-source packet on a module page-generation path until every in-scope page has a successful page-level Stitch receipt and the orchestrator has merged the receipts.
 - Do not block direct image-asset use when the image can be downloaded from the approved Stitch/effect-image source and saved into the project asset tree.
 - Do not mark a Stitch design-source packet as frozen when required downloaded image assets lack recorded source paths, local asset paths, and intended page regions.
 - Do not change `stitch_project_mode` or `stitch_project_id` after freeze without routing through `flutter-design-source-control`.
@@ -114,7 +115,7 @@ Use this reference before applying any state/status promotion, freeze decision, 
 - Do not accept a downstream result without a verifiable receipt containing artifacts, evidence, and blockers.
 - Do not treat an iteration with no status delta and no new blocker as valid progress in `--auto`.
 - Do not continue auto-advancement after route drift, receipt mismatch, or empty progress.
-- Do not run multiple subagents in parallel against the same active module or the same workflow record when their outputs could race, except for the route-locked Stitch page-design batch with at most 6 page-scoped subagents.
+- Do not run multiple subagents in parallel against the same active module or the same workflow record when their outputs could race, except for the route-locked module page-design batch with at most 6 page-scoped subagents.
 - Do not treat the Stitch page-design parallelism exception as permission to parallelize module freeze, implementation, workflow-record updates, or stage promotion.
 - Do not let a subagent decide whether `--auto` should switch modules, stop, or promote a stage.
 - Do not treat one module's state as proof that another module is ready.

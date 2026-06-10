@@ -8,7 +8,7 @@ Pencil is a first-class structured design-source adapter alongside Stitch. It co
 
 Pencil is not an independent design-guidance authority. The only valid design-guidance sources are the frozen global design packet, the active module design package when module scope exists, and `DESIGN.md`. Pencil may structure, restore, validate, and serialize those inputs, but it must not inject Pencil-native internal guidance, hidden defaults, or tool-owned style opinions into the project design contract.
 
-Pencil must not invent a new global style after the shared taste direction and final product design direction have been confirmed. It must expand pages from one frozen shared design master packet, not from page-local improvisation. Module-related workflow begins only after the shared/global design freeze is complete. For module-scoped page component design drafts, Pencil must wait until the active module's `impl.md` has already fixed the module function, key states, and main task path.
+Pencil must not invent a new global style after the shared taste direction and final product design direction have been confirmed. At shared/global freeze scope, it may serialize only the shared theme/public-shell packet from one frozen shared design master packet and must not generate any page design. Module-related workflow begins only after the shared/global design freeze is complete. For module-scoped page component design drafts, Pencil must wait until the active module's `impl.md` has already fixed the module function, key states, and main task path.
 
 Regardless of page scope, Pencil output must preserve these four project-wide consistency contracts:
 
@@ -39,15 +39,14 @@ If the Pencil source reference is missing or ambiguous:
 3. Optionally attach approved effect images or approved visual comps as supplemental evidence.
 4. Freeze one shared design master packet for the whole app.
 5. Freeze the project-level Pencil source reference.
-6. Split the design-source work into page-scoped tasks when multiple pages need generation or validation.
-7. Run page-scoped Pencil design tasks in subagents with at most 6 concurrent page-design subagents.
-8. Merge page-level receipts into one structured design-source packet.
-9. Compare the Pencil packet against `DESIGN.md` and any optional visual evidence before freeze.
-10. Freeze only after the shared design master packet, Pencil source reference, all required page receipts, merged Pencil packet, and high-fidelity visual contract all pass.
+6. Generate or validate the shared theme/public-shell Pencil packet for the shared/global freeze.
+7. Compare the shared/global Pencil packet against `DESIGN.md` and any optional visual evidence before freeze.
+8. Freeze only after the shared design master packet, Pencil source reference, shared/global Pencil packet, and high-fidelity shared contract all pass.
+9. Only after the shared/global freeze passes and an active module's `impl.md` is implementation-final may module-scoped page design work be split into page-scoped tasks.
 
 ## Page Design Parallelism
 
-Pencil page design must run in subagents when more than one page needs generation or validation.
+Pencil page design must run in subagents when more than one module-scoped page needs generation or validation.
 
 - Run at most 6 page-design subagents in parallel.
 - Give each subagent exactly one page id/name, the frozen Pencil source reference, the frozen shared design master packet, and any optional source effect-image path for that page when such evidence exists.
@@ -63,8 +62,8 @@ The Pencil design-source packet must include:
 - shared design master packet id or version
 - confirmed `DESIGN.md` path
 - optional source effect-image paths when they exist
-- complete in-scope page list
-- page-level Pencil receipt list
+- complete in-scope page list only when module-scoped page generation ran
+- page-level Pencil receipt list only when module-scoped page generation ran
 - frozen Pencil source reference
 - generated or validated screen structure
 - tokens and theme values
@@ -90,5 +89,5 @@ The Pencil design-source packet must include:
 - Do not let page-level Pencil output redefine shell rules, layout-grid rules, or page density without orchestrator-approved shared-packet revision.
 - Do not treat any Pencil-native suggestion, adapter-internal guideline, generated helper prose, or tool-side style rationale as valid project design guidance.
 - Do not mark `design_source_status=frozen` unless the workflow record indexes both the Pencil packet and the frozen Pencil source reference.
-- Do not mark `design_source_status=frozen` unless every in-scope page has a successful page-level Pencil receipt when page-scoped generation was required.
+- Do not mark `design_source_status=frozen` unless every in-scope page has a successful page-level Pencil receipt when module-scoped page generation was required.
 - Do not allow implementation to consume Pencil output directly unless `flutter-design-freeze-gate` has accepted it.

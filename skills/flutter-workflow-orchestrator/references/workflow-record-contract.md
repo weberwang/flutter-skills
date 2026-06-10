@@ -65,8 +65,9 @@ When persisted, this runtime artifact is the single stable source for project wo
 - whether Stitch MCP was available and which `modelId` was used for structured design-source generation or validation
 - whether `stitch_project_mode` is confirmed as `new` or `existing` before Stitch design-source work starts
 - whether `stitch_project_id` is confirmed and frozen after the Stitch project mode choice
-- whether Stitch page design ran in page-scoped subagents and whether the batch respected the 6-subagent concurrency cap
-- whether every in-scope page has a successful page-level Stitch receipt before packet merge and freeze
+- whether the shared/global Stitch packet is limited to shared theme/public-shell design only
+- when module-scoped Stitch page design runs, whether it used page-scoped subagents and whether the batch respected the 6-subagent concurrency cap
+- when module-scoped page generation was required, whether every in-scope page has a successful page-level Stitch receipt before packet merge and freeze
 - whether Stitch restoration downloaded image assets for direct use, and where those assets were saved
 - whether the Stitch design-source packet has been checked against its source effect image or approved visual comp
 - whether the active module's high-fidelity visual contract was evaluated as the first module design-freeze priority
@@ -202,6 +203,8 @@ If the workflow is still in requirements brainstorming, state whether raw requir
 
 If the shared/global design freeze is not complete yet, say so explicitly and keep all module-related workflow blocked.
 
+If shared/global structured design-source work is in progress, state explicitly that this scope is limited to shared theme and public-shell design and does not include page design.
+
 If the active module lacks an executable `impl.md`, say so explicitly.
 
 If freeze preparation is in progress, state whether `flutter-taste-router` textual normalization is already complete and whether static-image directory inspection has already happened.
@@ -306,8 +309,8 @@ Track project-level artifact paths when known, such as:
 - Stitch design-source packet path and `modelId`
 - frozen `stitch_project_mode`
 - frozen `stitch_project_id`
-- Stitch page-design batch id or trace path
-- page-level Stitch receipt paths
+- module page-design batch id or trace path when module-scoped page generation ran
+- page-level Stitch receipt paths when module-scoped page generation ran
 - downloaded Stitch image asset source paths or URLs
 - downloaded Stitch image asset local paths
 - Stitch source effect-image paths
@@ -376,14 +379,14 @@ When route drift, receipt mismatch, or no-progress auto stopping happens, add a 
 - If `flutter-taste-router` completes textual normalization, record that status in the relevant summary or decision entry before any freeze promotion is queued.
 - If freeze preparation inspects static-image directories, record whether existing evidence was reused, skipped due to missing environment variables, or newly generated.
 - If effect images are accepted for workflow use, record whether they satisfy the default light-mode requirement.
-- If Stitch is used as the structured design source, record the Stitch packet path, `modelId`, source effect-image paths, page-level Stitch receipt paths, downloaded image asset source/local paths, page-design batch concurrency, and Stitch-vs-effect-image validation result.
+- If Stitch is used as the structured design source, record the Stitch packet path, `modelId`, source effect-image paths, and Stitch-vs-effect-image validation result. Record page-level Stitch receipt paths, downloaded image asset source/local paths, and page-design batch concurrency only when module-scoped page generation actually ran.
 - Before any Stitch design-source generation or validation, verify that `stitch_project_mode` is confirmed as `new` or `existing`. If it is missing or ambiguous, record `stitch_status=blocked_missing_project_mode`, keep the current stage unchanged, and stop with `required_inputs=stitch_project_mode:new_or_existing`.
 - After `stitch_project_mode` is confirmed, record how the id is obtained. For `new`, create the Stitch project and freeze the returned `stitch_project_id`; if creation cannot return a frozen id, record `stitch_status=blocked_project_creation` and stop with `required_inputs=stitch_project_creation`. For `existing`, verify that the user-provided `stitch_project_id` is confirmed and frozen; if it is missing, ambiguous, or mutable, record `stitch_status=blocked_missing_project_id`, keep the current stage unchanged, and stop with `required_inputs=stitch_project_id`.
 - If `stitch_project_mode` or `stitch_project_id` changes after being frozen, route through `flutter-design-source-control` and treat existing Stitch packets as needing revalidation.
 - If Stitch MCP is required but unavailable in the current tool context, record `stitch_status=unavailable`, keep the relevant freeze blocked, and do not silently fall back to raw effect images as the only design source.
-- If Stitch page design is delegated, record the page-to-subagent assignment, enforce `stitch_parallel_limit=6`, and keep workflow record updates orchestrator-owned.
-- If any page-level Stitch receipt is missing or blocked, keep `design_source_status` out of `frozen`, record the failed page, and stop packet freeze.
-- If a Stitch page subagent downloads image assets for direct use, index each source URL or artifact path, local asset path, owning page, intended component/region, and direct-use decision.
+- If module-scoped Stitch page design is delegated, record the page-to-subagent assignment, enforce `stitch_parallel_limit=6`, and keep workflow record updates orchestrator-owned.
+- If any required module-scoped page-level Stitch receipt is missing or blocked, keep `design_source_status` out of `frozen`, record the failed page, and stop packet freeze.
+- If a module-scoped Stitch page subagent downloads image assets for direct use, index each source URL or artifact path, local asset path, owning page, intended component/region, and direct-use decision.
 - If a required downloaded image asset is missing, keep the relevant Stitch packet unfrozen and record the missing asset as a blocker.
 - If shared/global effect images were generated, record the complete page list, one approved image path per page, and whether every in-scope page is covered for that optional branch.
 - If the representative effect image was generated, record its path, selected page, and approval status.
@@ -449,8 +452,8 @@ When route drift, receipt mismatch, or no-progress auto stopping happens, add a 
 - Do not mark a Stitch design-source packet as frozen before recording the source effect-image paths, `modelId`, and validation result.
 - Do not mark a Stitch design-source packet as frozen before recording the frozen `stitch_project_mode`.
 - Do not mark a Stitch design-source packet as frozen before recording the frozen `stitch_project_id`.
-- Do not mark a Stitch design-source packet as frozen before recording successful page-level Stitch receipts for every in-scope page.
-- Do not mark a Stitch design-source packet as frozen before recording local paths for every downloaded image asset required for direct implementation use.
+- Do not mark a Stitch design-source packet as frozen before recording successful page-level Stitch receipts for every in-scope page when module-scoped page generation was required.
+- Do not mark a Stitch design-source packet as frozen before recording local paths for every downloaded image asset required for direct implementation use when module-scoped asset download was part of the accepted packet.
 - Do not store literal Stitch API keys in the workflow record.
 - Do not accept shared/global effect-image evidence into the workflow record without stating whether every in-scope page has an approved light-mode effect image for that optional branch.
 - Do not treat a representative effect image as if the complete all-page effect-image set already exists.

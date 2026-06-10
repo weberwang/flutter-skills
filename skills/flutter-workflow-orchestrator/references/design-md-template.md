@@ -131,6 +131,7 @@ If you add these extension sections, place them after `## Components` and before
 - Use valid YAML values for token fields.
 - Use token references like `{colors.primary}` when a component is intentionally mapped to another token.
 - Capture product-level design intent, not page-by-page implementation instructions.
+- At shared/global freeze scope, constrain the file to shared theme, shared public shell, shared public component families, and shared interaction principles; do not use `DESIGN.md` to sneak in page design.
 - Prefer concrete visual language over vague adjectives.
 - Explicitly state what must stay consistent across screens: style direction, theme system, public shell, and shared component families.
 - Explicitly state that page layouts must not be reduced below the frozen base design viewport and that layout density should be solved without collapsing core whitespace.
