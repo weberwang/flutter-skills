@@ -43,7 +43,8 @@ The preflight gate must verify at minimum:
 - the selected module exists in the module index when module-scoped work is requested
 - all required artifact paths for the intended move exist on disk
 - all required maturity prerequisites are already confirmed, not merely implied in prose
-- `platform_identifier` is explicit before architecture, implementation-readiness, human visual inspection, or implementation work that depends on a concrete validation surface
+- `platform_identifier` is explicit as the primary runtime and validation platform before architecture, implementation-readiness, human visual inspection, or implementation work that depends on a concrete validation surface
+- validation follows the primary platform only: if exactly one eligible device exists, use it; if multiple eligible devices exist, stop and wait for explicit device selection; if no eligible device exists and the platform supports emulator or simulator startup, start one and validate there
 - when `--auto` is active, the next move is still authorized by the current confirmed artifacts and does not skip required execution gates
 
 If any preflight check fails, stop immediately. Record the exact failed check as a blocker. Do not let a downstream skill try to compensate for missing prerequisites by reconstructing state, inferring approvals, or backfilling artifacts opportunistically.

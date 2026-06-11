@@ -58,7 +58,8 @@ When persisted, this runtime artifact is the single stable source for project wo
 - whether a confirmed representative or approved direction effect image has frozen the current-cycle visual baseline and closed alternative-direction browsing
 - whether every page in scope has an approved light-mode effect image when the optional full effect-image branch is active
 - whether taste direction exists and which constraints it introduced
-- whether `platform_baseline` exists and whether `platform_identifier` has been explicitly verified
+- whether `platform_baseline` exists and whether `platform_identifier` has been explicitly verified as the primary runtime and validation platform
+- whether the primary-platform validation target is a selected real device, a pending device choice, or an emulator/simulator fallback
 - whether freeze preparation already passed through `flutter-taste-router` textual normalization
 - whether a shared or module design-source package has already been freeze-evaluated
 - whether freeze evaluation already verified task hierarchy, CTA discoverability, interaction feedback, responsive strategy, and critical-state coverage
@@ -216,7 +217,9 @@ If module design freeze is in progress, state whether the module function is alr
 
 If effect images are present, state whether the workflow is using the optional light-mode effect-image baseline or an explicitly approved override.
 
-If the workflow is moving toward freeze, architecture, or implementation, state whether `platform_identifier` is already explicit, and do not treat `platform_baseline` as a substitute.
+If the workflow is moving toward freeze, architecture, or implementation, state whether `platform_identifier` is already explicit as the primary runtime and validation platform, and do not treat `platform_baseline` as a substitute.
+
+If the workflow is entering validation, debugging, human visual inspection, or implementation verification, state whether the primary-platform execution target is already resolved. If multiple eligible devices exist, say that the workflow is blocked on explicit device selection. If no eligible device exists but the primary platform supports emulator or simulator startup, say whether that fallback has already been started.
 
 If the workflow is in or beyond `project_initialized`, state whether bootstrap code is still pending or already landed.
 
@@ -302,7 +305,8 @@ Track project-level artifact paths when known, such as:
 - all-page light-mode effect-image set and approval status, when the optional full image branch is active
 - global technical baseline
 - taste direction packet
-- verified platform identifier or target validation surface
+- verified primary platform identifier
+- primary-platform device selection or emulator-start record
 - module index
 - `global-design-guidelines.md`
 - chosen `design_source_adapter`
@@ -380,6 +384,7 @@ When route drift, receipt mismatch, or no-progress auto stopping happens, add a 
 - If `execution_mode=auto` and `--preview` is active, generate the in-scope effect images automatically, record their paths, and do not create a confirmation stop.
 - If taste direction is produced, index its artifact path in `global_artifact_index` and link it from active module rows when relevant.
 - If `platform_identifier` becomes explicit, record it in the relevant summary or artifact index instead of leaving it implicit in prose.
+- If primary-platform validation target selection changes from pending to selected device or emulator fallback, record that transition explicitly in the relevant summary or artifact index.
 - If `flutter-taste-router` completes textual normalization, record that status in the relevant summary or decision entry before any freeze promotion is queued.
 - If freeze preparation inspects static-image directories, record whether existing evidence was reused, skipped due to missing environment variables, or newly generated.
 - If effect images are accepted for workflow use, record whether they satisfy the default light-mode requirement.
@@ -442,7 +447,8 @@ When route drift, receipt mismatch, or no-progress auto stopping happens, add a 
 - Do not treat raw requirements as `prd_ready` until a PRD artifact exists and decision-blocking questions are resolved or explicitly defaulted.
 - Do not route from raw demand directly into technical baseline, taste direction, executable module document generation, architecture, or implementation.
 - Do not record PRD assumptions as facts unless their rationale and risk are explicit.
-- Do not treat `platform_baseline` as if it already verified the real target surface.
+- Do not treat `platform_baseline` as if it already verified the real primary runtime and validation platform.
+- Do not leave the primary-platform validation target ambiguous once validation, debugging, human visual inspection, or implementation verification is in scope.
 - Do not leave `route_lock`, `last_receipt_status`, or `auto_progress_delta` blank once routing has started.
 - Do not leave `execution_owner` blank once a turn has selected local orchestration or delegated specialist ownership.
 - Do not mark a stage as advanced until the required artifacts for that stage are actually available.

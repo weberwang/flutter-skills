@@ -29,7 +29,7 @@ Cover these dimensions before writing the PRD:
 - happy-path scenarios
 - edge cases and failure states
 - business objective or success metric
-- platform and validation surface hints
+- primary platform and validation-device hints
 - required data, permissions, and integrations
 - content, localization, accessibility, privacy, and compliance constraints when relevant
 - UX posture, information density, and interaction expectations
@@ -57,7 +57,7 @@ The generated PRD must include:
 - functional requirements
 - edge cases and error states
 - data and integration assumptions
-- platform and validation-surface assumptions when known
+- primary-platform and validation-device assumptions when known
 - UX direction hints without freezing detailed UI
 - success metrics or acceptance criteria
 - resolved question ledger

@@ -75,7 +75,7 @@ Check whether the PRD clearly states:
 Check whether the PRD clearly states:
 
 - target platform hints
-- validation surface hints
+- primary validation-device hints
 - UX posture or information-density posture
 
 ### 8. Constraints And Compliance

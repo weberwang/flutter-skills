@@ -19,7 +19,7 @@ Use this reference before applying any state/status promotion, freeze decision, 
 - Do not start module `impl.md` generation immediately after the technical baseline. All module-related workflow must wait until the shared/global design freeze is complete.
 - Do not skip `DESIGN.md` output after final product design direction confirmation.
 - Do not treat a visually polished `DESIGN.md` as complete if it still lacks task-priority rules, interaction-feedback rules, responsive strategy, or critical-state coverage that the product clearly needs.
-- Do not confuse `platform_baseline` with a verified `platform_identifier`.
+- Do not confuse `platform_baseline` with a verified `platform_identifier`. Here `platform_identifier` means the primary runtime and validation platform for this workflow, not an optional cross-platform matrix.
 - Do not skip `flutter-taste-router` textual normalization before any shared freeze or module freeze check.
 - Do not generate new static visuals before checking whether the target directories already contain usable page images.
 - Do not use effect images as the only design source when a structured design-source adapter has been chosen; convert or validate them into the selected design-source packet first.
@@ -63,6 +63,7 @@ Use this reference before applying any state/status promotion, freeze decision, 
 - Do not mark `impl_status=landed` until the module `impl.md` references a confirmed frozen selected structured design-source packet.
 - Do not start module-scoped display-layer design draft generation before the active module's `impl.md` has fixed the module function, key states, main task path, and non-display behavior boundaries.
 - Do not freeze or translate a module design that has not yet considered the concrete target platform's interaction, layout, density, and feedback expectations.
+- Do not treat secondary desktop, web, or other convenience surfaces as required validation targets when the primary platform is already defined. Validation should follow the primary platform only unless the user explicitly changes that platform.
 - Do not land ordinary page-module display-layer code before the module's non-display behavior, service wiring, and state-flow contracts are stable enough to support that display faithfully.
 - Do not treat module implementation as `display first, behavior later`; the required local order is `impl -> design draft -> non-display code -> display restoration`.
 - Do not dilute a frozen premium/high-fidelity module design into a generic implementation compromise without routing back through design control.
@@ -103,6 +104,8 @@ Use this reference before applying any state/status promotion, freeze decision, 
 - Do not treat a complete-looking `impl.md` as proof that delegated generation or execution really happened.
 - Do not let `.impl.md` claim `generation_trace_status=verified_executed` unless the workflow record or execution trace contains the real delegated inputs and outputs for that module.
 - Do not start display-layer landing before the preflight inputs are complete enough to avoid image-only guessing.
+- Do not auto-pick among multiple eligible devices on the primary platform during validation. If more than one device matches, stop and wait for explicit user choice.
+- Do not mark validation as ready on the primary platform when no eligible device exists and the platform supports emulator or simulator startup but that fallback has not been attempted yet.
 - Do not start high-fidelity display-layer landing with only a broad page effect image when fidelity-critical regions still lack detail, state, scroll, or overlay evidence.
 - Do not let display-layer code land without consulting the corresponding page image and frozen design evidence when such image evidence exists.
 - Do not let effect images alone decide final Flutter widget strategy when documented interaction or architecture semantics say otherwise.
