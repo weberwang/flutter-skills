@@ -1,4 +1,0 @@
-interface:
-  display_name: "Design Preview To Pen"
-  short_description: "Optional adapter for explicit preview-to-Pencil handoff"
-  default_prompt: "Use $design-preview-to-pen only when the user explicitly requests Pencil. Clarify the design brief with HIG as the default behavior baseline, delegate preview image generation to $gpt-image-2-generator with gpt-image-2 only, freeze an approved direction, plan reusable assets, rebuild the result structurally in Pencil, and pass the completed freeze package through $flutter-design-freeze-gate before handoff."

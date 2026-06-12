@@ -57,7 +57,7 @@ When this skill is called from the Flutter workflow:
    - component family cues
    - image-treatment posture when available
 11. If the request is for a module preview after a shared direction already exists, preserve the same visual world instead of inventing a new palette, typography mood, component family, or image-treatment language.
-12. If the request is for module refinement or module freeze preview generation, require explicit upstream `--perviewer` opt-in. Without that opt-in, return control so the upstream workflow can continue without generating new module previews.
+12. If the request is for module refinement or module freeze image evidence, require explicit upstream approval for that evidence path. Without that approval, return control so the upstream workflow can continue without generating new module images.
 
 ## Command Patterns
 
@@ -122,7 +122,7 @@ rtk python skills/gpt-image-2-generator/scripts/image_gen.py \
 - Do not generate more than 3 shared/global workflow previews for one global freeze cycle.
 - Do not send Flutter workflow generation prompts without explicit style constraints when the design packet already defines them.
 - Do not let module preview generation drift away from the approved shared/global style system.
-- Do not generate new module-stage Flutter previews unless the upstream workflow explicitly enabled `--perviewer`.
+- Do not generate new module-stage Flutter images unless the upstream workflow explicitly approved that evidence path.
 - Do not claim text rendered inside an image is correct unless it was visually checked afterward.
 - Do not assume transparent output is available; this skill is generation-only and does not implement the transparent-background fallback path.
 - Do not bypass script validation for custom sizes; let the helper reject invalid dimensions first.

@@ -1,6 +1,6 @@
 # Design Quality Guidance
 
-Use this reference when the workflow is defining global visual direction, writing `DESIGN.md`, generating Stitch or Pencil design sources, or evaluating whether a design is strong enough to freeze.
+Use this reference when the workflow is defining global visual direction, writing `DESIGN.md`, generating HTML interactive prototype design sources, or evaluating whether a design is strong enough to freeze.
 
 ## Core Principle
 
@@ -98,7 +98,7 @@ This keeps the interface purposeful instead of cluttered.
 
 Mobile requires re-composition, not compression.
 
-Before the global design direction is explored, freeze one base mobile viewport for the whole design cycle. Do not let page ideation, effect-image generation, or structured design-source work switch widths opportunistically from page to page.
+Before the global design direction is explored, freeze one base mobile viewport for the whole design cycle. Do not let page ideation, effect-image generation, or HTML interactive prototype work switch widths opportunistically from page to page.
 
 Do not design any page at a width or height smaller than the frozen base design viewport for the active design cycle. If content does not fit, solve it through hierarchy, disclosure, paging, or layout restructuring rather than shrinking the page below the frozen design size.
 
@@ -332,7 +332,7 @@ When writing `DESIGN.md`:
 - encode responsive behavior
 - encode content tone
 
-When generating Stitch or Pencil design source:
+When generating HTML interactive prototype design source:
 
 - use the frozen global design, the active module design package, and `DESIGN.md` as the only design-guidance inputs
 - preserve shared style direction

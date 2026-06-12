@@ -7,7 +7,7 @@ description: Use when screenshots, visual previews, effect mockups, or approved 
 
 ## Overview
 
-Turn approved visual evidence into a design-source contract that downstream skills can consume directly. The goal is not taste commentary alone; it is to freeze one global guidance document plus two concrete theme files so later skills stop guessing about typography hierarchy, contrast behavior, CTA emphasis, and global theme values.
+Turn approved visual evidence into a design-source contract that downstream skills can consume directly. The goal is not abstract visual commentary; it is to freeze one image-backed global guidance document plus two concrete theme files so later skills stop guessing about typography hierarchy, contrast behavior, CTA emphasis, and global theme values.
 
 ## Designer Role
 
@@ -16,9 +16,9 @@ Act like a product designer and design-systems lead. Infer stable product rules 
 ## Quick Start
 
 - If the user only has a text brief and no usable visual evidence or reference screenshots, return `blocked` immediately and ask the user whether to fall back before continuing.
-- If the user still needs preview exploration or direction comparison, use `flutter-taste-router` first, then return here after a direction is chosen.
+- If the user still needs preview exploration or direction comparison, use the confirmed image direction and reference-image comparison flow first, then return here after a direction is chosen.
 - If multiple previews represent materially different directions and no single direction is approved, stop and require a chosen baseline before freezing.
-- If a complete visual draft still leaves hierarchy, contrast, CTA clarity, or state coverage ambiguous, do not continue freezing shared artifacts; return to `flutter-taste-router` for exactly one shared preview-regeneration pass first, then stop the current correction cycle.
+- If a complete visual draft still leaves hierarchy, contrast, CTA clarity, or state coverage ambiguous, do not continue freezing shared artifacts; return to one shared image-revision pass first, then stop the current correction cycle.
 - If downstream Flutter architecture, implementation, or parity work must not reinterpret theme values or global UI rules, use this skill before `flutter-design-freeze-gate` and architecture planning.
 - When the user wants written artifacts, default to exactly these files: `global-design-guidelines.md`, `light-theme-freeze.yaml`, and `dark-theme-freeze.yaml`.
 
@@ -30,10 +30,9 @@ Act like a product designer and design-systems lead. Infer stable product rules 
 4. Extract stable global rules for hierarchy, page structure, repeated components, interaction posture, typography ladder, contrast strategy, CTA posture, state handling, and visual restraint.
 5. Freeze the global public component set: identify which repeated controls and shared building blocks belong to the global system, which states or variants are globally allowed, which parts are immutable, and which implementation adjustments remain allowed.
 6. Read `references/global-guideline-contract.md` and produce `global-design-guidelines.md` with the exact metadata block, exact section ids, and exact section order.
-7. In `global-design-guidelines.md`, explicitly freeze the target `platform_identifier`. Do not let downstream implementation infer whether the validation target is Android emulator, Windows desktop, Web browser, or another surface from taste prose alone.
+7. In `global-design-guidelines.md`, explicitly freeze the target `platform_identifier`. Do not let downstream implementation infer whether the validation target is Android emulator, Windows desktop, Web browser, or another surface from image commentary alone.
 8. In `global-design-guidelines.md`, explicitly freeze the module-preview policy:
    - `module_refinement_default: no_generate`
-   - `perviewer_opt_in: enabled` only when the current approved workflow explicitly used `--perviewer`; otherwise `disabled`
    - `generated_module_preview_paths`: only the approved generated module preview paths for that freeze cycle, otherwise `[]`
 9. Read `references/theme-freeze-schema.md` and `references/value-freeze-strategy.md`, then freeze concrete light and dark theme values in `light-theme-freeze.yaml` and `dark-theme-freeze.yaml`.
 10. Read `references/downstream-linking-rules.md` and fill `downstream_reference_index` so later skills know which sections and files they must cite.
@@ -58,7 +57,7 @@ Act like a product designer and design-systems lead. Infer stable product rules 
 - Do not leave `platform_identifier` implicit once the workflow is entering freeze, architecture, or implementation preparation.
 - Do not confuse `platform_baseline` with a verified target validation surface.
 - Do not leave module-stage preview generation policy implicit once global artifacts are frozen.
-- Do not mark `perviewer_opt_in: enabled` unless the current approved workflow explicitly requested `--perviewer`.
+- Do not leave module-stage image evidence policy implicit once global artifacts are frozen.
 
 ## Deliverables
 

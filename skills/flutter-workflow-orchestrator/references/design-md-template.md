@@ -1,6 +1,6 @@
 # DESIGN.md Template
 
-Use this reference when `flutter-workflow-orchestrator` has reached `product_direction_confirmed` and must write a project-level `DESIGN.md` file that matches the Stitch `DESIGN.md` format.
+Use this reference when `flutter-workflow-orchestrator` has reached `product_direction_confirmed` and must write a project-level `DESIGN.md` file that drives the downstream HTML interactive prototype flow.
 
 ## Purpose
 
@@ -10,7 +10,7 @@ In this workflow, `DESIGN.md` must:
 
 - live at the project root as `DESIGN.md`
 - be written after final product design direction confirmation
-- exist before Stitch or Pencil structured design-source generation
+- exist before HTML interactive prototype generation
 - be self-contained
 - avoid references to other repo files, variables, or paths
 
@@ -155,7 +155,7 @@ When writing `DESIGN.md`, translate confirmed upstream decisions into this file:
 - CTA posture
 - depth and material treatment
 - shape language
-- optional effect-image evidence, when it materially clarifies the design intent
+- required effect-image evidence, when it materially clarifies the design intent
 - core user task priorities
 - first-screen information hierarchy and CTA exposure
 - interaction feedback rhythm

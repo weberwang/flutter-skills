@@ -1,13 +1,13 @@
 ---
 name: flutter-uiux-to-architecture
-description: Use when frozen Flutter UI/UX RD, implementation RD, taste direction, theme artifacts, visual evidence, and module design-source packets must be translated into Flutter-facing tokens, assets, reusable components, screen architecture, and implementation boundaries without requiring Pen or Pencil.
+description: Use when frozen Flutter UI/UX RD, implementation RD, image-backed design guidance, theme artifacts, visual evidence, and prototype-derived module design-source packets must be translated into Flutter-facing tokens, assets, reusable components, screen architecture, and implementation boundaries.
 ---
 
 # Flutter UIUX To Architecture
 
 ## Overview
 
-Turn frozen UI/UX design-source artifacts into a Flutter-facing implementation architecture. This skill replaces the default dependency on Pen/Pencil by consuming the confirmed module design-source packet, paired UI/UX RD, implementation RD, global guidelines, theme freeze files, taste constraints, and visual evidence.
+Turn frozen UI/UX design-source artifacts into a Flutter-facing implementation architecture. This skill consumes the confirmed prototype-derived module design-source packet, paired UI/UX RD, implementation RD, global guidelines, theme freeze files, image-backed design constraints, and visual evidence.
 
 It ends at architecture and implementation guidance. It does not write page code and does not reopen design decisions.
 
@@ -23,7 +23,7 @@ It must not treat preview images as the only source of truth for concrete Flutte
 - Paired module `ui-ux.md` and `impl.md`.
 - Confirmed module design-source packet or freeze card.
 - Confirmed freeze decision from `flutter-design-freeze-gate`.
-- Taste direction packet or consolidated design packet from `flutter-taste-router`.
+- Image-backed design packet or consolidated design packet from the approved screenshot and reference-image flow.
 - `global-design-guidelines.md` when available.
 - `light-theme-freeze.yaml` and `dark-theme-freeze.yaml` when available.
 - Verified `platform_identifier` for the target validation surface. Use explicit values such as `android_emulator`, `android_device`, `ios_simulator`, `ios_device`, `windows_desktop`, `macos_desktop`, `linux_desktop`, `web_browser`, or `custom`.
@@ -53,7 +53,7 @@ The contract must identify:
 
 1. Confirm the active module is at least `module_design_frozen` or has a pending confirmed design-source freeze.
 2. Verify the paired UI/UX and implementation RD are no longer `split_draft`.
-3. Verify the design-source packet references taste constraints, visual evidence, frozen theme values, component freeze decisions, and state matrix.
+3. Verify the design-source packet references image-backed design constraints, visual evidence, frozen theme values, component freeze decisions, and state matrix.
 4. Verify `platform_identifier` is explicit enough for downstream architecture and validation. Do not proceed into implementation-facing architecture with only a behavior baseline like `ios_hig` when the real target surface is Android emulator, Windows desktop, or Web browser.
 4.1 Verify that the frozen module design packet already considered platform-specific behavior that materially affects implementation: safe areas, touch targets, hover/focus, back navigation, density, gesture discoverability, desktop or web pointer expectations, and motion posture.
 5. Verify the display evidence pack is complete enough for fidelity-critical regions. If the page contains dense, branded, layered, scroll-reactive, or overlay-heavy areas and only a single broad preview exists, return a blocker instead of allowing image-only guessing.
@@ -86,14 +86,13 @@ The contract must identify:
    - `must_use_asset`: exact asset path or `none`
    - `must_not_flutterize`: `yes` or `no`
 14. Classify each visual decision as `preserve_faithfully`, `flutterize`, or `simplify`, and explain the implementation reason.
-15. Add taste implementation guardrails for presentation code: hierarchy, spacing rhythm, typography ladder, contrast, CTA salience, anti-template composition, and motion restraint.
+15. Add frozen design-quality implementation guardrails for presentation code: hierarchy, spacing rhythm, typography ladder, contrast, CTA salience, anti-template composition, and motion restraint.
 15.1 Add premium implementation guardrails for presentation code: preserve the high-confidence, high-fidelity feel of the frozen design through disciplined spacing, typography precision, restrained depth, platform-appropriate interaction feedback, and refusal to flatten fidelity-critical regions for convenience.
 16. Produce an architecture output pack that `flutter-init`, sibling `flutter-dev`, and `flutter-project-guardrails` can consume directly.
 
 ## Hard Rules
 
-- Do not require `.pen`, Pen, Pencil MCP data, or external design-tool nodes in the default workflow.
-- Do not use taste guidance to override frozen UI/UX intent.
+- Do not use subjective style guidance to override frozen UI/UX intent.
 - Do not treat `platform_baseline` as proof of a verified target validation surface.
 - Do not derive a desktop, browser, simulator, or device target from guesswork when `platform_identifier` is still missing.
 - Do not downgrade a frozen premium design into a generic platform skin during architecture mapping. Platform adaptation must preserve the intended quality bar rather than dilute it.
@@ -131,7 +130,7 @@ Return:
 - `scroll_and_motion_architecture`
 - `display_layer_decision_table`
 - `non_native_visual_fallbacks`
-- `taste_implementation_guardrails`
+- `design_implementation_guardrails`
 - `fidelity_vs_flutterization`
 - `implementation_boundaries`
 - `flutter_init_inputs`
@@ -143,6 +142,6 @@ Return:
 - Visual preview and UI/UX RD disagree: block and route to `flutter-design-source-control`.
 - Theme files are missing but required by the freeze packet: block and route to `design-preview-to-global-guidelines`.
 - Developer wants to simplify a hero or CTA in code: classify whether the simplification is allowed; otherwise route to `flutter-design-source-control`.
-- The UI looks tasteful but changes the primary task path: block; taste cannot override task guidance.
+- The UI looks polished but changes the primary task path: block; image-backed design guidance cannot override task guidance.
 - The effect image contains a texture, illustration, layered composite, or branded bitmap treatment that Flutter should not rebuild natively: record it in `asset_strategy`, mark it under `non_native_visual_fallbacks`, and direct downstream implementation to use `$imagegen` plus project asset ingestion.
 - The preview visually looks like a list or stacked layout, but `ui-ux.md` defines different interaction semantics: follow documented semantics, not image-only guesswork, or block if the sources truly conflict.

@@ -1,4 +1,4 @@
 interface:
   display_name: "Flutter RD Module Splitter"
   short_description: "Design detailed Flutter modules from a global technical baseline"
-  default_prompt: "Use $flutter-rd-module-splitter to decompose Flutter requirements after the global technical baseline exists, producing modules with paired UI/UX and implementation RD documents, inherited package decisions, explicit links, workflow states, and the paired-doc refinement contract that @superpowers must explicitly execute later for one active module after taste direction exists."
+  default_prompt: "Use $flutter-rd-module-splitter to decompose Flutter requirements after the global technical baseline exists, producing modules with paired UI/UX and implementation RD documents, inherited package decisions, explicit links, workflow states, and the paired-doc refinement contract that @superpowers must explicitly execute later for one active module after image-backed design direction exists."

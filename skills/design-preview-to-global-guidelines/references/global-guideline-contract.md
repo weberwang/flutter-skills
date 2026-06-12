@@ -13,7 +13,6 @@ source_type: screenshot | preview_comp | multi_screen_pack | mixed
 platform_identifier: android_emulator | android_device | ios_simulator | ios_device | windows_desktop | macos_desktop | linux_desktop | web_browser | custom | needs_confirmation
 module_preview_policy:
   module_refinement_default: no_generate
-  perviewer_opt_in: enabled | disabled
   generated_module_preview_paths: []
 theme_freeze_files:
   light: light-theme-freeze.yaml
@@ -118,9 +117,9 @@ List what implementation may simplify, what must stay faithful, and what require
 
 Also record the module-preview policy that downstream module refinement and parity review must follow:
 
-- module refinement does not generate new real-device previews by default
-- `--perviewer` is the only opt-in that allows module-stage preview generation
-- any generated module preview path list must stay explicit instead of being implied from prose
+- module refinement does not generate new real-device images by default
+- any additional module-stage image evidence must be explicitly approved
+- any generated module image path list must stay explicit instead of being implied from prose
 
 ### `downstream_reference_index`
 

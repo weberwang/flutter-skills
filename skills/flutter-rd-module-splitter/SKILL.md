@@ -12,7 +12,7 @@ Split broad Flutter product requirements into executable modules after the globa
 This skill has two modes:
 
 1. Initial split mode: create paired `ui-ux` and `impl` draft documents for each module during `modules_split`, while defining module dependencies and parallel implementation stages in the module index.
-2. Implementation refinement contract mode: define how one active module's existing paired docs must be refined to implementation-final granularity after shared taste direction is available.
+2. Implementation refinement contract mode: define how one active module's existing paired docs must be refined to implementation-final granularity after shared image-backed design direction is available.
 
 The initial split is not page-level freeze and not implementation-ready by default. It creates structured drafts, module boundaries, and an explicit implementation-order view. The later refinement contract defines what one active module must contain before design freeze and code without pretending the whole product is already landed. In the default workflow, that refinement execution must be explicitly carried out through `@superpowers`, while this skill remains the source of truth for paired-doc structure and refinement completeness. The default workflow no longer prepares page-level Pen artifacts; it prepares a frozen UI/UX design-source packet for Flutter architecture and code.
 
@@ -29,7 +29,7 @@ This skill defines one active module's refinement target per call. When `flutter
   - existing `docs/project/modules/<module>/<module>.ui-ux.md`
   - existing `docs/project/modules/<module>/<module>.impl.md`
   - latest shared freeze artifacts when they exist
-  - latest taste direction packet or equivalent taste constraints
+  - latest approved image-backed design packet or equivalent image-derived design constraints
   - current workflow record state for that module
 
 If the global technical baseline is missing, stop and route to `flutter-prd-rd-writer` before splitting implementation modules.
@@ -82,7 +82,7 @@ Do not default to a vague technical module name like `main`. Prefer a responsibi
    - Expand the paired docs to implementation-final granularity.
    - Keep inherited global package and architecture decisions unchanged unless the user explicitly requests a baseline revision upstream.
    - Add the detail needed for module design-source freeze and later code implementation, but do not mark the docs as landed here.
-   - Incorporate taste direction into page hierarchy, typography intent, contrast posture, CTA priority, spacing rhythm, motion role, and anti-template rules.
+   - Incorporate the approved image-backed design direction into page hierarchy, typography intent, contrast posture, CTA priority, spacing rhythm, motion role, and anti-template rules.
    - In the default workflow, treat this as the document contract that `@superpowers` must explicitly execute rather than a reason to bypass `@superpowers`.
 10. Keep global workflow state under orchestrator ownership; stage tracking belongs there, not inside per-module workflow notes.
 11. Generate or update `docs/project/00-module-index.md` when the user asks for files to be written.
@@ -141,8 +141,8 @@ Each `<module>.ui-ux.md` must include these minimum sections:
   - `layout_model`: linear, layered, relative-positioned, or mixed
   - `sticky_model`: none, sticky header, sticky tab/filter, sticky footer, or mixed
   - `component_repeatability`: which parts must become reusable repeated components
-- Design source section with taste direction, future visual evidence, and future `global-design-guidelines.md`, `light-theme-freeze.yaml`, and `dark-theme-freeze.yaml` references when approved static previews exist.
-- Design source section must not assume new module real-device preview generation by default. If module-stage preview generation is intended, reserve that as explicit `--perviewer` opt-in instead of implied future work.
+- Design source section with approved image-backed design direction, future visual evidence, and future `global-design-guidelines.md`, `light-theme-freeze.yaml`, and `dark-theme-freeze.yaml` references when approved static previews exist.
+- Design source section must not assume new module real-device preview generation by default. If module-stage additional image evidence is intended, reserve that as explicit later evidence instead of implied future work.
 - Design freeze card section reserved for later approval, including reserved fields for module-level component freeze decisions.
 - Acceptance gates for UI/UX, module design freeze, and code handoff.
 
@@ -155,8 +155,8 @@ In initial split mode, the document must cover:
 - Core path and key alternate states.
 - Coarse state matrix: ideal, empty, loading, error, permission, partial data, disabled, success, locked or premium when relevant.
 - Initial structure semantics for scroll, list, overlay, layout, sticky behavior, and component repeatability.
-- Shared design references, taste constraints, and future visual-evidence placeholders when approved static previews exist.
-- If the module still lacks approved module-stage visuals, keep that as an explicit optional placeholder. Do not imply that refinement will auto-generate new previews unless `--perviewer` is part of the approved workflow.
+- Shared design references, image-derived design constraints, and future visual-evidence placeholders when approved static previews exist.
+- If the module still lacks approved module-stage visuals, keep that as an explicit optional placeholder. Do not imply that refinement will auto-generate new previews by default.
 - Open questions that block implementation-level detail later.
 - If a shell module exists, the document must state whether navigation ownership belongs to that shell or to the current module.
 
@@ -171,7 +171,7 @@ In implementation refinement contract mode, expand the same document to directly
 - Edge-state handling that code must preserve.
 - Immutable visual or behavioral constraints versus explicitly adjustable items.
 - Exact inputs needed for module design-source freeze and architecture planning.
-- If module-stage preview generation is requested, state that it is explicit `--perviewer` opt-in evidence, not a default refinement side effect.
+- If module-stage additional image evidence is requested, state that it is explicit opt-in evidence, not a default refinement side effect.
 - Acceptance gates for module design freeze and code handoff.
 
 ## Implementation RD Contract
@@ -227,7 +227,7 @@ In implementation refinement contract mode, expand the same document to directly
 
 ## Hard Rules
 
-- Do not write shared visual direction; route that to `flutter-taste-router`.
+- Do not write shared visual direction from abstract prose alone; route that to the approved image-backed design-source flow.
 - Do not freeze screenshot-based global guidance or concrete theme values here; route that to `design-preview-to-global-guidelines`.
 - Do not rebuild page-level Pen or assets here. Pen is optional and outside the default workflow.
 - Do not choose packages or create the global technical scheme; route that to `flutter-prd-rd-writer`.
@@ -252,8 +252,8 @@ In implementation refinement contract mode, expand the same document to directly
 - Do not leave the refinement provenance block out of `<module>.impl.md`; the status must stay explicit even when it is `not_executed` or `unknown`.
 - Do not leave module-level reusable components completely undefined in UI/UX RD when the module clearly contains repeated non-page building blocks.
 - Do not leave scroll, list, overlay, relative-layout, or sticky behavior to image-only interpretation when the module is entering implementation preparation.
-- Do not imply that module refinement will auto-generate new real-device previews; that requires explicit `--perviewer` workflow opt-in.
-- Do not perform detailed module UI/UX refinement before taste direction exists. If taste direction is missing, block and route upstream.
+- Do not imply that module refinement will auto-generate new real-device previews by default.
+- Do not perform detailed module UI/UX refinement before image-backed design direction exists. If image-backed design direction is missing, block and route upstream.
 - Do not hide a real root-shell dependency inside multiple feature modules. If the shell has independent state or routing responsibility, split it explicitly as `app-shell` or `root-shell`.
 - Do not create a generic `main` module name. Use a responsibility-driven shell name instead.
 

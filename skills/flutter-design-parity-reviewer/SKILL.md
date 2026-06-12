@@ -61,7 +61,7 @@ When a module has fidelity-critical regions, compare them region by region again
 - Do not treat snapshot similarity as enough when interaction or state behavior differs.
 - Do not collapse structure, visual, state, and motion review into one aggregate opinion; review each dimension explicitly.
 - Do not rewrite architecture here; route structural implementation issues to the relevant Flutter implementation skill.
-- Do not require `.pen` or Pencil MCP data in the default parity workflow.
+- Do not require external design-draft files or tool-specific node data in the default parity workflow.
 
 ## Output Contract
 

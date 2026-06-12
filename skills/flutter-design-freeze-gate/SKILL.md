@@ -14,7 +14,7 @@ This gate has two different responsibilities:
 1. Before `modules_split`, it validates only the shared/public freeze needed to split modules safely.
 2. During active module implementation preparation, it validates the active module's page-level hierarchy, module-private component freeze, state coverage, and design-source packet before architecture or code handoff.
 
-It validates explicit design approval, state coverage, immutable constraints, and the presence of required freeze artifacts. It does not create the design or rebuild it in Pencil. The default workflow no longer requires `.pen` or Pencil MCP data.
+It validates explicit design approval, state coverage, immutable constraints, and the presence of required freeze artifacts. It does not create the design, and the default workflow uses frozen HTML interactive prototype artifacts instead of external design-draft files.
 
 For module implementation handoff, high-fidelity visual fidelity is the first freeze priority. The gate must evaluate the module's visual contract before secondary implementation-readiness concerns: hierarchy, spacing, typography, layer depth, image or texture treatment, component states, fidelity-critical regions, platform-specific interaction and layout expectations, and any approved Flutterization or bitmap fallback.
 
@@ -28,7 +28,7 @@ A successful module freeze decision is only a local gate result. In `flutter-wor
 - Module name when the target is module-specific.
 - Current workflow state.
 - Paired UI/UX RD path when the target is module-specific.
-- Consolidated design packet from `flutter-taste-router` when the target is module-specific.
+- Consolidated image-backed design packet when the target is module-specific.
 - High-fidelity visual contract when the target is module-specific, including locked hierarchy, spacing, typography, layer depth, state coverage, fidelity-critical region handling, and approved asset fallback or Flutterization decisions.
 - Explicit target `platform_identifier` or a freeze-blocking note that it is still missing. Module design must not freeze against a vague "mobile" or "desktop" label when concrete platform behavior affects layout, navigation, touch targets, hover, density, or motion.
 - When static previews are the frozen source, artifacts from `design-preview-to-global-guidelines`.
@@ -67,13 +67,13 @@ Approve `module_impl_prep` only when all items are present:
 
 - Active module name and paired UI/UX RD.
 - Shared freeze inputs that the module depends on.
-- Taste direction and any inherited anti-template constraints.
+- Approved image-backed design direction and any inherited anti-template constraints.
 - Page scope and navigation entry for the active module.
 - Core path and return loop.
 - Page hierarchy, key-task guidance, and state details at implementation-final granularity.
 - Either:
   - the freeze-facing visual draft, preview pack, or approved screenshot evidence is complete enough that hierarchy, task guidance, typography, contrast, CTA clarity, and state scope can be judged directly from the design package
-  - or the consolidated design packet from `flutter-taste-router` is explicit enough that the module UI/UX can be judged and frozen without static images
+  - or the consolidated image-backed design packet is explicit enough that the module UI/UX can be judged and frozen without static images
 - High-fidelity visual contract is evaluated first and is either accepted for implementation or explicitly reduced by design-source control. The accepted contract must cover hierarchy, spacing, typography, layer depth, image or texture treatment, component states, fidelity-critical regions, and approved Flutterization or bitmap fallback.
 - The module design packet makes the target platform feel native enough for that validation surface while still preserving a premium, high-confidence visual standard. "Premium" here means high-quality hierarchy, spacing rhythm, typography control, contrast discipline, CTA dominance, depth restraint, and state consistency, not decorative styling alone.
 - Module-private component freeze exists for repeated building blocks inside that module, including frozen states, variant boundaries, immutable parts, and allowed adjustments.
@@ -110,11 +110,11 @@ Use these outcomes:
 - Do not allow Flutter implementation to reinterpret hierarchy, spacing, states, or visual tokens.
 - Do not treat premium decoration as compensation for weak typography hierarchy, low contrast, or a buried CTA.
 - Do not allow module-private or other module-level reusable components to enter Flutter handoff without an explicit component-freeze decision for that active module.
-- Do not require static images for module freeze when the `flutter-taste-router` design packet already makes hierarchy, task guidance, CTA posture, state coverage, and component freeze explicit enough to implement safely.
+- Do not require extra static images for module freeze when the consolidated image-backed design packet already makes hierarchy, task guidance, CTA posture, state coverage, and component freeze explicit enough to implement safely.
 - Do not allow global public components to remain only implied inside theme files or prose; require explicit frozen global component decisions.
 - Do not allow global design freeze to pass when reference screenshots or preview images are missing; block and ask the user whether to fall back.
 - Do not let downstream skills infer missing theme values from static previews; require `design-preview-to-global-guidelines` to freeze them first.
-- Do not decide visual alternatives here; route unresolved choices to `flutter-taste-router` or `design-preview-to-global-guidelines` depending on whether the missing work is exploratory or contract-freezing.
+- Do not decide visual alternatives here; route unresolved choices to the image-backed design-source flow or `design-preview-to-global-guidelines` depending on whether the missing work is exploratory or contract-freezing.
 - Do not treat a pretty preview as frozen unless it has an approval record.
 - Do not treat `frozen_module_for_architecture` as proof that `--auto` may stop. That result only means the active module may continue toward implementation-readiness or architecture, while the orchestrator still has to process remaining target modules.
 
@@ -138,7 +138,7 @@ Return:
 - User says "there is no reference image, freeze the global design first": block and ask whether to fall back.
 - User says "shared styles are frozen, pages can be decided later": allow shared freeze only for module splitting, not for code handoff.
 - User says "the page is frozen, components can be decided later": block until module-private or other module-level component freeze is explicit for that active module.
-- User says "there is no static preview for this module": allow module freeze only if the `flutter-taste-router` packet is explicit enough to freeze without images; otherwise block.
+- User says "there is no static preview for this module": allow module freeze only if the consolidated image-backed design packet is explicit enough to freeze without images; otherwise block.
 - User says "the theme is frozen, global shared components can be decided later": block until the global public component freeze is explicit.
 - User says "we can add states later": block production freeze.
 - User says "Flutter can decide the dark theme later": block until `light-theme-freeze.yaml` and `dark-theme-freeze.yaml` are frozen.

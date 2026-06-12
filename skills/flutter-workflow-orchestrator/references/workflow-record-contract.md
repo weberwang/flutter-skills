@@ -56,29 +56,26 @@ When persisted, this runtime artifact is the single stable source for project wo
 - whether one representative light-mode effect image has been generated before remaining optional page-image generation starts
 - whether the representative effect image is pending confirmation, confirmed, or rejected
 - whether a confirmed representative or approved direction effect image has frozen the current-cycle visual baseline and closed alternative-direction browsing
-- whether every page in scope has an approved light-mode effect image when the optional full effect-image branch is active
-- whether taste direction exists and which constraints it introduced
+- whether every page in scope has an approved light-mode effect image for the required full effect-image set
+- whether approved image-backed design direction exists and which constraints it introduced
 - whether `platform_baseline` exists and whether `platform_identifier` has been explicitly verified as the primary runtime and validation platform
 - whether the primary-platform validation target is a selected real device, a pending device choice, or an emulator/simulator fallback
-- whether freeze preparation already passed through `flutter-taste-router` textual normalization
+- whether freeze preparation already passed through image-backed design-packet normalization
 - whether a shared or module design-source package has already been freeze-evaluated
 - whether freeze evaluation already verified task hierarchy, CTA discoverability, interaction feedback, responsive strategy, and critical-state coverage
-- whether the chosen `design_source_adapter` is Stitch or Pencil
-- whether Stitch MCP was available and which `modelId` was used for structured design-source generation or validation
-- whether `stitch_project_mode` is confirmed as `new` or `existing` before Stitch design-source work starts
-- whether `stitch_project_id` is confirmed and frozen after the Stitch project mode choice
-- whether the shared/global Stitch packet is limited to shared theme/public-shell design only
-- when module-scoped Stitch page design runs, whether it used page-scoped subagents and whether the batch respected the 6-subagent concurrency cap
-- when module-scoped page generation was required, whether every in-scope page has a successful page-level Stitch receipt before packet merge and freeze
-- whether Stitch restoration downloaded image assets for direct use, and where those assets were saved
-- whether the Stitch design-source packet has been checked against its source effect image or approved visual comp
+- whether the design source type is the shared HTML interactive prototype flow
+- whether the shared/global HTML interactive prototype packet is limited to shared theme/public-shell design only
+- when module-scoped page prototype work runs, whether it used page-scoped subagents and whether the batch respected the 6-subagent concurrency cap
+- when module-scoped page generation was required, whether every in-scope page has a successful page-level prototype receipt before packet merge and freeze
+- whether prototype restoration exported image assets for direct use, and where those assets were saved
+- whether the prototype-derived design-source packet has been checked against its source effect image or approved visual comp
 - whether the active module's high-fidelity visual contract was evaluated as the first module design-freeze priority
 - whether shared or module page-level static visual evidence already exists in the expected directories
-- whether the accepted workflow effect-image set is confirmed as optional light-mode evidence
-- whether shared/global effect-image generation covers all pages in the approved product scope
+- whether the accepted workflow effect-image set is confirmed as the required light-mode evidence baseline
+- whether shared/global required effect-image generation covers all pages in the approved product scope
 - whether shared/global freeze already has the approved effect images required by the active revision path, if any
 - whether generated effect images explicitly inherited the approved global style constraints
-- whether module-stage effect-image generation stayed disabled by default unless `--preview` was explicitly enabled
+- whether module-stage effect-image generation stayed disabled by default unless an explicit evidence need was approved after the required shared/global effect-image set was complete
 - whether `global-design-guidelines.md` records the current effect-image policy and generated global effect-image paths
 - whether implementation planning identified any non-native visual asset that still needs MCP-driven generation or rework
 - whether display-layer readiness preflight is complete before implementation begins
@@ -175,7 +172,7 @@ Use these values consistently:
 
 Summarize the project's overall workflow posture in 2-4 short lines.
 
-Include whether the workflow is still in requirements brainstorming, PRD generation, Product Design brief confirmation, Product Design recommendation review, final product design direction confirmation, `DESIGN.md` output, optional representative effect-image confirmation, optional remaining page-effect generation, shared freeze, module `impl.md` generation, module page component drafting, module freeze, bootstrap code generation, code implementation, or human visual inspection handoff.
+Include whether the workflow is still in requirements brainstorming, PRD generation, Product Design brief confirmation, representative effect-image review, final product design direction confirmation, `DESIGN.md` output, shared freeze, module `impl.md` generation, module effect-image generation, module HTML interactive prototype generation, module freeze, bootstrap code generation, code implementation, or human visual inspection handoff.
 
 If `execution_mode=auto`, also state whether the workflow is still auto-advancing or has stopped at workflow completion.
 
@@ -187,31 +184,31 @@ Record why the project is in the current stage and what must become true before 
 
 If the global visual design direction has not yet been brainstormed, say so explicitly and keep final product design direction confirmation blocked.
 
-If the target design-device preset or base resolution is still missing, say so explicitly and keep Product Design brief confirmation, visual recommendation, and optional effect-image generation blocked.
+If the target design-device preset or base resolution is still missing, say so explicitly and keep Product Design brief confirmation, representative effect-image generation, and required effect-image generation blocked.
 
-If the common public shell has not yet been explicitly agreed, say so explicitly and keep design-direction confirmation plus optional effect-image generation blocked.
+If the common public shell has not yet been explicitly agreed, say so explicitly and keep design-direction confirmation plus required effect-image generation blocked.
 
-If the final product design direction has not been confirmed, say so explicitly and keep `DESIGN.md`, structured design-source work, and optional image generation blocked.
+If the final product design direction has not been confirmed, say so explicitly and keep `DESIGN.md`, HTML interactive prototype work, and downstream required effect-image completion blocked.
 
-If the root-level `DESIGN.md` is missing after final product direction confirmation, say so explicitly and keep structured design-source work blocked.
+If the root-level `DESIGN.md` is missing after final product direction confirmation, say so explicitly and keep HTML interactive prototype work blocked.
 
 If `DESIGN.md` exists but still lacks task-priority, interaction-feedback, responsive-strategy, critical-state, or content-tone coverage that the product clearly needs, say so explicitly and keep freeze and design-source work blocked.
 
-If the representative effect image exists but is still waiting for user confirmation, say so explicitly and keep remaining optional page-image generation blocked.
+If the representative effect image exists but is still waiting for user confirmation, say so explicitly and keep remaining required page-image generation blocked.
 
 If the representative effect image has already been confirmed, say so explicitly, state that alternative-direction browsing is closed for the current design cycle, and allow only same-direction completion work unless the user explicitly restarts or rejects that baseline.
 
-If taste direction is missing before detailed design-source work, say so explicitly.
+If approved image-backed design direction is missing before detailed design-source work, say so explicitly.
 
 If the workflow is still in requirements brainstorming, state whether raw requirements are captured, whether the PRD question ledger exists, which decision-blocking questions remain, and whether a PRD artifact has been generated.
 
 If the shared/global design freeze is not complete yet, say so explicitly and keep all module-related workflow blocked.
 
-If shared/global structured design-source work is in progress, state explicitly that this scope is limited to shared theme and public-shell design and does not include page design.
+If shared/global HTML interactive prototype work is in progress, state explicitly that this scope is limited to shared theme and public-shell design and does not include final module page implementation code.
 
 If the active module lacks an executable `impl.md`, say so explicitly.
 
-If freeze preparation is in progress, state whether `flutter-taste-router` textual normalization is already complete and whether static-image directory inspection has already happened.
+If freeze preparation is in progress, state whether image-backed design-packet normalization is already complete and whether static-image directory inspection has already happened.
 
 If module design freeze is in progress, state whether the module function is already fixed in `impl.md`, whether the module-scoped display-layer design draft already exists, and whether the high-fidelity visual contract has passed, is explicitly reduced by design-source control, or is blocking freeze.
 
@@ -239,7 +236,7 @@ Mention the latest freeze decision or blocker for that module when it exists.
 
 Mention the module's current `high_fidelity_freeze_status` when module freeze, architecture, or implementation-readiness is being considered.
 
-If the module is entering implementation, mention whether its `impl.md` is implementation-final, whether it references the frozen selected structured design-source packet, whether the frozen module display-layer design draft already exists, and whether corresponding page-image evidence exists for display-layer landing.
+If the module is entering implementation, mention whether its `impl.md` is implementation-final, whether it references the frozen prototype-derived design-source packet, whether the frozen module display-layer design draft already exists, and whether corresponding page-image evidence exists for display-layer landing.
 
 If implementation planning already identified bitmap-only visual effects, mention whether they are pending generation, already saved into the project, or already wired into the implementation plan.
 
@@ -302,27 +299,26 @@ Track project-level artifact paths when known, such as:
 - representative effect image page
 - representative effect image status
 - representative effect-image baseline lock record
-- all-page light-mode effect-image set and approval status, when the optional full image branch is active
+- all-page light-mode effect-image set and approval status for the required full image branch
 - global technical baseline
-- taste direction packet
+- approved image-backed design packet
 - verified primary platform identifier
 - primary-platform device selection or emulator-start record
 - module index
 - `global-design-guidelines.md`
-- chosen `design_source_adapter`
+- chosen `design_source_type`
 - `light-theme-freeze.yaml`
 - `dark-theme-freeze.yaml`
 - shared freeze evidence or freeze decision
 - shared global effect-image directory under `docs/project/`
-- Stitch design-source packet path and `modelId`
-- frozen `stitch_project_mode`
-- frozen `stitch_project_id`
+- HTML interactive prototype packet path
+- shared HTML prototype entry or artifact root
 - module page-design batch id or trace path when module-scoped page generation ran
-- page-level Stitch receipt paths when module-scoped page generation ran
-- downloaded Stitch image asset source paths or URLs
-- downloaded Stitch image asset local paths
-- Stitch source effect-image paths
-- Stitch-vs-effect-image validation result
+- page-level prototype receipt paths when module-scoped page generation ran
+- exported prototype image asset source paths or URLs
+- exported prototype image asset local paths
+- prototype source effect-image paths
+- prototype-vs-effect-image validation result
 - whether the shared effect-image set is light mode or an explicitly approved override
 - effect-image policy recorded in `global-design-guidelines.md`
 - fidelity-critical display evidence pack paths when known
@@ -342,7 +338,7 @@ If the shared/public component freeze is tracked in a dedicated artifact, index 
 
 Use one row per module with these columns:
 
-| module | current_state | confirmation_status | next_skill | pending_next_stage | pending_next_skill | pending_status_updates | design_source_adapter | design_source_project_mode | design_source_project_ref | design_source_packet | effect_images | impl_rd | impl_status | generation_trace_status | global_guidelines | light_theme | dark_theme | taste_direction | visual_evidence | high_fidelity_freeze_status | design_source_status | code_status | init_status | blockers |
+| module | current_state | confirmation_status | next_skill | pending_next_stage | pending_next_skill | pending_status_updates | design_source_type | design_source_project_ref | design_source_packet | effect_images | impl_rd | impl_status | generation_trace_status | global_guidelines | light_theme | dark_theme | design_direction | visual_evidence | high_fidelity_freeze_status | design_source_status | code_status | init_status | blockers |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 
 Update the existing row for a module instead of creating duplicates.
@@ -368,35 +364,32 @@ When route drift, receipt mismatch, or no-progress auto stopping happens, add a 
 - Keep `execution_owner` in sync with the latest routing turn.
 - If raw requirements are provided without a PRD artifact, set or keep `current_stage=requirements_brainstorming`, index the raw requirement source or intake summary, and record whether the PRD question ledger exists.
 - If requirements brainstorming resolves decision-blocking questions, index the generated PRD artifact and queue `pending_next_stage=prd_ready` instead of silently jumping to technical baseline.
-- If decision-blocking questions remain unresolved, record them in `required_inputs` or `blockers`, keep `current_stage=requirements_brainstorming`, and do not route to technical baseline, taste direction, executable module document generation, architecture, or implementation.
+- If decision-blocking questions remain unresolved, record them in `required_inputs` or `blockers`, keep `current_stage=requirements_brainstorming`, and do not route to technical baseline, image-backed design direction, executable module document generation, architecture, or implementation.
 - If a default is used to answer a PRD question, record the assumption, rationale, and risk in the workflow record or PRD artifact index.
-- If the PRD exists but the global visual design direction has not yet been brainstormed, keep `DESIGN.md`, structured design-source work, and optional effect-image generation blocked and route first to `@product-design` brief confirmation or visual-direction recommendation as needed. If richer commercial evidence is needed before confirmation, record the pending pre-direction Creative Production branch explicitly instead of treating `flutter-taste-router` as the primary direction owner.
+- If the PRD exists but the global visual design direction has not yet been brainstormed, keep `DESIGN.md`, HTML interactive prototype work, and required effect-image generation blocked and route first to `@product-design` brief confirmation or representative effect-image recommendation as needed. If richer commercial evidence is needed before confirmation, record the pending pre-direction Creative Production branch explicitly instead of treating image-backed design-packet normalization as the primary direction owner.
 - If the technical baseline exists but the target design-device preset or base resolution is still missing, keep `current_stage=technical_baseline_ready`, record `required_inputs=design_device_preset_and_resolution`, and do not route to Product Design brief confirmation yet. In `--auto`, if the viewport is still missing, record that `390 x 844 px` was auto-selected.
-- If the global visual direction exists but the common public shell has not yet been agreed, keep design-direction confirmation and optional effect-image generation blocked, record `required_inputs=public_shell_confirmation`, and do not route to representative or full page-effect generation.
-- If the brainstormed direction exists but the final product design direction has not been confirmed with the user, keep `DESIGN.md`, structured design-source work, and optional effect-image generation blocked, record `required_inputs=final_product_design_direction_confirmation`, and do not route to downstream design-source generation.
-- If final product design direction is confirmed but the shared or module freeze packet is still not standardized, route to `flutter-taste-router` for textual normalization and freeze-contract consolidation before any freeze promotion is queued.
+- If the global visual direction exists but the common public shell has not yet been agreed, keep design-direction confirmation and required effect-image generation blocked, record `required_inputs=public_shell_confirmation`, and do not route to representative or full page-effect generation.
+- If the brainstormed direction exists but the final product design direction has not been confirmed with the user, keep `DESIGN.md`, HTML interactive prototype work, and required effect-image generation blocked, record `required_inputs=final_product_design_direction_confirmation`, and do not route to downstream prototype generation.
+- If final product design direction is confirmed but the shared or module freeze packet is still not standardized, route to image-backed design-packet normalization for freeze-contract consolidation before any freeze promotion is queued.
 - If final product design direction is confirmed, index the confirmation artifact or decision-log entry before writing the root-level `DESIGN.md` or generating any optional effect image.
-- If the root-level `DESIGN.md` is written, index its path before generating any structured design source.
-- If `DESIGN.md` captures task priority, first-screen CTA posture, interaction feedback, responsive strategy, critical states, and content tone, record that quality audit explicitly. If not, record the missing areas as blockers before structured design-source generation.
-- If no representative effect image exists yet and the optional effect-image branch is active in manual mode, generate exactly one representative effect image first, index its path and selected page, set `confirmation_status=pending_confirmation`, and stop before generating remaining page images.
-- If the representative effect image is still pending confirmation or has been rejected in manual mode, keep remaining optional page-image generation blocked and do not advance to the broader optional page-image generation step.
-- If the representative effect image is confirmed in manual mode, record that confirmation explicitly before generating the remaining optional page-effect set.
-- If `execution_mode=auto` and `--preview` is active, generate the in-scope effect images automatically, record their paths, and do not create a confirmation stop.
-- If taste direction is produced, index its artifact path in `global_artifact_index` and link it from active module rows when relevant.
+- If the root-level `DESIGN.md` is written, index its path before generating any HTML interactive prototype artifacts.
+- If `DESIGN.md` captures task priority, first-screen CTA posture, interaction feedback, responsive strategy, critical states, and content tone, record that quality audit explicitly. If not, record the missing areas as blockers before HTML interactive prototype generation.
+- If no representative effect image exists yet in manual mode, generate exactly one representative effect image first, index its path and selected page, set `confirmation_status=pending_confirmation`, and stop before generating remaining page images.
+- If the representative effect image is still pending confirmation or has been rejected in manual mode, keep remaining required page-image generation blocked and do not advance to the broader required page-image generation step.
+- If the representative effect image is confirmed in manual mode, record that confirmation explicitly before generating the remaining required page-effect set.
+- If `execution_mode=auto` and the active route explicitly requires additional effect images, generate the in-scope images automatically, record their paths, and do not create a confirmation stop.
+- If approved image-backed design direction is produced, index its artifact path in `global_artifact_index` and link it from active module rows when relevant.
 - If `platform_identifier` becomes explicit, record it in the relevant summary or artifact index instead of leaving it implicit in prose.
 - If primary-platform validation target selection changes from pending to selected device or emulator fallback, record that transition explicitly in the relevant summary or artifact index.
-- If `flutter-taste-router` completes textual normalization, record that status in the relevant summary or decision entry before any freeze promotion is queued.
+- If image-backed design-packet normalization completes, record that status in the relevant summary or decision entry before any freeze promotion is queued.
 - If freeze preparation inspects static-image directories, record whether existing evidence was reused, skipped due to missing environment variables, or newly generated.
 - If effect images are accepted for workflow use, record whether they satisfy the default light-mode requirement.
-- If Stitch is used as the structured design source, record the Stitch packet path, `modelId`, source effect-image paths, and Stitch-vs-effect-image validation result. Record page-level Stitch receipt paths, downloaded image asset source/local paths, and page-design batch concurrency only when module-scoped page generation actually ran.
-- Before any Stitch design-source generation or validation, verify that `stitch_project_mode` is confirmed as `new` or `existing`. If it is missing or ambiguous, record `stitch_status=blocked_missing_project_mode`, keep the current stage unchanged, and stop with `required_inputs=stitch_project_mode:new_or_existing`.
-- After `stitch_project_mode` is confirmed, record how the id is obtained. For `new`, create the Stitch project and freeze the returned `stitch_project_id`; if creation cannot return a frozen id, record `stitch_status=blocked_project_creation` and stop with `required_inputs=stitch_project_creation`. For `existing`, verify that the user-provided `stitch_project_id` is confirmed and frozen; if it is missing, ambiguous, or mutable, record `stitch_status=blocked_missing_project_id`, keep the current stage unchanged, and stop with `required_inputs=stitch_project_id`.
-- If `stitch_project_mode` or `stitch_project_id` changes after being frozen, route through `flutter-design-source-control` and treat existing Stitch packets as needing revalidation.
-- If Stitch MCP is required but unavailable in the current tool context, record `stitch_status=unavailable`, keep the relevant freeze blocked, and do not silently fall back to raw effect images as the only design source.
-- If module-scoped Stitch page design is delegated, record the page-to-subagent assignment, enforce `stitch_parallel_limit=6`, and keep workflow record updates orchestrator-owned.
-- If any required module-scoped page-level Stitch receipt is missing or blocked, keep `design_source_status` out of `frozen`, record the failed page, and stop packet freeze.
-- If a module-scoped Stitch page subagent downloads image assets for direct use, index each source URL or artifact path, local asset path, owning page, intended component/region, and direct-use decision.
-- If a required downloaded image asset is missing, keep the relevant Stitch packet unfrozen and record the missing asset as a blocker.
+- If the HTML interactive prototype flow is used as the design source, record the prototype packet path, source effect-image paths, and prototype-vs-effect-image validation result. Record page-level prototype receipt paths, exported image asset source/local paths, and page-design batch concurrency only when module-scoped page generation actually ran.
+- If the shared or module HTML interactive prototype flow is blocked by missing entry artifacts, missing prototype outputs, or missing exported assets, keep the current stage unchanged, record the blocker explicitly, and do not silently fall back to raw effect images as the only design source.
+- If module-scoped page prototype work is delegated, record the page-to-subagent assignment, enforce `prototype_parallel_limit=6`, and keep workflow record updates orchestrator-owned.
+- If any required module-scoped page-level prototype receipt is missing or blocked, keep `design_source_status` out of `frozen`, record the failed page, and stop packet freeze.
+- If a module-scoped page prototype subagent exports image assets for direct use, index each source URL or artifact path, local asset path, owning page, intended component/region, and direct-use decision.
+- If a required exported image asset is missing, keep the relevant prototype packet unfrozen and record the missing asset as a blocker.
 - If shared/global effect images were generated, record the complete page list, one approved image path per page, and whether every in-scope page is covered for that optional branch.
 - If the representative effect image was generated, record its path, selected page, and approval status.
 - If shared/global freeze is under review, record whether the approved effect images required by the active revision path now exist or whether that path is still blocked on image generation.
@@ -420,7 +413,7 @@ When route drift, receipt mismatch, or no-progress auto stopping happens, add a 
 - If `execution_mode=auto` changed modules, rewrote `next_skill`, or rewrote stage posture without new proof or blocker, record `auto_progress_delta: none`, set a blocker, and stop.
 - If module design freeze is evaluated, record `high_fidelity_freeze_status` as `passed`, `approved_reduction`, `blocked`, or `not_evaluated`. Do not queue `design_source_status=frozen` when the value is `blocked` or `not_evaluated`.
 - If the active module design-source packet is confirmed, queue or apply `design_source_status=frozen` according to the confirmation gate.
-- If the module `impl.md` references the frozen selected structured design-source packet and the user confirms, apply `impl_status=landed`.
+- If the module `impl.md` references the frozen prototype-derived design-source packet and the user confirms, apply `impl_status=landed`.
 - If a step result is ready for review, keep `current_stage` on the last confirmed stage, set `confirmation_status: pending_confirmation`, set `next_skill: none`, and record candidate transitions and status changes in `pending_next_stage`, `pending_next_skill`, and `pending_status_updates`.
 - If the user confirms a pending transition, move `pending_next_stage` into `current_stage`, move `pending_next_skill` into `next_skill` only for that routing update, apply `pending_status_updates`, clear all pending fields to `none`, and set `confirmation_status: confirmed`.
 - If the user confirms only queued status changes and there is no stage switch, keep `current_stage` unchanged, apply `pending_status_updates`, clear all pending fields to `none`, and set `confirmation_status: confirmed`.
@@ -433,7 +426,7 @@ When route drift, receipt mismatch, or no-progress auto stopping happens, add a 
 - If the workflow is entering delegated module document generation or module implementation, record that execution must be explicitly invoked through `@superpowers`; if corresponding page-image evidence exists, mention that display-layer landing should consult the page image and frozen design evidence.
 - If the workflow is entering implementation, record whether `@superpowers` `Spec` exists, whether `@superpowers` `Plan` exists, and do not treat execution as authorized before both exist.
 - If implementation execution begins, record the active serial module order, the current active module, and any explicitly approved ownership split. Default expectation is serial module execution.
-- If a selected module, module index row, executable module `impl.md`, or required Stitch design-source packet cannot be verified on disk, record the blocker and keep all generation, freeze, and architecture trace fields as `未执行`, `not_executed`, or `unknown`.
+- If a selected module, module index row, executable module `impl.md`, or required prototype-derived design-source packet cannot be verified on disk, record the blocker and keep all generation, freeze, and architecture trace fields as `未执行`, `not_executed`, or `unknown`.
 - If architecture planning decides that a visual must become a bitmap asset, record the selected asset path or the pending MCP-driven generation need explicitly.
 - If display-layer readiness preflight is required, record whether the main effect image, detail effect images, structure semantics, display-layer decision table, fidelity classifications, region-level evidence coverage, and non-display behavior readiness are all ready.
 - If a module is blocked, write the blocker both in the metadata summary section and in the module row.
@@ -445,7 +438,7 @@ When route drift, receipt mismatch, or no-progress auto stopping happens, add a 
 - Do not delete historical decisions from `decision_log`; append short entries instead.
 - Do not hide blockers in prose outside the `blockers` section.
 - Do not treat raw requirements as `prd_ready` until a PRD artifact exists and decision-blocking questions are resolved or explicitly defaulted.
-- Do not route from raw demand directly into technical baseline, taste direction, executable module document generation, architecture, or implementation.
+- Do not route from raw demand directly into technical baseline, image-backed design direction, executable module document generation, architecture, or implementation.
 - Do not record PRD assumptions as facts unless their rationale and risk are explicit.
 - Do not treat `platform_baseline` as if it already verified the real primary runtime and validation platform.
 - Do not leave the primary-platform validation target ambiguous once validation, debugging, human visual inspection, or implementation verification is in scope.
@@ -454,19 +447,16 @@ When route drift, receipt mismatch, or no-progress auto stopping happens, add a 
 - Do not mark a stage as advanced until the required artifacts for that stage are actually available.
 - Do not mark a maturity upgrade as confirmed until the artifact that proves it actually exists.
 - Do not treat a missing or non-executable module `impl.md` as implementation-ready.
-- Do not mark `impl_status=landed` before the module `impl.md` references a confirmed frozen selected structured design-source packet.
+- Do not mark `impl_status=landed` before the module `impl.md` references a confirmed frozen prototype-derived design-source packet.
 - Do not mark `design_source_status=frozen` for module implementation when `high_fidelity_freeze_status` is `blocked`, `not_evaluated`, or missing.
 - Do not mark `code_status=landed` before code output actually exists.
 - Do not claim static visual evidence was generated before recording whether the directory was checked first and whether `gpt-image-2-generator` for that branch was actually available.
 - Do not accept effect-image evidence into the workflow record without stating whether it meets the default light-mode requirement.
-- Do not mark a Stitch design-source packet as frozen before recording the source effect-image paths, `modelId`, and validation result.
-- Do not mark a Stitch design-source packet as frozen before recording the frozen `stitch_project_mode`.
-- Do not mark a Stitch design-source packet as frozen before recording the frozen `stitch_project_id`.
-- Do not mark a Stitch design-source packet as frozen before recording successful page-level Stitch receipts for every in-scope page when module-scoped page generation was required.
-- Do not mark a Stitch design-source packet as frozen before recording local paths for every downloaded image asset required for direct implementation use when module-scoped asset download was part of the accepted packet.
-- Do not store literal Stitch API keys in the workflow record.
-- Do not accept shared/global effect-image evidence into the workflow record without stating whether every in-scope page has an approved light-mode effect image for that optional branch.
-- Do not treat a representative effect image as if the complete all-page effect-image set already exists.
+- Do not mark a prototype-derived design-source packet as frozen before recording the source effect-image paths and validation result.
+- Do not mark a prototype-derived design-source packet as frozen before recording successful page-level prototype receipts for every in-scope page when module-scoped page generation was required.
+- Do not mark a prototype-derived design-source packet as frozen before recording local paths for every exported image asset required for direct implementation use when module-scoped asset export was part of the accepted packet.
+- Do not accept shared/global effect-image evidence into the workflow record without stating whether every in-scope page has an approved light-mode effect image for the required branch.
+- Do not treat a representative effect image as if it also proves module-scoped effect-image evidence already exists.
 - In manual mode, do not generate remaining page effect images before the representative effect image is explicitly confirmed.
 - Do not accept generated effect-image evidence into the workflow record without stating whether the approved style constraints were explicitly inherited.
 - Do not present shared/global freeze as ready in the workflow record while a revision path that explicitly requires approved effect images is still missing them.
@@ -497,5 +487,4 @@ When route drift, receipt mismatch, or no-progress auto stopping happens, add a 
 - Do not treat implementation execution as valid unless the workflow record shows the active serial module order, the current active module, and any explicitly approved ownership split when one exists.
 - Do not record delegated module document generation or implementation as valid if it was routed directly to a downstream execution skill without explicit `@superpowers` invocation when execution ownership was required.
 - Do not infer verified execution from polished documents, manual backfill, or missing traces.
-- Do not hide a missing module index row, missing executable module `impl.md`, missing Stitch design-source packet, or other failed generation precondition behind a later stage label.
-- Do not require `pen_file`, `pen_status`, page-level Pen, `.pen`, or Pencil MCP data unless the workflow selected the Pencil design-source branch.
+- Do not hide a missing module index row, missing executable module `impl.md`, missing prototype-derived design-source packet, or other failed generation precondition behind a later stage label.

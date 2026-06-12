@@ -7,7 +7,7 @@ description: Use when initializing or implementing a Flutter project that must f
 
 ## Overview
 
-Enforce a single Flutter engineering baseline for this workspace: mandatory package bundles, DDD modular boundaries, annotation-first generation, and taste-aligned presentation guardrails. Use this skill as the reusable base policy behind `flutter-init` and the generated sibling `flutter-dev` skill so initialization and ongoing implementation do not drift into mixed stacks, flat folders, hand-written boilerplate, or generic-looking display layers.
+Enforce a single Flutter engineering baseline for this workspace: mandatory package bundles, DDD modular boundaries, annotation-first generation, and frozen-design-aligned presentation guardrails. Use this skill as the reusable base policy behind `flutter-init` and the generated sibling `flutter-dev` skill so initialization and ongoing implementation do not drift into mixed stacks, flat folders, hand-written boilerplate, or generic-looking display layers.
 
 ## Quick Start
 
@@ -17,7 +17,7 @@ Enforce a single Flutter engineering baseline for this workspace: mandatory pack
 - When a requirement seems to justify another package or another architecture style, prove why the current baseline fails first. Do not mix stacks by default.
 - If a provider, model, serializer, API declaration, or comparable scaffold can be expressed through the approved annotation toolchain, treat annotations as mandatory instead of optional and reject equivalent hand-written boilerplate.
 - If the project has already introduced `flutter_hooks` or `hooks_riverpod`, treat hooks as a mandatory implementation style in every applicable widget or provider composition path instead of falling back to duplicated lifecycle or local-state boilerplate.
-- For presentation-layer work, keep taste guidance active as implementation guardrails: hierarchy, spacing, typography, contrast, CTA salience, motion restraint, and anti-template composition.
+- For presentation-layer work, keep frozen design-quality guidance active as implementation guardrails: hierarchy, spacing, typography, contrast, CTA salience, motion restraint, and anti-template composition.
 - If a requirement conflicts with these guardrails, state the conflict explicitly and keep one clear main plan plus one explicit fallback instead of silent compromise.
 
 ## Workflow
@@ -27,7 +27,7 @@ Enforce a single Flutter engineering baseline for this workspace: mandatory pack
 3. Enforce the DDD feature blueprint so responsibilities stay inside `domain`, `application`, `infrastructure`, and `presentation`.
 4. Enforce annotation coverage for providers, models, serialization, and API declarations, and replace any newly introduced hand-written boilerplate when the approved annotations can express the same contract.
 5. If `flutter_hooks` or `hooks_riverpod` is present, audit whether the touched UI path should use hooks for controller lifecycle, effect orchestration, memoized derived values, or provider composition, and convert those spots instead of adding parallel `StatefulWidget` or manual listener code.
-6. For `presentation` work, compare the implementation against frozen UI/UX, theme artifacts, and taste guardrails before accepting layout or widget choices.
+6. For `presentation` work, compare the implementation against frozen UI/UX, theme artifacts, and design-quality guardrails before accepting layout or widget choices.
 7. Reject overlap, hidden globals, manual boilerplate, unused dependencies, and display-layer choices that flatten frozen hierarchy or reintroduce AI-template patterns.
 8. Output a short compliance checklist describing what follows the standard and what still violates it.
 
@@ -52,15 +52,15 @@ Enforce a single Flutter engineering baseline for this workspace: mandatory pack
 - Do not keep or add hand-written provider wiring, DTO copy logic, JSON mapping, or API client glue in places where `@riverpod`, `@freezed`, `@JsonSerializable`, or `@RestApi` can express the same contract.
 - Do not add `flutter_hooks` or `hooks_riverpod` and then continue writing new applicable code in a non-hooks style.
 - If package version selection is time-sensitive, verify before pinning exact versions.
-- Taste guidance may refine implementation craft, but it must not override frozen UI/UX intent, theme roles, state coverage, or approved component hierarchy.
-- If a taste issue requires changing design meaning, route to `flutter-design-source-control` instead of silently changing code.
+- Design-quality guidance may refine implementation craft, but it must not override frozen UI/UX intent, theme roles, state coverage, or approved component hierarchy.
+- If a design-quality issue requires changing design meaning, route to `flutter-design-source-control` instead of silently changing code.
 
 ## Deliverables
 
 - A clear package decision and usage plan.
 - A compliant feature structure with explicit layer ownership.
 - Annotation rules applied to providers, models, serialization, and API clients.
-- Presentation-layer guardrails applied against frozen UI/UX and taste constraints.
+- Presentation-layer guardrails applied against frozen UI/UX and image-backed design constraints.
 - A reusable policy layer that can be referenced by the generated sibling `flutter-dev`.
 - A short allowed / not allowed note for the current change so future edits stay aligned.
 

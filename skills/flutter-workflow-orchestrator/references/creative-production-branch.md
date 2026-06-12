@@ -20,7 +20,7 @@ It exists to handle asset-oriented work such as:
 - landing hero directions
 - publish-safe generative polish
 
-It does not replace Product Design, `flutter-taste-router` design-packet normalization, structured design-source generation, shared freeze, module freeze, architecture, or Flutter implementation.
+It does not replace Product Design, image-backed design-packet normalization, HTML interactive prototype generation, shared freeze, module freeze, architecture, or Flutter implementation.
 
 ## Ownership Split
 
@@ -28,8 +28,8 @@ Keep ownership explicit:
 
 - `@product-design` owns product-surface brief confirmation, screen-level direction, interactive UX, and the final product design direction that feeds `DESIGN.md`.
 - `Creative Production` owns commercial visual exploration, asset-family exploration, reviewable image boards, and publish-bound creative asset finishing.
-- `flutter-taste-router` owns the downstream Flutter-facing freeze-packet normalization when approved direction and evidence still need to be standardized before shared or module freeze.
-- Stitch or Pencil own structured design-source restoration after `DESIGN.md` is confirmed.
+- Image-backed design-packet normalization owns the downstream Flutter-facing freeze-packet normalization when approved direction and evidence still need to be standardized before shared or module freeze.
+- The HTML interactive prototype flow owns prototype-derived design-source restoration after `DESIGN.md` is confirmed.
 - `generative-polish` owns bounded visual finish only after a concrete direction or deterministic base already exists.
 
 Do not blur these roles. If the user is choosing how the app itself should behave, route through Product Design. If the user is choosing how a campaign, ad family, hero image, or brand-facing visual system should look, route through Creative Production.
@@ -69,7 +69,7 @@ The preferred entry point is after:
 - final product design direction is confirmed when the asset branch must inherit the app or product visual system
 - `DESIGN.md` exists when the assets must inherit the frozen visual system
 
-If the user only wants broad campaign or brand exploration and the branch does not need to redefine product-surface UX, the workflow may enter Creative Production before structured design-source work. Even in that case, the branch must not redefine the app-shell, interaction logic, or screen hierarchy owned by Product Design.
+If the user only wants broad campaign or brand exploration and the branch does not need to redefine product-surface UX, the workflow may enter Creative Production before HTML interactive prototype work. Even in that case, the branch must not redefine the app-shell, interaction logic, or screen hierarchy owned by Product Design.
 
 ## Direction Input Branch
 
@@ -128,10 +128,10 @@ This branch is optional and scope-driven.
 
 - For app UI direction, Product Design remains mandatory.
 - For direction-input exploration before final product confirmation, Creative Production can supply evidence but cannot close the product-direction gate on its own.
-- If the broader workflow still needs one freeze-ready Flutter design packet, route the approved Product Design direction plus any Creative Production evidence back through `flutter-taste-router` instead of treating Creative Production output as the final packet.
+- If the broader workflow still needs one freeze-ready Flutter design packet, route the approved Product Design direction plus any Creative Production evidence back through image-backed design-packet normalization instead of treating Creative Production output as the final packet.
 - For Flutter preview images used as supplemental app-page evidence, `gpt-image-2-generator` remains the default preview-image owner unless the user explicitly wants the richer Creative Production asset branch.
-- Creative Production outputs may be attached as supplemental visual evidence, but they are never the structured design source by themselves.
-- Mood boards, ads, scenes, or hero explorations do not automatically authorize Stitch or Pencil freeze.
+- Creative Production outputs may be attached as supplemental visual evidence, but they are never the implementation design source by themselves.
+- Mood boards, ads, scenes, or hero explorations do not automatically authorize HTML prototype freeze.
 - If a Creative Production run reveals a new visual direction that materially changes the confirmed product direction, return to Product Design direction confirmation and update `DESIGN.md` before downstream freeze.
 
 ## Publish Gate

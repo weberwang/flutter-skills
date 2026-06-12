@@ -26,7 +26,7 @@ If any condition fails, return `blocked` and route to `design-preview-to-global-
 
 ### Optional external design adapters
 
-Any optional Pen, Pencil, Figma, or other external design adapter must treat these as the upstream source of truth:
+Any optional external design adapter must treat these as the upstream source of truth:
 
 - `layout_and_page_structure_principles`
 - `component_system_principles`
@@ -49,8 +49,8 @@ Must add the three artifacts to the frozen source priority and route any change 
 
 ### `flutter-design-parity-reviewer`
 
-Must compare implementation evidence against both the frozen theme files and the relevant guideline sections, not against memory or informal taste.
-Must also respect `module_preview_policy` so module-stage generated previews are only treated as approved evidence when `perviewer_opt_in: enabled` and the matching generated paths are explicitly recorded.
+Must compare implementation evidence against both the frozen theme files and the relevant guideline sections, not against memory or informal visual preference.
+Must also respect `module_preview_policy` so module-stage generated images are only treated as approved evidence when the matching generated paths are explicitly recorded.
 
 ### `flutter-design-freeze-gate`
 
@@ -58,8 +58,8 @@ When frozen shared artifacts already exist, it must use them to judge whether ty
 
 ### `flutter-workflow-orchestrator`
 
-Must treat `module_preview_policy` as the frozen default for module-stage preview generation:
+Must treat `module_preview_policy` as the frozen default for module-stage image evidence:
 
-- no new module previews during refinement or module freeze unless `--perviewer` is explicitly active
-- when `--perviewer` is active, generated module preview paths must be written back into `global-design-guidelines.md`
+- no new module images during refinement or module freeze unless that evidence path is explicitly approved
+- when new module images are approved, generated module image paths must be written back into `global-design-guidelines.md`
 Must also require the frozen `platform_identifier` to stay explicit once the workflow is entering architecture or implementation preparation.

@@ -96,8 +96,8 @@ Use one of these outcomes:
 
 ## Hard Rules
 
-- Do not call technical baseline, taste direction, executable module document generation, architecture, or implementation skills from raw demand before this flow produces a PRD artifact.
+- Do not call technical baseline, image-backed design direction, executable module document generation, architecture, or implementation skills from raw demand before this flow produces a PRD artifact.
 - Do not promote to `prd_ready` only because a PRD file exists; the completeness gate must also pass.
 - Do not bury unresolved product questions inside later RD, architecture, or code planning.
 - Do not invent business-critical answers. Ask or stop when the answer changes scope, roles, behavior, data, platform, compliance, or delivery order.
-- Do not freeze detailed screen design in the PRD. Capture product direction and constraints only; final product design direction confirmation and Stitch design-source work belong to later workflow nodes.
+- Do not freeze detailed screen design in the PRD. Capture product direction and constraints only; final product design direction confirmation and HTML interactive prototype work belong to later workflow nodes.
