@@ -306,6 +306,13 @@ Platform-aware means:
 - safe areas, touch targets, hover, focus, gestures, and density fit the target platform
 - interaction feedback feels native enough for the target validation surface
 
+Platform-aware information density means:
+
+- phone surfaces expose only the primary task, key status, and essential metadata immediately; secondary tools, diagnostics, and long-tail attributes should move below the fold, behind disclosure, or onto a follow-up surface
+- tablet surfaces may add a secondary pane or broader comparison context when it still supports the same primary task instead of competing with it
+- desktop or large-screen surfaces may raise scanning and comparison density, but they must not fill empty space with low-value chrome, duplicate cards, or competing CTAs
+- no surface should be judged by raw item count alone; density is correct only when the user can still identify the primary job, the current state, and the next action quickly
+
 Premium means:
 
 - hierarchy is crisp and immediate
@@ -347,3 +354,4 @@ When freezing:
 - reject designs that only work in ideal content states
 - reject designs that break under mobile constraints or multi-device adaptation
 - reject module designs that have not yet been tested conceptually against the explicit target platform and premium quality bar
+- reject module designs whose first-screen information density is still unresolved for the target platform, whether that means overstuffed content, under-specified content, or unclear disclosure boundaries

@@ -203,7 +203,9 @@ When a specialist skill finishes and produces the required artifacts for a later
 
 When `--auto` is active, the orchestrator should auto-apply all of its own queued stage transitions and queued status updates instead of waiting for the user, until the auto stop condition is reached or a blocker appears.
 
-In `--auto` mode, a queued transition for one module must immediately be followed by a fresh routing decision for the same module or the next serial module. Do not leave the workflow record in a pseudo-idle "recommended next skill" state while unresolved target modules still exist.
+When `--auto` is active and a queued transition has been validated successfully, do not keep `confirmation_status=pending_confirmation` as an idle review pause. Promote the queued values, clear the pending fields, and continue directly into the next authorized step unless the workflow has reached a real blocker or the global auto stop condition.
+
+In `--auto` mode, a queued transition for one module must immediately be followed by a fresh routing decision for the same module or the next serial module. Do not leave the workflow record in a pseudo-idle "recommended next skill" state while unresolved target modules still exist, and do not ask for an ordinary "continue" choice while downstream execution is still authorized.
 
 ## Module Artifact Maturity
 

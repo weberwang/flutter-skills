@@ -15,6 +15,8 @@ Use this reference before applying any state/status promotion, freeze decision, 
 - Do not begin global design exploration, effect-image generation, or HTML interactive prototype preparation before the target design-device preset and base resolution are frozen for the current design cycle.
 - Do not let any page design shrink below the frozen design viewport for the active cycle.
 - Do not confirm the final product design direction before `@product-design` has first confirmed the design brief and produced or validated the direction input for this request.
+- Do not skip the Mobbin inspiration pass during shared/global direction exploration. Direction recommendation, representative effect-image generation, and downstream freeze work must stay blocked until the Mobbin-first pass is complete for the current design cycle.
+- Do not allow module splitting to begin unless `@product-design` has already produced a confirmed structured clarification packet for the relevant journeys, page families, critical states, interaction goals, platform fit, and information-density posture.
 - Do not let a pre-direction Creative Production exploration branch close the final product-direction gate by itself; it may only contribute reviewable direction evidence.
 - Do not start module `impl.md` generation immediately after the technical baseline. All module-related workflow must wait until the shared/global design freeze is complete.
 - Do not skip `DESIGN.md` output after final product design direction confirmation.
@@ -43,6 +45,7 @@ Use this reference before applying any state/status promotion, freeze decision, 
 - Do not send shared/global or module-stage effect-image generation requests without explicit style constraints once the design packet already defines them.
 - Do not let module-stage effect-image generation redefine palette, typography mood, component family, image treatment, or CTA posture after a shared/global direction has been approved.
 - Do not let module `impl.md` generation, module effect-image generation, module HTML interactive prototype generation, or module freeze drift away from the already frozen shared visual design, shared interaction principles, shared public shell, or shared component families.
+- Do not let module splitting or module refinement infer first-screen-visible content, deferred content, or page density ad hoc from screenshots alone once the Product Design clarification packet already defines those boundaries.
 - Do not let `flutter-rd-module-splitter` emit non-executable split drafts that require a later refinement node.
 - Do not attempt module freeze before the shared/global design freeze is complete, the module `impl.md` has implementation-final maturity, fixes the module function and key states clearly enough for display work, and references the frozen prototype-derived design-source packet.
 - Do not freeze a module for implementation while its high-fidelity visual contract is missing, vague, or deferred to later code polish.
@@ -57,6 +60,7 @@ Use this reference before applying any state/status promotion, freeze decision, 
 - Do not mark `impl_status=landed` until the module `impl.md` references a confirmed frozen prototype-derived design-source packet.
 - Do not start module-scoped display-layer design draft generation before the active module's `impl.md` has fixed the module function, key states, main task path, and non-display behavior boundaries.
 - Do not freeze or translate a module design that has not yet considered the concrete target platform's interaction, layout, density, and feedback expectations.
+- Do not pass a module page design toward freeze when its information density is only described as "more" or "less" content without explicit platform-specific visibility, disclosure, paging, or secondary-surface rules.
 - Do not treat secondary desktop, web, or other convenience surfaces as required validation targets when the primary platform is already defined. Validation should follow the primary platform only unless the user explicitly changes that platform.
 - Do not land ordinary page-module display-layer code before the module's non-display behavior, service wiring, and state-flow contracts are stable enough to support that display faithfully.
 - Do not treat module implementation as `display first, behavior later`; the required local order is `impl -> design draft -> non-display code -> display restoration`.
@@ -73,6 +77,7 @@ Use this reference before applying any state/status promotion, freeze decision, 
 - Do not let `--auto` skip blockers, unresolved dependencies, or missing design inputs.
 - Do not let `--auto` pretend a module is implementation-ready when the shared/global design freeze is incomplete, its executable `impl.md` is missing, or its design source is not frozen.
 - Do not stop `--auto` for ordinary downstream confirmation gates before workflow completion.
+- Do not leave validated ordinary review gates waiting for manual acknowledgment in `--auto`; apply them and continue unless a real blocker or human-only decision gate exists.
 - Do not stop `--auto` just because the current module reached `implementation_final`, `module_design_frozen`, `impl_rd_ready`, or `architecture_ready` while other target modules still remain.
 - Do not treat `current_module` as the only module covered by an `--auto` run; it is only the module currently being processed.
 - Do not leave `next_skill` as a passive handoff recommendation after a local module milestone when `execution_mode=auto` and more target modules are still pending.

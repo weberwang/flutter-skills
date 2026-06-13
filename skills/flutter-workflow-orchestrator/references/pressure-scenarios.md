@@ -6,12 +6,16 @@ Use this reference when the user request resembles one of these examples or trie
 - User says "先别写 PRD，直接定技术方案": block. Raw demand must pass requirements brainstorming and PRD generation before technical baseline, shared design freeze, or module document generation.
 - User says "implement this home page directly" with only a PRD: route to `flutter-prd-rd-writer`, not module document generation or code.
 - User says "split modules first, choose packages later": block and require baseline architecture and package decisions.
+- User says "先拆模块，页面流和状态后面再说": block. Require the confirmed Product Design clarification packet first so module splitting does not infer journeys, page families, or critical states from page count alone.
 - User says "先出全局设计，设备尺寸后面再定": block. Freeze the target design-device preset and base resolution before global design exploration, effect-image generation, or shared freeze preparation.
 - User says "refine visual design first, taste later": block detailed refinement; require `@product-design` brief confirmation and direction recommendation first.
 - User says "the design draft is complete, just freeze it": route to `flutter-design-freeze-gate`.
 - User says "the shared effect image looks close enough, just freeze it": block and route back through exactly one shared revision pass, then stop.
 - User says "skip visual brainstorming and confirm direction directly": block. Final product design direction confirmation requires a prior `@product-design` brief confirmation step and an approved visual direction input.
+- User says "不用看 Mobbin，直接出设计方向": block. The workflow must complete a Mobbin-first inspiration pass before direction recommendation, effect-image generation, or final direction confirmation.
 - User says "先把主态做漂亮，空态和错误态后面再补": block. Critical states belong to the design target, not post-hoc polish.
+- User says "这个页面先把信息都塞进去，后面再压缩": block. Require a platform-specific density decision first, including what must stay visible immediately and what must be deferred, collapsed, paged, or moved to another surface.
+- User says "先少放点内容，后面觉得空再补": block. Density must be derived from the target platform, task priority, and critical state needs, not from a temporary placeholder posture.
 - User says "移动端先这样，平板和桌面以后再说" when multi-device support is already in scope: block. Responsive and multi-device strategy must be part of the shared design target before freeze.
 - User says "只要风格统一就行，任务效率后面再优化": block. First-screen hierarchy and CTA discoverability are part of the design goal, not a later optimization.
 - User says "generate the effect image first, we can decide the common shell later": block. Optional representative and remaining page effect-image generation still require explicit agreement on the common public shell first.
@@ -34,6 +38,7 @@ Use this reference when the user request resembles one of these examples or trie
 - User says "restore the prototype exactly": allow page subagents to export approved image assets and use those local assets directly; record source and local paths instead of forcing Flutter-native reconstruction.
 - User says "HTML prototype artifacts are unavailable but continue freeze": block when the current design-source policy requires the prototype-derived packet; record the blocker instead of falling back silently to raw effect images.
 - User says "先做模块 impl，再补全局设计冻结": block that path. All module-related workflow must stay behind the shared/global design freeze.
+- User says "模块拆分时先不管平台，页面密度后面实现时再调": block that path. Module docs must already encode platform-aware navigation, feedback, and information-density constraints before freeze and implementation.
 - User says "把多个模块一起并行推进": block that path in the default workflow. Modules must follow the confirmed serial module order after the shared/global design freeze.
 - User says "modules are split, now refine only the home module": block the separate refinement stage. Route back to the combined executable module document generation step for a scope-matched regeneration of `home.impl.md`.
 - User says "continue auto after module docs" but the module index, executable module `impl.md`, or frozen prototype-derived design-source packet is missing: treat that as a real blocker, record `未执行` for generation/freeze-related steps, and stop instead of reconstructing fake progress.
@@ -52,6 +57,7 @@ Use this reference when the user request resembles one of these examples or trie
 - User says "use a dark-mode effect image as the workflow reference": treat that as a special override request. The default workflow reference effect images remain light mode unless the user explicitly changes the design requirement.
 - User says "this module is done, what next": if `--auto` is active and other target modules still remain, do not stop to ask. Select the next module in the confirmed serial module order, update the workflow record, and continue automatically.
 - User says "why did auto stop after one module reached architecture_ready": treat that as incorrect behavior. `--auto` must continue unless all target modules are fully implemented or a real blocker was recorded.
+- User says "auto 模式下每到一个确认点都停下来问我": treat that as incorrect behavior for ordinary workflow gates. `--auto` should auto-confirm validated orchestrator-owned transitions and continue unless the gate depends on a real blocker or unresolved human-only decision.
 - User says "when should project initialization happen": explain that the preferred trigger is once the shared global public baseline and bootstrap-critical architecture inputs are clear, before feature-module code starts, not after every feature reaches late-stage architecture output.
 - User says "the project is initialized, start feature coding": first verify that the separate bootstrap code stage has landed. Directory creation alone does not authorize feature-module implementation.
 - User says "where is the design file": explain that the default workflow now freezes and restores from the approved HTML interactive prototype plus design artifacts, not from external design-draft files.
