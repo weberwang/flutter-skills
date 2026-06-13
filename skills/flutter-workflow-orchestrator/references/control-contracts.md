@@ -44,8 +44,8 @@ The preflight gate must verify at minimum:
 - all required artifact paths for the intended move exist on disk
 - all required maturity prerequisites are already confirmed, not merely implied in prose
 - `platform_identifier` is explicit as the primary runtime and validation platform before architecture, implementation-readiness, human visual inspection, or implementation work that depends on a concrete validation surface
-- validation follows the primary platform only: if exactly one eligible device exists, use it; if multiple eligible devices exist, stop and wait for explicit device selection; if no eligible device exists and the platform supports emulator or simulator startup, start one and validate there
-- when `--auto` is active, the next move is still authorized by the current confirmed artifacts and does not skip required execution gates
+- validation follows the primary platform only: if exactly one eligible device exists, use it; if multiple eligible devices exist, stop and wait for explicit device selection; if `--full-auto` is active and exactly one eligible device is already booted, use that one as the deterministic default; if no eligible device exists and the platform supports emulator or simulator startup, start one and validate there
+- when `--auto` or `--full-auto` is active, the next move is still authorized by the current confirmed artifacts and does not skip required execution gates
 
 If any preflight check fails, stop immediately. Record the exact failed check as a blocker. Do not let a downstream skill try to compensate for missing prerequisites by reconstructing state, inferring approvals, or backfilling artifacts opportunistically.
 
@@ -74,7 +74,7 @@ Only the orchestrator may:
 
 ## No-Progress Stop Rule
 
-In `--auto` mode, every loop iteration must produce one of only two valid outcomes:
+In `--auto` or `--full-auto` mode, every loop iteration must produce one of only two valid outcomes:
 
 - the remaining workflow workload shrinks in a provable way
 - a new real blocker is recorded
@@ -108,7 +108,7 @@ These steps must stay in the orchestrator and must not be delegated:
 - validate downstream receipts against the active route lock
 - apply or reject `pending_next_stage`, `pending_next_skill`, and `pending_status_updates`
 - update orchestrator-owned workflow state as the single source of truth
-- decide whether `--auto` should continue, stop at workflow completion, or stop for no progress
+- decide whether `--auto` or `--full-auto` should continue, stop at workflow completion, or stop for no progress
 
 These actions define workflow truth. If a subagent performs them, route drift becomes unverifiable.
 
@@ -142,7 +142,7 @@ Even when a step is subagent-eligible, these constraints still apply:
 - only one active route-locked specialist step may run at a time for the same workflow record
 - HTML interactive prototype module-scoped page design is the only allowed parallel specialist exception: one route-locked page-design batch may run up to 6 page-scoped subagents in parallel, as long as each subagent owns a different page and returns a page-level receipt
 - implementation execution for module work is serial by default after `Spec` and `Plan`; do not split the active module loop into parallel ownership units unless the workflow contract is explicitly changed
-- `--auto` after the shared/global design freeze still advances one active module at a time; do not generate module docs, freeze modules, or implement multiple active modules in parallel against the same record
+- `--auto` or `--full-auto` after the shared/global design freeze still advances one active module at a time; do not generate module docs, freeze modules, or implement multiple active modules in parallel against the same record
 - parallel page-design subagents must not update workflow state artifacts, freeze `design_source_status`, decide adapter mode or project refs, or merge the final design-source packet
 - if the workflow contract explicitly allows an ownership split inside one active module, those implementation subagents must not overlap ownership of the same file, same generated asset path, or the same mutable state contract in one batch
 - any subagent touching module docs must be given the exact active module, expected artifact paths, and expected status delta
@@ -153,7 +153,7 @@ Even when a step is subagent-eligible, these constraints still apply:
 
 The following work must not be delegated by default unless the user explicitly requests a different control model and the workflow contract is updated accordingly:
 
-- cross-module scheduling decisions in `--auto`
+- cross-module scheduling decisions in `--auto` or `--full-auto`
 - confirmation-gate application or rejection
 - route-drift judgment
 - no-progress stop judgment
@@ -164,8 +164,8 @@ The following work must not be delegated by default unless the user explicitly r
 - On the first run, always initialize workflow state for the current run. Persist it only when the run actually needs a runtime artifact.
 - Keep all stage bookkeeping under one orchestrator-owned workflow state model. Do not split stage tracking across ad-hoc notes or per-module workflow files.
 - Read `references/workflow-record-contract.md` before initializing or optionally persisting workflow state.
-- After every routing decision, update the record with the current stage, current module, confirmation status, next skill, blockers, pending next-stage data, pending status updates, confirmed artifact paths, and whether `--auto` is still advancing remaining modules.
-- If `--auto` is active, persist that execution mode in the workflow record so downstream agents know why confirmation gates were auto-applied.
+- After every routing decision, update the record with the current stage, current module, confirmation status, next skill, blockers, pending next-stage data, pending status updates, confirmed artifact paths, and whether `--auto` or `--full-auto` is still advancing remaining modules.
+- If `--auto` or `--full-auto` is active, persist that execution mode in the workflow record so downstream agents know why confirmation gates were auto-applied.
 - Persist the active route lock and the latest receipt evaluation in the workflow record so the next turn can detect route drift instead of silently continuing from an invalid assumption.
 - Persist whether the current step is orchestrator-only or subagent-eligible, so downstream execution ownership stays explicit.
 
@@ -201,11 +201,18 @@ Use these confirmation states:
 
 When a specialist skill finishes and produces the required artifacts for a later stage or a new artifact maturity level, do not immediately switch to the next process. Keep `current_stage` at the last confirmed stage, set `confirmation_status` to `pending_confirmation`, record `pending_next_stage`, `pending_next_skill`, and `pending_status_updates`, and write `waiting_for_user_confirmation` into blockers if no stronger blocker exists.
 
+Treat confirmation gates in two categories:
+
+- soft confirmation: ordinary orchestrator-owned stage or status promotions, plus human-facing workflow gates that already have one uniquely supported default backed by the current artifacts
+- hard confirmation: any gate where more than one plausible default remains, where route-lock or receipt proof is incomplete, or where the workflow would need subjective taste judgment instead of deterministic selection
+
 When `--auto` is active, the orchestrator should auto-apply all of its own queued stage transitions and queued status updates instead of waiting for the user, until the auto stop condition is reached or a blocker appears.
 
-When `--auto` is active and a queued transition has been validated successfully, do not keep `confirmation_status=pending_confirmation` as an idle review pause. Promote the queued values, clear the pending fields, and continue directly into the next authorized step unless the workflow has reached a real blocker or the global auto stop condition.
+When `--full-auto` is active, the orchestrator should auto-apply both ordinary orchestrator-owned queued transitions and any soft confirmation gate that has collapsed to exactly one supported default. It must not auto-apply a hard confirmation gate.
 
-In `--auto` mode, a queued transition for one module must immediately be followed by a fresh routing decision for the same module or the next serial module. Do not leave the workflow record in a pseudo-idle "recommended next skill" state while unresolved target modules still exist, and do not ask for an ordinary "continue" choice while downstream execution is still authorized.
+When `--auto` or `--full-auto` is active and a queued transition has been validated successfully, do not keep `confirmation_status=pending_confirmation` as an idle review pause. Promote the queued values, clear the pending fields, and continue directly into the next authorized step unless the workflow has reached a real blocker or the global auto stop condition.
+
+In `--auto` or `--full-auto` mode, a queued transition for one module must immediately be followed by a fresh routing decision for the same module or the next serial module. Do not leave the workflow record in a pseudo-idle "recommended next skill" state while unresolved target modules still exist, and do not ask for an ordinary "continue" choice while downstream execution is still authorized.
 
 ## Module Artifact Maturity
 

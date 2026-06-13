@@ -90,8 +90,8 @@ When persisted, this runtime artifact is the single stable source for project wo
 - whether the shared bootstrap-critical baseline is already clear enough to trigger `flutter-init`
 - whether initialization has stopped at directory-creation boundaries without starting bootstrap or feature implementation
 - whether the separate bootstrap code stage has landed the required global public code baseline
-- whether the orchestrator is currently running in manual mode or `--auto`
-- whether `--auto` is still actively advancing remaining modules or has reached a valid stop condition
+- whether the orchestrator is currently running in manual mode, `--auto`, or `--full-auto`
+- whether `--auto` or `--full-auto` is still actively advancing remaining modules or has reached a valid stop condition
 - what the active route lock is for the current turn
 - whether the current turn is orchestrator-owned or delegated to a subagent
 - whether the latest downstream receipt actually matched the locked route
@@ -112,7 +112,7 @@ Put this block at the top of the file:
 ```yaml
 artifact_type: flutter_workflow_record
 workflow_status: active | blocked | completed
-execution_mode: manual | auto
+execution_mode: manual | auto | full_auto
 current_stage: <workflow-state>
 current_module: <module-name-or-not_selected>
 confirmation_status: not_required | pending_confirmation | confirmed | rejected
@@ -174,9 +174,9 @@ Summarize the project's overall workflow posture in 2-4 short lines.
 
 Include whether the workflow is still in requirements brainstorming, PRD generation, Product Design brief confirmation, representative effect-image review, final product design direction confirmation, `DESIGN.md` output, shared freeze, module `impl.md` generation, module effect-image generation, module HTML interactive prototype generation, module freeze, bootstrap code generation, code implementation, or human visual inspection handoff.
 
-If `execution_mode=auto`, also state whether the workflow is still auto-advancing or has stopped at workflow completion.
+If `execution_mode=auto` or `execution_mode=full_auto`, also state whether the workflow is still auto-advancing or has stopped at workflow completion.
 
-If `execution_mode=auto` and not all target modules are fully implemented yet, explicitly name which modules are still pending and which module is being processed now.
+If `execution_mode=auto` or `execution_mode=full_auto`, and not all target modules are fully implemented yet, explicitly name which modules are still pending and which module is being processed now.
 
 ### `current_stage_detail`
 
@@ -248,9 +248,9 @@ Record the next skill, why it is next, and the minimum required inputs.
 
 If the workflow is waiting for user confirmation, set the actionable `next_skill` to `none` and move the queued transition plus queued status changes into the confirmation section instead of pretending the next skill is already allowed to run.
 
-If `execution_mode=auto`, do not hold the workflow at ordinary downstream confirmation gates. Auto-apply them until workflow completion or a blocker is reached.
+If `execution_mode=auto` or `execution_mode=full_auto`, do not hold the workflow at ordinary downstream confirmation gates. Auto-apply them until workflow completion or a blocker is reached. In `execution_mode=full_auto`, deterministic human-facing gates may also be auto-applied when the active artifacts prove exactly one supported default.
 
-If `execution_mode=auto`, `next_action` must describe the next real auto step for the same module or the next serial module. Do not write a pseudo-finished summary that leaves the remaining modules implicit.
+If `execution_mode=auto` or `execution_mode=full_auto`, `next_action` must describe the next real auto step for the same module or the next serial module. Do not write a pseudo-finished summary that leaves the remaining modules implicit.
 
 If the workflow is `blocked`, do not point `next_skill` at the next process stage and do not preserve a stale queued transition or stale queued status change from a failed routing attempt.
 
@@ -345,7 +345,7 @@ Update the existing row for a module instead of creating duplicates.
 
 Keep the row values on the last confirmed state. Proposed upgrades go into `pending_status_updates` until the user confirms them.
 
-If `execution_mode=auto`, the table must make it obvious which modules are already fully implemented and which modules are still pending later workflow work.
+If `execution_mode=auto` or `execution_mode=full_auto`, the table must make it obvious which modules are already fully implemented and which modules are still pending later workflow work.
 
 ### `decision_log`
 
@@ -367,7 +367,7 @@ When route drift, receipt mismatch, or no-progress auto stopping happens, add a 
 - If decision-blocking questions remain unresolved, record them in `required_inputs` or `blockers`, keep `current_stage=requirements_brainstorming`, and do not route to technical baseline, image-backed design direction, executable module document generation, architecture, or implementation.
 - If a default is used to answer a PRD question, record the assumption, rationale, and risk in the workflow record or PRD artifact index.
 - If the PRD exists but the global visual design direction has not yet been brainstormed, keep `DESIGN.md`, HTML interactive prototype work, and required effect-image generation blocked and route first to `@product-design` brief confirmation or representative effect-image recommendation as needed. If richer commercial evidence is needed before confirmation, record the pending pre-direction Creative Production branch explicitly instead of treating image-backed design-packet normalization as the primary direction owner.
-- If the technical baseline exists but the target design-device preset or base resolution is still missing, keep `current_stage=technical_baseline_ready`, record `required_inputs=design_device_preset_and_resolution`, and do not route to Product Design brief confirmation yet. In `--auto`, if the viewport is still missing, record that `390 x 844 px` was auto-selected.
+- If the technical baseline exists but the target design-device preset or base resolution is still missing, keep `current_stage=technical_baseline_ready`, record `required_inputs=design_device_preset_and_resolution`, and do not route to Product Design brief confirmation yet. In `--auto` or `--full-auto`, if the viewport is still missing, record that `390 x 844 px` was auto-selected.
 - If the global visual direction exists but the common public shell has not yet been agreed, keep design-direction confirmation and required effect-image generation blocked, record `required_inputs=public_shell_confirmation`, and do not route to representative or full page-effect generation.
 - If the brainstormed direction exists but the final product design direction has not been confirmed with the user, keep `DESIGN.md`, HTML interactive prototype work, and required effect-image generation blocked, record `required_inputs=final_product_design_direction_confirmation`, and do not route to downstream prototype generation.
 - If final product design direction is confirmed but the shared or module freeze packet is still not standardized, route to image-backed design-packet normalization for freeze-contract consolidation before any freeze promotion is queued.
@@ -377,7 +377,7 @@ When route drift, receipt mismatch, or no-progress auto stopping happens, add a 
 - If no representative effect image exists yet in manual mode, generate exactly one representative effect image first, index its path and selected page, set `confirmation_status=pending_confirmation`, and stop before generating remaining page images.
 - If the representative effect image is still pending confirmation or has been rejected in manual mode, keep remaining required page-image generation blocked and do not advance to the broader required page-image generation step.
 - If the representative effect image is confirmed in manual mode, record that confirmation explicitly before generating the remaining required page-effect set.
-- If `execution_mode=auto` and the active route explicitly requires additional effect images, generate the in-scope images automatically, record their paths, and do not create a confirmation stop.
+- If `execution_mode=auto` or `execution_mode=full_auto` and the active route explicitly requires additional effect images, generate the in-scope images automatically, record their paths, and do not create a confirmation stop.
 - If approved image-backed design direction is produced, index its artifact path in `global_artifact_index` and link it from active module rows when relevant.
 - If `platform_identifier` becomes explicit, record it in the relevant summary or artifact index instead of leaving it implicit in prose.
 - If primary-platform validation target selection changes from pending to selected device or emulator fallback, record that transition explicitly in the relevant summary or artifact index.
@@ -398,19 +398,20 @@ When route drift, receipt mismatch, or no-progress auto stopping happens, add a 
 - If shared/global effect images were created, record the frozen base design viewport they were generated against.
 - If `design-preview-to-global-guidelines` artifacts are created, update the relevant module row and queue `global_guidelines_frozen` in `pending_next_stage` instead of switching immediately.
 - If a freeze evaluation fails, keep the current stage unchanged, clear any queued freeze promotion, and route back to the correct upstream skill for exactly one scope-matched revision pass.
-- If `execution_mode=auto`, the orchestrator should apply deterministic queued transitions and queued status updates without pausing for ordinary downstream confirmation, and it must otherwise stop only when workflow completion is reached or when a blocker appears.
-- If `execution_mode=auto`, the orchestrator must not stop just because one module reached a local milestone such as `implementation_final`, `module_design_frozen`, `impl_rd_ready`, or `architecture_ready`.
+- If `execution_mode=auto` or `execution_mode=full_auto`, the orchestrator should apply deterministic queued transitions and queued status updates without pausing for ordinary downstream confirmation, and it must otherwise stop only when workflow completion is reached or when a blocker appears.
+- If `execution_mode=full_auto`, the orchestrator may also apply deterministic human-facing workflow confirmations when the current artifacts prove there is exactly one supported default.
+- If `execution_mode=auto` or `execution_mode=full_auto`, the orchestrator must not stop just because one module reached a local milestone such as `implementation_final`, `module_design_frozen`, `impl_rd_ready`, or `architecture_ready`.
 - Before any downstream invocation, persist one route lock that names the expected stage, module, next skill, next stage delta, and status delta.
 - Before any delegated specialist invocation, persist `execution_owner` as the exact subagent-owned step for this turn.
 - After any downstream invocation, evaluate the receipt against that route lock and store the result in `last_receipt_status`.
 - If the receipt is missing, ambiguous, or not provable from real artifacts, store `last_receipt_status` as `not_executed` or `route_drift`, clear queued promotions, and stop advancement.
 - If the shared bootstrap-critical baseline is ready and the project directory skeleton is still missing, the orchestrator should prefer `flutter-init` before waiting for every feature module to reach later architecture milestones.
-- If `execution_mode=auto`, after one module reaches a local milestone, immediately update `current_module`, `current_stage`, `next_skill`, the active module row, and `decision_log` to reflect the next real workflow action in the confirmed serial module order.
-- If `execution_mode=auto`, `current_module` means only the module being processed now. It must not imply that the current auto run is scoped to that single module.
-- If `execution_mode=auto`, `workflow_summary` and `next_action` must explicitly state which modules remain to be advanced. Do not imply that auto is complete while target modules are still pending.
-- If `execution_mode=auto`, do not use a generic "recommended next skill" as a stopping placeholder when unresolved target modules still exist. The record must reflect active continuation, not deferred manual pickup.
-- If `execution_mode=auto`, each loop must either reduce the remaining workflow work in a provable way or add a new blocker. Record that outcome in `auto_progress_delta`.
-- If `execution_mode=auto` changed modules, rewrote `next_skill`, or rewrote stage posture without new proof or blocker, record `auto_progress_delta: none`, set a blocker, and stop.
+- If `execution_mode=auto` or `execution_mode=full_auto`, after one module reaches a local milestone, immediately update `current_module`, `current_stage`, `next_skill`, the active module row, and `decision_log` to reflect the next real workflow action in the confirmed serial module order.
+- If `execution_mode=auto` or `execution_mode=full_auto`, `current_module` means only the module being processed now. It must not imply that the current auto run is scoped to that single module.
+- If `execution_mode=auto` or `execution_mode=full_auto`, `workflow_summary` and `next_action` must explicitly state which modules remain to be advanced. Do not imply that auto is complete while target modules are still pending.
+- If `execution_mode=auto` or `execution_mode=full_auto`, do not use a generic "recommended next skill" as a stopping placeholder when unresolved target modules still exist. The record must reflect active continuation, not deferred manual pickup.
+- If `execution_mode=auto` or `execution_mode=full_auto`, each loop must either reduce the remaining workflow work in a provable way or add a new blocker. Record that outcome in `auto_progress_delta`.
+- If `execution_mode=auto` or `execution_mode=full_auto` changed modules, rewrote `next_skill`, or rewrote stage posture without new proof or blocker, record `auto_progress_delta: none`, set a blocker, and stop.
 - If module design freeze is evaluated, record `high_fidelity_freeze_status` as `passed`, `approved_reduction`, `blocked`, or `not_evaluated`. Do not queue `design_source_status=frozen` when the value is `blocked` or `not_evaluated`.
 - If the active module design-source packet is confirmed, queue or apply `design_source_status=frozen` according to the confirmation gate.
 - If the module `impl.md` references the frozen prototype-derived design-source packet and the user confirms, apply `impl_status=landed`.
@@ -464,10 +465,10 @@ When route drift, receipt mismatch, or no-progress auto stopping happens, add a 
 - Do not mark a module ready for display-layer landing while the required preflight inputs or decision table are still missing.
 - Do not mark a fidelity-critical module ready for display-layer landing while its evidence pack still lacks the detail, state, scroll, or overlay coverage needed for faithful implementation.
 - Do not treat a complete design draft as freeze-ready when the design package is still incomplete.
-- Do not switch to the next process while `confirmation_status` is `pending_confirmation`, unless `execution_mode=auto`.
-- Do not let `execution_mode=auto` stop because one module reached a local completed state while other target modules still remain.
+- Do not switch to the next process while `confirmation_status` is `pending_confirmation`, unless `execution_mode=auto` or `execution_mode=full_auto`.
+- Do not let `execution_mode=auto` or `execution_mode=full_auto` stop because one module reached a local completed state while other target modules still remain.
 - Do not let `workflow_summary` or `next_action` present a single-module milestone as if the whole auto run were complete.
-- Do not hide the remaining auto scope in prose. When `execution_mode=auto`, explicitly say which modules still need advancement.
+- Do not hide the remaining auto scope in prose. When `execution_mode=auto` or `execution_mode=full_auto`, explicitly say which modules still need advancement.
 - Do not write `next_skill: none` as if auto were finished when the real state is "this module is done but other modules remain".
 - Do not store an "auto completed" interpretation when the actual state is only "one module reached a local stable node and the next module has not been selected yet".
 - Do not store a queued transition or queued maturity change only in prose; always persist it in `pending_next_stage`, `pending_next_skill`, and `pending_status_updates`.
@@ -480,7 +481,7 @@ When route drift, receipt mismatch, or no-progress auto stopping happens, add a 
 - Do not mark `project_initialized` unless both the directory skeleton and sibling `skills/flutter-dev/` exist.
 - Do not treat `project_initialized` as proof that any feature, page, or module implementation code already exists.
 - Do not mark `bootstrap_code_ready` unless the required global public code baseline actually exists on disk.
-- Do not let `execution_mode=auto` claim implementation progress without recording the corresponding `@superpowers` gates, execution evidence, and code artifacts.
+- Do not let `execution_mode=auto` or `execution_mode=full_auto` claim implementation progress without recording the corresponding `@superpowers` gates, execution evidence, and code artifacts.
 - Do not wait for every feature module to finish late-stage architecture planning before triggering `flutter-init` when the shared bootstrap-critical baseline is already sufficient.
 - Do not hide the `@superpowers` implementation ownership or the display-layer evidence dependency when the module is already in or beyond implementation and those controls are relevant.
 - Do not treat implementation execution as valid before both `@superpowers` `Spec` and `@superpowers` `Plan` are recorded for the active module.

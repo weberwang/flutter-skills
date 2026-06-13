@@ -38,7 +38,7 @@ Use this reference before applying any state/status promotion, freeze decision, 
 - Do not mark a prototype-derived design-source packet as frozen when required exported image assets lack recorded source paths, local asset paths, and intended page regions.
 - Do not accept or generate dark-mode effect images as the default workflow reference set; the default effect-image baseline is light mode.
 - Do not treat effect images as optional evidence. The representative effect image is a mandatory gate before shared design freeze, and module effect images are mandatory before module prototype freeze.
-- Do not let `--auto` generate required effect images without `gpt-image-2-generator` being available for that branch.
+- Do not let `--auto` or `--full-auto` generate required effect images without `gpt-image-2-generator` being available for that branch.
 - In manual mode, do not generate the remaining required page-effect set before one representative effect image has been explicitly confirmed.
 - Do not reopen alternative-direction browsing after a representative effect image or approved direction effect image has been explicitly confirmed for the current design cycle; that confirmation freezes the visual baseline until the user explicitly rejects it or restarts the design cycle.
 - Do not generate, show, or compare other-direction effect images after that confirmation merely for more browsing; only same-direction completion, evidence expansion, or scope-matched revision is allowed.
@@ -73,16 +73,16 @@ Use this reference before applying any state/status promotion, freeze decision, 
 - Do not allow a design package to pass freeze if the first-screen task path or primary CTA is still visually ambiguous.
 - Do not compress away core whitespace, spacing rhythm, or structural breathing room merely to fit more content into the frozen design viewport.
 - Do not treat architecture planning, Flutterization, or implementation convenience as a substitute for resolving high-fidelity visual decisions during module design freeze.
-- Do not let `--auto` enter `implementing` before `@superpowers` `Spec` and `Plan` exist for the active module.
-- Do not let `--auto` skip blockers, unresolved dependencies, or missing design inputs.
-- Do not let `--auto` pretend a module is implementation-ready when the shared/global design freeze is incomplete, its executable `impl.md` is missing, or its design source is not frozen.
-- Do not stop `--auto` for ordinary downstream confirmation gates before workflow completion.
-- Do not leave validated ordinary review gates waiting for manual acknowledgment in `--auto`; apply them and continue unless a real blocker or human-only decision gate exists.
-- Do not stop `--auto` just because the current module reached `implementation_final`, `module_design_frozen`, `impl_rd_ready`, or `architecture_ready` while other target modules still remain.
-- Do not treat `current_module` as the only module covered by an `--auto` run; it is only the module currently being processed.
+- Do not let `--auto` or `--full-auto` enter `implementing` before `@superpowers` `Spec` and `Plan` exist for the active module.
+- Do not let `--auto` or `--full-auto` skip blockers, unresolved dependencies, or missing design inputs.
+- Do not let `--auto` or `--full-auto` pretend a module is implementation-ready when the shared/global design freeze is incomplete, its executable `impl.md` is missing, or its design source is not frozen.
+- Do not stop `--auto` or `--full-auto` for ordinary downstream confirmation gates before workflow completion.
+- Do not leave validated ordinary review gates waiting for manual acknowledgment in `--auto` or `--full-auto`; apply them and continue unless a real blocker or hard confirmation gate exists.
+- Do not stop `--auto` or `--full-auto` just because the current module reached `implementation_final`, `module_design_frozen`, `impl_rd_ready`, or `architecture_ready` while other target modules still remain.
+- Do not treat `current_module` as the only module covered by an `--auto` or `--full-auto` run; it is only the module currently being processed.
 - Do not leave `next_skill` as a passive handoff recommendation after a local module milestone when `execution_mode=auto` and more target modules are still pending.
-- Do not continue `--auto` into module workflow when the shared/global design freeze is incomplete, or past executable module document generation when the selected active module, its module-index row, or its `impl.md` cannot be verified on disk.
-- Do not skip directory inspection and environment-variable checks before auto-generating static visual evidence in `--auto` mode.
+- Do not continue `--auto` or `--full-auto` into module workflow when the shared/global design freeze is incomplete, or past executable module document generation when the selected active module, its module-index row, or its `impl.md` cannot be verified on disk.
+- Do not skip directory inspection and environment-variable checks before auto-generating static visual evidence in `--auto` or `--full-auto` mode.
 - Do not treat missing `gpt-image-2-generator` access or credentials as anything other than a workflow blocker once the mandatory effect-image stage is in scope.
 - Do not use Creative Production to bypass `@product-design` brief confirmation, final product direction confirmation, or `DESIGN.md` when the request is really about product-surface UI direction.
 - Do not open the Creative Production polish path before a concrete direction or deterministic base exists.
@@ -102,7 +102,7 @@ Use this reference before applying any state/status promotion, freeze decision, 
 - Do not treat a complete-looking `impl.md` as proof that delegated generation or execution really happened.
 - Do not let `.impl.md` claim `generation_trace_status=verified_executed` unless the workflow record or execution trace contains the real delegated inputs and outputs for that module.
 - Do not start display-layer landing before the preflight inputs are complete enough to avoid image-only guessing.
-- Do not auto-pick among multiple eligible devices on the primary platform during validation. If more than one device matches, stop and wait for explicit user choice.
+- Do not auto-pick among multiple eligible devices on the primary platform during validation unless `--full-auto` can still reduce the choice to one deterministic default, such as one already-booted eligible device. If more than one plausible device still remains, stop and wait for explicit user choice.
 - Do not mark validation as ready on the primary platform when no eligible device exists and the platform supports emulator or simulator startup but that fallback has not been attempted yet.
 - Do not start high-fidelity display-layer landing with only a broad page effect image when fidelity-critical regions still lack detail, state, scroll, or overlay evidence.
 - Do not let display-layer code land without consulting the corresponding page image and frozen design evidence when such image evidence exists.
@@ -112,15 +112,15 @@ Use this reference before applying any state/status promotion, freeze decision, 
 - Do not force Flutter-native reconstruction for visuals that are clearly better shipped as image assets; download approved source images directly when available, otherwise let the active MCP / design tool chain choose the concrete generation mechanism and store the result inside the project.
 - Do not use MCP-driven image generation as an excuse to skip native implementation for visuals that Flutter can reproduce cleanly.
 - In manual mode, do not switch to the next process automatically after a specialist skill finishes; wait for explicit user confirmation whenever queued transitions or status updates exist.
-- In `--auto`, do not wait at ordinary downstream confirmation gates before workflow completion, but still stop for blockers, route drift, or missing evidence.
+- In `--auto` or `--full-auto`, do not wait at ordinary downstream confirmation gates before workflow completion, but still stop for blockers, route drift, missing evidence, or unresolved hard confirmation gates.
 - Do not ask an execution skill to do workflow bookkeeping that belongs here.
 - Do not let a downstream skill change `current_stage`, `pending_next_stage`, `pending_next_skill`, or `pending_status_updates` by implication.
 - Do not accept a downstream result without a verifiable receipt containing artifacts, evidence, and blockers.
-- Do not treat an iteration with no status delta and no new blocker as valid progress in `--auto`.
+- Do not treat an iteration with no status delta and no new blocker as valid progress in `--auto` or `--full-auto`.
 - Do not continue auto-advancement after route drift, receipt mismatch, or empty progress.
 - Do not run multiple subagents in parallel against the same active module or the same workflow record when their outputs could race, except for the route-locked module page-design batch with at most 6 page-scoped subagents.
 - Do not treat the HTML prototype page-design parallelism exception as permission to parallelize module freeze, implementation, workflow-record updates, or stage promotion.
-- Do not let a subagent decide whether `--auto` should switch modules, stop, or promote a stage.
+- Do not let a subagent decide whether `--auto` or `--full-auto` should switch modules, stop, or promote a stage.
 - Do not treat one module's state as proof that another module is ready.
 - Do not create per-module workflow state files; keep stage tracking under one orchestrator-owned workflow state model or its optional runtime artifact.
 - Do not treat workflow-state artifacts or execution-trace artifacts as stable skill resources; they are runtime process artifacts.

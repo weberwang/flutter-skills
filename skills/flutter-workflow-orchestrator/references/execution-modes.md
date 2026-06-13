@@ -1,10 +1,11 @@
 # Execution Modes
 
-Use this reference when `flutter-workflow-orchestrator` is invoked with `--auto` or when it must decide whether to continue routing after a local module milestone.
+Use this reference when `flutter-workflow-orchestrator` is invoked with `--auto`, `--full-auto`, or when it must decide whether to continue routing after a local module milestone.
 
 ## Contents
 
 - [`--auto`](#--auto)
+- [`--full-auto`](#--full-auto)
 - [Auto Loop Contract](#auto-loop-contract)
 - [Stop Condition](#stop-condition)
 
@@ -60,9 +61,40 @@ Auto-generated effect images do not remove the need for freeze-quality evaluatio
 
 `--auto` does not automatically open the Creative Production branch by default. That branch is scope-driven and should be entered only when the current request explicitly includes asset-oriented work such as campaign visuals, mood boards, ad routes, hero variations, or publish-bound marketing assets. When that branch is active before final direction confirmation, it is direction evidence only. When it is active after `DESIGN.md`, it is an asset-production branch. In both cases, the orchestrator should still preserve the same upstream design-direction gates and should not let asset exploration rewrite the already confirmed product direction silently.
 
+## `--full-auto`
+
+This skill also supports a `--full-auto` execution parameter.
+
+`--full-auto` includes everything in `--auto`, but expands auto-confirmation to deterministic human-facing workflow gates when existing artifacts collapse the decision to exactly one supported default.
+
+`--full-auto` may auto-confirm:
+
+- Product Design brief confirmation when the PRD, technical baseline, and required clarification packet already prove one brief interpretation strongly enough for downstream work
+- public-shell confirmation when the current shared-shell packet has one uniquely supported option and no competing shell contract remains in scope
+- final product direction confirmation when the Mobbin-backed recommendation pass yields one clear primary direction and no competing approved direction remains unresolved
+- primary-platform device selection when validation sees exactly one eligible device, or exactly one already-booted eligible device, or no eligible device and the platform supports starting a single emulator or simulator fallback
+- ordinary orchestrator-owned review gates that `--auto` already consumes
+
+`--full-auto` must still stop when:
+
+- the available artifacts still support multiple plausible defaults
+- the shell, brief, direction, or device choice would require taste judgment rather than deterministic selection
+- route lock validation, receipt validation, or no-progress rules fail
+- required artifacts, credentials, tools, or generated evidence are missing
+- a blocker would already stop `--auto`
+
+`--full-auto` is not allowed to:
+
+- invent a brief, shell, direction, or device decision when more than one reasonable choice still exists
+- bypass the Mobbin-backed recommendation pass, Product Design artifacts, or required effect-image and freeze gates
+- weaken route-lock, receipt, blocker, or no-progress enforcement
+- convert an unresolved ambiguity into a silent approval just to keep the loop moving
+
+When `--full-auto` reaches shared freeze, it should apply the same `390 x 844 px` viewport default as `--auto` when no frozen viewport exists. Then it should attempt deterministic confirmation in this order: Product Design brief, public shell, final product direction. If any one of those gates still has more than one supported answer, stop and record the ambiguity as a blocker instead of advancing. If the active route requires additional light-mode effect images and `gpt-image-2-generator` is available, generate them and continue. If image generation is blocked, stop and record that blocker.
+
 ## Auto Loop Contract
 
-After the shared/global design freeze is complete and module `impl.md` generation begins, `--auto` must behave as a serial loop:
+After the shared/global design freeze is complete and module `impl.md` generation begins, `--auto` and `--full-auto` must behave as a serial loop:
 
 1. Select the next target module in the confirmed serial module order that is not yet fully implemented.
 2. Set that module as `current_module` and update the workflow record immediately.
@@ -77,13 +109,13 @@ After the shared/global design freeze is complete and module `impl.md` generatio
 11. Update `current_stage`, `next_skill`, `module_status_table`, `code_status`, and `decision_log`.
 12. Re-evaluate the remaining modules and immediately continue with the next serial module.
 
-`current_module` is only the module being processed right now. It must never be interpreted as the only module covered by the current `--auto` run.
+`current_module` is only the module being processed right now. It must never be interpreted as the only module covered by the current `--auto` or `--full-auto` run.
 
-If one module reaches `implementation_final`, `module_design_frozen`, `impl_rd_ready`, `architecture_ready`, or `code_status=landed`, that is only a local milestone. In `--auto` mode, the orchestrator must immediately decide whether the same module still needs another step or whether the next serial module should become `current_module`, then continue execution without asking for an ordinary continuation confirmation.
+If one module reaches `implementation_final`, `module_design_frozen`, `impl_rd_ready`, `architecture_ready`, or `code_status=landed`, that is only a local milestone. In `--auto` or `--full-auto` mode, the orchestrator must immediately decide whether the same module still needs another step or whether the next serial module should become `current_module`, then continue execution without asking for an ordinary continuation confirmation.
 
 ## Stop Condition
 
-The default stop condition for `--auto` is:
+The default stop condition for `--auto` and `--full-auto` is:
 
 - every target module row has at least `impl_status=landed`
 - every target module row has `design_source_status=frozen`
@@ -93,7 +125,7 @@ The default stop condition for `--auto` is:
 
 When this stop condition is reached, the orchestrator should surface that the project is `workflow_completed_waiting_review` and return control to the user for review or closeout.
 
-`--auto` may stop only when one of these conditions is true:
+`--auto` and `--full-auto` may stop only when one of these conditions is true:
 
 - all target modules satisfy the completion condition above
 - a real blocker appears and the current round cannot safely continue
