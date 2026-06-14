@@ -14,6 +14,7 @@
 - 只要当前 provider 形态能被 `@riverpod` 表达，就必须使用 `@riverpod`
 - 不手写大量样板 provider 族和依赖装配
 - Provider 命名与 use case / 状态语义保持一致
+- UI 侧消费 provider 时，保持最小监听范围；优先让状态变化只刷新真正依赖该状态的局部组件，而不是整页一起刷新
 
 ### 状态对象、DTO、值对象
 

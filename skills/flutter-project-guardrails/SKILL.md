@@ -27,9 +27,10 @@ Enforce a single Flutter engineering baseline for this workspace: mandatory pack
 3. Enforce the DDD feature blueprint so responsibilities stay inside `domain`, `application`, `infrastructure`, and `presentation`.
 4. Enforce annotation coverage for providers, models, serialization, and API declarations, and replace any newly introduced hand-written boilerplate when the approved annotations can express the same contract.
 5. If `flutter_hooks` or `hooks_riverpod` is present, audit whether the touched UI path should use hooks for controller lifecycle, effect orchestration, memoized derived values, or provider composition, and convert those spots instead of adding parallel `StatefulWidget` or manual listener code.
-6. For `presentation` work, compare the implementation against frozen UI/UX, theme artifacts, and design-quality guardrails before accepting layout or widget choices.
-7. Reject overlap, hidden globals, manual boilerplate, unused dependencies, and display-layer choices that flatten frozen hierarchy or reintroduce AI-template patterns.
-8. Output a short compliance checklist describing what follows the standard and what still violates it.
+6. For `flutter_riverpod` reads in the presentation layer, keep the smallest watch scope possible so provider changes refresh only the widget subtree that actually depends on that state instead of rebuilding the whole page.
+7. For `presentation` work, compare the implementation against frozen UI/UX, theme artifacts, and design-quality guardrails before accepting layout or widget choices.
+8. Reject overlap, hidden globals, manual boilerplate, unused dependencies, and display-layer choices that flatten frozen hierarchy or reintroduce AI-template patterns.
+9. Output a short compliance checklist describing what follows the standard and what still violates it.
 
 ## Hard Rules
 
@@ -39,6 +40,7 @@ Enforce a single Flutter engineering baseline for this workspace: mandatory pack
 - Default pagination baseline, when the product actually has paginated loading, is `infinite_scroll_pagination: ^5.1.1`.
 - If the approved annotation toolchain can cover the current provider, DTO, union, serializer, or API contract, it must be implemented with annotations and generators instead of hand-written equivalents.
 - If `flutter_hooks` or `hooks_riverpod` is part of the project stack, every applicable widget or provider composition path must use hooks first; do not keep `StatefulWidget`, manual `initState` / `dispose`, or duplicated listener glue where hooks can express the same behavior directly.
+- In `flutter_riverpod`-driven UI, always keep the smallest watch scope possible; prefer local `Consumer`, `HookConsumerWidget`, `ConsumerWidget`, or provider-derived leaf widgets that refresh only the widget subtree that depends on the changed state instead of rebuilding the whole page.
 - Default routing is `go_router`.
 - Default HTTP stack is `dio` plus `retrofit`.
 - Default model/state generation is `freezed_annotation` plus `json_annotation`, generated through `build_runner`.

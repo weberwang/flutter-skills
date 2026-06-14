@@ -36,8 +36,9 @@ Operate on the initialized {{PROJECT_NAME}} Flutter app using the project decisi
 2. Re-check the feature boundary, route ownership, data source ownership, and generation impact before editing files.
 3. If the touched provider, model, serializer, union state, or API contract can be expressed through the approved annotation toolchain, implement it with annotations first and remove equivalent hand-written boilerplate instead of keeping parallel styles.
 4. If the project stack includes `flutter_hooks` or `hooks_riverpod`, inspect the touched widget and provider path first and implement every applicable lifecycle, ephemeral state, and composition concern with hooks instead of parallel non-hooks boilerplate.
-5. Follow the project command set and environment conventions defined in the references.
-6. When adding new project-specific decisions, update the decision log instead of hiding them in implementation details.
+5. In `flutter_riverpod`-driven UI, keep the smallest watch scope possible so provider changes refresh only the widget subtree that depends on the changed state instead of rebuilding the whole page.
+6. Follow the project command set and environment conventions defined in the references.
+7. When adding new project-specific decisions, update the decision log instead of hiding them in implementation details.
 
 ## Hard Rules
 
@@ -49,6 +50,7 @@ Operate on the initialized {{PROJECT_NAME}} Flutter app using the project decisi
 - Do not take over initialization, plugin setup, or force-based reconfiguration responsibilities.
 - Do not use this skill as a standalone path that bypasses explicit `@superpowers` invocation for module refinement or module implementation.
 - If this project uses `flutter_hooks` or `hooks_riverpod`, do not write new applicable UI logic as `StatefulWidget` or manual lifecycle glue where hooks can express it directly.
+- In `flutter_riverpod` UI, do not place broad `ref.watch(...)` calls at page-root scope when only a smaller section changes; prefer leaf listeners and local consumers that refresh only the widget subtree that needs the state.
 - Replace every `{{PLACEHOLDER}}` before shipping this generated skill with the project.
 
 ## Project Conventions
