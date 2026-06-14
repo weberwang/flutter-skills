@@ -2,19 +2,36 @@
 
 ## npx 安装
 
-如果你希望在任意项目目录里直接安装本仓库的 skills，执行：
+如果你希望在任意项目目录里直接安装本仓库的 skills，优先执行 GitHub 直装命令：
+
+```powershell
+npx --yes --package github:weberwang/flutter-skills flutter-skills install
+```
+
+这个命令会临时从 GitHub 拉取当前仓库，并把包内全部 `skills/` 安装到“当前执行目录”的 `.agents/skills/`。
+
+如果你就在本地仓库旁边开发，也可以直接执行本地路径安装：
 
 ```powershell
 npx --yes --package file:D:\Git\flutter-skills flutter-skills install
 ```
 
-这个命令会把当前包里的全部 `skills/` 安装到“当前执行目录”的 `.agents/skills/`。
-
 如果你想指定安装目标根目录，执行：
+
+```powershell
+npx --yes --package github:weberwang/flutter-skills flutter-skills install --target D:\Your\Project
+```
+
+或本地路径版本：
 
 ```powershell
 npx --yes --package file:D:\Git\flutter-skills flutter-skills install --target D:\Your\Project
 ```
+
+注意：
+
+- `npx flutter-skills install` 只有在 `flutter-skills` 已经正式发布到 npm 时才会生效。
+- 当前仓库尚未发布到 npm，所以直接执行 `npx flutter-skills install` 会出现 `404 Not Found`。
 
 ## Codex 插件安装
 
