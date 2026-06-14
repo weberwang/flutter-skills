@@ -1,0 +1,20 @@
+{
+  "name": "flutter-skills",
+  "version": "0.1.0",
+  "description": "Flutter workflow skill bundle for Codex.",
+  "author": {
+    "name": "forjs"
+  },
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Flutter Skills",
+    "shortDescription": "Install the repository's Flutter workflow skills into Codex.",
+    "longDescription": "Bundle this repository's Flutter workflow skills as a Codex plugin so they can be installed and reused without manual copying.",
+    "developerName": "forjs",
+    "category": "Productivity",
+    "capabilities": [
+      "Instruction"
+    ],
+    "defaultPrompt": "Use Flutter Skills to help me run the Flutter workflow in this repository."
+  }
+}

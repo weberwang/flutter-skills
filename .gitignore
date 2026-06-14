@@ -1,2 +1,4 @@
 __pycache__/
 *.pyc
+plugins/flutter-skills/skills/*
+!plugins/flutter-skills/skills/.gitkeep

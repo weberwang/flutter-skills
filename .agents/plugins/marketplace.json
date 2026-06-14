@@ -1,0 +1,20 @@
+{
+  "name": "flutter-skills-local",
+  "interface": {
+    "displayName": "Flutter Skills Local"
+  },
+  "plugins": [
+    {
+      "name": "flutter-skills",
+      "source": {
+        "source": "local",
+        "path": "./plugins/flutter-skills"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}
