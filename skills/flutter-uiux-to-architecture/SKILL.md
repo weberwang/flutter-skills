@@ -13,7 +13,7 @@ It ends at architecture and implementation guidance. It does not write page code
 
 Module architecture in this workflow must assume that the frozen module design already considered the real target platform and that premium/high-fidelity quality is a non-negotiable implementation input, not an optional polish pass.
 
-In the default workflow, this skill also decides whether a visual should be implemented natively in Flutter or produced as a project bitmap asset for later consumption.
+In the default workflow, this skill also decides whether a visual should be implemented natively in Flutter or produced as a project bitmap asset for later consumption, and it must output a page-level `display_restoration_blueprint` so downstream Flutter implementation does not re-interpret the frozen HTML interactive prototype ad hoc.
 
 It must not treat preview images as the only source of truth for concrete Flutter implementation choices. Preview images provide visual structure clues, but final Flutter decisions must combine preview evidence with `ui-ux.md`, `impl.md`, state semantics, and architecture constraints.
 
@@ -85,10 +85,17 @@ The contract must identify:
    - `asset_decision`: native drawing/composition, existing asset reuse, or `$imagegen` fallback
    - `must_use_asset`: exact asset path or `none`
    - `must_not_flutterize`: `yes` or `no`
-14. Classify each visual decision as `preserve_faithfully`, `flutterize`, or `simplify`, and explain the implementation reason.
-15. Add frozen design-quality implementation guardrails for presentation code: hierarchy, spacing rhythm, typography ladder, contrast, CTA salience, anti-template composition, and motion restraint.
-15.1 Add premium implementation guardrails for presentation code: preserve the high-confidence, high-fidelity feel of the frozen design through disciplined spacing, typography precision, restrained depth, platform-appropriate interaction feedback, and refusal to flatten fidelity-critical regions for convenience.
-16. Produce an architecture output pack that `flutter-init`, sibling `flutter-dev`, and `flutter-project-guardrails` can consume directly.
+14. Produce a page-level `display_restoration_blueprint` that turns the frozen HTML interactive prototype plus architecture output into an implementation contract. At minimum, map:
+   - `region_id` to the intended Flutter widget/container structure
+   - route scaffold, scroll container, list container, sticky container, and overlay host ownership
+   - each important state to its visible slot, replacement rule, and loading/error/empty presentation boundary
+   - asset bindings, including which regions must use approved exported assets
+   - interaction ownership, including which gestures, taps, sheets, tabs, or inline controls belong to which region
+   - parity checkpoints for fidelity-critical regions so implementation and later review compare the same structure
+15. Classify each visual decision as `preserve_faithfully`, `flutterize`, or `simplify`, and explain the implementation reason.
+16. Add frozen design-quality implementation guardrails for presentation code: hierarchy, spacing rhythm, typography ladder, contrast, CTA salience, anti-template composition, and motion restraint.
+16.1 Add premium implementation guardrails for presentation code: preserve the high-confidence, high-fidelity feel of the frozen design through disciplined spacing, typography precision, restrained depth, platform-appropriate interaction feedback, and refusal to flatten fidelity-critical regions for convenience.
+17. Produce an architecture output pack that `flutter-init`, sibling `flutter-dev`, and `flutter-project-guardrails` can consume directly.
 
 ## Hard Rules
 
@@ -104,6 +111,7 @@ The contract must identify:
 - Do not silently fill missing detail with tasteful guesses when the visual region is fidelity-critical.
 - Do not treat premium quality as decorative extras that can be deferred after architecture. If the premium or high-fidelity requirement is not implementable with current evidence, return a blocker.
 - Do not decide scroll, list, sticky, overlay, or relative-layout behavior from preview images alone when the UI/UX or implementation docs define stronger semantics.
+- Do not hand off display-layer implementation without a concrete `display_restoration_blueprint`; the HTML interactive prototype is a frozen source, not a self-executing Flutter page.
 - Do not force every design effect into native Flutter code when a bitmap asset is the more faithful and maintainable choice.
 - Do not choose `$imagegen` for simple visuals that Flutter can reproduce cleanly with native code.
 - Do not classify a fidelity-critical branded region as `simplify` unless design-source control explicitly approved that reduction.
@@ -129,6 +137,7 @@ Return:
 - `state_architecture`
 - `scroll_and_motion_architecture`
 - `display_layer_decision_table`
+- `display_restoration_blueprint`
 - `non_native_visual_fallbacks`
 - `design_implementation_guardrails`
 - `fidelity_vs_flutterization`

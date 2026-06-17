@@ -236,11 +236,11 @@ Mention the latest freeze decision or blocker for that module when it exists.
 
 Mention the module's current `high_fidelity_freeze_status` when module freeze, architecture, or implementation-readiness is being considered.
 
-If the module is entering implementation, mention whether its `impl.md` is implementation-final, whether it references the frozen prototype-derived design-source packet, whether the frozen module display-layer design draft already exists, and whether corresponding page-image evidence exists for display-layer landing.
+If the module is entering implementation, mention whether its `impl.md` is implementation-final, whether it references the frozen prototype-derived design-source packet, whether the frozen module display-layer design draft already exists, whether a concrete `display_restoration_blueprint` already exists, and whether corresponding page-image evidence exists for display-layer landing.
 
 If implementation planning already identified bitmap-only visual effects, mention whether they are pending generation, already saved into the project, or already wired into the implementation plan.
 
-If display-layer work is about to begin, mention whether the readiness preflight passed, whether a concrete display-layer decision table already exists, whether the display evidence pack covers fidelity-critical regions, whether those regions already have explicit fidelity classifications, and whether the required non-display behavior contracts have already stabilized for faithful display restoration.
+If display-layer work is about to begin, mention whether the readiness preflight passed, whether a concrete display-layer decision table already exists, whether a concrete `display_restoration_blueprint` already exists, whether the display evidence pack covers fidelity-critical regions, whether those regions already have explicit fidelity classifications, and whether the required non-display behavior contracts have already stabilized for faithful display restoration.
 
 ### `next_action`
 
@@ -429,7 +429,7 @@ When route drift, receipt mismatch, or no-progress auto stopping happens, add a 
 - If implementation execution begins, record the active serial module order, the current active module, and any explicitly approved ownership split. Default expectation is serial module execution.
 - If a selected module, module index row, executable module `impl.md`, or required prototype-derived design-source packet cannot be verified on disk, record the blocker and keep all generation, freeze, and architecture trace fields as `未执行`, `not_executed`, or `unknown`.
 - If architecture planning decides that a visual must become a bitmap asset, record the selected asset path or the pending MCP-driven generation need explicitly.
-- If display-layer readiness preflight is required, record whether the main effect image, detail effect images, structure semantics, display-layer decision table, fidelity classifications, region-level evidence coverage, and non-display behavior readiness are all ready.
+- If display-layer readiness preflight is required, record whether the main effect image, detail effect images, structure semantics, display-layer decision table, `display_restoration_blueprint`, fidelity classifications, region-level evidence coverage, and non-display behavior readiness are all ready.
 - If a module is blocked, write the blocker both in the metadata summary section and in the module row.
 - If the workflow completes, set `workflow_status: completed`.
 
