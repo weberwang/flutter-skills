@@ -100,7 +100,7 @@ Mobile requires re-composition, not compression.
 
 Before the global design direction is explored, freeze one base mobile viewport for the whole design cycle. Do not let page ideation, effect-image generation, or HTML interactive prototype work switch widths opportunistically from page to page.
 
-Do not design any page at a width or height smaller than the frozen base design viewport for the active design cycle. If content does not fit, solve it through hierarchy, disclosure, paging, or layout restructuring rather than shrinking the page below the frozen design size.
+Do not design any page at a width or height smaller than the frozen base design viewport for the active design cycle. For effect-image generation, keep the frozen width fixed and treat the frozen viewport height as the minimum canvas height. If a page or region is intentionally scrollable, extend the design vertically as needed instead of shrinking the width or compressing the layout to avoid extra height. If content does not fit, solve it through hierarchy, disclosure, paging, or layout restructuring rather than shrinking the page below the frozen design size.
 
 For iPhone-first product work, offer at least these common presets unless the user already chose another target:
 

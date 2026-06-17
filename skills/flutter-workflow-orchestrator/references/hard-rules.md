@@ -44,6 +44,8 @@ Use this reference before applying any state/status promotion, freeze decision, 
 - Do not generate, show, or compare other-direction effect images after that confirmation merely for more browsing; only same-direction completion, evidence expansion, or scope-matched revision is allowed.
 - Do not send shared/global or module-stage effect-image generation requests without explicit style constraints once the design packet already defines them.
 - Do not start any shared/global or module-stage effect-image generation until the workflow has first extracted the applicable visual constraints from the frozen global design packet and attached them to the request.
+- Do not let effect-image generation change the frozen design width or use a height smaller than the frozen base viewport height.
+- Do not flatten or compress a scrollable page or scrollable region merely to keep the effect image within one screen height; allow taller effect images when scroll design evidence is needed.
 - Do not let module-stage effect-image generation redefine palette, typography mood, component family, image treatment, or CTA posture after a shared/global direction has been approved.
 - After a shared/global freeze or module freeze is confirmed, do not leave no-longer-selected effect images in the active artifact directories or workflow indexes where later stages could mistake them for valid baselines; delete those obsolete images and clear their references.
 - Do not let module `impl.md` generation, module effect-image generation, module HTML interactive prototype generation, or module freeze drift away from the already frozen shared visual design, shared interaction principles, shared public shell, or shared component families.
@@ -59,6 +61,7 @@ Use this reference before applying any state/status promotion, freeze decision, 
 - Do not delay `project_initialized` or `bootstrap_code_ready` until after late module milestones when the shared freeze and shared bootstrap-critical baseline are already complete.
 - Do not let `flutter-init` implement bootstrap code, feature pages, feature business flows, shared wiring, or module-specific behavior while initializing the project.
 - Do not treat `project_initialized` as proof that bootstrap code already exists; bootstrap is a separate stage that must land before feature-module implementation.
+- Do not default to bare `flutter` or `dart` commands for this workflow when the user has not specified an environment override; default the Flutter environment contract to `fvm`.
 - Do not mark `impl_status=landed` until the module `impl.md` references a confirmed frozen prototype-derived design-source packet.
 - Do not start module-scoped display-layer design draft generation before the active module's `impl.md` has fixed the module function, key states, main task path, and non-display behavior boundaries.
 - Do not freeze or translate a module design that has not yet considered the concrete target platform's interaction, layout, density, and feedback expectations.
