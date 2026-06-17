@@ -39,8 +39,10 @@ When a module has fidelity-critical regions, compare them region by region again
 3. Compare structure before detail: navigation, layout regions, content hierarchy, state zones, primary actions, sticky behavior, and overlay zoning.
 4. Compare visual system: typography roles, spacing rhythm, color semantics, surface depth, radius, icons, imagery, texture, layer ordering, and any frozen light/dark theme values.
 5. Compare states: ideal, empty, loading, error, permission, partial data, disabled, success, locked or premium when relevant.
+5.1 For key states that were supposed to carry their own visual language, verify that the implementation uses the frozen imagery, structural placeholder, CTA framing, iconography, or compositional treatment rather than collapsing the state into copy-heavy fallback text.
 6. Compare motion and transitions when they were part of the frozen display intent or materially affect hierarchy and CTA clarity.
 7. For fidelity-critical regions, verify whether the implementation respected `preserve_faithfully`, `flutterize`, or `simplify` decisions and any locked spacing, asset, or layer-depth rules from architecture output.
+7.1 Verify that bottom spacing ownership still matches the frozen contract. Do not accept bottom whitespace that is produced by page-level manual bottom padding when the design source assigned that space to `SafeArea`, `bottom action area`, `sticky footer`, or no extra inset.
 8. Classify each gap and decide whether it is a code fix, allowed adaptation, source conflict, or design change request.
 9. Route design changes to `flutter-design-source-control`; do not solve them inside implementation review.
 
@@ -59,6 +61,8 @@ When a module has fidelity-critical regions, compare them region by region again
 - Do not pass a fidelity-critical module when the implementation evidence does not cover the same region or state coverage promised by the display evidence pack.
 - Do not pass a module whose colors or theme-role usage contradict the frozen theme files even if the layout looks close.
 - Do not treat snapshot similarity as enough when interaction or state behavior differs.
+- Do not pass a module that introduces page-level manual bottom padding to manufacture bottom whitespace unless the frozen design source explicitly approved that inset.
+- Do not pass a module whose empty, error, permission, or similar key states regress into generic small cards or copy-heavy explanation blocks when the frozen design source expected a stronger visual-language treatment.
 - Do not collapse structure, visual, state, and motion review into one aggregate opinion; review each dimension explicitly.
 - Do not rewrite architecture here; route structural implementation issues to the relevant Flutter implementation skill.
 - Do not require external design-draft files or tool-specific node data in the default parity workflow.

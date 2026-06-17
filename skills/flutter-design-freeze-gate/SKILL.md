@@ -78,6 +78,7 @@ Approve `module_impl_prep` only when all items are present:
 - The module design packet makes the target platform feel native enough for that validation surface while still preserving a premium, high-confidence visual standard. "Premium" here means high-quality hierarchy, spacing rhythm, typography control, contrast discipline, CTA dominance, depth restraint, and state consistency, not decorative styling alone.
 - Module-private component freeze exists for repeated building blocks inside that module, including frozen states, variant boundaries, immutable parts, and allowed adjustments.
 - State matrix: ideal, empty, loading, error, permission, partial data, disabled, success, locked or premium when relevant.
+- When a key state materially changes hierarchy, composition, or emotional tone, the freeze package must also contain state-specific visual evidence or an explicit frozen state-visual contract. One main preview is not enough for those states.
 - Immutable items that code may not change.
 - Engineering adjustments that are explicitly allowed.
 - Acceptance criteria for Flutter parity.
@@ -104,6 +105,7 @@ Use these outcomes:
 - Do not let strong decorative polish mask unclear information hierarchy or weak task guidance.
 - Do not treat "premium enough" as a subjective vibe check. Premium quality must survive realistic content, target-platform constraints, and critical states without losing clarity.
 - Do not allow a draft with unresolved hierarchy, task guidance, typography, contrast, CTA, or state-coverage defects to enter freeze.
+- Do not freeze a module when key states still fall back to generic explanatory cards or copy-heavy placeholders because no stronger state visual language was frozen.
 - Do not treat a post-failure single revision without a new explicit freeze decision as a substitute for a valid freeze result.
 - Do not treat “close enough” as a valid exception when the design package still leaves critical ambiguity.
 - Do not allow module splitting to treat shared freeze as page-level freeze.
@@ -141,6 +143,7 @@ Return:
 - User says "there is no static preview for this module": allow module freeze only if the consolidated image-backed design packet is explicit enough to freeze without images; otherwise block.
 - User says "the theme is frozen, global shared components can be decided later": block until the global public component freeze is explicit.
 - User says "we can add states later": block production freeze.
+- User says "先按主态冻结，空态和错误态实现时再设计": block that path when those states materially affect composition or product tone.
 - User says "Flutter can decide the dark theme later": block until `light-theme-freeze.yaml` and `dark-theme-freeze.yaml` are frozen.
 - User says "the draft looks premium enough, skip review": block and evaluate the freeze package directly.
 - User says "I already reviewed it in the main thread": ignore the informal review and judge the freeze package directly.

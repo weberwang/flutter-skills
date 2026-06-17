@@ -57,6 +57,7 @@ The contract must identify:
 4. Verify `platform_identifier` is explicit enough for downstream architecture and validation. Do not proceed into implementation-facing architecture with only a behavior baseline like `ios_hig` when the real target surface is Android emulator, Windows desktop, or Web browser.
 4.1 Verify that the frozen module design packet already considered platform-specific behavior that materially affects implementation: safe areas, touch targets, hover/focus, back navigation, density, gesture discoverability, desktop or web pointer expectations, and motion posture.
 5. Verify the display evidence pack is complete enough for fidelity-critical regions. If the page contains dense, branded, layered, scroll-reactive, or overlay-heavy areas and only a single broad preview exists, return a blocker instead of allowing image-only guessing.
+5.1 If key states such as empty, error, permission, loading, disabled, success, locked, or premium materially change hierarchy, composition, or emotional tone, require state-specific visual evidence or an equally explicit frozen state-visual contract instead of inferring those states from the main preview alone.
 6. Extract Flutter theme roles from the global guideline and theme files without recalculating their meaning.
 7. Map typography, spacing, radius, color, elevation, icon posture, motion, and CTA emphasis into maintainable Flutter token categories.
 8. Separate global tokens from module-scoped tokens. Global theme values remain authoritative; module tokens may only alias global roles, define component-local semantics, or introduce scoped values that the frozen module design-source packet explicitly allows.
@@ -88,7 +89,9 @@ The contract must identify:
 14. Produce a page-level `display_restoration_blueprint` that turns the frozen HTML interactive prototype plus architecture output into an implementation contract. At minimum, map:
    - `region_id` to the intended Flutter widget/container structure
    - route scaffold, scroll container, list container, sticky container, and overlay host ownership
+   - bottom spacing ownership, including whether it comes from `SafeArea`, frozen `bottom action area`, frozen `sticky footer`, approved scroll content inset, or `none`
    - each important state to its visible slot, replacement rule, and loading/error/empty presentation boundary
+   - the visual-language strategy for each important state, including whether that state is led by imagery, illustration, placeholder structure, CTA framing, badge/icon language, or intentionally minimal copy
    - asset bindings, including which regions must use approved exported assets
    - interaction ownership, including which gestures, taps, sheets, tabs, or inline controls belong to which region
    - parity checkpoints for fidelity-critical regions so implementation and later review compare the same structure
@@ -110,8 +113,11 @@ The contract must identify:
 - Do not treat visual evidence as more authoritative than the confirmed design-source packet when they conflict.
 - Do not silently fill missing detail with tasteful guesses when the visual region is fidelity-critical.
 - Do not treat premium quality as decorative extras that can be deferred after architecture. If the premium or high-fidelity requirement is not implementable with current evidence, return a blocker.
+- Do not treat a single main page preview as enough when key states still need independent visual language decisions.
 - Do not decide scroll, list, sticky, overlay, or relative-layout behavior from preview images alone when the UI/UX or implementation docs define stronger semantics.
 - Do not hand off display-layer implementation without a concrete `display_restoration_blueprint`; the HTML interactive prototype is a frozen source, not a self-executing Flutter page.
+- Do not allow page-level manual bottom padding as a visual fix. Bottom spacing must come only from the frozen `display_restoration_blueprint`, such as `SafeArea`, frozen `bottom action area`, frozen `sticky footer`, or an explicitly approved scroll content inset.
+- Do not default empty, error, permission, or other non-happy states to a small explanatory card plus long copy when the frozen design intent expects a stronger visual-language treatment.
 - Do not force every design effect into native Flutter code when a bitmap asset is the more faithful and maintainable choice.
 - Do not choose `$imagegen` for simple visuals that Flutter can reproduce cleanly with native code.
 - Do not classify a fidelity-critical branded region as `simplify` unless design-source control explicitly approved that reduction.
@@ -152,5 +158,6 @@ Return:
 - Theme files are missing but required by the freeze packet: block and route to `design-preview-to-global-guidelines`.
 - Developer wants to simplify a hero or CTA in code: classify whether the simplification is allowed; otherwise route to `flutter-design-source-control`.
 - The UI looks polished but changes the primary task path: block; image-backed design guidance cannot override task guidance.
+- The main preview exists but the empty or error state clearly needs a different composition: block and require state-specific visual evidence or a frozen state-visual contract instead of inventing a card-plus-copy fallback.
 - The effect image contains a texture, illustration, layered composite, or branded bitmap treatment that Flutter should not rebuild natively: record it in `asset_strategy`, mark it under `non_native_visual_fallbacks`, and direct downstream implementation to use `$imagegen` plus project asset ingestion.
 - The preview visually looks like a list or stacked layout, but `ui-ux.md` defines different interaction semantics: follow documented semantics, not image-only guesswork, or block if the sources truly conflict.
