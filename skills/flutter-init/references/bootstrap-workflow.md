@@ -7,20 +7,28 @@
 
 ## 初始化顺序
 
-### 1. 创建工程
+### 1. 建立 git 基线
+
+1. 进入目标项目根目录后，先检查是否已经存在 `.git/`
+2. 如果还不是 git 仓库，立即执行 `git init`
+3. 检查根目录 `.gitignore` 是否存在
+4. 如果 `.gitignore` 不存在则新建；如果已存在，则只补齐缺失的基础忽略项，避免覆盖用户已有规则
+5. `.gitignore` 基线至少包含 Flutter / Dart 生成物与常见本地噪音：`.dart_tool/`、`.packages`、`build/`、`.fvm/`、`.idea/`、`.vscode/`、`*.iml`、`.DS_Store`、`Thumbs.db`、`*.log`、`.agents`、`.claude`
+
+### 2. 创建工程
 
 1. 使用 `flutter create` 创建干净项目
 2. 删除默认 demo 页面、计数器逻辑和无关示例代码
 3. 保留必要平台目录与基础工程配置
 
-### 2. 锁定依赖
+### 3. 锁定依赖
 
 1. 读取 `flutter-project-guardrails`
 2. 先添加基础必选包，并优先选择与当前 Flutter SDK 兼容的最新版
 3. 再按 RD 能力补充场景型包，同样优先选择与当前 Flutter SDK 兼容的最新版
 4. 任何新增包都必须立刻有落点，不允许先加着以后再用
 
-### 3. 处理插件重配开关
+### 4. 处理插件重配开关
 
 1. 检查请求里是否显式包含 `--force`
 2. 如果包含：
@@ -34,7 +42,7 @@
    - 如果已经配置，保留现有插件配置，不重复覆盖
    - 然后继续后续初始化步骤
 
-### 4. 建立顶层目录
+### 5. 建立顶层目录
 
 默认顶层结构：
 
@@ -61,7 +69,7 @@ lib/
       presentation/
 ```
 
-### 5. 建目录级占位与最小基线
+### 6. 建目录级占位与最小基线
 
 - 只创建后续 bootstrap 阶段会用到的目录与最小占位
 - 可以预留 `app/bootstrap`、`app/router`、`app/startup`、`core/network`、`core/storage`、`core/logging`、`core/error`
@@ -69,7 +77,7 @@ lib/
 - 如果需要占位文件，只允许放不会形成真实运行链路的占位声明、空壳契约或说明性 stub
 - 如果某个目录当前 RD 明确不需要，可以不建；但不要为了后续方便直接写入 bootstrap 代码
 
-### 6. 搭 feature 骨架
+### 7. 搭 feature 骨架
 
 每个首批 feature 至少生成：
 
@@ -84,7 +92,7 @@ lib/
 - `presentation/widgets`
 - `presentation/providers` 或仅保留应用层 provider 入口
 
-### 7. 接入注解与代码生成准备
+### 8. 接入注解与代码生成准备
 
 - Provider 使用 `@riverpod`
 - DTO / 状态 / 值对象优先使用 `@freezed`
@@ -92,14 +100,14 @@ lib/
 - API 接口使用 `@RestApi`、`@GET`、`@POST` 等
 - 只有当当前占位已经需要验证生成链路时，才跑一次 `dart run build_runner build --delete-conflicting-outputs`
 
-### 8. 生成同级 `flutter-dev`
+### 9. 生成同级 `flutter-dev`
 
 1. 从 `assets/flutter-dev-template/` 复制并回填到与 `flutter-init` 同级的 `skills/flutter-dev/`
 2. 回填项目名、feature 清单、环境信息、核心命令、集成能力、决策日志
 3. 明确声明它继承 `flutter-project-guardrails`
 4. 不要保留模板占位符到最终项目里
 
-### 9. 初始化验证
+### 10. 初始化验证
 
 至少执行：
 
@@ -125,6 +133,9 @@ flutter test
 - 本次依赖和插件使用了哪些与当前 Flutter SDK 兼容的最新版
 - 遇到了哪些兼容性问题，以及如何修复
 - 已生成哪些同级 `flutter-dev` 项目约束内容
+- 是否执行了 `git init`
+- `.gitignore` 是新建还是增量补齐
+- 本次补齐了哪些忽略项，例如 `.dart_tool/`、`build/`、`.idea/`、`.vscode/`、`.agents`、`.claude`
 - 哪些内容只是目录、占位或契约，尚未形成真实运行代码
 - 哪些 bootstrap 代码仍明确留在后续 `bootstrap code` 阶段
 - 哪些能力只是预留扩展点，还没写业务实现

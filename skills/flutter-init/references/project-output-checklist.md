@@ -12,6 +12,9 @@
 
 ## 基础文件检查
 
+- 如果项目原本不是仓库，`git init` 已执行
+- 根目录存在 `.gitignore`
+- `.gitignore` 已覆盖 `.dart_tool/`、`.packages`、`build/`、`.fvm/`、`.idea/`、`.vscode/`、`*.iml`、`.DS_Store`、`Thumbs.db`、`*.log`、`.agents`、`.claude`
 - 默认 demo 已移除或已明确留待后续 `bootstrap code` 阶段替换
 - 已清楚区分“目录初始化”与“bootstrap code”阶段
 - 未在初始化阶段偷跑真实 app shell、启动入口、路由树或共享 wiring
@@ -52,6 +55,9 @@
 - 已说明新增依赖及其用途
 - 已说明哪些 feature 只是骨架
 - 已说明哪些文件只是目录占位、契约占位或非运行时 stub
+- 已说明是否执行了 `git init`
+- 已说明 `.gitignore` 是新建还是增量补齐
+- 已说明新增了哪些常见忽略项与中间产物规则，例如 `.agents`、`.claude`、`.dart_tool/`、`build/`
 - 已说明 `--force` 是否生效，或是否执行了首次插件配置，以及对插件配置造成了什么影响
 - 已说明插件或依赖版本是否为与当前 Flutter SDK 兼容的最新版，以及修复了哪些不兼容问题
 - 已说明同级 `flutter-dev` 承接了哪些项目级约束

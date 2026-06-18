@@ -51,6 +51,9 @@ If an artifact belongs to the app's real startup path or shared runtime path, it
 - If the RD includes paginated loading, infinite lists, cursor paging, or refresh-plus-load-more flows, initialization must include `infinite_scroll_pagination: ^5.1.1` as the default pagination baseline.
 - During scaffolding, if a provider, DTO, serializer, state union, or API client can be represented by the approved annotation chain, generate that path with annotations first instead of leaving equivalent hand-written boilerplate in the baseline.
 - If a workflow-record runtime artifact already exists for the current run, treat it as the current workflow source and return enough artifact paths for `flutter-workflow-orchestrator` to move the project to `project_initialized`.
+- If the target project root is not yet a git repository, initialize it with `git init` before later scaffold steps depend on repository state.
+- Always ensure the project root has a `.gitignore` baseline. If the file is missing, create it. If it already exists, append only the missing baseline entries so the step stays idempotent.
+- The `.gitignore` baseline must cover Flutter and Dart generated artifacts plus common local-tooling noise, including `.dart_tool/`, `.idea/`, `.vscode/`, `build/`, `.agents`, and `.claude`.
 - After the base project shell is created, always generate or refresh the workspace-level sibling `skills/flutter-dev/` from `assets/flutter-dev-template/` and fill in the project-specific decisions from the RD.
 - If the request includes `--force`, treat plugin setup as a refresh task and rerun plugin configuration before continuing later steps.
 - If the request does not include `--force` but the required plugin setup does not exist yet, perform the first-time plugin configuration before continuing later steps.
@@ -63,13 +66,14 @@ If an artifact belongs to the app's real startup path or shared runtime path, it
 2. Extract the initialization contract from the RD: app type, features, route topology, auth posture, data sources, local storage, tests, and release constraints.
 3. Lock the initialization baseline with `flutter-project-guardrails`, including mandatory packages, DDD feature shape, and annotation coverage.
 4. Decide how plugin configuration should run. If `--force` is present, rerun plugin configuration. If no plugin setup exists yet, run the first-time plugin configuration. Otherwise, keep the existing plugin configuration and continue.
-5. Scaffold the Flutter project shell, clean out demo code, create the agreed directory skeleton, and prepare only the minimal dependency baseline required to support later bootstrap work.
-6. Create bounded feature directories under `lib/features/` with `domain` / `application` / `infrastructure` / `presentation` layers, but do not implement their concrete behavior.
-7. Prepare only the annotation-ready or contract-ready placeholders that the bootstrap stage depends on. Do not land router hosts, app shell code, startup wiring, or feature behavior here.
-8. Generate or refresh `skills/flutter-dev/` beside `flutter-init` from `assets/flutter-dev-template/`, then fill in the project-specific feature map, commands, and decisions.
-9. Stop at initialization boundaries: directory layout, minimal dependency baseline, placeholders, and sibling skill generation. Do not continue into bootstrap code, shared wiring, feature behavior, or page implementation.
-10. Run initialization verification and summarize what was scaffolded, what remains bootstrap-specific, what remains implementation-specific, and what still needs confirmation.
-11. If a workflow record exists, return the project root path, generated sibling `skills/flutter-dev/` path, and initialization summary so `flutter-workflow-orchestrator` can advance the stage to `project_initialized`.
+5. Ensure repository baseline before deeper scaffolding: if `.git/` is missing, run `git init`; then create or repair the root `.gitignore` so the required ignore entries exist without duplicating existing user rules.
+6. Scaffold the Flutter project shell, clean out demo code, create the agreed directory skeleton, and prepare only the minimal dependency baseline required to support later bootstrap work.
+7. Create bounded feature directories under `lib/features/` with `domain` / `application` / `infrastructure` / `presentation` layers, but do not implement their concrete behavior.
+8. Prepare only the annotation-ready or contract-ready placeholders that the bootstrap stage depends on. Do not land router hosts, app shell code, startup wiring, or feature behavior here.
+9. Generate or refresh `skills/flutter-dev/` beside `flutter-init` from `assets/flutter-dev-template/`, then fill in the project-specific feature map, commands, and decisions.
+10. Stop at initialization boundaries: directory layout, minimal dependency baseline, placeholders, sibling skill generation, and repository baseline. Do not continue into bootstrap code, shared wiring, feature behavior, or page implementation.
+11. Run initialization verification and summarize what was scaffolded, what remains bootstrap-specific, what remains implementation-specific, and what still needs confirmation.
+12. If a workflow record exists, return the project root path, generated sibling `skills/flutter-dev/` path, and initialization summary so `flutter-workflow-orchestrator` can advance the stage to `project_initialized`.
 
 ## Hard Rules
 
@@ -83,6 +87,9 @@ If an artifact belongs to the app's real startup path or shared runtime path, it
 - Do not hand-write boilerplate that should come from `@riverpod`, `@freezed`, `@JsonSerializable`, or `@RestApi`.
 - When the approved annotation toolchain can cover the current provider, model, serializer, or API contract, annotations are mandatory and hand-written equivalents are not allowed in the scaffold.
 - Do not stop after generating only the directory scaffold. The initialization is incomplete until the sibling `flutter-dev` skill is generated and filled.
+- Do not skip `git init` when the target project root is not yet a repository.
+- Do not leave the root `.gitignore` missing after initialization.
+- Do not overwrite a user's existing `.gitignore` wholesale; only append the missing baseline entries for Flutter, Dart, local tooling, `.agents`, `.claude`, and common intermediate artifacts.
 - Do not silently overwrite an existing plugin setup unless `--force` is explicitly present.
 - Do not skip the first plugin configuration when the project still lacks the required plugin setup.
 - Do not invent missing RD details to force progress. Surface `assumptions` and `needs_confirmation` instead.
@@ -98,6 +105,7 @@ If an artifact belongs to the app's real startup path or shared runtime path, it
 - `lib/app`, `lib/core`, `lib/shared`, and `lib/features` scaffolded with clear responsibilities.
 - Directory-first placeholders or contracts required by the later bootstrap stage.
 - A generated workspace-level sibling `skills/flutter-dev/` skill that inherits the guardrails and records project-specific decisions.
+- A repository baseline that includes `git init` when needed plus a root `.gitignore` covering `.dart_tool/`, `build/`, `.idea/`, `.vscode/`, `.agents`, `.claude`, and other common generated or local-only artifacts.
 - A verified dependency and plugin setup that is aligned with the current Flutter SDK.
 - A short initialization summary that states scaffolded features, generated layers, remaining bootstrap gaps, remaining business code gaps, unresolved confirmation items, and the fact that feature implementation has not been started.
 - The project root path and generated sibling `skills/flutter-dev/` path, so `flutter-workflow-orchestrator` can record `project_initialized`.
