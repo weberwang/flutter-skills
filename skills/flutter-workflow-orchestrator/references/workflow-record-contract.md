@@ -53,8 +53,8 @@ When persisted, this runtime artifact is the single stable source for project wo
 - whether `DESIGN.md` already captures responsive and multi-device rules
 - whether `DESIGN.md` already captures critical-state coverage and edge-case behavior
 - whether `DESIGN.md` already captures content tone and naming rules when relevant
-- whether one representative light-mode effect image has been generated before remaining optional page-image generation starts
-- whether the representative effect image is pending confirmation, confirmed, or rejected
+- whether one representative local sketch has been generated before representative final effect-image generation or remaining optional page-image generation starts
+- whether the representative sketch is pending confirmation, confirmed, or rejected
 - whether a confirmed representative or approved direction effect image has frozen the current-cycle visual baseline and closed alternative-direction browsing
 - whether every page in scope has an approved light-mode effect image for the required full effect-image set
 - whether approved image-backed design direction exists and which constraints it introduced
@@ -194,9 +194,9 @@ If the root-level `DESIGN.md` is missing after final product direction confirmat
 
 If `DESIGN.md` exists but still lacks task-priority, interaction-feedback, responsive-strategy, critical-state, or content-tone coverage that the product clearly needs, say so explicitly and keep freeze and design-source work blocked.
 
-If the representative effect image exists but is still waiting for user confirmation, say so explicitly and keep remaining required page-image generation blocked.
+If the representative sketch exists but is still waiting for user confirmation, say so explicitly and keep representative final effect-image generation plus remaining required page-image generation blocked.
 
-If the representative effect image has already been confirmed, say so explicitly, state that alternative-direction browsing is closed for the current design cycle, and allow only same-direction completion work unless the user explicitly restarts or rejects that baseline.
+If the representative sketch has already been confirmed, say so explicitly, state that alternative-direction browsing is closed for the current design cycle, and allow only same-direction completion work unless the user explicitly restarts or rejects that baseline. Also record whether the representative final effect image has already been generated from that confirmed sketch.
 
 If approved image-backed design direction is missing before detailed design-source work, say so explicitly.
 
@@ -295,9 +295,11 @@ Track project-level artifact paths when known, such as:
 - final product design direction confirmation record
 - root-level `DESIGN.md`
 - DESIGN.md quality audit
-- representative effect image path
-- representative effect image page
-- representative effect image status
+- representative sketch path
+- representative sketch page
+- representative sketch status
+- representative final effect image path
+- representative final effect image status
 - representative effect-image baseline lock record
 - all-page light-mode effect-image set and approval status for the required full image branch
 - global technical baseline
@@ -374,9 +376,9 @@ When route drift, receipt mismatch, or no-progress auto stopping happens, add a 
 - If final product design direction is confirmed, index the confirmation artifact or decision-log entry before writing the root-level `DESIGN.md` or generating any optional effect image.
 - If the root-level `DESIGN.md` is written, index its path before generating any HTML interactive prototype artifacts.
 - If `DESIGN.md` captures task priority, first-screen CTA posture, interaction feedback, responsive strategy, critical states, and content tone, record that quality audit explicitly. If not, record the missing areas as blockers before HTML interactive prototype generation.
-- If no representative effect image exists yet in manual mode, generate exactly one representative effect image first, index its path and selected page, set `confirmation_status=pending_confirmation`, and stop before generating remaining page images.
-- If the representative effect image is still pending confirmation or has been rejected in manual mode, keep remaining required page-image generation blocked and do not advance to the broader required page-image generation step.
-- If the representative effect image is confirmed in manual mode, record that confirmation explicitly before generating the remaining required page-effect set.
+- If no representative sketch exists yet in manual mode, generate exactly one representative sketch first, index its path and selected page, set `confirmation_status=pending_confirmation`, and stop before generating the representative final effect image or remaining page images.
+- If the representative sketch is still pending confirmation or has been rejected in manual mode, keep representative final effect-image generation and remaining required page-image generation blocked and do not advance to the broader required page-image generation step.
+- If the representative sketch is confirmed in manual mode, record that confirmation explicitly, then generate and index the representative final effect image before generating the remaining required page-effect set.
 - If `execution_mode=auto` or `execution_mode=full_auto` and the active route explicitly requires additional effect images, generate the in-scope images automatically, record their paths, and do not create a confirmation stop.
 - If approved image-backed design direction is produced, index its artifact path in `global_artifact_index` and link it from active module rows when relevant.
 - If `platform_identifier` becomes explicit, record it in the relevant summary or artifact index instead of leaving it implicit in prose.
@@ -391,7 +393,8 @@ When route drift, receipt mismatch, or no-progress auto stopping happens, add a 
 - If a module-scoped page prototype subagent exports image assets for direct use, index each source URL or artifact path, local asset path, owning page, intended component/region, and direct-use decision.
 - If a required exported image asset is missing, keep the relevant prototype packet unfrozen and record the missing asset as a blocker.
 - If shared/global effect images were generated, record the complete page list, one approved image path per page, and whether every in-scope page is covered for that optional branch.
-- If the representative effect image was generated, record its path, selected page, and approval status.
+- If the representative sketch was generated, record its path, selected page, and approval status.
+- If the representative final effect image was generated, record its path and approval status.
 - If shared/global freeze is under review, record whether the approved effect images required by the active revision path now exist or whether that path is still blocked on image generation.
 - If shared/global freeze is under review, record whether task hierarchy, CTA discoverability, interaction feedback, responsive strategy, and critical-state coverage were explicitly verified.
 - If generated effect images were created after a shared/global direction existed, record whether palette direction, typography mood, component family cues, CTA posture, visual system, and image treatment were explicitly inherited.
@@ -451,14 +454,14 @@ When route drift, receipt mismatch, or no-progress auto stopping happens, add a 
 - Do not mark `impl_status=landed` before the module `impl.md` references a confirmed frozen prototype-derived design-source packet.
 - Do not mark `design_source_status=frozen` for module implementation when `high_fidelity_freeze_status` is `blocked`, `not_evaluated`, or missing.
 - Do not mark `code_status=landed` before code output actually exists.
-- Do not claim static visual evidence was generated before recording whether the directory was checked first and whether `gpt-image-2-generator` for that branch was actually available.
+- Do not claim static visual evidence was generated before recording whether the directory was checked first, whether the representative local `$imagegen` sketch exists when required, and whether `gpt-image-2-generator` for that branch was actually available for final generation.
 - Do not accept effect-image evidence into the workflow record without stating whether it meets the default light-mode requirement.
 - Do not mark a prototype-derived design-source packet as frozen before recording the source effect-image paths and validation result.
 - Do not mark a prototype-derived design-source packet as frozen before recording successful page-level prototype receipts for every in-scope page when module-scoped page generation was required.
 - Do not mark a prototype-derived design-source packet as frozen before recording local paths for every exported image asset required for direct implementation use when module-scoped asset export was part of the accepted packet.
 - Do not accept shared/global effect-image evidence into the workflow record without stating whether every in-scope page has an approved light-mode effect image for the required branch.
-- Do not treat a representative effect image as if it also proves module-scoped effect-image evidence already exists.
-- In manual mode, do not generate remaining page effect images before the representative effect image is explicitly confirmed.
+- Do not treat a representative final effect image as if it also proves module-scoped effect-image evidence already exists.
+- In manual mode, do not generate remaining page effect images before the representative sketch is explicitly confirmed and the representative final effect image has been generated.
 - Do not accept generated effect-image evidence into the workflow record without stating whether the approved style constraints were explicitly inherited.
 - Do not present shared/global freeze as ready in the workflow record while a revision path that explicitly requires approved effect images is still missing them.
 - Do not hide a required bitmap fallback or MCP-driven asset-generation need inside prose without indexing the asset path or pending generation note.

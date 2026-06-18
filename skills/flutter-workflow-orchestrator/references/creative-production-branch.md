@@ -129,7 +129,7 @@ This branch is optional and scope-driven.
 - For app UI direction, Product Design remains mandatory.
 - For direction-input exploration before final product confirmation, Creative Production can supply evidence but cannot close the product-direction gate on its own.
 - If the broader workflow still needs one freeze-ready Flutter design packet, route the approved Product Design direction plus any Creative Production evidence back through image-backed design-packet normalization instead of treating Creative Production output as the final packet.
-- For Flutter preview images used as supplemental app-page evidence, `gpt-image-2-generator` remains the default preview-image owner unless the user explicitly wants the richer Creative Production asset branch.
+- For Flutter preview images used as supplemental app-page evidence, local `$imagegen` owns the pre-confirmation sketch stage and `gpt-image-2-generator` owns the post-confirmation final image stage unless the user explicitly wants the richer Creative Production asset branch.
 - Creative Production outputs may be attached as supplemental visual evidence, but they are never the implementation design source by themselves.
 - Mood boards, ads, scenes, or hero explorations do not automatically authorize HTML prototype freeze.
 - If a Creative Production run reveals a new visual direction that materially changes the confirmed product direction, return to Product Design direction confirmation and update `DESIGN.md` before downstream freeze.

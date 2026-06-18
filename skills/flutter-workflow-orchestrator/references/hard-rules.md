@@ -37,10 +37,10 @@ Use this reference before applying any state/status promotion, freeze decision, 
 - Do not block direct image-asset use when the image can be exported from the approved prototype/effect-image source and saved into the project asset tree.
 - Do not mark a prototype-derived design-source packet as frozen when required exported image assets lack recorded source paths, local asset paths, and intended page regions.
 - Do not accept or generate dark-mode effect images as the default workflow reference set; the default effect-image baseline is light mode.
-- Do not treat effect images as optional evidence. The representative effect image is a mandatory gate before shared design freeze, and module effect images are mandatory before module prototype freeze.
-- Do not let `--auto` or `--full-auto` generate required effect images without `gpt-image-2-generator` being available for that branch.
-- In manual mode, do not generate the remaining required page-effect set before one representative effect image has been explicitly confirmed.
-- Do not reopen alternative-direction browsing after a representative effect image or approved direction effect image has been explicitly confirmed for the current design cycle; that confirmation freezes the visual baseline until the user explicitly rejects it or restarts the design cycle.
+- Do not treat effect images as optional evidence. The representative sketch plus its post-confirmation representative final effect image are mandatory gates before shared design freeze, and module effect images are mandatory before module prototype freeze.
+- Do not let `--auto` or `--full-auto` generate required final effect images without `gpt-image-2-generator` being available for that branch, and do not skip the local representative-sketch stage through `$imagegen` before that final generation.
+- In manual mode, do not generate the representative final effect image or the remaining required page-effect set before one representative sketch has been explicitly confirmed.
+- Do not reopen alternative-direction browsing after a representative sketch or approved direction final effect image has been explicitly confirmed for the current design cycle; that confirmation freezes the visual baseline until the user explicitly rejects it or restarts the design cycle.
 - Do not generate, show, or compare other-direction effect images after that confirmation merely for more browsing; only same-direction completion, evidence expansion, or scope-matched revision is allowed.
 - Do not send shared/global or module-stage effect-image generation requests without explicit style constraints once the design packet already defines them.
 - Do not start any shared/global or module-stage effect-image generation until the workflow has first extracted the applicable visual constraints from the frozen global design packet and attached them to the request.
@@ -93,7 +93,7 @@ Use this reference before applying any state/status promotion, freeze decision, 
 - Do not leave `next_skill` as a passive handoff recommendation after a local module milestone when `execution_mode=auto` and more target modules are still pending.
 - Do not continue `--auto` or `--full-auto` into module workflow when the shared/global design freeze is incomplete, or past executable module document generation when the selected active module, its module-index row, or its `impl.md` cannot be verified on disk.
 - Do not skip directory inspection and environment-variable checks before auto-generating static visual evidence in `--auto` or `--full-auto` mode.
-- Do not treat missing `gpt-image-2-generator` access or credentials as anything other than a workflow blocker once the mandatory effect-image stage is in scope.
+- Do not treat missing `gpt-image-2-generator` access or credentials as anything other than a workflow blocker once the mandatory final effect-image stage is in scope.
 - Do not use Creative Production to bypass `@product-design` brief confirmation, final product direction confirmation, or `DESIGN.md` when the request is really about product-surface UI direction.
 - Do not open the Creative Production polish path before a concrete direction or deterministic base exists.
 - Do not let `Creative Production:generative-polish` own exact copy, claims, logos, charts, prices, dimensions, safe zones, or filenames for publish-bound assets.

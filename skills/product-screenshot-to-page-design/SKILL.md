@@ -1,6 +1,6 @@
 ---
 name: product-screenshot-to-page-design
-description: Use when uploaded screenshots from an existing product must be extended into a new same-product page, and the run must output style analysis plus a page-structure proposal before generating the final UI image.
+description: Use when uploaded screenshots from an existing product must be extended into a new same-product page, and the run must output style analysis plus a page-structure proposal before generating a local sketch and then the final UI image.
 ---
 
 # Product Screenshot To Page Design
@@ -9,7 +9,7 @@ description: Use when uploaded screenshots from an existing product must be exte
 
 Turn uploaded screenshots from an existing product into a new page concept that still looks like the same product system.
 
-This skill is for page-level visual extension, not for redefining the global product direction. It first extracts the product design language from the screenshots, then proposes the new page structure, waits for explicit confirmation, and only then generates the final UI image through `gpt-image-2-generator`.
+This skill is for page-level visual extension, not for redefining the global product direction. It first extracts the product design language from the screenshots, then proposes the new page structure, generates a local review sketch through `$imagegen`, waits for explicit confirmation, and only then generates the final UI image through `gpt-image-2-generator`.
 
 ## When To Use
 
@@ -58,9 +58,10 @@ If any required input is missing, stop and request it instead of improvising.
 4. Output a reviewable response in two parts only:
    - style analysis
    - page structure proposal
-5. Wait for explicit user confirmation.
-6. Only after confirmation, invoke `gpt-image-2-generator` to generate the final UI image for the new page.
-7. If `IMAGE_BASE_URL` or `IMAGE_API_KEY` is missing, stop and report the blocker instead of switching to another generator.
+5. Generate one local review sketch through `$imagegen` using the approved structure and screenshot-derived style constraints.
+6. Wait for explicit user confirmation on that sketch.
+7. Only after confirmation, invoke `gpt-image-2-generator` to generate the final UI image for the new page.
+8. If `IMAGE_BASE_URL` or `IMAGE_API_KEY` is missing, stop and report the blocker instead of switching to another generator.
 
 ## Output Contract
 
@@ -89,6 +90,10 @@ Summarize the new page plan:
 - interaction emphasis
 - states or edge cases that materially affect the layout
 
+### 3. Local Sketch
+
+- one local `$imagegen` sketch for review that follows the extracted product language
+
 After confirmation, generate:
 
 - one final UI image for the new page via `gpt-image-2-generator`
@@ -100,7 +105,8 @@ After confirmation, generate:
 - Do not introduce a new visual language that breaks the same-product feeling.
 - Do not skip the style-analysis step.
 - Do not skip the page-structure proposal step.
-- Do not generate the final UI image before explicit user confirmation.
+- Do not generate the final UI image before the local sketch has been explicitly confirmed.
+- Do not skip the local `$imagegen` sketch step.
 - Do not use any image generator other than `gpt-image-2-generator` for the final page image in this skill.
 - Do not send a live generation request when `IMAGE_BASE_URL` or `IMAGE_API_KEY` is missing.
 - Do not infer page function from screenshots alone when PRD-backed function or user-specified function is missing.
@@ -125,7 +131,8 @@ Use this exact interaction order:
 
 1. `Style Analysis`
 2. `Page Structure Proposal`
-3. `Please confirm before final UI image generation`
+3. `Local Sketch`
+4. `Please confirm before final UI image generation`
 
 ## Pressure Scenarios
 
