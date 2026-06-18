@@ -94,6 +94,28 @@ Expand functionality only when the user's intent becomes broader:
 
 This keeps the interface purposeful instead of cluttered.
 
+## 5A. Commercial Product Copy Compression
+
+Commercial product surfaces should communicate through recognition before explanation.
+
+Prefer:
+
+- recognition over explanation
+- visual state over descriptive paragraphs
+- progressive disclosure over always-visible explanation
+- compact status language over support-copy blocks
+
+When a screen feels clear only after reading, treat that as a design defect rather than a harmless copy choice.
+
+On the first screenful of a product page, keep only:
+
+- the main task
+- the current state
+- the next action
+- the minimum context required to act safely
+
+Push broad education, repeated explanation, and policy-style detail behind disclosure or onto secondary surfaces whenever the user can already understand the screen from structure and state.
+
 ## 6. Mobile UI Is Not A Shrunk Desktop UI
 
 Mobile requires re-composition, not compression.

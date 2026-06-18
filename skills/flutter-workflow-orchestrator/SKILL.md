@@ -21,6 +21,79 @@ Default HTML prototype stack policy: use `Vite + React + TypeScript` unless the 
 
 When the request is asset-oriented rather than screen-implementation-oriented, the orchestrator may open the `Creative Production` branch in two windows. Before final product direction confirmation, it may use Creative Production as a direction-input branch when richer campaign or hero exploration is needed to inform the final decision. After `DESIGN.md` exists, it may use Creative Production as the post-direction asset-production branch for mood boards, ad directions, offer-led hero directions, scenes, shots, logos, asset packs, and publish-safe polish. Keep ownership explicit: `@product-design` still owns product-surface UX and the confirmed design direction, while `Creative Production` owns commercial creative exploration and asset finishing. Creative Production outputs may enrich reviewable visual evidence, but they never replace the shared HTML interactive prototype as the implementation design source, and they do not replace screenshot-based or image-based design-source normalization.
 
+## Commercial Product UI Constraint
+
+This workflow must optimize for a mature commercial product feel, not a requirements demo, explanatory mock, or settings-manual style UI.
+
+Default assumption:
+users scan, recognize, and act; they do not read long explanatory text unless they are blocked.
+
+The workflow must treat excessive explanatory copy as a product-quality defect, not as a harmless fallback.
+
+Always prefer this communication order on product surfaces:
+
+1. visual hierarchy
+2. spatial grouping
+3. control state
+4. icon / badge / chip / toggle / color cues
+5. short label
+6. short status text
+7. optional secondary explanation behind disclosure
+
+Do not let primary screens explain what the interface can already show through visual structure.
+
+### Default Copy Posture
+
+For product-facing mobile screens:
+
+- prefer recognition over explanation
+- prefer visual state over descriptive paragraphs
+- prefer one-line labels over multi-line descriptive copy
+- prefer short status chips, helper rows, and compact captions over long support text
+- prefer progressive disclosure over always-visible explanation
+- prefer secondary surfaces for education: bottom sheet, detail page, info modal, learn-more link, expandable cell
+
+Users should understand the screen mostly by looking, not by reading.
+
+### Commercial UI Compression Rule
+
+Every product-facing screen must pass a copy-compression check before freeze:
+
+- if a subtitle repeats the title's meaning, remove it
+- if a row description only restates the row title, remove it
+- if a support card explains something already visible from status, icon, color, or control state, remove or collapse it
+- if multiple text blocks explain the same system state, keep only the shortest necessary one
+- if the screen still works after deleting a paragraph, that paragraph should not be on the default surface
+
+Long explanatory copy is allowed only when one of these is true:
+
+- the user must understand a risk before acting
+- the system is blocked and the cause is otherwise invisible
+- the user is entering a recovery or exception flow
+- the explanation is intentionally behind disclosure
+
+### Primary Surface Rule
+
+On the first screenful of any page, show only:
+
+- the main task
+- the current state
+- the next action
+- the minimum supporting context required to act safely
+
+Do not spend first-screen space on broad education, repeated context, or policy-style explanation.
+
+### Freeze Review Questions
+
+Before approving any product-facing design, ask:
+
+- If all long explanatory copy disappeared, would the screen still mostly make sense?
+- Does the user understand the primary task in under 3 seconds without reading paragraphs?
+- Is this screen acting like a product interface, or like a document explaining the interface?
+- Would a mature commercial iOS app ship this much always-visible text on the primary surface?
+
+If the answer is weak, the design must be revised before freeze.
+
 ## Required Reading
 
 Load only the references needed for the current routing decision, but always preserve their authority over the workflow:

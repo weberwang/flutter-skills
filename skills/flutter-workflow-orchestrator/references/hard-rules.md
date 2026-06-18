@@ -76,6 +76,11 @@ Use this reference before applying any state/status promotion, freeze decision, 
 - Do not allow design packages with unresolved hierarchy, task guidance, typography, contrast, CTA, or state-coverage defects to advance into shared freeze or module design freeze.
 - Do not allow design packages with unresolved loading, empty, error, disabled, permission-denied, long-content, short-content, or slow-network behavior to advance into shared freeze or module design freeze when those states are relevant to the product.
 - Do not allow a design package to pass freeze if the first-screen task path or primary CTA is still visually ambiguous.
+- Do not allow first-screen product UI to depend on long explanatory copy when visual hierarchy, control state, badges, chips, icons, grouping, or disclosure can express the same meaning.
+- Do not freeze a settings, dashboard, utility, or task surface if its primary understanding requires reading multiple descriptive text blocks.
+- Do not keep subtitle, row-description, notice-card, and support-copy layers simultaneously when they repeat the same meaning.
+- Do not treat explanatory text as the default solution for permission, privacy, sync, degradation, or empty-state communication on premium mobile product surfaces.
+- Do not approve a design that looks like a requirements explanation page, onboarding note, or settings manual instead of a mature commercial product surface.
 - Do not compress away core whitespace, spacing rhythm, or structural breathing room merely to fit more content into the frozen design viewport.
 - Do not treat architecture planning, Flutterization, or implementation convenience as a substitute for resolving high-fidelity visual decisions during module design freeze.
 - Do not let `--auto` or `--full-auto` enter `implementing` before `@superpowers` `Spec` and `Plan` exist for the active module.
