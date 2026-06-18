@@ -121,6 +121,8 @@ Use this reference before applying any state/status promotion, freeze decision, 
 - Do not let engineering convenience flatten locked spacing, layer depth, or CTA dominance for regions marked `preserve_faithfully`.
 - Do not force Flutter-native reconstruction for visuals that are clearly better shipped as image assets; download approved source images directly when available, otherwise let the active MCP / design tool chain choose the concrete generation mechanism and store the result inside the project.
 - Do not use MCP-driven image generation as an excuse to skip native implementation for visuals that Flutter can reproduce cleanly.
+- Do not let any automatic helper, including `@product-design` `design-qa`, close final app-page acceptance by itself.
+- Do not mark a module as fully accepted before the final human visual inspection step at the end of the workflow.
 - In manual mode, do not switch to the next process automatically after a specialist skill finishes; wait for explicit user confirmation whenever queued transitions or status updates exist.
 - In `--auto` or `--full-auto`, do not wait at ordinary downstream confirmation gates before workflow completion, but still stop for blockers, route drift, missing evidence, or unresolved hard confirmation gates.
 - Do not ask an execution skill to do workflow bookkeeping that belongs here.

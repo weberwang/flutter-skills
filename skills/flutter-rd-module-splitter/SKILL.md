@@ -46,6 +46,10 @@ Create a module when the scope has at least one stable ownership boundary:
 
 Do not create a module only because a screen exists. Small screens that share one user job and data lifecycle should stay in the same module.
 
+Each page family must have exactly one owning module. Other modules may depend on that flow, launch it, or reuse shared components from it, but they must not claim parallel ownership of the same page family.
+
+Do not split a list page, detail page, filter page, and state variants into different modules when they still serve the same primary user job, the same core data owner, and the same state lifecycle. Unless a real permission boundary, release slice boundary, or independent backend ownership proves otherwise, keep that task chain inside one module.
+
 Create a dedicated shell module, preferably named `app-shell` or `root-shell`, when the root container itself has independent implementation value, such as:
 
 - root navigation state
@@ -71,6 +75,7 @@ Do not default to a vague technical module name like `main`. Prefer a responsibi
    - Implementation refinement contract mode if the active module already has paired docs and the workflow is preparing that module for module design freeze and code.
 9. In initial split mode:
    - Build a module map with module name, responsibility, pages, data owner, package or architecture constraints, upstream dependencies, downstream dependencies, implementation preconditions, and release value.
+   - For every page family, assign exactly one owning module and record that ownership explicitly before approving the split.
    - Evaluate whether the product needs a dedicated `app-shell` module before feature-module decomposition. If multiple features share one root scaffold, root navigation state, or shell-level routing logic, split that shell out explicitly instead of hiding it inside prose.
    - For each module, write a module detail card covering user job, page/state scope, non-page-level component scope, domain responsibility, application state, infrastructure/API boundary, analytics, tests, release value, and implementation dependency notes.
    - Classify the modules into implementation stages or waves that show which modules can run in parallel and which modules must wait for upstream completion.
@@ -89,7 +94,7 @@ Do not default to a vague technical module name like `main`. Prefer a responsibi
 11. Keep global workflow state under orchestrator ownership; stage tracking belongs there, not inside per-module workflow notes.
 12. Generate or update `docs/project/00-module-index.md` when the user asks for files to be written.
 13. Treat `docs/project/00-module-index.md` as the canonical split-stage coordination index:
-   - Include a module table with module name, responsibility summary, paired doc paths, `depends_on`, `unblocks`, `parallel_group`, recommended implementation stage, and blocking assumptions.
+   - Include a module table with module name, responsibility summary, paired doc paths, `depends_on`, `unblocks`, `parallel_group`, recommended implementation stage, `owned_page_families`, `shared_surface_dependencies`, and blocking assumptions.
    - Include a parallel execution section that groups modules by stage or wave and explicitly states which modules can be implemented in the same stage.
    - Include dependency notes that explain why a module must precede another module when the dependency is not obvious from the table alone.
 14. In implementation refinement contract mode, update only the affected module row and any directly impacted stage or dependency notes unless the refinement reveals a real module-boundary change.
@@ -120,6 +125,8 @@ For each module row, include at least:
 - `unblocks`
 - `parallel_group`
 - `recommended_stage`
+- `owned_page_families`
+- `shared_surface_dependencies`
 - `parallelization_notes`
 
 ## UI/UX RD Contract
@@ -249,6 +256,9 @@ In implementation refinement contract mode, expand the same document to directly
 - Do not create per-module workflow state files; keep workflow state under `flutter-workflow-orchestrator` control.
 - Do not split implementation modules from a raw PRD unless the user explicitly asks for a rough discovery split and accepts that technical decisions are pending.
 - Do not output module names only. Each module needs enough detail for its paired UI/UX and implementation RD documents.
+- Do not approve a split where the same page family appears as owned by more than one module.
+- Do not leave page-family ownership implicit. If the owning module is unclear, block the split and record the ambiguity in `open_questions`.
+- Do not split one task chain across multiple modules when the list, detail, filter, and state surfaces still share one user job, one core data owner, and one state lifecycle.
 - Do not merge UI/UX RD and implementation RD into one document.
 - Do not let implementation RD exist without a reference to the paired UI/UX RD.
 - Do not hide implementation sequencing only inside prose. Dependency and parallel-execution decisions must be visible in `docs/project/00-module-index.md` and in the structured output.
