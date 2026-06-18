@@ -11,6 +11,8 @@ Turn a reference UI image directly into a high-fidelity interactive prototype.
 
 This skill compresses the old two-step flow of "low-fidelity wireframe first, high-fidelity prototype second" into one high-fidelity build path. It still requires an upfront playback step: first restate the page structure and interaction checklist, wait for explicit confirmation, then use `@product-design` to build the final interactive prototype and run visual QA against the reference.
 
+When the workflow needs a concrete default implementation stack for that prototype, prefer `Vite + React + TypeScript`. This default gives the best balance between fast page assembly and later Flutter restoration, because component boundaries, interaction state, and region ownership stay easier to read back into a `display_restoration_blueprint`. Do not default to Vue unless the project already committed to it. Do not default to plain HTML/CSS/JS, because that makes the prototype faster to start but weaker as a frozen source once Flutter restoration needs stable structure and state semantics.
+
 ## When To Use
 
 - The user already has a concrete screenshot, mockup, or UI reference image.
