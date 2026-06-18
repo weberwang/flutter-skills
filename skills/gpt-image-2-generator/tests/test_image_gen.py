@@ -115,3 +115,34 @@ def test_resolve_image_bytes_polls_async_task_until_completed() -> None:
         "https://api.example.com/v1/tasks/task_123",
         "https://api.example.com/v1/tasks/task_123",
     ]
+
+
+def test_create_parser_uses_hd_as_default_quality() -> None:
+    """默认 quality 应改为 hd，避免继续落到旧的 medium 默认值。"""
+    module = _load_module()
+
+    parser = module._create_parser()  # noqa: SLF001
+    args = parser.parse_args(["--prompt", "test"])
+
+    assert args.quality == "hd"
+
+
+def test_validate_quality_accepts_only_supported_quality_aliases() -> None:
+    """quality 只应接受约定的标准档位及其别名。"""
+    module = _load_module()
+
+    for quality in ("standard", "1k", "hd", "2k", "4k", "ultra", "high"):
+        module._validate_quality(quality)  # noqa: SLF001
+
+
+def test_validate_quality_rejects_legacy_quality_values() -> None:
+    """旧的 low、medium、auto 档位应被拒绝。"""
+    module = _load_module()
+
+    for quality in ("low", "medium", "auto"):
+        try:
+            module._validate_quality(quality)  # noqa: SLF001
+        except SystemExit as exc:
+            assert exc.code == 1
+        else:
+            raise AssertionError(f"Expected {quality} to be rejected")

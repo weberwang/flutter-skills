@@ -16,7 +16,7 @@ from urllib import error, request
 
 DEFAULT_MODEL: Final[str] = "gpt-image-2"
 DEFAULT_SIZE: Final[str] = "auto"
-DEFAULT_QUALITY: Final[str] = "medium"
+DEFAULT_QUALITY: Final[str] = "hd"
 DEFAULT_OUTPUT_FORMAT: Final[str] = "png"
 DEFAULT_OUTPUT_PATH: Final[str] = "output/imagegen/output.png"
 MAX_IMAGE_COUNT: Final[int] = 10
@@ -24,7 +24,8 @@ MIN_PIXELS: Final[int] = 655_360
 MAX_PIXELS: Final[int] = 8_294_400
 MAX_EDGE: Final[int] = 3840
 MAX_RATIO: Final[float] = 3.0
-ALLOWED_QUALITIES: Final[set[str]] = {"low", "medium", "high", "auto"}
+# 兼容上游约定的 quality 档位与别名，避免继续接受旧参数。
+ALLOWED_QUALITIES: Final[set[str]] = {"standard", "1k", "hd", "2k", "4k", "ultra", "high"}
 ALLOWED_OUTPUT_FORMATS: Final[set[str]] = {"png", "jpeg", "jpg", "webp"}
 ALLOWED_BACKGROUNDS: Final[set[str | None]] = {"opaque", "auto", None}
 TASK_POLL_INTERVAL_SECONDS: Final[int] = 2
@@ -103,7 +104,7 @@ def _normalize_output_format(output_format: str | None) -> str:
 def _validate_quality(quality: str) -> None:
     """校验生成质量参数。"""
     if quality not in ALLOWED_QUALITIES:
-        _die("quality must be one of low, medium, high, or auto.")
+        _die("quality must be one of standard, 1k, hd, 2k, 4k, ultra, or high.")
 
 
 def _validate_background(background: str | None) -> None:
