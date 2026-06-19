@@ -1,6 +1,6 @@
 # Asset Atlas Flow
 
-Use this reference before shared HTML interactive prototype work or module HTML interactive prototype work whenever the approved visual evidence includes bitmap assets that cannot be satisfied by a standard library alone.
+Use this reference before shared HTML interactive prototype work or module HTML interactive prototype work whenever the approved visual evidence includes regions that cannot be restored faithfully enough in code and therefore need bitmap assets that stay very close to the effect image.
 
 ## Goal
 
@@ -12,11 +12,11 @@ This flow sits after effect-image confirmation and before prototype generation. 
 
 Enter this flow when one or more of these are true:
 
-- a shared shell or module page needs custom icons, illustrations, avatars, textures, photos, or logos
-- empty, error, loading, or other status imagery must be preserved as bitmap assets
-- the approved design cannot be restored faithfully by a standard component or icon library alone
+- a shared shell or module page includes a visual region whose final look cannot be restored faithfully enough with code
+- empty, error, loading, or other status imagery must stay very close to the approved effect image instead of being redrawn from generic code primitives
+- the approved design would lose important fidelity if the region were rebuilt only from standard components, vectors, gradients, or library icons
 
-If the prototype can be built entirely from standard vectors, shapes, gradients, and library icons, skip this flow.
+If the prototype can be built faithfully enough from standard vectors, shapes, gradients, tokens, and library icons, skip this flow.
 
 Do not enter this flow for image regions that are only schematic placeholders and whose real content will be created later from runtime data. Those regions should stay as placeholders in the prototype contract.
 
@@ -35,7 +35,7 @@ If the catalog is missing, repair or initialize it from `global-asset-catalog-co
 ## Internal Flow
 
 1. Read the current global asset catalog first.
-2. Identify every bitmap asset needed by the target shared scope or module scope.
+2. Identify every visual region in the target shared scope or module scope that truly needs bitmap fidelity.
 3. Remove placeholder-only regions first. If a region is only a visual stand-in for runtime-created data content, record it as a placeholder contract and keep it out of atlas generation.
 4. Classify each remaining asset by `name`, `semantic`, and `usage_scenarios`:
    - `reusable`
@@ -108,6 +108,7 @@ The cutting script must use this JSON as the slicing contract. Do not let the sl
 - Do not create duplicate bitmap assets when a reusable slice already exists.
 - Do not auto-merge semantically similar assets when the reuse decision is still ambiguous.
 - Do not include placeholder-only regions whose real content will be drawn or assembled later from runtime data.
+- Do not turn a region into a bitmap asset when code can already restore it faithfully enough.
 
 ## Prototype Rules
 
