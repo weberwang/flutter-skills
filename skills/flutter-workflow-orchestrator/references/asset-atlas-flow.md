@@ -37,29 +37,30 @@ If the catalog is missing, repair or initialize it from `global-asset-catalog-co
 
 1. Read the current global asset catalog first.
 2. Work on one page at a time. Identify every visual region in the current page that truly needs bitmap fidelity.
-3. Remove placeholder-only regions first. If a region is only a visual stand-in for runtime-created data content, record it as a placeholder contract and keep it out of atlas generation.
-4. For every remaining visual region, first decide whether Flutter SDK standard capabilities alone can restore it faithfully enough without adding new bitmap assets.
-5. Classify the current page into three written groups before atlas generation:
+3. If the page belongs to a module, compare the current page effect image against the active module `impl.md` and the page's required state set first. If `error`, `empty`, `loading`, permission, or other page-local states are required but not yet represented strongly enough for atlas or prototype work, supplement those missing states before finalizing the page checklist.
+4. Remove placeholder-only regions first. If a region is only a visual stand-in for runtime-created data content, record it as a placeholder contract and keep it out of atlas generation.
+5. For every remaining visual region, first decide whether Flutter SDK standard capabilities alone can restore it faithfully enough without adding new bitmap assets.
+6. Classify the current page into three written groups before atlas generation:
    - `bitmap_required`
    - `flutter_native`
    - `placeholder_only`
-6. Only the regions inside `bitmap_required` may continue into atlas generation. Regions inside `flutter_native` must stay as Flutter-native implementation targets. Regions inside `placeholder_only` must stay as runtime placeholders.
-7. Classify each `bitmap_required` asset by `name`, `semantic`, and `usage_scenarios`:
+7. Only the regions inside `bitmap_required` may continue into atlas generation. Regions inside `flutter_native` must stay as Flutter-native implementation targets. Regions inside `placeholder_only` must stay as runtime placeholders.
+8. Classify each `bitmap_required` asset by `name`, `semantic`, and `usage_scenarios`:
    - `reusable`
    - `candidate_reuse`
    - `shared_only`
    - `module_only`
-8. If any asset is `candidate_reuse`, stop and request confirmation.
-9. Present the written current-page checklist plus the remaining new bitmap list for the current page and stop for explicit confirmation before atlas generation.
-10. Write one TexturePacker-compatible `texturepacker.json` for the current page atlas.
-11. Use that same `texturepacker.json` to request one transparent-background atlas PNG for the current page through `gpt-image-2-generator`. Do not crop the atlas out of the effect image.
-12. Slice the atlas strictly by the confirmed `texturepacker.json`.
-13. Update the global asset catalog with:
+9. If any asset is `candidate_reuse`, stop and request confirmation.
+10. Present the written current-page checklist plus the remaining new bitmap list for the current page and stop for explicit confirmation before atlas generation.
+11. Write one TexturePacker-compatible `texturepacker.json` for the current page atlas.
+12. Use that same `texturepacker.json` to request one transparent-background atlas PNG for the current page through `gpt-image-2-generator`. Do not crop the atlas out of the effect image.
+13. Slice the atlas strictly by the confirmed `texturepacker.json`.
+14. Update the global asset catalog with:
    - atlas owner
    - reuse status
    - slice output paths
    - any confirmed cross-module reuse
-14. Allow prototype work only after atlas confirmation and slice export are complete.
+15. Allow prototype work only after atlas confirmation and slice export are complete.
 
 ## Flutter-Native Standard
 
@@ -99,6 +100,7 @@ Module page atlas work is for:
 - bitmap assets unique to one module
 - module-specific state illustrations
 - module-specific imagery that cannot reuse a shared slice
+- page-local states that the module `impl.md` requires even when the first approved effect image did not yet show them clearly enough
 
 Suggested paths:
 
@@ -166,3 +168,4 @@ Use one of these outcomes:
 - Do not generate an atlas before the current page's bitmap list is explicitly confirmed.
 - Do not batch-generate multiple page atlases in one step.
 - Do not slice from unconfirmed geometry.
+- Do not assume the first module effect image already covers every required page-local state. Repair missing state coverage before freezing the page atlas checklist.

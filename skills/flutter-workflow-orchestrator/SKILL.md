@@ -41,6 +41,7 @@ The asset-atlas stage exists to turn approved page imagery into reusable bitmap 
 - The atlas generation unit is always one page. A shared page atlas lives under `docs/project/assets/shared/<page-name>/`, and a module page atlas lives under `docs/project/modules/<module>/assets/<page-name>/`.
 - One page atlas may contain that page's primary surface plus that same page's `error`, `empty`, `loading`, and other page-local states, but it must not include already approved reusable assets from other pages.
 - After the workflow excludes code-restorable regions, `placeholder_only` regions, and confirmed reusable assets, it must first present the remaining new bitmap list for that page to the user. Do not generate that page's atlas before the bitmap list is explicitly confirmed.
+- For module pages, do not limit the atlas scope to only what already appears in the current effect image. First compare the page against the active module `impl.md` and supplement any missing but required page-local states before finalizing that page's bitmap checklist.
 - Atlas PNG output must keep a transparent background. Do not approve a packed atlas that bakes a solid page background into the sheet.
 - The page atlas must be newly generated from the confirmed `texturepacker.json` through `gpt-image-2-generator`; it must not be cropped out of the effect image.
 - Slice export must be driven by the confirmed `texturepacker.json`. The cutting script must not infer coordinates from the atlas image after confirmation.
