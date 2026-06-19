@@ -38,22 +38,43 @@ If the catalog is missing, repair or initialize it from `global-asset-catalog-co
 1. Read the current global asset catalog first.
 2. Work on one page at a time. Identify every visual region in the current page that truly needs bitmap fidelity.
 3. Remove placeholder-only regions first. If a region is only a visual stand-in for runtime-created data content, record it as a placeholder contract and keep it out of atlas generation.
-4. Classify each remaining asset by `name`, `semantic`, and `usage_scenarios`:
+4. For every remaining visual region, first decide whether Flutter SDK standard capabilities alone can restore it faithfully enough without adding new bitmap assets.
+5. Classify the current page into three written groups before atlas generation:
+   - `bitmap_required`
+   - `flutter_native`
+   - `placeholder_only`
+6. Only the regions inside `bitmap_required` may continue into atlas generation. Regions inside `flutter_native` must stay as Flutter-native implementation targets. Regions inside `placeholder_only` must stay as runtime placeholders.
+7. Classify each `bitmap_required` asset by `name`, `semantic`, and `usage_scenarios`:
    - `reusable`
    - `candidate_reuse`
    - `shared_only`
    - `module_only`
-5. If any asset is `candidate_reuse`, stop and request confirmation.
-6. Present the remaining new bitmap list for the current page and stop for explicit confirmation before atlas generation.
-7. Write one TexturePacker-compatible `texturepacker.json` for the current page atlas.
-8. Use that same `texturepacker.json` to request one transparent-background atlas PNG for the current page through `gpt-image-2-generator`. Do not crop the atlas out of the effect image.
-9. Slice the atlas strictly by the confirmed `texturepacker.json`.
-10. Update the global asset catalog with:
+8. If any asset is `candidate_reuse`, stop and request confirmation.
+9. Present the written current-page checklist plus the remaining new bitmap list for the current page and stop for explicit confirmation before atlas generation.
+10. Write one TexturePacker-compatible `texturepacker.json` for the current page atlas.
+11. Use that same `texturepacker.json` to request one transparent-background atlas PNG for the current page through `gpt-image-2-generator`. Do not crop the atlas out of the effect image.
+12. Slice the atlas strictly by the confirmed `texturepacker.json`.
+13. Update the global asset catalog with:
    - atlas owner
    - reuse status
    - slice output paths
    - any confirmed cross-module reuse
-11. Allow prototype work only after atlas confirmation and slice export are complete.
+14. Allow prototype work only after atlas confirmation and slice export are complete.
+
+## Flutter-Native Standard
+
+Treat a region as `flutter_native` only when Flutter SDK standard capabilities can restore it faithfully enough without adding new bitmap assets.
+
+Typical Flutter-native candidates:
+
+- standard buttons and button shells
+- standard icons
+- regular cards and labels
+- normal rounded rectangles
+- simple borders, shadows, gradients, and fills
+- ordinary text presentation
+
+Do not mark a region `flutter_native` if those same capabilities would still lose the approved paper texture, watercolor texture, sticker feel, torn edge, complex illustration fidelity, or other critical visual character.
 
 ## Shared Scope Rules
 
@@ -122,6 +143,7 @@ The cutting script must use this JSON as the slicing contract. Do not let the sl
 
 Produce for the current page:
 
+- one written decision checklist containing `bitmap_required`, `flutter_native`, and `placeholder_only`
 - updated `docs/project/assets/global-asset-catalog.json`
 - one confirmed `texturepacker.json` for that page
 - one transparent atlas PNG for that page

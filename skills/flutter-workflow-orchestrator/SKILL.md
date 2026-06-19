@@ -32,6 +32,8 @@ The `idea_sketch_brainstorming` stage exists to turn rough product intent into s
 The asset-atlas stage exists to turn approved page imagery into reusable bitmap assets before prototype work begins.
 
 - Use this stage only when a shared surface or module surface contains visual regions that cannot be restored faithfully enough in code and therefore require bitmap assets that stay very close to the approved effect image.
+- “Restored faithfully enough in code” means the region can be recreated with Flutter SDK standard capabilities alone, without adding new bitmap assets, while still remaining close enough to the approved effect image in structure, shape, color, spacing, shadow, and overall visual character.
+- Flutter SDK standard capabilities here include normal layout primitives, `Container`, `BoxDecoration`, borders, border radius, box shadows, gradients, text styles, standard icons, clipping, and other built-in drawing primitives such as `CustomPaint` when they can still preserve the intended look without bitmap assistance.
 - Always maintain one project-wide asset catalog at `docs/project/assets/global-asset-catalog.json` before deciding whether a new bitmap asset should be generated again.
 - Asset reuse decisions must be based on `name`, `semantic`, and `usage_scenarios`, not only on filename similarity. If the workflow cannot safely decide whether an existing asset can be reused, mark it as `candidate_reuse` and stop for confirmation.
 - If an image region is only a schematic placeholder and its real content must be created later from runtime data, keep it as a placeholder contract instead of generating a bitmap asset. Placeholder-only regions must not enter atlas generation or atlas slicing.
@@ -44,6 +46,7 @@ The asset-atlas stage exists to turn approved page imagery into reusable bitmap 
 - Slice export must be driven by the confirmed `texturepacker.json`. The cutting script must not infer coordinates from the atlas image after confirmation.
 - Shared and module HTML prototypes must directly reference the exported slices for every approved atlas asset. Regions that are explicitly tracked as `placeholder_only` may remain placeholders, but unsliced atlas regions, screenshot crops, or undeclared temporary placeholder assets are not allowed.
 - If the same visual result can already be restored faithfully enough with code, tokens, vectors, gradients, or standard components, do not convert it into a bitmap asset.
+- Every page-level bitmap decision must be written into a text checklist before confirmation. That checklist must classify the current page into `bitmap_required`, `flutter_native`, and `placeholder_only` groups so the later atlas contract is grounded in an explicit written decision rather than only in image markup.
 - Generate page atlases serially. After one page's bitmap list is confirmed, generate only that page's atlas, review it, and only then advance to the next page.
 
 ## Representative Sketch Boundary

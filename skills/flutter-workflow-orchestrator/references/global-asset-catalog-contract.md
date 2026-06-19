@@ -74,7 +74,10 @@ Examples:
 One of:
 
 - `atlas_asset`
+- `flutter_native`
 - `placeholder_only`
+
+Use `flutter_native` when the region should be implemented directly with Flutter SDK standard capabilities rather than through bitmap generation.
 
 Use `placeholder_only` when the current image region is only a schematic stand-in and the real visual content will be created later from runtime data. Placeholder-only rows may stay in the catalog for semantic tracking, but they must not receive atlas ownership, TexturePacker frames, or slice outputs.
 
