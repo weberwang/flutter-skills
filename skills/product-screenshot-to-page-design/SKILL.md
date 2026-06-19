@@ -9,7 +9,7 @@ description: Use when uploaded screenshots from an existing product must be exte
 
 Turn uploaded screenshots from an existing product into a new page concept that still looks like the same product system.
 
-This skill is for page-level visual extension, not for redefining the global product direction. It first extracts the product design language from the screenshots, then proposes the new page structure, generates a local review sketch through `$imagegen`, waits for explicit confirmation, and only then generates the final UI image through `gpt-image-2-generator`.
+This skill is for page-level visual extension, not for redefining the global product direction. It first extracts the product design language from the screenshots, then proposes the new page structure, generates a local review sketch through `$imagegen`, waits for explicit confirmation, and only then generates the final UI image through `gpt-image-2-generator`. Both stages must stay under `@product-design` design control and must read as commercial product UI/UX rather than freeform concept art.
 
 ## When To Use
 

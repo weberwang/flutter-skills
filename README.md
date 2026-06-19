@@ -89,8 +89,9 @@ flowchart LR
 1. Stitch 是唯一默认设计源。效果图只是视觉基线，不再把效果图本身当结构化设计源。
 2. 全局视觉设计必须先头脑风暴，再确认最终方向，然后才允许出效果图。
 3. 出效果图之前必须先同意并冻结统一公共壳，至少包括 `app-shell` / `root-shell`、导航宿主、顶层 tabs/header/footer 和 shell 级 overlay 语言。
-4. 效果图采用代表页优先：先用本地 `$imagegen` 生成 1 张代表页草图，等你确认后再调用 `gpt-image-2-generator` 生成代表页最终效果图，然后再生成其余页面。
+4. 效果图采用代表页优先：先在 `@product-design` 的产品设计约束下用本地 `$imagegen` 生成 1 张代表页草图，等你确认后再在同一套 `@product-design` 约束下调用 `gpt-image-2-generator` 生成代表页最终效果图，然后再生成其余页面。
    草图阶段只负责确认方向、结构、模块顺序和视觉语言，不负责冻结级细节精修；最终效果图阶段才负责高保真收口。
+   草图和最终效果图都必须符合商业产品 UI/UX 目标，不得退化成纯概念图、营销海报或说明书式界面。
 5. 效果图统一存放在全局目录 `docs/project/`，不再要求落到模块目录。
 6. `project_initialized` 只表示创建目录骨架以及与 `flutter-init` 同级的 `skills/flutter-dev/`，不包含 bootstrap 代码。
 7. `bootstrap_code_ready` 单独成阶段，负责 app 入口、app shell、共享启动 wiring、根路由宿主等全局公共代码。

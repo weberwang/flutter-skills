@@ -38,17 +38,18 @@ When this skill is called from the Flutter workflow:
 
 1. Treat the target as app-page visual evidence, not a generic collage.
 2. If the upstream workflow is still at the pre-confirmation representative-sketch stage, stop and return control so local `$imagegen` can generate that sketch first. This skill owns only the post-confirmation final effect-image step in that flow.
-3. Generate one file per page or screen and name the output file after that page or screen.
-4. Use light mode as the default visual baseline for all workflow previews unless the upstream request explicitly overrides that requirement.
-5. Save shared or global reference images under `docs/project/`.
-6. Save module-specific page images under `docs/project/modules/<module>/`.
-7. If one generated module page is selected as the global reference, copy that same image into both locations:
+3. In the Flutter workflow, do not treat this as a standalone art generator. The final image must stay inside the confirmed `@product-design` brief, accepted visual direction, and commercial product UI/UX constraints.
+4. Generate one file per page or screen and name the output file after that page or screen.
+5. Use light mode as the default visual baseline for all workflow previews unless the upstream request explicitly overrides that requirement.
+6. Save shared or global reference images under `docs/project/`.
+7. Save module-specific page images under `docs/project/modules/<module>/`.
+8. If one generated module page is selected as the global reference, copy that same image into both locations:
    - `docs/project/<page-name>.<ext>`
    - `docs/project/modules/<module>/<page-name>.<ext>`
-8. If `IMAGE_BASE_URL` or `IMAGE_API_KEY` is missing, do not send a request. Return control so the upstream workflow can continue without generated images.
-9. Prefer prompts that describe a concrete app page, state, and information hierarchy. Avoid mood-board phrasing when the output will drive implementation.
-10. When the request is for shared/global design freeze, generate no more than 3 preview images in total before the workflow chooses the approved direction.
-11. When the request comes from the Flutter workflow, explicitly write the inherited style constraints into the prompt or structured fields. At minimum, include:
+9. If `IMAGE_BASE_URL` or `IMAGE_API_KEY` is missing, do not send a request. Return control so the upstream workflow can continue without generated images.
+10. Prefer prompts that describe a concrete app page, state, and information hierarchy. Avoid mood-board phrasing when the output will drive implementation.
+11. When the request is for shared/global design freeze, generate no more than 3 preview images in total before the workflow chooses the approved direction.
+12. When the request comes from the Flutter workflow, explicitly write the inherited style constraints into the prompt or structured fields. At minimum, include:
    - `art_direction`
    - `taste_constraints`
    - `visual_system`
@@ -57,8 +58,8 @@ When this skill is called from the Flutter workflow:
    - typography mood
    - component family cues
    - image-treatment posture when available
-12. If the request is for a module preview after a shared direction already exists, preserve the same visual world instead of inventing a new palette, typography mood, component family, or image-treatment language.
-13. If the request is for module refinement or module freeze image evidence, require explicit upstream approval for that evidence path. Without that approval, return control so the upstream workflow can continue without generating new module images.
+13. If the request is for a module preview after a shared direction already exists, preserve the same visual world instead of inventing a new palette, typography mood, component family, or image-treatment language.
+14. If the request is for module refinement or module freeze image evidence, require explicit upstream approval for that evidence path. Without that approval, return control so the upstream workflow can continue without generating new module images.
 
 ## Command Patterns
 
