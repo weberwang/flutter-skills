@@ -1,16 +1,21 @@
 # Requirements PRD Flow
 
-Use this reference when the first workflow node receives raw requirements, a one-line feature idea, a partial brief, or any request that lacks a PRD artifact.
+Use this reference when the workflow is already inside `requirements_brainstorming` and must turn a confirmed idea sketch brief or an already-concrete feature request into a PRD artifact.
 
 ## Goal
 
-Transform unclear demand into a PRD that is specific enough for `flutter-prd-rd-writer` to expand into the global technical baseline. This node resolves product ambiguity; it must not perform technical architecture, executable module document generation, detailed design-source work, or implementation planning.
+Transform a now-concrete product request into a PRD that is specific enough for `flutter-prd-rd-writer` to expand into the global technical baseline. This node resolves remaining product ambiguity for PRD quality; it must not perform technical architecture, executable module document generation, detailed design-source work, or implementation planning.
+
+Upstream expectation:
+
+- either `docs/project/idea-sketch-brief.md` already exists and has been confirmed
+- or the request was already concrete enough that the workflow skipped `idea_sketch_brainstorming`
 
 Read `prd-template.md`, `prd-completeness-gate.md`, and `prd-handoff-map.md` when the workflow needs a stronger PRD contract instead of a minimal one-off summary.
 
 ## Internal Flow
 
-1. Capture the raw requirement exactly enough to preserve the user's intent.
+1. Start from the confirmed `docs/project/idea-sketch-brief.md` when it exists, or capture the already-concrete request in equivalent structure when the sketch stage was skipped.
 2. Brainstorm the requirement space across users, jobs-to-be-done, core scenarios, non-goals, data needs, platform expectations, UX posture, success criteria, and risks.
 3. Build a question ledger that separates decision-blocking questions from questions that can be answered by low-risk defaults.
 4. Resolve every decision-blocking question from user-provided context, existing project docs, or explicit user confirmation.
@@ -19,6 +24,17 @@ Read `prd-template.md`, `prd-completeness-gate.md`, and `prd-handoff-map.md` whe
 7. Generate or update the PRD artifact using the standard template shape.
 8. Run the PRD completeness gate and record the score plus weak dimensions.
 9. Queue `pending_next_stage=prd_ready` only after the PRD artifact exists, the question ledger has no unresolved decision-blocking items, and the completeness gate passes.
+
+## Upstream Dependency
+
+Before this flow runs, the workflow should already know enough to describe the product through concrete pages.
+
+Minimum expectation:
+
+- the core product direction is already concrete
+- the main user flow is already concrete
+- the key pages are already identifiable
+- if the workflow started from a rough idea, `docs/project/idea-sketch-brief.md` already exists
 
 ## Brainstorming Checklist
 
@@ -86,6 +102,12 @@ Before leaving PRD preparation, check `prd-handoff-map.md` and verify the PRD ca
 - optional Creative Production direction input
 - later module splitting
 
+## Do Not Use This Flow To
+
+- replace the upstream sketch-confirmation stage when the idea is still too abstract
+- reopen open-ended page ideation that belongs to `idea_sketch_brainstorming`
+- decide the main page structure from scratch when the workflow still lacks concrete page understanding
+
 ## Routing Outcome
 
 Use one of these outcomes:
@@ -96,8 +118,9 @@ Use one of these outcomes:
 
 ## Hard Rules
 
-- Do not call technical baseline, image-backed design direction, executable module document generation, architecture, or implementation skills from raw demand before this flow produces a PRD artifact.
+- Do not call technical baseline, image-backed design direction, executable module document generation, architecture, or implementation skills before this flow produces a PRD artifact.
 - Do not promote to `prd_ready` only because a PRD file exists; the completeness gate must also pass.
 - Do not bury unresolved product questions inside later RD, architecture, or code planning.
 - Do not invent business-critical answers. Ask or stop when the answer changes scope, roles, behavior, data, platform, compliance, or delivery order.
+- Do not use this flow to decide the key pages when the request is still too abstract for concrete screens; route back to `idea_sketch_brainstorming` instead.
 - Do not freeze detailed screen design in the PRD. Capture product direction and constraints only; final product design direction confirmation and HTML interactive prototype work belong to later workflow nodes.
