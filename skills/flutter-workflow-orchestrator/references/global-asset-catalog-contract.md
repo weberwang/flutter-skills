@@ -18,6 +18,7 @@ Each asset row should preserve at least these fields:
 - `name`
 - `semantic`
 - `usage_scenarios`
+- `asset_mode`
 - `source_scope`
 - `source_pages`
 - `reuse_status`
@@ -68,6 +69,15 @@ Examples:
 - `checkout_error_banner`
 - `profile_membership_card`
 
+### `asset_mode`
+
+One of:
+
+- `atlas_asset`
+- `placeholder_only`
+
+Use `placeholder_only` when the current image region is only a schematic stand-in and the real visual content will be created later from runtime data. Placeholder-only rows may stay in the catalog for semantic tracking, but they must not receive atlas ownership, TexturePacker frames, or slice outputs.
+
 ### `source_scope`
 
 One of:
@@ -115,6 +125,7 @@ The final exported slice paths that prototypes and later implementation may cons
 - Do not treat filename similarity alone as proof of reuse.
 - If an asset is close in meaning but not certainly reusable, set `reuse_status=candidate_reuse` and stop for confirmation.
 - Once a reusable slice is approved, later module atlas work should prefer that slice over regenerating a duplicate bitmap asset.
+- Do not convert `placeholder_only` rows into atlas assets unless the workflow explicitly confirms that the region now needs a generated bitmap.
 
 ## Maintenance Rules
 
@@ -130,6 +141,7 @@ Before approving the catalog update, verify:
 - every new atlas asset has `name`
 - every new atlas asset has `semantic`
 - every new atlas asset has `usage_scenarios`
+- every row has the correct `asset_mode`
 - every reusable slice has a concrete output path
 - every candidate reuse row has a reason
 - no row points at a missing atlas owner or missing slice path

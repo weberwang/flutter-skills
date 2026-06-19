@@ -34,10 +34,11 @@ The asset-atlas stage exists to turn approved page imagery into reusable bitmap 
 - Use this stage when a shared surface or module surface contains icons, illustrations, status images, textures, photos, or other image assets that cannot be satisfied by a standard library alone.
 - Always maintain one project-wide asset catalog at `docs/project/assets/global-asset-catalog.json` before deciding whether a new bitmap asset should be generated again.
 - Asset reuse decisions must be based on `name`, `semantic`, and `usage_scenarios`, not only on filename similarity. If the workflow cannot safely decide whether an existing asset can be reused, mark it as `candidate_reuse` and stop for confirmation.
+- If an image region is only a schematic placeholder and its real content must be created later from runtime data, keep it as a placeholder contract instead of generating a bitmap asset. Placeholder-only regions must not enter atlas generation or atlas slicing.
 - The atlas contract is split into two artifacts: the global asset catalog for reuse semantics, and one TexturePacker-compatible `texturepacker.json` per shared atlas or module atlas for concrete packing and later slicing.
 - Atlas PNG output must keep a transparent background. Do not approve a packed atlas that bakes a solid page background into the sheet.
 - Slice export must be driven by the confirmed `texturepacker.json`. The cutting script must not infer coordinates from the atlas image after confirmation.
-- Shared and module HTML prototypes must directly reference the exported slices, not unsliced atlas regions, screenshot crops, or temporary placeholder assets.
+- Shared and module HTML prototypes must directly reference the exported slices for every approved atlas asset. Regions that are explicitly tracked as `placeholder_only` may remain placeholders, but unsliced atlas regions, screenshot crops, or undeclared temporary placeholder assets are not allowed.
 
 ## Representative Sketch Boundary
 

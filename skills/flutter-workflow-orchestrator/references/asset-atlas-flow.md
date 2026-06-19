@@ -18,6 +18,8 @@ Enter this flow when one or more of these are true:
 
 If the prototype can be built entirely from standard vectors, shapes, gradients, and library icons, skip this flow.
 
+Do not enter this flow for image regions that are only schematic placeholders and whose real content will be created later from runtime data. Those regions should stay as placeholders in the prototype contract.
+
 ## Required Inputs
 
 Before atlas preparation begins, make sure these inputs are explicit:
@@ -34,22 +36,23 @@ If the catalog is missing, repair or initialize it from `global-asset-catalog-co
 
 1. Read the current global asset catalog first.
 2. Identify every bitmap asset needed by the target shared scope or module scope.
-3. Classify each asset by `name`, `semantic`, and `usage_scenarios`:
+3. Remove placeholder-only regions first. If a region is only a visual stand-in for runtime-created data content, record it as a placeholder contract and keep it out of atlas generation.
+4. Classify each remaining asset by `name`, `semantic`, and `usage_scenarios`:
    - `reusable`
    - `candidate_reuse`
    - `shared_only`
    - `module_only`
-4. If any asset is `candidate_reuse`, stop and request confirmation.
-5. Confirm the export list for the active atlas scope.
-6. Write one TexturePacker-compatible `texturepacker.json` for the active atlas.
-7. Generate one transparent-background atlas PNG for that same packet.
-8. Slice the atlas strictly by the confirmed `texturepacker.json`.
-9. Update the global asset catalog with:
+5. If any asset is `candidate_reuse`, stop and request confirmation.
+6. Confirm the export list for the active atlas scope.
+7. Write one TexturePacker-compatible `texturepacker.json` for the active atlas.
+8. Generate one transparent-background atlas PNG for that same packet.
+9. Slice the atlas strictly by the confirmed `texturepacker.json`.
+10. Update the global asset catalog with:
    - atlas owner
    - reuse status
    - slice output paths
    - any confirmed cross-module reuse
-10. Allow prototype work only after atlas confirmation and slice export are complete.
+11. Allow prototype work only after atlas confirmation and slice export are complete.
 
 ## Shared Scope Rules
 
@@ -104,12 +107,14 @@ The cutting script must use this JSON as the slicing contract. Do not let the sl
 - Do not mix unrelated scopes into one atlas without an explicit reason.
 - Do not create duplicate bitmap assets when a reusable slice already exists.
 - Do not auto-merge semantically similar assets when the reuse decision is still ambiguous.
+- Do not include placeholder-only regions whose real content will be drawn or assembled later from runtime data.
 
 ## Prototype Rules
 
 - Shared prototypes must directly reference shared slices.
 - Module prototypes must directly reference shared slices or module slices.
-- Do not continue prototype work with screenshot crops, unsliced atlas regions, or temporary placeholder assets once this flow is required.
+- Do not continue prototype work with screenshot crops or unsliced atlas regions once this flow is required.
+- Placeholder-only regions are allowed to remain placeholders in the prototype, but they must not be treated as atlas assets.
 
 ## Output Contract
 
