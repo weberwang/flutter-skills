@@ -107,6 +107,7 @@ Before leaving PRD preparation, check `prd-handoff-map.md` and verify the PRD ca
 - replace the upstream sketch-confirmation stage when the idea is still too abstract
 - reopen open-ended page ideation that belongs to `idea_sketch_brainstorming`
 - decide the main page structure from scratch when the workflow still lacks concrete page understanding
+- pre-build atlas sheets, cut slices, or finalize TexturePacker contracts that belong to later shared or module asset-atlas work
 
 ## Routing Outcome
 
@@ -123,4 +124,5 @@ Use one of these outcomes:
 - Do not bury unresolved product questions inside later RD, architecture, or code planning.
 - Do not invent business-critical answers. Ask or stop when the answer changes scope, roles, behavior, data, platform, compliance, or delivery order.
 - Do not use this flow to decide the key pages when the request is still too abstract for concrete screens; route back to `idea_sketch_brainstorming` instead.
+- Do not try to finalize shared or module asset-atlas packaging here. At most, record likely non-standard asset families or state-image needs for later atlas preparation.
 - Do not freeze detailed screen design in the PRD. Capture product direction and constraints only; final product design direction confirmation and HTML interactive prototype work belong to later workflow nodes.
