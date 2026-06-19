@@ -1,10 +1,10 @@
 # Asset Atlas Flow
 
-Use this reference before shared HTML interactive prototype work or module HTML interactive prototype work whenever the approved visual evidence includes regions that cannot be restored faithfully enough in code and therefore need bitmap assets that stay very close to the effect image.
+Use this reference before shared HTML interactive prototype work or module HTML interactive prototype work whenever the approved visual evidence includes one page whose regions cannot be restored faithfully enough in code and therefore need bitmap assets that stay very close to the effect image.
 
 ## Goal
 
-Turn approved shared or module visual evidence into one reusable atlas packet that downstream prototypes can consume directly.
+Turn one approved page into one reusable atlas packet that downstream prototypes can consume directly.
 
 This flow sits after effect-image confirmation and before prototype generation. It is not a design-direction workflow. It is a resource-normalization workflow.
 
@@ -24,9 +24,10 @@ Do not enter this flow for image regions that are only schematic placeholders an
 
 Before atlas preparation begins, make sure these inputs are explicit:
 
-- approved source effect image or approved source screenshots
+- approved source effect image or approved source screenshots for the current page
 - atlas scope: `shared` or `module`
-- target atlas output directory
+- current page name
+- target atlas output directory for that page
 - the current `docs/project/assets/global-asset-catalog.json`
 - whether any candidate asset is already known to be reusable
 
@@ -35,7 +36,7 @@ If the catalog is missing, repair or initialize it from `global-asset-catalog-co
 ## Internal Flow
 
 1. Read the current global asset catalog first.
-2. Identify every visual region in the target shared scope or module scope that truly needs bitmap fidelity.
+2. Work on one page at a time. Identify every visual region in the current page that truly needs bitmap fidelity.
 3. Remove placeholder-only regions first. If a region is only a visual stand-in for runtime-created data content, record it as a placeholder contract and keep it out of atlas generation.
 4. Classify each remaining asset by `name`, `semantic`, and `usage_scenarios`:
    - `reusable`
@@ -43,9 +44,9 @@ If the catalog is missing, repair or initialize it from `global-asset-catalog-co
    - `shared_only`
    - `module_only`
 5. If any asset is `candidate_reuse`, stop and request confirmation.
-6. Confirm the export list for the active atlas scope.
-7. Write one TexturePacker-compatible `texturepacker.json` for the active atlas.
-8. Generate one transparent-background atlas PNG for that same packet.
+6. Present the remaining new bitmap list for the current page and stop for explicit confirmation before atlas generation.
+7. Write one TexturePacker-compatible `texturepacker.json` for the current page atlas.
+8. Use that same `texturepacker.json` to request one transparent-background atlas PNG for the current page through `gpt-image-2-generator`. Do not crop the atlas out of the effect image.
 9. Slice the atlas strictly by the confirmed `texturepacker.json`.
 10. Update the global asset catalog with:
    - atlas owner
@@ -56,7 +57,7 @@ If the catalog is missing, repair or initialize it from `global-asset-catalog-co
 
 ## Shared Scope Rules
 
-Shared atlas work is for:
+Shared page atlas work is for:
 
 - shared shell imagery
 - shared state imagery
@@ -66,13 +67,13 @@ Shared atlas work is for:
 Suggested paths:
 
 - `docs/project/assets/global-asset-catalog.json`
-- `docs/project/assets/shared/<atlas-name>/texturepacker.json`
-- `docs/project/assets/shared/<atlas-name>/<atlas-name>.png`
-- `docs/project/assets/shared/<atlas-name>/slices/`
+- `docs/project/assets/shared/<page-name>/texturepacker.json`
+- `docs/project/assets/shared/<page-name>/<page-name>-atlas.png`
+- `docs/project/assets/shared/<page-name>/slices/`
 
 ## Module Scope Rules
 
-Module atlas work is for:
+Module page atlas work is for:
 
 - bitmap assets unique to one module
 - module-specific state illustrations
@@ -80,9 +81,9 @@ Module atlas work is for:
 
 Suggested paths:
 
-- `docs/project/modules/<module>/assets/<atlas-name>/texturepacker.json`
-- `docs/project/modules/<module>/assets/<atlas-name>/<atlas-name>.png`
-- `docs/project/modules/<module>/assets/<atlas-name>/slices/`
+- `docs/project/modules/<module>/assets/<page-name>/texturepacker.json`
+- `docs/project/modules/<module>/assets/<page-name>/<page-name>-atlas.png`
+- `docs/project/modules/<module>/assets/<page-name>/slices/`
 
 ## TexturePacker Contract
 
@@ -119,18 +120,18 @@ The cutting script must use this JSON as the slicing contract. Do not let the sl
 
 ## Output Contract
 
-Produce:
+Produce for the current page:
 
 - updated `docs/project/assets/global-asset-catalog.json`
-- one confirmed `texturepacker.json` per active atlas
-- one transparent atlas PNG per active atlas
-- one exported slice directory per active atlas
+- one confirmed `texturepacker.json` for that page
+- one transparent atlas PNG for that page
+- one exported slice directory for that page
 
 ## Routing Outcome
 
 Use one of these outcomes:
 
-- `advanced`: atlas JSON, atlas PNG, and slice outputs all exist and are confirmed
+- `advanced`: the current page's bitmap list was confirmed, and its atlas JSON, atlas PNG, and slice outputs all exist and are confirmed
 - `blocked`: reuse confirmation, atlas confirmation, or required atlas artifacts are missing
 - `not_executed`: the atlas preparation did not actually run
 
@@ -140,4 +141,6 @@ Use one of these outcomes:
 - Do not enter module HTML interactive prototype work when module atlas preparation is required but incomplete.
 - Do not bypass the global asset catalog.
 - Do not approve an atlas with a non-transparent background.
+- Do not generate an atlas before the current page's bitmap list is explicitly confirmed.
+- Do not batch-generate multiple page atlases in one step.
 - Do not slice from unconfirmed geometry.

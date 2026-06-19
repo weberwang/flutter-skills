@@ -35,11 +35,16 @@ The asset-atlas stage exists to turn approved page imagery into reusable bitmap 
 - Always maintain one project-wide asset catalog at `docs/project/assets/global-asset-catalog.json` before deciding whether a new bitmap asset should be generated again.
 - Asset reuse decisions must be based on `name`, `semantic`, and `usage_scenarios`, not only on filename similarity. If the workflow cannot safely decide whether an existing asset can be reused, mark it as `candidate_reuse` and stop for confirmation.
 - If an image region is only a schematic placeholder and its real content must be created later from runtime data, keep it as a placeholder contract instead of generating a bitmap asset. Placeholder-only regions must not enter atlas generation or atlas slicing.
-- The atlas contract is split into two artifacts: the global asset catalog for reuse semantics, and one TexturePacker-compatible `texturepacker.json` per shared atlas or module atlas for concrete packing and later slicing.
+- The atlas contract is split into two artifacts: the global asset catalog for reuse semantics, and one TexturePacker-compatible `texturepacker.json` per page atlas for concrete packing and later slicing.
+- The atlas generation unit is always one page. A shared page atlas lives under `docs/project/assets/shared/<page-name>/`, and a module page atlas lives under `docs/project/modules/<module>/assets/<page-name>/`.
+- One page atlas may contain that page's primary surface plus that same page's `error`, `empty`, `loading`, and other page-local states, but it must not include already approved reusable assets from other pages.
+- After the workflow excludes code-restorable regions, `placeholder_only` regions, and confirmed reusable assets, it must first present the remaining new bitmap list for that page to the user. Do not generate that page's atlas before the bitmap list is explicitly confirmed.
 - Atlas PNG output must keep a transparent background. Do not approve a packed atlas that bakes a solid page background into the sheet.
+- The page atlas must be newly generated from the confirmed `texturepacker.json` through `gpt-image-2-generator`; it must not be cropped out of the effect image.
 - Slice export must be driven by the confirmed `texturepacker.json`. The cutting script must not infer coordinates from the atlas image after confirmation.
 - Shared and module HTML prototypes must directly reference the exported slices for every approved atlas asset. Regions that are explicitly tracked as `placeholder_only` may remain placeholders, but unsliced atlas regions, screenshot crops, or undeclared temporary placeholder assets are not allowed.
 - If the same visual result can already be restored faithfully enough with code, tokens, vectors, gradients, or standard components, do not convert it into a bitmap asset.
+- Generate page atlases serially. After one page's bitmap list is confirmed, generate only that page's atlas, review it, and only then advance to the next page.
 
 ## Representative Sketch Boundary
 
