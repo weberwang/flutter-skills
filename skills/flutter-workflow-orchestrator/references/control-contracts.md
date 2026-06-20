@@ -119,7 +119,6 @@ The following specialist stages may run inside a subagent, as long as the orches
 - `flutter-prd-rd-writer` for PRD or broad RD expansion into a technical baseline
 - image-backed design-packet normalization for shared or module design consolidation
 - `effect-image-to-pencil-design` for mandatory shared or module Pencil design-source generation, compare-and-fix review, and handoff to human design acceptance
-- `reference-image-to-hifi-prototype` for shared theme/public-shell HTML interactive prototype generation or validation at global scope, and for page-scoped prototype generation or validation only at module scope, from `DESIGN.md`, optional approved effect images, or approved visual comps
 - `Creative Production:explore` for controlled asset-branch intake and path selection after the orchestrator has confirmed that the request is asset-oriented
 - focused Creative Production explorers such as `moodboard-explorer`, `ads-explorer`, `offer-explorer`, `scene-explorer`, `shot-explorer`, and `logo-explorer` when the asset branch already has a locked brief and desired output family
 - `Creative Production:generative-polish` when a selected direction or deterministic base already exists and the asset output is publish-bound
@@ -142,7 +141,6 @@ The subagent may create or revise artifacts, run specialist reasoning, and repor
 Even when a step is subagent-eligible, these constraints still apply:
 
 - only one active route-locked specialist step may run at a time for the same workflow record
-- HTML interactive prototype module-scoped page design is the only allowed parallel specialist exception: one route-locked page-design batch may run up to 6 page-scoped subagents in parallel, as long as each subagent owns a different page and returns a page-level receipt
 - implementation execution for module work is serial by default after `Spec` and `Plan`; do not split the active module loop into parallel ownership units unless the workflow contract is explicitly changed
 - `--auto` or `--full-auto` after the shared/global design freeze still advances one active module at a time; do not generate module docs, freeze modules, or implement multiple active modules in parallel against the same record
 - parallel page-design subagents must not update workflow state artifacts, freeze `design_source_status`, decide adapter mode or project refs, or merge the final design-source packet
@@ -225,7 +223,7 @@ Track module-stage maturity in addition to `current_stage`.
 | Value | Meaning |
 | --- | --- |
 | `not_started` | The document does not exist yet. |
-| `implementation_final` | The module `impl.md` was generated after the shared/global design freeze as a detailed module task implementation document. It already fixes the module function and key states under the frozen shared design and interaction principles, and is now the upstream contract for downstream Pencil design execution, optional HTML interactive prototype work, and freeze. |
+| `implementation_final` | The module `impl.md` was generated after the shared/global design freeze as a detailed module task implementation document. It already fixes the module function and key states under the frozen shared design and interaction principles, and is now the upstream contract for downstream Pencil design execution and freeze. |
 | `landed` | The document references the frozen structured design-source packet and the landed status has been explicitly confirmed. |
 
 ### `design_source_status`

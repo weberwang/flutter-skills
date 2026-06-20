@@ -13,7 +13,7 @@ It ends at architecture and implementation guidance. It does not write page code
 
 Module architecture in this workflow must assume that the frozen module design already considered the real target platform and that premium/high-fidelity quality is a non-negotiable implementation input, not an optional polish pass.
 
-In the default workflow, this skill also decides whether a visual should be implemented natively in Flutter or produced as a project bitmap asset for later consumption, and it must output a page-level `display_restoration_blueprint` so downstream Flutter implementation does not re-interpret the frozen Pencil design source or any optional HTML supplement ad hoc.
+In the default workflow, this skill also decides whether a visual should be implemented natively in Flutter or produced as a project bitmap asset for later consumption, and it must output a page-level `display_restoration_blueprint` so downstream Flutter implementation does not re-interpret the frozen Pencil design source ad hoc.
 
 It must not treat preview images as the only source of truth for concrete Flutter implementation choices. Preview images provide visual structure clues, but final Flutter decisions must combine preview evidence with `ui-ux.md`, `impl.md`, state semantics, and architecture constraints.
 

@@ -125,4 +125,4 @@ Use one of these outcomes:
 - Do not invent business-critical answers. Ask or stop when the answer changes scope, roles, behavior, data, platform, compliance, or delivery order.
 - Do not use this flow to decide the key pages when the request is still too abstract for concrete screens; route back to `idea_sketch_brainstorming` instead.
 - Do not try to finalize shared or module asset-atlas packaging here. At most, record likely non-standard asset families or state-image needs for later atlas preparation.
-- Do not freeze detailed screen design in the PRD. Capture product direction and constraints only; final product design direction confirmation and HTML interactive prototype work belong to later workflow nodes.
+- Do not freeze detailed screen design in the PRD. Capture product direction and constraints only; final product design direction confirmation and downstream design-source work belong to later workflow nodes.

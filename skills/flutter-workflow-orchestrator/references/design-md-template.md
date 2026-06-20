@@ -1,6 +1,6 @@
 # DESIGN.md Template
 
-Use this reference when `flutter-workflow-orchestrator` has reached `product_direction_confirmed` and must write a project-level `DESIGN.md` file that drives the downstream HTML interactive prototype flow.
+Use this reference when `flutter-workflow-orchestrator` has reached `product_direction_confirmed` and must write a project-level `DESIGN.md` file that drives the downstream Pencil-backed design-source flow.
 
 ## Purpose
 
@@ -10,7 +10,7 @@ In this workflow, `DESIGN.md` must:
 
 - live at the project root as `DESIGN.md`
 - be written after final product design direction confirmation
-- exist before HTML interactive prototype generation
+- exist before downstream Pencil design execution
 - be self-contained
 - avoid references to other repo files, variables, or paths
 

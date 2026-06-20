@@ -1,6 +1,6 @@
 # Asset Resource Flow
 
-Use this reference after mandatory shared or module Pencil design review is accepted, and before any later `prototype_required_decision`, whenever the approved visual evidence still includes one page whose confirmed post-review regions cannot be restored faithfully enough in code and therefore need bitmap assets that stay very close to the effect image.
+Use this reference after mandatory shared or module Pencil design review is accepted, whenever the approved visual evidence still includes one page whose confirmed post-review regions cannot be restored faithfully enough in code and therefore need bitmap assets that stay very close to the effect image.
 
 ## Goal
 
@@ -143,8 +143,8 @@ Use one of these outcomes:
 
 ## Hard Rules
 
-- Do not finalize the shared `prototype_required_decision` or any later selected shared HTML interactive prototype work when shared resource generation is required but incomplete.
-- Do not finalize the module `prototype_required_decision` or any later selected module HTML interactive prototype work when module resource generation is required but incomplete.
+- Do not finalize shared freeze when shared resource generation is required but incomplete.
+- Do not finalize `pencil_restoration_ready` or module implementation-side restoration when module resource generation is required but incomplete.
 - Do not bypass the global asset catalog.
 - Do not call `$imagegen` for a bitmap asset before checking whether the catalog already points to an approved reusable image for the same semantic and usage scenario.
 - Do not approve a generated asset with the wrong background mode for its intended usage. Transparent assets should stay transparent, and background-baked assets should be used only when the frozen design explicitly requires that background.
