@@ -1,4 +1,4 @@
-"""验证效果图伴生 UI-only 透明 atlas 规则不会从工作流文档中丢失。"""
+"""验证效果图伴生 UI-only 透明 atlas 与背景处理门禁规则不会从工作流文档中丢失。"""
 
 from __future__ import annotations
 
@@ -39,6 +39,7 @@ ORCHESTRATOR_SNIPPETS = [
     "UI-only sheet atlas",
     "transparent background",
     "data_excluded_placeholder",
+    "solid-color backgrounds",
 ]
 
 ROUTING_RULE_SNIPPETS = [
@@ -49,12 +50,15 @@ ROUTING_RULE_SNIPPETS = [
 HARD_RULE_SNIPPETS = [
     "non-transparent atlas background",
     "runtime data layers into the atlas",
+    "already transparent atlas",
+    "non-solid backgrounds",
 ]
 
 ASSET_ATLAS_FLOW_SNIPPETS = [
     "UI-only transparent sheet atlas",
     "runtime-data regions",
     "cut-ready manifest",
+    "solid-color backgrounds",
 ]
 
 WORKFLOW_STATE_SNIPPETS = [
@@ -64,11 +68,13 @@ WORKFLOW_STATE_SNIPPETS = [
 CATALOG_CONTRACT_SNIPPETS = [
     "sheet_atlas",
     "atlas_manifest",
+    "background_state",
+    "background_processing_allowed",
 ]
 
 
 class EffectImageSheetAtlasRulesTest(unittest.TestCase):
-    """验证效果图伴生 atlas 的范围、透明背景和可切割约束。"""
+    """验证效果图伴生 atlas 的范围、透明背景、可切割和背景处理门禁约束。"""
 
     def test_readme_mentions_shared_and_module_sheet_atlas(self) -> None:
         """README 必须写明 atlas 的中文约束，方便协作时快速对齐。"""
@@ -99,6 +105,12 @@ class EffectImageSheetAtlasRulesTest(unittest.TestCase):
         content = ASSET_ATLAS_FLOW.read_text(encoding="utf-8")
         for snippet in ASSET_ATLAS_FLOW_SNIPPETS:
             self.assertIn(snippet, content)
+
+    def test_readme_mentions_background_processing_gate(self) -> None:
+        """README 必须写明透明背景禁止再处理、只有纯色背景才允许转透明。"""
+        content = README.read_text(encoding="utf-8")
+        self.assertIn("透明背景禁止再处理", content)
+        self.assertIn("只有纯色背景才允许处理为透明", content)
 
     def test_workflow_states_mentions_atlas_artifacts(self) -> None:
         """状态文档必须把 atlas 视作效果图证据的一部分。"""

@@ -2,9 +2,9 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** 在现有 Flutter 工作流文档与测试中加入“生成效果图时同步生成透明背景、仅含 UI 层、可切割的 sheet atlas”的明确规则，并同时覆盖全局阶段与模块阶段。
+**Goal:** 在现有 Flutter 工作流文档与测试中加入“生成效果图时同步生成透明背景、仅含 UI 层、可切割的 sheet atlas”以及“透明背景禁止再处理、只有纯色背景才允许转透明”的明确规则，并同时覆盖全局阶段与模块阶段。
 
-**Architecture:** 不新增工作流阶段，只在现有效果图生成节点补充强制伴生产物契约。通过更新 orchestrator 主文档、路由/状态/硬规则/asset-atlas 参考文档，以及规则回归测试，保证 atlas 是 UI-only、透明背景、附带 manifest、且不替代逐资源独立生成主流程。
+**Architecture:** 不新增工作流阶段，只在现有效果图生成节点补充强制伴生产物契约和背景处理资格门禁。通过更新 orchestrator 主文档、路由/状态/硬规则/asset-atlas 参考文档，以及规则回归测试，保证 atlas 是 UI-only、透明背景、附带 manifest，并且 atlas 与下游切片链路只允许在纯色背景场景下执行转透明处理。
 
 **Tech Stack:** Markdown 文档、Python `unittest`
 
@@ -26,6 +26,9 @@ sheet atlas 必须是 transparent background
 sheet atlas 必须附带 cut-ready manifest
 全局阶段与模块阶段都要执行
 atlas 是伴生产物，不替代逐资源独立生成
+透明背景时禁止再处理背景
+只有纯色背景才允许处理为透明
+非纯色背景禁止处理为透明
 ```
 
 - [ ] **Step 2: 修改 README**
@@ -48,6 +51,9 @@ runtime data regions must stay placeholder_only or data_excluded_placeholder
 atlas main sheet must use transparent background
 each atlas must ship with a cut-ready manifest
 do not treat atlas as final runtime asset pack
+background processing is forbidden for already transparent atlas
+only solid-color backgrounds may be processed to transparent
+non-solid backgrounds must not enter background removal
 ```
 
 - [ ] **Step 4: 运行目标测试确认当前文档改动未引入现有规则回退**
@@ -73,6 +79,8 @@ shared/module effect-image generation also creates a UI-only transparent sheet a
 exclude runtime-data regions from atlas
 atlas must include slice manifest with bounds/background_mode/slice_type/cut_safe
 atlas is a slicing baseline, not the final asset pack
+background processing must be skipped when atlas is already transparent
+background removal is allowed only for solid-color backgrounds
 ```
 
 - [ ] **Step 2: 修改 routing-rules**
@@ -83,6 +91,8 @@ atlas is a slicing baseline, not the final asset pack
 生成效果图时同步生成 atlas
 若 atlas 或 manifest 缺失，不能声明对应效果图证据完整
 atlas background must remain transparent
+already transparent atlas must not be background-processed again
+only solid-color background may be processed to transparent
 ```
 
 - [ ] **Step 3: 修改 workflow-states**
@@ -101,9 +111,11 @@ effect-image evidence now includes matching UI-only transparent atlas artifacts
 Do not treat a page effect-image generation step as complete before its matching UI-only transparent atlas and manifest exist.
 Do not bake runtime data layers into the atlas.
 Do not use a non-transparent atlas background.
+Do not background-process an atlas that is already transparent.
+Do not process non-solid backgrounds to transparent.
 ```
 
-catalog contract 至少补入 atlas 记录说明或字段约束，使 manifest / atlas 路径能被稳定记录。
+catalog contract 至少补入 atlas 记录说明或字段约束，使 manifest / atlas 路径能被稳定记录，并能表达 `background_state` 与 `background_processing_allowed`。
 
 - [ ] **Step 5: 运行新增目标测试前的关键回归**
 
@@ -118,7 +130,7 @@ Expected: 继续通过
 - [ ] **Step 1: 先写失败测试**
 
 ```python
-"""验证效果图伴生 UI-only 透明 atlas 规则不会从工作流文档中丢失。"""
+"""验证效果图伴生 UI-only 透明 atlas 与背景处理门禁规则不会从工作流文档中丢失。"""
 
 from __future__ import annotations
 
@@ -135,7 +147,7 @@ ASSET_ATLAS_FLOW = REPO_ROOT / "skills" / "flutter-workflow-orchestrator" / "ref
 
 
 class EffectImageSheetAtlasRulesTest(unittest.TestCase):
-    """验证效果图伴生 atlas 的范围、透明背景和可切割约束。"""
+    """验证效果图伴生 atlas 的范围、透明背景、可切割和背景处理门禁约束。"""
 
     def test_readme_mentions_shared_and_module_sheet_atlas(self) -> None:
         content = README.read_text(encoding="utf-8")
@@ -154,11 +166,14 @@ class EffectImageSheetAtlasRulesTest(unittest.TestCase):
     def test_hard_rules_block_missing_or_opaque_atlas(self) -> None:
         content = HARD_RULES.read_text(encoding="utf-8")
         self.assertIn("non-transparent atlas background", content)
+        self.assertIn("already transparent", content)
+        self.assertIn("non-solid backgrounds", content)
 
     def test_asset_atlas_flow_mentions_manifest_and_data_exclusion(self) -> None:
         content = ASSET_ATLAS_FLOW.read_text(encoding="utf-8")
         self.assertIn("runtime-data", content)
         self.assertIn("cut-ready manifest", content)
+        self.assertIn("solid-color", content)
 
 
 if __name__ == "__main__":
@@ -178,6 +193,11 @@ Expected: FAIL，因为对应文档片段尚未全部落入
 
 Run: `rtk python -m unittest tests.test_effect_image_sheet_atlas_rules -v`
 Expected: PASS
+
+- [ ] **Step 5: 补跑背景处理门禁的红绿验证**
+
+Run: `rtk python -m unittest tests.test_effect_image_sheet_atlas_rules -v`
+Expected: PASS，并且输出已经覆盖透明背景禁止处理、纯色背景允许处理、非纯色背景禁止处理
 
 ### Task 4: 完整验证
 

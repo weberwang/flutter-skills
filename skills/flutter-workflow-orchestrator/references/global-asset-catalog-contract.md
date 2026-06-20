@@ -29,6 +29,8 @@ Each catalog row should preserve at least these fields:
 - `final_output_paths`
 - `sheet_atlas`
 - `atlas_manifest`
+- `background_state`
+- `background_processing_allowed`
 - `notes`
 
 ## Field Intent
@@ -178,6 +180,26 @@ The final atlas image path for the matching UI-only transparent atlas when that 
 
 The manifest path for the matching atlas. This manifest should preserve slice bounds, background mode, slice type, and cut-safety so later flows can cut approved regions without guessing.
 
+### `background_state`
+
+The detected background state for the atlas or slice candidate.
+
+Allowed values:
+
+- `transparent`
+- `solid_color`
+- `non_solid`
+
+### `background_processing_allowed`
+
+Whether a background-to-transparent cleanup step is still allowed for this atlas or slice candidate.
+
+Rules:
+
+- `false` when the input is already transparent
+- `true` only when `background_state=solid_color`
+- `false` when `background_state=non_solid`
+
 ## Reuse Rules
 
 - Reuse decisions must consider `name`, `semantic`, and `usage_scenarios` together.
@@ -205,5 +227,7 @@ Before approving the catalog update, verify:
 - every row has the correct `asset_mode`
 - every approved generated image has a concrete output path
 - every approved atlas row has both `sheet_atlas` and `atlas_manifest`
+- every atlas or slice candidate row has the correct `background_state`
+- every atlas or slice candidate row has the correct `background_processing_allowed`
 - every candidate reuse row has a reason
 - no row points at a missing generated file path when `artifact_status=approved`

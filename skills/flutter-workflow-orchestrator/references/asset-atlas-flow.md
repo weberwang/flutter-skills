@@ -10,6 +10,8 @@ This flow sits after effect-image confirmation plus Pencil review acceptance, an
 
 Each qualifying page should already have a matching `UI-only transparent sheet atlas` generated during the effect-image step. That atlas is a pre-cut baseline only: it must not replace the final per-resource asset outputs.
 
+Background processing must be skipped when atlas input is already transparent. Background removal is allowed only for solid-color backgrounds; non-solid backgrounds must not be processed to transparent.
+
 ## Entry Conditions
 
 Enter this flow when one or more of these are true:
@@ -42,8 +44,9 @@ If the catalog is missing, repair or initialize it from `global-asset-catalog-co
 1. Read the current global asset catalog first.
 2. Work on one page at a time. Identify every visual region in the current page that truly needs bitmap fidelity.
 3. Verify that the page already has a matching `UI-only transparent sheet atlas` plus a cut-ready manifest from the effect-image step. The atlas must keep only stable UI regions, use transparent background, and exclude runtime-data regions.
-4. If the page belongs to a module, compare the current page effect image against the active module `impl.md` and the page's required state set first. If `error`, `empty`, `loading`, permission, or other page-local states are required but not yet represented strongly enough for resource or prototype work, supplement those missing states before finalizing the page checklist.
-5. Remove `placeholder_only` regions first. If a region is only a visual stand-in for runtime-created data content, record it as a placeholder contract and keep it out of image generation. Atlas-only helper labels such as `data_excluded_placeholder` are allowed, but they must still stay out of bitmap generation.
+4. Before any background cleanup step, classify the current atlas or slice input as `transparent`, `solid_color`, or `non_solid`. If it is already transparent, stop background processing. Only solid-color backgrounds may be processed to transparent.
+5. If the page belongs to a module, compare the current page effect image against the active module `impl.md` and the page's required state set first. If `error`, `empty`, `loading`, permission, or other page-local states are required but not yet represented strongly enough for resource or prototype work, supplement those missing states before finalizing the page checklist.
+6. Remove `placeholder_only` regions first. If a region is only a visual stand-in for runtime-created data content, record it as a placeholder contract and keep it out of image generation. Atlas-only helper labels such as `data_excluded_placeholder` are allowed, but they must still stay out of bitmap generation.
 5. For every remaining visual region, first decide whether Flutter SDK standard capabilities alone can restore it faithfully enough without adding new bitmap assets.
 6. Classify the current page into three written groups before generation:
    - `bitmap_required`
@@ -117,6 +120,8 @@ Suggested paths:
 
 - Every generated asset must decide its background mode from the frozen design intent instead of assuming transparency blindly.
 - Do not bake the page background into an asset unless the frozen design explicitly treats that background as part of the resource.
+- If an atlas or slice input is already transparent, do not run background processing again.
+- Only solid-color backgrounds may be processed to transparent. Gradient, textured, photographic, or other non-solid backgrounds must stay out of automatic background removal.
 - Do not mix unrelated visual regions into one generated asset without an explicit reason.
 - Do not create duplicate bitmap assets when a reusable asset already exists.
 - Do not auto-merge semantically similar assets when the reuse decision is still ambiguous.
@@ -156,6 +161,8 @@ Use one of these outcomes:
 - Do not treat the page as resource-ready when the matching `UI-only transparent sheet atlas` or its cut-ready manifest is missing.
 - Do not call `$imagegen` for a bitmap asset before checking whether the catalog already points to an approved reusable image for the same semantic and usage scenario.
 - Do not approve a generated asset with the wrong background mode for its intended usage. Transparent assets should stay transparent, and background-baked assets should be used only when the frozen design explicitly requires that background.
+- Do not run background removal on already transparent atlas inputs.
+- Do not process non-solid backgrounds to transparent.
 - Do not generate assets before the current page's bitmap list is explicitly confirmed.
 - Do not batch multiple distinct assets into one generated image file.
 - Do not assume the first module effect image already covers every required page-local state. Repair missing state coverage before freezing the page bitmap checklist.
