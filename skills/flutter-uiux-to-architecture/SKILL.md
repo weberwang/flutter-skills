@@ -1,19 +1,19 @@
 ---
 name: flutter-uiux-to-architecture
-description: Use when frozen Flutter UI/UX RD, implementation RD, image-backed design guidance, theme artifacts, visual evidence, and prototype-derived module design-source packets must be translated into Flutter-facing tokens, assets, reusable components, screen architecture, and implementation boundaries.
+description: Use when frozen Flutter UI/UX RD, implementation RD, Pencil design sources, restoration contracts, image-backed design guidance, theme artifacts, visual evidence, and structured module design-source packets must be translated into Flutter-facing tokens, assets, reusable components, screen architecture, and implementation boundaries.
 ---
 
 # Flutter UIUX To Architecture
 
 ## Overview
 
-Turn frozen UI/UX design-source artifacts into a Flutter-facing implementation architecture. This skill consumes the confirmed prototype-derived module design-source packet, paired UI/UX RD, implementation RD, global guidelines, theme freeze files, image-backed design constraints, and visual evidence.
+Turn frozen UI/UX design-source artifacts into a Flutter-facing implementation architecture. This skill consumes the confirmed Pencil-backed module design-source packet, paired UI/UX RD, implementation RD, Pencil-to-Flutter restoration contract, global guidelines, theme freeze files, image-backed design constraints, and visual evidence.
 
 It ends at architecture and implementation guidance. It does not write page code and does not reopen design decisions.
 
 Module architecture in this workflow must assume that the frozen module design already considered the real target platform and that premium/high-fidelity quality is a non-negotiable implementation input, not an optional polish pass.
 
-In the default workflow, this skill also decides whether a visual should be implemented natively in Flutter or produced as a project bitmap asset for later consumption, and it must output a page-level `display_restoration_blueprint` so downstream Flutter implementation does not re-interpret the frozen HTML interactive prototype ad hoc.
+In the default workflow, this skill also decides whether a visual should be implemented natively in Flutter or produced as a project bitmap asset for later consumption, and it must output a page-level `display_restoration_blueprint` so downstream Flutter implementation does not re-interpret the frozen Pencil design source or any optional HTML supplement ad hoc.
 
 It must not treat preview images as the only source of truth for concrete Flutter implementation choices. Preview images provide visual structure clues, but final Flutter decisions must combine preview evidence with `ui-ux.md`, `impl.md`, state semantics, and architecture constraints.
 
@@ -21,6 +21,8 @@ It must not treat preview images as the only source of truth for concrete Flutte
 
 - Active module name and workflow state.
 - Paired module `ui-ux.md` and `impl.md`.
+- Frozen Pencil design file path.
+- Confirmed Pencil-to-Flutter restoration contract.
 - Confirmed module design-source packet or freeze card.
 - Confirmed freeze decision from `flutter-design-freeze-gate`.
 - Image-backed design packet or consolidated design packet from the approved screenshot and reference-image flow.
@@ -86,7 +88,7 @@ The contract must identify:
    - `asset_decision`: native drawing/composition, existing asset reuse, or `$imagegen` fallback
    - `must_use_asset`: exact asset path or `none`
    - `must_not_flutterize`: `yes` or `no`
-14. Produce a page-level `display_restoration_blueprint` that turns the frozen HTML interactive prototype plus architecture output into an implementation contract. At minimum, map:
+14. Produce a page-level `display_restoration_blueprint` that turns the frozen Pencil-backed design source plus architecture output into an implementation contract. At minimum, map:
    - `region_id` to the intended Flutter widget/container structure
    - route scaffold, scroll container, list container, sticky container, and overlay host ownership
    - bottom spacing ownership, including whether it comes from `SafeArea`, frozen `bottom action area`, frozen `sticky footer`, approved scroll content inset, or `none`
@@ -115,7 +117,7 @@ The contract must identify:
 - Do not treat premium quality as decorative extras that can be deferred after architecture. If the premium or high-fidelity requirement is not implementable with current evidence, return a blocker.
 - Do not treat a single main page preview as enough when key states still need independent visual language decisions.
 - Do not decide scroll, list, sticky, overlay, or relative-layout behavior from preview images alone when the UI/UX or implementation docs define stronger semantics.
-- Do not hand off display-layer implementation without a concrete `display_restoration_blueprint`; the HTML interactive prototype is a frozen source, not a self-executing Flutter page.
+- Do not hand off display-layer implementation without a concrete `display_restoration_blueprint`; the frozen Pencil design source is a design source, not a self-executing Flutter page.
 - Do not allow page-level manual bottom padding as a visual fix. Bottom spacing must come only from the frozen `display_restoration_blueprint`, such as `SafeArea`, frozen `bottom action area`, frozen `sticky footer`, or an explicitly approved scroll content inset.
 - Do not default empty, error, permission, or other non-happy states to a small explanatory card plus long copy when the frozen design intent expects a stronger visual-language treatment.
 - Do not force every design effect into native Flutter code when a bitmap asset is the more faithful and maintainable choice.
@@ -153,7 +155,7 @@ Return:
 
 ## Pressure Scenarios
 
-- User asks "where is the Pen file": explain that the default workflow consumes frozen UI/UX and visual evidence directly.
+- User asks "where is the Pen file": explain that the updated default workflow requires a frozen Pencil design source and uses it as the primary design file.
 - Visual preview and UI/UX RD disagree: block and route to `flutter-design-source-control`.
 - Theme files are missing but required by the freeze packet: block and route to `design-preview-to-global-guidelines`.
 - Developer wants to simplify a hero or CTA in code: classify whether the simplification is allowed; otherwise route to `flutter-design-source-control`.

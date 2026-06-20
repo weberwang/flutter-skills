@@ -1,0 +1,4 @@
+interface:
+  display_name: "Effect Image To Pencil Design"
+  short_description: "Build high-fidelity Pencil design files from approved effect images"
+  default_prompt: "Use $effect-image-to-pencil-design to turn approved Flutter effect images, DESIGN.md, and page-state requirements into a mandatory high-fidelity Pencil design source through Pencil MCP. Always load Pencil schema first with get_editor_state(include_schema: true) when needed, build through batch_design, verify structure with snapshot_layout, compare the resulting Pencil design against the approved effect image, output visible gaps plus concrete fixes plus any bitmap-generation implications, wait for confirmation, repair one focused revision, and only then hand off to human acceptance."

@@ -1,12 +1,12 @@
-# Asset Atlas Flow
+# Asset Resource Flow
 
-Use this reference before shared HTML interactive prototype work or module HTML interactive prototype work whenever the approved visual evidence includes one page whose regions cannot be restored faithfully enough in code and therefore need bitmap assets that stay very close to the effect image.
+Use this reference after mandatory shared or module Pencil design review is accepted, and before any later `prototype_required_decision`, whenever the approved visual evidence still includes one page whose confirmed post-review regions cannot be restored faithfully enough in code and therefore need bitmap assets that stay very close to the effect image.
 
 ## Goal
 
-Turn one approved page into one reusable atlas packet that downstream prototypes can consume directly.
+Turn one approved page into a reusable set of independently generated bitmap resources that downstream prototypes and Flutter implementation can consume directly.
 
-This flow sits after effect-image confirmation and before prototype generation. It is not a design-direction workflow. It is a resource-normalization workflow.
+This flow sits after effect-image confirmation plus Pencil review acceptance, and before prototype generation. It is not a design-direction workflow. It is a resource-normalization workflow.
 
 ## Entry Conditions
 
@@ -22,12 +22,12 @@ Do not enter this flow for image regions that are only schematic placeholders an
 
 ## Required Inputs
 
-Before atlas preparation begins, make sure these inputs are explicit:
+Before resource generation begins, make sure these inputs are explicit:
 
 - approved source effect image or approved source screenshots for the current page
-- atlas scope: `shared` or `module`
+- resource scope: `shared` or `module`
 - current page name
-- target atlas output directory for that page
+- target output directory for that page
 - the current `docs/project/assets/global-asset-catalog.json`
 - whether any candidate asset is already known to be reusable
 
@@ -37,30 +37,34 @@ If the catalog is missing, repair or initialize it from `global-asset-catalog-co
 
 1. Read the current global asset catalog first.
 2. Work on one page at a time. Identify every visual region in the current page that truly needs bitmap fidelity.
-3. If the page belongs to a module, compare the current page effect image against the active module `impl.md` and the page's required state set first. If `error`, `empty`, `loading`, permission, or other page-local states are required but not yet represented strongly enough for atlas or prototype work, supplement those missing states before finalizing the page checklist.
-4. Remove placeholder-only regions first. If a region is only a visual stand-in for runtime-created data content, record it as a placeholder contract and keep it out of atlas generation.
+3. If the page belongs to a module, compare the current page effect image against the active module `impl.md` and the page's required state set first. If `error`, `empty`, `loading`, permission, or other page-local states are required but not yet represented strongly enough for resource or prototype work, supplement those missing states before finalizing the page checklist.
+4. Remove `placeholder_only` regions first. If a region is only a visual stand-in for runtime-created data content, record it as a placeholder contract and keep it out of image generation.
 5. For every remaining visual region, first decide whether Flutter SDK standard capabilities alone can restore it faithfully enough without adding new bitmap assets.
-6. Classify the current page into three written groups before atlas generation:
+6. Classify the current page into three written groups before generation:
    - `bitmap_required`
    - `flutter_native`
    - `placeholder_only`
-7. Only the regions inside `bitmap_required` may continue into atlas generation. Regions inside `flutter_native` must stay as Flutter-native implementation targets. Regions inside `placeholder_only` must stay as runtime placeholders.
-8. Classify each `bitmap_required` asset by `name`, `semantic`, and `usage_scenarios`:
+7. Only the regions inside `bitmap_required` may continue into image generation. Regions inside `flutter_native` must stay as Flutter-native implementation targets. Regions inside `placeholder_only` must stay as runtime placeholders.
+8. Before any new generation request is allowed, check the current global asset catalog plus the approved output paths it references. If an approved image already exists for the same `name`, `semantic`, and `usage_scenarios`, reuse that file directly and remove the region from new generation scope.
+9. Classify each remaining `bitmap_required` asset by `name`, `semantic`, and `usage_scenarios`:
    - `reusable`
    - `candidate_reuse`
    - `shared_only`
    - `module_only`
-9. If any asset is `candidate_reuse`, stop and request confirmation.
-10. Present the written current-page checklist plus the remaining new bitmap list for the current page and stop for explicit confirmation before atlas generation.
-11. Write one TexturePacker-compatible `texturepacker.json` for the current page atlas.
-12. Use that same `texturepacker.json` to request one transparent-background atlas PNG for the current page through `gpt-image-2-generator`. Do not crop the atlas out of the effect image.
-13. Slice the atlas strictly by the confirmed `texturepacker.json`.
+10. If any asset is `candidate_reuse`, stop and request confirmation.
+11. Present the written current-page checklist plus the remaining new bitmap list for the current page and stop for explicit confirmation before generation.
+12. Generate each approved bitmap asset independently through `$imagegen`. Do not pack multiple assets into one atlas image and do not build TexturePacker-style intermediate contracts.
+13. Save each approved bitmap asset as its own final file. Decide whether the output should be transparent or background-baked from the frozen design intent: use transparency when the asset must float over runtime surfaces, and keep a baked background only when that background is part of the intended asset.
 14. Update the global asset catalog with:
-   - atlas owner
+   - record type
+   - asset owner
    - reuse status
-   - slice output paths
+   - final output path
+   - generation stage
    - any confirmed cross-module reuse
-15. Allow prototype work only after atlas confirmation and slice export are complete.
+15. Allow prototype work only after the approved asset files already exist and are confirmed.
+
+This same catalog is also the workflow's generated-image record table. Shared or module bitmap assets generated in this flow must be written into it immediately, and any already-approved representative sketches or effect images that this page depends on should already be present there before generation continues.
 
 ## Flutter-Native Standard
 
@@ -79,7 +83,7 @@ Do not mark a region `flutter_native` if those same capabilities would still los
 
 ## Shared Scope Rules
 
-Shared page atlas work is for:
+Shared page resource work is for:
 
 - shared shell imagery
 - shared state imagery
@@ -89,57 +93,37 @@ Shared page atlas work is for:
 Suggested paths:
 
 - `docs/project/assets/global-asset-catalog.json`
-- `docs/project/assets/shared/<page-name>/texturepacker.json`
-- `docs/project/assets/shared/<page-name>/<page-name>-atlas.png`
-- `docs/project/assets/shared/<page-name>/slices/`
+- `docs/project/assets/shared/<page-name>/`
 
 ## Module Scope Rules
 
-Module page atlas work is for:
+Module page resource work is for:
 
 - bitmap assets unique to one module
 - module-specific state illustrations
-- module-specific imagery that cannot reuse a shared slice
+- module-specific imagery that cannot reuse a shared asset
 - page-local states that the module `impl.md` requires even when the first approved effect image did not yet show them clearly enough
 
 Suggested paths:
 
-- `docs/project/modules/<module>/assets/<page-name>/texturepacker.json`
-- `docs/project/modules/<module>/assets/<page-name>/<page-name>-atlas.png`
-- `docs/project/modules/<module>/assets/<page-name>/slices/`
+- `docs/project/modules/<module>/assets/<page-name>/`
 
-## TexturePacker Contract
+## Resource Rules
 
-The atlas JSON must be compatible with TexturePacker-style frame metadata and should remain stable enough for later re-slicing.
-
-At minimum, preserve:
-
-- `frames`
-- `meta`
-- `frame`
-- `rotated`
-- `trimmed`
-- `spriteSourceSize`
-- `sourceSize`
-
-The cutting script must use this JSON as the slicing contract. Do not let the slicing step guess coordinates by image analysis after confirmation.
-
-## Atlas Rules
-
-- Atlas PNG output must keep a transparent background.
-- Do not bake the page background into the atlas.
-- Do not mix unrelated scopes into one atlas without an explicit reason.
-- Do not create duplicate bitmap assets when a reusable slice already exists.
+- Every generated asset must decide its background mode from the frozen design intent instead of assuming transparency blindly.
+- Do not bake the page background into an asset unless the frozen design explicitly treats that background as part of the resource.
+- Do not mix unrelated visual regions into one generated asset without an explicit reason.
+- Do not create duplicate bitmap assets when a reusable asset already exists.
 - Do not auto-merge semantically similar assets when the reuse decision is still ambiguous.
-- Do not include placeholder-only regions whose real content will be drawn or assembled later from runtime data.
+- Do not include `placeholder_only` regions whose real content will be drawn or assembled later from runtime data.
 - Do not turn a region into a bitmap asset when code can already restore it faithfully enough.
 
 ## Prototype Rules
 
-- Shared prototypes must directly reference shared slices.
-- Module prototypes must directly reference shared slices or module slices.
-- Do not continue prototype work with screenshot crops or unsliced atlas regions once this flow is required.
-- Placeholder-only regions are allowed to remain placeholders in the prototype, but they must not be treated as atlas assets.
+- Shared prototypes must directly reference shared generated asset files.
+- Module prototypes must directly reference shared generated asset files or module generated asset files.
+- Do not continue prototype work with screenshot crops once this flow is required.
+- `placeholder_only` regions are allowed to remain placeholders in the prototype, but they must not be treated as generated assets.
 
 ## Output Contract
 
@@ -147,25 +131,23 @@ Produce for the current page:
 
 - one written decision checklist containing `bitmap_required`, `flutter_native`, and `placeholder_only`
 - updated `docs/project/assets/global-asset-catalog.json`
-- one confirmed `texturepacker.json` for that page
-- one transparent atlas PNG for that page
-- one exported slice directory for that page
+- one confirmed set of generated asset files for that page
 
 ## Routing Outcome
 
 Use one of these outcomes:
 
-- `advanced`: the current page's bitmap list was confirmed, and its atlas JSON, atlas PNG, and slice outputs all exist and are confirmed
-- `blocked`: reuse confirmation, atlas confirmation, or required atlas artifacts are missing
-- `not_executed`: the atlas preparation did not actually run
+- `advanced`: the current page's bitmap list was confirmed, and its generated asset files all exist and are confirmed
+- `blocked`: reuse confirmation, asset confirmation, or required asset files are missing
+- `not_executed`: the resource generation did not actually run
 
 ## Hard Rules
 
-- Do not enter shared HTML interactive prototype work when shared atlas preparation is required but incomplete.
-- Do not enter module HTML interactive prototype work when module atlas preparation is required but incomplete.
+- Do not finalize the shared `prototype_required_decision` or any later selected shared HTML interactive prototype work when shared resource generation is required but incomplete.
+- Do not finalize the module `prototype_required_decision` or any later selected module HTML interactive prototype work when module resource generation is required but incomplete.
 - Do not bypass the global asset catalog.
-- Do not approve an atlas with a non-transparent background.
-- Do not generate an atlas before the current page's bitmap list is explicitly confirmed.
-- Do not batch-generate multiple page atlases in one step.
-- Do not slice from unconfirmed geometry.
-- Do not assume the first module effect image already covers every required page-local state. Repair missing state coverage before freezing the page atlas checklist.
+- Do not call `$imagegen` for a bitmap asset before checking whether the catalog already points to an approved reusable image for the same semantic and usage scenario.
+- Do not approve a generated asset with the wrong background mode for its intended usage. Transparent assets should stay transparent, and background-baked assets should be used only when the frozen design explicitly requires that background.
+- Do not generate assets before the current page's bitmap list is explicitly confirmed.
+- Do not batch multiple distinct assets into one generated image file.
+- Do not assume the first module effect image already covers every required page-local state. Repair missing state coverage before freezing the page bitmap checklist.

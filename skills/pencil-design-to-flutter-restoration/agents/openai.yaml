@@ -1,0 +1,4 @@
+interface:
+  display_name: "Pencil Design To Flutter Restoration"
+  short_description: "Plan high-fidelity Flutter restoration from frozen Pencil designs"
+  default_prompt: "Use $pencil-design-to-flutter-restoration to translate a frozen Pencil design source, approved effect images, DESIGN.md, module impl.md, atlas slices, and the Flutter technical baseline into a high-fidelity restoration contract. For each important region, decide whether Flutter standard library is sufficient, whether an approved third-party plugin is justified, whether approved bitmap assets must remain in use, and what fidelity constraints downstream architecture and implementation must preserve."

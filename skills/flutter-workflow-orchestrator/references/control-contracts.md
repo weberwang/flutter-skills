@@ -118,6 +118,7 @@ The following specialist stages may run inside a subagent, as long as the orches
 
 - `flutter-prd-rd-writer` for PRD or broad RD expansion into a technical baseline
 - image-backed design-packet normalization for shared or module design consolidation
+- `effect-image-to-pencil-design` for mandatory shared or module Pencil design-source generation, compare-and-fix review, and handoff to human design acceptance
 - `reference-image-to-hifi-prototype` for shared theme/public-shell HTML interactive prototype generation or validation at global scope, and for page-scoped prototype generation or validation only at module scope, from `DESIGN.md`, optional approved effect images, or approved visual comps
 - `Creative Production:explore` for controlled asset-branch intake and path selection after the orchestrator has confirmed that the request is asset-oriented
 - focused Creative Production explorers such as `moodboard-explorer`, `ads-explorer`, `offer-explorer`, `scene-explorer`, `shot-explorer`, and `logo-explorer` when the asset branch already has a locked brief and desired output family
@@ -127,6 +128,7 @@ The following specialist stages may run inside a subagent, as long as the orches
 - `flutter-rd-module-splitter` for creating module index rows and executable module `impl.md` documents in one pass after the shared/global design freeze
 - module-scoped `@superpowers` execution when delegated module document generation or implementation requires real execution ownership
 - `flutter-design-source-control` when post-freeze design changes must be incorporated in a controlled way
+- `pencil-design-to-flutter-restoration` for turning frozen Pencil design files into high-fidelity Flutter restoration contracts with standard-library, plugin, and bitmap-fit decisions
 - `flutter-uiux-to-architecture` for architecture mapping, display-layer decision tables, and native-vs-bitmap decisions
 - `flutter-init` for directory-skeleton creation, as long as it stops at initialization boundaries
 - module implementation through explicit `@superpowers` `Spec`, then explicit `@superpowers` `Plan`, then serial execution of the active module loop with sibling `flutter-dev` and `flutter-project-guardrails`
@@ -223,8 +225,8 @@ Track module-stage maturity in addition to `current_stage`.
 | Value | Meaning |
 | --- | --- |
 | `not_started` | The document does not exist yet. |
-| `implementation_final` | The module `impl.md` was generated after the shared/global design freeze as a detailed module task implementation document. It already fixes the module function and key states under the frozen shared design and interaction principles, and is now the upstream contract for downstream page-component design drafts, HTML interactive prototype work, and freeze. |
-| `landed` | The document references the frozen prototype-derived design-source packet and the landed status has been explicitly confirmed. |
+| `implementation_final` | The module `impl.md` was generated after the shared/global design freeze as a detailed module task implementation document. It already fixes the module function and key states under the frozen shared design and interaction principles, and is now the upstream contract for downstream Pencil design execution, optional HTML interactive prototype work, and freeze. |
+| `landed` | The document references the frozen structured design-source packet and the landed status has been explicitly confirmed. |
 
 ### `design_source_status`
 

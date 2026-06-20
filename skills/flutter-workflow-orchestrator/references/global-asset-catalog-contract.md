@@ -1,10 +1,10 @@
 # Global Asset Catalog Contract
 
-Use this reference whenever the workflow must initialize, validate, or update the project-wide bitmap-asset catalog.
+Use this reference whenever the workflow must initialize, validate, or update the project-wide generated-image and bitmap-asset catalog.
 
 ## Goal
 
-Maintain one stable resource index that lets shared scope and module scope atlas work reuse existing slices by meaning and scenario, not only by filename.
+Maintain one stable resource index that records every workflow-generated image and every implementation bitmap asset, so shared scope and module scope can reuse existing outputs by meaning and scenario, not only by filename.
 
 Suggested path:
 
@@ -12,20 +12,21 @@ Suggested path:
 
 ## Required Fields
 
-Each asset row should preserve at least these fields:
+Each catalog row should preserve at least these fields:
 
 - `asset_id`
+- `record_type`
 - `name`
 - `semantic`
 - `usage_scenarios`
 - `asset_mode`
+- `artifact_status`
+- `generation_stage`
 - `source_scope`
 - `source_pages`
 - `reuse_status`
 - `candidate_reuse_reason`
-- `atlas_owner`
-- `texturepacker_entry`
-- `sliced_outputs`
+- `final_output_paths`
 - `notes`
 
 ## Field Intent
@@ -33,6 +34,22 @@ Each asset row should preserve at least these fields:
 ### `asset_id`
 
 Stable unique id for the asset record.
+
+### `record_type`
+
+One of:
+
+- `effect_image_draft`
+- `effect_image_final`
+- `bitmap_asset`
+- `flutter_native`
+- `placeholder_only`
+
+Use `effect_image_draft` for review-stage generated sketches or draft images that are still in the workflow.
+
+Use `effect_image_final` for approved final effect images that become workflow evidence.
+
+Use `bitmap_asset` for generated image assets that downstream Pencil, HTML, or Flutter implementation will reference directly.
 
 ### `name`
 
@@ -73,13 +90,45 @@ Examples:
 
 One of:
 
-- `atlas_asset`
+- `bitmap_asset`
+- `effect_image`
 - `flutter_native`
 - `placeholder_only`
 
 Use `flutter_native` when the region should be implemented directly with Flutter SDK standard capabilities rather than through bitmap generation.
 
-Use `placeholder_only` when the current image region is only a schematic stand-in and the real visual content will be created later from runtime data. Placeholder-only rows may stay in the catalog for semantic tracking, but they must not receive atlas ownership, TexturePacker frames, or slice outputs.
+Use `effect_image` when the row tracks a generated sketch, representative final effect image, or implementation-stage module effect image.
+
+Use `placeholder_only` when the current image region is only a schematic stand-in and the real visual content will be created later from runtime data. Placeholder-only rows may stay in the catalog for semantic tracking, but they must not receive final generated image output paths.
+
+### `artifact_status`
+
+One of:
+
+- `draft`
+- `approved`
+- `rejected`
+- `deleted`
+
+Use `draft` before final confirmation.
+
+Use `approved` for workflow-selected images and approved bitmap assets.
+
+Use `rejected` for superseded generated images that are still temporarily retained for review traceability.
+
+Use `deleted` when the file has been removed from disk and only the audit trail remains.
+
+### `generation_stage`
+
+Which workflow step generated the image.
+
+Examples:
+
+- `design_recommendation_ready`
+- `product_direction_confirmed`
+- `implementing`
+- `shared_asset_resources_ready`
+- `module_asset_resources_ready`
 
 ### `source_scope`
 
@@ -105,46 +154,39 @@ One of:
 
 Why the workflow could not safely decide whether an existing asset should be reused.
 
-### `atlas_owner`
+### `final_output_paths`
 
-Which atlas currently owns the approved bitmap export.
+One or more final file paths written by the generation step.
 
-Examples:
+For draft or final effect images, this usually contains the generated image path itself.
 
-- `shared/shared-core-ui`
-- `module/orders/orders-status`
-
-### `texturepacker_entry`
-
-The frame key or frame reference used in the active `texturepacker.json`.
-
-### `sliced_outputs`
-
-The final exported slice paths that prototypes and later implementation may consume directly.
+For generated bitmap assets, this contains the final asset file path that downstream design or implementation consumes.
 
 ## Reuse Rules
 
 - Reuse decisions must consider `name`, `semantic`, and `usage_scenarios` together.
 - Do not treat filename similarity alone as proof of reuse.
 - If an asset is close in meaning but not certainly reusable, set `reuse_status=candidate_reuse` and stop for confirmation.
-- Once a reusable slice is approved, later module atlas work should prefer that slice over regenerating a duplicate bitmap asset.
-- Do not convert `placeholder_only` rows into atlas assets unless the workflow explicitly confirms that the region now needs a generated bitmap.
+- Once an approved reusable generated image asset exists, later shared or module work should prefer that asset over regenerating a duplicate bitmap.
+- Do not convert `placeholder_only` rows into bitmap assets unless the workflow explicitly confirms that the region now needs a generated bitmap.
 
 ## Maintenance Rules
 
-- Every shared or module atlas run must read the catalog first.
-- Every confirmed atlas run must write back atlas ownership and slice paths.
+- Every shared or module image-generation run must read the catalog first.
+- Every generated representative sketch, final effect image, implementation-stage module effect image, shared bitmap asset, and module bitmap asset that enters workflow evidence or downstream consumption must be written into the catalog in the same workflow step.
 - Do not delete an approved reusable asset row just because a later module no longer needs it.
-- If a slice path changes, update the catalog in the same workflow step.
+- If a generated image file is replaced, rejected, or deleted after freeze or review, update `artifact_status` and `final_output_paths` in the same workflow step.
+- If an obsolete generated image is deleted from disk, keep the row or audit note explicit enough that later workflow steps do not silently recreate or reference the stale file by mistake.
 
 ## Validation Checklist
 
 Before approving the catalog update, verify:
 
-- every new atlas asset has `name`
-- every new atlas asset has `semantic`
-- every new atlas asset has `usage_scenarios`
+- every new generated-image row has `name`
+- every new generated-image row has `semantic`
+- every new generated-image row has `usage_scenarios`
+- every row has the correct `record_type`
 - every row has the correct `asset_mode`
-- every reusable slice has a concrete output path
+- every approved generated image has a concrete output path
 - every candidate reuse row has a reason
-- no row points at a missing atlas owner or missing slice path
+- no row points at a missing generated file path when `artifact_status=approved`

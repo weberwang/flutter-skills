@@ -1,17 +1,18 @@
 ---
 name: flutter-design-parity-reviewer
-description: Use when reviewing implemented Flutter screens, local app screenshots, widget structure, or visual behavior against frozen UI/UX RD, theme artifacts, visual evidence, and module design-source packet before accepting a module.
+description: Use when reviewing implemented Flutter screens, local app screenshots, widget structure, or visual behavior against frozen Pencil design sources, UI/UX RD, theme artifacts, visual evidence, and module design-source packets before accepting a module.
 ---
 
 # Flutter Design Parity Reviewer
 
 ## Overview
 
-Review implemented Flutter UI against the frozen design source. This skill finds fidelity gaps and implementation risks; it does not redesign the UI or choose new visual directions. The default workflow compares against frozen UI/UX and visual evidence, not Pen.
+Review implemented Flutter UI against the frozen design source. This skill finds fidelity gaps and implementation risks; it does not redesign the UI or choose new visual directions. The default workflow now compares against the frozen Pencil design source first, then the rest of the frozen design evidence.
 
 ## Required Inputs
 
 - Module name and workflow state.
+- Frozen Pencil design file path.
 - Frozen UI/UX RD path.
 - Frozen module design-source packet and visual evidence.
 - Frozen `global-design-guidelines.md`, `light-theme-freeze.yaml`, and `dark-theme-freeze.yaml` when the module uses static-source freezing.
@@ -34,7 +35,7 @@ When a module has fidelity-critical regions, compare them region by region again
 
 ## Review Workflow
 
-1. Confirm the design source priority: frozen module design-source packet first, then `global-design-guidelines.md` plus theme freeze files when present, then UI/UX RD, and approved preview only as visual evidence.
+1. Confirm the design source priority: frozen module Pencil design source first, then frozen module design-source packet, then `global-design-guidelines.md` plus theme freeze files when present, then UI/UX RD, and approved preview only as visual evidence.
 2. Collect implementation evidence: code paths, screenshots, rendered states, navigation, and interactions.
 3. Compare structure before detail: navigation, layout regions, content hierarchy, state zones, primary actions, sticky behavior, and overlay zoning.
 4. Compare visual system: typography roles, spacing rhythm, color semantics, surface depth, radius, icons, imagery, texture, layer ordering, and any frozen light/dark theme values.
@@ -65,7 +66,7 @@ When a module has fidelity-critical regions, compare them region by region again
 - Do not pass a module whose empty, error, permission, or similar key states regress into generic small cards or copy-heavy explanation blocks when the frozen design source expected a stronger visual-language treatment.
 - Do not collapse structure, visual, state, and motion review into one aggregate opinion; review each dimension explicitly.
 - Do not rewrite architecture here; route structural implementation issues to the relevant Flutter implementation skill.
-- Do not require external design-draft files or tool-specific node data in the default parity workflow.
+- Do not ignore the frozen Pencil design source when it exists.
 
 ## Output Contract
 
