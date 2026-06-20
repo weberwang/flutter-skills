@@ -41,6 +41,9 @@ Use this reference before applying any state/status promotion, freeze decision, 
 - Do not send shared/global or module-stage effect-image generation requests without explicit style constraints once the design packet already defines them.
 - Do not start any shared/global or module-stage effect-image generation until the workflow has first extracted the applicable visual constraints from the frozen global design packet and attached them to the request.
 - Do not let effect-image generation change the frozen design width or use a height smaller than the frozen base viewport height.
+- Do not treat an effect-image generation step as complete before its matching UI-only transparent atlas and atlas manifest both exist.
+- Do not bake runtime data layers into the atlas; those regions must stay placeholder-only in the atlas contract.
+- Do not use a non-transparent atlas background for workflow sheet atlases.
 - Do not flatten or compress a scrollable page or scrollable region merely to keep the effect image within one screen height; allow taller effect images when scroll design evidence is needed.
 - Do not let module-stage effect-image generation redefine palette, typography mood, component family, image treatment, or CTA posture after a shared/global direction has been approved.
 - After a shared/global freeze or module freeze is confirmed, do not leave no-longer-selected effect images in the active artifact directories or workflow indexes where later stages could mistake them for valid baselines; delete those obsolete images and clear their references.

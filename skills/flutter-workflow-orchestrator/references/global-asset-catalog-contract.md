@@ -27,6 +27,8 @@ Each catalog row should preserve at least these fields:
 - `reuse_status`
 - `candidate_reuse_reason`
 - `final_output_paths`
+- `sheet_atlas`
+- `atlas_manifest`
 - `notes`
 
 ## Field Intent
@@ -42,6 +44,7 @@ One of:
 - `effect_image_draft`
 - `effect_image_final`
 - `bitmap_asset`
+- `sheet_atlas`
 - `flutter_native`
 - `placeholder_only`
 
@@ -50,6 +53,8 @@ Use `effect_image_draft` for review-stage generated sketches or draft images tha
 Use `effect_image_final` for approved final effect images that become workflow evidence.
 
 Use `bitmap_asset` for generated image assets that downstream Pencil, HTML, or Flutter implementation will reference directly.
+
+Use `sheet_atlas` for the matching UI-only transparent atlas artifact that is generated together with a qualifying effect-image step and later supports cut-safe slicing decisions.
 
 ### `name`
 
@@ -92,12 +97,15 @@ One of:
 
 - `bitmap_asset`
 - `effect_image`
+- `sheet_atlas`
 - `flutter_native`
 - `placeholder_only`
 
 Use `flutter_native` when the region should be implemented directly with Flutter SDK standard capabilities rather than through bitmap generation.
 
 Use `effect_image` when the row tracks a generated sketch, representative final effect image, or implementation-stage module effect image.
+
+Use `sheet_atlas` when the row tracks the transparent pre-cut atlas artifact that belongs to an approved shared or module effect-image step.
 
 Use `placeholder_only` when the current image region is only a schematic stand-in and the real visual content will be created later from runtime data. Placeholder-only rows may stay in the catalog for semantic tracking, but they must not receive final generated image output paths.
 
@@ -162,6 +170,14 @@ For draft or final effect images, this usually contains the generated image path
 
 For generated bitmap assets, this contains the final asset file path that downstream design or implementation consumes.
 
+### `sheet_atlas`
+
+The final atlas image path for the matching UI-only transparent atlas when that record tracks atlas evidence.
+
+### `atlas_manifest`
+
+The manifest path for the matching atlas. This manifest should preserve slice bounds, background mode, slice type, and cut-safety so later flows can cut approved regions without guessing.
+
 ## Reuse Rules
 
 - Reuse decisions must consider `name`, `semantic`, and `usage_scenarios` together.
@@ -173,7 +189,7 @@ For generated bitmap assets, this contains the final asset file path that downst
 ## Maintenance Rules
 
 - Every shared or module image-generation run must read the catalog first.
-- Every generated representative sketch, final effect image, implementation-stage module effect image, shared bitmap asset, and module bitmap asset that enters workflow evidence or downstream consumption must be written into the catalog in the same workflow step.
+- Every generated representative sketch, final effect image, implementation-stage module effect image, matching `sheet_atlas`, shared bitmap asset, and module bitmap asset that enters workflow evidence or downstream consumption must be written into the catalog in the same workflow step.
 - Do not delete an approved reusable asset row just because a later module no longer needs it.
 - If a generated image file is replaced, rejected, or deleted after freeze or review, update `artifact_status` and `final_output_paths` in the same workflow step.
 - If an obsolete generated image is deleted from disk, keep the row or audit note explicit enough that later workflow steps do not silently recreate or reference the stale file by mistake.
@@ -188,5 +204,6 @@ Before approving the catalog update, verify:
 - every row has the correct `record_type`
 - every row has the correct `asset_mode`
 - every approved generated image has a concrete output path
+- every approved atlas row has both `sheet_atlas` and `atlas_manifest`
 - every candidate reuse row has a reason
 - no row points at a missing generated file path when `artifact_status=approved`

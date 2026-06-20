@@ -8,6 +8,8 @@ Turn one approved page into a reusable set of independently generated bitmap res
 
 This flow sits after effect-image confirmation plus Pencil review acceptance, and before prototype generation. It is not a design-direction workflow. It is a resource-normalization workflow.
 
+Each qualifying page should already have a matching `UI-only transparent sheet atlas` generated during the effect-image step. That atlas is a pre-cut baseline only: it must not replace the final per-resource asset outputs.
+
 ## Entry Conditions
 
 Enter this flow when one or more of these are true:
@@ -25,6 +27,8 @@ Do not enter this flow for image regions that are only schematic placeholders an
 Before resource generation begins, make sure these inputs are explicit:
 
 - approved source effect image or approved source screenshots for the current page
+- matching atlas image for the same page
+- matching atlas manifest for the same page
 - resource scope: `shared` or `module`
 - current page name
 - target output directory for that page
@@ -37,8 +41,9 @@ If the catalog is missing, repair or initialize it from `global-asset-catalog-co
 
 1. Read the current global asset catalog first.
 2. Work on one page at a time. Identify every visual region in the current page that truly needs bitmap fidelity.
-3. If the page belongs to a module, compare the current page effect image against the active module `impl.md` and the page's required state set first. If `error`, `empty`, `loading`, permission, or other page-local states are required but not yet represented strongly enough for resource or prototype work, supplement those missing states before finalizing the page checklist.
-4. Remove `placeholder_only` regions first. If a region is only a visual stand-in for runtime-created data content, record it as a placeholder contract and keep it out of image generation.
+3. Verify that the page already has a matching `UI-only transparent sheet atlas` plus a cut-ready manifest from the effect-image step. The atlas must keep only stable UI regions, use transparent background, and exclude runtime-data regions.
+4. If the page belongs to a module, compare the current page effect image against the active module `impl.md` and the page's required state set first. If `error`, `empty`, `loading`, permission, or other page-local states are required but not yet represented strongly enough for resource or prototype work, supplement those missing states before finalizing the page checklist.
+5. Remove `placeholder_only` regions first. If a region is only a visual stand-in for runtime-created data content, record it as a placeholder contract and keep it out of image generation. Atlas-only helper labels such as `data_excluded_placeholder` are allowed, but they must still stay out of bitmap generation.
 5. For every remaining visual region, first decide whether Flutter SDK standard capabilities alone can restore it faithfully enough without adding new bitmap assets.
 6. Classify the current page into three written groups before generation:
    - `bitmap_required`
@@ -116,6 +121,7 @@ Suggested paths:
 - Do not create duplicate bitmap assets when a reusable asset already exists.
 - Do not auto-merge semantically similar assets when the reuse decision is still ambiguous.
 - Do not include `placeholder_only` regions whose real content will be drawn or assembled later from runtime data.
+- Do not include runtime-data regions inside cut-safe atlas slices. Those runtime-data regions must remain placeholders or `data_excluded_placeholder` markers in the atlas workflow.
 - Do not turn a region into a bitmap asset when code can already restore it faithfully enough.
 
 ## Prototype Rules
@@ -130,6 +136,7 @@ Suggested paths:
 Produce for the current page:
 
 - one written decision checklist containing `bitmap_required`, `flutter_native`, and `placeholder_only`
+- one verified `UI-only transparent sheet atlas` plus cut-ready manifest
 - updated `docs/project/assets/global-asset-catalog.json`
 - one confirmed set of generated asset files for that page
 
@@ -146,6 +153,7 @@ Use one of these outcomes:
 - Do not finalize shared freeze when shared resource generation is required but incomplete.
 - Do not finalize `pencil_restoration_ready` or module implementation-side restoration when module resource generation is required but incomplete.
 - Do not bypass the global asset catalog.
+- Do not treat the page as resource-ready when the matching `UI-only transparent sheet atlas` or its cut-ready manifest is missing.
 - Do not call `$imagegen` for a bitmap asset before checking whether the catalog already points to an approved reusable image for the same semantic and usage scenario.
 - Do not approve a generated asset with the wrong background mode for its intended usage. Transparent assets should stay transparent, and background-baked assets should be used only when the frozen design explicitly requires that background.
 - Do not generate assets before the current page's bitmap list is explicitly confirmed.
