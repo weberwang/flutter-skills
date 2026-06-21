@@ -28,7 +28,8 @@ Use this reference before applying any state/status promotion, freeze decision, 
 - Do not skip required effect-image generation before the workflow freezes the structured design-source packet; first freeze the confirmed effect-image set, then convert it into the mandatory Pencil design source, and only then add any optional supplemental design-source packets.
 - Do not use Creative Production outputs as the implementation design source for Flutter by themselves; they are creative evidence or asset outputs, not the frozen structured design-source packet.
 - Do not treat tool-native helper prose, hidden defaults, or implementation convenience as valid design guidance. Design guidance may come only from the frozen global design, the active module design package, the frozen Pencil design source, and `DESIGN.md`.
-- Do not freeze a prototype-derived HTML design-source packet on a module page-generation path until every in-scope page has a successful page-level receipt and the orchestrator has merged the receipts when HTML was selected for that path.
+- Do not treat the module native HTML prototype as the frozen structured design-source packet; it is a mandatory layout-and-interaction confirmation gate that must be accepted before module effect-image generation, atlas slicing, Pencil design execution, or module freeze may continue.
+- Do not implement the module HTML prototype with any framework, component runtime, or generated SPA shell. Use only native `HTML`, `CSS`, and `JavaScript`.
 - Do not block direct image-asset use when the image can be exported from the approved prototype/effect-image source and saved into the project asset tree.
 - Do not call `$imagegen` for a new bitmap asset before checking whether the global asset catalog and its approved output paths already provide a reusable image for the same semantic and usage scenario.
 - Do not mark a structured design-source packet as frozen when required exported image assets lack recorded source paths, local asset paths, and intended page regions.
@@ -52,7 +53,7 @@ Use this reference before applying any state/status promotion, freeze decision, 
 - Do not let module `impl.md` generation, implementation-stage module effect-image generation, display-evidence-pack confirmation, or module freeze drift away from the already frozen shared visual design, shared interaction principles, shared public shell, or shared component families.
 - Do not let module splitting or module refinement infer first-screen-visible content, deferred content, or page density ad hoc from screenshots alone once the Product Design clarification packet already defines those boundaries.
 - Do not let `flutter-rd-module-splitter` emit non-executable split drafts that require a later refinement node.
-- Do not attempt module freeze before the shared/global design freeze is complete, the module `impl.md` has implementation-final maturity, fixes the module function and key states clearly enough for display work, the display evidence pack is complete, the mandatory Pencil design source is frozen, and the module references the frozen structured design-source packet.
+- Do not attempt module freeze before the shared/global design freeze is complete, the module `impl.md` has implementation-final maturity, the native HTML module prototype is accepted, the module effect-image and atlas evidence are ready, the display evidence pack is complete, the mandatory Pencil design source is frozen, and the module references the frozen structured design-source packet.
 - Do not freeze a module for implementation while its high-fidelity visual contract is missing, vague, or deferred to later code polish.
 - Do not let code implementation begin before `technical_baseline_ready`, `design_freeze_ready`, executable module `impl.md`, `module_design_frozen`, and `impl_rd_ready` exist for the module.
 - Do not let code implementation begin while `impl_status` is anything earlier than `implementation_final`.
@@ -69,7 +70,7 @@ Use this reference before applying any state/status promotion, freeze decision, 
 - Do not pass a module page design toward freeze when its information density is only described as "more" or "less" content without explicit platform-specific visibility, disclosure, paging, or secondary-surface rules.
 - Do not treat secondary desktop, web, or other convenience surfaces as required validation targets when the primary platform is already defined. Validation should follow the primary platform only unless the user explicitly changes that platform.
 - Do not land ordinary page-module display-layer code before the module's non-display behavior, service wiring, and state-flow contracts are stable enough to support that display faithfully.
-- Do not treat module implementation as `display first, behavior later`; the required local order is `impl -> design draft -> non-display code -> display restoration`.
+- Do not treat module implementation as `display first, behavior later`; the required local order is `impl -> native HTML prototype -> effect image and atlas -> Pencil design -> non-display code -> display restoration`.
 - Do not dilute a frozen premium/high-fidelity module design into a generic implementation compromise without routing back through design control.
 - Do not mark `code_status=landed` until code output exists and the landed status change has been explicitly confirmed.
 - Do not route around `flutter-design-freeze-gate` on implied approval.
