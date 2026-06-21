@@ -67,7 +67,7 @@ When persisted, this runtime artifact is the single stable source for project wo
 - whether the current shared or module Pencil design source has already been generated, repaired once after diff confirmation, and accepted by a human
 - whether the selected structured design-source packet has been checked against its source effect image or approved visual comp
 - whether the active module's high-fidelity visual contract was evaluated as the first module design-freeze priority
-- whether the current shared or module scope already has a confirmed atlas bundle containing effect image, atlas image, atlas manifest, and atlas slicing config
+- whether the current shared or module scope already has a confirmed atlas analysis bundle, a confirmed solid-background atlas bundle containing effect image, atlas image, chosen background color, atlas manifest, and atlas slicing config, and a confirmed transparent atlas result
 - whether the dedicated atlas slicing node has already produced a slice result manifest for the current scope
 - whether the active module already has an accepted native `HTML/CSS/JS` static prototype that shows page layout clearly enough for downstream effect-image work
 - whether shared or module page-level static visual evidence already exists in the expected directories
@@ -177,7 +177,7 @@ Use these values consistently:
 
 Summarize the project's overall workflow posture in 2-4 short lines.
 
-Include whether the workflow is still in requirements brainstorming, PRD generation, Product Design brief confirmation, representative effect-image review, UI-only atlas preparation, atlas slicing, final product design direction confirmation, `DESIGN.md` output, shared or module Pencil design-source generation, shared freeze, module `impl.md` generation, native HTML module prototype confirmation, implementation-stage module effect-image generation, display-evidence-pack confirmation, module freeze, Pencil-to-Flutter restoration planning, display restoration blueprint preparation, bootstrap code generation, code implementation, render-vs-frozen-design QA, or human visual inspection handoff.
+Include whether the workflow is still in requirements brainstorming, PRD generation, Product Design brief confirmation, representative effect-image review, atlas extraction analysis, solid-background UI-only atlas preparation, atlas background removal, atlas slicing, final product design direction confirmation, `DESIGN.md` output, shared or module Pencil design-source generation, shared freeze, module `impl.md` generation, native HTML module prototype confirmation, implementation-stage module effect-image generation, display-evidence-pack confirmation, module freeze, Pencil-to-Flutter restoration planning, display restoration blueprint preparation, bootstrap code generation, code implementation, render-vs-frozen-design QA, or human visual inspection handoff.
 
 If `execution_mode=auto` or `execution_mode=full_auto`, also state whether the workflow is still auto-advancing or has stopped at workflow completion.
 
@@ -217,7 +217,7 @@ If the active module still lacks an accepted native `HTML/CSS/JS` prototype afte
 If the active module's native `HTML/CSS/JS` prototype is present, state whether its visible interface copy already uses the required display language, which defaults to Simplified Chinese unless the user explicitly changed it.
 State whether that prototype already reads as a mature commercial product surface instead of a marketing page, ad-style mock, or explanation-heavy page draft.
 
-If the current scope is waiting on the atlas-preparation or atlas-slicing nodes, say so explicitly and record whether the atlas bundle is still pending confirmation or whether the slice result manifest is still missing.
+If the current scope is waiting on the atlas-analysis, atlas-preparation, atlas background-removal, or atlas-slicing nodes, say so explicitly and record whether the atlas analysis is still pending confirmation, whether the solid atlas bundle is still pending confirmation, whether the transparent atlas result is still pending confirmation, or whether the slice result manifest is still missing.
 
 If freeze preparation is in progress, state whether image-backed design-packet normalization is already complete and whether static-image directory inspection has already happened.
 
@@ -249,7 +249,7 @@ Mention the latest freeze decision or blocker for that module when it exists.
 
 Mention the module's current `high_fidelity_freeze_status` when module freeze, architecture, or implementation-readiness is being considered.
 
-If the module is entering implementation, mention whether its `impl.md` is implementation-final, whether an accepted native `HTML/CSS/JS` prototype already exists, whether the confirmed atlas bundle and slice manifest already exist, whether it references the frozen structured design-source packet, whether the frozen module display-layer design draft already exists, whether a concrete `display_restoration_blueprint` already exists, whether `display_restoration_blueprint_ready` is already confirmed, and whether corresponding page-image evidence exists for display-layer landing.
+If the module is entering implementation, mention whether its `impl.md` is implementation-final, whether an accepted native `HTML/CSS/JS` prototype already exists, whether the confirmed atlas analysis bundle, solid atlas bundle, transparent atlas result, and slice manifest already exist, whether it references the frozen structured design-source packet, whether the frozen module display-layer design draft already exists, whether a concrete `display_restoration_blueprint` already exists, whether `display_restoration_blueprint_ready` is already confirmed, and whether corresponding page-image evidence exists for display-layer landing.
 
 If implementation planning already identified bitmap-only visual effects, mention whether they are pending generation, already saved into the project, or already wired into the implementation plan.
 
@@ -395,7 +395,9 @@ When route drift, receipt mismatch, or no-progress auto stopping happens, add a 
 - If the root-level `DESIGN.md` is written, index its path before Pencil design execution or later bitmap generation.
 - If shared or module Pencil design execution is required, index the corresponding `.pen` path, compare report, repair receipt, human-acceptance result, and any bitmap-generation implications before allowing freeze to continue.
 - If a module native HTML prototype is required, index its local paths, the static-layout receipt, the explicit confirmation result, and whether the prototype stayed native `HTML/CSS/JS` without framework usage before allowing module effect-image generation or later freeze work to continue.
-- If an atlas-preparation node runs, index the effect-image path, atlas image path, atlas manifest path, atlas slicing config path, and the explicit confirmation result before allowing the slicing node or later Pencil work to continue.
+- If an atlas-analysis node runs, index the effect-image path, atlas analysis path, approved cell plan or extraction list, and the explicit confirmation result before allowing atlas generation or later Pencil work to continue.
+- If an atlas-preparation node runs, index the effect-image path, atlas image path, chosen background color, atlas manifest path, atlas slicing config path, and the explicit confirmation result before allowing background removal, the slicing node, or later Pencil work to continue.
+- If an atlas background-removal node runs, index the solid atlas input path, transparent atlas output path, transparency validation result, and the explicit confirmation result before allowing the slicing node or later Pencil work to continue.
 - If an atlas-slicing node runs, index the slice output directory, slice result manifest path, exported count, skipped count, and failed count before allowing downstream Pencil or freeze work to continue.
 - If `DESIGN.md` captures task priority, first-screen CTA posture, interaction feedback, responsive strategy, critical states, and content tone, record that quality audit explicitly. If not, record the missing areas as blockers before Pencil design execution and any later bitmap generation.
 - If no representative sketch exists yet in manual mode, generate exactly one representative sketch first, index its path and selected page, set `confirmation_status=pending_confirmation`, and stop before generating the representative final effect image or remaining page images.
@@ -423,7 +425,9 @@ When route drift, receipt mismatch, or no-progress auto stopping happens, add a 
 - If shared/global effect images were created, record the frozen base design viewport they were generated against.
 - If `design-preview-to-global-guidelines` artifacts are created, update the relevant module row and queue `global_guidelines_frozen` in `pending_next_stage` instead of switching immediately.
 - If a module native HTML prototype is generated in manual mode, keep `current_stage` on the last confirmed stage, queue `pending_next_stage=module_html_prototype_ready`, set `next_skill: none`, and stop until the user confirms that prototype.
+- If an atlas analysis bundle is generated in manual mode, keep `current_stage` on the last confirmed stage, queue `pending_next_stage=ui_sheet_atlas_analysis_ready`, set `next_skill: none`, and stop until the user confirms that atlas analysis.
 - If an atlas bundle is generated in manual mode, keep `current_stage` on the last confirmed stage, queue `pending_next_stage=ui_sheet_atlas_ready`, set `next_skill: none`, and stop until the user confirms that atlas bundle.
+- If an atlas background-removal result is generated in manual mode, keep `current_stage` on the last confirmed stage, queue `pending_next_stage=ui_sheet_atlas_transparent_ready`, set `next_skill: none`, and stop until the user confirms that transparent atlas result.
 - If a freeze evaluation fails, keep the current stage unchanged, clear any queued freeze promotion, and route back to the correct upstream skill for exactly one scope-matched revision pass.
 - If `execution_mode=auto` or `execution_mode=full_auto`, the orchestrator should apply deterministic queued transitions and queued status updates without pausing for ordinary downstream confirmation, and it must otherwise stop only when workflow completion is reached or when a blocker appears.
 - If `execution_mode=full_auto`, the orchestrator may also apply deterministic human-facing workflow confirmations when the current artifacts prove there is exactly one supported default.
@@ -486,7 +490,9 @@ When route drift, receipt mismatch, or no-progress auto stopping happens, add a 
 - Do not claim a generated image is workflow-valid until both its file path and its matching catalog update are recorded.
 - Do not claim a generated image is workflow-valid until its automatic `@product-design` QA pass is also recorded.
 - Do not simplify, shorten, or partially reconstruct a failed image-generation prompt during retry. Retries must preserve the full original prompt plus all frozen constraints.
-- Do not mark atlas-preparation work as complete until the effect image, atlas image, atlas manifest, and atlas slicing config are all recorded.
+- Do not mark atlas-analysis work as complete until the effect image, atlas analysis, and approved atlas cell plan are all recorded.
+- Do not mark atlas-preparation work as complete until the effect image, atlas image, chosen background color, atlas manifest, and atlas slicing config are all recorded.
+- Do not mark atlas background-removal work as complete until the transparent atlas output and validation result are both recorded.
 - Do not mark atlas-slicing work as complete until the slice result manifest is recorded.
 - Do not claim a newly generated bitmap asset is workflow-valid until the record also proves that the required reuse check ran first.
 - Do not accept effect-image evidence into the workflow record without stating whether it meets the default light-mode requirement.

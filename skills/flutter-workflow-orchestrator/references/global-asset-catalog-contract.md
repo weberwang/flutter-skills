@@ -56,7 +56,7 @@ Use `effect_image_final` for approved final effect images that become workflow e
 
 Use `bitmap_asset` for generated image assets that downstream Pencil, HTML, or Flutter implementation will reference directly.
 
-Use `sheet_atlas` for the matching UI-only transparent atlas artifact that is generated together with a qualifying effect-image step and later supports cut-safe slicing decisions.
+Use `sheet_atlas` for the matching UI-only atlas artifact that is generated together with a qualifying effect-image step. Record whether the path is the confirmed solid-background atlas or the confirmed transparent atlas that later supports cut-safe slicing decisions.
 
 ### `name`
 
@@ -107,7 +107,7 @@ Use `flutter_native` when the region should be implemented directly with Flutter
 
 Use `effect_image` when the row tracks a generated sketch, representative final effect image, or implementation-stage module effect image.
 
-Use `sheet_atlas` when the row tracks the transparent pre-cut atlas artifact that belongs to an approved shared or module effect-image step.
+Use `sheet_atlas` when the row tracks the pre-cut atlas artifact that belongs to an approved shared or module effect-image step. The row must also distinguish whether that artifact is the confirmed solid-background atlas or the confirmed transparent atlas.
 
 Use `placeholder_only` when the current image region is only a schematic stand-in and the real visual content will be created later from runtime data. Placeholder-only rows may stay in the catalog for semantic tracking, but they must not receive final generated image output paths.
 
@@ -174,7 +174,7 @@ For generated bitmap assets, this contains the final asset file path that downst
 
 ### `sheet_atlas`
 
-The final atlas image path for the matching UI-only transparent atlas when that record tracks atlas evidence.
+The final atlas image path for the matching UI-only atlas when that record tracks atlas evidence.
 
 ### `atlas_manifest`
 

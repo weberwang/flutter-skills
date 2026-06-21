@@ -8,9 +8,9 @@ Turn one approved page into a reusable runtime asset set that downstream prototy
 
 This flow sits after effect-image confirmation plus Pencil review acceptance, and before prototype generation. It is not a design-direction workflow. It is a resource-normalization workflow.
 
-Each qualifying page should already have a matching `UI-only transparent sheet atlas` generated during the effect-image step. That atlas is a standard runtime-oriented resource atlas source. When its accepted slice outputs already satisfy the page's runtime contract, they may replace separate per-resource regeneration.
+Each qualifying page should already have a matching `UI-only sheet atlas` generated during the effect-image step, first as a confirmed solid-background atlas and then as a confirmed transparent atlas after `$imagegen` background removal. That atlas is a standard runtime-oriented resource atlas source. When its accepted slice outputs already satisfy the page's runtime contract, they may replace separate per-resource regeneration.
 
-If atlas input is already transparent, skip transparency repair. If a generated atlas still needs transparent output, rerun `gpt-image-2-generator` through the same generation path with prompt text exactly `移除背景`, and pass the current atlas through `image_urls` as a base64 data-URI array.
+If atlas input is already transparent, skip background removal. If a confirmed solid-background atlas still needs transparent output, route through `$imagegen` background removal, validate the alpha result, and confirm that transparent atlas before slicing.
 
 ## Entry Conditions
 
@@ -43,8 +43,8 @@ If the catalog is missing, repair or initialize it from `global-asset-catalog-co
 
 1. Read the current global asset catalog first.
 2. Work on one page at a time. Identify every visual region in the current page that truly needs bitmap fidelity.
-3. Verify that the page already has a matching `UI-only transparent sheet atlas` plus a cut-ready manifest from the effect-image step. The atlas must keep only stable UI regions, use transparent background, and exclude runtime-data regions.
-4. Before any transparency-repair step, classify the current atlas or slice input as `transparent`, `solid_color`, or `non_solid`. If it is already transparent, stop. If the atlas still needs transparent output, rerun `gpt-image-2-generator` through the same generation path with prompt text exactly `移除背景` and pass the current atlas through `image_urls` as base64 data-URI input.
+3. Verify that the page already has a matching confirmed solid-background atlas, confirmed transparent atlas, and a cut-ready manifest from the effect-image step. The atlas must keep only stable UI regions, use deterministic minimum-cell slice bounds, and exclude runtime-data regions.
+4. Before any background-removal step, classify the current atlas or slice input as `transparent`, `solid_color`, or `non_solid`. If it is already transparent, stop. If the atlas is still solid-color, route through `$imagegen` background removal and validate the transparent result before continuing.
 5. If the page belongs to a module, compare the current page effect image against the active module `impl.md` and the page's required state set first. If `error`, `empty`, `loading`, permission, or other page-local states are required but not yet represented strongly enough for resource or prototype work, supplement those missing states before finalizing the page checklist.
 6. Remove `placeholder_only` regions first. If a region is only a visual stand-in for runtime-created data content, record it as a placeholder contract and keep it out of image generation. Atlas-only helper labels such as `data_excluded_placeholder` are allowed, but they must still stay out of bitmap generation.
 5. For every remaining visual region, first decide whether Flutter SDK standard capabilities alone can restore it faithfully enough without adding new bitmap assets.
@@ -121,8 +121,8 @@ Suggested paths:
 
 - Every generated asset must decide its background mode from the frozen design intent instead of assuming transparency blindly.
 - Do not bake the page background into an asset unless the frozen design explicitly treats that background as part of the resource.
-- If an atlas or slice input is already transparent, do not run transparency repair again.
-- When a transparency repair is required, use prompt text exactly `移除背景` and pass the current image through `image_urls` as base64 data-URI input instead of using rule-based cleanup.
+- If an atlas or slice input is already transparent, do not run background removal again.
+- When atlas transparency is still required, use the confirmed solid-background atlas as the input to `$imagegen` background removal instead of switching to rule-based cleanup.
 - Do not mix unrelated visual regions into one generated asset without an explicit reason.
 - Do not create duplicate bitmap assets when a reusable asset already exists.
 - Do not auto-merge semantically similar assets when the reuse decision is still ambiguous.
@@ -142,7 +142,7 @@ Suggested paths:
 Produce for the current page:
 
 - one written decision checklist containing `bitmap_required`, `flutter_native`, and `placeholder_only`
-- one verified `UI-only transparent sheet atlas` plus cut-ready manifest
+- one verified solid-background atlas, one verified transparent atlas, plus cut-ready manifest
 - updated `docs/project/assets/global-asset-catalog.json`
 - one confirmed set of generated asset files for that page
 
@@ -159,11 +159,11 @@ Use one of these outcomes:
 - Do not finalize shared freeze when shared resource generation is required but incomplete.
 - Do not finalize `pencil_restoration_ready` or module implementation-side restoration when module resource generation is required but incomplete.
 - Do not bypass the global asset catalog.
-- Do not treat the page as resource-ready when the matching `UI-only transparent sheet atlas` or its cut-ready manifest is missing.
+- Do not treat the page as resource-ready when the matching solid atlas, transparent atlas, or its cut-ready manifest is missing.
 - Do not call `$imagegen` for a bitmap asset before checking whether the catalog already points to an approved reusable image for the same semantic and usage scenario.
 - Do not approve a generated asset with the wrong background mode for its intended usage. Transparent assets should stay transparent, and background-baked assets should be used only when the frozen design explicitly requires that background.
-- Do not run transparency repair on already transparent atlas inputs.
-- Do not switch atlas transparency repair to a rule-based cleanup path or an image-edit endpoint.
+- Do not run background removal on already transparent atlas inputs.
+- Do not switch atlas background removal to a rule-based cleanup path once the workflow explicitly routes it through `$imagegen`.
 - Do not generate assets before the current page's bitmap list is explicitly confirmed.
 - Do not batch multiple distinct supplemental standalone assets into one generated image file.
 - Do not assume the first module effect image already covers every required page-local state. Repair missing state coverage before freezing the page bitmap checklist.
