@@ -1,6 +1,6 @@
 ---
 name: effect-image-to-ui-sheet-atlas
-description: Use when a frozen shared or module page must produce one confirmed final effect image together with a UI-only atlas image, atlas manifest, and atlas slicing config before the workflow can enter an atlas slicing stage or later Pencil restoration.
+description: Use when a confirmed shared or module final effect image must be analyzed together with its prompt to identify non-Flutter-standard visuals, then generate one transparent, rectangular-cell, non-overlapping UI atlas plus manifest and slicing config before the workflow can enter atlas slicing or later Pencil restoration.
 ---
 
 # Effect Image To UI Sheet Atlas
@@ -14,24 +14,29 @@ Produce one workflow-ready bundle for a shared or module page:
 - atlas manifest
 - atlas slicing config
 
-This skill is the atlas-preparation node. It owns the page-level visual bundle that must be reviewed before the workflow enters the dedicated slicing stage. It does not perform the actual slicing step, and it does not replace later Pencil design execution.
+This skill is the atlas-preparation node. It owns the page-level visual bundle that must be reviewed before the workflow enters the dedicated slicing stage. It does not perform the actual slicing step, and it does not replace later Pencil design execution. The target atlas is a standard runtime-oriented resource atlas whose later slice outputs may be applied directly in the product app when the accepted slice contract says they are app-ready.
+
+This atlas is not a raw crop-pack of the whole page. First analyze the confirmed effect image together with the original image-generation prompt and frozen visual constraints, identify the visuals that Flutter SDK standard capabilities cannot reproduce faithfully enough, and then generate one transparent atlas containing only those extracted visuals.
 
 ## When To Use
 
 - A page has already passed the upstream direction or contract gate strongly enough to generate implementation-facing image evidence.
 - The workflow now needs one reviewable bundle that includes the final effect image plus the `UI-only` atlas and cut config.
+- The workflow needs one runtime-oriented atlas that groups the non-standard-library visual assets for that page into a clean rectangular-cell layout.
 - The next step must be a separate slicing node rather than ad hoc cutting inside the same image-generation step.
 
 Do not use this skill when:
 
 - the page is still in broad visual direction exploration
 - the page contract is not frozen enough to generate implementation-facing image evidence
-- the workflow only needs final runtime bitmap assets instead of a UI-only atlas bundle
+- the workflow only needs code-native restoration and no atlas-backed runtime assets for that page
 
 ## Required Inputs
 
 - target scope: `shared` or `module`
 - target page name
+- confirmed final effect image path
+- original confirmed effect-image prompt or resolved prompt packet
 - frozen visual constraints for that page
 - frozen base design viewport width and height
 - page state requirements
@@ -44,8 +49,19 @@ If any required input is missing, return `blocked`.
 ## Workflow
 
 1. Confirm the page is allowed to generate implementation-facing image evidence.
-2. Generate or refresh the page effect image through the approved image-generation path.
-3. Generate the matching `UI-only` atlas image from the same frozen page target.
+2. Confirm the final effect image is already approved for the current scope. Do not generate atlas content before effect-image confirmation.
+3. Analyze the approved effect image together with the original prompt and frozen visual constraints.
+4. Classify page visuals into:
+   - `flutter_native`
+   - `atlas_required`
+   - `placeholder_only`
+5. For module scope, split `atlas_required` visuals into one small serial UI loop per page:
+   - `page_base`
+   - `overlay_ui`
+6. Keep only `atlas_required` visuals in atlas scope. Do not pack visuals that Flutter SDK standard capabilities can already restore faithfully enough.
+7. Inside that small loop, always process `page_base` first, then `overlay_ui` such as modal, dialog, bottom sheet, action sheet, or other overlay surfaces for the same page.
+8. Rewrite those `atlas_required` visuals into one atlas-generation prompt for `gpt-image-2-generator`.
+9. Generate one transparent `UI-only` atlas image whose cells are rectangular, separable, and non-overlapping.
 4. Build an atlas manifest that records:
    - page name
    - scope
@@ -53,15 +69,19 @@ If any required input is missing, return `blocked`.
    - slice ids
    - slice bounds
    - classification
-   - runtime-data exclusions
-5. Build a slicing config file that the downstream slicing skill can consume directly.
-6. Run one automatic `@product-design` QA pass on the generated effect image before treating it as workflow-valid evidence.
-7. Present the bundle for confirmation:
+   - surface group
+    - runtime-data exclusions
+   - source visual summary
+   - whether the cell is runtime-ready
+   - processing order
+10. Build a slicing config file that the downstream slicing skill can consume directly.
+11. Run one automatic `@product-design` QA pass on the generated effect image before treating it as workflow-valid evidence.
+12. Present the bundle for confirmation:
    - effect image
    - atlas image
    - atlas manifest
    - slicing config summary
-8. Stop for confirmation in manual mode. Do not enter the slicing stage before this confirmation.
+13. Stop for confirmation in manual mode. Do not enter the slicing stage before this confirmation.
 
 ## Atlas Rules
 
@@ -69,8 +89,14 @@ If any required input is missing, return `blocked`.
 - Exclude runtime-data regions from cut-safe slices.
 - Use transparent background.
 - Preserve the frozen design width.
-- Keep the atlas aligned to the same page geometry as the effect image.
+- Do not require the atlas to preserve the original whole-page layout or coordinates. It is a resource atlas, not a page screenshot.
+- Treat the atlas as a standard resource-atlas source for downstream app use rather than as review-only evidence.
 - Record every excluded runtime-data region as `placeholder_only` or `data_excluded_placeholder`.
+- Generate the atlas through one prompt to `gpt-image-2-generator`, not by mechanically cropping the whole page screenshot.
+- Every exportable visual must live inside its own rectangular cell.
+- Rectangular cell bounds must not overlap each other.
+- Leave enough transparent spacing between neighboring cells so rectangle cutting cannot cut through another visual.
+- Do not place one visual across multiple cells unless the manifest explicitly declares a multi-cell asset contract.
 
 ## Slicing Config Contract
 
@@ -82,6 +108,8 @@ The slicing config should be JSON and should contain:
   "output_dir": "docs/project/atlas/home/slices",
   "page_name": "home",
   "scope": "shared",
+  "layout_mode": "rectangular_cells",
+  "cell_overlap": "forbidden",
   "slices": [
     {
       "id": "home-header-bg",
@@ -91,8 +119,12 @@ The slicing config should be JSON and should contain:
       "width": 390,
       "height": 128,
       "classification": "bitmap_required",
+      "surface_group": "page_base",
+      "processing_order": 10,
       "export": true,
-      "background_mode": "transparent"
+      "background_mode": "transparent",
+      "source_visual_summary": "non-standard layered metallic banner treatment",
+      "runtime_ready": true
     }
   ]
 }
@@ -121,7 +153,11 @@ Return:
 - Do not treat the atlas manifest as optional.
 - Do not skip the slicing config.
 - Do not bake runtime-data regions into cut-safe slices.
+- Do not treat an accepted atlas bundle as review-only when its slice contract is already app-usable.
+- Do not build the atlas by simply cropping the full page into arbitrary screenshot fragments.
+- Do not include `flutter_native` visuals in atlas scope when Flutter SDK standard capabilities can already reproduce them faithfully enough.
+- Do not allow rectangular slice bounds to overlap.
+- Do not let overlay UI such as modal, dialog, or sheet enter processing order before the corresponding page-base visuals for that page are already settled.
 - Do not enter the downstream slicing stage before the atlas bundle is confirmed in manual mode.
 - Do not change the frozen page width.
 - Do not use this skill as a shortcut around later Pencil design execution.
-

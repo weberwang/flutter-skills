@@ -15,6 +15,8 @@ This skill does not generate effect images, atlas images, or atlas configs. It c
 - one slice result manifest
 - one summary of skipped or failed slices
 
+When the upstream atlas contract marks those slices as runtime-ready, the exported slice files may be used directly by the product app.
+
 ## When To Use
 
 - A previous node already produced:
@@ -29,7 +31,7 @@ Do not use this skill when:
 
 - the atlas config does not exist yet
 - the atlas bundle is still pending confirmation
-- the workflow wants final runtime asset generation instead of atlas cutting
+- the atlas bundle is not intended to become runtime-usable slices after cutting
 
 ## Required Inputs
 
@@ -63,6 +65,8 @@ rtk python skills/ui-sheet-atlas-slicer/scripts/slice_atlas.py --config <config-
    - output paths
 6. Return control to the orchestrator for the next node.
 
+The slicer assumes the upstream atlas already obeys the rectangular-cell contract: one exportable visual per rectangle, no rectangle overlap, and enough transparent spacing to avoid cross-cell cutting.
+
 ## Output Contract
 
 Return:
@@ -79,8 +83,8 @@ Return:
 ## Hard Rules
 
 - Do not invent slice bounds during execution. Use only the provided config.
+- Do not try to compensate for overlapping or irregular upstream atlas cells at slicing time. That is an atlas-generation defect.
 - Do not enter bitmap-regeneration mode in this skill.
 - Do not merge multiple slices into one file.
 - Do not silently skip failed slices without recording them in the result manifest.
 - Do not overwrite existing outputs unless the caller explicitly allows it.
-

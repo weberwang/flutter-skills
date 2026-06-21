@@ -50,6 +50,11 @@ Use this reference before applying any state/status promotion, freeze decision, 
 - Do not let effect-image generation change the frozen design width or use a height smaller than the frozen base viewport height.
 - Do not treat an atlas-preparation step as complete before its matching effect image, UI-only transparent atlas, atlas manifest, and atlas slicing config all exist.
 - Do not enter Pencil restoration from an atlas-preparation path before the dedicated slicing node has produced a slice result manifest.
+- Do not force redundant standalone bitmap regeneration for page regions whose accepted atlas-slice outputs are already runtime-ready for direct app usage.
+- Do not generate atlas content before the corresponding final effect image is already confirmed for the current scope.
+- Do not build the atlas by mechanically cutting the whole page screenshot into arbitrary regions. Atlas scope must come only from analyzing the confirmed effect image plus its prompt and identifying non-standard-library visuals.
+- Do not place multiple exportable visuals into overlapping rectangular cells.
+- Do not process modal, dialog, bottom-sheet, action-sheet, or other overlay UI cells for one module page before that same page's page-base atlas cells are already settled.
 - Do not bake runtime data layers into the atlas; those regions must stay placeholder-only in the atlas contract.
 - Do not use a non-transparent atlas background for workflow sheet atlases.
 - Do not background-process an already transparent atlas.

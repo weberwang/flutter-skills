@@ -4,11 +4,11 @@ Use this reference after mandatory shared or module Pencil design review is acce
 
 ## Goal
 
-Turn one approved page into a reusable set of independently generated bitmap resources that downstream prototypes and Flutter implementation can consume directly.
+Turn one approved page into a reusable runtime asset set that downstream prototypes and Flutter implementation can consume directly, whether that final set comes from accepted atlas slices, supplemental standalone bitmaps, or a controlled mix of both.
 
 This flow sits after effect-image confirmation plus Pencil review acceptance, and before prototype generation. It is not a design-direction workflow. It is a resource-normalization workflow.
 
-Each qualifying page should already have a matching `UI-only transparent sheet atlas` generated during the effect-image step. That atlas is a pre-cut baseline only: it must not replace the final per-resource asset outputs.
+Each qualifying page should already have a matching `UI-only transparent sheet atlas` generated during the effect-image step. That atlas is a standard runtime-oriented resource atlas source. When its accepted slice outputs already satisfy the page's runtime contract, they may replace separate per-resource regeneration.
 
 Background processing must be skipped when atlas input is already transparent. Background removal is allowed only for solid-color backgrounds; non-solid backgrounds must not be processed to transparent.
 
@@ -61,16 +61,17 @@ If the catalog is missing, repair or initialize it from `global-asset-catalog-co
    - `module_only`
 10. If any asset is `candidate_reuse`, stop and request confirmation.
 11. Present the written current-page checklist plus the remaining new bitmap list for the current page and stop for explicit confirmation before generation.
-12. Generate each approved bitmap asset independently through `$imagegen`. Do not pack multiple assets into one atlas image and do not build TexturePacker-style intermediate contracts.
-13. Save each approved bitmap asset as its own final file. Decide whether the output should be transparent or background-baked from the frozen design intent: use transparency when the asset must float over runtime surfaces, and keep a baked background only when that background is part of the intended asset.
-14. Update the global asset catalog with:
+12. First prefer accepted atlas-slice outputs when they already satisfy the page's runtime contract. Only the still-missing assets should continue into standalone generation.
+13. Generate each approved supplemental bitmap asset independently through `$imagegen`. Do not regenerate slices that are already accepted as runtime-ready atlas outputs.
+14. Save each final runtime asset as its own final file, whether it came from atlas slicing or from supplemental standalone generation. Decide whether the output should be transparent or background-baked from the frozen design intent: use transparency when the asset must float over runtime surfaces, and keep a baked background only when that background is part of the intended asset.
+15. Update the global asset catalog with:
    - record type
    - asset owner
    - reuse status
    - final output path
    - generation stage
    - any confirmed cross-module reuse
-15. Allow prototype work only after the approved asset files already exist and are confirmed.
+16. Allow prototype work only after the approved asset files already exist and are confirmed.
 
 This same catalog is also the workflow's generated-image record table. Shared or module bitmap assets generated in this flow must be written into it immediately, and any already-approved representative sketches or effect images that this page depends on should already be present there before generation continues.
 
@@ -164,5 +165,5 @@ Use one of these outcomes:
 - Do not run background removal on already transparent atlas inputs.
 - Do not process non-solid backgrounds to transparent.
 - Do not generate assets before the current page's bitmap list is explicitly confirmed.
-- Do not batch multiple distinct assets into one generated image file.
+- Do not batch multiple distinct supplemental standalone assets into one generated image file.
 - Do not assume the first module effect image already covers every required page-local state. Repair missing state coverage before freezing the page bitmap checklist.
