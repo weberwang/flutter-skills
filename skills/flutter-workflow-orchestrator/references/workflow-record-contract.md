@@ -66,7 +66,7 @@ When persisted, this runtime artifact is the single stable source for project wo
 - whether the current shared or module Pencil design source has already been generated, repaired once after diff confirmation, and accepted by a human
 - whether the selected structured design-source packet has been checked against its source effect image or approved visual comp
 - whether the active module's high-fidelity visual contract was evaluated as the first module design-freeze priority
-- whether the active module already has an accepted native `HTML/CSS/JS` prototype that shows complete layout and interaction flow
+- whether the active module already has an accepted native `HTML/CSS/JS` static prototype that shows page layout clearly enough for downstream effect-image work
 - whether shared or module page-level static visual evidence already exists in the expected directories
 - whether the display evidence pack is complete enough for fidelity-critical regions
 - whether the active module already has a Pencil-to-Flutter restoration contract
@@ -386,7 +386,7 @@ When route drift, receipt mismatch, or no-progress auto stopping happens, add a 
 - If final product design direction is confirmed, index the confirmation artifact or decision-log entry before writing the root-level `DESIGN.md` or generating any optional effect image.
 - If the root-level `DESIGN.md` is written, index its path before Pencil design execution or later bitmap generation.
 - If shared or module Pencil design execution is required, index the corresponding `.pen` path, compare report, repair receipt, human-acceptance result, and any bitmap-generation implications before allowing freeze to continue.
-- If a module native HTML prototype is required, index its local paths, the interaction/layout receipt, the explicit confirmation result, and whether the prototype stayed native `HTML/CSS/JS` without framework usage before allowing module effect-image generation or later freeze work to continue.
+- If a module native HTML prototype is required, index its local paths, the static-layout receipt, the explicit confirmation result, and whether the prototype stayed native `HTML/CSS/JS` without framework usage before allowing module effect-image generation or later freeze work to continue.
 - If `DESIGN.md` captures task priority, first-screen CTA posture, interaction feedback, responsive strategy, critical states, and content tone, record that quality audit explicitly. If not, record the missing areas as blockers before Pencil design execution and any later bitmap generation.
 - If no representative sketch exists yet in manual mode, generate exactly one representative sketch first, index its path and selected page, set `confirmation_status=pending_confirmation`, and stop before generating the representative final effect image or remaining page images.
 - If the representative sketch is still pending confirmation or has been rejected in manual mode, keep representative final effect-image generation and remaining required page-image generation blocked and do not advance to the broader required page-image generation step.
