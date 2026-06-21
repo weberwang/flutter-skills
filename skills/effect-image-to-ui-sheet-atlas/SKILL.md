@@ -63,7 +63,7 @@ If any required input is missing, return `blocked`.
 8. Rewrite those `atlas_required` visuals into one atlas-generation prompt for `gpt-image-2-generator` using the fixed atlas prompt template below.
 9. Generate one transparent `UI-only` atlas image whose cells are rectangular, separable, and non-overlapping.
 10. Validate whether the generated atlas background is truly transparent.
-11. If the atlas background is not transparent, rerun `gpt-image-2-generator` through the same `/images/generations` path with the same atlas prompt template plus one repair note that forces transparent background while preserving the current cell layout, spacing, edges, and visual content.
+11. If the atlas background is not transparent, rerun `gpt-image-2-generator` through the same `/images/generations` path with prompt text exactly `移除背景`, and pass the current atlas image back through `image_urls` as a base64 data-URI array so the model removes only the background while preserving the existing cell layout and visual content.
 12. Build an atlas manifest that records:
    - page name
    - scope
@@ -89,7 +89,7 @@ If any required input is missing, return `blocked`.
 
 - Keep only stable UI layers in the atlas.
 - Exclude runtime-data regions from cut-safe slices.
-- Use transparent background.
+- Keep the atlas output transparent. If a transparency-repair pass is needed, use prompt text exactly `移除背景`.
 - Preserve the frozen design width.
 - Do not require the atlas to preserve the original whole-page layout or coordinates. It is a resource atlas, not a page screenshot.
 - Treat the atlas as a standard resource-atlas source for downstream app use rather than as review-only evidence.
@@ -141,7 +141,7 @@ Template rules:
 - The `Constraints` block must always preserve the rectangular-cell and non-overlap rules verbatim.
 - The `Avoid` block must always explicitly reject page mockups, device frames, overlapping visuals, and merged cells.
 - If the request retries, preserve the same template and append only blocker-specific repair notes.
-- For transparency-repair fallback, append exactly one repair note that forces transparent background while preserving the current cell layout, relative positions, transparent padding targets, and visual edges.
+- Transparency repair is the only exception to the template retry rule: use prompt text exactly `移除背景`, pass the current atlas image through `image_urls` as a base64 data-URI array, and keep the existing atlas layout as the reference to preserve.
 
 ## Slicing Config Contract
 
@@ -204,7 +204,7 @@ Return:
 - Do not allow rectangular slice bounds to overlap.
 - Do not let overlay UI such as modal, dialog, or sheet enter processing order before the corresponding page-base visuals for that page are already settled.
 - Do not invent an ad hoc atlas prompt shape. Use the fixed atlas prompt template and fill it with page-specific content.
-- Do not confirm an atlas bundle whose background is still non-transparent after the required generation-based fallback repair path has not yet been attempted.
+- Do not confirm an atlas bundle whose background is still non-transparent before the required prompt-only fallback has retried `gpt-image-2-generator` with `移除背景` plus the current atlas image in `image_urls`.
 - Do not enter the downstream slicing stage before the atlas bundle is confirmed in manual mode.
 - Do not change the frozen page width.
 - Do not use this skill as a shortcut around later Pencil design execution.

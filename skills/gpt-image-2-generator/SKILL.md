@@ -7,9 +7,9 @@ description: Use when Codex needs to generate concept art, design previews, UI m
 
 ## Overview
 
-Generate local image files with `gpt-image-2` through the bundled `scripts/image_gen.py` helper. This skill is a focused generation workflow through `/images/generations`, narrowed to explicit prompt shaping and local file output.
+Generate local image files with `gpt-image-2` through the bundled `scripts/image_gen.py` helper. This skill is a focused generation workflow through `/images/generations`, narrowed to explicit prompt shaping, optional image-to-image reference input, and local file output.
 
-When the upstream OpenAI-compatible endpoint supports transparent backgrounds, this skill may pass through `background=transparent` for PNG or WebP outputs. Transparency success depends on endpoint support rather than on this local wrapper alone.
+When a workflow needs prompt-only background removal, this skill can send one or more reference images through `image_urls`. The local helper encodes each `--image-file` input into a base64 data URI so the request still stays on `/images/generations`.
 
 ## Quick Start
 
@@ -102,8 +102,8 @@ rtk python skills/gpt-image-2-generator/scripts/image_gen.py \
 
 ```bash
 rtk python skills/gpt-image-2-generator/scripts/image_gen.py \
-  --prompt "A floating reward badge icon, isolated, no shadow spill" \
-  --background transparent \
+  --prompt "移除背景" \
+  --image-file output/imagegen/reward-badge-source.png \
   --output-format png \
   --out output/imagegen/reward-badge.png
 ```
@@ -125,7 +125,8 @@ rtk python skills/gpt-image-2-generator/scripts/image_gen.py \
 
 - `IMAGE_BASE_URL` and `IMAGE_API_KEY` are required. Do not hardcode them and do not pass secrets through prompt files.
 - `IMAGE_BASE_URL` should point to the API root, for example `https://your-endpoint.example/v1`. The script appends `/images/generations` automatically unless the value already ends with that path.
-- The bundled script targets `gpt-image-2` only and calls the image generation endpoint. Transparent backgrounds may be requested through this skill when the configured OpenAI-compatible endpoint supports `background=transparent`.
+- The bundled script targets `gpt-image-2` only and calls the image generation endpoint. When `--image-file` is provided, the helper sends those reference images through `image_urls` as base64 data-URI entries.
+- In the workflow transparency-repair path, use prompt text exactly `移除背景` with `--image-file` inputs instead of relying on a special edit endpoint.
 - Upstream workflow skills should check whether both environment variables exist before invoking a live generation request. If either value is missing, skip generation instead of treating that as a blocker.
 
 ## Hard Rules
@@ -138,7 +139,7 @@ rtk python skills/gpt-image-2-generator/scripts/image_gen.py \
 - Do not let module preview generation drift away from the approved shared/global style system.
 - Do not generate new module-stage Flutter images unless the upstream workflow explicitly approved that evidence path.
 - Do not claim text rendered inside an image is correct unless it was visually checked afterward.
-- Do not claim transparent output is guaranteed. This skill only passes through generation requests and depends on endpoint support for transparent backgrounds.
+- Do not claim transparent output is guaranteed. This skill only passes through generation requests, including prompt-only background removal with `image_urls`.
 - Do not bypass script validation for custom sizes; let the helper reject invalid dimensions first.
 - Do not generate unnamed image sets when the Flutter workflow needs page-addressable evidence for module freeze or display-layer implementation.
 - Do not generate a multi-screen board when the downstream task expects one app page per file.

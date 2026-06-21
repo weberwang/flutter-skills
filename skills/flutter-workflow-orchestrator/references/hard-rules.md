@@ -57,9 +57,9 @@ Use this reference before applying any state/status promotion, freeze decision, 
 - Do not process modal, dialog, bottom-sheet, action-sheet, or other overlay UI cells for one module page before that same page's page-base atlas cells are already settled.
 - Do not bake runtime data layers into the atlas; those regions must stay placeholder-only in the atlas contract.
 - Do not use a non-transparent atlas background for workflow sheet atlases.
-- Do not background-process an already transparent atlas.
-- Do not process non-solid backgrounds to transparent.
-- Do not skip the `gpt-image-2-generator` generation-based transparency fallback when an atlas result is expected to be transparent but the generated atlas still has a non-transparent background.
+- Do not rerun transparency repair for an atlas that is already transparent.
+- Do not use rule-based cleanup, `/images/edits`, or `background=transparent` as the workflow transparency-repair path for atlas results.
+- Do not skip the `gpt-image-2-generator` generation-based transparency fallback when an atlas result is expected to be transparent but the generated atlas still has a non-transparent background; that fallback must use prompt text exactly `移除背景` and pass the current atlas back through `image_urls` as base64 data-URI input.
 - Do not flatten or compress a scrollable page or scrollable region merely to keep the effect image within one screen height; allow taller effect images when scroll design evidence is needed.
 - Do not let module-stage effect-image generation redefine palette, typography mood, component family, image treatment, or CTA posture after a shared/global direction has been approved.
 - After a shared/global freeze or module freeze is confirmed, do not leave no-longer-selected effect images in the active artifact directories or workflow indexes where later stages could mistake them for valid baselines; delete those obsolete images and clear their references.

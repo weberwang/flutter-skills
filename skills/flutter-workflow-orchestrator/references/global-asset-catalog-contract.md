@@ -192,13 +192,13 @@ Allowed values:
 
 ### `background_processing_allowed`
 
-Whether a background-to-transparent cleanup step is still allowed for this atlas or slice candidate.
+Whether a generation-based transparency repair step is still allowed for this atlas or slice candidate.
 
 Rules:
 
 - `false` when the input is already transparent
-- `true` only when `background_state=solid_color`
-- `false` when `background_state=non_solid`
+- `true` when `background_state=solid_color`
+- `true` when `background_state=non_solid`
 
 ## Reuse Rules
 

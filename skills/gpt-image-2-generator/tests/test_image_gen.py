@@ -148,12 +148,39 @@ def test_validate_quality_rejects_legacy_quality_values() -> None:
             raise AssertionError(f"Expected {quality} to be rejected")
 
 
-def test_validate_background_accepts_transparent_passthrough() -> None:
-    """透明背景参数应允许透传给兼容端点。"""
+def test_encode_image_file_to_data_uri_wraps_base64_content(tmp_path: Path) -> None:
+    """参考图文件应编码为可直接放入 image_urls 的 data URI。"""
     module = _load_module()
+    image_path = tmp_path / "atlas.png"
+    image_path.write_bytes(b"png-bytes")
 
-    for background in ("opaque", "auto", "transparent", None):
-        module._validate_background(background)  # noqa: SLF001
+    data_uri = module._encode_image_file_to_data_uri(image_path)  # noqa: SLF001
+
+    assert data_uri == "data:image/png;base64,cG5nLWJ5dGVz"
+
+
+def test_build_generation_payload_includes_image_urls_array(tmp_path: Path) -> None:
+    """图生图模式应通过 image_urls 数组传递 base64 data URI。"""
+    module = _load_module()
+    image_path = tmp_path / "atlas.webp"
+    image_path.write_bytes(b"webp-bytes")
+
+    payload = module._build_generation_payload(  # noqa: SLF001
+        prompt="移除背景",
+        count=1,
+        size="auto",
+        quality="hd",
+        output_format="png",
+        output_compression=None,
+        moderation=None,
+        background=None,
+        image_files=[str(image_path)],
+    )
+
+    assert payload["prompt"] == "移除背景"
+    assert payload["image_urls"] == ["data:image/webp;base64,d2VicC1ieXRlcw=="]
+    assert "background" not in payload
+    assert "size" not in payload
 
 
 def test_build_endpoint_uses_generations_mode() -> None:

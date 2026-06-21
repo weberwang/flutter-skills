@@ -12,7 +12,9 @@ The bundled script reads both values from the environment at runtime. It does no
 - If `IMAGE_BASE_URL` ends with `/images/generations`, the script uses it directly.
 - Otherwise the script appends `/images/generations`.
 - Keep the base URL stable across runs so dry-run output and live output target the same endpoint.
-- If a run requires transparent background output, the configured endpoint must support `background=transparent`. The local script now permits that parameter, but it does not synthesize transparency when the endpoint rejects it.
+- If a run includes `--image-file`, the helper encodes each local file into a base64 data URI and sends the array through `image_urls`.
+- In image-to-image mode, if `size` is left at the default `auto`, the helper omits the `size` field so the upstream endpoint may keep the input-image resolution contract.
+- For workflow background-removal retries, use prompt text exactly `移除背景` together with `image_urls`; do not switch to `/images/edits`.
 
 ## Output Strategy
 

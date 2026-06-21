@@ -20,6 +20,7 @@ DEFAULT_QUALITY: Final[str] = "hd"
 DEFAULT_OUTPUT_FORMAT: Final[str] = "png"
 DEFAULT_OUTPUT_PATH: Final[str] = "output/imagegen/output.png"
 MAX_IMAGE_COUNT: Final[int] = 10
+MAX_REFERENCE_IMAGE_COUNT: Final[int] = 16
 MIN_PIXELS: Final[int] = 655_360
 MAX_PIXELS: Final[int] = 8_294_400
 MAX_EDGE: Final[int] = 3840
@@ -30,6 +31,12 @@ ALLOWED_OUTPUT_FORMATS: Final[set[str]] = {"png", "jpeg", "jpg", "webp"}
 ALLOWED_BACKGROUNDS: Final[set[str | None]] = {"transparent", "opaque", "auto", None}
 TASK_POLL_INTERVAL_SECONDS: Final[int] = 2
 DOWNLOAD_USER_AGENT: Final[str] = "Mozilla/5.0"
+MIME_TYPES_BY_SUFFIX: Final[dict[str, str]] = {
+    ".png": "image/png",
+    ".jpg": "image/jpeg",
+    ".jpeg": "image/jpeg",
+    ".webp": "image/webp",
+}
 
 
 def _die(message: str, code: int = 1) -> None:
@@ -111,6 +118,61 @@ def _validate_background(background: str | None) -> None:
     """校验背景参数。"""
     if background not in ALLOWED_BACKGROUNDS:
         _die("background must be transparent, opaque, or auto for gpt-image-2.")
+
+
+def _encode_image_file_to_data_uri(image_path: Path) -> str:
+    """将本地参考图编码为 image_urls 可接受的 data URI。"""
+    if not image_path.exists():
+        _die(f"Reference image not found: {image_path}")
+    mime_type = MIME_TYPES_BY_SUFFIX.get(image_path.suffix.lower())
+    if mime_type is None:
+        _die("reference image must be png, jpg, jpeg, or webp.")
+    encoded = base64.b64encode(image_path.read_bytes()).decode("utf-8")
+    return f"data:{mime_type};base64,{encoded}"
+
+
+def _build_reference_image_urls(image_files: list[str] | None) -> list[str]:
+    """构造传给 image_urls 的参考图数组。"""
+    if not image_files:
+        return []
+    if len(image_files) > MAX_REFERENCE_IMAGE_COUNT:
+        _die("image_urls exceeds max 16.")
+    return [_encode_image_file_to_data_uri(Path(image_file)) for image_file in image_files]
+
+
+def _build_generation_payload(
+    *,
+    prompt: str,
+    count: int,
+    size: str,
+    quality: str,
+    output_format: str,
+    output_compression: int | None,
+    moderation: str | None,
+    background: str | None,
+    image_files: list[str] | None,
+) -> dict[str, object]:
+    """按当前约定构造 generations 请求体。"""
+    payload: dict[str, object] = {
+        "model": DEFAULT_MODEL,
+        "prompt": prompt,
+        "n": count,
+        "quality": quality,
+        "output_format": output_format,
+    }
+    reference_image_urls = _build_reference_image_urls(image_files)
+    if reference_image_urls:
+        payload["image_urls"] = reference_image_urls
+    # 图生图时省略默认 size，交给上游按参考图分辨率出图；显式尺寸仍然继续透传。
+    if not reference_image_urls or size != DEFAULT_SIZE:
+        payload["size"] = size
+    if background is not None:
+        payload["background"] = background
+    if output_compression is not None:
+        payload["output_compression"] = output_compression
+    if moderation is not None:
+        payload["moderation"] = moderation
+    return payload
 
 
 def _build_endpoint(base_url: str) -> str:
@@ -309,6 +371,7 @@ def _create_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Generate images with gpt-image-2 via a custom OpenAI-compatible endpoint.")
     for flag in ("--prompt", "--prompt-file", "--background", "--output-format", "--moderation", "--out-dir", "--use-case", "--scene", "--subject", "--style", "--composition", "--lighting", "--palette", "--materials", "--text", "--constraints", "--negative"):
         parser.add_argument(flag)
+    parser.add_argument("--image-file", action="append")
     parser.add_argument("--n", type=int, default=1)
     parser.add_argument("--size", default=DEFAULT_SIZE)
     parser.add_argument("--quality", default=DEFAULT_QUALITY)
@@ -340,13 +403,17 @@ def main() -> int:
     base_url = _require_env("IMAGE_BASE_URL")
     api_key = _require_env("IMAGE_API_KEY")
     endpoint = _build_endpoint(base_url)
-    payload: dict[str, object] = {"model": DEFAULT_MODEL, "prompt": prompt, "n": args.n, "size": args.size, "quality": args.quality, "output_format": output_format}
-    if args.background is not None:
-        payload["background"] = args.background
-    if args.output_compression is not None:
-        payload["output_compression"] = args.output_compression
-    if args.moderation is not None:
-        payload["moderation"] = args.moderation
+    payload = _build_generation_payload(
+        prompt=prompt,
+        count=args.n,
+        size=args.size,
+        quality=args.quality,
+        output_format=output_format,
+        output_compression=args.output_compression,
+        moderation=args.moderation,
+        background=args.background,
+        image_files=args.image_file,
+    )
     outputs = _build_output_paths(args.out, output_format, args.n, args.out_dir)
     if args.dry_run:
         _print_payload(endpoint, payload, outputs)
