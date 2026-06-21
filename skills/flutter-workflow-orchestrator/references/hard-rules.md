@@ -28,8 +28,10 @@ Use this reference before applying any state/status promotion, freeze decision, 
 - Do not skip required effect-image generation before the workflow freezes the structured design-source packet; first freeze the confirmed effect-image set, then convert it into the mandatory Pencil design source, and only then add any optional supplemental design-source packets.
 - Do not use Creative Production outputs as the implementation design source for Flutter by themselves; they are creative evidence or asset outputs, not the frozen structured design-source packet.
 - Do not treat tool-native helper prose, hidden defaults, or implementation convenience as valid design guidance. Design guidance may come only from the frozen global design, the active module design package, the frozen Pencil design source, and `DESIGN.md`.
-- Do not treat the module native HTML prototype as the frozen structured design-source packet; it is a mandatory static-layout confirmation gate that must be accepted before module effect-image generation, atlas slicing, Pencil design execution, or module freeze may continue.
+- Do not treat the module native HTML prototype as the frozen structured design-source packet; it is a mandatory static-layout confirmation gate that must be accepted before atlas preparation, atlas slicing, Pencil design execution, or module freeze may continue.
 - Do not implement the module HTML prototype with any framework, component runtime, or generated SPA shell. Use only native `HTML`, `CSS`, and `JavaScript`.
+- Do not let the module HTML prototype ship English-first or mixed-language visible UI copy by default. Use Simplified Chinese unless the user or active module contract explicitly requires another display language.
+- Do not let the module HTML prototype drift into marketing copy, ad-style composition, or explanation-heavy page content. It must look and read like a mature commercial product surface.
 - Do not use the module HTML prototype to validate interaction flow, state switching, scroll ownership, sticky behavior, or overlay behavior. Those remain downstream design and architecture responsibilities.
 - Do not block direct image-asset use when the image can be exported from the approved prototype/effect-image source and saved into the project asset tree.
 - Do not call `$imagegen` for a new bitmap asset before checking whether the global asset catalog and its approved output paths already provide a reusable image for the same semantic and usage scenario.
@@ -37,6 +39,7 @@ Use this reference before applying any state/status promotion, freeze decision, 
 - Do not accept or generate dark-mode effect images as the default workflow reference set; the default effect-image baseline is light mode.
 - Do not treat effect images as optional evidence. The representative sketch plus its post-confirmation representative final effect image are mandatory gates before shared design freeze, and module effect images are mandatory inside the implementation-stage visual restoration loop before module-level display restoration decisions are finalized.
 - Do not let any workflow-generated image enter evidence, confirmation, freeze, or downstream consumption before one automatic `@product-design` QA pass has been completed for that image.
+- Do not skip the dedicated atlas-preparation node or atlas-slicing node once the workflow path requires a UI-only atlas bundle.
 - Do not let `--auto` or `--full-auto` generate required final effect images without `gpt-image-2-generator` being available for that branch, and do not skip the local representative-sketch stage through `$imagegen` before that final generation.
 - In manual mode, do not generate the representative final effect image or the remaining required page-effect set before one representative sketch has been explicitly confirmed.
 - Do not reopen alternative-direction browsing after a representative sketch or approved direction final effect image has been explicitly confirmed for the current design cycle; that confirmation freezes the visual baseline until the user explicitly rejects it or restarts the design cycle.
@@ -45,7 +48,8 @@ Use this reference before applying any state/status promotion, freeze decision, 
 - Do not start any shared/global or module-stage effect-image generation until the workflow has first extracted the applicable visual constraints from the frozen global design packet and attached them to the request.
 - Do not simplify, shorten, or drop detail from a failed image-generation prompt when retrying. Preserve the full original prompt, the full frozen constraint set, and append only blocker-specific repair notes.
 - Do not let effect-image generation change the frozen design width or use a height smaller than the frozen base viewport height.
-- Do not treat an effect-image generation step as complete before its matching UI-only transparent atlas and atlas manifest both exist.
+- Do not treat an atlas-preparation step as complete before its matching effect image, UI-only transparent atlas, atlas manifest, and atlas slicing config all exist.
+- Do not enter Pencil restoration from an atlas-preparation path before the dedicated slicing node has produced a slice result manifest.
 - Do not bake runtime data layers into the atlas; those regions must stay placeholder-only in the atlas contract.
 - Do not use a non-transparent atlas background for workflow sheet atlases.
 - Do not background-process an already transparent atlas.
@@ -73,7 +77,7 @@ Use this reference before applying any state/status promotion, freeze decision, 
 - Do not pass a module page design toward freeze when its information density is only described as "more" or "less" content without explicit platform-specific visibility, disclosure, paging, or secondary-surface rules.
 - Do not treat secondary desktop, web, or other convenience surfaces as required validation targets when the primary platform is already defined. Validation should follow the primary platform only unless the user explicitly changes that platform.
 - Do not land ordinary page-module display-layer code before the module's non-display behavior, service wiring, and state-flow contracts are stable enough to support that display faithfully.
-- Do not treat module implementation as `display first, behavior later`; the required local order is `impl -> native HTML prototype -> effect image and atlas -> Pencil design -> non-display code -> display restoration`.
+- Do not treat module implementation as `display first, behavior later`; the required local order is `impl -> native HTML prototype -> atlas preparation -> atlas slicing -> Pencil design -> non-display code -> display restoration`.
 - Do not dilute a frozen premium/high-fidelity module design into a generic implementation compromise without routing back through design control.
 - Do not mark `code_status=landed` until code output exists and the landed status change has been explicitly confirmed.
 - Do not route around `flutter-design-freeze-gate` on implied approval.

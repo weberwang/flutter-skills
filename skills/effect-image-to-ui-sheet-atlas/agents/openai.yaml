@@ -1,0 +1,5 @@
+interface:
+  display_name: "Effect Image To UI Sheet Atlas"
+  short_description: "Generate a confirmed effect image plus atlas bundle"
+  default_prompt: "Use $effect-image-to-ui-sheet-atlas when a shared or module page must produce one confirmed final effect image together with a UI-only transparent atlas, atlas manifest, and atlas slicing config before the workflow can enter a separate slicing stage. Treat this skill as the atlas-preparation node only: generate the page effect image, create the matching atlas and config, run the required automatic @product-design QA on the generated image, and stop for atlas-bundle confirmation in manual mode before slicing."
+
