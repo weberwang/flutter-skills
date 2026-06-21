@@ -60,9 +60,11 @@ If any required input is missing, return `blocked`.
    - `overlay_ui`
 6. Keep only `atlas_required` visuals in atlas scope. Do not pack visuals that Flutter SDK standard capabilities can already restore faithfully enough.
 7. Inside that small loop, always process `page_base` first, then `overlay_ui` such as modal, dialog, bottom sheet, action sheet, or other overlay surfaces for the same page.
-8. Rewrite those `atlas_required` visuals into one atlas-generation prompt for `gpt-image-2-generator`.
+8. Rewrite those `atlas_required` visuals into one atlas-generation prompt for `gpt-image-2-generator` using the fixed atlas prompt template below.
 9. Generate one transparent `UI-only` atlas image whose cells are rectangular, separable, and non-overlapping.
-4. Build an atlas manifest that records:
+10. Validate whether the generated atlas background is truly transparent.
+11. If the atlas background is not transparent, send that atlas image back through `gpt-image-2-generator` edit fallback with the same atlas prompt template plus one repair note that removes the background while preserving the existing cell layout, spacing, edges, and visual content.
+12. Build an atlas manifest that records:
    - page name
    - scope
    - frozen viewport
@@ -70,18 +72,18 @@ If any required input is missing, return `blocked`.
    - slice bounds
    - classification
    - surface group
-    - runtime-data exclusions
+   - runtime-data exclusions
    - source visual summary
    - whether the cell is runtime-ready
-   - processing order
-10. Build a slicing config file that the downstream slicing skill can consume directly.
-11. Run one automatic `@product-design` QA pass on the generated effect image before treating it as workflow-valid evidence.
-12. Present the bundle for confirmation:
+   - prerequisite surface group when one exists
+13. Build a slicing config file that the downstream slicing skill can consume directly.
+14. Run one automatic `@product-design` QA pass on the generated effect image before treating it as workflow-valid evidence.
+15. Present the bundle for confirmation:
    - effect image
    - atlas image
    - atlas manifest
    - slicing config summary
-13. Stop for confirmation in manual mode. Do not enter the slicing stage before this confirmation.
+16. Stop for confirmation in manual mode. Do not enter the slicing stage before this confirmation.
 
 ## Atlas Rules
 
@@ -97,6 +99,49 @@ If any required input is missing, return `blocked`.
 - Rectangular cell bounds must not overlap each other.
 - Leave enough transparent spacing between neighboring cells so rectangle cutting cannot cut through another visual.
 - Do not place one visual across multiple cells unless the manifest explicitly declares a multi-cell asset contract.
+
+## Atlas Prompt Template
+
+Always assemble the atlas-generation prompt with this fixed structure:
+
+```text
+Use case: Runtime UI asset atlas for product app
+Primary request: Generate one transparent UI atlas containing only the non-Flutter-standard visuals required for <page_name>
+Subject: <concise list of atlas_required visuals, one item per intended cell>
+Style/medium: <inherit from confirmed effect image and frozen visual system>
+Composition/framing: One atlas sheet, front-facing, rectangular cell layout, one exportable visual per cell
+Lighting/mood: <inherit only when it materially affects asset fidelity>
+Color palette: <inherit from frozen palette direction>
+Materials/textures: <inherit only the textures that truly belong to atlas_required visuals>
+Constraints:
+- Transparent background
+- UI-only visuals
+- No whole-page screenshot composition
+- One visual per rectangular cell
+- Cells must not overlap
+- Leave transparent padding between cells for safe rectangle cutting
+- Keep runtime-data regions out of the atlas
+- Keep only visuals that Flutter SDK standard capabilities cannot reproduce faithfully enough
+Avoid:
+- page mockup
+- phone frame
+- background scene
+- decorative backdrop
+- overlapping visuals
+- cropped edges
+- merged cells
+- runtime text data
+```
+
+Template rules:
+
+- Keep the `Use case` line fixed as runtime atlas generation.
+- Keep the `Primary request` line explicit about transparent background and non-Flutter-standard visuals.
+- The `Subject` line must enumerate the intended cell payloads, not describe the whole page.
+- The `Constraints` block must always preserve the rectangular-cell and non-overlap rules verbatim.
+- The `Avoid` block must always explicitly reject page mockups, device frames, overlapping visuals, and merged cells.
+- If the request retries, preserve the same template and append only blocker-specific repair notes.
+- For transparency-repair fallback, append exactly one repair note that removes the background while preserving the current cell layout, relative positions, transparent padding targets, and visual edges.
 
 ## Slicing Config Contract
 
@@ -120,7 +165,7 @@ The slicing config should be JSON and should contain:
       "height": 128,
       "classification": "bitmap_required",
       "surface_group": "page_base",
-      "processing_order": 10,
+      "requires_surface_group": null,
       "export": true,
       "background_mode": "transparent",
       "source_visual_summary": "non-standard layered metallic banner treatment",
@@ -158,6 +203,8 @@ Return:
 - Do not include `flutter_native` visuals in atlas scope when Flutter SDK standard capabilities can already reproduce them faithfully enough.
 - Do not allow rectangular slice bounds to overlap.
 - Do not let overlay UI such as modal, dialog, or sheet enter processing order before the corresponding page-base visuals for that page are already settled.
+- Do not invent an ad hoc atlas prompt shape. Use the fixed atlas prompt template and fill it with page-specific content.
+- Do not confirm an atlas bundle whose background is still non-transparent after the required fallback repair path has not yet been attempted.
 - Do not enter the downstream slicing stage before the atlas bundle is confirmed in manual mode.
 - Do not change the frozen page width.
 - Do not use this skill as a shortcut around later Pencil design execution.
