@@ -6,7 +6,6 @@ from __future__ import annotations
 import argparse
 import base64
 import json
-import mimetypes
 import os
 from pathlib import Path
 import re
@@ -14,7 +13,6 @@ import sys
 import time
 from typing import Final
 from urllib import error, request
-import uuid
 
 DEFAULT_MODEL: Final[str] = "gpt-image-2"
 DEFAULT_SIZE: Final[str] = "auto"
@@ -115,16 +113,12 @@ def _validate_background(background: str | None) -> None:
         _die("background must be transparent, opaque, or auto for gpt-image-2.")
 
 
-def _build_endpoint(base_url: str, mode: str) -> str:
-    """根据环境变量拼出最终图片接口地址。"""
-    if mode not in {"generations", "edits"}:
-        _die(f"Unsupported image endpoint mode: {mode}")
+def _build_endpoint(base_url: str) -> str:
+    """根据环境变量拼出最终生成接口地址。"""
     trimmed = base_url.rstrip("/")
-    for suffix in ("/images/generations", "/images/edits"):
-        if trimmed.endswith(suffix):
-            trimmed = trimmed[: -len(suffix)]
-            break
-    return f"{trimmed}/images/{mode}"
+    if trimmed.endswith("/images/generations"):
+        return trimmed
+    return f"{trimmed}/images/generations"
 
 
 def _augment_prompt(args: argparse.Namespace, prompt: str) -> str:
@@ -187,74 +181,6 @@ def _request_json(
     if payload is not None:
         headers["Content-Type"] = "application/json"
     req = request.Request(url, data=body, headers=headers, method=method)
-    try:
-        with request.urlopen(req, timeout=timeout_seconds) as response:
-            charset = response.headers.get_content_charset() or "utf-8"
-            return json.loads(response.read().decode(charset))
-    except error.HTTPError as exc:
-        details = exc.read().decode("utf-8", errors="replace")
-        _die(f"HTTP {exc.code} from image endpoint: {details}")
-    except error.URLError as exc:
-        _die(f"Failed to reach image endpoint: {exc.reason}")
-    except json.JSONDecodeError as exc:
-        _die(f"Response is not valid JSON: {exc}")
-
-
-def _encode_multipart(
-    *,
-    fields: dict[str, str],
-    files: list[tuple[str, Path]],
-) -> tuple[bytes, str]:
-    """构造 multipart/form-data 请求体。"""
-    boundary = f"----CodexImageGen{uuid.uuid4().hex}"
-    chunks: list[bytes] = []
-
-    for key, value in fields.items():
-        chunks.extend(
-            [
-                f"--{boundary}\r\n".encode("utf-8"),
-                f'Content-Disposition: form-data; name="{key}"\r\n\r\n'.encode("utf-8"),
-                value.encode("utf-8"),
-                b"\r\n",
-            ]
-        )
-
-    for field_name, path in files:
-        if not path.exists():
-            _die(f"Input image not found: {path}")
-        content_type = mimetypes.guess_type(path.name)[0] or "application/octet-stream"
-        chunks.extend(
-            [
-                f"--{boundary}\r\n".encode("utf-8"),
-                (
-                    f'Content-Disposition: form-data; name="{field_name}"; '
-                    f'filename="{path.name}"\r\n'
-                ).encode("utf-8"),
-                f"Content-Type: {content_type}\r\n\r\n".encode("utf-8"),
-                path.read_bytes(),
-                b"\r\n",
-            ]
-        )
-
-    chunks.append(f"--{boundary}--\r\n".encode("utf-8"))
-    return b"".join(chunks), f"multipart/form-data; boundary={boundary}"
-
-
-def _request_multipart_json(
-    url: str,
-    api_key: str,
-    timeout_seconds: int,
-    *,
-    fields: dict[str, str],
-    files: list[tuple[str, Path]],
-) -> dict[str, object]:
-    """发送 multipart 请求并解析 JSON 响应。"""
-    body, content_type = _encode_multipart(fields=fields, files=files)
-    headers = {
-        "Authorization": f"Bearer {api_key}",
-        "Content-Type": content_type,
-    }
-    req = request.Request(url, data=body, headers=headers, method="POST")
     try:
         with request.urlopen(req, timeout=timeout_seconds) as response:
             charset = response.headers.get_content_charset() or "utf-8"
@@ -383,7 +309,6 @@ def _create_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Generate images with gpt-image-2 via a custom OpenAI-compatible endpoint.")
     for flag in ("--prompt", "--prompt-file", "--background", "--output-format", "--moderation", "--out-dir", "--use-case", "--scene", "--subject", "--style", "--composition", "--lighting", "--palette", "--materials", "--text", "--constraints", "--negative"):
         parser.add_argument(flag)
-    parser.add_argument("--input-image", help="Optional input image path for edit/background-removal fallback.")
     parser.add_argument("--n", type=int, default=1)
     parser.add_argument("--size", default=DEFAULT_SIZE)
     parser.add_argument("--quality", default=DEFAULT_QUALITY)
@@ -414,8 +339,7 @@ def main() -> int:
     _validate_background(args.background)
     base_url = _require_env("IMAGE_BASE_URL")
     api_key = _require_env("IMAGE_API_KEY")
-    edit_mode = bool(args.input_image)
-    endpoint = _build_endpoint(base_url, "edits" if edit_mode else "generations")
+    endpoint = _build_endpoint(base_url)
     payload: dict[str, object] = {"model": DEFAULT_MODEL, "prompt": prompt, "n": args.n, "size": args.size, "quality": args.quality, "output_format": output_format}
     if args.background is not None:
         payload["background"] = args.background
@@ -425,23 +349,11 @@ def main() -> int:
         payload["moderation"] = args.moderation
     outputs = _build_output_paths(args.out, output_format, args.n, args.out_dir)
     if args.dry_run:
-        if edit_mode:
-            payload["input_image"] = args.input_image
         _print_payload(endpoint, payload, outputs)
         return 0
     print(f"Calling {endpoint}", file=sys.stderr)
     started = time.time()
-    if edit_mode:
-        multipart_fields = {key: str(value) for key, value in payload.items()}
-        response = _request_multipart_json(
-            endpoint,
-            api_key,
-            args.timeout,
-            fields=multipart_fields,
-            files=[("image", Path(args.input_image))],
-        )
-    else:
-        response = _request_json(endpoint, api_key, args.timeout, method="POST", payload=payload)
+    response = _request_json(endpoint, api_key, args.timeout, method="POST", payload=payload)
     images = _resolve_image_bytes(base_url=base_url, api_key=api_key, response=response, timeout_seconds=args.timeout)
     _write_image_bytes(images, outputs, args.force)
     print(f"Generation completed in {time.time() - started:.1f}s.", file=sys.stderr)

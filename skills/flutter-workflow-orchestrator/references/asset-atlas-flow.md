@@ -10,7 +10,7 @@ This flow sits after effect-image confirmation plus Pencil review acceptance, an
 
 Each qualifying page should already have a matching `UI-only transparent sheet atlas` generated during the effect-image step. That atlas is a standard runtime-oriented resource atlas source. When its accepted slice outputs already satisfy the page's runtime contract, they may replace separate per-resource regeneration.
 
-Mechanical background processing must be skipped when atlas input is already transparent. Rule-based background removal is allowed only for solid-color backgrounds; non-solid backgrounds must not be processed to transparent. Model-based transparency repair by sending the atlas image back through `gpt-image-2-generator` edit fallback remains allowed when the workflow explicitly requires that fallback.
+Mechanical background processing must be skipped when atlas input is already transparent. Rule-based background removal is allowed only for solid-color backgrounds; non-solid backgrounds must not be processed to transparent. Model-based transparency repair by rerunning `gpt-image-2-generator` through the same generation path with a transparency-repair note remains allowed when the workflow explicitly requires that fallback.
 
 ## Entry Conditions
 
@@ -44,7 +44,7 @@ If the catalog is missing, repair or initialize it from `global-asset-catalog-co
 1. Read the current global asset catalog first.
 2. Work on one page at a time. Identify every visual region in the current page that truly needs bitmap fidelity.
 3. Verify that the page already has a matching `UI-only transparent sheet atlas` plus a cut-ready manifest from the effect-image step. The atlas must keep only stable UI regions, use transparent background, and exclude runtime-data regions.
-4. Before any background cleanup step, classify the current atlas or slice input as `transparent`, `solid_color`, or `non_solid`. If it is already transparent, stop background processing. Only solid-color backgrounds may be processed to transparent by rule-based cleanup. If the atlas still needs transparent output and the workflow requires the model fallback, the atlas image may be sent back through `gpt-image-2-generator` edit mode instead.
+4. Before any background cleanup step, classify the current atlas or slice input as `transparent`, `solid_color`, or `non_solid`. If it is already transparent, stop background processing. Only solid-color backgrounds may be processed to transparent by rule-based cleanup. If the atlas still needs transparent output and the workflow requires the model fallback, rerun `gpt-image-2-generator` through the same generation path with a transparency-repair note instead.
 5. If the page belongs to a module, compare the current page effect image against the active module `impl.md` and the page's required state set first. If `error`, `empty`, `loading`, permission, or other page-local states are required but not yet represented strongly enough for resource or prototype work, supplement those missing states before finalizing the page checklist.
 6. Remove `placeholder_only` regions first. If a region is only a visual stand-in for runtime-created data content, record it as a placeholder contract and keep it out of image generation. Atlas-only helper labels such as `data_excluded_placeholder` are allowed, but they must still stay out of bitmap generation.
 5. For every remaining visual region, first decide whether Flutter SDK standard capabilities alone can restore it faithfully enough without adding new bitmap assets.
@@ -122,7 +122,7 @@ Suggested paths:
 - Every generated asset must decide its background mode from the frozen design intent instead of assuming transparency blindly.
 - Do not bake the page background into an asset unless the frozen design explicitly treats that background as part of the resource.
 - If an atlas or slice input is already transparent, do not run background processing again.
-- Only solid-color backgrounds may be processed to transparent by automatic or rule-based cleanup. Gradient, textured, photographic, or other non-solid backgrounds must stay out of automatic background removal, but they may still use the explicit `gpt-image-2-generator` edit fallback when the workflow requires model-based transparency repair.
+- Only solid-color backgrounds may be processed to transparent by automatic or rule-based cleanup. Gradient, textured, photographic, or other non-solid backgrounds must stay out of automatic background removal, but they may still use the explicit `gpt-image-2-generator` generation-based fallback when the workflow requires model-based transparency repair.
 - Do not mix unrelated visual regions into one generated asset without an explicit reason.
 - Do not create duplicate bitmap assets when a reusable asset already exists.
 - Do not auto-merge semantically similar assets when the reuse decision is still ambiguous.

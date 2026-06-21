@@ -156,11 +156,11 @@ def test_validate_background_accepts_transparent_passthrough() -> None:
         module._validate_background(background)  # noqa: SLF001
 
 
-def test_build_endpoint_supports_edit_mode() -> None:
-    """编辑模式应切换到 images/edits 端点。"""
+def test_build_endpoint_uses_generations_mode() -> None:
+    """脚本应继续固定走 images/generations 端点。"""
     module = _load_module()
 
     assert (
-        module._build_endpoint("https://api.example.com/v1", "edits")  # noqa: SLF001
-        == "https://api.example.com/v1/images/edits"
+        module._build_endpoint("https://api.example.com/v1")  # noqa: SLF001
+        == "https://api.example.com/v1/images/generations"
     )
