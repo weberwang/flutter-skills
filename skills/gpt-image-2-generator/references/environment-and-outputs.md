@@ -12,6 +12,7 @@ The bundled script reads both values from the environment at runtime. It does no
 - If `IMAGE_BASE_URL` ends with `/images/generations`, the script uses it directly.
 - Otherwise the script appends `/images/generations`.
 - Keep the base URL stable across runs so dry-run output and live output target the same endpoint.
+- If a run requires transparent background output, the configured endpoint must support `background=transparent`. The local script now permits that parameter, but it does not synthesize transparency when the endpoint rejects it.
 
 ## Output Strategy
 

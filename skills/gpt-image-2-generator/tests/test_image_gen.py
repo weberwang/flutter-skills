@@ -146,3 +146,11 @@ def test_validate_quality_rejects_legacy_quality_values() -> None:
             assert exc.code == 1
         else:
             raise AssertionError(f"Expected {quality} to be rejected")
+
+
+def test_validate_background_accepts_transparent_passthrough() -> None:
+    """透明背景参数应允许透传给兼容端点。"""
+    module = _load_module()
+
+    for background in ("opaque", "auto", "transparent", None):
+        module._validate_background(background)  # noqa: SLF001

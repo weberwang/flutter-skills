@@ -9,6 +9,8 @@ description: Use when Codex needs to generate concept art, design previews, UI m
 
 Generate local image files with `gpt-image-2` through the bundled `scripts/image_gen.py` helper. This skill is a focused, generation-only extraction of the system image generation workflow, narrowed to repeatable CLI execution, explicit prompt shaping, and local file output.
 
+When the upstream OpenAI-compatible endpoint supports transparent backgrounds, this skill may pass through `background=transparent` for PNG or WebP outputs. Transparency success depends on endpoint support rather than on this local wrapper alone.
+
 ## Quick Start
 
 - Confirm both environment variables exist before running anything:
@@ -96,6 +98,16 @@ rtk python skills/gpt-image-2-generator/scripts/image_gen.py \
   --out-dir output/imagegen/mascot-set
 ```
 
+### Transparent background
+
+```bash
+rtk python skills/gpt-image-2-generator/scripts/image_gen.py \
+  --prompt "A floating reward badge icon, isolated, no shadow spill" \
+  --background transparent \
+  --output-format png \
+  --out output/imagegen/reward-badge.png
+```
+
 ### Flutter page evidence
 
 ```bash
@@ -113,7 +125,7 @@ rtk python skills/gpt-image-2-generator/scripts/image_gen.py \
 
 - `IMAGE_BASE_URL` and `IMAGE_API_KEY` are required. Do not hardcode them and do not pass secrets through prompt files.
 - `IMAGE_BASE_URL` should point to the API root, for example `https://your-endpoint.example/v1`. The script appends `/images/generations` automatically unless the value already ends with that path.
-- The bundled script targets `gpt-image-2` only. If the request depends on transparent backgrounds, image editing, or a different model family, stop and use another workflow.
+- The bundled script targets `gpt-image-2` only. Image editing and different model families still belong to other workflows. Transparent backgrounds may be requested through this skill, but success depends on whether the configured OpenAI-compatible endpoint supports `background=transparent`.
 - Upstream workflow skills should check whether both environment variables exist before invoking a live generation request. If either value is missing, skip generation instead of treating that as a blocker.
 
 ## Hard Rules
@@ -126,7 +138,7 @@ rtk python skills/gpt-image-2-generator/scripts/image_gen.py \
 - Do not let module preview generation drift away from the approved shared/global style system.
 - Do not generate new module-stage Flutter images unless the upstream workflow explicitly approved that evidence path.
 - Do not claim text rendered inside an image is correct unless it was visually checked afterward.
-- Do not assume transparent output is available; this skill is generation-only and does not implement the transparent-background fallback path.
+- Do not claim transparent output is guaranteed. This skill only passes through the transparency request and does not implement a background-removal fallback path.
 - Do not bypass script validation for custom sizes; let the helper reject invalid dimensions first.
 - Do not generate unnamed image sets when the Flutter workflow needs page-addressable evidence for module freeze or display-layer implementation.
 - Do not generate a multi-screen board when the downstream task expects one app page per file.

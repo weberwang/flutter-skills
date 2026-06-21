@@ -27,7 +27,7 @@ MAX_RATIO: Final[float] = 3.0
 # 兼容上游约定的 quality 档位与别名，避免继续接受旧参数。
 ALLOWED_QUALITIES: Final[set[str]] = {"standard", "1k", "hd", "2k", "4k", "ultra", "high"}
 ALLOWED_OUTPUT_FORMATS: Final[set[str]] = {"png", "jpeg", "jpg", "webp"}
-ALLOWED_BACKGROUNDS: Final[set[str | None]] = {"opaque", "auto", None}
+ALLOWED_BACKGROUNDS: Final[set[str | None]] = {"transparent", "opaque", "auto", None}
 TASK_POLL_INTERVAL_SECONDS: Final[int] = 2
 DOWNLOAD_USER_AGENT: Final[str] = "Mozilla/5.0"
 
@@ -110,7 +110,7 @@ def _validate_quality(quality: str) -> None:
 def _validate_background(background: str | None) -> None:
     """校验背景参数。"""
     if background not in ALLOWED_BACKGROUNDS:
-        _die("background must be opaque or auto for gpt-image-2.")
+        _die("background must be transparent, opaque, or auto for gpt-image-2.")
 
 
 def _build_endpoint(base_url: str) -> str:
