@@ -36,12 +36,14 @@ Use this reference before applying any state/status promotion, freeze decision, 
 - Do not mark a structured design-source packet as frozen when required exported image assets lack recorded source paths, local asset paths, and intended page regions.
 - Do not accept or generate dark-mode effect images as the default workflow reference set; the default effect-image baseline is light mode.
 - Do not treat effect images as optional evidence. The representative sketch plus its post-confirmation representative final effect image are mandatory gates before shared design freeze, and module effect images are mandatory inside the implementation-stage visual restoration loop before module-level display restoration decisions are finalized.
+- Do not let any workflow-generated image enter evidence, confirmation, freeze, or downstream consumption before one automatic `@product-design` QA pass has been completed for that image.
 - Do not let `--auto` or `--full-auto` generate required final effect images without `gpt-image-2-generator` being available for that branch, and do not skip the local representative-sketch stage through `$imagegen` before that final generation.
 - In manual mode, do not generate the representative final effect image or the remaining required page-effect set before one representative sketch has been explicitly confirmed.
 - Do not reopen alternative-direction browsing after a representative sketch or approved direction final effect image has been explicitly confirmed for the current design cycle; that confirmation freezes the visual baseline until the user explicitly rejects it or restarts the design cycle.
 - Do not generate, show, or compare other-direction effect images after that confirmation merely for more browsing; only same-direction completion, evidence expansion, or scope-matched revision is allowed.
 - Do not send shared/global or module-stage effect-image generation requests without explicit style constraints once the design packet already defines them.
 - Do not start any shared/global or module-stage effect-image generation until the workflow has first extracted the applicable visual constraints from the frozen global design packet and attached them to the request.
+- Do not simplify, shorten, or drop detail from a failed image-generation prompt when retrying. Preserve the full original prompt, the full frozen constraint set, and append only blocker-specific repair notes.
 - Do not let effect-image generation change the frozen design width or use a height smaller than the frozen base viewport height.
 - Do not treat an effect-image generation step as complete before its matching UI-only transparent atlas and atlas manifest both exist.
 - Do not bake runtime data layers into the atlas; those regions must stay placeholder-only in the atlas contract.

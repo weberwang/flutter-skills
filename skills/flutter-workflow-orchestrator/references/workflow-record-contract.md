@@ -57,6 +57,7 @@ When persisted, this runtime artifact is the single stable source for project wo
 - whether the representative sketch is pending confirmation, confirmed, or rejected
 - whether a confirmed representative or approved direction effect image has frozen the current-cycle visual baseline and closed alternative-direction browsing
 - whether every page in scope has an approved light-mode effect image for the required full effect-image set
+- whether each generated workflow image has already passed one automatic `@product-design` QA review
 - whether approved image-backed design direction exists and which constraints it introduced
 - whether `platform_baseline` exists and whether `platform_identifier` has been explicitly verified as the primary runtime and validation platform
 - whether the primary-platform validation target is a selected real device, a pending device choice, or an emulator/simulator fallback
@@ -73,6 +74,7 @@ When persisted, this runtime artifact is the single stable source for project wo
 - whether `display_restoration_blueprint_ready` has already been confirmed for the active module
 - whether Flutter render-vs-frozen-design QA has already run before final human visual inspection
 - whether the accepted workflow effect-image set is confirmed as the required light-mode evidence baseline
+- whether image-generation retries, when they happened, preserved the full original prompts instead of simplifying them
 - whether shared/global required effect-image generation covers all pages in the approved product scope
 - whether shared/global freeze already has the approved effect images required by the active revision path, if any
 - whether generated effect images explicitly inherited the approved global style constraints
@@ -393,6 +395,7 @@ When route drift, receipt mismatch, or no-progress auto stopping happens, add a 
 - If the representative sketch is confirmed in manual mode, record that confirmation explicitly, then generate and index the representative final effect image before generating the remaining required page-effect set.
 - If `execution_mode=auto` or `execution_mode=full_auto` and the active route explicitly requires additional effect images, generate the in-scope images automatically, record their paths, and do not create a confirmation stop.
 - If any workflow-generated image is created, record whether the matching row was also written or updated in `docs/project/assets/global-asset-catalog.json` during the same workflow step.
+- If any workflow-generated image is created, record whether one automatic `@product-design` QA pass also ran for that image and where the QA receipt or summary was stored.
 - If any bitmap asset generation is about to begin, record whether the workflow first checked `docs/project/assets/global-asset-catalog.json` plus the approved output paths it references for reuse, and record whether the outcome was `reused_existing`, `candidate_reuse_blocked`, or `new_generation_required`.
 - If approved image-backed design direction is produced, index its artifact path in `global_artifact_index` and link it from active module rows when relevant.
 - If `platform_identifier` becomes explicit, record it in the relevant summary or artifact index instead of leaving it implicit in prose.
@@ -404,6 +407,7 @@ When route drift, receipt mismatch, or no-progress auto stopping happens, add a 
 - If shared/global effect images were generated, record the complete page list, one approved image path per page, and whether every in-scope page is covered for that optional branch.
 - If the representative sketch was generated, record its path, selected page, and approval status.
 - If the representative final effect image was generated, record its path and approval status.
+- If a generated image required a retry, record whether the retry preserved the full original prompt plus frozen constraints, and record any blocker-specific additions separately instead of implying the prompt was simplified.
 - If a representative sketch, final effect image, implementation-stage module effect image, shared bitmap asset, or module bitmap asset was generated, record its catalog row id or a blocker explaining why the catalog update did not happen.
 - If shared/global freeze is under review, record whether the approved effect images required by the active revision path now exist or whether that path is still blocked on image generation.
 - If shared/global freeze is under review, record whether task hierarchy, CTA discoverability, interaction feedback, responsive strategy, and critical-state coverage were explicitly verified.
@@ -471,6 +475,8 @@ When route drift, receipt mismatch, or no-progress auto stopping happens, add a 
 - Do not mark `code_status=landed` before code output actually exists.
 - Do not claim static visual evidence was generated before recording whether the directory was checked first, whether the representative local `$imagegen` sketch exists when required, and whether `gpt-image-2-generator` for that branch was actually available for final generation.
 - Do not claim a generated image is workflow-valid until both its file path and its matching catalog update are recorded.
+- Do not claim a generated image is workflow-valid until its automatic `@product-design` QA pass is also recorded.
+- Do not simplify, shorten, or partially reconstruct a failed image-generation prompt during retry. Retries must preserve the full original prompt plus all frozen constraints.
 - Do not claim a newly generated bitmap asset is workflow-valid until the record also proves that the required reuse check ran first.
 - Do not accept effect-image evidence into the workflow record without stating whether it meets the default light-mode requirement.
 - Do not mark a structured design-source packet as frozen before recording the source effect-image paths and validation result.
