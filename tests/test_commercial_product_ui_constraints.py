@@ -17,6 +17,7 @@ EXECUTION_MODES = REPO_ROOT / "skills" / "flutter-workflow" / "references" / "ex
 CREATIVE_PRODUCTION_BRANCH = REPO_ROOT / "skills" / "flutter-workflow" / "references" / "creative-production-branch.md"
 ASSET_ATLAS_FLOW = REPO_ROOT / "skills" / "flutter-workflow" / "references" / "asset-atlas-flow.md"
 FLUTTER_UIUX_TO_ARCHITECTURE = REPO_ROOT / "skills" / "flutter-uiux-to-architecture" / "SKILL.md"
+ATLAS_PREPARATION_SKILL = REPO_ROOT / "skills" / "effect-image-to-ui-sheet-atlas" / "SKILL.md"
 
 ORCHESTRATOR_SNIPPETS = [
     "Commercial Product UI Constraint",
@@ -143,7 +144,20 @@ ROUTING_PRODUCT_DESIGN_IMAGE_POLICY_SNIPPETS = [
     "route the module representative sketch to `Product Design:ideate`",
     "route the module final effect-image direction pass to `Product Design:ideate`",
     "select or revise a Product Design-generated candidate",
+    "generate the solid-background atlas bundle through `Product Design:ideate`",
     "keep atlas background removal plus slicing on the deterministic asset path",
+]
+
+ATLAS_PRODUCT_DESIGN_SNIPPETS = [
+    "Generate one solid-background rectangular-cell UI atlas through `Product Design:ideate`",
+    "Complete manual image review on the generated atlas image",
+    "Generate the atlas through `Product Design:ideate`, not by mechanically cropping the whole page screenshot",
+]
+
+HARD_RULE_ATLAS_PRODUCT_DESIGN_SNIPPETS = [
+    "Do not generate the workflow atlas through `gpt-image-2-generator`",
+    "Atlas generation may use `Product Design:ideate` only after the atlas extraction analysis is explicitly confirmed",
+    "Do not use `@product-design` as a replacement for atlas background-removal",
 ]
 
 ROUTING_MINIMAL_COPY_SNIPPETS = [
@@ -412,6 +426,20 @@ class CommercialProductUiConstraintsTest(unittest.TestCase):
         combined = atlas_flow + architecture + hard_rules
         for snippet in WHOLE_IMAGE_ELEMENT_SNIPPETS:
             self.assertIn(snippet, combined)
+
+    def test_atlas_skill_uses_product_design_and_manual_review(self) -> None:
+        content = ATLAS_PREPARATION_SKILL.read_text(encoding="utf-8")
+        for snippet in ATLAS_PRODUCT_DESIGN_SNIPPETS:
+            self.assertIn(snippet, content)
+        self.assertNotIn("Generate one solid-background rectangular-cell UI atlas through `gpt-image-2-generator`", content)
+        self.assertNotIn("Run one automatic `@product-design` QA pass", content)
+
+    def test_workflow_rules_route_atlas_generation_through_product_design(self) -> None:
+        orchestrator = ORCHESTRATOR_SKILL.read_text(encoding="utf-8")
+        routing = ROUTING_RULES.read_text(encoding="utf-8")
+        hard_rules = HARD_RULES.read_text(encoding="utf-8")
+        for snippet in HARD_RULE_ATLAS_PRODUCT_DESIGN_SNIPPETS:
+            self.assertIn(snippet, orchestrator + routing + hard_rules)
 
 
 if __name__ == "__main__":

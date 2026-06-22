@@ -16,7 +16,7 @@ Produce one workflow-ready bundle for a shared or module page:
 - atlas manifest
 - atlas slicing config
 
-This skill is the visual-asset preparation node. It owns the page-level atlas bundle that must be reviewed before later Pencil or implementation work continues. It does not perform the actual slicing step, it does not remove atlas backgrounds itself, and it does not replace later Pencil design execution.
+This skill is the visual-asset preparation node. It owns the page-level atlas bundle that must be reviewed before later Pencil or implementation work continues. After the atlas extraction analysis is confirmed, it may use `Product Design:ideate` to render the approved solid-background atlas image. It does not perform the actual slicing step, it does not remove atlas backgrounds itself, and it does not replace later Pencil design execution.
 
 This atlas bundle is not a raw crop-pack of the whole page. First analyze the confirmed effect image together with the original image-generation prompt and frozen visual constraints, identify the visuals that Flutter SDK standard capabilities cannot reproduce faithfully enough, explicitly exclude dynamic-data-driven regions, choose one least-conflicting flat background color from the preset atlas background palette, and only after that confirmed analysis generate one solid-background UI atlas whose cells are rectangular and non-overlapping.
 
@@ -66,7 +66,7 @@ If any required input is missing, return `blocked`.
 9. In manual mode, stop for explicit analysis confirmation before atlas generation. Do not generate the atlas before the confirmed extraction list exists.
 10. Choose one flat background-key color from the preset atlas background palette before atlas generation. The chosen color must minimize conflict with the approved atlas visuals and must be recorded explicitly for downstream removal.
 11. Rewrite the confirmed atlas extraction analysis into one atlas-generation prompt. That prompt must consume the precomputed cell list exactly as approved; it must not ask the image model to decide atlas scope, cell count, layout, or background color.
-12. Generate one solid-background rectangular-cell UI atlas through `gpt-image-2-generator`.
+12. Generate one solid-background rectangular-cell UI atlas through `Product Design:ideate`.
 13. Validate the generated atlas for cell completeness, silhouette fidelity, edge integrity, rectangular-cell boundaries, non-overlap, and flat single-color background consistency.
 14. Build an atlas manifest and slicing config that record:
    - page name
@@ -82,7 +82,7 @@ If any required input is missing, return `blocked`.
    - source visual summary
    - prerequisite surface group when one exists
    - atlas path
-15. Run one automatic `@product-design` QA pass on the generated effect image and on the accepted solid-background atlas bundle before treating them as workflow-valid evidence.
+15. Complete manual image review on the generated atlas image and record the human review result before treating the atlas bundle as workflow-valid evidence.
 16. Present the bundle for confirmation:
    - effect image
    - atlas extraction analysis
@@ -101,7 +101,7 @@ If any required input is missing, return `blocked`.
 - Preserve the frozen design width.
 - The atlas config must preserve every approved cell's restore bounds and slice bounds.
 - Record every excluded runtime-data region as `placeholder_only` or `data_excluded_placeholder`.
-- Generate the atlas through `gpt-image-2-generator`, not by mechanically cropping the whole page screenshot.
+- Generate the atlas through `Product Design:ideate`, not by mechanically cropping the whole page screenshot.
 - Every exportable visual must live inside one rectangular atlas cell.
 - Do not place one visual across multiple cells unless the manifest explicitly declares a multi-cell contract.
 - Do not let two exportable visuals overlap inside rectangular slicing bounds.
@@ -234,9 +234,11 @@ Return:
 - Do not include dynamic-data-generated visuals in atlas scope.
 - Do not let overlay UI such as modal, dialog, or sheet enter processing order before the corresponding page-base visuals for that page are already settled.
 - Do not invent an ad hoc atlas prompt shape. Use the fixed atlas prompt template and fill it with page-specific content.
+- Do not generate the workflow atlas through `gpt-image-2-generator`.
 - Do not generate the workflow atlas directly on a transparent background in this skill.
 - Do not choose an ad hoc background color outside the preset atlas background palette.
 - Do not continue into slicing before the downstream `$imagegen` background-removal result is confirmed.
+- Atlas generation may use `Product Design:ideate` only after the atlas extraction analysis is explicitly confirmed.
 - Do not ask the image model to decide atlas scope, cell count, or cell layout on its own.
 - Do not place multiple exportable visuals into overlapping rectangular cells.
 - Do not use `$imagegen` to infer slice bounds. Minimum-cell slicing must remain deterministic and config-driven.
