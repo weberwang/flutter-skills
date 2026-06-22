@@ -206,6 +206,25 @@ Before approving any product-facing design, ask:
 
 If the answer is weak, the design must be revised before freeze.
 
+## Product Design Node Map
+
+Use `@product-design` as a scoped design controller at specific workflow nodes instead of as a general replacement for the whole Flutter workflow.
+
+- `technical_baseline_ready` -> `Product Design:get-context`
+  Use to confirm the design brief, product surface intent, key journeys, page families, critical states, interaction goals, platform assumptions, and information-density posture before visual direction work starts.
+- `shared_design_direction` / `design_recommendation_ready` -> `Product Design:ideate`
+  Use to explore and compare shared product-surface visual directions, representative page directions, and reference-image-grounded alternatives before locking the representative sketch and final effect-image baseline.
+- upstream UX evidence gathering -> `Product Design:research` or `Product Design:audit`
+  Use only when the workflow needs evidence about user pain, screenshot-based flow review, or UX friction before the design brief or direction can be trusted. Do not use these as substitutes for PRD writing, technical baseline generation, or freeze approval.
+- optional design-prototype branch -> `Product Design:prototype` or `Product Design:image-to-code`
+  Use only when the workflow explicitly needs a Product Design-owned coded prototype or visual-target implementation for design review, prototype sharing, or source-visual validation. Do not use these to replace the mandatory module native `HTML/CSS/JS` prototype gate, the Pencil design source, or Flutter implementation work.
+- prototype delivery -> `Product Design:share`
+  Use only when a non-production review prototype must be published or shared by URL. Do not use it as an app release, module acceptance, or Flutter deployment stage.
+- implementation review -> `Product Design:design-qa`
+  Use only after a coded prototype or rendered implementation already has both a source visual target and rendered output that can be compared. Do not use it for broad product audits, flow critique, or final human acceptance.
+
+`@product-design` may control design brief quality, direction quality, prototype quality, and design QA quality, but it does not own PRD writing, Flutter technical baseline generation, module splitting, design-freeze approval, atlas generation, Pencil restoration, Flutter architecture, or final Flutter implementation.
+
 ## Required Reading
 
 Load only the references needed for the current routing decision, but always preserve their authority over the workflow:
