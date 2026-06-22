@@ -201,6 +201,20 @@ Long explanatory copy is allowed only when one of these is true:
 - the user is entering a recovery or exception flow
 - the explanation is intentionally behind disclosure
 
+### Minimal Default Copy Contract
+
+Every default product surface must satisfy `minimal_default_copy_contract` before it can be accepted as commercial UI.
+
+Use an `explanatory_copy_budget` for the default visible surface:
+
+- keep at most one short helper line for a primary region
+- prefer labels, status chips, badges, icons, toggles, grouping, and state visuals before explanatory text
+- move explanation behind disclosure when the explanation is educational, policy-like, repetitive, or not required for immediate action
+- use a bottom sheet, detail page, info modal, expandable row, or secondary page as the `disclosure_destination`
+- mark the design as `explanation_overload` when multiple visible helper paragraphs, notice cards, subtitles, and support-copy blocks compete on the same default surface
+
+If `explanation_overload` appears, revise the design before HTML prototype acceptance, representative sketch confirmation, effect-image acceptance, Pencil acceptance, or freeze.
+
 ### Primary Surface Rule
 
 On the first screenful of any page, show only:
@@ -222,6 +236,59 @@ Before approving any product-facing design, ask:
 - Would a mature commercial iOS app ship this much always-visible text on the primary surface?
 
 If the answer is weak, the design must be revised before freeze.
+
+### Commercial Design Exploration Window
+
+Use a wide-before-freeze, narrow-after-freeze model for commercial product design quality.
+
+Before this window opens, the workflow must complete `mandatory_mobbin_reference`. This is not optional inspiration browsing: it is a required product-design evidence step that collects relevant Mobbin or Mobbin-equivalent product screens, extracts concrete reference decisions, and records why those decisions fit the active product, platform, and viewport.
+
+Before the shared native HTML prototype is locked, the workflow must keep `direction_space_open` and allow `structure_recomposition_allowed` under the confirmed PRD, technical baseline, Product Design brief, target platform, and frozen viewport. This window exists so AI design work can create a commercially plausible product surface instead of merely decorating an early requirements-shaped layout.
+
+During this window, Product Design may propose and compare commercial directions that change:
+
+- first-screen structure
+- module order
+- CTA placement and dominance
+- navigation or shell emphasis
+- visible versus deferred information density
+- card/list/table rhythm
+- state presentation strategy
+- copy compression and disclosure placement
+- component family posture
+
+The selected direction must become one `fixed_style_direction`. Treat it as the `style_single_source` for all later shared sketches, effect images, Pencil sources, module prototypes, and Flutter display restoration. The workflow must not mix visual families from multiple Mobbin references after the style direction is selected.
+
+The selected direction must also include a `strong_hierarchy_contract`. At minimum, record a `hierarchy_contrast_ladder` for primary action, primary content, secondary content, metadata, disabled or supporting copy, and background surfaces. That ladder must define contrast, scale, weight, spacing, and emphasis differences strongly enough that the page reads with clear commercial product hierarchy before decoration is considered.
+
+The exploration window must still preserve the product goal, user roles, primary task path, platform target, critical states, and technical constraints. It may not invent new product scope, new roles, or new business behavior that the PRD did not authorize.
+
+The window closes at the `freeze_boundary`: once the commercial direction is selected and the shared native HTML prototype passes `commercial_surface_gate`, later sketches, effect images, Pencil design, and Flutter restoration must narrow around the confirmed structure instead of reopening broad layout exploration.
+
+### Commercial Product Surface Gate
+
+Every shared HTML prototype, module HTML prototype, representative sketch, final effect image, and Pencil design source must produce a `commercial_surface_gate` receipt before it can be accepted, frozen, or used by a downstream stage.
+
+The gate is a product-surface acceptance check, not a taste note. It must decide whether the artifact can plausibly ship as an in-product commercial app screen for the confirmed platform and product task.
+
+Required receipt fields:
+
+- `gate_owner`: the specialist or orchestrator step that ran the check
+- `artifact_type`: `shared_html_prototype`, `module_html_prototype`, `representative_sketch`, `final_effect_image`, `pencil_design_source`, or `freeze_packet`
+- `artifact_paths`: local paths for the reviewed files or images
+- `result`: `passed` or `revision_required`
+- `first_screen_task_recognition`: whether the main task is clear within 3 seconds without paragraph reading
+- `primary_cta_dominance`: whether the primary action is visible, singular enough, and not competing with decoration or support copy
+- `real_control_density`: whether controls, lists, filters, tabs, empty states, and status surfaces feel like a real product rather than a presentation mock
+- `platform_information_density`: whether visible, deferred, collapsed, paged, and secondary-surface content matches the frozen platform and viewport
+- `state_structure_coverage`: whether loading, empty, error, disabled, permission, long-content, and recovery states are designed when relevant
+- `copy_compression_result`: whether redundant subtitles, helper paragraphs, notice cards, and repeated support copy were removed or deferred
+- `reference_decision_inheritance`: whether Mobbin/reference-image decisions are named as concrete inherited choices, not vague inspiration
+- `commercial_failure_modes`: any detected poster, ad, landing-page hero, concept board, requirements mock, settings manual, or wireframe-like traits
+- `failed_dimensions`: the gate dimensions that failed, or `[]`
+- `revision_target`: the exact upstream artifact to revise when `result=revision_required`
+
+If `commercial_surface_gate.result=revision_required`, the workflow must route back to the matching artifact owner for one scope-matched revision pass. Do not promote the stage, freeze the design, enter atlas work, enter Pencil work, or hand off to Flutter restoration until a later receipt records `commercial_surface_gate.result=passed`.
 
 ## Product Design Node Map
 
