@@ -515,7 +515,7 @@ When route drift, receipt mismatch, or no-progress auto stopping happens, add a 
 - Do not mark `impl_status=landed` before the module `impl.md` references a confirmed frozen structured design-source packet.
 - Do not mark `design_source_status=frozen` for module implementation when `high_fidelity_freeze_status` is `blocked`, `not_evaluated`, or missing.
 - Do not mark `code_status=landed` before code output actually exists.
-- Do not claim static visual evidence was generated before recording whether the directory was checked first, whether the representative local `$imagegen` sketch exists when required, and whether `gpt-image-2-generator` for that branch was actually available for final generation.
+- Do not claim static visual evidence was generated before recording whether the directory was checked first, whether the representative Product Design sketch exists when required, and whether the selected final effect-image direction path was actually available for that branch.
 - Do not claim a generated image is workflow-valid until both its file path and its matching catalog update are recorded.
 - Do not claim a generated image is workflow-valid until its automatic `@product-design` QA pass is also recorded.
 - Do not simplify, shorten, or partially reconstruct a failed image-generation prompt during retry. Retries must preserve the full original prompt plus all frozen constraints.

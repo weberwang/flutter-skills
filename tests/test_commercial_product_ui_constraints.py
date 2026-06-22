@@ -13,6 +13,8 @@ DESIGN_GUIDANCE = REPO_ROOT / "skills" / "flutter-workflow" / "references" / "de
 ROUTING_RULES = REPO_ROOT / "skills" / "flutter-workflow" / "references" / "routing-rules.md"
 WORKFLOW_RECORD_CONTRACT = REPO_ROOT / "skills" / "flutter-workflow" / "references" / "workflow-record-contract.md"
 WORKFLOW_STATES = REPO_ROOT / "skills" / "flutter-workflow" / "references" / "workflow-states.md"
+EXECUTION_MODES = REPO_ROOT / "skills" / "flutter-workflow" / "references" / "execution-modes.md"
+CREATIVE_PRODUCTION_BRANCH = REPO_ROOT / "skills" / "flutter-workflow" / "references" / "creative-production-branch.md"
 
 ORCHESTRATOR_SNIPPETS = [
     "Commercial Product UI Constraint",
@@ -51,6 +53,7 @@ GLOBAL_STYLE_ONLY_SNIPPETS = [
     "Global Style-Only Design Boundary",
     "global_style_scheme",
     "global_style_experience_image",
+    "Product Design:ideate",
     "theme_and_style_only",
     "no_global_page_design_draft",
     "non_page_design_evidence",
@@ -82,6 +85,23 @@ HARD_RULE_GLOBAL_STYLE_ONLY_SNIPPETS = [
     "Module effect images are mandatory",
 ]
 
+PRODUCT_DESIGN_IMAGE_POLICY_SNIPPETS = [
+    "`shared_design_direction` / `design_recommendation_ready` -> `Product Design:ideate`",
+    "global_style_experience_image",
+    "module representative sketch",
+    "module final effect image",
+    "$imagegen` background removal",
+]
+
+HARD_RULE_PRODUCT_DESIGN_IMAGE_POLICY_SNIPPETS = [
+    "Do not bypass `@product-design` visual ideation",
+    "global_style_experience_image",
+    "module representative sketch",
+    "module final effect image direction",
+    "Do not use `@product-design` as a replacement for atlas background-removal",
+    "deterministic runtime asset preparation",
+]
+
 ROUTING_GATE_SNIPPETS = [
     "Do not accept a shared native HTML prototype",
     "Do not accept a generated representative sketch",
@@ -111,6 +131,14 @@ ROUTING_GLOBAL_STYLE_ONLY_SNIPPETS = [
     "theme_and_style_only=true",
     "page_design_deferred_to_module_stage=true",
     "Global design may define theme tokens",
+]
+
+ROUTING_PRODUCT_DESIGN_IMAGE_POLICY_SNIPPETS = [
+    "route the shared/global scope to `Product Design:ideate`",
+    "`global_style_experience_image` through `Product Design:ideate`",
+    "route the module representative sketch to `Product Design:ideate`",
+    "route the module final effect-image direction pass to `Product Design:ideate`",
+    "keep atlas background removal plus slicing on the deterministic asset path",
 ]
 
 ROUTING_MINIMAL_COPY_SNIPPETS = [
@@ -301,6 +329,49 @@ class CommercialProductUiConstraintsTest(unittest.TestCase):
         content = WORKFLOW_RECORD_CONTRACT.read_text(encoding="utf-8")
         for snippet in WORKFLOW_MINIMAL_COPY_RECORD_SNIPPETS:
             self.assertIn(snippet, content)
+
+
+    def test_hard_rules_split_product_design_from_runtime_asset_chain(self) -> None:
+        content = HARD_RULES.read_text(encoding="utf-8")
+        for snippet in HARD_RULE_PRODUCT_DESIGN_IMAGE_POLICY_SNIPPETS:
+            self.assertIn(snippet, content)
+
+    def test_orchestrator_prefers_product_design_for_direction_images(self) -> None:
+        content = ORCHESTRATOR_SKILL.read_text(encoding="utf-8")
+        for snippet in PRODUCT_DESIGN_IMAGE_POLICY_SNIPPETS:
+            self.assertIn(snippet, content)
+
+    def test_routing_uses_product_design_for_direction_images_only(self) -> None:
+        content = ROUTING_RULES.read_text(encoding="utf-8")
+        for snippet in ROUTING_PRODUCT_DESIGN_IMAGE_POLICY_SNIPPETS:
+            self.assertIn(snippet, content)
+
+    def test_workflow_skill_removes_old_generator_assignment_for_direction_images(self) -> None:
+        content = ORCHESTRATOR_SKILL.read_text(encoding="utf-8")
+        self.assertIn("Pre-confirmation module representative sketches should go through `Product Design:ideate`", content)
+        self.assertNotIn("Representative sketch requests must go through local `$imagegen`", content)
+        self.assertNotIn("before calling `gpt-image-2-generator`", content)
+
+    def test_execution_modes_follow_product_design_for_direction_images(self) -> None:
+        content = EXECUTION_MODES.read_text(encoding="utf-8")
+        self.assertIn("generate it through `Product Design:ideate`", content)
+        self.assertIn("Product Design-owned final effect-image direction pass", content)
+        self.assertNotIn("generate the representative sketch through local `$imagegen`", content)
+        self.assertNotIn("generate the required final effect images through `gpt-image-2-generator`", content)
+
+    def test_creative_production_branch_no_longer_assigns_direction_images_to_legacy_generators(self) -> None:
+        content = CREATIVE_PRODUCTION_BRANCH.read_text(encoding="utf-8")
+        self.assertIn("Product Design:ideate owns the pre-confirmation sketch stage", content)
+        self.assertIn("Product Design-owned final effect-image direction pass", content)
+        self.assertNotIn("local `$imagegen` owns the pre-confirmation sketch stage", content)
+        self.assertNotIn("`gpt-image-2-generator` owns the post-confirmation final image stage", content)
+
+    def test_workflow_record_contract_tracks_new_direction_image_path(self) -> None:
+        content = WORKFLOW_RECORD_CONTRACT.read_text(encoding="utf-8")
+        self.assertIn("representative Product Design sketch exists when required", content)
+        self.assertIn("selected final effect-image direction path was actually available", content)
+        self.assertNotIn("representative local `$imagegen` sketch exists when required", content)
+        self.assertNotIn("`gpt-image-2-generator` for that branch was actually available", content)
 
 
 if __name__ == "__main__":
