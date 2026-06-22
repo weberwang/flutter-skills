@@ -158,6 +158,7 @@ Use this reference before applying any state/status promotion, freeze decision, 
 - Do not let effect images alone decide final Flutter widget strategy when documented interaction or architecture semantics say otherwise.
 - Do not leave a fidelity-critical region without an explicit `preserve_faithfully`, `flutterize`, or `simplify` classification in architecture output.
 - Do not let engineering convenience flatten locked spacing, layer depth, or CTA dominance for regions marked `preserve_faithfully`.
+- Do not split one semantically unified visual unit into multiple decorative fragments merely because the image contains many visible details. Preserve it as one whole asset when that better protects the intended structure and hierarchy.
 - Do not force Flutter-native reconstruction for visuals that are clearly better shipped as image assets; download approved source images directly when available, otherwise let the active MCP / design tool chain choose the concrete generation mechanism and store the result inside the project.
 - Do not use MCP-driven image generation as an excuse to skip native implementation for visuals that Flutter can reproduce cleanly.
 - Do not let any automatic helper, including `@product-design` `design-qa`, close final app-page acceptance by itself.

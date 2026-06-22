@@ -15,6 +15,8 @@ WORKFLOW_RECORD_CONTRACT = REPO_ROOT / "skills" / "flutter-workflow" / "referenc
 WORKFLOW_STATES = REPO_ROOT / "skills" / "flutter-workflow" / "references" / "workflow-states.md"
 EXECUTION_MODES = REPO_ROOT / "skills" / "flutter-workflow" / "references" / "execution-modes.md"
 CREATIVE_PRODUCTION_BRANCH = REPO_ROOT / "skills" / "flutter-workflow" / "references" / "creative-production-branch.md"
+ASSET_ATLAS_FLOW = REPO_ROOT / "skills" / "flutter-workflow" / "references" / "asset-atlas-flow.md"
+FLUTTER_UIUX_TO_ARCHITECTURE = REPO_ROOT / "skills" / "flutter-uiux-to-architecture" / "SKILL.md"
 
 ORCHESTRATOR_SNIPPETS = [
     "Commercial Product UI Constraint",
@@ -215,6 +217,13 @@ GUIDANCE_SNIPPETS = [
     "first screenful",
 ]
 
+WHOLE_IMAGE_ELEMENT_SNIPPETS = [
+    "semantically unified visual unit",
+    "one whole asset",
+    "multiple decorative fragments",
+    "shared silhouette, texture, lighting, and hierarchy",
+]
+
 
 class CommercialProductUiConstraintsTest(unittest.TestCase):
     """验证商业产品 UI 约束不会从关键工作流文档中丢失。"""
@@ -395,6 +404,14 @@ class CommercialProductUiConstraintsTest(unittest.TestCase):
         self.assertNotIn("automatic `@product-design` QA pass against the active brief and frozen visual constraints", orchestrator)
         self.assertNotIn("run one automatic `@product-design` QA pass", routing)
         self.assertNotIn("one automatic `@product-design` QA pass also ran for that image", record)
+
+    def test_asset_and_architecture_rules_preserve_whole_image_elements(self) -> None:
+        atlas_flow = ASSET_ATLAS_FLOW.read_text(encoding="utf-8")
+        architecture = FLUTTER_UIUX_TO_ARCHITECTURE.read_text(encoding="utf-8")
+        hard_rules = HARD_RULES.read_text(encoding="utf-8")
+        combined = atlas_flow + architecture + hard_rules
+        for snippet in WHOLE_IMAGE_ELEMENT_SNIPPETS:
+            self.assertIn(snippet, combined)
 
 
 if __name__ == "__main__":

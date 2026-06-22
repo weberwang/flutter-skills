@@ -47,6 +47,7 @@ If the catalog is missing, repair or initialize it from `global-asset-catalog-co
 4. Before any background-removal step, classify the current atlas or slice input as `transparent`, `solid_color`, or `non_solid`. If it is already transparent, stop. If the atlas is still solid-color, route through `$imagegen` background removal and validate the transparent result before continuing.
 5. If the page belongs to a module, compare the current page effect image against the active module `impl.md` and the page's required state set first. If `error`, `empty`, `loading`, permission, or other page-local states are required but not yet represented strongly enough for resource or prototype work, supplement those missing states before finalizing the page checklist.
 6. Remove `placeholder_only` regions first. If a region is only a visual stand-in for runtime-created data content, record it as a placeholder contract and keep it out of image generation. Atlas-only helper labels such as `data_excluded_placeholder` are allowed, but they must still stay out of bitmap generation.
+6.1. Before splitting any remaining image-backed region, decide whether it is a semantically unified visual unit that should remain one whole asset. If the region's readable meaning depends on one shared silhouette, texture, lighting, and hierarchy, do not break it into multiple decorative fragments.
 5. For every remaining visual region, first decide whether Flutter SDK standard capabilities alone can restore it faithfully enough without adding new bitmap assets.
 6. Classify the current page into three written groups before generation:
    - `bitmap_required`
@@ -166,4 +167,5 @@ Use one of these outcomes:
 - Do not switch atlas background removal to a rule-based cleanup path once the workflow explicitly routes it through `$imagegen`.
 - Do not generate assets before the current page's bitmap list is explicitly confirmed.
 - Do not batch multiple distinct supplemental standalone assets into one generated image file.
+- Do not decompose one semantically unified visual unit into multiple decorative fragments when one whole asset preserves the intended hierarchy and structure better.
 - Do not assume the first module effect image already covers every required page-local state. Repair missing state coverage before freezing the page bitmap checklist.

@@ -70,6 +70,7 @@ The contract must identify:
    - `native_flutter`: should be reproduced directly with Flutter layout, paint, gradients, clipping, blur, animation, or composition.
    - `project_bitmap_asset`: should be generated as a bitmap asset and consumed by the app because native reconstruction would be brittle, too expensive, or visibly lower fidelity.
    - `existing_asset_reuse`: should reuse an already approved image or project asset instead of creating a new one.
+11.1. Before decomposing any `project_bitmap_asset`, decide whether the source region is a semantically unified visual unit. If the intended reading depends on a shared silhouette, texture, lighting, and hierarchy, keep it as one whole asset instead of rebuilding it from multiple decorative fragments.
 12. If a visual belongs to `project_bitmap_asset`, specify the asset goal, expected file role, placement path, and why `$imagegen` is the correct fallback instead of forcing native code.
 13. Produce a concrete display-layer implementation decision table for every important page region. At minimum, decide:
    - `region_id`
@@ -123,6 +124,7 @@ The contract must identify:
 - Do not force every design effect into native Flutter code when a bitmap asset is the more faithful and maintainable choice.
 - Do not choose `$imagegen` for simple visuals that Flutter can reproduce cleanly with native code.
 - Do not classify a fidelity-critical branded region as `simplify` unless design-source control explicitly approved that reduction.
+- Do not decompose one semantically unified visual unit into multiple decorative fragments when the frozen design intends it to read as one whole asset.
 - Do not convert every repeated shape into a reusable widget; extract only components that improve reuse, clarity, state coverage, or maintenance.
 - Do not flatten module-specific business widgets into generic shared components unless the UI/UX RD says they are reusable.
 - Do not ignore non-happy states. Architecture must cover ideal, empty, loading, error, permission, partial data, disabled, success, locked, or premium states when relevant.
