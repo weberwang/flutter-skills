@@ -1,6 +1,6 @@
 # Execution Modes
 
-Use this reference when `flutter-workflow-orchestrator` is invoked with `--auto`, `--full-auto`, or when it must decide whether to continue routing after a local module milestone.
+Use this reference when `flutter-workflow` is invoked with `--auto`, `--full-auto`, or when it must decide whether to continue routing after a local module milestone.
 
 ## Contents
 

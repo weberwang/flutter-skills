@@ -7,7 +7,7 @@ from pathlib import Path
 
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
-ORCHESTRATOR_SKILL = REPO_ROOT / "skills" / "flutter-workflow-orchestrator" / "SKILL.md"
+ORCHESTRATOR_SKILL = REPO_ROOT / "skills" / "flutter-workflow" / "SKILL.md"
 INIT_SKILL = REPO_ROOT / "skills" / "flutter-init" / "SKILL.md"
 BOOTSTRAP_WORKFLOW = REPO_ROOT / "skills" / "flutter-init" / "references" / "bootstrap-workflow.md"
 OUTPUT_CHECKLIST = REPO_ROOT / "skills" / "flutter-init" / "references" / "project-output-checklist.md"

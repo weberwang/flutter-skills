@@ -56,7 +56,7 @@ Must also respect `module_preview_policy` so module-stage generated images are o
 
 When frozen shared artifacts already exist, it must use them to judge whether typography hierarchy, contrast, CTA emphasis, and global component rules are being preserved instead of re-inventing the design direction.
 
-### `flutter-workflow-orchestrator`
+### `flutter-workflow`
 
 Must treat `module_preview_policy` as the frozen default for module-stage image evidence:
 

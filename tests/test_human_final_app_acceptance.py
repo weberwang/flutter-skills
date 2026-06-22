@@ -7,9 +7,9 @@ from pathlib import Path
 
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
-WORKFLOW_STATES = REPO_ROOT / "skills" / "flutter-workflow-orchestrator" / "references" / "workflow-states.md"
-ROUTING_RULES = REPO_ROOT / "skills" / "flutter-workflow-orchestrator" / "references" / "routing-rules.md"
-HARD_RULES = REPO_ROOT / "skills" / "flutter-workflow-orchestrator" / "references" / "hard-rules.md"
+WORKFLOW_STATES = REPO_ROOT / "skills" / "flutter-workflow" / "references" / "workflow-states.md"
+ROUTING_RULES = REPO_ROOT / "skills" / "flutter-workflow" / "references" / "routing-rules.md"
+HARD_RULES = REPO_ROOT / "skills" / "flutter-workflow" / "references" / "hard-rules.md"
 README = REPO_ROOT / "README.md"
 
 WORKFLOW_STATE_SNIPPETS = [

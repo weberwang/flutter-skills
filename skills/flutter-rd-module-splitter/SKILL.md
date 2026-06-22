@@ -16,7 +16,7 @@ This skill has two modes:
 
 The initial split is not page-level freeze and not implementation-ready by default. It creates structured drafts, module boundaries, and an explicit implementation-order view. The later refinement contract defines what one active module must contain before design freeze and code without pretending the whole product is already landed. In the default workflow, that refinement execution must be explicitly carried out through `@superpowers`, while this skill remains the source of truth for paired-doc structure and refinement completeness. The default workflow no longer prepares page-level Pen artifacts; it prepares a frozen UI/UX design-source packet for Flutter architecture and code.
 
-This skill defines one active module's refinement target per call. When `flutter-workflow-orchestrator --auto` is driving the workflow, the orchestrator should reuse this contract across dependency-safe modules until all target modules reach the pre-implementation boundary, not stop after one refined module.
+This skill defines one active module's refinement target per call. When `flutter-workflow --auto` is driving the workflow, the orchestrator should reuse this contract across dependency-safe modules until all target modules reach the pre-implementation boundary, not stop after one refined module.
 
 ## Required Inputs
 
@@ -83,7 +83,7 @@ Do not default to a vague technical module name like `main`. Prefer a responsibi
       - `docs/project/modules/<module>/<module>.ui-ux.md`
       - `docs/project/modules/<module>/<module>.impl.md`
    - Write both docs as `split_draft`, not implementation-final.
-   - Mark each module with its initial workflow state, normally `modules_split`, so `flutter-workflow-orchestrator` can write that state into the global workflow record.
+   - Mark each module with its initial workflow state, normally `modules_split`, so `flutter-workflow` can write that state into the global workflow record.
 10. In implementation refinement contract mode:
    - Refine only the active module's existing docs.
    - Expand the paired docs to implementation-final granularity.
@@ -253,7 +253,7 @@ In implementation refinement contract mode, expand the same document to directly
 - Do not choose packages or create the global technical scheme; route that to `flutter-prd-rd-writer`.
 - Do not override package or architecture decisions from the global technical baseline; record exceptions as open questions.
 - Do not generate Flutter screen architecture here; route architecture planning after the module design-source packet is frozen.
-- Do not create per-module workflow state files; keep workflow state under `flutter-workflow-orchestrator` control.
+- Do not create per-module workflow state files; keep workflow state under `flutter-workflow` control.
 - Do not split implementation modules from a raw PRD unless the user explicitly asks for a rough discovery split and accepts that technical decisions are pending.
 - Do not output module names only. Each module needs enough detail for its paired UI/UX and implementation RD documents.
 - Do not approve a split where the same page family appears as owned by more than one module.
@@ -268,7 +268,7 @@ In implementation refinement contract mode, expand the same document to directly
 - Do not freeze module page-level or module-private component design on the initial split pass.
 - Do not mark `uiux_status` or `impl_status` as `landed` here. Landed status only happens after the module design-source packet is frozen and confirmed through the orchestrator.
 - Do not refine unrelated modules when only one active module is entering implementation preparation.
-- Do not reinterpret one module's refinement result as completion of the whole auto run. Cross-module continuation belongs to `flutter-workflow-orchestrator`.
+- Do not reinterpret one module's refinement result as completion of the whole auto run. Cross-module continuation belongs to `flutter-workflow`.
 - Do not let this skill bypass `@superpowers` for default-workflow module refinement execution.
 - Do not directly use this skill as the execution engine for active-module refinement in the default workflow; the actual refinement step must be invoked through `@superpowers`.
 - Do not set `superpowers_refinement_status=verified_executed` from manual doc edits, inferred completeness, or post-hoc bookkeeping.

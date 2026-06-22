@@ -7,9 +7,9 @@ from pathlib import Path
 
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
-ORCHESTRATOR_SKILL = REPO_ROOT / "skills" / "flutter-workflow-orchestrator" / "SKILL.md"
-HARD_RULES = REPO_ROOT / "skills" / "flutter-workflow-orchestrator" / "references" / "hard-rules.md"
-DESIGN_GUIDANCE = REPO_ROOT / "skills" / "flutter-workflow-orchestrator" / "references" / "design-quality-guidance.md"
+ORCHESTRATOR_SKILL = REPO_ROOT / "skills" / "flutter-workflow" / "SKILL.md"
+HARD_RULES = REPO_ROOT / "skills" / "flutter-workflow" / "references" / "hard-rules.md"
+DESIGN_GUIDANCE = REPO_ROOT / "skills" / "flutter-workflow" / "references" / "design-quality-guidance.md"
 
 ORCHESTRATOR_SNIPPETS = [
     "Commercial Product UI Constraint",

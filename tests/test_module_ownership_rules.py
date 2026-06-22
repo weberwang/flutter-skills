@@ -8,7 +8,7 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 MODULE_SPLITTER = REPO_ROOT / "skills" / "flutter-rd-module-splitter" / "SKILL.md"
-ROUTING_RULES = REPO_ROOT / "skills" / "flutter-workflow-orchestrator" / "references" / "routing-rules.md"
+ROUTING_RULES = REPO_ROOT / "skills" / "flutter-workflow" / "references" / "routing-rules.md"
 
 MODULE_SPLITTER_SNIPPETS = [
     "Each page family must have exactly one owning module.",

@@ -46,8 +46,11 @@ Use this reference before applying any state/status promotion, freeze decision, 
 - Do not generate, show, or compare other-direction effect images after that confirmation merely for more browsing; only same-direction completion, evidence expansion, or scope-matched revision is allowed.
 - Do not send shared/global or module-stage effect-image generation requests without explicit style constraints once the design packet already defines them.
 - Do not start any shared/global or module-stage effect-image generation until the workflow has first extracted the applicable visual constraints from the frozen global design packet and attached them to the request.
+- Do not let `@product-design`, `$imagegen`, or `gpt-image-2-generator` interpret effect-image work as marketing exploration, ad creative, poster composition, hero-banner art, or a wireframe-like draft once the workflow is generating product-surface evidence.
+- Do not accept any generated sketch or effect image that looks like a campaign visual, landing-page hero, slogan-first ad, concept board, or low-fidelity requirements mock instead of a commercial product screen.
 - Do not simplify, shorten, or drop detail from a failed image-generation prompt when retrying. Preserve the full original prompt, the full frozen constraint set, and append only blocker-specific repair notes.
 - Do not let effect-image generation change the frozen design width or use a height smaller than the frozen base viewport height.
+- Do not let effect-image generation hide weak product structure behind cinematic framing, decorative negative space, oversized headlines, or non-product storytelling layouts.
 - Do not treat an atlas-analysis step as complete before its matching effect image, approved extraction analysis, and approved atlas cell plan all exist.
 - Do not treat an atlas-preparation step as complete before its matching effect image, solid-background atlas, chosen background color record, atlas manifest, and atlas slicing config all exist.
 - Do not treat atlas background-removal work as complete before the transparent atlas result exists and has been explicitly confirmed.

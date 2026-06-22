@@ -1,6 +1,6 @@
 # DESIGN.md Template
 
-Use this reference when `flutter-workflow-orchestrator` has reached `product_direction_confirmed` and must write a project-level `DESIGN.md` file that drives the downstream Pencil-backed design-source flow.
+Use this reference when `flutter-workflow` has reached `product_direction_confirmed` and must write a project-level `DESIGN.md` file that drives the downstream Pencil-backed design-source flow.
 
 ## Purpose
 

@@ -18,7 +18,7 @@ It validates explicit design approval, state coverage, immutable constraints, an
 
 For module implementation handoff, high-fidelity visual fidelity is the first freeze priority. The gate must evaluate the module's visual contract before secondary implementation-readiness concerns: hierarchy, spacing, typography, layer depth, image or texture treatment, component states, fidelity-critical regions, platform-specific interaction and layout expectations, and any approved Flutterization or bitmap fallback.
 
-A successful module freeze decision is only a local gate result. In `flutter-workflow-orchestrator --auto`, it must be consumed as one step inside the broader all-module advancement loop, not as a reason to stop the run.
+A successful module freeze decision is only a local gate result. In `flutter-workflow --auto`, it must be consumed as one step inside the broader all-module advancement loop, not as a reason to stop the run.
 
 ## Required Inputs
 

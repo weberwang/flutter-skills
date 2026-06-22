@@ -116,6 +116,32 @@ On the first screenful of a product page, keep only:
 
 Push broad education, repeated explanation, and policy-style detail behind disclosure or onto secondary surfaces whenever the user can already understand the screen from structure and state.
 
+## 5B. Commercial Product Image Constraint
+
+When a workflow step generates preview images, representative sketches, or final effect images for product surfaces, the target must remain a commercial product interface.
+
+Treat these as required visual qualities:
+
+- real app-screen hierarchy
+- believable control density
+- actionable primary CTA placement
+- production-grade component rhythm
+- realistic product-state structure
+- product-task clarity before visual spectacle
+
+Treat these as disallowed failure modes unless the workflow has explicitly switched into a marketing or asset branch:
+
+- poster composition
+- ad creative framing
+- landing-page hero styling
+- slogan-first layout
+- mood-board composition
+- concept-art treatment
+- wireframe-like draft output
+- explanatory requirements mock styling
+
+If an image feels impressive but the user cannot imagine shipping it as an actual app screen, the image is off-target.
+
 ## 6. Mobile UI Is Not A Shrunk Desktop UI
 
 Mobile requires re-composition, not compression.

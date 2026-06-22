@@ -1,6 +1,6 @@
 # Workflow Record Contract
 
-Use this reference whenever `flutter-workflow-orchestrator` initializes workflow state or optionally persists project workflow tracking into a runtime artifact.
+Use this reference whenever `flutter-workflow` initializes workflow state or optionally persists project workflow tracking into a runtime artifact.
 
 ## Contents
 
@@ -20,7 +20,7 @@ This contract describes the shape of a workflow-record artifact when the orchest
 
 Do not treat the artifact as a stable bundled skill resource. If persistence is needed, prefer an untracked runtime location such as:
 
-`tmp/flutter-workflow-orchestrator/workflow-record.md`
+`tmp/flutter-workflow/workflow-record.md`
 
 Create parent directories only for the current run when persistence is actually enabled.
 

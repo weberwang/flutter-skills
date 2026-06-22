@@ -50,7 +50,7 @@ If an artifact belongs to the app's real startup path or shared runtime path, it
 - The default mandatory package baseline includes `flutter_screenutil: ^5.9.3`; initialization must carry that exact package into the project baseline unless the guardrails are revised first.
 - If the RD includes paginated loading, infinite lists, cursor paging, or refresh-plus-load-more flows, initialization must include `infinite_scroll_pagination: ^5.1.1` as the default pagination baseline.
 - During scaffolding, if a provider, DTO, serializer, state union, or API client can be represented by the approved annotation chain, generate that path with annotations first instead of leaving equivalent hand-written boilerplate in the baseline.
-- If a workflow-record runtime artifact already exists for the current run, treat it as the current workflow source and return enough artifact paths for `flutter-workflow-orchestrator` to move the project to `project_initialized`.
+- If a workflow-record runtime artifact already exists for the current run, treat it as the current workflow source and return enough artifact paths for `flutter-workflow` to move the project to `project_initialized`.
 - If the target project root is not yet a git repository, initialize it with `git init` before later scaffold steps depend on repository state.
 - Always ensure the project root has a `.gitignore` baseline. If the file is missing, create it. If it already exists, append only the missing baseline entries so the step stays idempotent.
 - The `.gitignore` baseline must cover Flutter and Dart generated artifacts plus common local-tooling noise, including `.dart_tool/`, `.idea/`, `.vscode/`, `build/`, `.agents`, and `.claude`.
@@ -73,7 +73,7 @@ If an artifact belongs to the app's real startup path or shared runtime path, it
 9. Generate or refresh `skills/flutter-dev/` beside `flutter-init` from `assets/flutter-dev-template/`, then fill in the project-specific feature map, commands, and decisions.
 10. Stop at initialization boundaries: directory layout, minimal dependency baseline, placeholders, sibling skill generation, and repository baseline. Do not continue into bootstrap code, shared wiring, feature behavior, or page implementation.
 11. Run initialization verification and summarize what was scaffolded, what remains bootstrap-specific, what remains implementation-specific, and what still needs confirmation.
-12. If a workflow record exists, return the project root path, generated sibling `skills/flutter-dev/` path, and initialization summary so `flutter-workflow-orchestrator` can advance the stage to `project_initialized`.
+12. If a workflow record exists, return the project root path, generated sibling `skills/flutter-dev/` path, and initialization summary so `flutter-workflow` can advance the stage to `project_initialized`.
 
 ## Hard Rules
 
@@ -108,7 +108,7 @@ If an artifact belongs to the app's real startup path or shared runtime path, it
 - A repository baseline that includes `git init` when needed plus a root `.gitignore` covering `.dart_tool/`, `build/`, `.idea/`, `.vscode/`, `.agents`, `.claude`, and other common generated or local-only artifacts.
 - A verified dependency and plugin setup that is aligned with the current Flutter SDK.
 - A short initialization summary that states scaffolded features, generated layers, remaining bootstrap gaps, remaining business code gaps, unresolved confirmation items, and the fact that feature implementation has not been started.
-- The project root path and generated sibling `skills/flutter-dev/` path, so `flutter-workflow-orchestrator` can record `project_initialized`.
+- The project root path and generated sibling `skills/flutter-dev/` path, so `flutter-workflow` can record `project_initialized`.
 
 ## References
 
