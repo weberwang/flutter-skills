@@ -47,8 +47,9 @@ When persisted, this runtime artifact is the single stable source for project wo
 - whether the workflow used a confirmed Product Design brief, approved visual source, or Product Design recommendation artifact before final design-direction confirmation
 - whether the target design-device preset and base resolution are already frozen for the current design cycle
 - which iPhone preset or custom viewport was selected
+- whether the current global design cycle has a selected `global_style_scheme` with `theme_style_scope`, `theme_and_style_only`, `no_global_page_design_draft`, optional `global_style_experience_image` with `non_page_design_evidence`, and `page_design_deferred_to_module_stage`
 - whether the common public shell has already been explicitly agreed before any effect-image generation starts
-- whether the current design cycle already has an accepted native `HTML/CSS/JS` shared prototype before any shared/global representative sketch or effect-image generation starts
+- whether any legacy native `HTML/CSS/JS` shared prototype exists only as non-authoritative style evidence, and whether the current global route still avoids page design drafts
 - whether the final product design direction has been confirmed with the user after the Product Design brief and direction step
 - whether a root-level `DESIGN.md` already exists for the confirmed final design direction
 - whether `DESIGN.md` already captures task-priority and first-screen CTA rules
@@ -81,10 +82,10 @@ When persisted, this runtime artifact is the single stable source for project wo
 - whether Flutter render-vs-frozen-design QA has already run before final human visual inspection
 - whether the accepted workflow effect-image set is confirmed as the required light-mode evidence baseline
 - whether image-generation retries, when they happened, preserved the full original prompts instead of simplifying them
-- whether shared/global required effect-image generation covers all pages in the approved product scope
-- whether shared/global freeze already has the approved effect images required by the active revision path, if any
+- whether module-stage required effect-image generation covers the active module pages in the approved product scope
+- whether module freeze already has the approved effect images required by the active revision path, if any
 - whether generated effect images explicitly inherited the approved global style constraints
-- whether module-stage effect-image generation stayed disabled by default unless an explicit evidence need was approved after the required shared/global effect-image set was complete
+- whether module-stage effect-image generation stayed blocked until the module `impl.md` and native module HTML prototype were accepted
 - whether `global-design-guidelines.md` records the current effect-image policy and generated global effect-image paths
 - whether implementation planning identified any non-native visual asset that still needs MCP-driven generation or rework
 - whether display-layer readiness preflight is complete before implementation begins
@@ -195,11 +196,13 @@ Record why the project is in the current stage and what must become true before 
 
 If the global visual design direction has not yet been brainstormed, say so explicitly and keep final product design direction confirmation blocked.
 
+If the selected `global_style_scheme` is missing, say so explicitly and keep global design freeze blocked. The record must state whether `theme_style_scope`, `theme_and_style_only`, `no_global_page_design_draft`, optional `global_style_experience_image` with `non_page_design_evidence`, and `page_design_deferred_to_module_stage` are present and valid.
+
 If the target design-device preset or base resolution is still missing, say so explicitly and keep Product Design brief confirmation, representative effect-image generation, and required effect-image generation blocked.
 
 If the common public shell has not yet been explicitly agreed, say so explicitly and keep design-direction confirmation plus required effect-image generation blocked.
-If the current design cycle still lacks an accepted native `HTML/CSS/JS` shared prototype, say so explicitly and keep shared/global representative sketch generation, final effect-image generation, atlas analysis, and later shared Pencil work blocked.
-If shared native HTML prototype review changed requirements, say so explicitly and record whether the corresponding PRD sections, `DESIGN.md`, shared design packet notes, and workflow record were updated before downstream generation continued.
+If a legacy native `HTML/CSS/JS` shared prototype exists, say so explicitly and record that it is non-authoritative style evidence only. Keep shared/global representative sketch generation, final effect-image generation, atlas analysis, and later shared Pencil work blocked by `no_global_page_design_draft`.
+If legacy shared native HTML prototype review changed requirements, say so explicitly and record whether the corresponding PRD sections, `DESIGN.md`, shared design packet notes, and workflow record were updated before shared freeze continued.
 
 If the final product design direction has not been confirmed, say so explicitly and keep `DESIGN.md`, Pencil design execution, and downstream required effect-image completion blocked.
 
@@ -211,11 +214,12 @@ If any shared HTML prototype, module HTML prototype, representative sketch, fina
 If `commercial_surface_gate.result=revision_required`, state the `gate_owner`, `failed_dimensions`, and `revision_target`, then keep the workflow on the last confirmed stage until the matching artifact is revised and rechecked.
 If `commercial_design_exploration` is still open, state whether `selected_direction`, `structure_recomposition_decisions`, and `freeze_boundary` are missing, and keep shared HTML prototype locking blocked until those decisions are recorded.
 If `mandatory_mobbin_reference`, `fixed_style_direction`, or `strong_hierarchy_contract` is missing, say so explicitly and keep commercial design exploration, shared HTML locking, representative sketch generation, final effect-image generation, and shared freeze blocked until the missing contract is recorded.
+If a shared/global step attempts to record page-level HTML prototypes, representative sketches, final effect images, atlas bundles, Pencil page files, or shared page comps before module scope, record blocker `no_global_page_design_draft` and keep `page_design_deferred_to_module_stage=true`.
 If `minimal_default_copy_contract` is missing or reports `explanation_overload`, say so explicitly and keep shared HTML locking, module HTML locking, representative sketch confirmation, effect-image acceptance, Pencil acceptance, and freeze blocked until visible explanatory copy is reduced or moved behind disclosure.
 
 If the representative sketch exists but is still waiting for user confirmation, say so explicitly and keep representative final effect-image generation plus remaining required page-image generation blocked.
 
-If the representative sketch has already been confirmed, say so explicitly, state that alternative-direction browsing is closed for the current design cycle, and allow only same-direction completion work unless the user explicitly restarts or rejects that baseline. Also record whether the representative final effect image has already been generated from that confirmed sketch.
+If the module representative sketch has already been confirmed, say so explicitly, state that alternative-direction browsing is closed for the current module design cycle, and allow only same-direction completion work unless the user explicitly restarts or rejects that baseline. Also record whether the module representative final effect image has already been generated from that confirmed sketch.
 
 If approved image-backed design direction is missing before detailed design-source work, say so explicitly.
 
@@ -223,7 +227,7 @@ If the workflow is still in requirements brainstorming, state whether raw requir
 
 If the shared/global design freeze is not complete yet, say so explicitly and keep all module-related workflow blocked.
 
-If shared/global Pencil design execution is still unresolved after `DESIGN.md` and effect-image confirmation, say so explicitly and keep shared freeze blocked until the workflow records the Pencil compare-confirm-fix-human-acceptance result.
+If a shared/global Pencil design execution step appears after `DESIGN.md`, say so explicitly and keep shared freeze blocked by `no_global_page_design_draft`; Pencil compare-confirm-fix-human-acceptance belongs to module scope.
 
 If the active module lacks an executable `impl.md`, say so explicitly.
 
@@ -340,7 +344,7 @@ Track project-level artifact paths when known, such as:
 - `global-design-guidelines.md`
 - `docs/project/assets/global-asset-catalog.json`
 - chosen `design_source_type`
-- shared Pencil design file path
+- legacy shared Pencil design file path, if present as non-authoritative evidence
 - module Pencil design file path when module scope is active
 - Pencil design compare report
 - Pencil design repair confirmation record
@@ -354,7 +358,7 @@ Track project-level artifact paths when known, such as:
 - `dark-theme-freeze.yaml`
 - shared freeze evidence or freeze decision
 - shared global effect-image directory under `docs/project/`
-- whether the shared effect-image set is light mode or an explicitly approved override
+- whether the module effect-image set is light mode or an explicitly approved override
 - effect-image policy recorded in `global-design-guidelines.md`
 - fidelity-critical display evidence pack paths when known
 - architecture summary
@@ -365,7 +369,7 @@ Track project-level artifact paths when known, such as:
 - project-level `@superpowers` execution trace when one exists
 - any approved generated bitmap assets that implementation must consume
 
-When the chosen global effect image originates from a module page, keep only the global effect-image path under `docs/project/`; do not require or index a copied module-local path.
+When a module effect image is reused as broader style evidence, keep it indexed as module evidence and reference it from the global style notes only as non-authoritative evidence.
 
 If the shared/public component freeze is tracked in a dedicated artifact, index it here too.
 
@@ -401,16 +405,16 @@ When route drift, receipt mismatch, or no-progress auto stopping happens, add a 
 - If requirements brainstorming resolves decision-blocking questions, index the generated PRD artifact and queue `pending_next_stage=prd_ready` instead of silently jumping to technical baseline.
 - If decision-blocking questions remain unresolved, record them in `required_inputs` or `blockers`, keep `current_stage=requirements_brainstorming`, and do not route to technical baseline, image-backed design direction, executable module document generation, architecture, or implementation.
 - If a default is used to answer a PRD question, record the assumption, rationale, and risk in the workflow record or PRD artifact index.
-- If the PRD exists but the global visual design direction has not yet been brainstormed, keep `DESIGN.md` and required effect-image generation blocked and route first to `@product-design` brief confirmation or representative effect-image recommendation as needed. If richer commercial evidence is needed before confirmation, record the pending pre-direction Creative Production branch explicitly instead of treating image-backed design-packet normalization as the primary direction owner.
+- If the PRD exists but the global visual design direction has not yet been brainstormed, keep `DESIGN.md` blocked and route first to `@product-design` brief confirmation or global style-scheme recommendation as needed. If richer commercial evidence is needed before confirmation, record the pending pre-direction Creative Production branch explicitly instead of treating image-backed design-packet normalization as the primary direction owner.
 - If the technical baseline exists but the target design-device preset or base resolution is still missing, keep `current_stage=technical_baseline_ready`, record `required_inputs=design_device_preset_and_resolution`, and do not route to Product Design brief confirmation yet. In `--auto` or `--full-auto`, if the viewport is still missing, record that `390 x 844 px` was auto-selected.
-- If the global visual direction exists but the common public shell has not yet been agreed, keep design-direction confirmation and required effect-image generation blocked, record `required_inputs=public_shell_confirmation`, and do not route to representative or full page-effect generation.
-- If the brainstormed direction exists but the final product design direction has not been confirmed with the user, keep `DESIGN.md` and required effect-image generation blocked, record `required_inputs=final_product_design_direction_confirmation`, and do not route to downstream design-source generation.
-- If final product design direction is confirmed but the shared or module freeze packet is still not standardized, route to image-backed design-packet normalization for freeze-contract consolidation before any freeze promotion is queued.
-- If final product design direction is confirmed, index the confirmation artifact or decision-log entry before writing the root-level `DESIGN.md` or generating any optional effect image.
-- If the root-level `DESIGN.md` is written, index its path before Pencil design execution or later bitmap generation.
-- If shared or module Pencil design execution is required, index the corresponding `.pen` path, compare report, repair receipt, human-acceptance result, and any bitmap-generation implications before allowing freeze to continue.
+- If the global visual direction exists but the common public shell has not yet been agreed, keep design-direction confirmation blocked, record `required_inputs=public_shell_confirmation`, and do not route to representative or full page-effect generation.
+- If the brainstormed direction exists but the final product design direction has not been confirmed with the user, keep `DESIGN.md` blocked, record `required_inputs=final_product_design_direction_confirmation`, and do not route to downstream design-source generation.
+- If final product design direction is confirmed but the shared freeze packet is still not standardized, route to `global_style_scheme` and `DESIGN.md` refinement before any freeze promotion is queued.
+- If final product design direction is confirmed, index the confirmation artifact or decision-log entry before writing the root-level `DESIGN.md`.
+- If the root-level `DESIGN.md` is written, index its path before module Pencil design execution or later module bitmap generation.
+- If module Pencil design execution is required, index the corresponding `.pen` path, compare report, repair receipt, human-acceptance result, and any bitmap-generation implications before allowing module freeze to continue.
 - If a module native HTML prototype is required, index its local paths, the static-layout receipt, the explicit confirmation result, and whether the prototype stayed native `HTML/CSS/JS` without framework usage before allowing module effect-image generation or later freeze work to continue.
-- If a shared native HTML prototype is required, index its local paths, the static-layout receipt, the explicit confirmation result, and whether the prototype stayed native `HTML/CSS/JS` without framework usage before allowing shared/global representative sketch generation, final effect-image generation, or later shared freeze work to continue.
+- If a legacy shared native HTML prototype exists, index its local paths, static-layout receipt, explicit confirmation result, and whether it stayed native `HTML/CSS/JS` without framework usage; keep it as non-authoritative evidence only and do not use it to allow shared/global representative sketch generation, final effect-image generation, or Pencil work.
 - If an atlas-analysis node runs, index the effect-image path, atlas analysis path, approved cell plan or extraction list, and the explicit confirmation result before allowing atlas generation or later Pencil work to continue.
 - If an atlas-preparation node runs, index the effect-image path, atlas image path, chosen background color, atlas manifest path, atlas slicing config path, and the explicit confirmation result before allowing background removal, the slicing node, or later Pencil work to continue.
 - If an atlas background-removal node runs, index the solid atlas input path, transparent atlas output path, transparency validation result, and the explicit confirmation result before allowing the slicing node or later Pencil work to continue.
@@ -419,34 +423,35 @@ When route drift, receipt mismatch, or no-progress auto stopping happens, add a 
 - If copy-minimization review already ran, record whether redundant subtitles, repeated helper paragraphs, stacked explanation blocks, and overlong descriptive text were removed or are still blocking freeze.
 - If a commercial product surface gate runs, record `commercial_surface_gate` with `gate_owner`, `artifact_type`, `artifact_paths`, `result`, `first_screen_task_recognition`, `primary_cta_dominance`, `real_control_density`, `platform_information_density`, `state_structure_coverage`, `copy_compression_result`, `reference_decision_inheritance`, `commercial_failure_modes`, `failed_dimensions`, and `revision_target`.
 - If default-surface copy is reviewed, record `minimal_default_copy_contract` with `status`, `explanatory_copy_budget`, `visible_explanation_count`, `kept_helper_lines`, `removed_or_compressed_copy`, `disclosure_destination`, `exception_reason`, and whether any `explanation_overload` remains.
-- If a shared or module HTML prototype, generated representative sketch, final effect image, implementation-stage module effect image, Pencil design source, or freeze packet is about to promote the workflow, verify that its `commercial_surface_gate` was recorded before any downstream promotion and that `result=passed`; otherwise clear queued promotions and route to the recorded `revision_target`.
-- If commercial design exploration runs, record `commercial_design_exploration` with `direction_space_open`, `selected_direction`, `structure_recomposition_decisions`, `allowed_recomposition_scope`, `preserved_product_constraints`, `rejected_directions`, and `freeze_boundary`. Do not treat the shared native HTML prototype as locked while `direction_space_open=true`.
+- If a global style scheme, module HTML prototype, generated representative sketch, final effect image, implementation-stage module effect image, Pencil design source, or freeze packet is about to promote the workflow, verify that its `commercial_surface_gate` was recorded before any downstream promotion and that `result=passed`; otherwise clear queued promotions and route to the recorded `revision_target`.
+- If commercial design exploration runs, record `commercial_design_exploration` with `direction_space_open`, `selected_direction`, `structure_recomposition_decisions`, `allowed_recomposition_scope`, `preserved_product_constraints`, `rejected_directions`, and `freeze_boundary`. Do not treat the global style scheme as locked while `direction_space_open=true`.
 - If the Mobbin-first reference step runs, record `mandatory_mobbin_reference` with `status`, `reference_screen_evidence`, extracted layout decisions, extracted hierarchy decisions, target-platform fit, viewport fit, rejected references, and the resulting direction candidates.
 - If a commercial direction is selected, record `fixed_style_direction` with `status`, `style_single_source`, palette posture, typography posture, component family, spacing rhythm, surface depth, icon or image treatment, CTA posture, and explicit rules for what must not vary across pages.
 - If hierarchy is frozen for a commercial direction, record `strong_hierarchy_contract` with `status`, `hierarchy_contrast_ladder`, primary action treatment, primary content treatment, secondary content treatment, metadata treatment, support-copy treatment, background-surface treatment, and failure conditions that require design revision.
-- If no representative sketch exists yet in manual mode, generate exactly one representative sketch first, index its path and selected page, set `confirmation_status=pending_confirmation`, and stop before generating the representative final effect image or remaining page images.
-- If the representative sketch is still pending confirmation or has been rejected in manual mode, keep representative final effect-image generation and remaining required page-image generation blocked and do not advance to the broader required page-image generation step.
-- If the representative sketch is confirmed in manual mode, record that confirmation explicitly, then generate and index the representative final effect image before generating the remaining required page-effect set.
+- If global style selection runs, record `global_style_scheme` with `status`, `theme_style_scope`, `theme_and_style_only`, `no_global_page_design_draft`, `page_design_deferred_to_module_stage`, selected theme name, palette posture, typography posture, density posture, surface depth, component family, CTA posture, icon or image treatment, motion restraint, copy posture, public-shell principles, reusable theme tokens, Mobbin evidence links, rejected style routes, and the reason page design is deferred to module scope. If an intuitive visual review artifact is produced, record `global_style_experience_image` with path, source, prompt or reference basis, covered style dimensions, QA receipt, and `non_page_design_evidence=true`; do not treat it as page layout, atlas, Pencil, or module effect-image evidence.
+- If no module representative sketch exists yet in manual mode for an active module route that requires it, generate exactly one representative sketch first, index its path and selected page, set `confirmation_status=pending_confirmation`, and stop before generating the module representative final effect image or remaining page images.
+- If the module representative sketch is still pending confirmation or has been rejected in manual mode, keep module representative final effect-image generation and remaining required page-image generation blocked and do not advance to the broader required page-image generation step.
+- If the module representative sketch is confirmed in manual mode, record that confirmation explicitly, then generate and index the module representative final effect image before generating the remaining required page-effect set.
 - If `execution_mode=auto` or `execution_mode=full_auto` and the active route explicitly requires additional effect images, generate the in-scope images automatically, record their paths, and do not create a confirmation stop.
 - If any workflow-generated image is created, record whether the matching row was also written or updated in `docs/project/assets/global-asset-catalog.json` during the same workflow step.
 - If any workflow-generated image is created, record whether one automatic `@product-design` QA pass also ran for that image and where the QA receipt or summary was stored.
 - If any bitmap asset generation is about to begin, record whether the workflow first checked `docs/project/assets/global-asset-catalog.json` plus the approved output paths it references for reuse, and record whether the outcome was `reused_existing`, `candidate_reuse_blocked`, or `new_generation_required`.
-- If approved image-backed design direction is produced, index its artifact path in `global_artifact_index` and link it from active module rows when relevant.
+- If approved image-backed module design direction is produced, index its artifact path in `global_artifact_index` and link it from active module rows when relevant.
 - If `platform_identifier` becomes explicit, record it in the relevant summary or artifact index instead of leaving it implicit in prose.
 - If primary-platform validation target selection changes from pending to selected device or emulator fallback, record that transition explicitly in the relevant summary or artifact index.
 - If image-backed design-packet normalization completes, record that status in the relevant summary or decision entry before any freeze promotion is queued.
 - If freeze preparation inspects static-image directories, record whether existing evidence was reused, skipped due to missing environment variables, or newly generated.
 - If effect images are accepted for workflow use, record whether they satisfy the default light-mode requirement.
 - If a Pencil-to-Flutter restoration contract is produced, record the exact contract path or packet and the library-fit decisions it introduced.
-- If shared/global effect images were generated, record the complete page list, one approved image path per page, and whether every in-scope page is covered for that optional branch.
-- If the representative sketch was generated, record its path, selected page, and approval status.
-- If the representative final effect image was generated, record its path and approval status.
+- If legacy shared/global effect images were generated, record them as non-authoritative evidence and keep `no_global_page_design_draft` active; do not treat them as global freeze requirements.
+- If the module representative sketch was generated, record its path, selected page, and approval status.
+- If the module representative final effect image was generated, record its path and approval status.
 - If a generated image required a retry, record whether the retry preserved the full original prompt plus frozen constraints, and record any blocker-specific additions separately instead of implying the prompt was simplified.
 - If a representative sketch, final effect image, implementation-stage module effect image, shared bitmap asset, or module bitmap asset was generated, record its catalog row id or a blocker explaining why the catalog update did not happen.
-- If shared/global freeze is under review, record whether the approved effect images required by the active revision path now exist or whether that path is still blocked on image generation.
+- If shared/global freeze is under review, record whether the selected `global_style_scheme`, `DESIGN.md`, hierarchy contract, and minimal-copy contract are complete; do not block it on page effect images.
 - If shared/global freeze is under review, record whether task hierarchy, CTA discoverability, interaction feedback, responsive strategy, and critical-state coverage were explicitly verified.
 - If generated effect images were created after a shared/global direction existed, record whether palette direction, typography mood, component family cues, CTA posture, visual system, and image treatment were explicitly inherited.
-- If shared/global effect images were created, record the frozen base design viewport they were generated against.
+- If legacy shared/global effect images were created, record the frozen base design viewport only as provenance for non-authoritative evidence.
 - If `design-preview-to-global-guidelines` artifacts are created, update the relevant module row and queue `global_guidelines_frozen` in `pending_next_stage` instead of switching immediately.
 - If a module native HTML prototype is generated in manual mode, keep `current_stage` on the last confirmed stage, queue `pending_next_stage=module_html_prototype_ready`, set `next_skill: none`, and stop until the user confirms that prototype.
 - If an atlas analysis bundle is generated in manual mode, keep `current_stage` on the last confirmed stage, queue `pending_next_stage=ui_sheet_atlas_analysis_ready`, set `next_skill: none`, and stop until the user confirms that atlas analysis.
@@ -522,15 +527,16 @@ When route drift, receipt mismatch, or no-progress auto stopping happens, add a 
 - Do not accept effect-image evidence into the workflow record without stating whether it meets the default light-mode requirement.
 - Do not mark a structured design-source packet as frozen before recording the source effect-image paths and validation result.
 - Do not route module effect-image generation, module Pencil design execution, or module freeze forward before recording an accepted native `HTML/CSS/JS` prototype receipt for the active module when the module HTML stage is required.
-- Do not route shared/global representative sketch generation, shared/global effect-image generation, atlas analysis, or shared Pencil design execution forward before recording an accepted native `HTML/CSS/JS` shared prototype receipt for the current design cycle.
+- Do not record global/shared page design drafts, page-level HTML prototypes, representative page sketches, final effect images, atlas bundles, or Pencil page files as required global freeze inputs. Global design must stay `theme_and_style_only=true` and keep `page_design_deferred_to_module_stage=true`.
+- Do not route shared/global representative sketch generation, shared/global effect-image generation, atlas analysis, or shared Pencil design execution forward during the current global style-only workflow. Those page-level artifacts belong to module scope after the active module contract exists.
 - Do not mark a structured design-source packet as frozen before recording local paths for every exported image asset required for direct implementation use when module-scoped asset export was part of the accepted packet.
 - Do not mark a scope as freeze-ready while its mandatory Pencil design source is still missing or not yet human-accepted after the repair pass.
 - Do not mark `pencil_restoration_ready` unless the workflow record proves the restoration contract already exists.
-- Do not accept shared/global effect-image evidence into the workflow record without stating whether every in-scope page has an approved light-mode effect image for the required branch.
+- Do not accept shared/global effect-image evidence as a global freeze requirement. If legacy shared/global effect images exist, record them only as non-authoritative evidence with provenance and keep `no_global_page_design_draft` active.
 - Do not treat a representative final effect image as if it also proves module-scoped effect-image evidence already exists.
 - In manual mode, do not generate remaining page effect images before the representative sketch is explicitly confirmed and the representative final effect image has been generated.
 - Do not accept generated effect-image evidence into the workflow record without stating whether the approved style constraints were explicitly inherited.
-- Do not present shared/global freeze as ready in the workflow record while a revision path that explicitly requires approved effect images is still missing them.
+- Do not present shared/global freeze as blocked by missing page effect images; global freeze depends on `global_style_scheme`, `DESIGN.md`, hierarchy, minimal-copy, public-shell, component-family, and interaction-principle contracts.
 - Do not hide a required bitmap fallback or MCP-driven asset-generation need inside prose without indexing the asset path or pending generation note.
 - Do not mark a module ready for display-layer landing while the required preflight inputs or decision table are still missing.
 - Do not mark a fidelity-critical module ready for display-layer landing while its evidence pack still lacks the detail, state, scroll, or overlay coverage needed for faithful implementation.

@@ -8,9 +8,9 @@ Turn one approved page into a reusable runtime asset set that downstream prototy
 
 This flow sits after effect-image confirmation plus Pencil review acceptance, and before prototype generation. It is not a design-direction workflow. It is a resource-normalization workflow.
 
-Each qualifying page should already have a matching `UI-only sheet atlas` generated during the effect-image step, first as a confirmed solid-background atlas and then as a confirmed transparent atlas after `$imagegen` background removal. That atlas is a standard runtime-oriented resource atlas source. When its accepted slice outputs already satisfy the page's runtime contract, they may replace separate per-resource regeneration.
+Each qualifying page should already have a matching `UI-only sheet atlas` generated during the effect-image step, first as a confirmed solid-background atlas and then as a confirmed `UI-only transparent sheet atlas` after `$imagegen` background removal. That atlas is a standard runtime-oriented resource atlas source. When its accepted slice outputs already satisfy the page's runtime contract, they may replace separate per-resource regeneration.
 
-If atlas input is already transparent, skip background removal. If a confirmed solid-background atlas still needs transparent output, route through `$imagegen` background removal, validate the alpha result, and confirm that transparent atlas before slicing.
+If atlas input is already transparent, skip background removal. If a confirmed solid-background atlas still needs transparent output, route through `$imagegen` background removal, validate the alpha result, and confirm that transparent atlas before slicing. Background removal is allowed only for solid-color backgrounds; non-solid backgrounds must be rejected or regenerated as a solid-background atlas first.
 
 ## Entry Conditions
 

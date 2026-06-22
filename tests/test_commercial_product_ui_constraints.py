@@ -12,6 +12,7 @@ HARD_RULES = REPO_ROOT / "skills" / "flutter-workflow" / "references" / "hard-ru
 DESIGN_GUIDANCE = REPO_ROOT / "skills" / "flutter-workflow" / "references" / "design-quality-guidance.md"
 ROUTING_RULES = REPO_ROOT / "skills" / "flutter-workflow" / "references" / "routing-rules.md"
 WORKFLOW_RECORD_CONTRACT = REPO_ROOT / "skills" / "flutter-workflow" / "references" / "workflow-record-contract.md"
+WORKFLOW_STATES = REPO_ROOT / "skills" / "flutter-workflow" / "references" / "workflow-states.md"
 
 ORCHESTRATOR_SNIPPETS = [
     "Commercial Product UI Constraint",
@@ -46,6 +47,16 @@ MOBBIN_STYLE_SNIPPETS = [
     "hierarchy_contrast_ladder",
 ]
 
+GLOBAL_STYLE_ONLY_SNIPPETS = [
+    "Global Style-Only Design Boundary",
+    "global_style_scheme",
+    "global_style_experience_image",
+    "theme_and_style_only",
+    "no_global_page_design_draft",
+    "non_page_design_evidence",
+    "page_design_deferred_to_module_stage",
+]
+
 MINIMAL_COPY_SNIPPETS = [
     "minimal_default_copy_contract",
     "explanatory_copy_budget",
@@ -58,6 +69,17 @@ HARD_RULE_SNIPPETS = [
     "Do not allow first-screen product UI to depend on long explanatory copy",
     "Do not freeze a settings, dashboard, utility, or task surface if its primary understanding requires reading multiple descriptive text blocks.",
     "Do not keep subtitle, row-description, notice-card, and support-copy layers simultaneously when they repeat the same meaning.",
+]
+
+HARD_RULE_GLOBAL_STYLE_ONLY_SNIPPETS = [
+    "Do not generate shared/global representative page sketches",
+    "global_style_experience_image",
+    "non_page_design_evidence=true",
+    "global_style_scheme.status=selected",
+    "theme_and_style_only=true",
+    "no_global_page_design_draft",
+    "page_design_deferred_to_module_stage=true",
+    "Module effect images are mandatory",
 ]
 
 ROUTING_GATE_SNIPPETS = [
@@ -79,6 +101,16 @@ ROUTING_MOBBIN_STYLE_SNIPPETS = [
     "mandatory_mobbin_reference.status=complete",
     "fixed_style_direction.status=selected",
     "strong_hierarchy_contract.status=recorded",
+]
+
+ROUTING_GLOBAL_STYLE_ONLY_SNIPPETS = [
+    "Do not generate global page design drafts",
+    "global_style_experience_image",
+    "non_page_design_evidence=true",
+    "global_style_scheme.status=selected",
+    "theme_and_style_only=true",
+    "page_design_deferred_to_module_stage=true",
+    "Global design may define theme tokens",
 ]
 
 ROUTING_MINIMAL_COPY_SNIPPETS = [
@@ -108,6 +140,27 @@ WORKFLOW_MOBBIN_STYLE_RECORD_SNIPPETS = [
     "fixed_style_direction",
     "strong_hierarchy_contract",
     "hierarchy_contrast_ladder",
+]
+
+WORKFLOW_GLOBAL_STYLE_ONLY_RECORD_SNIPPETS = [
+    "global_style_scheme",
+    "global_style_experience_image",
+    "theme_style_scope",
+    "theme_and_style_only",
+    "non_page_design_evidence",
+    "no_global_page_design_draft",
+    "page_design_deferred_to_module_stage",
+]
+
+WORKFLOW_STATE_GLOBAL_STYLE_ONLY_SNIPPETS = [
+    "global_style_scheme.status=selected",
+    "global_style_experience_image",
+    "theme_and_style_only=true",
+    "no_global_page_design_draft=true",
+    "non_page_design_evidence=true",
+    "page_design_deferred_to_module_stage=true",
+    "Global effect-image states are legacy-only",
+    "not page design evidence",
 ]
 
 WORKFLOW_MINIMAL_COPY_RECORD_SNIPPETS = [
@@ -141,6 +194,12 @@ class CommercialProductUiConstraintsTest(unittest.TestCase):
         for snippet in HARD_RULE_SNIPPETS:
             self.assertIn(snippet, content)
 
+    def test_hard_rules_keep_global_design_style_only(self) -> None:
+        """硬规则必须阻止全局阶段重新进入页面级设计稿链路。"""
+        content = HARD_RULES.read_text(encoding="utf-8")
+        for snippet in HARD_RULE_GLOBAL_STYLE_ONLY_SNIPPETS:
+            self.assertIn(snippet, content)
+
     def test_design_guidance_mentions_commercial_copy_compression(self) -> None:
         """设计指引必须明确视觉优先、解释后置和首屏收口。"""
         content = DESIGN_GUIDANCE.read_text(encoding="utf-8")
@@ -163,6 +222,12 @@ class CommercialProductUiConstraintsTest(unittest.TestCase):
         """编排器必须把 Mobbin 参考、固定风格和强层次感作为设计前置约束。"""
         content = ORCHESTRATOR_SKILL.read_text(encoding="utf-8")
         for snippet in MOBBIN_STYLE_SNIPPETS:
+            self.assertIn(snippet, content)
+
+    def test_orchestrator_limits_global_design_to_theme_and_style_scheme(self) -> None:
+        """编排器必须阻止全局阶段产出页面设计稿，只允许冻结主题和风格方案。"""
+        content = ORCHESTRATOR_SKILL.read_text(encoding="utf-8")
+        for snippet in GLOBAL_STYLE_ONLY_SNIPPETS:
             self.assertIn(snippet, content)
 
     def test_orchestrator_limits_explanatory_copy_by_default(self) -> None:
@@ -189,6 +254,12 @@ class CommercialProductUiConstraintsTest(unittest.TestCase):
         for snippet in ROUTING_MOBBIN_STYLE_SNIPPETS:
             self.assertIn(snippet, content)
 
+    def test_routing_blocks_global_page_design_drafts(self) -> None:
+        """路由规则必须把全局设计限制为主题和风格方案，不生成页面级设计稿。"""
+        content = ROUTING_RULES.read_text(encoding="utf-8")
+        for snippet in ROUTING_GLOBAL_STYLE_ONLY_SNIPPETS:
+            self.assertIn(snippet, content)
+
     def test_routing_blocks_explanation_overload(self) -> None:
         """路由规则必须阻断默认界面解释性文案过载。"""
         content = ROUTING_RULES.read_text(encoding="utf-8")
@@ -211,6 +282,18 @@ class CommercialProductUiConstraintsTest(unittest.TestCase):
         """工作流记录必须保存 Mobbin 证据、固定风格和强层次合同。"""
         content = WORKFLOW_RECORD_CONTRACT.read_text(encoding="utf-8")
         for snippet in WORKFLOW_MOBBIN_STYLE_RECORD_SNIPPETS:
+            self.assertIn(snippet, content)
+
+    def test_workflow_record_tracks_global_style_only_boundary(self) -> None:
+        """工作流记录必须保存全局只定主题和风格方案的边界。"""
+        content = WORKFLOW_RECORD_CONTRACT.read_text(encoding="utf-8")
+        for snippet in WORKFLOW_GLOBAL_STYLE_ONLY_RECORD_SNIPPETS:
+            self.assertIn(snippet, content)
+
+    def test_workflow_states_keep_global_design_style_only(self) -> None:
+        """状态表必须把全局设计定义为风格方案，而不是页面稿链路。"""
+        content = WORKFLOW_STATES.read_text(encoding="utf-8")
+        for snippet in WORKFLOW_STATE_GLOBAL_STYLE_ONLY_SNIPPETS:
             self.assertIn(snippet, content)
 
     def test_workflow_record_tracks_minimal_default_copy_contract(self) -> None:
