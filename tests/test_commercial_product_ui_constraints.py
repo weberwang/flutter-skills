@@ -90,6 +90,7 @@ PRODUCT_DESIGN_IMAGE_POLICY_SNIPPETS = [
     "global_style_experience_image",
     "module representative sketch",
     "module final effect image",
+    "select or revise a Product Design-generated candidate",
     "$imagegen` background removal",
 ]
 
@@ -98,6 +99,7 @@ HARD_RULE_PRODUCT_DESIGN_IMAGE_POLICY_SNIPPETS = [
     "global_style_experience_image",
     "module representative sketch",
     "module final effect image direction",
+    "Do not generate the module final effect image through `gpt-image-2-generator`",
     "Do not use `@product-design` as a replacement for atlas background-removal",
     "deterministic runtime asset preparation",
 ]
@@ -138,6 +140,7 @@ ROUTING_PRODUCT_DESIGN_IMAGE_POLICY_SNIPPETS = [
     "`global_style_experience_image` through `Product Design:ideate`",
     "route the module representative sketch to `Product Design:ideate`",
     "route the module final effect-image direction pass to `Product Design:ideate`",
+    "select or revise a Product Design-generated candidate",
     "keep atlas background removal plus slicing on the deterministic asset path",
 ]
 
@@ -349,13 +352,16 @@ class CommercialProductUiConstraintsTest(unittest.TestCase):
     def test_workflow_skill_removes_old_generator_assignment_for_direction_images(self) -> None:
         content = ORCHESTRATOR_SKILL.read_text(encoding="utf-8")
         self.assertIn("Pre-confirmation module representative sketches should go through `Product Design:ideate`", content)
+        self.assertIn("select or revise a Product Design-generated candidate", content)
         self.assertNotIn("Representative sketch requests must go through local `$imagegen`", content)
         self.assertNotIn("before calling `gpt-image-2-generator`", content)
+        self.assertNotIn("If `gpt-image-2-generator` or its required environment cannot generate the required final effect images", content)
 
     def test_execution_modes_follow_product_design_for_direction_images(self) -> None:
         content = EXECUTION_MODES.read_text(encoding="utf-8")
         self.assertIn("generate it through `Product Design:ideate`", content)
         self.assertIn("Product Design-owned final effect-image direction pass", content)
+        self.assertIn("select or revise the Product Design-generated candidate", content)
         self.assertNotIn("generate the representative sketch through local `$imagegen`", content)
         self.assertNotIn("generate the required final effect images through `gpt-image-2-generator`", content)
 
@@ -370,6 +376,7 @@ class CommercialProductUiConstraintsTest(unittest.TestCase):
         content = WORKFLOW_RECORD_CONTRACT.read_text(encoding="utf-8")
         self.assertIn("representative Product Design sketch exists when required", content)
         self.assertIn("selected final effect-image direction path was actually available", content)
+        self.assertIn("selected Product Design candidate", content)
         self.assertNotIn("representative local `$imagegen` sketch exists when required", content)
         self.assertNotIn("`gpt-image-2-generator` for that branch was actually available", content)
 
