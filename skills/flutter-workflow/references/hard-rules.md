@@ -37,6 +37,7 @@ Use this reference before applying any state/status promotion, freeze decision, 
 - Do not let the module HTML prototype ship English-first or mixed-language visible UI copy by default. Use Simplified Chinese unless the user or active module contract explicitly requires another display language.
 - Do not let the module HTML prototype drift into marketing copy, ad-style composition, or explanation-heavy page content. It must look and read like a mature commercial product surface.
 - Do not use the module HTML prototype to validate interaction flow, state switching, scroll ownership, sticky behavior, or overlay behavior. Those remain downstream design and architecture responsibilities.
+- Do not let a shared/global or module effect image override a confirmed native HTML prototype's page structure, hierarchy, grouping, action priority, or basic interaction ownership. Visual fidelity is layered on top of the confirmed prototype contract, not the other way around.
 - Do not block direct image-asset use when the image can be exported from the approved prototype/effect-image source and saved into the project asset tree.
 - Do not call `$imagegen` for a new bitmap asset before checking whether the global asset catalog and its approved output paths already provide a reusable image for the same semantic and usage scenario.
 - Do not mark a structured design-source packet as frozen when required exported image assets lack recorded source paths, local asset paths, and intended page regions.
@@ -55,6 +56,7 @@ Use this reference before applying any state/status promotion, freeze decision, 
 - Do not simplify, shorten, or drop detail from a failed image-generation prompt when retrying. Preserve the full original prompt, the full frozen constraint set, and append only blocker-specific repair notes.
 - Do not let effect-image generation change the frozen design width or use a height smaller than the frozen base viewport height.
 - Do not let effect-image generation hide weak product structure behind cinematic framing, decorative negative space, oversized headlines, or non-product storytelling layouts.
+- Do not prefer a visually attractive but structurally inconsistent effect image over the confirmed prototype's task path, grouping, spacing logic, or action order.
 - Do not treat an atlas-analysis step as complete before its matching effect image, approved extraction analysis, and approved atlas cell plan all exist.
 - Do not treat an atlas-preparation step as complete before its matching effect image, solid-background atlas, chosen background color record, atlas manifest, and atlas slicing config all exist.
 - Do not treat atlas background-removal work as complete before the transparent atlas result exists and has been explicitly confirmed.
