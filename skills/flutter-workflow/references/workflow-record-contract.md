@@ -2,6 +2,8 @@
 
 Use this reference whenever `flutter-workflow` initializes workflow state or optionally persists project workflow tracking into a runtime artifact.
 
+All human-readable workflow-record content must default to Simplified Chinese unless the user explicitly requires another language for that artifact. Fixed metadata keys, status enums, code ids, filenames, and schema-required identifiers may remain in their contract-defined forms.
+
 ## Contents
 
 - [Runtime Persistence](#runtime-persistence)
@@ -46,6 +48,7 @@ When persisted, this runtime artifact is the single stable source for project wo
 - whether the target design-device preset and base resolution are already frozen for the current design cycle
 - which iPhone preset or custom viewport was selected
 - whether the common public shell has already been explicitly agreed before any effect-image generation starts
+- whether the current design cycle already has an accepted native `HTML/CSS/JS` shared prototype before any shared/global representative sketch or effect-image generation starts
 - whether the final product design direction has been confirmed with the user after the Product Design brief and direction step
 - whether a root-level `DESIGN.md` already exists for the confirmed final design direction
 - whether `DESIGN.md` already captures task-priority and first-screen CTA rules
@@ -70,6 +73,7 @@ When persisted, this runtime artifact is the single stable source for project wo
 - whether the current shared or module scope already has a confirmed atlas analysis bundle, a confirmed solid-background atlas bundle containing effect image, atlas image, chosen background color, atlas manifest, and atlas slicing config, and a confirmed transparent atlas result
 - whether the dedicated atlas slicing node has already produced a slice result manifest for the current scope
 - whether the active module already has an accepted native `HTML/CSS/JS` static prototype that shows page layout clearly enough for downstream effect-image work
+- whether the shared native `HTML/CSS/JS` prototype already has local paths, a static-layout receipt, and an explicit confirmation result
 - whether shared or module page-level static visual evidence already exists in the expected directories
 - whether the display evidence pack is complete enough for fidelity-critical regions
 - whether the active module already has a Pencil-to-Flutter restoration contract
@@ -101,6 +105,8 @@ When persisted, this runtime artifact is the single stable source for project wo
 - whether the current turn is orchestrator-owned or delegated to a subagent
 - whether the latest downstream receipt actually matched the locked route
 - whether the latest auto iteration made provable progress or stopped on a blocker
+
+The answers recorded in prose, summaries, notes, blocker explanations, review conclusions, and decision logs must be written in Simplified Chinese by default.
 
 ## Initialization Rule
 
@@ -192,6 +198,7 @@ If the global visual design direction has not yet been brainstormed, say so expl
 If the target design-device preset or base resolution is still missing, say so explicitly and keep Product Design brief confirmation, representative effect-image generation, and required effect-image generation blocked.
 
 If the common public shell has not yet been explicitly agreed, say so explicitly and keep design-direction confirmation plus required effect-image generation blocked.
+If the current design cycle still lacks an accepted native `HTML/CSS/JS` shared prototype, say so explicitly and keep shared/global representative sketch generation, final effect-image generation, atlas analysis, and later shared Pencil work blocked.
 
 If the final product design direction has not been confirmed, say so explicitly and keep `DESIGN.md`, Pencil design execution, and downstream required effect-image completion blocked.
 
@@ -395,6 +402,7 @@ When route drift, receipt mismatch, or no-progress auto stopping happens, add a 
 - If the root-level `DESIGN.md` is written, index its path before Pencil design execution or later bitmap generation.
 - If shared or module Pencil design execution is required, index the corresponding `.pen` path, compare report, repair receipt, human-acceptance result, and any bitmap-generation implications before allowing freeze to continue.
 - If a module native HTML prototype is required, index its local paths, the static-layout receipt, the explicit confirmation result, and whether the prototype stayed native `HTML/CSS/JS` without framework usage before allowing module effect-image generation or later freeze work to continue.
+- If a shared native HTML prototype is required, index its local paths, the static-layout receipt, the explicit confirmation result, and whether the prototype stayed native `HTML/CSS/JS` without framework usage before allowing shared/global representative sketch generation, final effect-image generation, or later shared freeze work to continue.
 - If an atlas-analysis node runs, index the effect-image path, atlas analysis path, approved cell plan or extraction list, and the explicit confirmation result before allowing atlas generation or later Pencil work to continue.
 - If an atlas-preparation node runs, index the effect-image path, atlas image path, chosen background color, atlas manifest path, atlas slicing config path, and the explicit confirmation result before allowing background removal, the slicing node, or later Pencil work to continue.
 - If an atlas background-removal node runs, index the solid atlas input path, transparent atlas output path, transparency validation result, and the explicit confirmation result before allowing the slicing node or later Pencil work to continue.
@@ -498,6 +506,7 @@ When route drift, receipt mismatch, or no-progress auto stopping happens, add a 
 - Do not accept effect-image evidence into the workflow record without stating whether it meets the default light-mode requirement.
 - Do not mark a structured design-source packet as frozen before recording the source effect-image paths and validation result.
 - Do not route module effect-image generation, module Pencil design execution, or module freeze forward before recording an accepted native `HTML/CSS/JS` prototype receipt for the active module when the module HTML stage is required.
+- Do not route shared/global representative sketch generation, shared/global effect-image generation, atlas analysis, or shared Pencil design execution forward before recording an accepted native `HTML/CSS/JS` shared prototype receipt for the current design cycle.
 - Do not mark a structured design-source packet as frozen before recording local paths for every exported image asset required for direct implementation use when module-scoped asset export was part of the accepted packet.
 - Do not mark a scope as freeze-ready while its mandatory Pencil design source is still missing or not yet human-accepted after the repair pass.
 - Do not mark `pencil_restoration_ready` unless the workflow record proves the restoration contract already exists.
