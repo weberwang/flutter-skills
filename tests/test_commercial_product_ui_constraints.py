@@ -202,6 +202,12 @@ WORKFLOW_MINIMAL_COPY_RECORD_SNIPPETS = [
     "explanation_overload",
 ]
 
+MANUAL_IMAGE_REVIEW_SNIPPETS = [
+    "manual image review",
+    "human review result",
+    "user confirmation or revision feedback",
+]
+
 GUIDANCE_SNIPPETS = [
     "recognition over explanation",
     "visual state over descriptive paragraphs",
@@ -379,6 +385,16 @@ class CommercialProductUiConstraintsTest(unittest.TestCase):
         self.assertIn("selected Product Design candidate", content)
         self.assertNotIn("representative local `$imagegen` sketch exists when required", content)
         self.assertNotIn("`gpt-image-2-generator` for that branch was actually available", content)
+
+    def test_generated_images_no_longer_require_product_design_qa_pass(self) -> None:
+        orchestrator = ORCHESTRATOR_SKILL.read_text(encoding="utf-8")
+        routing = ROUTING_RULES.read_text(encoding="utf-8")
+        record = WORKFLOW_RECORD_CONTRACT.read_text(encoding="utf-8")
+        for snippet in MANUAL_IMAGE_REVIEW_SNIPPETS:
+            self.assertIn(snippet, orchestrator + routing + record)
+        self.assertNotIn("automatic `@product-design` QA pass against the active brief and frozen visual constraints", orchestrator)
+        self.assertNotIn("run one automatic `@product-design` QA pass", routing)
+        self.assertNotIn("one automatic `@product-design` QA pass also ran for that image", record)
 
 
 if __name__ == "__main__":
