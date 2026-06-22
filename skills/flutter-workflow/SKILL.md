@@ -78,6 +78,7 @@ The `shared_html_prototype_ready` stage exists to make the shared/global product
 - The shared prototype must remain static and must not be used to validate interaction flow, state switching, or implementation behavior.
 - In manual mode, the workflow must stop for explicit user confirmation after the shared native HTML prototype is reviewable. Do not generate representative sketches, shared/global effect images, atlases, or Pencil design files before that confirmation.
 - The confirmed shared native HTML prototype is static layout evidence. It does not replace `DESIGN.md`, and it does not replace the shared Pencil design source as the frozen implementation design file.
+- If the shared native HTML prototype is revised after review, treat that revision as a requirements change rather than a disposable presentation tweak. Update the relevant PRD sections, `DESIGN.md`, shared design packet notes, and workflow record before downstream image generation, freeze, or implementation continues.
 
 ## Display Evidence Pack Boundary
 
@@ -102,6 +103,7 @@ The `module_html_prototype_ready` stage exists to make the active module reviewa
 - In manual mode, the workflow must stop for explicit user confirmation after the native HTML prototype is reviewable. Do not generate module effect images, atlases, or Pencil design files before that confirmation.
 - The confirmed native HTML prototype is static layout evidence. It does not replace `impl.md` for behavior definition, and it does not replace the module Pencil design source as the frozen implementation design file.
 - When the module stage advances beyond this gate, record the accepted prototype paths and the receipt that proves the prototype was generated from the active module contract instead of from ad hoc downstream guesswork.
+- If the module native HTML prototype is revised after review, treat that revision as a requirements change. Update the active module `impl.md`, any affected shared design rules, and the workflow record before module effect-image generation, freeze, or implementation continues.
 
 ## Pencil Design Source Boundary
 
@@ -184,6 +186,8 @@ Every product-facing screen must pass a copy-compression check before freeze:
 
 - if a subtitle repeats the title's meaning, remove it
 - if a row description only restates the row title, remove it
+- if a helper paragraph can be reduced to a chip, short status line, or one-line helper row, reduce it
+- if two adjacent text blocks explain the same action or the same state, keep only the shorter one
 - if a support card explains something already visible from status, icon, color, or control state, remove or collapse it
 - if multiple text blocks explain the same system state, keep only the shortest necessary one
 - if the screen still works after deleting a paragraph, that paragraph should not be on the default surface

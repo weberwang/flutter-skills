@@ -199,12 +199,14 @@ If the target design-device preset or base resolution is still missing, say so e
 
 If the common public shell has not yet been explicitly agreed, say so explicitly and keep design-direction confirmation plus required effect-image generation blocked.
 If the current design cycle still lacks an accepted native `HTML/CSS/JS` shared prototype, say so explicitly and keep shared/global representative sketch generation, final effect-image generation, atlas analysis, and later shared Pencil work blocked.
+If shared native HTML prototype review changed requirements, say so explicitly and record whether the corresponding PRD sections, `DESIGN.md`, shared design packet notes, and workflow record were updated before downstream generation continued.
 
 If the final product design direction has not been confirmed, say so explicitly and keep `DESIGN.md`, Pencil design execution, and downstream required effect-image completion blocked.
 
 If the root-level `DESIGN.md` is missing after final product direction confirmation, say so explicitly and keep Pencil design execution and downstream structured design-source normalization blocked.
 
 If `DESIGN.md` exists but still lacks task-priority, interaction-feedback, responsive-strategy, critical-state, or content-tone coverage that the product clearly needs, say so explicitly and keep freeze and design-source work blocked.
+If the current shared or module design still relies on repeated explanation, multi-paragraph helper copy, or redundant descriptive text for first-screen understanding, say so explicitly and keep freeze work blocked until copy is minimized.
 
 If the representative sketch exists but is still waiting for user confirmation, say so explicitly and keep representative final effect-image generation plus remaining required page-image generation blocked.
 
@@ -221,6 +223,7 @@ If shared/global Pencil design execution is still unresolved after `DESIGN.md` a
 If the active module lacks an executable `impl.md`, say so explicitly.
 
 If the active module still lacks an accepted native `HTML/CSS/JS` prototype after `module_impl_docs_ready`, say so explicitly and keep module effect-image generation, module Pencil design execution, and module freeze blocked.
+If module native HTML prototype review changed requirements, say so explicitly and record whether the active module `impl.md`, affected shared rules, and workflow record were updated before downstream generation or implementation continued.
 If the active module's native `HTML/CSS/JS` prototype is present, state whether its visible interface copy already uses the required display language, which defaults to Simplified Chinese unless the user explicitly changed it.
 State whether that prototype already reads as a mature commercial product surface instead of a marketing page, ad-style mock, or explanation-heavy page draft.
 
@@ -408,6 +411,7 @@ When route drift, receipt mismatch, or no-progress auto stopping happens, add a 
 - If an atlas background-removal node runs, index the solid atlas input path, transparent atlas output path, transparency validation result, and the explicit confirmation result before allowing the slicing node or later Pencil work to continue.
 - If an atlas-slicing node runs, index the slice output directory, slice result manifest path, exported count, skipped count, and failed count before allowing downstream Pencil or freeze work to continue.
 - If `DESIGN.md` captures task priority, first-screen CTA posture, interaction feedback, responsive strategy, critical states, and content tone, record that quality audit explicitly. If not, record the missing areas as blockers before Pencil design execution and any later bitmap generation.
+- If copy-minimization review already ran, record whether redundant subtitles, repeated helper paragraphs, stacked explanation blocks, and overlong descriptive text were removed or are still blocking freeze.
 - If no representative sketch exists yet in manual mode, generate exactly one representative sketch first, index its path and selected page, set `confirmation_status=pending_confirmation`, and stop before generating the representative final effect image or remaining page images.
 - If the representative sketch is still pending confirmation or has been rejected in manual mode, keep representative final effect-image generation and remaining required page-image generation blocked and do not advance to the broader required page-image generation step.
 - If the representative sketch is confirmed in manual mode, record that confirmation explicitly, then generate and index the representative final effect image before generating the remaining required page-effect set.
