@@ -30,6 +30,27 @@ Global design freezes a `global_style_scheme`, not page design drafts. Set `them
 - Page design belongs to the module stage after the active module `impl.md` fixes function, states, task path, and behavior boundaries. Only then may the workflow generate module HTML, module effect images, module atlas evidence, and module Pencil design source.
 - `DESIGN.md` at the global stage records the theme and style scheme, strong hierarchy contract, minimal-copy contract, public-shell rules, component-family rules, and interaction principles. It must avoid page-specific screen comps or explanatory page mockups.
 
+## Artifact Necessity Boundary
+
+Do not treat every workflow artifact as a hard gate. The workflow distinguishes between required artifacts, optional review aids, conditional implementation evidence, and legacy-only non-authoritative evidence.
+
+- Required shared/global artifacts:
+  `global_style_scheme` and `DESIGN.md` are the shared/global freeze requirements. They are the authoritative output of the current global style-only route.
+- Optional shared/global artifacts:
+  `global_style_experience_image` is optional. It may help human review of the selected style direction, but the shared/global freeze must not depend on it.
+- Forbidden-as-required shared/global artifacts:
+  shared/global page-level HTML prototypes, representative sketches, final effect images, atlas bundles, Pencil page files, and shared page comps must not become required inputs for the current shared/global freeze.
+- Removed legacy evidence states:
+  the old shared/global legacy states for shared HTML prototype, global effect-image pilot, and shared asset resources are no longer part of the current workflow state model. Do not reintroduce them as compatibility aliases.
+- Module-scoped image evidence naming:
+  module image-evidence progress must use module-scoped state names instead of carrying the old `global_effect_images_ready` label forward.
+- Required module-stage artifacts:
+  once the workflow enters page-design and implementation restoration scope for a module, the module `impl.md`, confirmed native `HTML/CSS/JS` prototype, implementation-stage effect-image evidence, atlas chain, and mandatory Pencil design source become part of the required restoration path.
+- Conditional module artifacts:
+  `display_evidence_pack_ready` is required only when the page is fidelity-sensitive enough that later restoration would otherwise have to guess. Additional standalone bitmap assets are required only when atlas slices and code restoration are still insufficient after Pencil review.
+- Optional post-direction branches:
+  the pre-direction or post-direction `Creative Production` branch is optional enrichment. It must not replace the authoritative product-direction and design-source chain.
+
 ## Idea Sketch Brainstorming Boundary
 
 The `idea_sketch_brainstorming` stage exists to turn rough product intent into something concrete enough for PRD work.
@@ -85,14 +106,6 @@ The representative sketch stage exists to lock direction, not to finish renderin
 - Before any generated sketch or final effect image may be treated as accepted workflow evidence, complete manual image review against the active brief and frozen visual constraints and record the human review result.
 - Keep both stages anchored to mature commercial product UI/UX: fast scan clarity, strong action hierarchy, compact but readable density, and product-surface realism over poster-like styling.
 - If review feedback is still about page purpose, module order, emphasis, or overall visual direction, stay in the Product Design sketch stage. Move to the selected Product Design-owned final effect-image direction pass only when the remaining work is high-fidelity finishing inside an already accepted direction.
-
-## Shared Native HTML Prototype Boundary
-
-The `shared_html_prototype_ready` stage is a legacy shared-page route. The current global workflow must not generate a shared native HTML page prototype; it must freeze `global_style_scheme` and `DESIGN.md` only.
-
-- If a legacy shared prototype already exists, treat it as non-authoritative style evidence only after provenance and gate receipts are recorded.
-- Do not use a shared HTML prototype as a prerequisite for global freeze, shared effect images, atlas work, or shared Pencil generation.
-- Concrete page layout evidence begins at the module stage, after the active module `impl.md` fixes function, states, task path, and behavior boundaries.
 
 ## HTML Prototype Stack Boundary
 

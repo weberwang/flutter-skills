@@ -137,7 +137,7 @@ Examples:
 - `design_recommendation_ready`
 - `product_direction_confirmed`
 - `implementing`
-- `shared_asset_resources_ready`
+- `module_asset_resources_ready`
 - `module_asset_resources_ready`
 
 ### `source_scope`
