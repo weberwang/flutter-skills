@@ -12,7 +12,7 @@ Use this reference before applying any state/status promotion, freeze decision, 
 - Do not invoke a downstream skill until the route lock is persisted and the preflight gate passes.
 - Do not delegate workflow truth ownership to a subagent.
 - Do not use `flutter-prd-rd-writer` for detailed module design.
-- Do not begin global design exploration before the target design-device preset and base resolution are frozen for the current design cycle.
+- Do not begin global design exploration before the target design-device preset, design viewport, and `image_output_scale` are frozen for the current design cycle.
 - Do not let any page design shrink below the frozen design viewport for the active cycle.
 - Do not let a Pencil page keep the frozen width while dropping its height below the frozen base design viewport height. If the page or a major region is intentionally scrollable, allow the Pencil page height to exceed that minimum instead of compressing the layout.
 - Do not confirm the final product design direction before `@product-design` has first confirmed the design brief and produced or validated the direction input for this request.

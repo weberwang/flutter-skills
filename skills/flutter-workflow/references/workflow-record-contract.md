@@ -45,8 +45,8 @@ When persisted, this runtime artifact is the single stable source for project wo
 - where the generated PRD artifact lives
 - whether the global visual design direction has already been brainstormed before asking the user to confirm it
 - whether the workflow used a confirmed Product Design brief, approved visual source, or Product Design recommendation artifact before final design-direction confirmation
-- whether the target design-device preset and base resolution are already frozen for the current design cycle
-- which iPhone preset or custom viewport was selected
+- whether the target design-device preset, design viewport, and `image_output_scale` are already frozen for the current design cycle
+- which iPhone preset or custom viewport was selected, which `image_output_scale` is active, and which workflow output size that implies for generated images
 - whether the current global design cycle has a selected `global_style_scheme` with `theme_style_scope`, `theme_and_style_only`, `no_global_page_design_draft`, optional `global_style_experience_image` with `non_page_design_evidence`, and `page_design_deferred_to_module_stage`
 - whether the common public shell has already been explicitly agreed before any effect-image generation starts
 - whether any legacy native `HTML/CSS/JS` shared prototype exists only as non-authoritative style evidence, and whether the current global route still avoids page design drafts
@@ -73,6 +73,7 @@ When persisted, this runtime artifact is the single stable source for project wo
 - whether the active module's high-fidelity visual contract was evaluated as the first module design-freeze priority
 - whether the current shared or module scope already has a confirmed atlas analysis bundle, a confirmed solid-background atlas bundle containing effect image, atlas image, chosen background color, atlas manifest, and atlas slicing config, and a confirmed transparent atlas result
 - whether the dedicated atlas slicing node has already produced a slice result manifest for the current scope
+- whether atlas records already capture the source effect-image canvas size, per-cell source-region bounds, and whether exported image-backed slices stayed at or above those source-region pixel sizes
 - whether the active module already has an accepted native `HTML/CSS/JS` static prototype that shows page layout clearly enough for downstream effect-image work
 - whether the shared native `HTML/CSS/JS` prototype already has local paths, a static-layout receipt, and an explicit confirmation result
 - whether shared or module page-level static visual evidence already exists in the expected directories
@@ -198,7 +199,7 @@ If the global visual design direction has not yet been brainstormed, say so expl
 
 If the selected `global_style_scheme` is missing, say so explicitly and keep global design freeze blocked. The record must state whether `theme_style_scope`, `theme_and_style_only`, `no_global_page_design_draft`, optional `global_style_experience_image` with `non_page_design_evidence`, and `page_design_deferred_to_module_stage` are present and valid.
 
-If the target design-device preset or base resolution is still missing, say so explicitly and keep Product Design brief confirmation, representative effect-image generation, and required effect-image generation blocked.
+If the target design-device preset, design viewport, or `image_output_scale` is still missing, say so explicitly and keep Product Design brief confirmation, representative effect-image generation, and required effect-image generation blocked.
 
 If the common public shell has not yet been explicitly agreed, say so explicitly and keep design-direction confirmation plus required effect-image generation blocked.
 If a legacy native `HTML/CSS/JS` shared prototype exists, say so explicitly and record that it is non-authoritative style evidence only. Keep shared/global representative sketch generation, final effect-image generation, atlas analysis, and later shared Pencil work blocked by `no_global_page_design_draft`.
@@ -237,6 +238,7 @@ If the active module's native `HTML/CSS/JS` prototype is present, state whether 
 State whether that prototype already reads as a mature commercial product surface instead of a marketing page, ad-style mock, or explanation-heavy page draft.
 
 If the current scope is waiting on the atlas-analysis, atlas-preparation, atlas background-removal, or atlas-slicing nodes, say so explicitly and record whether the atlas analysis is still pending confirmation, whether the solid atlas bundle is still pending confirmation, whether the transparent atlas result is still pending confirmation, or whether the slice result manifest is still missing.
+If atlas work is in progress or already accepted, state whether the source effect-image canvas size and per-cell source-region bounds were recorded, and whether every image-backed atlas cell passed the source-region resolution check before acceptance.
 
 If freeze preparation is in progress, state whether image-backed design-packet normalization is already complete and whether static-image directory inspection has already happened.
 
@@ -322,7 +324,7 @@ Track project-level artifact paths when known, such as:
 - PRD question ledger
 - PRD
 - Product Design brief or recommendation packet
-- frozen design-device preset and base resolution record
+- frozen design-device preset, design viewport, and `image_output_scale` record
 - design confirmation mode
 - design recommendation packet
 - public shell confirmation record
@@ -406,7 +408,7 @@ When route drift, receipt mismatch, or no-progress auto stopping happens, add a 
 - If decision-blocking questions remain unresolved, record them in `required_inputs` or `blockers`, keep `current_stage=requirements_brainstorming`, and do not route to technical baseline, image-backed design direction, executable module document generation, architecture, or implementation.
 - If a default is used to answer a PRD question, record the assumption, rationale, and risk in the workflow record or PRD artifact index.
 - If the PRD exists but the global visual design direction has not yet been brainstormed, keep `DESIGN.md` blocked and route first to `@product-design` brief confirmation or global style-scheme recommendation as needed. If richer commercial evidence is needed before confirmation, record the pending pre-direction Creative Production branch explicitly instead of treating image-backed design-packet normalization as the primary direction owner.
-- If the technical baseline exists but the target design-device preset or base resolution is still missing, keep `current_stage=technical_baseline_ready`, record `required_inputs=design_device_preset_and_resolution`, and do not route to Product Design brief confirmation yet. In `--auto` or `--full-auto`, if the viewport is still missing, record that `390 x 844 px` was auto-selected.
+- If the technical baseline exists but the target design-device preset, design viewport, or `image_output_scale` is still missing, keep `current_stage=technical_baseline_ready`, record `required_inputs=design_device_preset_viewport_and_output_scale`, and do not route to Product Design brief confirmation yet. In `--auto` or `--full-auto`, if the viewport is still missing, record that `390 x 844 px` was auto-selected. If `image_output_scale` is still missing for iPhone-first work, record that `2x` was auto-selected.
 - If the global visual direction exists but the common public shell has not yet been agreed, keep design-direction confirmation blocked, record `required_inputs=public_shell_confirmation`, and do not route to representative or full page-effect generation.
 - If the brainstormed direction exists but the final product design direction has not been confirmed with the user, keep `DESIGN.md` blocked, record `required_inputs=final_product_design_direction_confirmation`, and do not route to downstream design-source generation.
 - If final product design direction is confirmed but the shared freeze packet is still not standardized, route to `global_style_scheme` and `DESIGN.md` refinement before any freeze promotion is queued.
@@ -415,10 +417,10 @@ When route drift, receipt mismatch, or no-progress auto stopping happens, add a 
 - If module Pencil design execution is required, index the corresponding `.pen` path, compare report, repair receipt, human-acceptance result, and any bitmap-generation implications before allowing module freeze to continue.
 - If a module native HTML prototype is required, index its local paths, the static-layout receipt, the explicit confirmation result, and whether the prototype stayed native `HTML/CSS/JS` without framework usage before allowing module effect-image generation or later freeze work to continue.
 - If a legacy shared native HTML prototype exists, index its local paths, static-layout receipt, explicit confirmation result, and whether it stayed native `HTML/CSS/JS` without framework usage; keep it as non-authoritative evidence only and do not use it to allow shared/global representative sketch generation, final effect-image generation, or Pencil work.
-- If an atlas-analysis node runs, index the effect-image path, atlas analysis path, approved cell plan or extraction list, and the explicit confirmation result before allowing atlas generation or later Pencil work to continue.
-- If an atlas-preparation node runs, index the effect-image path, atlas image path, chosen background color, atlas manifest path, atlas slicing config path, and the explicit confirmation result before allowing background removal, the slicing node, or later Pencil work to continue.
+- If an atlas-analysis node runs, index the effect-image path, atlas analysis path, approved cell plan or extraction list, source effect-image canvas size, per-cell source-region bounds, and the explicit confirmation result before allowing atlas generation or later Pencil work to continue.
+- If an atlas-preparation node runs, index the effect-image path, atlas image path, chosen background color, atlas manifest path, atlas slicing config path, whether the atlas reused the confirmed source-region bounds, and the explicit confirmation result before allowing background removal, the slicing node, or later Pencil work to continue.
 - If an atlas background-removal node runs, index the solid atlas input path, transparent atlas output path, transparency validation result, and the explicit confirmation result before allowing the slicing node or later Pencil work to continue.
-- If an atlas-slicing node runs, index the slice output directory, slice result manifest path, exported count, skipped count, and failed count before allowing downstream Pencil or freeze work to continue.
+- If an atlas-slicing node runs, index the slice output directory, slice result manifest path, exported count, skipped count, failed count, and whether every image-backed slice passed the source-region resolution check before allowing downstream Pencil or freeze work to continue.
 - If `DESIGN.md` captures task priority, first-screen CTA posture, interaction feedback, responsive strategy, critical states, and content tone, record that quality audit explicitly. If not, record the missing areas as blockers before Pencil design execution and any later bitmap generation.
 - If copy-minimization review already ran, record whether redundant subtitles, repeated helper paragraphs, stacked explanation blocks, and overlong descriptive text were removed or are still blocking freeze.
 - If a commercial product surface gate runs, record `commercial_surface_gate` with `gate_owner`, `artifact_type`, `artifact_paths`, `result`, `first_screen_task_recognition`, `primary_cta_dominance`, `real_control_density`, `platform_information_density`, `state_structure_coverage`, `copy_compression_result`, `reference_decision_inheritance`, `commercial_failure_modes`, `failed_dimensions`, and `revision_target`.
@@ -523,6 +525,7 @@ When route drift, receipt mismatch, or no-progress auto stopping happens, add a 
 - Do not mark atlas-preparation work as complete until the effect image, atlas image, chosen background color, atlas manifest, and atlas slicing config are all recorded.
 - Do not mark atlas background-removal work as complete until the transparent atlas output and validation result are both recorded.
 - Do not mark atlas-slicing work as complete until the slice result manifest is recorded.
+- Do not accept an atlas bundle or atlas slice result unless the workflow record also proves that the source effect-image canvas size, per-cell source-region bounds, and slice-resolution check were recorded for image-backed cells.
 - Do not claim a newly generated bitmap asset is workflow-valid until the record also proves that the required reuse check ran first.
 - Do not accept effect-image evidence into the workflow record without stating whether it meets the default light-mode requirement.
 - Do not mark a structured design-source packet as frozen before recording the source effect-image paths and validation result.

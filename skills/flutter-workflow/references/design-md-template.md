@@ -29,7 +29,7 @@ The goal is not only visual consistency. A high-quality `DESIGN.md` in this work
 - interaction and feedback consistency
 - multi-state coverage
 - responsive and multi-device behavior
-- one frozen base design viewport for the current design cycle
+- one frozen base design viewport plus one frozen `image_output_scale` for the current design cycle
 - content and brand tone consistency
 - shared shell and shared component consistency
 
@@ -144,7 +144,7 @@ If you add these extension sections, place them after `## Components` and before
 
 When writing `DESIGN.md`, translate confirmed upstream decisions into this file:
 
-- frozen base design viewport and chosen device preset
+- frozen base design viewport, chosen device preset, and `image_output_scale`
 - final product design direction
 - shared public shell posture
 - visual system

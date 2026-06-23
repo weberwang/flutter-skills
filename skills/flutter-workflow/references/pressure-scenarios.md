@@ -7,7 +7,7 @@ Use this reference when the user request resembles one of these examples or trie
 - User says "implement this home page directly" with only a PRD: route to `flutter-prd-rd-writer`, not module document generation or code.
 - User says "split modules first, choose packages later": block and require baseline architecture and package decisions.
 - User says "先拆模块，页面流和状态后面再说": block. Require the confirmed Product Design clarification packet first so module splitting does not infer journeys, page families, or critical states from page count alone.
-- User says "先出全局设计，设备尺寸后面再定": block. Freeze the target design-device preset and base resolution before global design exploration, effect-image generation, or shared freeze preparation.
+- User says "先出全局设计，设备尺寸后面再定": block. Freeze the target design-device preset, design viewport, and `image_output_scale` before global design exploration, effect-image generation, or shared freeze preparation.
 - User says "refine visual design first, taste later": block detailed refinement; require `@product-design` brief confirmation and direction recommendation first.
 - User says "the design draft is complete, just freeze it": route to `flutter-design-freeze-gate`.
 - User says "the shared effect image looks close enough, just freeze it": block and route back through exactly one shared revision pass, then stop.

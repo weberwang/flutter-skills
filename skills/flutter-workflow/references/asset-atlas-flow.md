@@ -44,6 +44,7 @@ If the catalog is missing, repair or initialize it from `global-asset-catalog-co
 1. Read the current global asset catalog first.
 2. Work on one page at a time. Identify every visual region in the current page that truly needs bitmap fidelity.
 3. Verify that the page already has a matching confirmed solid-background atlas, confirmed transparent atlas, and a cut-ready manifest from the effect-image step. The atlas must keep only stable UI regions, use deterministic minimum-cell slice bounds, and exclude runtime-data regions.
+3.1. Treat the approved effect image as the resolution source of truth for atlas-backed regions. Record the source effect-image canvas size plus every image-backed cell's source-region bounds, and do not accept an atlas or slice export whose pixel size is lower than that source-region size. The accepted atlas cell set must be able to recompose back to the approved effect-image dimensions without density loss.
 4. Before any background-removal step, classify the current atlas or slice input as `transparent`, `solid_color`, or `non_solid`. If it is already transparent, stop. If the atlas is still solid-color, route through `$imagegen` background removal and validate the transparent result before continuing.
 5. If the page belongs to a module, compare the current page effect image against the active module `impl.md` and the page's required state set first. If `error`, `empty`, `loading`, permission, or other page-local states are required but not yet represented strongly enough for resource or prototype work, supplement those missing states before finalizing the page checklist.
 6. Remove `placeholder_only` regions first. If a region is only a visual stand-in for runtime-created data content, record it as a placeholder contract and keep it out of image generation. Atlas-only helper labels such as `data_excluded_placeholder` are allowed, but they must still stay out of bitmap generation.
@@ -65,6 +66,7 @@ If the catalog is missing, repair or initialize it from `global-asset-catalog-co
 12. First prefer accepted atlas-slice outputs when they already satisfy the page's runtime contract. Only the still-missing assets should continue into standalone generation.
 13. Generate each approved supplemental bitmap asset independently through `$imagegen`. Do not regenerate slices that are already accepted as runtime-ready atlas outputs.
 14. Save each final runtime asset as its own final file, whether it came from atlas slicing or from supplemental standalone generation. Decide whether the output should be transparent or background-baked from the frozen design intent: use transparency when the asset must float over runtime surfaces, and keep a baked background only when that background is part of the intended asset.
+14.1. For atlas-derived assets, record each exported slice's source-region bounds on the effect image and verify that the exported pixel size is greater than or equal to that source-region size. Do not approve a slice whose image-backed content was downsampled below its source-region density.
 15. Update the global asset catalog with:
    - record type
    - asset owner
@@ -121,6 +123,7 @@ Suggested paths:
 ## Resource Rules
 
 - Every generated asset must decide its background mode from the frozen design intent instead of assuming transparency blindly.
+- Treat the atlas as a rearrangement of the approved effect image rather than as a lower-resolution redraw. The accepted atlas cell set must preserve the original effect-image density when recomposed, and each image-backed cell must stay at or above its source-region pixel size.
 - Do not bake the page background into an asset unless the frozen design explicitly treats that background as part of the resource.
 - If an atlas or slice input is already transparent, do not run background removal again.
 - When atlas transparency is still required, use the confirmed solid-background atlas as the input to `$imagegen` background removal instead of switching to rule-based cleanup.
@@ -161,6 +164,7 @@ Use one of these outcomes:
 - Do not finalize `pencil_restoration_ready` or module implementation-side restoration when module resource generation is required but incomplete.
 - Do not bypass the global asset catalog.
 - Do not treat the page as resource-ready when the matching solid atlas, transparent atlas, or its cut-ready manifest is missing.
+- Do not treat the page as resource-ready when an atlas-derived cell fails the source-region resolution check against the approved effect image.
 - Do not call `$imagegen` for a bitmap asset before checking whether the catalog already points to an approved reusable image for the same semantic and usage scenario.
 - Do not approve a generated asset with the wrong background mode for its intended usage. Transparent assets should stay transparent, and background-baked assets should be used only when the frozen design explicitly requires that background.
 - Do not run background removal on already transparent atlas inputs.
