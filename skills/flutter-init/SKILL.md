@@ -19,7 +19,7 @@ Allowed outputs in `flutter-init`:
 - demo removal or cleanup needed to leave a neutral scaffold
 - directory skeleton creation
 - minimal dependency and plugin baseline
-- feature-layer folders
+- confirmed feature root folders plus only the non-empty subdirectories that the RD or current placeholders actually need
 - annotation-ready placeholders or contracts that do not form real runtime behavior
 - workspace-level `skills/flutter-dev/` beside `flutter-init`
 
@@ -68,7 +68,7 @@ If an artifact belongs to the app's real startup path or shared runtime path, it
 4. Decide how plugin configuration should run. If `--force` is present, rerun plugin configuration. If no plugin setup exists yet, run the first-time plugin configuration. Otherwise, keep the existing plugin configuration and continue.
 5. Ensure repository baseline before deeper scaffolding: if `.git/` is missing, run `git init`; then create or repair the root `.gitignore` so the required ignore entries exist without duplicating existing user rules.
 6. Scaffold the Flutter project shell, clean out demo code, create the agreed directory skeleton, and prepare only the minimal dependency baseline required to support later bootstrap work.
-7. Create bounded feature directories under `lib/features/` with `domain` / `application` / `infrastructure` / `presentation` layers, but do not implement their concrete behavior.
+7. Create bounded feature root directories under `lib/features/`, but do not fill every feature with empty `domain` / `application` / `infrastructure` / `presentation` folders just for structural completeness. Create only the subdirectories that already have RD-confirmed ownership, required placeholders, or immediate initialization value.
 8. Prepare only the annotation-ready or contract-ready placeholders that the bootstrap stage depends on. Do not land router hosts, app shell code, startup wiring, or feature behavior here.
 9. Generate or refresh `skills/flutter-dev/` beside `flutter-init` from `assets/flutter-dev-template/`, then fill in the project-specific feature map, commands, and decisions.
 10. Stop at initialization boundaries: directory layout, minimal dependency baseline, placeholders, sibling skill generation, and repository baseline. Do not continue into bootstrap code, shared wiring, feature behavior, or page implementation.
@@ -80,6 +80,7 @@ If an artifact belongs to the app's real startup path or shared runtime path, it
 - Do not initialize from a raw PRD when an RD is required.
 - Do not skip `flutter-project-guardrails`; `flutter-init` depends on that skill for package, architecture, and annotation constraints.
 - Do not create a flat `features/` or page-driven folder tree. The default structure must be DDD by bounded feature.
+- Do not create empty feature-layer directories under `lib/features/**` just to make the tree look complete. If a layer has no current placeholder, contract, or initialization owner, leave it for later bootstrap or implementation work.
 - Do not add third-party packages for later. If a package is added, it must be wired into the scaffold and used by a concrete owner.
 - Do not add network packages or API-client scaffolding when the RD does not require remote data or network capabilities.
 - Do not implement bootstrap entry code, app shell code, shared startup wiring, feature pages, feature business flows, feature state machines, or module-specific interaction logic in `flutter-init`.
@@ -103,6 +104,7 @@ If an artifact belongs to the app's real startup path or shared runtime path, it
 - The mandatory package baseline must include `flutter_screenutil: ^5.9.3`.
 - When the RD includes paginated loading requirements, the package baseline must include `infinite_scroll_pagination: ^5.1.1`.
 - `lib/app`, `lib/core`, `lib/shared`, and `lib/features` scaffolded with clear responsibilities.
+- `lib/features` keeps bounded-feature roots, but feature-layer subdirectories are created only when they already carry confirmed placeholders, contracts, or immediate initialization value.
 - Directory-first placeholders or contracts required by the later bootstrap stage.
 - A generated workspace-level sibling `skills/flutter-dev/` skill that inherits the guardrails and records project-specific decisions.
 - A repository baseline that includes `git init` when needed plus a root `.gitignore` covering `.dart_tool/`, `build/`, `.idea/`, `.vscode/`, `.agents`, `.claude`, and other common generated or local-only artifacts.

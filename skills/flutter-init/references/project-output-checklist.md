@@ -8,7 +8,8 @@
 - 存在 `lib/shared`
 - 存在 `lib/features`
 - 存在与 `flutter-init` 同级的 `skills/flutter-dev`
-- 首批业务 feature 都已按 DDD 分层建好目录
+- 首批业务 feature 根目录已建立
+- 没有为了结构完整性补 `lib/features/**` 下无实际内容的空层级目录
 
 ## 基础文件检查
 
@@ -37,10 +38,9 @@
 
 每个首批 feature 至少满足：
 
-- `domain` 不依赖 Flutter UI
-- `application` 负责用例编排和 provider 暴露
-- `infrastructure` 负责数据源、模型、仓储实现
-- `presentation` 负责页面、组件、视图状态消费
+- feature 根目录存在且命名与 RD 一致
+- 已创建的子目录都已经有明确职责或占位内容承接
+- 没有仅为了模板完整性而补出的空 `domain` / `application` / `infrastructure` / `presentation` 层级
 
 ## 验证检查
 

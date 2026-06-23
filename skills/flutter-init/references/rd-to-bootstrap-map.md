@@ -28,7 +28,8 @@
 
 ### 3. `业务流程与页面范围`
 
-- 转成首批 `lib/features/<feature>/presentation/pages`、`widgets` 与路由占位
+- 先转成首批 `lib/features/<feature>/` 根目录与 feature 边界
+- 只有在当前初始化阶段已经有明确承接物时，才继续创建 `presentation/pages`、`widgets` 或其他层级目录
 - 页面范围不等于 feature 范围；按业务边界拆 feature，而不是按页面一页一个 feature
 
 ### 4. `总体技术架构`

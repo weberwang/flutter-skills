@@ -63,10 +63,7 @@ lib/
     presentation/
   features/
     <feature>/
-      domain/
-      application/
-      infrastructure/
-      presentation/
+      ...
 ```
 
 ### 6. 建目录级占位与最小基线
@@ -79,18 +76,15 @@ lib/
 
 ### 7. 搭 feature 骨架
 
-每个首批 feature 至少生成：
+每个首批 feature 至少生成 feature 根目录。
 
-- `domain/entities`
-- `domain/repositories`
-- `application/use_cases`
-- `application/providers`
-- `infrastructure/datasources`
-- `infrastructure/models`
-- `infrastructure/repositories`
-- `presentation/pages`
-- `presentation/widgets`
-- `presentation/providers` 或仅保留应用层 provider 入口
+只有在下面任一条件成立时，才继续创建对应子目录：
+
+- RD 已经明确该层当前就有职责归属
+- 初始化阶段确实要放占位契约、注解占位或可验证生成链路
+- 当前插件、依赖或项目约束要求这个目录立刻承接内容
+
+不要为了看起来整齐，补 `domain` / `application` / `infrastructure` / `presentation` 的空目录。
 
 ### 8. 接入注解与代码生成准备
 
