@@ -6,7 +6,7 @@ Use this reference when the first workflow node receives a rough product idea, s
 
 Turn an abstract idea into a confirmed product-planning sketch packet that is concrete enough for downstream PRD work.
 
-This node exists before formal PRD generation. It must help the user see the product through `1-3` key-page sketches, but it must not replace later Product Design direction control, final representative-sketch generation, or any freeze artifact.
+This node exists before formal PRD generation. It must help the user see the product through `1-3` key-page sketches, but it must not replace later Product Design direction control, module final effect-image generation, or any freeze artifact.
 
 ## Entry Conditions
 
@@ -93,6 +93,6 @@ Use one of these outcomes:
 ## Hard Rules
 
 - Do not call `flutter-prd-rd-writer`, technical baseline generation, Product Design brief confirmation, `DESIGN.md`, shared freeze, architecture, or implementation planning from this stage.
-- Do not treat a rough sketch as the later shared/global representative sketch that belongs to Product Design control.
+- Do not treat a rough sketch as the later module final effect-image evidence that belongs to Product Design control.
 - Do not allow this stage to drift into exhaustive state coverage or freeze-ready page design.
 - Do not leave this stage without both explicit user confirmation and `docs/project/idea-sketch-brief.md`.

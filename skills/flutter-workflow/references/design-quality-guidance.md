@@ -118,7 +118,7 @@ Push broad education, repeated explanation, and policy-style detail behind discl
 
 ## 5B. Commercial Product Image Constraint
 
-When a workflow step generates preview images, representative sketches, or final effect images for product surfaces, the target must remain a commercial product interface.
+When a workflow step generates preview images, page-sketch drafts, or final effect images for product surfaces, the target must remain a commercial product interface.
 
 Treat these as required visual qualities:
 

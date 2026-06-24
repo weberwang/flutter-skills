@@ -76,7 +76,7 @@ If the catalog is missing, repair or initialize it from `global-asset-catalog-co
    - any confirmed cross-module reuse
 16. Allow prototype work only after the approved asset files already exist and are confirmed.
 
-This same catalog is also the workflow's generated-image record table. Shared or module bitmap assets generated in this flow must be written into it immediately, and any already-approved representative sketches or effect images that this page depends on should already be present there before generation continues.
+This same catalog is also the workflow's generated-image record table. Shared or module bitmap assets generated in this flow must be written into it immediately, and any already-approved effect images that this page depends on should already be present there before generation continues.
 
 ## Flutter-Native Standard
 

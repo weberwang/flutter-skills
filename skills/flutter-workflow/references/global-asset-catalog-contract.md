@@ -50,7 +50,7 @@ One of:
 - `flutter_native`
 - `placeholder_only`
 
-Use `effect_image_draft` for review-stage generated sketches or draft images that are still in the workflow.
+Use `effect_image_draft` for review-stage generated draft effect images that are still in the workflow.
 
 Use `effect_image_final` for approved final effect images that become workflow evidence.
 
@@ -105,7 +105,7 @@ One of:
 
 Use `flutter_native` when the region should be implemented directly with Flutter SDK standard capabilities rather than through bitmap generation.
 
-Use `effect_image` when the row tracks a generated sketch, representative final effect image, or implementation-stage module effect image.
+Use `effect_image` when the row tracks a generated final effect image or implementation-stage module effect image.
 
 Use `sheet_atlas` when the row tracks the pre-cut atlas artifact that belongs to an approved shared or module effect-image step. The row must also distinguish whether that artifact is the confirmed solid-background atlas or the confirmed transparent atlas.
 
@@ -211,7 +211,7 @@ Rules:
 ## Maintenance Rules
 
 - Every shared or module image-generation run must read the catalog first.
-- Every generated representative sketch, final effect image, implementation-stage module effect image, matching `sheet_atlas`, shared bitmap asset, and module bitmap asset that enters workflow evidence or downstream consumption must be written into the catalog in the same workflow step.
+- Every generated final effect image, implementation-stage module effect image, matching `sheet_atlas`, shared bitmap asset, and module bitmap asset that enters workflow evidence or downstream consumption must be written into the catalog in the same workflow step.
 - Do not delete an approved reusable asset row just because a later module no longer needs it.
 - If a generated image file is replaced, rejected, or deleted after freeze or review, update `artifact_status` and `final_output_paths` in the same workflow step.
 - If an obsolete generated image is deleted from disk, keep the row or audit note explicit enough that later workflow steps do not silently recreate or reference the stale file by mistake.
