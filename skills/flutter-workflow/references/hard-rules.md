@@ -71,6 +71,10 @@ Use this reference before applying any state/status promotion, freeze decision, 
 - Do not build the atlas by mechanically cutting the whole page screenshot into arbitrary regions. Atlas scope must come only from analyzing the confirmed effect image plus its prompt and identifying non-standard-library visuals.
 - Do not ask the image model to decide atlas scope, cell count, or cell layout without a confirmed atlas extraction analysis.
 - Do not generate atlas content before the atlas extraction analysis for that scope is explicitly confirmed.
+- Do not add new background colors, backing panels, separator fills, or other helper surfaces inside atlas cells merely to make cell boundaries clearer, exports easier, or slices easier to inspect.
+- Do not add line frames, strokes, divider rules, crop guides, boundary guides, or any other helper edge decoration to atlas cells unless that visual treatment is already part of the original approved design content for that exported region.
+- Do not preserve a background or border inside an atlas cell unless the workflow can explicitly justify that the same background or border belongs to the original design itself rather than atlas convenience.
+- Do not let atlas analysis or atlas export perform decorative repainting, cleanup redraws, or stylistic补画. Atlas output must follow the original effect image's real visual content, not a cleaned-up or annotated reinterpretation.
 - Do not generate the workflow atlas directly on a transparent background. Generate one solid-background atlas first, using one preset least-conflicting background color.
 - Do not let the atlas generator improvise its own background color; the chosen color must come from the preset atlas background palette and be recorded.
 - Do not approve a non-transparent atlas background for slicing. It must either be the confirmed transparent atlas result or a blocker that routes back to `$imagegen` background removal.

@@ -239,6 +239,7 @@ State whether that prototype already reads as a mature commercial product surfac
 
 If the current scope is waiting on the atlas-analysis, atlas-preparation, atlas background-removal, or atlas-slicing nodes, say so explicitly and record whether the atlas analysis is still pending confirmation, whether the solid atlas bundle is still pending confirmation, whether the transparent atlas result is still pending confirmation, or whether the slice result manifest is still missing.
 If atlas work is in progress or already accepted, state whether the source effect-image canvas size and per-cell source-region bounds were recorded, and whether every image-backed atlas cell passed the source-region resolution check before acceptance.
+If atlas work is in progress or already accepted, state whether every exported cell avoided helper-only background colors, helper borders, separator lines, and decorative补画, and whether any retained background or border was explicitly recorded as original design content rather than export convenience.
 
 If freeze preparation is in progress, state whether image-backed design-packet normalization is already complete and whether static-image directory inspection has already happened.
 
