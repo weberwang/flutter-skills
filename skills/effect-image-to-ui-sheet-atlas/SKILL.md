@@ -105,6 +105,8 @@ If any required input is missing, return `blocked`.
 - Every exportable visual must live inside one rectangular atlas cell.
 - Do not place one visual across multiple cells unless the manifest explicitly declares a multi-cell contract.
 - Do not let two exportable visuals overlap inside rectangular slicing bounds.
+- Do not add an extra local background panel, backing plate, or fill behind a cell visual unless that background is part of the approved source visual itself.
+- Do not add visible cell borders, keylines, divider strokes, or framing boxes unless the approved source visual itself contains that edge treatment.
 - Do not remove the background inside this skill. Background removal belongs to the downstream `$imagegen` confirmation step.
 
 ## Atlas Prompt Template
@@ -133,6 +135,8 @@ Constraints:
 - Keep each visual fully inside its own cell, including glow, blur, shadow, stroke, and texture edges
 - Keep each cell visually consistent with the matching effect-image region, including source proportions, visual weight, texture density, border radius, shadow softness, and edge treatment
 - Normalize each extracted UI-layer visual into a clean atlas cell without redesigning, simplifying, restyling, or inventing replacement artwork
+- Keep each cell payload visually isolated on the sheet background only; do not invent a per-cell backdrop, card base, or extra background color block unless it belongs to the approved source visual
+- Do not draw visible cell frames, keylines, separator strokes, or debug-style boxes around cell payloads unless those lines are part of the approved source visual
 - Do not add visible labels, rulers, outlines, crop marks, or annotations
 - Do not analyze, add, remove, merge, or reinterpret atlas scope inside this prompt; follow the confirmed atlas analysis exactly
 - Do not infer or replace the provided background key color
@@ -244,3 +248,4 @@ Return:
 - Do not use `$imagegen` to infer slice bounds. Minimum-cell slicing must remain deterministic and config-driven.
 - Do not change the frozen page width.
 - Do not use this skill as a shortcut around later Pencil design execution.
+- Do not decorate atlas cells with invented local backgrounds or visible framing lines that are not present in the approved source visual.

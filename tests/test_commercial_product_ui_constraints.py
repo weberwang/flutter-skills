@@ -152,6 +152,8 @@ ATLAS_PRODUCT_DESIGN_SNIPPETS = [
     "Generate one solid-background rectangular-cell UI atlas through `Product Design:ideate`",
     "Complete manual image review on the generated atlas image",
     "Generate the atlas through `Product Design:ideate`, not by mechanically cropping the whole page screenshot",
+    "Do not add an extra local background panel, backing plate, or fill behind a cell visual unless that background is part of the approved source visual itself.",
+    "Do not add visible cell borders, keylines, divider strokes, or framing boxes unless the approved source visual itself contains that edge treatment.",
 ]
 
 HARD_RULE_ATLAS_PRODUCT_DESIGN_SNIPPETS = [
@@ -428,6 +430,7 @@ class CommercialProductUiConstraintsTest(unittest.TestCase):
             self.assertIn(snippet, combined)
 
     def test_atlas_skill_uses_product_design_and_manual_review(self) -> None:
+        """atlas 技能必须禁止给 cell 额外补背景或线框。"""
         content = ATLAS_PREPARATION_SKILL.read_text(encoding="utf-8")
         for snippet in ATLAS_PRODUCT_DESIGN_SNIPPETS:
             self.assertIn(snippet, content)
