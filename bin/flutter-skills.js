@@ -2,7 +2,7 @@
 
 /**
  * 解析命令行参数，并把 skills 安装到目标目录。
- * 这里默认覆盖目标目录，避免用户每次手工清理旧副本。
+ * 这里默认覆盖同名文件，但不删除目标目录里用户额外保留的内容。
  */
 
 const fs = require("node:fs/promises");
@@ -48,9 +48,9 @@ async function installSkills(targetRoot) {
   const targetSkillsRoot = path.join(targetRoot, ".agents", "skills");
 
   await fs.access(sourceSkillsRoot);
-  await fs.rm(targetSkillsRoot, { recursive: true, force: true });
-  await fs.mkdir(targetSkillsRoot, { recursive: true });
-  await fs.cp(sourceSkillsRoot, targetSkillsRoot, { recursive: true });
+  // 只覆盖同名 skill 文件，避免安装更新时误删用户在目标目录下保留的自定义内容。
+  await fs.mkdir(path.dirname(targetSkillsRoot), { recursive: true });
+  await fs.cp(sourceSkillsRoot, targetSkillsRoot, { recursive: true, force: true });
 
   const copiedEntries = await fs.readdir(targetSkillsRoot, { withFileTypes: true });
   const skillCount = copiedEntries.filter((entry) => entry.isDirectory()).length;

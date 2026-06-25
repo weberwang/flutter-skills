@@ -45,6 +45,54 @@ class NpxSkillInstallTest(unittest.TestCase):
             self.assertEqual(source_skill_names, installed_skill_names)
             self.assertTrue((installed_skills_root / source_skill_names[0] / "SKILL.md").is_file())
 
+    def test_npx_install_overwrites_same_skill_without_deleting_custom_entries(self) -> None:
+        """更新安装时应覆盖同名 skill，但保留目标目录里的自定义内容。"""
+        with tempfile.TemporaryDirectory() as temp_dir:
+            target_root = Path(temp_dir)
+
+            subprocess.run(
+                [
+                    NPX_COMMAND,
+                    "--yes",
+                    "--package",
+                    f"file:{REPO_ROOT}",
+                    "flutter-skills",
+                    "install",
+                ],
+                cwd=str(target_root),
+                check=True,
+            )
+
+            installed_skills_root = target_root / ".agents" / "skills"
+            source_skill_dir = next(path for path in SOURCE_SKILLS_ROOT.iterdir() if path.is_dir())
+            source_skill_file = source_skill_dir / "SKILL.md"
+            installed_skill_file = installed_skills_root / source_skill_dir.name / "SKILL.md"
+            custom_skill_file = installed_skills_root / "custom-skill" / "SKILL.md"
+
+            custom_skill_file.parent.mkdir(parents=True, exist_ok=True)
+            custom_skill_file.write_text("custom content\n", encoding="utf-8")
+            # 先写入过期内容，验证二次安装会恢复成仓库内最新版本。
+            installed_skill_file.write_text("stale content\n", encoding="utf-8")
+
+            subprocess.run(
+                [
+                    NPX_COMMAND,
+                    "--yes",
+                    "--package",
+                    f"file:{REPO_ROOT}",
+                    "flutter-skills",
+                    "install",
+                ],
+                cwd=str(target_root),
+                check=True,
+            )
+
+            self.assertEqual(
+                source_skill_file.read_text(encoding="utf-8"),
+                installed_skill_file.read_text(encoding="utf-8"),
+            )
+            self.assertEqual("custom content\n", custom_skill_file.read_text(encoding="utf-8"))
+
 
 if __name__ == "__main__":
     unittest.main()
