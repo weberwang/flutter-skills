@@ -7,7 +7,7 @@ description: Use when initializing a Flutter project from an RD document generat
 
 ## Overview
 
-Turn a reviewable Flutter RD into a directory-first project baseline. Focus on clean project creation, feature boundaries, minimal initialization prerequisites, and generation of a workspace-level `skills/flutter-dev/` skill beside `flutter-init` so the team starts from a consistent foundation before the separate bootstrap code stage lands shared startup code.
+Turn a reviewable Flutter RD into a directory-first project baseline. Focus on clean project creation, feature boundaries, minimal initialization prerequisites, and generation of a workspace-level `skills/flutter-dev/` skill in the directory beside `flutter-init` so the team starts from a consistent foundation before the separate bootstrap code stage lands shared startup code. The generated `skills/flutter-dev/` is a required persistent workspace artifact, not a disposable temp directory.
 
 This skill does initialization only. It must not implement bootstrap code, shared wiring, feature code, page code, business logic, or module-specific display/data behavior during initialization.
 
@@ -55,6 +55,7 @@ If an artifact belongs to the app's real startup path or shared runtime path, it
 - Always ensure the project root has a `.gitignore` baseline. If the file is missing, create it. If it already exists, append only the missing baseline entries so the step stays idempotent.
 - The `.gitignore` baseline must cover Flutter and Dart generated artifacts plus common local-tooling noise, including `.dart_tool/`, `.idea/`, `.vscode/`, `build/`, `.agents`, and `.claude`.
 - After the base project shell is created, always generate or refresh the workspace-level sibling `skills/flutter-dev/` from `assets/flutter-dev-template/` and fill in the project-specific decisions from the RD.
+- The generated `skills/flutter-dev/` must stay at the sibling path beside `flutter-init`. Refresh its contents in place when needed, and do not delete that directory during ordinary initialization or follow-up refresh work.
 - If the request includes `--force`, treat plugin setup as a refresh task and rerun plugin configuration before continuing later steps.
 - If the request does not include `--force` but the required plugin setup does not exist yet, perform the first-time plugin configuration before continuing later steps.
 - If the RD leaves open decisions that would change feature boundaries, auth design, storage mode, route guards, or code generation setup, output `assumptions` and `needs_confirmation` before creating files.
@@ -88,6 +89,8 @@ If an artifact belongs to the app's real startup path or shared runtime path, it
 - Do not hand-write boilerplate that should come from `@riverpod`, `@freezed`, `@JsonSerializable`, or `@RestApi`.
 - When the approved annotation toolchain can cover the current provider, model, serializer, or API contract, annotations are mandatory and hand-written equivalents are not allowed in the scaffold.
 - Do not stop after generating only the directory scaffold. The initialization is incomplete until the sibling `flutter-dev` skill is generated and filled.
+- Do not generate `flutter-dev` anywhere except the sibling path beside `flutter-init`.
+- Do not delete the generated sibling `skills/flutter-dev/` directory during refresh, reinitialization, or ordinary maintenance work. Update files in place instead.
 - Do not skip `git init` when the target project root is not yet a repository.
 - Do not leave the root `.gitignore` missing after initialization.
 - Do not overwrite a user's existing `.gitignore` wholesale; only append the missing baseline entries for Flutter, Dart, local tooling, `.agents`, `.claude`, and common intermediate artifacts.
@@ -107,6 +110,7 @@ If an artifact belongs to the app's real startup path or shared runtime path, it
 - `lib/features` keeps bounded-feature roots, but feature-layer subdirectories are created only when they already carry confirmed placeholders, contracts, or immediate initialization value.
 - Directory-first placeholders or contracts required by the later bootstrap stage.
 - A generated workspace-level sibling `skills/flutter-dev/` skill that inherits the guardrails and records project-specific decisions.
+- The generated `flutter-dev` artifact remains at the sibling path beside `flutter-init` and is preserved as a long-lived workspace skill directory.
 - A repository baseline that includes `git init` when needed plus a root `.gitignore` covering `.dart_tool/`, `build/`, `.idea/`, `.vscode/`, `.agents`, `.claude`, and other common generated or local-only artifacts.
 - A verified dependency and plugin setup that is aligned with the current Flutter SDK.
 - A short initialization summary that states scaffolded features, generated layers, remaining bootstrap gaps, remaining business code gaps, unresolved confirmation items, and the fact that feature implementation has not been started.

@@ -9,6 +9,8 @@ description: Use when implementing or extending the {{PROJECT_NAME}} Flutter app
 
 Operate on the initialized {{PROJECT_NAME}} Flutter app using the project decisions captured during setup. This skill is project-specific and must inherit the base rules from `flutter-project-guardrails`.
 
+During implementation, this generated `flutter-dev` skill is the strict execution contract for project-local code work. Do not replace it with a looser local convention set.
+
 ## Scope
 
 - This skill only constrains code implementation work inside the initialized project.
@@ -20,6 +22,7 @@ Operate on the initialized {{PROJECT_NAME}} Flutter app using the project decisi
 
 - Apply `flutter-project-guardrails` first for mandatory package rules, DDD layering, annotation usage, and forbidden mixed stacks.
 - Use this skill for project-specific details that do not belong in the global guardrails.
+- During code implementation, follow the generated `flutter-dev` skill strictly as the direct project-local execution contract.
 
 ## Project Snapshot
 
@@ -39,6 +42,7 @@ Operate on the initialized {{PROJECT_NAME}} Flutter app using the project decisi
 5. In `flutter_riverpod`-driven UI, keep the smallest watch scope possible so provider changes refresh only the widget subtree that depends on the changed state instead of rebuilding the whole page.
 6. Follow the project command set and environment conventions defined in the references.
 7. When adding new project-specific decisions, update the decision log instead of hiding them in implementation details.
+8. Do not add extra verification, analyze, lint, or test requirements for generated code artifacts unless the user explicitly asks for those checks.
 
 ## Hard Rules
 
@@ -52,6 +56,8 @@ Operate on the initialized {{PROJECT_NAME}} Flutter app using the project decisi
 - If this project uses `flutter_hooks` or `hooks_riverpod`, do not write new applicable UI logic as `StatefulWidget` or manual lifecycle glue where hooks can express it directly.
 - In `flutter_riverpod` UI, do not place broad `ref.watch(...)` calls at page-root scope when only a smaller section changes; prefer leaf listeners and local consumers that refresh only the widget subtree that needs the state.
 - Replace every `{{PLACEHOLDER}}` before shipping this generated skill with the project.
+- Do not bypass or weaken this generated `flutter-dev` skill during implementation; project-local code work must follow it strictly.
+- Do not require extra verification, static analysis, or test gates for generated code artifacts unless the user explicitly requests them.
 
 ## Project Conventions
 
