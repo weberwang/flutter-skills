@@ -140,6 +140,7 @@ The `module_html_prototype_ready` stage exists to make the active module reviewa
 - In manual mode, the workflow must stop for explicit user confirmation after the native HTML prototype is reviewable. Do not enter architecture or implementation before that confirmation.
 - The confirmed native HTML prototype is static layout evidence. It does not replace `impl.md` for behavior definition, and it does not replace the module Pencil design source as the frozen implementation design file.
 - When the module stage advances beyond this gate, record the accepted prototype paths and the receipt that proves the prototype was generated from the active module contract instead of from ad hoc downstream guesswork.
+- After the native HTML prototype is confirmed, synchronize the accepted prototype decisions into the active module `impl.md`, any affected shared design rules, the workflow record, and the relevant artifact indexes or receipts before architecture, implementation, or any later visual-enhancement step continues.
 - If the module native HTML prototype is revised after review, treat that revision as a requirements change. Update the active module `impl.md`, any affected shared design rules, and the workflow record before architecture, implementation, or any later visual-enhancement step continues.
 
 ## Pencil Design Source Boundary

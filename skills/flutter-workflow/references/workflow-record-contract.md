@@ -234,6 +234,7 @@ If a shared/global Pencil design execution step appears after `DESIGN.md`, say s
 If the active module lacks an executable `impl.md`, say so explicitly.
 
 If the active module still lacks an accepted native `HTML/CSS/JS` prototype after `module_impl_docs_ready`, say so explicitly and keep module effect-image generation, module Pencil design execution, and module freeze blocked.
+If the active module's native `HTML/CSS/JS` prototype has already been confirmed, say so explicitly and record whether the accepted prototype paths, receipt, and accepted structure decisions were already synchronized into the active module `impl.md`, any affected shared rules, the workflow record, and the relevant artifact indexes before downstream promotion continued.
 If module native HTML prototype review changed requirements, say so explicitly and record whether the active module `impl.md`, affected shared rules, and workflow record were updated before downstream generation or implementation continued.
 If the active module's native `HTML/CSS/JS` prototype is present, state whether its visible interface copy already uses the required display language, which defaults to Simplified Chinese unless the user explicitly changed it.
 State whether that prototype already reads as a mature commercial product surface instead of a marketing page, ad-style mock, or explanation-heavy page draft.
@@ -460,6 +461,7 @@ When route drift, receipt mismatch, or no-progress auto stopping happens, add a 
 - If legacy shared/global effect images were created, record the frozen base design viewport only as provenance for non-authoritative evidence.
 - If `design-preview-to-global-guidelines` artifacts are created, update the relevant module row and queue `global_guidelines_frozen` in `pending_next_stage` instead of switching immediately.
 - If a module native HTML prototype is generated in manual mode, keep `current_stage` on the last confirmed stage, queue `pending_next_stage=module_html_prototype_ready`, set `next_skill: none`, and stop until the user confirms that prototype.
+- If a module native HTML prototype is confirmed, record the accepted prototype paths and receipt, synchronize the accepted prototype decisions into the active module `impl.md`, any affected shared rules, the workflow record, and the relevant artifact indexes, and only then promote or queue the downstream stage.
 - If an atlas analysis bundle is generated in manual mode, keep `current_stage` on the last confirmed stage, queue `pending_next_stage=ui_sheet_atlas_analysis_ready`, set `next_skill: none`, and stop until the user confirms that atlas analysis.
 - If an atlas bundle is generated in manual mode, keep `current_stage` on the last confirmed stage, queue `pending_next_stage=ui_sheet_atlas_ready`, set `next_skill: none`, and stop until the user confirms that atlas bundle.
 - If an atlas background-removal result is generated in manual mode, keep `current_stage` on the last confirmed stage, queue `pending_next_stage=ui_sheet_atlas_transparent_ready`, set `next_skill: none`, and stop until the user confirms that transparent atlas result.
