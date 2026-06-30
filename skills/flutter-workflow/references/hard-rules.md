@@ -40,6 +40,8 @@ Use this reference before applying any state/status promotion, freeze decision, 
 - Do not implement the module HTML prototype with any framework, component runtime, or generated SPA shell. Use only native `HTML`, `CSS`, and `JavaScript`.
 - Do not let the module HTML prototype ship English-first or mixed-language visible UI copy by default. Use Simplified Chinese unless the user or active module contract explicitly requires another display language.
 - Do not let the module HTML prototype drift into marketing copy, ad-style composition, or explanation-heavy page content. It must look and read like a mature commercial product surface.
+- Do not let module prototype creation begin while the commercial-product creation packet is still missing `target_user_maturity`, `price_confidence_level`, `competitive_reference_band`, `trust_signal_strategy`, or `visual_premium_keywords`.
+- Do not accept a trust-heavy, conversion-sensitive, premium-positioned, or first-impression-sensitive primary page without explicit mature-reference inheritance and, when needed, a Product Design-owned high-fidelity review prototype before native prototype acceptance.
 - Do not use the module HTML prototype to validate interaction flow, state switching, scroll ownership, sticky behavior, or overlay behavior. Those remain downstream design and architecture responsibilities.
 - Do not let a module effect image override a confirmed native HTML prototype's page structure, hierarchy, grouping, action priority, or basic interaction ownership. Visual fidelity is layered on top of the confirmed prototype contract, not the other way around.
 - Do not block direct image-asset use when the image can be exported from the approved prototype/effect-image source and saved into the project asset tree.
@@ -59,6 +61,7 @@ Use this reference before applying any state/status promotion, freeze decision, 
 - Do not start any module-stage effect-image generation until the workflow has first extracted the applicable visual constraints from the frozen global design packet and attached them to the request.
 - Do not let `@product-design`, `$imagegen`, or `gpt-image-2-generator` interpret effect-image work as marketing exploration, ad creative, poster composition, hero-banner art, or a wireframe-like draft once the workflow is generating product-surface evidence.
 - Do not accept any generated sketch or effect image that looks like a campaign visual, landing-page hero, slogan-first ad, concept board, or low-fidelity requirements mock instead of a commercial product screen.
+- Do not accept a generated prototype or effect image as "premium" when its main premium signal comes from decorative hero treatment, oversized headlines, theatrical empty space, or mood-board styling instead of credible product hierarchy and controls.
 - Do not simplify, shorten, or drop detail from a failed image-generation prompt when retrying. Preserve the full original prompt, the full frozen constraint set, and append only blocker-specific repair notes.
 - Do not let effect-image generation change the frozen design width or use a height smaller than the frozen base viewport height.
 - Do not let effect-image generation hide weak product structure behind cinematic framing, decorative negative space, oversized headlines, or non-product storytelling layouts.
@@ -121,6 +124,7 @@ Use this reference before applying any state/status promotion, freeze decision, 
 - Do not allow design packages with unresolved hierarchy, task guidance, typography, contrast, CTA, or state-coverage defects to advance into shared freeze or module design freeze.
 - Do not allow design packages with unresolved loading, empty, error, disabled, permission-denied, long-content, short-content, or slow-network behavior to advance into shared freeze or module design freeze when those states are relevant to the product.
 - Do not allow a design package to pass freeze if the first-screen task path or primary CTA is still visually ambiguous.
+- Do not allow a design package to pass freeze if the product class requires trust signals for pricing, identity, security, permissions, or result confidence and those signals are still absent, hidden, or explanation-only.
 - Do not allow first-screen product UI to depend on long explanatory copy when visual hierarchy, control state, badges, chips, icons, grouping, or disclosure can express the same meaning.
 - Do not freeze a settings, dashboard, utility, or task surface if its primary understanding requires reading multiple descriptive text blocks.
 - Do not keep subtitle, row-description, notice-card, and support-copy layers simultaneously when they repeat the same meaning.

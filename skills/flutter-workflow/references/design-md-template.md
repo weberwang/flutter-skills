@@ -120,6 +120,8 @@ Recommended extension sections for this workflow:
 - `## Responsive Strategy`
 - `## States & Edge Cases`
 - `## Content & Tone`
+- `## Trust Signals`
+- `## Commercial Tone & Confidence`
 
 If you add these extension sections, place them after `## Components` and before `## Do's and Don'ts`.
 
@@ -139,6 +141,8 @@ If you add these extension sections, place them after `## Components` and before
 - Explicitly state how the design behaves under empty, loading, error, disabled, long-content, short-content, and slow-network scenarios.
 - Explicitly state which regions may adapt responsively and which regions are visually locked.
 - Explicitly state naming conventions for shared components and shared states when the system is large enough to need them.
+- Explicitly state how the design creates trust for the product class without falling back to explanation-heavy copy.
+- Explicitly state which mature product references define the commercial bar and which decisions are intentionally inherited from them.
 
 ## Workflow Mapping
 
@@ -153,6 +157,10 @@ When writing `DESIGN.md`, translate confirmed upstream decisions into this file:
 - spacing rhythm
 - component families
 - CTA posture
+- trust-signal posture
+- target user maturity
+- competitive reference band
+- visual premium keywords
 - depth and material treatment
 - shape language
 - required effect-image evidence, when it materially clarifies the design intent
@@ -162,6 +170,7 @@ When writing `DESIGN.md`, translate confirmed upstream decisions into this file:
 - responsive behavior across phone, tablet, and desktop surfaces when relevant
 - state design for loading, empty, error, disabled, and transition-heavy flows
 - content tone, brand voice, and writing posture
+- confidence cues for pricing, identity, safety, permissions, or result quality when relevant
 - shared naming conventions for components and states
 
 Do not let optional effect images override the confirmed direction. `DESIGN.md` remains the primary upstream packet.
@@ -180,6 +189,8 @@ Treat this checklist as the minimum bar for a high-quality design target:
 - Spacing, margins, and structural whitespace remain intentional rather than being compressed away.
 - Shared shell and shared components remain recognizable everywhere.
 - Copy tone matches the product personality and user context.
+- The first screen carries the right trust signals for the product class without turning into a manual.
+- The design can plausibly sit beside the declared competitive references without reading like a concept mock.
 
 ## Project Template
 
@@ -294,6 +305,14 @@ Describe empty states, loading states, errors, permission denial, long text, sho
 
 Describe brand voice, UX writing tone, naming patterns, and how CTA language should feel in high-confidence, low-confidence, and recovery moments.
 
+## Trust Signals
+
+Describe which confidence cues must appear for the product class, where they should appear, and how the design avoids replacing trust with explanation-heavy copy.
+
+## Commercial Tone & Confidence
+
+Describe the target market maturity, the competitive reference band, the intended premium feel, and which visual or structural decisions make the surface feel commercially ready rather than merely attractive.
+
 ## Do's and Don'ts
 
 - Do preserve the confirmed hierarchy and CTA posture.
@@ -302,6 +321,8 @@ Describe brand voice, UX writing tone, naming patterns, and how CTA language sho
 - Do design all critical states, not only the ideal happy path.
 - Do keep the first-screen task path obvious and low-friction.
 - Do make interaction feedback predictable across primary flows, recovery flows, and disabled states.
+- Do make trust signals visible when the product asks for money, identity, permissions, or outcome confidence.
+- Do name the mature reference decisions that define the commercial bar.
 - Do state how the design scales on every target surface that is actually in scope.
 - Don't invent new local styles that contradict the shared system.
 - Don't let responsive adaptation become a second design language.
@@ -309,4 +330,6 @@ Describe brand voice, UX writing tone, naming patterns, and how CTA language sho
 - Don't leave loading, empty, error, or disabled behavior undefined.
 - Don't let copy tone drift between primary flow, support flow, and recovery flow.
 - Don't replace token-backed decisions with ad-hoc page-level styling.
+- Don't use decoration, slogan scale, or empty atmosphere as the main source of "premium" feeling.
+- Don't rely on paragraphs to create trust when labels, status, hierarchy, and control design could do the job.
 ```

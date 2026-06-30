@@ -142,6 +142,60 @@ Treat these as disallowed failure modes unless the workflow has explicitly switc
 
 If an image feels impressive but the user cannot imagine shipping it as an actual app screen, the image is off-target.
 
+## 5C. Commercial Trust And Premium Confidence
+
+High-commercial-value product surfaces must create confidence before they ask for effort, data, money, or commitment.
+
+Design for trust through concrete product signals such as:
+
+- clear current status
+- believable data freshness
+- visible safety or permission posture
+- outcome confidence cues
+- pricing or subscription clarity when relevant
+- identity and ownership cues when the surface involves account, payment, security, or creator value
+
+Do not confuse trust with explanation density.
+
+If a product only feels safe after reading multiple paragraphs, the trust design is weak. Prefer:
+
+- short confidence labels
+- visible system state
+- recognizable controls
+- stable hierarchy
+- credible empty, loading, and error behavior
+
+Premium quality on a commercial surface should feel:
+
+- restrained rather than loud
+- precise rather than decorative
+- trustworthy rather than theatrical
+- dense enough to feel real, but never cluttered
+
+If "premium" depends mainly on oversized art direction, dramatic negative space, or slogan-led composition, the result is usually drifting toward marketing instead of product.
+
+## 5D. Reference Inheritance Discipline
+
+Commercial quality improves when references are treated as explicit decisions, not vague mood.
+
+When the workflow uses Mobbin or other mature-product references:
+
+- bind `2-3` references that match the target market band
+- state what is intentionally inherited from each one
+- keep those inherited choices concrete
+
+Useful inherited categories include:
+
+- hierarchy posture
+- information density
+- CTA treatment
+- trust-signal placement
+- copy compression
+- card rhythm
+- navigation or shell posture
+
+Avoid statements such as "inspired by modern fintech apps" without naming which decisions were actually carried forward.
+
 ## 6. Mobile UI Is Not A Shrunk Desktop UI
 
 Mobile requires re-composition, not compression.
@@ -369,6 +423,8 @@ Premium means:
 - contrast is controlled, not muddy
 - CTA dominance is obvious without shouting
 - depth, texture, and polish support clarity instead of distracting from it
+- trust signals appear where the product class needs reassurance
+- the surface can stand beside mature category references without looking like a concept mock
 
 Do not confuse premium quality with ornament. Premium quality fails if the result is attractive but unclear, fragile under real content, or mismatched to the target platform.
 
