@@ -218,12 +218,19 @@ In `--auto` or `--full-auto` mode, a queued transition for one module must immed
 
 Track module-stage maturity in addition to `current_stage`.
 
+### `scope_status`
+
+| Value | Meaning |
+| --- | --- |
+| `not_started` | The module responsibility packet does not exist yet. |
+| `confirmed` | The module's main responsibility, primary page scope, primary task path, key states, and non-display behavior boundaries are confirmed strongly enough to generate the module final effect image. |
+
 ### `impl_status`
 
 | Value | Meaning |
 | --- | --- |
-| `not_started` | The document does not exist yet. |
-| `implementation_final` | The module `impl.md` was generated after the shared/global design freeze as a detailed module task implementation document. It already fixes the module function and key states under the frozen shared design and interaction principles, and is now the upstream contract for downstream Pencil design execution and freeze. |
+| `not_started` | The executable document does not exist yet. |
+| `implementation_final` | The module `impl.md` was generated after the shared/global design freeze and after the module final effect image was already confirmed. It already fixes the module function and key states under the frozen shared design, confirmed module scope, and confirmed page baseline, and is now the upstream contract for downstream native HTML restoration, Pencil design execution, and freeze. |
 | `landed` | The document references the frozen structured design-source packet and the landed status has been explicitly confirmed. |
 
 ### `design_source_status`
@@ -231,8 +238,8 @@ Track module-stage maturity in addition to `current_stage`.
 | Value | Meaning |
 | --- | --- |
 | `not_started` | No module-level design-source packet exists. |
-| `in_review` | The module has visual evidence or a freeze packet under review, but it is not confirmed as frozen. |
-| `frozen` | The module design source packet is frozen and confirmed for architecture and code consumption. |
+| `in_review` | The module has first-pass visual evidence or a later visual-enhancement freeze packet under review, but it is not confirmed as frozen. |
+| `frozen` | The module design source packet is frozen and confirmed for architecture and code consumption. If the later visual-enhancement branch is explicitly opened, the packet may re-enter `in_review` once more and then be re-frozen without changing the first-pass structural contract unless the design cycle is explicitly reopened. |
 
 ### `code_status`
 
