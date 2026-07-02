@@ -64,7 +64,8 @@ If the catalog is missing, repair or initialize it from `global-asset-catalog-co
 10. If any asset is `candidate_reuse`, stop and request confirmation.
 11. Present the written current-page checklist plus the remaining new bitmap list for the current page and stop for explicit confirmation before generation.
 12. First prefer accepted atlas-slice outputs when they already satisfy the page's runtime contract. Only the still-missing assets should continue into standalone generation.
-13. Generate each approved supplemental bitmap asset independently through `$imagegen`. Do not regenerate slices that are already accepted as runtime-ready atlas outputs.
+<!-- 中文说明：补充位图属于重新生图的设计产物，统一走 `Product Design:ideate`；atlas 去背景仍保留 `$imagegen` 处理链。 -->
+13. Generate each approved supplemental bitmap asset independently through `Product Design:ideate`. Do not regenerate slices that are already accepted as runtime-ready atlas outputs.
 14. Save each final runtime asset as its own final file, whether it came from atlas slicing or from supplemental standalone generation. Decide whether the output should be transparent or background-baked from the frozen design intent: use transparency when the asset must float over runtime surfaces, and keep a baked background only when that background is part of the intended asset.
 14.1. For atlas-derived assets, record each exported slice's source-region bounds on the effect image and verify that the exported pixel size is greater than or equal to that source-region size. Do not approve a slice whose image-backed content was downsampled below its source-region density.
 15. Update the global asset catalog with:
@@ -165,7 +166,7 @@ Use one of these outcomes:
 - Do not bypass the global asset catalog.
 - Do not treat the page as resource-ready when the matching solid atlas, transparent atlas, or its cut-ready manifest is missing.
 - Do not treat the page as resource-ready when an atlas-derived cell fails the source-region resolution check against the approved effect image.
-- Do not call `$imagegen` for a bitmap asset before checking whether the catalog already points to an approved reusable image for the same semantic and usage scenario.
+- Do not call `Product Design:ideate` for a bitmap asset before checking whether the catalog already points to an approved reusable image for the same semantic and usage scenario.
 - Do not approve a generated asset with the wrong background mode for its intended usage. Transparent assets should stay transparent, and background-baked assets should be used only when the frozen design explicitly requires that background.
 - Do not run background removal on already transparent atlas inputs.
 - Do not switch atlas background removal to a rule-based cleanup path once the workflow explicitly routes it through `$imagegen`.
