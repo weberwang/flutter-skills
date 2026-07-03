@@ -4,7 +4,7 @@ Use this reference when the workflow must explain how the PRD feeds downstream s
 
 ## Purpose
 
-The PRD is not only a document. It is the upstream contract for several later stages.
+The PRD is not only a document. Together with the confirmed companion `docs/project/page-navigation-flow.md` artifact, it is the upstream contract for several later stages.
 
 This map prevents one common failure mode:
 
@@ -30,6 +30,7 @@ Uses them for:
 - package stack decisions
 - backend collaboration model
 - fullchain delivery planning
+- route-host and navigation-boundary understanding without reconstructing the main page flow
 
 ### 2. `@product-design`
 
@@ -47,6 +48,7 @@ Uses them for:
 - brief confirmation
 - direction recommendation
 - final product-direction confirmation
+- reading the main page-entry and return-path structure without inventing navigation
 
 ### 3. Pre-Direction `Creative Production`
 
@@ -97,6 +99,7 @@ Uses them for:
 - module boundaries
 - executable `impl.md`
 - shell vs feature separation
+- determining whether a navigation node belongs to shell scope or feature scope
 
 ### 6. Shared Freeze And Structured Design Source
 
@@ -116,7 +119,8 @@ Before leaving PRD preparation, confirm:
 - Product Design can read user journey and task priority without re-scoping the feature
 - Creative Production can read audience and business goal without inventing campaign intent
 - module splitting can read scope boundaries without inferring feature ownership from page count
+- downstream consumers can read page entry points and transitions without rebuilding navigation from prose alone
 
 ## Hard Rule
 
-If a downstream stage needs to invent scope, user role, or acceptance criteria that should have been present in the PRD, route back to PRD preparation first instead of patching the gap ad hoc later.
+If a downstream stage needs to invent scope, user role, acceptance criteria, or page navigation structure that should have been present in the PRD bundle, route back to PRD preparation first instead of patching the gap ad hoc later.

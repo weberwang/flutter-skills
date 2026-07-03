@@ -21,6 +21,14 @@ Unless the project already has a stronger convention, store the PRD under:
 
 If the workflow is still in discovery and a final slug is not stable yet, use a temporary but explicit name rather than leaving the PRD untracked in chat.
 
+## Required Companion Artifact Path
+
+Unless the project already has a stronger convention, store the companion page navigation artifact under:
+
+`docs/project/page-navigation-flow.md`
+
+This artifact must be generated and confirmed before the PRD can be drafted for `review_ready` or promoted to `prd_ready`.
+
 ## Required Front Matter
 
 Put a small metadata block at the top:
@@ -36,6 +44,20 @@ scope_level: app | feature | workflow
 last_updated: YYYY-MM-DD
 ---
 ```
+
+## Required Companion Navigation Artifact
+
+Before the PRD is drafted, revised, or marked `review_ready` or `approved`, generate or update the companion `docs/project/page-navigation-flow.md` artifact and confirm it first.
+
+Use a Mermaid flowchart and make sure it shows:
+
+- every in-scope page using names consistent with the PRD
+- the main entry point for the current scope
+- the primary task path across pages
+- important branch routes, modal jumps, and return paths when they affect scope understanding
+- any deferred pages or states clearly marked as deferred instead of silently mixed into the main path
+
+The PRD should be refined from this confirmed artifact and reference it in its scenario or scope prose instead of duplicating the same navigation logic in multiple sections.
 
 ## Required Chapter Order
 
@@ -186,6 +208,7 @@ Record at least:
 A PRD using this template is ready for `prd_ready` only when:
 
 - the artifact exists on disk
+- the companion `docs/project/page-navigation-flow.md` artifact exists on disk, has already been confirmed, and matches the PRD scope
 - all `decision_blocking` questions are resolved or explicitly approved as defaults
 - scope and non-goals are both explicit
 - success metrics or acceptance criteria exist

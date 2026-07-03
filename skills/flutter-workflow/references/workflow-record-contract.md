@@ -42,7 +42,9 @@ When persisted, this runtime artifact is the single stable source for project wo
 - whether raw requirements have been captured before PRD generation
 - whether requirements brainstorming has produced a question ledger
 - whether PRD decision-blocking questions are resolved, defaulted, or still blocked
+- whether the companion `docs/project/page-navigation-flow.md` artifact has been generated and confirmed for the current PRD scope
 - where the generated PRD artifact lives
+- where the companion `docs/project/page-navigation-flow.md` artifact lives
 - whether the global visual design direction has already been brainstormed before asking the user to confirm it
 - whether the workflow used a confirmed Product Design brief, approved visual source, or Product Design recommendation artifact before final design-direction confirmation
 - whether the target design-device preset, design viewport, and `image_output_scale` are already frozen for the current design cycle
@@ -225,7 +227,7 @@ If the first module final effect image has already been confirmed, say so explic
 
 If approved image-backed design direction is missing before detailed design-source work, say so explicitly.
 
-If the workflow is still in requirements brainstorming, state whether raw requirements are captured, whether the PRD question ledger exists, which decision-blocking questions remain, and whether a PRD artifact has been generated.
+If the workflow is still in requirements brainstorming, state whether raw requirements are captured, whether the PRD question ledger exists, which decision-blocking questions remain, whether a PRD artifact has been generated, and whether the companion `docs/project/page-navigation-flow.md` artifact has been generated and confirmed.
 
 If the shared/global design freeze is not complete yet, say so explicitly and keep all module-related workflow blocked.
 
@@ -329,6 +331,7 @@ Track project-level artifact paths when known, such as:
 - raw requirement source or intake summary
 - requirements brainstorming notes
 - PRD question ledger
+- `docs/project/page-navigation-flow.md`
 - PRD
 - Product Design brief or recommendation packet
 - frozen design-device preset, design viewport, and `image_output_scale` record
@@ -410,8 +413,8 @@ When route drift, receipt mismatch, or no-progress auto stopping happens, add a 
 - Keep `confirmation_status`, `pending_next_stage`, `pending_next_skill`, and `pending_status_updates` in sync between the metadata block and the active module row.
 - Keep `route_lock`, `last_receipt_status`, and `auto_progress_delta` in sync with the latest routing turn.
 - Keep `execution_owner` in sync with the latest routing turn.
-- If raw requirements are provided without a PRD artifact, set or keep `current_stage=requirements_brainstorming`, index the raw requirement source or intake summary, and record whether the PRD question ledger exists.
-- If requirements brainstorming resolves decision-blocking questions, index the generated PRD artifact and queue `pending_next_stage=prd_ready` instead of silently jumping to technical baseline.
+- If raw requirements are provided without a PRD artifact, set or keep `current_stage=requirements_brainstorming`, index the raw requirement source or intake summary, and record whether the PRD question ledger exists and whether the companion `docs/project/page-navigation-flow.md` artifact exists yet and has been confirmed.
+- If requirements brainstorming resolves decision-blocking questions, index the generated PRD artifact plus the confirmed companion `docs/project/page-navigation-flow.md` artifact and queue `pending_next_stage=prd_ready` instead of silently jumping to technical baseline.
 - If decision-blocking questions remain unresolved, record them in `required_inputs` or `blockers`, keep `current_stage=requirements_brainstorming`, and do not route to technical baseline, image-backed design direction, executable module document generation, architecture, or implementation.
 - If a default is used to answer a PRD question, record the assumption, rationale, and risk in the workflow record or PRD artifact index.
 - If the PRD exists but the global visual design direction has not yet been brainstormed, keep `DESIGN.md` blocked and route first to `@product-design` brief confirmation or global style-scheme recommendation as needed. If richer commercial evidence is needed before confirmation, record the pending pre-direction Creative Production branch explicitly instead of treating image-backed design-packet normalization as the primary direction owner.
@@ -515,7 +518,7 @@ When route drift, receipt mismatch, or no-progress auto stopping happens, add a 
 - Do not create separate workflow state files per module.
 - Do not delete historical decisions from `decision_log`; append short entries instead.
 - Do not hide blockers in prose outside the `blockers` section.
-- Do not treat raw requirements as `prd_ready` until a PRD artifact exists and decision-blocking questions are resolved or explicitly defaulted.
+- Do not treat raw requirements as `prd_ready` until a PRD artifact exists, the companion `docs/project/page-navigation-flow.md` artifact exists and has been confirmed, and decision-blocking questions are resolved or explicitly defaulted.
 - Do not route from raw demand directly into technical baseline, image-backed design direction, executable module document generation, architecture, or implementation.
 - Do not record PRD assumptions as facts unless their rationale and risk are explicit.
 - Do not treat `platform_baseline` as if it already verified the real primary runtime and validation platform.

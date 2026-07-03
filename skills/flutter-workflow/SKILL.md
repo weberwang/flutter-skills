@@ -7,7 +7,7 @@ description: Use when coordinating a Flutter product workflow across idea intake
 
 ## Overview
 
-Route a Flutter module through rough idea intake -> idea-sketch brainstorming -> requirements brainstorming -> PRD document generation -> global technical baseline -> target design-device preset, design viewport, and image output scale confirmation -> `@product-design` brief confirmation -> Mobbin-backed global theme and style scheme selection -> `DESIGN.md` output for theme, hierarchy, public shell, component family, and interaction principles only -> shared freeze -> early project initialization plus bootstrap preparation -> module responsibility and primary-page scope confirmation -> mandatory module final effect-image confirmation -> module `impl.md` generation under the frozen design, confirmed module scope, and confirmed effect image -> mandatory native HTML module prototype restoration from that confirmed effect image -> mandatory module Pencil design source confirmation -> module design freeze -> implementation RD readiness -> architecture -> display restoration blueprint readiness -> implementation workflow -> Flutter render versus frozen-design QA -> `@product-design` design QA -> human visual inspection -> later atlas preparation, atlas slicing, Pencil reinforcement, and bitmap assets only when the first-pass implementation plus implementation review still prove they are necessary.
+Route a Flutter module through rough idea intake -> idea-sketch brainstorming -> requirements brainstorming -> companion page-navigation-flow output -> page-navigation-flow confirmation -> PRD document generation and refinement from confirmed navigation -> global technical baseline -> target design-device preset, design viewport, and image output scale confirmation -> `@product-design` brief confirmation -> Mobbin-backed global theme and style scheme selection -> `DESIGN.md` output for theme, hierarchy, public shell, component family, and interaction principles only -> shared freeze -> early project initialization plus bootstrap preparation -> module responsibility and primary-page scope confirmation -> mandatory module final effect-image confirmation -> module `impl.md` generation under the frozen design, confirmed module scope, and confirmed effect image -> mandatory native HTML module prototype restoration from that confirmed effect image -> mandatory module Pencil design source confirmation -> module design freeze -> implementation RD readiness -> architecture -> display restoration blueprint readiness -> implementation workflow -> Flutter render versus frozen-design QA -> `@product-design` design QA -> human visual inspection -> later atlas preparation, atlas slicing, Pencil reinforcement, and bitmap assets only when the first-pass implementation plus implementation review still prove they are necessary.
 
 This skill is the traffic controller. It chooses the next specialist skill, records state, blocks skipped gates, waits for explicit user confirmation before promoting any stage or status change, and maintains one stable workflow truth model for the whole project. When persistence is needed for a live run, it may serialize that state into runtime artifacts, but those artifacts are not part of the stable skill bundle.
 
@@ -366,6 +366,7 @@ All workflow output artifacts must default to Simplified Chinese unless the user
 This default applies to:
 
 - PRD artifacts
+- companion page-navigation-flow artifacts
 - RD and technical baseline artifacts
 - `DESIGN.md`
 - workflow records
@@ -383,7 +384,7 @@ Load only the references needed for the current routing decision, but always pre
 
 - `references/workflow-record-contract.md`: Read before initializing or optionally persisting workflow state for the current run.
 - `references/idea-sketch-flow.md`: Read when the input is still a rough idea, scattered references, or any demand that is too abstract to discuss through concrete pages yet.
-- `references/requirements-prd-flow.md`: Read when the workflow is already inside `requirements_brainstorming` and must turn a confirmed idea sketch brief or an already-concrete feature request into a durable PRD artifact.
+- `references/requirements-prd-flow.md`: Read when the workflow is already inside `requirements_brainstorming` and must turn a confirmed idea sketch brief or an already-concrete feature request into a companion page-navigation-flow artifact, confirm that navigation, and then generate a durable PRD from that confirmed navigation.
 - `references/asset-atlas-flow.md`: Read after Pencil design review whenever atlas-slice outputs or supplemental bitmap assets still require runtime-asset normalization.
 - `@effect-image-to-ui-sheet-atlas`: Use when the workflow must first produce atlas extraction analysis from a confirmed effect image and then generate the confirmed solid-background UI-only atlas, atlas manifest, and atlas slicing config as one reviewable node.
 - `@ui-sheet-atlas-slicer`: Use after the atlas bundle is confirmed and the workflow must cut the atlas through one generic config-driven slicing step before entering Pencil restoration.
@@ -424,12 +425,13 @@ For every invocation:
 5. Derive and persist one route lock before invoking anything downstream.
 6. Run the preflight gate from `references/control-contracts.md`. If it fails, record the exact blocker and stop.
 7. If the input is still a rough idea or reference bundle that lacks a concrete page model, route first to `idea_sketch_brainstorming`, read `references/idea-sketch-flow.md`, and block PRD generation until the key-page sketch confirmation plus `docs/project/idea-sketch-brief.md` both exist.
-8. Select the next downstream skill using `references/workflow-states.md` and `references/routing-rules.md`.
-9. If the step is subagent-eligible, delegate only the specialist work and require a structured receipt; keep workflow ownership in the orchestrator.
-10. Validate the receipt against the active route lock before applying any transition or status update.
-11. In manual mode, queue reviewable stage/status changes behind confirmation. In `--auto`, auto-apply deterministic stage and status transitions, auto-confirm ordinary orchestrator-owned review gates after receipt validation, and keep invoking the next authorized serial step end-to-end until all target modules are implemented or a blocker appears. In `--full-auto`, also auto-confirm deterministic human-facing workflow gates when the control contracts prove there is exactly one supported default; otherwise stop with a blocker instead of guessing.
-12. Update the orchestrator-owned workflow state as the single source of truth. Persist it only when the current run actually needs a runtime artifact.
-13. Return the output contract fields listed below.
+8. Before any PRD artifact is generated for confirmation or promoted to `prd_ready`, require one companion `docs/project/page-navigation-flow.md` artifact that makes the current PRD scope's page entry points, primary transitions, branch routes, and return paths explicit, and require that navigation artifact to be explicitly confirmed first.
+9. Select the next downstream skill using `references/workflow-states.md` and `references/routing-rules.md`.
+10. If the step is subagent-eligible, delegate only the specialist work and require a structured receipt; keep workflow ownership in the orchestrator.
+11. Validate the receipt against the active route lock before applying any transition or status update.
+12. In manual mode, queue reviewable stage/status changes behind confirmation. In `--auto`, auto-apply deterministic stage and status transitions, auto-confirm ordinary orchestrator-owned review gates after receipt validation, and keep invoking the next authorized serial step end-to-end until all target modules are implemented or a blocker appears. In `--full-auto`, also auto-confirm deterministic human-facing workflow gates when the control contracts prove there is exactly one supported default; otherwise stop with a blocker instead of guessing.
+13. Update the orchestrator-owned workflow state as the single source of truth. Persist it only when the current run actually needs a runtime artifact.
+14. Return the output contract fields listed below.
 
 ## Delegation Boundary
 

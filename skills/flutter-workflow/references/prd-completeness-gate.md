@@ -8,6 +8,7 @@ This gate converts "the PRD exists" into a stronger claim:
 
 - the PRD is structurally complete enough
 - decision-blocking ambiguity is controlled
+- the page navigation contract was confirmed before PRD drafting and is explicit enough for downstream consumers
 - downstream skills can consume the PRD without re-opening basic product scope
 
 ## How To Score
@@ -43,6 +44,7 @@ Check whether the PRD clearly states:
 - happy path
 - main completion flow
 - key exception path
+- and whether a confirmed companion `docs/project/page-navigation-flow.md` artifact existed before PRD drafting and still matches the named pages and transitions
 
 ### 4. Scope And Non-Goals
 
@@ -110,12 +112,15 @@ Use this threshold:
 - `ready_for_prd_ready`
   - total score >= 16/20
   - no `decision_blocking` item remains unresolved
+  - companion `docs/project/page-navigation-flow.md` exists, was confirmed before PRD drafting, and matches the PRD scope
 - `review_but_not_ready`
   - total score between 12 and 15
   - or no blocker remains but multiple critical sections are still weak
+  - or the PRD is otherwise usable but the companion navigation artifact still needs correction
 - `blocked`
   - total score < 12
   - or any unresolved `decision_blocking` item remains
+  - or the companion navigation artifact is missing
 
 ## Required Output
 
@@ -124,6 +129,7 @@ When running this gate, record:
 - total score
 - weak dimensions
 - unresolved blockers
+- page navigation artifact path, confirmation result, and validation result
 - whether the PRD can advance
 
 Recommended shape:
@@ -139,6 +145,7 @@ PRD completeness:
 ## Hard Rules
 
 - Do not promote to `prd_ready` only because a PRD file exists.
+- Do not promote to `prd_ready` when the companion `docs/project/page-navigation-flow.md` artifact is missing, unconfirmed, or inconsistent with the PRD.
 - Do not hide unresolved decision-blocking items behind a high numeric score.
 - Do not treat copy polish or formatting polish as completeness.
 - Do not let downstream technical baseline generation absorb missing core product scope.
