@@ -1,13 +1,13 @@
 ---
 name: gpt-image-2-generator
-description: Use when Codex needs to generate concept art, design previews, UI mockups, hero images, marketing visuals, icons, or illustration drafts with gpt-image-2, especially when the request should run through a custom OpenAI-compatible base URL and API key loaded from environment variables and the output needs to be written to local image files.
+description: Use only when the user explicitly asks for `gpt-image-2`, `imag2`, or this skill itself, and the output should be written to local image files through a custom OpenAI-compatible base URL and API key loaded from environment variables.
 ---
 
 # GPT Image 2 Generator
 
 ## Overview
 
-Generate local image files with `gpt-image-2` through the bundled `scripts/image_gen.py` helper. This skill is a focused generation workflow through `/images/generations`, narrowed to explicit prompt shaping, optional image-to-image reference input, and local file output.
+Generate local image files with `gpt-image-2` through the bundled `scripts/image_gen.py` helper. This skill is an explicit-model workflow: use it only when the user clearly asked for `gpt-image-2`, `imag2`, or `gpt-image-2-generator`, not as the default image path for generic generation requests. It stays on `/images/generations`, narrowed to explicit prompt shaping, optional image-to-image reference input, and local file output.
 
 When a workflow needs prompt-only background removal, this skill can send one or more reference images through `image_urls`. The local helper encodes each `--image-file` input into a base64 data URI so the request still stays on `/images/generations`.
 
@@ -36,10 +36,10 @@ rtk python skills/gpt-image-2-generator/scripts/image_gen.py \
 
 ## Flutter Workflow Usage
 
-When this skill is called from the Flutter workflow:
+When this skill is explicitly selected from the Flutter workflow:
 
 1. Treat the target as app-page visual evidence, not a generic collage.
-2. If the upstream workflow is still at the pre-confirmation representative-sketch stage, stop and return control so local `$imagegen` can generate that sketch first. This skill owns only the post-confirmation final effect-image step in that flow.
+2. If the upstream workflow is still at the pre-confirmation representative-sketch stage, stop and return control so local `$imagegen` can generate that sketch first. This skill does not own that flow by default; it may be used only after the upstream workflow explicitly chose `gpt-image-2` / `imag2` for the post-confirmation generation step.
 3. In the Flutter workflow, do not treat this as a standalone art generator. The final image must stay inside the confirmed `@product-design` brief, accepted visual direction, and commercial product UI/UX constraints.
 4. Generate one file per page or screen and name the output file after that page or screen.
 5. Use light mode as the default visual baseline for all workflow previews unless the upstream request explicitly overrides that requirement.
@@ -132,6 +132,7 @@ rtk python skills/gpt-image-2-generator/scripts/image_gen.py \
 ## Hard Rules
 
 - Do not silently substitute another model when the request explicitly requires `gpt-image-2`.
+- Do not invoke this skill for generic image generation when the user did not explicitly ask for `gpt-image-2`, `imag2`, or this skill by name.
 - Do not send a live request when either environment variable is missing.
 - Do not generate dark-mode workflow previews by default. Use light mode unless the upstream workflow explicitly requests another mode.
 - Do not generate more than 3 shared/global workflow previews for one global freeze cycle.

@@ -1,6 +1,6 @@
 ---
 name: product-screenshot-to-page-design
-description: Use when uploaded screenshots from an existing product must be extended into a new same-product page, and the run must output style analysis plus a page-structure proposal before generating a local sketch and then the final UI image.
+description: Use when uploaded screenshots from an existing product must be extended into a new same-product page, and the run must output style analysis plus a page-structure proposal before generating a local sketch and then a final UI image. Use `gpt-image-2-generator` only when the user explicitly requires `gpt-image-2` / `imag2`.
 ---
 
 # Product Screenshot To Page Design
@@ -9,13 +9,14 @@ description: Use when uploaded screenshots from an existing product must be exte
 
 Turn uploaded screenshots from an existing product into a new page concept that still looks like the same product system.
 
-This skill is for page-level visual extension, not for redefining the global product direction. It first extracts the product design language from the screenshots, then proposes the new page structure, generates a local review sketch through `$imagegen`, waits for explicit confirmation, and only then generates the final UI image through `gpt-image-2-generator`. Both stages must stay under `@product-design` design control and must read as commercial product UI/UX rather than freeform concept art.
+This skill is for page-level visual extension, not for redefining the global product direction. It first extracts the product design language from the screenshots, then proposes the new page structure, generates a local review sketch through `$imagegen`, waits for explicit confirmation, and only then generates the final UI image through the upstream-selected image path. `gpt-image-2-generator` may be used here only when the user explicitly asks for `gpt-image-2` / `imag2`. Both stages must stay under `@product-design` design control and must read as commercial product UI/UX rather than freeform concept art.
 
 ## When To Use
 
 - The user uploads screenshots from an existing product and wants a new page that belongs to that same product family.
 - The new page must inherit the current product's color language, typography hierarchy, component style, spacing rhythm, icon treatment, and visual posture.
 - The user explicitly wants analysis first and final image generation second.
+- The user explicitly wants the final image to use `gpt-image-2` / `imag2` when this skill will route to `gpt-image-2-generator`.
 
 Do not use this skill when:
 
@@ -60,8 +61,9 @@ If any required input is missing, stop and request it instead of improvising.
    - page structure proposal
 5. Generate one local review sketch through `$imagegen` using the approved structure and screenshot-derived style constraints.
 6. Wait for explicit user confirmation on that sketch.
-7. Only after confirmation, invoke `gpt-image-2-generator` to generate the final UI image for the new page.
-8. If `IMAGE_BASE_URL` or `IMAGE_API_KEY` is missing, stop and report the blocker instead of switching to another generator.
+7. Only after confirmation, generate the final UI image through the upstream-selected image path.
+8. Invoke `gpt-image-2-generator` only when the user explicitly asked for `gpt-image-2` / `imag2`.
+9. If `gpt-image-2-generator` is selected but `IMAGE_BASE_URL` or `IMAGE_API_KEY` is missing, stop and report the blocker instead of switching to another generator silently.
 
 ## Output Contract
 
@@ -96,7 +98,8 @@ Summarize the new page plan:
 
 After confirmation, generate:
 
-- one final UI image for the new page via `gpt-image-2-generator`
+- one final UI image for the new page via the upstream-selected image path
+- use `gpt-image-2-generator` only when the user explicitly required `gpt-image-2` / `imag2`
 
 ## Hard Rules
 
@@ -107,7 +110,7 @@ After confirmation, generate:
 - Do not skip the page-structure proposal step.
 - Do not generate the final UI image before the local sketch has been explicitly confirmed.
 - Do not skip the local `$imagegen` sketch step.
-- Do not use any image generator other than `gpt-image-2-generator` for the final page image in this skill.
+- Do not route the final page image to `gpt-image-2-generator` unless the user explicitly asked for `gpt-image-2` / `imag2`.
 - Do not send a live generation request when `IMAGE_BASE_URL` or `IMAGE_API_KEY` is missing.
 - Do not infer page function from screenshots alone when PRD-backed function or user-specified function is missing.
 - Do not over-decorate the page beyond the screenshot-derived product language.
@@ -122,8 +125,8 @@ Return `blocked` when:
 - frozen viewport is missing
 - required modules are missing
 - avoid-list is missing when the user clearly expects constraints
-- `IMAGE_BASE_URL` is missing
-- `IMAGE_API_KEY` is missing
+- `IMAGE_BASE_URL` is missing after the user explicitly selected `gpt-image-2` / `imag2`
+- `IMAGE_API_KEY` is missing after the user explicitly selected `gpt-image-2` / `imag2`
 
 ## Recommended Response Shape
 
@@ -140,4 +143,4 @@ Use this exact interaction order:
 - User says "use this product as reference, but also make it trendier": block unless they explicitly want a new direction.
 - User says "you can infer the feature yourself": block when the page function is not recoverable from the provided product context.
 - User says "skip the size for now and generate first": block until the frozen page size is explicit.
-- User says "use another image model": block. This skill's final image generation path is `gpt-image-2-generator`.
+- User says "use another image model": do not force `gpt-image-2-generator`; return control so the upstream workflow can choose the requested final generator.
