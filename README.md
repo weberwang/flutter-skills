@@ -101,6 +101,7 @@ flowchart LR
 11. `Creative Production` 现在拆成两段：前置方向探索分支用于给产品方向确认提供视觉输入，后置资产分支用于创意生产和发布级润色，但都不替代 `@product-design`、`DESIGN.md`、Stitch/Pencil 结构化设计源或 Flutter 实现门禁。
 12. `flutter-taste-router` 保留，但职责收敛为共享冻结和模块冻结前的设计包标准化、文本收口和高保真约束归一，不再主导全局方向探索。
 13. `project_initialized` 和 `bootstrap_code_ready` 前移到共享冻结之后，作为主实现前的公共工程准备，而不是拖到所有模块后置再做。
+14. 后置增强分支（atlas 分析、透明化、切片、Pencil 强化、补充位图）已单独拆成 `flutter-visual-enhancement-branch` skill；`flutter-workflow` 只负责决定何时开启并记录阶段结果，不再内嵌管理分支细节。
 
 ## 阶段说明
 

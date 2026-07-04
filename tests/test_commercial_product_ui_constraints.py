@@ -85,23 +85,21 @@ HARD_RULE_GLOBAL_STYLE_ONLY_SNIPPETS = [
     "theme_and_style_only=true",
     "no_global_page_design_draft",
     "page_design_deferred_to_module_stage=true",
-    "Module effect images are mandatory",
+    "Do not treat module effect images as optional evidence.",
 ]
 
 PRODUCT_DESIGN_IMAGE_POLICY_SNIPPETS = [
-    "`shared_design_direction` / `design_recommendation_ready` -> `Product Design:ideate`",
+    "Use `Product Design:ideate` as the default design-controller-owned path for direction images.",
     "global_style_experience_image",
-    "module representative sketch",
-    "module final effect image",
+    "later module final effect-image direction pass",
     "select or revise a Product Design-generated candidate",
-    "$imagegen` background removal",
+    "`$imagegen` background removal",
 ]
 
 HARD_RULE_PRODUCT_DESIGN_IMAGE_POLICY_SNIPPETS = [
     "Do not bypass `@product-design` visual ideation",
     "global_style_experience_image",
-    "module representative sketch",
-    "module final effect image direction",
+    "module final effect image",
     "Do not generate the module final effect image through `gpt-image-2-generator`",
     "Do not use `@product-design` as a replacement for atlas background-removal",
     "deterministic runtime asset preparation",
@@ -109,7 +107,7 @@ HARD_RULE_PRODUCT_DESIGN_IMAGE_POLICY_SNIPPETS = [
 
 ROUTING_GATE_SNIPPETS = [
     "Do not accept a shared native HTML prototype",
-    "Do not accept a generated representative sketch",
+    "Do not accept a final effect image",
     "Do not accept a Pencil design source",
     "commercial_surface_gate.result=passed",
 ]
@@ -141,11 +139,10 @@ ROUTING_GLOBAL_STYLE_ONLY_SNIPPETS = [
 ROUTING_PRODUCT_DESIGN_IMAGE_POLICY_SNIPPETS = [
     "route the shared/global scope to `Product Design:ideate`",
     "`global_style_experience_image` through `Product Design:ideate`",
-    "route the module representative sketch to `Product Design:ideate`",
     "route the module final effect-image direction pass to `Product Design:ideate`",
     "select or revise a Product Design-generated candidate",
-    "generate the solid-background atlas bundle through `Product Design:ideate`",
-    "keep atlas background removal plus slicing on the deterministic asset path",
+    "Generate the solid-background atlas bundle through `Product Design:ideate`",
+    "Keep atlas background removal plus slicing on the deterministic asset path.",
 ]
 
 ATLAS_PRODUCT_DESIGN_SNIPPETS = [
@@ -208,7 +205,6 @@ WORKFLOW_STATE_GLOBAL_STYLE_ONLY_SNIPPETS = [
     "no_global_page_design_draft=true",
     "non_page_design_evidence=true",
     "page_design_deferred_to_module_stage=true",
-    "Global effect-image states are legacy-only",
     "not page design evidence",
 ]
 
@@ -382,7 +378,10 @@ class CommercialProductUiConstraintsTest(unittest.TestCase):
 
     def test_workflow_skill_removes_old_generator_assignment_for_direction_images(self) -> None:
         content = ORCHESTRATOR_SKILL.read_text(encoding="utf-8")
-        self.assertIn("Pre-confirmation module representative sketches should go through `Product Design:ideate`", content)
+        self.assertIn(
+            "Use `Product Design:ideate` as the default design-controller-owned path for direction images.",
+            content,
+        )
         self.assertIn("select or revise a Product Design-generated candidate", content)
         self.assertNotIn("Representative sketch requests must go through local `$imagegen`", content)
         self.assertNotIn("before calling `gpt-image-2-generator`", content)
@@ -390,7 +389,7 @@ class CommercialProductUiConstraintsTest(unittest.TestCase):
 
     def test_execution_modes_follow_product_design_for_direction_images(self) -> None:
         content = EXECUTION_MODES.read_text(encoding="utf-8")
-        self.assertIn("generate it through `Product Design:ideate`", content)
+        self.assertIn("complete the Product Design-owned final effect-image direction pass directly", content)
         self.assertIn("Product Design-owned final effect-image direction pass", content)
         self.assertIn("select or revise the Product Design-generated candidate", content)
         self.assertNotIn("generate the representative sketch through local `$imagegen`", content)
@@ -405,7 +404,7 @@ class CommercialProductUiConstraintsTest(unittest.TestCase):
 
     def test_workflow_record_contract_tracks_new_direction_image_path(self) -> None:
         content = WORKFLOW_RECORD_CONTRACT.read_text(encoding="utf-8")
-        self.assertIn("representative Product Design sketch exists when required", content)
+        self.assertIn("first module final effect image has been generated", content)
         self.assertIn("selected final effect-image direction path was actually available", content)
         self.assertIn("selected Product Design candidate", content)
         self.assertNotIn("representative local `$imagegen` sketch exists when required", content)

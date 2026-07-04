@@ -9,6 +9,9 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parents[1]
 README = REPO_ROOT / "README.md"
 ORCHESTRATOR = REPO_ROOT / "skills" / "flutter-workflow" / "SKILL.md"
+ENHANCEMENT_BRANCH_SKILL = (
+    REPO_ROOT / "skills" / "flutter-visual-enhancement-branch" / "SKILL.md"
+)
 ROUTING_RULES = (
     REPO_ROOT / "skills" / "flutter-workflow" / "references" / "routing-rules.md"
 )
@@ -36,10 +39,10 @@ README_SNIPPETS = [
 ]
 
 ORCHESTRATOR_SNIPPETS = [
-    "UI-only sheet atlas",
-    "transparent background",
+    "UI-only atlas",
+    "transparent atlas output",
     "data_excluded_placeholder",
-    "solid-color backgrounds",
+    "atlas background is solid-color",
 ]
 
 ROUTING_RULE_SNIPPETS = [
@@ -62,7 +65,8 @@ ASSET_ATLAS_FLOW_SNIPPETS = [
 ]
 
 WORKFLOW_STATE_SNIPPETS = [
-    "matching UI-only transparent atlas artifacts",
+    "one UI-only atlas image",
+    "transparent atlas result ready for slicing",
 ]
 
 CATALOG_CONTRACT_SNIPPETS = [
@@ -84,7 +88,9 @@ class EffectImageSheetAtlasRulesTest(unittest.TestCase):
 
     def test_orchestrator_mentions_ui_only_transparent_atlas(self) -> None:
         """总技能文档必须冻结 atlas 的 UI-only、透明背景与数据排除规则。"""
-        content = ORCHESTRATOR.read_text(encoding="utf-8")
+        content = ORCHESTRATOR.read_text(encoding="utf-8") + ENHANCEMENT_BRANCH_SKILL.read_text(
+            encoding="utf-8"
+        )
         for snippet in ORCHESTRATOR_SNIPPETS:
             self.assertIn(snippet, content)
 
