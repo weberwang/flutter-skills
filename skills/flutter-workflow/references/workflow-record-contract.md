@@ -71,7 +71,7 @@ When persisted, this runtime artifact is the single stable source for project wo
 - whether freeze preparation already passed through image-backed design-packet normalization
 - whether a shared or module design-source package has already been freeze-evaluated
 - whether freeze evaluation already verified task hierarchy, CTA discoverability, interaction feedback, responsive strategy, and critical-state coverage
-- whether the current shared or module design source has already been generated under the selected `design_source_branch` and matching `design_source_type`, repaired once after diff confirmation, and accepted by a human
+- whether the current shared or module design source has already been generated under the selected `design_source_branch` and matching `design_source_type`, whether `stitch_project_mode` was recorded when the branch is `stitch_design_source_branch`, repaired once after diff confirmation, and accepted by a human
 - whether the selected structured design-source packet has been checked against its source effect image or approved visual comp
 - whether the active module's high-fidelity visual contract was evaluated as the first module design-freeze priority
 - whether the current shared or module scope already has a confirmed atlas analysis bundle, a confirmed solid-background atlas bundle containing effect image, atlas image, chosen background color, atlas manifest, and atlas slicing config, and a confirmed transparent atlas result
@@ -362,6 +362,7 @@ Track project-level artifact paths when known, such as:
 - `docs/project/assets/global-asset-catalog.json`
 - chosen `design_source_branch` (`stitch_design_source_branch` or `pencil_cli_design_source_branch`)
 - chosen `design_source_type` (`stitch` or `pencil_cli`)
+- chosen `stitch_project_mode` (`new_project` or `existing_project`) when `design_source_branch=stitch_design_source_branch`
 - legacy shared design-source file path, if present as non-authoritative evidence
 - module design-source file path or export packet when module scope is active
 - design-source compare report
@@ -395,8 +396,8 @@ If the shared/public component freeze is tracked in a dedicated artifact, index 
 
 Use one row per module with these columns:
 
-| module | current_state | confirmation_status | next_skill | pending_next_stage | pending_next_skill | pending_status_updates | design_source_branch | design_source_type | design_source_project_ref | design_source_packet | effect_images | visual_enhancement_scope | impl_rd | impl_status | generation_trace_status | global_guidelines | light_theme | dark_theme | design_direction | visual_evidence | high_fidelity_freeze_status | design_source_status | code_status | init_status | blockers |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| module | current_state | confirmation_status | next_skill | pending_next_stage | pending_next_skill | pending_status_updates | design_source_branch | design_source_type | stitch_project_mode | design_source_project_ref | design_source_packet | effect_images | visual_enhancement_scope | impl_rd | impl_status | generation_trace_status | global_guidelines | light_theme | dark_theme | design_direction | visual_evidence | high_fidelity_freeze_status | design_source_status | code_status | init_status | blockers |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 
 Update the existing row for a module instead of creating duplicates.
 
@@ -436,7 +437,7 @@ When route drift, receipt mismatch, or no-progress auto stopping happens, add a 
 - If final product design direction is confirmed but the shared freeze packet is still not standardized, route to `global_style_scheme` and `DESIGN.md` refinement before any freeze promotion is queued.
 - If final product design direction is confirmed, index the confirmation artifact or decision-log entry before writing the root-level `DESIGN.md`.
 - If the root-level `DESIGN.md` is written, index its path before module design-source execution or later module bitmap generation.
-- If module design-source execution is required, index the corresponding `design_source_branch`, matching `design_source_type`, tool-specific file path or export packet, compare report, repair receipt, human-acceptance result, and any bitmap-generation implications before allowing module freeze to continue.
+- If module design-source execution is required, index the corresponding `design_source_branch`, matching `design_source_type`, and when applicable `stitch_project_mode`, plus the tool-specific file path or export packet, compare report, repair receipt, human-acceptance result, and any bitmap-generation implications before allowing module freeze to continue.
 - If a confirmed module final effect image is required, index its local paths, the explicit confirmation result, the selected page scope, and whether the approved style constraints were explicitly inherited before allowing module native HTML prototype generation or later freeze work to continue.
 - If a module native HTML prototype is required, index its local paths, the static-layout receipt, the explicit confirmation result, whether the prototype stayed native `HTML/CSS/JS` without framework usage, and whether it explicitly restored the confirmed module final effect image before allowing module design-source execution or later freeze work to continue.
 - If `@product-design` participated in the module prototype stage, index the upstream artifact paths or references, the accepted review result, the inherited hierarchy or copy-compression decisions, and the receipt proving those decisions were translated back into the accepted native `HTML/CSS/JS` module prototype instead of replacing it.

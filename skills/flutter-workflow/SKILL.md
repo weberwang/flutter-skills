@@ -78,10 +78,10 @@ The later visual-enhancement branch is now owned by `$flutter-visual-enhancement
 
 The module design-source stage must lock exactly one explicit design-source branch for each active module before design-source generation starts. Supported values are `stitch_design_source_branch` and `pencil_cli_design_source_branch`.
 
-- `stitch_design_source_branch` maps to `design_source_type=stitch` and must execute through Stitch MCP. Use the official Stitch MCP reference as the capability boundary for this branch.
+- `stitch_design_source_branch` maps to `design_source_type=stitch` and must execute through Stitch MCP with `model=GEMINI_3_1_PRO`. Before execution, it must also record `stitch_project_mode=new_project|existing_project`. Use the official Stitch MCP reference as the capability boundary for this branch.
 - `pencil_cli_design_source_branch` maps to `design_source_type=pencil_cli` and must execute through Pencil CLI. Do not route Pencil generation through MCP in this workflow.
 - The selected `design_source_branch` owns both the first-pass module design-source artifact and any later visual-enhancement reinforcement for that same module unless the user explicitly reopens the module design-source decision.
-- Before `design_source_ready` or `design_restoration_ready` may be promoted, the workflow record must already index both `design_source_branch` and `design_source_type`, plus the concrete tool-specific file path, export path, or packet reference for the accepted artifact.
+- Before `design_source_ready` or `design_restoration_ready` may be promoted, the workflow record must already index both `design_source_branch` and `design_source_type`. When the selected branch is `stitch_design_source_branch`, it must also index `stitch_project_mode`. The record must then capture the concrete tool-specific file path, export path, or packet reference for the accepted artifact.
 
 ## Final Effect Image Boundary
 
@@ -143,8 +143,8 @@ The `module_html_prototype_ready` stage exists to make the active module reviewa
 The `design_source_ready` stage remains a mandatory pre-implementation design-normalization step for module scope. The first-pass design-source baseline belongs to the default implementation path after the confirmed effect image, executable `impl.md`, and confirmed native HTML prototype. After the later visual-enhancement pass adds atlas outputs or bitmap evidence, `$flutter-visual-enhancement-branch` may run one additional tool-specific design-source reinforcement pass on top of that original mandatory baseline.
 
 - The workflow must route through `effect-image-to-design-source` for module scope. Shared/global scope must stop at `global_style_scheme` plus `DESIGN.md` and must not require page-level tool-specific design-source files.
-- Before execution, the workflow must lock one `design_source_branch=stitch_design_source_branch|pencil_cli_design_source_branch` for the active module, and must also record the matching `design_source_type`.
-- When `design_source_branch=stitch_design_source_branch`, execution must use Stitch MCP.
+- Before execution, the workflow must lock one `design_source_branch=stitch_design_source_branch|pencil_cli_design_source_branch` for the active module, and must also record the matching `design_source_type`. When the selected branch is `stitch_design_source_branch`, it must additionally record `stitch_project_mode=new_project|existing_project`.
+- When `design_source_branch=stitch_design_source_branch`, execution must use Stitch MCP with `model=GEMINI_3_1_PRO`, and the request must carry the recorded `stitch_project_mode`.
 - When `design_source_branch=pencil_cli_design_source_branch`, execution must use Pencil CLI instead of MCP or ad hoc file generation.
 - The design-source page width must keep the frozen design width unchanged. The design-source page height must not be lower than the frozen base design viewport height. If the page or a major region is intentionally scrollable, the design-source page height may exceed that minimum to preserve the designed scroll range.
 - Before a tool-specific design-source file or packet can be accepted, it must be compared against the approved effect image.
