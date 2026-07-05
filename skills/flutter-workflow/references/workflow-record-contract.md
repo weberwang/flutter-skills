@@ -39,6 +39,7 @@ When persisted, this runtime artifact is the single stable source for project wo
 - which artifact maturity changes are queued after confirmation
 - what skill should run next
 - what artifacts already exist
+- whether any module or module page has already been explicitly marked for the later visual-enhancement branch
 - whether raw requirements have been captured before PRD generation
 - whether requirements brainstorming has produced a question ledger
 - whether PRD decision-blocking questions are resolved, defaulted, or still blocked
@@ -91,6 +92,7 @@ When persisted, this runtime artifact is the single stable source for project wo
 - whether module-stage effect-image generation stayed blocked until the module `impl.md` and native module HTML prototype were accepted
 - whether `global-design-guidelines.md` records the current effect-image policy and generated global effect-image paths
 - whether implementation planning identified any non-native visual asset that still needs MCP-driven generation or rework
+- whether the workflow record already names the exact later visual-enhancement target pages for the active module and the reason those pages were marked
 - whether display-layer readiness preflight is complete before implementation begins
 - whether the display evidence pack is complete enough for fidelity-critical regions
 - whether the architecture output classified important regions into `preserve_faithfully`, `flutterize`, or `simplify`
@@ -263,6 +265,8 @@ If the workflow is entering validation, debugging, human visual inspection, or i
 
 If the workflow is in or beyond `project_initialized`, state whether bootstrap code is still pending or already landed.
 
+If the active module or its pages are expected to enter the later visual-enhancement branch, state whether the workflow record already marked that scope explicitly, which pages are marked, whether the mark is still `candidate` or already `required`, and what review evidence justified the mark.
+
 Also state the current route lock for this turn and whether the next move is still inside that lock.
 
 If the next move is delegated, also state which subagent-owned specialist step is running and what remains orchestrator-owned.
@@ -347,6 +351,7 @@ Track project-level artifact paths when known, such as:
 - selected module final effect-image path
 - selected module final effect-image status
 - module effect-image baseline lock record
+- visual-enhancement target scope record
 - all-page light-mode effect-image set and approval status for the required full image branch
 - global technical baseline
 - approved image-backed design packet
@@ -389,12 +394,18 @@ If the shared/public component freeze is tracked in a dedicated artifact, index 
 
 Use one row per module with these columns:
 
-| module | current_state | confirmation_status | next_skill | pending_next_stage | pending_next_skill | pending_status_updates | design_source_type | design_source_project_ref | design_source_packet | effect_images | impl_rd | impl_status | generation_trace_status | global_guidelines | light_theme | dark_theme | design_direction | visual_evidence | high_fidelity_freeze_status | design_source_status | code_status | init_status | blockers |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| module | current_state | confirmation_status | next_skill | pending_next_stage | pending_next_skill | pending_status_updates | design_source_type | design_source_project_ref | design_source_packet | effect_images | visual_enhancement_scope | impl_rd | impl_status | generation_trace_status | global_guidelines | light_theme | dark_theme | design_direction | visual_evidence | high_fidelity_freeze_status | design_source_status | code_status | init_status | blockers |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 
 Update the existing row for a module instead of creating duplicates.
 
 Keep the row values on the last confirmed state. Proposed upgrades go into `pending_status_updates` until the user confirms them.
+
+Use `visual_enhancement_scope` to record one of:
+
+- `not_required`
+- `candidate:<page list>|reason:<short reason>`
+- `required:<page list>|reason:<short reason>`
 
 If `execution_mode=auto` or `execution_mode=full_auto`, the table must make it obvious which modules are already fully implemented and which modules are still pending later workflow work.
 
@@ -451,6 +462,7 @@ When route drift, receipt mismatch, or no-progress auto stopping happens, add a 
 - If `execution_mode=auto` or `execution_mode=full_auto` and the active route explicitly requires additional effect images, generate the in-scope images automatically, record their paths, and do not create a confirmation stop.
 - If any workflow-generated image is created, record whether the matching row was also written or updated in `docs/project/assets/global-asset-catalog.json` during the same workflow step.
 - If any workflow-generated image is created, record whether manual image review also ran for that image and where the human review result or summary was stored.
+- If first-pass implementation review proves that a later visual-enhancement pass is still needed for specific module pages, mark that scope explicitly in the active module row as `candidate:<page list>|reason:<short reason>` or `required:<page list>|reason:<short reason>` before delegating to `flutter-visual-enhancement-branch`.
 - If the workflow has entered the later visual-enhancement branch for a module, record that every in-scope module page must enter the bitmap-enhancement loop, and then record for each page whether the workflow first checked `docs/project/assets/global-asset-catalog.json` plus the approved output paths it references for reuse and whether the outcome was `reused_existing`, `candidate_reuse_blocked`, or `new_generation_required`.
 - If approved image-backed module design direction is produced, index its artifact path in `global_artifact_index` and link it from active module rows when relevant.
 - If `platform_identifier` becomes explicit, record it in the relevant summary or artifact index instead of leaving it implicit in prose.

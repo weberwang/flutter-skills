@@ -38,12 +38,14 @@ Before this skill runs, make sure the active module already has:
 - accepted original mandatory Pencil design source
 - completed first-pass implementation plus review evidence that justifies reopening visual refinement
 - explicit page scope for the later refinement pass
+- explicit workflow-record mark that names which module pages are entering the later visual-enhancement branch and why
 
 When the branch includes atlas or bitmap work, also provide:
 
 - source effect-image path
 - source effect-image canvas size
 - active module and page names
+- explicit `visual_enhancement_scope` or equivalent workflow-record field for the active module row
 - target output directories
 - current `docs/project/assets/global-asset-catalog.json`
 - any already-approved atlas analysis, atlas manifest, slice manifest, or reusable asset paths when they already exist
@@ -160,6 +162,7 @@ Valid `routing_outcome` values:
 ## Hard Rules
 
 - Do not open this branch before the first-pass module implementation loop has already completed.
+- Do not open this branch without an explicit workflow-record mark naming which module pages are entering the branch.
 - Do not let this branch redefine the approved module scope, executable `impl.md`, or confirmed native module prototype structure.
 - Do not let this branch replace the original mandatory Pencil baseline; it may only reinforce it.
 - Do not use `@product-design` as a replacement for atlas background-removal, atlas slicing, or deterministic runtime asset preparation.

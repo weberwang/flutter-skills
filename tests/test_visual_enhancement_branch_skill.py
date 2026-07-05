@@ -19,18 +19,27 @@ ENHANCEMENT_AGENT = (
     / "agents"
     / "openai.yaml"
 )
+WORKFLOW_RECORD_CONTRACT = (
+    REPO_ROOT
+    / "skills"
+    / "flutter-workflow"
+    / "references"
+    / "workflow-record-contract.md"
+)
 README = REPO_ROOT / "README.md"
 
 WORKFLOW_DELEGATION_SNIPPETS = [
     "$flutter-visual-enhancement-branch",
     "not by `flutter-workflow`",
     "persist branch-local stage updates",
+    "must explicitly mark which later page modules or module pages need the visual-enhancement branch",
 ]
 
 ROUTING_DELEGATION_SNIPPETS = [
     "route the active module to `flutter-visual-enhancement-branch`",
     "stop managing branch-local sequencing inside `flutter-workflow`",
     "Do not restate or improvise the branch-local step order here.",
+    "Do not open that later branch until the workflow record explicitly marks which later page modules or module pages must enter it.",
 ]
 
 ENHANCEMENT_SKILL_SNIPPETS = [
@@ -41,6 +50,7 @@ ENHANCEMENT_SKILL_SNIPPETS = [
     "`display_evidence_pack_ready`",
     "Pencil reinforcement",
     "docs/project/assets/global-asset-catalog.json",
+    "explicit workflow-record mark that names which module pages are entering the later visual-enhancement branch",
     "`Product Design:ideate`",
     "`pencil_restoration_ready`",
 ]
@@ -73,6 +83,10 @@ class VisualEnhancementBranchSkillTest(unittest.TestCase):
         content = HARD_RULES.read_text(encoding="utf-8")
         self.assertIn("Do not let `flutter-workflow` micromanage the later visual-enhancement path", content)
         self.assertIn("flutter-visual-enhancement-branch", content)
+        self.assertIn(
+            "Do not open the later visual-enhancement path without explicitly marking which module pages are entering that branch in the workflow record.",
+            content,
+        )
 
     def test_enhancement_skill_owns_branch_local_steps(self) -> None:
         content = ENHANCEMENT_SKILL.read_text(encoding="utf-8")
@@ -83,6 +97,12 @@ class VisualEnhancementBranchSkillTest(unittest.TestCase):
         content = ENHANCEMENT_AGENT.read_text(encoding="utf-8")
         self.assertIn("Flutter Visual Enhancement Branch", content)
         self.assertIn("$flutter-visual-enhancement-branch", content)
+
+    def test_workflow_record_contract_marks_branch_scope(self) -> None:
+        content = WORKFLOW_RECORD_CONTRACT.read_text(encoding="utf-8")
+        self.assertIn("visual_enhancement_scope", content)
+        self.assertIn("candidate:<page list>|reason:<short reason>", content)
+        self.assertIn("required:<page list>|reason:<short reason>", content)
 
     def test_readme_mentions_new_branch_skill(self) -> None:
         content = README.read_text(encoding="utf-8")
