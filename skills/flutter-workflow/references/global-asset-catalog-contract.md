@@ -54,7 +54,7 @@ Use `effect_image_draft` for review-stage generated draft effect images that are
 
 Use `effect_image_final` for approved final effect images that become workflow evidence.
 
-Use `bitmap_asset` for generated image assets that downstream Pencil, HTML, or Flutter implementation will reference directly.
+Use `bitmap_asset` for generated image assets that downstream design-source work, HTML, or Flutter implementation will reference directly.
 
 Use `sheet_atlas` for the matching UI-only atlas artifact that is generated together with a qualifying effect-image step. Record whether the path is the confirmed solid-background atlas or the confirmed transparent atlas that later supports cut-safe slicing decisions.
 

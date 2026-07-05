@@ -1,12 +1,12 @@
 # Asset Resource Flow
 
-Use this reference after mandatory shared or module Pencil design review is accepted, whenever the approved visual evidence still includes one page whose confirmed post-review regions cannot be restored faithfully enough in code and therefore need bitmap assets that stay very close to the effect image.
+Use this reference after mandatory module design-source review is accepted, whenever the approved visual evidence still includes one page whose confirmed post-review regions cannot be restored faithfully enough in code and therefore need bitmap assets that stay very close to the effect image.
 
 ## Goal
 
 Turn one approved page into a reusable runtime asset set that downstream prototypes and Flutter implementation can consume directly, whether that final set comes from accepted atlas slices, supplemental standalone bitmaps, or a controlled mix of both.
 
-This flow sits after effect-image confirmation plus Pencil review acceptance, and before prototype generation. It is not a design-direction workflow. It is a resource-normalization workflow.
+This flow sits after effect-image confirmation plus design-source review acceptance, and before prototype generation. It is not a design-direction workflow. It is a resource-normalization workflow.
 
 Each qualifying page should already have a matching `UI-only sheet atlas` generated during the effect-image step, first as a confirmed solid-background atlas and then as a confirmed `UI-only transparent sheet atlas` after `$imagegen` background removal. That atlas is a standard runtime-oriented resource atlas source. When its accepted slice outputs already satisfy the page's runtime contract, they may replace separate per-resource regeneration.
 
@@ -162,7 +162,7 @@ Use one of these outcomes:
 ## Hard Rules
 
 - Do not finalize shared freeze when shared resource generation is required but incomplete.
-- Do not finalize `pencil_restoration_ready` or module implementation-side restoration when module resource generation is required but incomplete.
+- Do not finalize `design_restoration_ready` or module implementation-side restoration when module resource generation is required but incomplete.
 - Do not bypass the global asset catalog.
 - Do not treat the page as resource-ready when the matching solid atlas, transparent atlas, or its cut-ready manifest is missing.
 - Do not treat the page as resource-ready when an atlas-derived cell fails the source-region resolution check against the approved effect image.

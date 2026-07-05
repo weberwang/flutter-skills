@@ -1,6 +1,6 @@
 # DESIGN.md Template
 
-Use this reference when `flutter-workflow` has reached `product_direction_confirmed` and must write a project-level `DESIGN.md` file that drives the downstream Pencil-backed design-source flow.
+Use this reference when `flutter-workflow` has reached `product_direction_confirmed` and must write a project-level `DESIGN.md` file that drives the downstream tool-selected design-source flow.
 
 ## Purpose
 
@@ -10,7 +10,7 @@ In this workflow, `DESIGN.md` must:
 
 - live at the project root as `DESIGN.md`
 - be written after final product design direction confirmation
-- exist before downstream Pencil design execution
+- exist before downstream design-source execution
 - be self-contained
 - avoid references to other repo files, variables, or paths
 

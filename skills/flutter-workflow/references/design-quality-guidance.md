@@ -1,6 +1,6 @@
 # Design Quality Guidance
 
-Use this reference when the workflow is defining global visual direction, writing `DESIGN.md`, generating Pencil-backed design sources, or evaluating whether a design is strong enough to freeze.
+Use this reference when the workflow is defining global visual direction, writing `DESIGN.md`, generating tool-selected design sources, or evaluating whether a design is strong enough to freeze.
 
 ## Core Principle
 

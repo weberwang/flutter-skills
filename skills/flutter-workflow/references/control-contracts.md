@@ -118,7 +118,7 @@ The following specialist stages may run inside a subagent, as long as the orches
 
 - `flutter-prd-rd-writer` for PRD or broad RD expansion into a technical baseline
 - image-backed design-packet normalization for shared or module design consolidation
-- `effect-image-to-pencil-design` for mandatory shared or module Pencil design-source generation, compare-and-fix review, and handoff to human design acceptance
+- `effect-image-to-design-source` for mandatory module design-source generation, compare-and-fix review, and handoff to human design acceptance under the selected `design_source_type`
 - `Creative Production:explore` for controlled asset-branch intake and path selection after the orchestrator has confirmed that the request is asset-oriented
 - focused Creative Production explorers such as `moodboard-explorer`, `ads-explorer`, `offer-explorer`, `scene-explorer`, `shot-explorer`, and `logo-explorer` when the asset branch already has a locked brief and desired output family
 - `Creative Production:generative-polish` when a selected direction or deterministic base already exists and the asset output is publish-bound
@@ -127,7 +127,7 @@ The following specialist stages may run inside a subagent, as long as the orches
 - `flutter-rd-module-splitter` for creating module index rows and executable module `impl.md` documents in one pass after the shared/global design freeze
 - module-scoped `@superpowers` execution when delegated module document generation or implementation requires real execution ownership
 - `flutter-design-source-control` when post-freeze design changes must be incorporated in a controlled way
-- `pencil-design-to-flutter-restoration` for turning frozen Pencil design files into high-fidelity Flutter restoration contracts with standard-library, plugin, and bitmap-fit decisions
+- `design-source-to-flutter-restoration` for turning frozen design-source artifacts into high-fidelity Flutter restoration contracts with standard-library, plugin, and bitmap-fit decisions
 - `flutter-uiux-to-architecture` for architecture mapping, display-layer decision tables, and native-vs-bitmap decisions
 - `flutter-init` for directory-skeleton creation, as long as it stops at initialization boundaries
 - module implementation through explicit `@superpowers` `Spec`, then explicit `@superpowers` `Plan`, then serial execution of the active module loop with sibling `flutter-dev` and `flutter-project-guardrails`
@@ -230,7 +230,7 @@ Track module-stage maturity in addition to `current_stage`.
 | Value | Meaning |
 | --- | --- |
 | `not_started` | The executable document does not exist yet. |
-| `implementation_final` | The module `impl.md` was generated after the shared/global design freeze and after the module final effect image was already confirmed. It already fixes the module function and key states under the frozen shared design, confirmed module scope, and confirmed page baseline, and is now the upstream contract for downstream native HTML restoration, Pencil design execution, and freeze. |
+| `implementation_final` | The module `impl.md` was generated after the shared/global design freeze and after the module final effect image was already confirmed. It already fixes the module function and key states under the frozen shared design, confirmed module scope, and confirmed page baseline, and is now the upstream contract for downstream native HTML restoration, design-source execution, and freeze. |
 | `landed` | The document references the frozen structured design-source packet and the landed status has been explicitly confirmed. |
 
 ### `design_source_status`
