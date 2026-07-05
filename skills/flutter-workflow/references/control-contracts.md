@@ -118,7 +118,7 @@ The following specialist stages may run inside a subagent, as long as the orches
 
 - `flutter-prd-rd-writer` for PRD or broad RD expansion into a technical baseline
 - image-backed design-packet normalization for shared or module design consolidation
-- `effect-image-to-design-source` for mandatory module design-source generation, compare-and-fix review, and handoff to human design acceptance under the selected `design_source_type`
+- `effect-image-to-design-source` for mandatory module design-source generation, compare-and-fix review, and handoff to human design acceptance under the selected `design_source_branch` and matching `design_source_type`
 - `Creative Production:explore` for controlled asset-branch intake and path selection after the orchestrator has confirmed that the request is asset-oriented
 - focused Creative Production explorers such as `moodboard-explorer`, `ads-explorer`, `offer-explorer`, `scene-explorer`, `shot-explorer`, and `logo-explorer` when the asset branch already has a locked brief and desired output family
 - `Creative Production:generative-polish` when a selected direction or deterministic base already exists and the asset output is publish-bound
