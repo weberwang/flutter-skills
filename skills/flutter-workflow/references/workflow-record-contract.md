@@ -361,8 +361,8 @@ Track project-level artifact paths when known, such as:
 - module index
 - `global-design-guidelines.md`
 - `docs/project/assets/global-asset-catalog.json`
-- chosen `design_source_branch` (`stitch_design_source_branch` or `pencil_cli_design_source_branch`)
-- chosen `design_source_type` (`stitch` or `pencil_cli`)
+- chosen `design_source_branch` (`stitch_design_source_branch` or `pencil_mcp_design_source_branch`)
+- chosen `design_source_type` (`stitch` or `pencil_mcp`)
 - chosen `stitch_project_mode` (`new_project` or `existing_project`) when `design_source_branch=stitch_design_source_branch`
 - chosen `design_source_project_ref`, and when `stitch_project_mode=existing_project` it must include the target Stitch project `id`
 - legacy shared design-source file path, if present as non-authoritative evidence
