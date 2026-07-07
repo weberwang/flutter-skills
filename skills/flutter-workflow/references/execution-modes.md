@@ -1,133 +1,79 @@
 # Execution Modes
 
-Use this reference when `flutter-workflow` is invoked with `--auto`, `--full-auto`, or when it must decide whether to continue routing after a local module milestone.
-
-## Contents
-
-- [`--auto`](#--auto)
-- [`--full-auto`](#--full-auto)
-- [Auto Loop Contract](#auto-loop-contract)
-- [Stop Condition](#stop-condition)
+Use this reference when `flutter-workflow` is invoked with `--auto`, `--full-auto`, or when it must decide whether to continue routing after a local milestone.
 
 ## `--auto`
 
-This skill supports an `--auto` execution parameter.
-
 When `--auto` is present, the orchestrator must keep routing and applying workflow transitions without stopping for ordinary downstream confirmation gates, as long as the next move is deterministic and no blocker is hit.
 
-`--auto` includes both automatic confirmation and automatic execution for ordinary orchestrator-owned workflow gates. After a specialist receipt is validated and the route lock is still satisfied, the orchestrator should auto-apply its queued stage transitions and queued status updates, then immediately invoke the next authorized serial step instead of stopping at a reviewable milestone.
+`--auto` is phase-aware:
 
-`--auto` is a full-workflow advancement mode, not a current-module recommendation mode. It must keep working through the remaining target modules in the confirmed serial module order until every target module has been fully implemented and no further workflow move is available.
+- finish the shared pre-phase work first
+- enter `current_phase=launch`
+- complete the launch phase through release readiness
+- enter `current_phase=premium` only when premium scope is explicitly selected
+
+`--auto` includes both automatic confirmation and automatic execution for ordinary orchestrator-owned workflow gates.
 
 The `--auto` goal is:
 
-- finish the global technical baseline first
-- freeze the target design-device preset, design viewport, and `image_output_scale` before global visual design work begins
-- finish Product Design brief confirmation, shared public-shell convergence, and shared freeze preparation from the PRD and technical baseline first
-- lock a structured Product Design clarification packet before module splitting so later module docs do not have to infer user journeys, page families, critical states, interaction goals, platform fit, or information density from screenshots or page count
-- stop only if Product Design brief confirmation, public-shell confirmation, or final product design direction confirmation from the user is still missing
-- route through `@product-design` for design brief playback and design-direction recommendation before `DESIGN.md`
-- use `https://mobbin.com/` as the mandatory first-stop inspiration library during shared/global design-direction exploration, and do not allow direction recommendation or effect-image generation before the Mobbin pass is complete
-- in manual mode, surface three comparable design directions with one primary recommendation before shared/global freeze and wait for confirmation
-- when explicitly requested, allow a pre-direction Creative Production exploration pass as direction evidence before final product-direction confirmation
-- in `--auto`, if the Mobbin-backed recommendation pass already produced one clear primary style recommendation among the three compared directions, adopt it directly and continue
-- write the confirmed direction into `DESIGN.md`
-- after shared/global design freeze, start project initialization and bootstrap preparation as soon as the shared baseline is explicit enough
-- when the active route explicitly requires additional effect-image evidence, generate the in-scope light-mode effect images automatically after the relevant prerequisites are ready, using the approved Product Design visual target as the first baseline when available
-- when no additional effect-image evidence is required, skip automatic effect-image generation
-- do not route shared/global scope into shared design-source execution or shared page image-asset generation; stop the global route at confirmed `global_style_scheme` plus `DESIGN.md`, and keep page-level design-source work in module scope only
-- complete the shared/global design freeze before any module-related work begins
-- generate module boundaries and confirmed module responsibility packets only after the shared/global design freeze
-- treat every confirmed module responsibility packet as the pre-effect-image contract for the active module, then generate the executable module `impl.md` only after that module's final effect image is already confirmed; the executable `impl.md` must stay constrained by the frozen shared design and interaction principles, the confirmed Product Design clarification packet, and the target platform's information-density expectations
-- freeze each active module's first-pass contract before implementation begins; the required freeze packet is confirmed module scope, confirmed module effect image, executable `impl.md`, confirmed native HTML prototype, and original mandatory selected-tool design source. Display evidence, atlas work, and bitmap assets belong only to the later visual-enhancement branch when it is explicitly opened
-- treat each module's high-fidelity visual contract as the first acceptance criterion for module design freeze
-- advance each module through implementation-ready maturity, architecture, bootstrap prerequisites, and real code implementation
-- continue until every target module is fully implemented and ready for human visual inspection or workflow completion
-- automatically confirm ordinary orchestrator-owned stage promotions, maturity promotions, and reviewable receipts after validation instead of pausing for per-module acknowledgment
-- automatically invoke the next route-locked skill or serial module step after each successful receipt instead of leaving a passive recommendation behind
+- finish PRD and technical baseline first
+- complete the launch phase chain in order:
+  `launch prototype -> launch effect image -> launch Pencil -> launch freeze -> launch restoration -> launch implementation -> launch QA -> release readiness`
+- if premium enhancement is explicitly in scope, continue into the mandatory premium phase chain in order:
+  `premium prototype -> premium effect image -> premium Pencil -> premium freeze -> premium restoration -> blueprint -> premium implementation -> parity QA`
+- do not treat the premium phase as an optional postscript once Phase 2 has started; only specific asset-enhancement methods inside that phase may remain conditional on actual design needs
+- stop only when workflow completion or a real blocker appears
 
 `--auto` is not allowed to:
 
-- produce implementation execution before `@superpowers` `Spec` and `@superpowers` `Plan` exist for the active module
-- bypass real blockers or missing inputs
-- invent approvals for ambiguous design choices
-- wait for a manual "continue" acknowledgment after an ordinary module milestone when downstream work is still authorized
-- stop just because one active module reached a local stable milestone such as `implementation_final`, `module_design_frozen`, `impl_rd_ready`, `architecture_ready`, or `code_status=landed`
-- leave a module-complete handoff behind as a mere `next_skill` suggestion when other target modules are still unfinished
-
-When `--auto` reaches shared freeze, it must first verify that the design viewport is already frozen; if not, auto-freeze `390 x 844 px` as the global design viewport. If `image_output_scale` is still unset for iPhone-first work, auto-freeze `2x` so generated images use the default workflow output size instead of the larger device-like output. Then verify that the Product Design brief has been confirmed from the PRD and technical baseline, that the structured Product Design clarification packet for later module splitting is already locked, that the public shell is explicitly agreed, that the final product design direction was explicitly confirmed from the approved Product Design recommendation, and that `DESIGN.md` exists. If confirmation is missing, stop and request confirmation instead of advancing. If the active route requires additional light-mode effect images, complete the Product Design-owned final effect-image direction pass directly and select or revise the Product Design-generated candidate before continuing without waiting for ordinary user confirmation. If the active route requires additional final images but the selected final effect-image direction path is blocked by missing access, credentials, or upstream capability, stop and record a blocker for that branch. If no additional image evidence is required, skip effect-image generation entirely. The shared/global freeze packet must stop at shared theme/public-shell design and must not include page design. Only after the shared/global design freeze is complete may `--auto` enter module `impl.md` generation, per-module serial advancement, and later code implementation.
-
-Auto-generated effect images do not remove the need for freeze-quality evaluation; they only provide optional supplemental static visual evidence.
-
-`--auto` does not automatically open the Creative Production branch by default. That branch is scope-driven and should be entered only when the current request explicitly includes asset-oriented work such as campaign visuals, mood boards, ad routes, hero variations, or publish-bound marketing assets. When that branch is active before final direction confirmation, it is direction evidence only. When it is active after `DESIGN.md`, it is an asset-production branch. In both cases, the orchestrator should still preserve the same upstream design-direction gates and should not let asset exploration rewrite the already confirmed product direction silently.
+- skip the prototype step in either phase
+- skip the Pencil step in either phase
+- restore Flutter code directly from effect images
+- bypass `@superpowers` `Spec` and `Plan`
+- continue a premium route after `scope_reopen_required=yes`
 
 ## `--full-auto`
-
-This skill also supports a `--full-auto` execution parameter.
 
 `--full-auto` includes everything in `--auto`, but expands auto-confirmation to deterministic human-facing workflow gates when existing artifacts collapse the decision to exactly one supported default.
 
 `--full-auto` may auto-confirm:
 
-- Product Design brief confirmation when the PRD, technical baseline, and required clarification packet already prove one brief interpretation strongly enough for downstream work
-- public-shell confirmation when the current shared-shell packet has one uniquely supported option and no competing shell contract remains in scope
-- final product direction confirmation when the Mobbin-backed recommendation pass yields one clear primary direction and no competing approved direction remains unresolved
-- primary-platform device selection when validation sees exactly one eligible device, or exactly one already-booted eligible device, or no eligible device and the platform supports starting a single emulator or simulator fallback
-- ordinary orchestrator-owned review gates that `--auto` already consumes
+- deterministic shared clarification gates
+- deterministic launch-phase review gates
+- deterministic premium-phase review gates
+- deterministic device selection when exactly one supported default exists
 
 `--full-auto` must still stop when:
 
-- the available artifacts still support multiple plausible defaults
-- the shell, brief, direction, or device choice would require taste judgment rather than deterministic selection
+- the available artifacts support multiple plausible defaults
+- `scope_reopen_required=yes`
 - route lock validation, receipt validation, or no-progress rules fail
-- required artifacts, credentials, tools, or generated evidence are missing
-- a blocker would already stop `--auto`
-
-`--full-auto` is not allowed to:
-
-- invent a brief, shell, direction, or device decision when more than one reasonable choice still exists
-- bypass the Mobbin-backed recommendation pass, Product Design artifacts, or required effect-image and freeze gates
-- weaken route-lock, receipt, blocker, or no-progress enforcement
-- convert an unresolved ambiguity into a silent approval just to keep the loop moving
-
-When `--full-auto` reaches shared freeze, it should apply the same `390 x 844 px` viewport default as `--auto` when no frozen viewport exists. If `image_output_scale` is still unset for iPhone-first work, it should also default that value to `2x`. Then it should attempt deterministic confirmation in this order: Product Design brief, public shell, final product direction. If any one of those gates still has more than one supported answer, stop and record the ambiguity as a blocker instead of advancing. If the active route requires additional light-mode effect images, complete the Product Design-owned final effect-image direction pass directly and select or revise the Product Design-generated candidate before continuing. If final image generation is blocked, stop and record that blocker.
+- required tools, credentials, or artifacts are missing
 
 ## Auto Loop Contract
 
-After the shared/global design freeze is complete and module `impl.md` generation begins, `--auto` and `--full-auto` must behave as a serial loop:
+In both `--auto` and `--full-auto`:
 
-1. Select the next target module in the confirmed serial module order that is not yet fully implemented.
-2. Set that module as `current_module` and update the workflow record immediately.
-3. Verify that the selected module really exists in the module index, that the shared/global design freeze is already complete, that the confirmed Product Design clarification packet exists for the relevant journeys or page families, that the module responsibility packet is already confirmed, that its executable `impl.md` exists on disk, that its frozen structured design-source packet is available, and that `display_restoration_blueprint_ready` is already satisfied before implementation readiness. If any required artifact is missing, record a real blocker and stop auto-advancement instead of inventing the module state.
-4. Record why that module is the correct next serial module right now before module effect-image generation, module `impl.md` generation, module freeze, or code execution begins.
-5. If the module `impl.md` is not executable enough as a detailed task implementation document constrained by the frozen shared design, confirmed module scope, and confirmed effect-image baseline, route back to the combined module document generation step for a scope-matched regeneration and stop instead of opening a separate refinement stage.
-6. If combined module document generation did not truly execute, mark that step as `not_executed` or `未执行` in the workflow record and any project-level execution trace, then stop instead of promoting later stages.
-7. Run the active module's first-pass freeze preparation first, freezing the design-source packet only after confirmed module scope, confirmed effect image, executable `impl.md`, confirmed native HTML prototype, and original mandatory selected-tool design source are all explicit enough. Only after that freeze and after first-pass implementation is complete may the workflow open a later visual-enhancement loop when needed.
-8. Advance the module through implementation-ready maturity.
-9. Produce any required architecture output for that module.
-10. Run `@superpowers` `Spec`, then `@superpowers` `Plan`, then execute the active module's serial implementation loop to real code completion.
-11. Update `current_stage`, `next_skill`, `module_status_table`, `code_status`, and `decision_log`.
-12. Re-evaluate the remaining modules and immediately continue with the next serial module.
+1. Select the next valid step from the current phase and current stage.
+2. Persist the route lock immediately.
+3. Verify that the required phase artifacts already exist.
+4. Run the next specialist step only if the route lock and preflight gate still authorize it.
+5. Apply deterministic queued transitions immediately after receipt validation.
+6. Re-evaluate whether the workflow should stay in the same phase, move to the next phase, or stop on a blocker.
 
-`current_module` is only the module being processed right now. It must never be interpreted as the only module covered by the current `--auto` or `--full-auto` run.
-
-If one module reaches `implementation_final`, `module_design_frozen`, `impl_rd_ready`, `architecture_ready`, or `code_status=landed`, that is only a local milestone. In `--auto` or `--full-auto` mode, the orchestrator must immediately decide whether the same module still needs another step or whether the next serial module should become `current_module`, then continue execution without asking for an ordinary continuation confirmation.
+If a premium request triggers `scope_reopen_required=yes`, the auto loop must stop premium advancement and route back to the matching launch scope or contract step instead of continuing as a normal enhancement.
 
 ## Stop Condition
 
-The default stop condition for `--auto` and `--full-auto` is:
+The default stop condition is:
 
-- every target module row has at least `impl_status=landed`
-- every target module row has `design_source_status=frozen`
-- any required architecture outputs for those modules are ready
-- every target module row has `code_status=landed`
-- required human visual inspection handoff artifacts are ready
+- the launch phase has reached `phase_1_release_ready`
+- and either:
+  - premium scope was not requested
+  - or the premium phase has reached `phase_2_done`
 
-When this stop condition is reached, the orchestrator should surface that the project is `workflow_completed_waiting_review` and return control to the user for review or closeout.
+`--auto` and `--full-auto` may stop only when:
 
-`--auto` and `--full-auto` may stop only when one of these conditions is true:
-
-- all target modules satisfy the completion condition above
-- a real blocker appears and the current round cannot safely continue
-
-It must not stop because one module finished its local pre-implementation flow, because one module finished implementation, because a downstream skill recommendation was produced, because `current_module` changed from one module to another, or because a validated ordinary review gate would normally wait for manual acknowledgment in non-auto mode.
+- all required phases satisfy the completion condition
+- or a real blocker appears and the current round cannot safely continue

@@ -1,195 +1,23 @@
 # Hard Rules
 
-Use this reference before applying any state/status promotion, freeze decision, implementation handoff, visual-evidence decision, or downstream delegation.
+Use this reference before applying any state promotion, freeze decision, implementation handoff, or downstream delegation.
 
-- Do not split implementation modules from a raw PRD before a global technical baseline and package stack exist.
-- Do not write durable project workflow artifacts outside `docs/project/` unless the user or an explicit downstream contract requires a different path.
-- Do not route raw requirements, a one-line feature idea, or an ambiguity-heavy request directly into technical baseline, image-backed design direction, executable module document generation, architecture, or implementation before the requirements-to-PRD flow has resolved decision-blocking questions and produced a PRD artifact.
-- Do not treat assumptions as resolved requirements unless the PRD records them explicitly with rationale and risk.
-- Do not treat a minimal summary note as workflow-valid PRD readiness unless it passes the PRD completeness gate.
-- Do not let downstream stages infer core scope, roles, success metrics, or non-goals that should have been fixed in the PRD.
-- Do not treat routing as a best-effort recommendation flow; it is a locked state machine owned by the orchestrator.
-- Do not invoke a downstream skill until the route lock is persisted and the preflight gate passes.
-- Do not delegate workflow truth ownership to a subagent.
-- Do not use `flutter-prd-rd-writer` for detailed module design.
-- Do not begin global design exploration before the target design-device preset, design viewport, and `image_output_scale` are frozen for the current design cycle.
-- Do not let any page design shrink below the frozen design viewport for the active cycle.
-- Do not let any accepted design-source page keep the frozen width while dropping its height below the frozen base design viewport height. If the page or a major region is intentionally scrollable, allow the page height to exceed that minimum instead of compressing the layout.
-- Do not confirm the final product design direction before `@product-design` has first confirmed the design brief and produced or validated the direction input for this request.
-- Do not skip the Mobbin inspiration pass during shared/global direction exploration. Direction recommendation, `global_style_scheme.status=selected`, and downstream freeze work must stay blocked until the Mobbin-first pass is complete for the current design cycle.
-- Do not generate shared/global representative page sketches, shared/global page effect images, shared/global atlas work, shared/global tool-specific design-source files, or any shared/global page design draft. Global design must stay `theme_and_style_only=true`, keep `no_global_page_design_draft` recorded, and set `page_design_deferred_to_module_stage=true`. Allowed exception: one shared/global `global_style_experience_image` may be generated or assembled for intuitive style review only when it records `non_page_design_evidence=true` and does not define page structure, page flow, exportable atlas content, or tool-specific design-source-ready page design.
-- Do not bypass `@product-design` visual ideation for `global_style_experience_image` or module final effect image direction selection. Those direction images belong to Product Design-controlled ideation and QA before they become frozen evidence.
-- Do not generate the module final effect image through `gpt-image-2-generator`. The workflow must select or revise a Product Design-generated candidate before freezing the chosen final effect-image baseline.
-- Do not generate the workflow atlas through `gpt-image-2-generator`.
-- Do not allow module splitting to begin unless `@product-design` has already produced a confirmed structured clarification packet for the relevant journeys, page families, critical states, interaction goals, platform fit, and information-density posture.
-- Do not let a pre-direction Creative Production exploration branch close the final product-direction gate by itself; it may only contribute reviewable direction evidence.
-- Do not start module `impl.md` generation immediately after the technical baseline. All module-related workflow must wait until the shared/global design freeze is complete.
-- Do not skip `DESIGN.md` output after final product design direction confirmation.
-- Do not treat a visually polished `DESIGN.md` as complete if it still lacks task-priority rules, interaction-feedback rules, responsive strategy, or critical-state coverage that the product clearly needs.
-- Do not confuse `platform_baseline` with a verified `platform_identifier`. Here `platform_identifier` means the primary runtime and validation platform for this workflow, not an optional cross-platform matrix.
-- Do not skip global style-scheme normalization before shared freeze, and do not skip image-backed design-packet normalization before any module freeze check.
-- Do not generate new static visuals before checking whether the target directories already contain usable page images.
-- Do not skip required module effect-image generation before the workflow freezes a module structured design-source packet; first confirm the active module responsibility and primary-page scope, then freeze the confirmed module effect-image set, then generate the executable module `impl.md`, then confirm the native HTML prototype and mandatory module design source, and only then add any optional supplemental design-source packets.
-- Do not use Creative Production outputs as the implementation design source for Flutter by themselves; they are creative evidence or asset outputs, not the frozen structured design-source packet.
-- Do not treat tool-native helper prose, hidden defaults, or implementation convenience as valid design guidance. Design guidance may come only from the frozen global design, the active module design package, the frozen design source, and `DESIGN.md`.
-- Do not open the first native module prototype draft before the matching module final effect image has already been explicitly confirmed for that same page scope.
-- Do not treat the module native HTML prototype as the frozen structured design-source packet; it is a mandatory static-layout confirmation gate that must be accepted before the default module design-source execution or module freeze may continue. Atlas analysis, atlas preparation, atlas background removal, atlas slicing, and bitmap work belong only to the later visual-enhancement path after the first-pass implementation has already completed and the workflow explicitly reopens visual refinement.
-- Do not let `flutter-workflow` micromanage the later visual-enhancement path after that path has been explicitly opened; route branch-local sequencing to `flutter-visual-enhancement-branch` and keep `flutter-workflow` limited to gate checks plus persisted stage updates.
-- Do not open the later visual-enhancement path without explicitly marking which module pages are entering that branch in the workflow record.
-- Do not treat a legacy shared native HTML prototype as the frozen structured design-source packet or as a global freeze prerequisite. If one exists, it is non-authoritative style evidence only and must not unlock final effect-image generation, atlas analysis, atlas preparation, atlas background removal, atlas slicing, or shared design-source execution.
-- Do not treat revisions to a legacy shared native HTML prototype as mere presentation cleanup. If review changes page structure, visible modules, action priority, wording, grouping, or other user-facing behavior expectations, update the governing requirements artifacts before shared freeze continues.
-- Do not treat revisions to a module native HTML prototype as local visual cleanup only. If review changes page structure, state presentation, visible actions, wording, grouping, or other user-facing behavior expectations, update the module requirements artifacts before downstream generation, freeze, or implementation continues.
-- Do not keep the active module's page-content contract only inside prototype screenshots, review comments, or chat summaries. Fold that contract back into the executable module `impl.md` before downstream generation, freeze, or implementation continues.
-- Do not implement the module HTML prototype with any framework, component runtime, or generated SPA shell. Use only native `HTML`, `CSS`, and `JavaScript`.
-- Do not let the module HTML prototype ship English-first or mixed-language visible UI copy by default. Use Simplified Chinese unless the user or active module contract explicitly requires another display language.
-- Do not let the module HTML prototype drift into marketing copy, ad-style composition, or explanation-heavy page content. It must look and read like a mature commercial product surface.
-- Do not let module prototype creation begin while the commercial-product creation packet is still missing `target_user_maturity`, `price_confidence_level`, `competitive_reference_band`, `trust_signal_strategy`, or `visual_premium_keywords`.
-- Do not accept a trust-heavy, conversion-sensitive, premium-positioned, or first-impression-sensitive primary page without explicit mature-reference inheritance and, when needed, a Product Design-owned high-fidelity review prototype before native prototype acceptance.
-- Do not let the native HTML prototype invent a new visual hierarchy, page structure, or action order after a module final effect image has already been confirmed. Prototype work must restore the confirmed effect image rather than renegotiate it.
-- Do not keep placeholder blocks for decorative art, texture, chrome fillers, or ornamental layout balance in the native HTML prototype. Only necessary runtime-content or state-dependent regions may remain as placeholders.
-- Do not use the module HTML prototype to validate interaction flow, state switching, scroll ownership, sticky behavior, or overlay behavior. Those remain downstream design and architecture responsibilities.
-- Do not continue beyond a confirmed module native HTML prototype until the accepted prototype paths, receipt, and accepted structural decisions have been synchronized into the active module `impl.md`, any affected shared design rules, the workflow record, and the relevant artifact indexes.
-- Do not let a module effect image override a confirmed native HTML prototype's page structure, hierarchy, grouping, action priority, or basic interaction ownership. Visual fidelity is layered on top of the confirmed prototype contract, not the other way around.
-- Do not block direct image-asset use when the image can be exported from the approved prototype/effect-image source and saved into the project asset tree.
-- Do not call `Product Design:ideate` for a new bitmap asset before checking whether the global asset catalog and its approved output paths already provide a reusable image for the same semantic and usage scenario.
-- Do not mark a structured design-source packet as frozen when required exported image assets lack recorded source paths, local asset paths, and intended page regions.
-- Do not accept or generate dark-mode effect images as the default workflow reference set; the default effect-image baseline is light mode.
-- Do not treat module effect images as optional evidence. Module effect images are the mandatory pre-implementation visual baseline for each active module and must be confirmed before executable module-document generation, native HTML restoration, and module freeze. Shared/global freeze must not require page effect images, atlas bundles, or tool-specific design-source files.
-- Do not let any workflow-generated image enter evidence, confirmation, freeze, or downstream consumption before manual image review has been completed for that image and the human review result is recorded.
-- Do not skip the dedicated atlas-analysis node, atlas-preparation node, atlas background-removal node, or atlas-slicing node once the workflow path requires a UI-only atlas bundle.
-- Atlas generation may use `Product Design:ideate` only after the atlas extraction analysis is explicitly confirmed.
-- Do not use `@product-design` as a replacement for atlas background-removal, atlas slicing, or deterministic runtime asset preparation. Those implementation-stage asset steps stay on the deterministic asset chain even when the solid atlas image itself is rendered through Product Design.
-- Do not let `--auto` or `--full-auto` generate required module final effect images without the selected final-generation path being available for that branch.
-- In manual mode, do not generate the remaining required page-effect set before the first module final effect image has been explicitly confirmed.
-- Do not reopen alternative-direction browsing after `global_style_scheme.status=selected` or an approved module final effect image has been explicitly confirmed for the current design cycle; that confirmation freezes the visual baseline until the user explicitly rejects it or restarts the design cycle.
-- Do not generate, show, or compare other-direction effect images after that confirmation merely for more browsing; only same-direction completion, evidence expansion, or scope-matched revision is allowed.
-- Do not send module-stage effect-image generation requests without explicit style constraints once the design packet already defines them.
-- Do not start any module-stage effect-image generation until the workflow has first extracted the applicable visual constraints from the frozen global design packet and attached them to the request.
-- Do not let `@product-design`, `$imagegen`, or `gpt-image-2-generator` interpret effect-image work as marketing exploration, ad creative, poster composition, hero-banner art, or a wireframe-like draft once the workflow is generating product-surface evidence.
-- Do not accept any generated sketch or effect image that looks like a campaign visual, landing-page hero, slogan-first ad, concept board, or low-fidelity requirements mock instead of a commercial product screen.
-- Do not accept a generated prototype or effect image as "premium" when its main premium signal comes from decorative hero treatment, oversized headlines, theatrical empty space, or mood-board styling instead of credible product hierarchy and controls.
-- Do not simplify, shorten, or drop detail from a failed image-generation prompt when retrying. Preserve the full original prompt, the full frozen constraint set, and append only blocker-specific repair notes.
-- Do not let effect-image generation change the frozen design width or use a height smaller than the frozen base viewport height.
-- Do not let effect-image generation hide weak product structure behind cinematic framing, decorative negative space, oversized headlines, or non-product storytelling layouts.
-- Do not prefer a visually attractive but structurally inconsistent effect image over the confirmed prototype's task path, grouping, spacing logic, or action order.
-- Do not treat an atlas-analysis step as complete before its matching effect image, approved extraction analysis, and approved atlas cell plan all exist.
-- Do not treat an atlas-preparation step as complete before its matching effect image, solid-background atlas, chosen background color record, atlas manifest, and atlas slicing config all exist.
-- Do not treat atlas background-removal work as complete before the transparent atlas result exists and has been explicitly confirmed.
-- Do not enter design restoration from an atlas-preparation path before the dedicated slicing node has produced a slice result manifest.
-- Do not force redundant standalone bitmap regeneration for page regions whose accepted atlas-slice outputs are already runtime-ready for direct app usage.
-- Do not generate atlas content before the corresponding final effect image is already confirmed for the current scope.
-- Do not build the atlas by mechanically cutting the whole page screenshot into arbitrary regions. Atlas scope must come only from analyzing the confirmed effect image plus its prompt and identifying non-standard-library visuals.
-- Do not ask the image model to decide atlas scope, cell count, or cell layout without a confirmed atlas extraction analysis.
-- Do not generate atlas content before the atlas extraction analysis for that scope is explicitly confirmed.
-- Do not add new background colors, backing panels, separator fills, or other helper surfaces inside atlas cells merely to make cell boundaries clearer, exports easier, or slices easier to inspect.
-- Do not add line frames, strokes, divider rules, crop guides, boundary guides, or any other helper edge decoration to atlas cells unless that visual treatment is already part of the original approved design content for that exported region.
-- Do not preserve a background or border inside an atlas cell unless the workflow can explicitly justify that the same background or border belongs to the original design itself rather than atlas convenience.
-- Do not let atlas analysis or atlas export perform decorative repainting, cleanup redraws, or stylistic补画. Atlas output must follow the original effect image's real visual content, not a cleaned-up or annotated reinterpretation.
-- Do not generate the workflow atlas directly on a transparent background. Generate one solid-background atlas first, using one preset least-conflicting background color.
-- Do not let the atlas generator improvise its own background color; the chosen color must come from the preset atlas background palette and be recorded.
-- Do not approve a non-transparent atlas background for slicing. It must either be the confirmed transparent atlas result or a blocker that routes back to `$imagegen` background removal.
-- Do not run atlas background removal on non-solid backgrounds; regenerate the atlas with a preset solid-color background first.
-- Do not cut the atlas before the `$imagegen` background-removal result has been confirmed.
-- Do not ask `$imagegen` to infer or invent slice bounds; minimum-cell cutting must remain deterministic and config-driven.
-- Do not place multiple exportable visuals into overlapping rectangular cells.
-- Do not process modal, dialog, bottom-sheet, action-sheet, or other overlay UI cells for one module page before that same page's page-base atlas cells are already settled.
-- Do not bake runtime data layers into the atlas; those regions must stay placeholder-only in the atlas contract.
-- Do not skip the solid-background atlas stage for workflow sheet atlases.
-- Do not rerun atlas background removal when the atlas is already transparent; an already transparent atlas must move to confirmation or slicing rather than another background-removal pass.
-- Do not use `/images/edits`, hidden tool defaults, or ad hoc rule-based cleanup as the primary workflow atlas background-removal path when the route explicitly requires `$imagegen`.
-- Do not skip explicit confirmation after `$imagegen` background removal when the transparent atlas result is about to enter slicing.
-- Do not flatten or compress a scrollable page or scrollable region merely to keep the effect image within one screen height; allow taller effect images when scroll design evidence is needed.
-- Do not let module-stage effect-image generation redefine palette, typography mood, component family, image treatment, or CTA posture after a shared/global direction has been approved.
-- After a shared/global freeze or module freeze is confirmed, do not leave no-longer-selected effect images in the active artifact directories or workflow indexes where later stages could mistake them for valid baselines; delete those obsolete images and clear their references.
-- Do not let module `impl.md` generation, implementation-stage module effect-image generation, display-evidence-pack confirmation, or module freeze drift away from the already frozen shared visual design, shared interaction principles, shared public shell, or shared component families.
-- Do not let module splitting or module refinement infer first-screen-visible content, deferred content, or page density ad hoc from screenshots alone once the Product Design clarification packet already defines those boundaries.
-- Do not let prototype-only edits redefine first-screen-visible content, deferred or collapsed content, default-surface exclusions, dominant CTA posture, or state-specific visible-content obligations without updating the active module `impl.md` first.
-- Do not let `flutter-rd-module-splitter` emit non-executable split drafts that require a later refinement node.
-- Do not attempt module freeze before the shared/global design freeze is complete, the module responsibility packet is confirmed, the module effect image is confirmed, the module `impl.md` has implementation-final maturity, the native HTML module prototype is accepted, and the mandatory design source is frozen. Atlas, slice, display-evidence, and bitmap artifacts are not required for the first-pass module freeze unless the workflow has explicitly entered the later visual-enhancement branch.
-- Do not freeze a module for implementation while its high-fidelity visual contract is missing, vague, or deferred to later code polish.
-- Do not let code implementation begin before `technical_baseline_ready`, `design_freeze_ready`, executable module `impl.md`, `module_design_frozen`, and `impl_rd_ready` exist for the module.
-- Do not let code implementation begin while `impl_status` is anything earlier than `implementation_final`.
-- Do not let a feature module start landing before the required global public code baseline is present.
-- Do not force a network baseline into projects or modules that do not require remote data or network capabilities.
-- Do not postpone `flutter-init` until every feature module is fully architecture-ready when the shared bootstrap-critical baseline is already sufficient to initialize the project.
-- Do not delay `project_initialized` or `bootstrap_code_ready` until after late module milestones when the shared freeze and shared bootstrap-critical baseline are already complete.
-- Do not let `flutter-init` implement bootstrap code, feature pages, feature business flows, shared wiring, or module-specific behavior while initializing the project.
-- Do not treat `project_initialized` as proof that bootstrap code already exists; bootstrap is a separate stage that must land before feature-module implementation.
-- Do not default to bare `flutter` or `dart` commands for this workflow when the user has not specified an environment override; default the Flutter environment contract to `fvm`.
-- Do not mark `impl_status=landed` until the module `impl.md` references a confirmed frozen structured design-source packet.
-- Do not start module-scoped display-layer design draft generation before the active module's `impl.md` has fixed the module function, key states, main task path, and non-display behavior boundaries.
-- Do not freeze or translate a module design that has not yet considered the concrete target platform's interaction, layout, density, and feedback expectations.
-- Do not pass a module page design toward freeze when its information density is only described as "more" or "less" content without explicit platform-specific visibility, disclosure, paging, or secondary-surface rules.
-- Do not treat secondary desktop, web, or other convenience surfaces as required validation targets when the primary platform is already defined. Validation should follow the primary platform only unless the user explicitly changes that platform.
-- Do not land ordinary page-module display-layer code before the module's non-display behavior, service wiring, and state-flow contracts are stable enough to support that display faithfully.
-- Do not treat module implementation as `display first, behavior later`; the required local order is `module scope -> final effect image -> executable impl.md -> native HTML prototype -> design source -> restoration planning and blueprint -> non-display code -> display restoration`, with atlas, slicing, and bitmap refinement only in the later visual-enhancement branch when the first-pass implementation has already proved they are necessary.
-- Do not dilute a frozen premium/high-fidelity module design into a generic implementation compromise without routing back through design control.
-- Do not mark `code_status=landed` until code output exists and the landed status change has been explicitly confirmed.
-- Do not route around `flutter-design-freeze-gate` on implied approval.
-- Do not let a complete shared or module design draft skip `flutter-design-freeze-gate` before freeze.
-- Do not allow design packages with unresolved hierarchy, task guidance, typography, contrast, CTA, or state-coverage defects to advance into shared freeze or module design freeze.
-- Do not allow design packages with unresolved loading, empty, error, disabled, permission-denied, long-content, short-content, or slow-network behavior to advance into shared freeze or module design freeze when those states are relevant to the product.
-- Do not allow a design package to pass freeze if the first-screen task path or primary CTA is still visually ambiguous.
-- Do not allow a design package to pass freeze if the product class requires trust signals for pricing, identity, security, permissions, or result confidence and those signals are still absent, hidden, or explanation-only.
-- Do not allow first-screen product UI to depend on long explanatory copy when visual hierarchy, control state, badges, chips, icons, grouping, or disclosure can express the same meaning.
-- Do not freeze a settings, dashboard, utility, or task surface if its primary understanding requires reading multiple descriptive text blocks.
-- Do not keep subtitle, row-description, notice-card, and support-copy layers simultaneously when they repeat the same meaning.
-- Do not keep both a title-adjacent explanatory paragraph and a second support paragraph on the same default surface unless the user would become blocked without both.
-- Do not let helper text, info cards, and descriptive paragraphs accumulate when one short label, one status line, or one disclosure entry would carry the same meaning.
-- Do not treat explanatory text as the default solution for permission, privacy, sync, degradation, or empty-state communication on premium mobile product surfaces.
-- Do not approve a design that looks like a requirements explanation page, onboarding note, or settings manual instead of a mature commercial product surface.
-- Do not compress away core whitespace, spacing rhythm, or structural breathing room merely to fit more content into the frozen design viewport.
-- Do not treat architecture planning, Flutterization, or implementation convenience as a substitute for resolving high-fidelity visual decisions during module design freeze.
-- Do not let `--auto` or `--full-auto` enter `implementing` before `@superpowers` `Spec` and `Plan` exist for the active module.
-- Do not let `--auto` or `--full-auto` skip blockers, unresolved dependencies, or missing design inputs.
-- Do not let `--auto` or `--full-auto` pretend a module is implementation-ready when the shared/global design freeze is incomplete, its executable `impl.md` is missing, or its design source is not frozen.
-- Do not stop `--auto` or `--full-auto` for ordinary downstream confirmation gates before workflow completion.
-- Do not leave validated ordinary review gates waiting for manual acknowledgment in `--auto` or `--full-auto`; apply them and continue unless a real blocker or hard confirmation gate exists.
-- Do not stop `--auto` or `--full-auto` just because the current module reached `implementation_final`, `module_design_frozen`, `impl_rd_ready`, or `architecture_ready` while other target modules still remain.
-- Do not treat `current_module` as the only module covered by an `--auto` or `--full-auto` run; it is only the module currently being processed.
-- Do not leave `next_skill` as a passive handoff recommendation after a local module milestone when `execution_mode=auto` and more target modules are still pending.
-- Do not continue `--auto` or `--full-auto` into module workflow when the shared/global design freeze is incomplete, or past executable module document generation when the selected active module, its module-index row, or its `impl.md` cannot be verified on disk.
-- Do not skip directory inspection and environment-variable checks before auto-generating static visual evidence in `--auto` or `--full-auto` mode.
-- Do not treat a blocked selected final effect-image direction path as anything other than a workflow blocker once the mandatory final effect-image stage is in scope.
-- Do not use Creative Production to bypass `@product-design` brief confirmation, final product direction confirmation, or `DESIGN.md` when the request is really about product-surface UI direction.
-- Do not open the Creative Production polish path before a concrete direction or deterministic base exists.
-- Do not let `Creative Production:generative-polish` own exact copy, claims, logos, charts, prices, dimensions, safe zones, or filenames for publish-bound assets.
-- Do not let a Creative Production branch silently redefine the frozen app-shell, product interaction model, or shared component family contract after Product Design freeze.
-- Do not treat vague textual packets as a substitute for the frozen structured design-source packet during module freeze.
-- Do not generate new module real-device effect images during module `impl.md` generation or module freeze by default; require an explicit evidence need from the current route.
-- Do not treat additional image evidence generation as permission to redefine the approved shared/global style direction; it only expands image-backed design evidence.
-- Do not let implementation rewrite design intent. Design changes after freeze must return to design control.
-- Do not route directly from `architecture_ready` to sibling `flutter-dev`; new project scaffolding must pass through `flutter-init`.
-- Do not let delegated module document generation or code landing bypass `@superpowers` when real execution ownership is required.
-- Do not enter implementation execution before `@superpowers` has produced both `Spec` and `Plan` for the active module.
-- Do not open parallel module implementation lanes by default once `Spec` and `Plan` exist. Module execution stays serial unless the workflow contract is explicitly changed.
-- Do not directly route module implementation to `flutter-rd-module-splitter`, `flutter-dev`, sibling implementation skills, or any other execution path without explicit `@superpowers` invocation.
-- Do not directly route module implementation to `flutter-dev` or sibling execution skills without explicit `@superpowers` invocation.
-- Do not let multiple module implementation subagents run in parallel against different active modules in the default workflow.
-- Do not treat a complete-looking `impl.md` as proof that delegated generation or execution really happened.
-- Do not let `.impl.md` claim `generation_trace_status=verified_executed` unless the workflow record or execution trace contains the real delegated inputs and outputs for that module.
-- Do not start display-layer landing before the preflight inputs are complete enough to avoid image-only guessing.
-- Do not auto-pick among multiple eligible devices on the primary platform during validation unless `--full-auto` can still reduce the choice to one deterministic default, such as one already-booted eligible device. If more than one plausible device still remains, stop and wait for explicit user choice.
-- Do not mark validation as ready on the primary platform when no eligible device exists and the platform supports emulator or simulator startup but that fallback has not been attempted yet.
-- Do not start high-fidelity display-layer landing with only a broad page effect image when fidelity-critical regions still lack detail, state, scroll, or overlay evidence.
-- Do not let display-layer code land without consulting the corresponding page image and frozen design evidence when such image evidence exists.
-- Do not let effect images alone decide final Flutter widget strategy when documented interaction or architecture semantics say otherwise.
-- Do not leave a fidelity-critical region without an explicit `preserve_faithfully`, `flutterize`, or `simplify` classification in architecture output.
-- Do not let engineering convenience flatten locked spacing, layer depth, or CTA dominance for regions marked `preserve_faithfully`.
-- Do not split one semantically unified visual unit into multiple decorative fragments merely because the image contains many visible details. Preserve it as one whole asset when that better protects the intended structure and hierarchy.
-- Do not force Flutter-native reconstruction for visuals that are clearly better shipped as image assets; download approved source images directly when available, otherwise let the active MCP / design tool chain choose the concrete generation mechanism and store the result inside the project.
-- Do not use MCP-driven image generation as an excuse to skip native implementation for visuals that Flutter can reproduce cleanly.
-- Do not let any automatic helper, including `@product-design` `design-qa`, close final app-page acceptance by itself.
-- Do not mark a module as fully accepted before the final human visual inspection step at the end of the workflow.
-- In manual mode, do not switch to the next process automatically after a specialist skill finishes; wait for explicit user confirmation whenever queued transitions or status updates exist.
-- In `--auto` or `--full-auto`, do not wait at ordinary downstream confirmation gates before workflow completion, but still stop for blockers, route drift, missing evidence, or unresolved hard confirmation gates.
-- Do not ask an execution skill to do workflow bookkeeping that belongs here.
-- Do not let a downstream skill change `current_stage`, `pending_next_stage`, `pending_next_skill`, or `pending_status_updates` by implication.
-- Do not accept a downstream result without a verifiable receipt containing artifacts, evidence, and blockers.
-- Do not treat an iteration with no status delta and no new blocker as valid progress in `--auto` or `--full-auto`.
-- Do not continue auto-advancement after route drift, receipt mismatch, or empty progress.
-- Do not run multiple subagents in parallel against the same active module or the same workflow record when their outputs could race, except for the route-locked module page-design batch with at most 6 page-scoped subagents.
-- Do not let a subagent decide whether `--auto` or `--full-auto` should switch modules, stop, or promote a stage.
-- Do not treat one module's state as proof that another module is ready.
-- Do not create per-module workflow state files; keep stage tracking under one orchestrator-owned workflow state model or its optional runtime artifact.
-- Do not treat workflow-state artifacts or execution-trace artifacts as stable skill resources; they are runtime process artifacts.
+- Do not route raw requirements directly into technical baseline, design-source work, or implementation before the PRD flow is complete.
+- Do not begin any phase-specific design work before the technical baseline is ready.
+- Do not skip the prototype step in either phase.
+- Do not generate an effect image before the matching phase prototype structure is confirmed.
+- Do not skip the Pencil step in either phase.
+- Do not treat an effect image as the frozen design source.
+- Do not restore Flutter code directly from effect images when the active phase requires a Pencil design source.
+- Do not freeze a launch design before the launch Pencil design source is confirmed.
+- Do not freeze a premium visual upgrade before the premium Pencil design source is confirmed.
+- Do not treat the launch phase as a low-quality validation mode. It must reach release readiness.
+- Do not let the premium phase silently rewrite the launch product's core task path, primary CTA goal, page flow, required state semantics, or module ownership.
+- Do not treat the premium phase itself as optional once Phase 2 has started. Only specific asset-enhancement methods inside the premium phase may remain conditional on actual design needs.
+- If a premium request changes core task path, primary CTA goal, page flow, required state semantics, or module ownership, trigger `scope_reopen`.
+- Do not let `scope_reopen` be silently absorbed as a visual-only delta.
+- Do not run multiple subagents in parallel against the same active module or workflow record when outputs could race.
+- Do not enter implementation execution in any phase until the corresponding phase freeze and restoration contract exist.
+- Do not bypass `@superpowers` `Spec` and `Plan` before code execution.
+- Do not treat `@product-design design-qa` as final human acceptance.
+- Do not mark a phase complete while its required Pencil design source, restoration contract, or implementation proof is still missing.

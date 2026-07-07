@@ -1,119 +1,34 @@
 # Workflow Record Contract
 
-Use this reference whenever `flutter-workflow` initializes workflow state or optionally persists project workflow tracking into a runtime artifact.
+Use this reference whenever `flutter-workflow` initializes workflow state or persists project workflow tracking into a runtime artifact.
 
-All human-readable workflow-record content must default to Simplified Chinese unless the user explicitly requires another language for that artifact. Fixed metadata keys, status enums, code ids, filenames, and schema-required identifiers may remain in their contract-defined forms.
-
-## Contents
-
-- [Runtime Persistence](#runtime-persistence)
-- [Purpose](#purpose)
-- [Initialization Rule](#initialization-rule)
-- [Required Metadata Block](#required-metadata-block)
-- [Required Sections](#required-sections)
-- [Artifact Maturity Values](#artifact-maturity-values)
-- [Section Expectations](#section-expectations)
-- [Update Rules](#update-rules)
-- [Hard Rules](#hard-rules)
+All human-readable workflow-record content must default to Simplified Chinese unless the user explicitly requires another language for that artifact.
 
 ## Runtime Persistence
 
-This contract describes the shape of a workflow-record artifact when the orchestrator chooses to persist runtime state.
-
-Do not treat the artifact as a stable bundled skill resource. If persistence is needed, prefer an untracked runtime location such as:
+If persistence is needed, prefer an untracked runtime location such as:
 
 `tmp/flutter-workflow/workflow-record.md`
 
-Create parent directories only for the current run when persistence is actually enabled.
-
-Project-level durable workflow artifacts default to `docs/project/` unless a downstream contract or the user explicitly requires another path. Runtime workflow state remains outside that tree.
+Project-level durable workflow artifacts still default to `docs/project/` unless a downstream contract explicitly requires another path.
 
 ## Purpose
 
-When persisted, this runtime artifact is the single stable source for project workflow state for that run. It should let any downstream agent answer:
+When persisted, this runtime artifact is the single stable source for workflow state for that run.
 
+It must let any downstream agent answer:
+
+- what phase the project is in now
 - what stage the project is in now
 - which module is active now
-- whether the workflow is waiting for user confirmation
-- which stage and skill are queued after confirmation
-- which artifact maturity changes are queued after confirmation
-- what skill should run next
-- what artifacts already exist
-- whether any module or module page has already been explicitly marked for the later visual-enhancement branch
-- whether raw requirements have been captured before PRD generation
-- whether requirements brainstorming has produced a question ledger
-- whether PRD decision-blocking questions are resolved, defaulted, or still blocked
-- whether the companion `docs/project/page-navigation-flow.md` artifact has been generated and confirmed for the current PRD scope
-- where the generated PRD artifact lives
-- where the companion `docs/project/page-navigation-flow.md` artifact lives
-- whether the global visual design direction has already been brainstormed before asking the user to confirm it
-- whether the workflow used a confirmed Product Design brief, approved visual source, or Product Design recommendation artifact before final design-direction confirmation
-- whether the target design-device preset, design viewport, and `image_output_scale` are already frozen for the current design cycle
-- which iPhone preset or custom viewport was selected, which `image_output_scale` is active, and which workflow output size that implies for generated images
-- whether the current global design cycle has a selected `global_style_scheme` with `theme_style_scope`, `theme_and_style_only`, `no_global_page_design_draft`, optional `global_style_experience_image` with `non_page_design_evidence`, and `page_design_deferred_to_module_stage`
-- whether the common public shell has already been explicitly agreed before any effect-image generation starts
-- whether any legacy native `HTML/CSS/JS` shared prototype exists only as non-authoritative style evidence, and whether the current global route still avoids page design drafts
-- whether the final product design direction has been confirmed with the user after the Product Design brief and direction step
-- whether a root-level `DESIGN.md` already exists for the confirmed final design direction
-- whether `DESIGN.md` already captures task-priority and first-screen CTA rules
-- whether `DESIGN.md` already captures interaction and feedback rules
-- whether `DESIGN.md` already captures responsive and multi-device rules
-- whether `DESIGN.md` already captures critical-state coverage and edge-case behavior
-- whether `DESIGN.md` already captures content tone and naming rules when relevant
-- whether the first module final effect image has been generated before remaining optional page-image generation starts
-- whether that first module final effect image is pending confirmation, confirmed, or rejected
-- whether a confirmed representative or approved direction effect image has frozen the current-cycle visual baseline and closed alternative-direction browsing
-- whether every page in scope has an approved light-mode effect image for the required full effect-image set
-- whether each generated workflow image has already passed one automatic `@product-design` QA review
-- whether approved image-backed design direction exists and which constraints it introduced
-- whether `platform_baseline` exists and whether `platform_identifier` has been explicitly verified as the primary runtime and validation platform
-- whether the primary-platform validation target is a selected real device, a pending device choice, or an emulator/simulator fallback
-- whether freeze preparation already passed through image-backed design-packet normalization
-- whether a shared or module design-source package has already been freeze-evaluated
-- whether freeze evaluation already verified task hierarchy, CTA discoverability, interaction feedback, responsive strategy, and critical-state coverage
-- whether the current shared or module design source has already been generated under the selected `design_source_branch` and matching `design_source_type`, whether both `stitch_project_mode` and `design_source_project_ref` were recorded when the branch is `stitch_design_source_branch`, whether `existing_project` recorded the target Stitch project `id`, repaired once after diff confirmation, and accepted by a human
-- whether any later visual-enhancement design-source reinforcement stayed on the already selected `design_source_branch`, and when that branch is `stitch_design_source_branch`, whether the reinforcement reused the recorded `stitch_project_mode` plus `design_source_project_ref` instead of silently creating a different Stitch project
-- whether the selected structured design-source packet has been checked against its source effect image or approved visual comp
-- whether the active module's high-fidelity visual contract was evaluated as the first module design-freeze priority
-- whether the current shared or module scope already has a confirmed atlas analysis bundle, a confirmed solid-background atlas bundle containing effect image, atlas image, chosen background color, atlas manifest, and atlas slicing config, and a confirmed transparent atlas result
-- whether the dedicated atlas slicing node has already produced a slice result manifest for the current scope
-- whether atlas records already capture the source effect-image canvas size, per-cell source-region bounds, and whether exported image-backed slices stayed at or above those source-region pixel sizes
-- whether the active module already has an accepted native `HTML/CSS/JS` static prototype that shows page layout clearly enough for downstream effect-image work
-- whether the shared native `HTML/CSS/JS` prototype already has local paths, a static-layout receipt, and an explicit confirmation result
-- whether shared or module page-level static visual evidence already exists in the expected directories
-- whether the display evidence pack is complete enough for fidelity-critical regions
-- whether the active module already has a design-source-to-Flutter restoration contract
-- whether `display_restoration_blueprint_ready` has already been confirmed for the active module
-- whether Flutter render-vs-frozen-design QA has already run before final human visual inspection
-- whether the accepted workflow effect-image set is confirmed as the required light-mode evidence baseline
-- whether image-generation retries, when they happened, preserved the full original prompts instead of simplifying them
-- whether module-stage required effect-image generation covers the active module pages in the approved product scope
-- whether module freeze already has the approved effect images required by the active revision path, if any
-- whether generated effect images explicitly inherited the approved global style constraints
-- whether module-stage effect-image generation stayed blocked until the module `impl.md` and native module HTML prototype were accepted
-- whether `global-design-guidelines.md` records the current effect-image policy and generated global effect-image paths
-- whether implementation planning identified any non-native visual asset that still needs MCP-driven generation or rework
-- whether the workflow record already names the exact later visual-enhancement target pages for the active module and the reason those pages were marked
-- whether display-layer readiness preflight is complete before implementation begins
-- whether the display evidence pack is complete enough for fidelity-critical regions
-- whether the architecture output classified important regions into `preserve_faithfully`, `flutterize`, or `simplify`
-- whether a module implementation document is missing, already implementation-final, or already landed
-- whether executable module document generation has real artifact and receipt evidence when delegated execution was used
-- whether the module design-source packet is frozen
-- whether code has landed for the active module
+- whether the workflow is waiting for confirmation
+- which phase freeze is active
+- whether Phase 2 inherits the Phase 1 freeze
+- which Pencil design source is frozen for the active phase
+- whether a scope reopen is required
+- what specialist skill should run next
+- which artifacts already exist
 - what blockers still prevent the next move
-- whether `flutter-init` has already produced the directory skeleton and sibling `skills/flutter-dev/`
-- whether the shared bootstrap-critical baseline is already clear enough to trigger `flutter-init`
-- whether initialization has stopped at directory-creation boundaries without starting bootstrap or feature implementation
-- whether the separate bootstrap code stage has landed the required global public code baseline
-- whether the orchestrator is currently running in manual mode, `--auto`, or `--full-auto`
-- whether `--auto` or `--full-auto` is still actively advancing remaining modules or has reached a valid stop condition
-- what the active route lock is for the current turn
-- whether the current turn is orchestrator-owned or delegated to a subagent
-- whether the latest downstream receipt actually matched the locked route
-- whether the latest auto iteration made provable progress or stopped on a blocker
-
-The answers recorded in prose, summaries, notes, blocker explanations, review conclusions, and decision logs must be written in Simplified Chinese by default.
 
 ## Initialization Rule
 
@@ -131,473 +46,137 @@ Put this block at the top of the file:
 artifact_type: flutter_workflow_record
 workflow_status: active | blocked | completed
 execution_mode: manual | auto | full_auto
+current_phase: launch | premium | scope_reopen
 current_stage: <workflow-state>
 current_module: <module-name-or-not_selected>
 confirmation_status: not_required | pending_confirmation | confirmed | rejected
+freeze_type: launch | premium | none
+launch_freeze_version: <value-or-none>
+premium_freeze_version: <value-or-none>
+inherits_from_launch_freeze: yes | no
+scope_reopen_required: yes | no
+scope_reopen_reason: <summary-or-none>
 next_skill: <skill-name-or-none>
 pending_next_stage: <workflow-state-or-none>
 pending_next_skill: <skill-name-or-none>
 pending_status_updates: <module.field=target list-or-none>
-route_lock: <stage|module|skill|stage_delta|status_delta summary-or-none>
+route_lock: <phase|stage|module|skill|freeze|status summary-or-none>
 execution_owner: orchestrator | subagent:<skill-name> | none
 last_receipt_status: advanced | blocked | rejected | not_executed | route_drift | none
 auto_progress_delta: <what actually advanced this turn-or-none>
+launch_pencil_path: <path-or-none>
+premium_pencil_path: <path-or-none>
 ```
-
-Use `pending_status_updates` as a short semicolon-separated summary such as:
-
-`home.impl_status=implementation_final; home.design_source_status=frozen`
 
 ## Required Sections
 
 Keep this exact order:
 
 1. `workflow_summary`
-2. `current_stage_detail`
-3. `current_module_detail`
-4. `next_action`
-5. `confirmation_gate`
-6. `blockers`
-7. `global_artifact_index`
-8. `module_status_table`
-9. `decision_log`
+2. `phase_summary`
+3. `current_stage_detail`
+4. `current_module_detail`
+5. `freeze_summary`
+6. `next_action`
+7. `confirmation_gate`
+8. `blockers`
+9. `global_artifact_index`
+10. `module_status_table`
+11. `decision_log`
 
-## Artifact Maturity Values
+## Module Status Table
 
-Use these values consistently:
+Use one row per module with these columns:
 
-### `impl_status`
+| module | current_phase | current_stage | confirmation_status | next_skill | pending_next_stage | pending_next_skill | pending_status_updates | design_source_branch | design_source_type | launch_prototype_status | launch_pencil_status | launch_freeze_status | premium_prototype_status | premium_pencil_status | premium_freeze_status | launch_pencil_path | premium_pencil_path | restoration_status | code_status | blockers |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 
-- `not_started`
-- `implementation_final`
-- `landed`
-
-### `design_source_status`
-
-- `not_started`
-- `in_review`
-- `frozen`
-
-### `code_status`
-
-- `not_started`
-- `in_progress`
-- `landed`
+Update the existing row for a module instead of creating duplicates.
 
 ## Section Expectations
 
 ### `workflow_summary`
 
-Summarize the project's overall workflow posture in 2-4 short lines.
+Summarize the project posture in 2-4 short lines.
 
-Include whether the workflow is still in requirements brainstorming, PRD generation, Product Design brief confirmation, representative effect-image review, atlas extraction analysis, solid-background UI-only atlas preparation, atlas background removal, atlas slicing, final product design direction confirmation, `DESIGN.md` output, shared or module design-source generation, shared freeze, module `impl.md` generation, native HTML module prototype confirmation, implementation-stage module effect-image generation, display-evidence-pack confirmation, module freeze, design-source-to-Flutter restoration planning, display restoration blueprint preparation, bootstrap code generation, code implementation, render-vs-frozen-design QA, or human visual inspection handoff.
+Include:
 
-If `execution_mode=auto` or `execution_mode=full_auto`, also state whether the workflow is still auto-advancing or has stopped at workflow completion.
+- current phase
+- current stage
+- whether the run is blocked
+- whether the workflow is still auto-advancing when `execution_mode` is not manual
 
-If `execution_mode=auto` or `execution_mode=full_auto`, and not all target modules are fully implemented yet, explicitly name which modules are still pending and which module is being processed now.
-
-### `current_stage_detail`
-
-Record why the project is in the current stage and what must become true before the stage can advance.
-
-If the global visual design direction has not yet been brainstormed, say so explicitly and keep final product design direction confirmation blocked.
-
-If the selected `global_style_scheme` is missing, say so explicitly and keep global design freeze blocked. The record must state whether `theme_style_scope`, `theme_and_style_only`, `no_global_page_design_draft`, optional `global_style_experience_image` with `non_page_design_evidence`, and `page_design_deferred_to_module_stage` are present and valid.
-
-If the target design-device preset, design viewport, or `image_output_scale` is still missing, say so explicitly and keep Product Design brief confirmation, representative effect-image generation, and required effect-image generation blocked.
-
-If the common public shell has not yet been explicitly agreed, say so explicitly and keep design-direction confirmation plus required effect-image generation blocked.
-If a legacy native `HTML/CSS/JS` shared prototype exists, say so explicitly and record that it is non-authoritative style evidence only. Keep shared/global final effect-image generation, atlas analysis, and later shared design-source work blocked by `no_global_page_design_draft`.
-If legacy shared native HTML prototype review changed requirements, say so explicitly and record whether the corresponding PRD sections, `DESIGN.md`, shared design packet notes, and workflow record were updated before shared freeze continued.
-
-If the final product design direction has not been confirmed, say so explicitly and keep `DESIGN.md`, design-source execution, and downstream required effect-image completion blocked.
-
-If the root-level `DESIGN.md` is missing after final product direction confirmation, say so explicitly and keep design-source execution and downstream structured design-source normalization blocked.
-
-If `DESIGN.md` exists but still lacks task-priority, interaction-feedback, responsive-strategy, critical-state, or content-tone coverage that the product clearly needs, say so explicitly and keep freeze and design-source work blocked.
-If the current shared or module design still relies on repeated explanation, multi-paragraph helper copy, or redundant descriptive text for first-screen understanding, say so explicitly and keep freeze work blocked until copy is minimized.
-If any shared HTML prototype, module HTML prototype, final effect image, or design source lacks a recorded `commercial_surface_gate`, say so explicitly and keep the next design, atlas, design-source, freeze, or implementation promotion blocked until the gate is recorded before any downstream promotion.
-If `commercial_surface_gate.result=revision_required`, state the `gate_owner`, `failed_dimensions`, and `revision_target`, then keep the workflow on the last confirmed stage until the matching artifact is revised and rechecked.
-If `commercial_design_exploration` is still open, state whether `selected_direction`, `structure_recomposition_decisions`, and `freeze_boundary` are missing, and keep shared HTML prototype locking blocked until those decisions are recorded.
-If `mandatory_mobbin_reference`, `fixed_style_direction`, or `strong_hierarchy_contract` is missing, say so explicitly and keep commercial design exploration, shared HTML locking, final effect-image generation, and shared freeze blocked until the missing contract is recorded.
-If a shared/global step attempts to record page-level HTML prototypes, page-sketch drafts, final effect images, atlas bundles, tool-specific design-source files, or shared page comps before module scope, record blocker `no_global_page_design_draft` and keep `page_design_deferred_to_module_stage=true`.
-If `minimal_default_copy_contract` is missing or reports `explanation_overload`, say so explicitly and keep shared HTML locking, module HTML locking, effect-image acceptance, design-source acceptance, and freeze blocked until visible explanatory copy is reduced or moved behind disclosure.
-If the confirmed brief or active module contract still lacks the commercial-product creation packet fields (`surface_goal=commercial_product_app`, one `primary_task`, one dominant `primary_cta`, `first_screen_required_information`, `defer_or_collapse_content`, `information_density_posture`, `copy_posture=minimal`, `disallowed_surface_modes`, `target_user_maturity`, `price_confidence_level`, `competitive_reference_band`, `trust_signal_strategy`, and `visual_premium_keywords`), say so explicitly and keep first-pass module prototype creation blocked until those fields are recorded.
-
-If the first module final effect image exists but is still waiting for user confirmation, say so explicitly and keep remaining required page-image generation plus downstream atlas work blocked.
-
-If the first module final effect image has already been confirmed, say so explicitly, state that alternative-direction browsing is closed for the current module design cycle, and allow only same-direction completion work unless the user explicitly restarts or rejects that baseline.
-
-If approved image-backed design direction is missing before detailed design-source work, say so explicitly.
-
-If the workflow is still in requirements brainstorming, state whether raw requirements are captured, whether the PRD question ledger exists, which decision-blocking questions remain, whether a PRD artifact has been generated, and whether the companion `docs/project/page-navigation-flow.md` artifact has been generated and confirmed.
-
-If the shared/global design freeze is not complete yet, say so explicitly and keep all module-related workflow blocked.
-
-If a shared/global design-source execution step appears after `DESIGN.md`, say so explicitly and keep shared freeze blocked by `no_global_page_design_draft`; design-source compare-confirm-fix-human-acceptance belongs to module scope.
-
-If the active module lacks an executable `impl.md`, say so explicitly.
-If the active module `impl.md` exists, state whether it already records the page-content contract for the confirmed primary page and the already-required states, including default first-screen-visible content, deferred or collapsed content, default-surface exclusions, dominant CTA plus visible secondary actions, and state-specific visible-content differences.
-
-If the active module still lacks a confirmed module final effect image after `module_impl_docs_ready`, say so explicitly and keep native HTML prototype generation, module design-source execution, and module freeze blocked.
-If the active module still lacks an accepted native `HTML/CSS/JS` prototype after the module final effect image is confirmed, say so explicitly and keep module design-source execution and module freeze blocked.
-If the active module's native `HTML/CSS/JS` prototype has already been confirmed, say so explicitly and record whether the accepted prototype paths, receipt, and accepted structure decisions were already synchronized into the active module `impl.md`, any affected shared rules, the workflow record, and the relevant artifact indexes before downstream promotion continued.
-If module native HTML prototype review changed requirements, say so explicitly and record whether the active module `impl.md`, affected shared rules, and workflow record were updated before downstream generation or implementation continued. Also state whether the changed areas included first-screen-visible content, deferred or collapsed content, default-surface exclusions, visible actions, or state-specific content obligations.
-If the active module's native `HTML/CSS/JS` prototype is present, state whether its visible interface copy already uses the required display language, which defaults to Simplified Chinese unless the user explicitly changed it.
-State whether that prototype already reads as a mature commercial product surface instead of a marketing page, ad-style mock, or explanation-heavy page draft.
-State whether the prototype restored the confirmed module final effect image faithfully enough, whether remaining placeholders were limited to necessary runtime-content or state-dependent regions, and whether decorative placeholders were fully removed.
-If `@product-design` was used to improve the module prototype stage, state which skill was used (`ideate`, `prototype`, or `image-to-code`), which accepted decisions were inherited, and whether those decisions were already folded back into the required native `HTML/CSS/JS` prototype before downstream promotion continued.
-
-If the current scope is waiting on the atlas-analysis, atlas-preparation, atlas background-removal, or atlas-slicing nodes, say so explicitly and record whether the atlas analysis is still pending confirmation, whether the solid atlas bundle is still pending confirmation, whether the transparent atlas result is still pending confirmation, or whether the slice result manifest is still missing.
-If atlas work is in progress or already accepted, state whether the source effect-image canvas size and per-cell source-region bounds were recorded, and whether every image-backed atlas cell passed the source-region resolution check before acceptance.
-If atlas work is in progress or already accepted, state whether every exported cell avoided helper-only background colors, helper borders, separator lines, and decorative补画, and whether any retained background or border was explicitly recorded as original design content rather than export convenience.
-
-If freeze preparation is in progress, state whether image-backed design-packet normalization is already complete and whether static-image directory inspection has already happened.
-
-If module design freeze is in progress, state whether the module function is already fixed in `impl.md`, whether the display evidence pack is complete, whether the module design source is already frozen, whether the module-scoped display-layer design draft already exists, and whether the high-fidelity visual contract has passed, is explicitly reduced by design-source control, or is blocking freeze.
-
-If shared or module design-source execution is in progress or already frozen, state whether the generated design-source page width still matches the frozen design width and whether each page height is at least the frozen base design viewport height; if a page is intentionally scrollable, state whether the taller page height is being used as an explicit scroll-range decision rather than as accidental overflow.
-
-If effect images are present, state whether the workflow is using the optional light-mode effect-image baseline or an explicitly approved override.
-
-If the workflow is moving toward freeze, architecture, or implementation, state whether `platform_identifier` is already explicit as the primary runtime and validation platform, and do not treat `platform_baseline` as a substitute.
-
-If the workflow is entering validation, debugging, human visual inspection, or implementation verification, state whether the primary-platform execution target is already resolved. If multiple eligible devices exist, say that the workflow is blocked on explicit device selection. If no eligible device exists but the primary platform supports emulator or simulator startup, say whether that fallback has already been started.
-
-If the workflow is in or beyond `project_initialized`, state whether bootstrap code is still pending or already landed.
-
-If the active module or its pages are expected to enter the later visual-enhancement branch, state whether the workflow record already marked that scope explicitly, which pages are marked, whether the mark is still `candidate` or already `required`, and what review evidence justified the mark.
-
-Also state the current route lock for this turn and whether the next move is still inside that lock.
-
-If the next move is delegated, also state which subagent-owned specialist step is running and what remains orchestrator-owned.
-
-### `current_module_detail`
-
-Record the active module, or `not_selected` if the workflow is still global.
-
-Summarize the module's current `impl_status`, `design_source_status`, and `code_status`.
-
-Also record the module's current generation or execution trace status when an `.impl.md` exists and delegated execution was required. If the executable `impl.md` cannot be proven from real artifacts, say that explicitly.
-
-Mention the latest freeze decision or blocker for that module when it exists.
-
-Mention the module's current `high_fidelity_freeze_status` when module freeze, architecture, or implementation-readiness is being considered.
-
-If the module is entering implementation, mention whether its `impl.md` is implementation-final, whether its page-content contract is already synchronized with the accepted native prototype, whether an accepted native `HTML/CSS/JS` prototype already exists, whether the confirmed atlas analysis bundle, solid atlas bundle, transparent atlas result, and slice manifest already exist, whether it references the frozen structured design-source packet, whether the frozen module display-layer design draft already exists, whether a concrete `display_restoration_blueprint` already exists, whether `display_restoration_blueprint_ready` is already confirmed, and whether corresponding page-image evidence exists for display-layer landing.
-
-If implementation planning already identified bitmap-only visual effects, mention whether they are pending generation, already saved into the project, or already wired into the implementation plan.
-
-If display-layer work is about to begin, mention whether the readiness preflight passed, whether a concrete display-layer decision table already exists, whether a concrete `display_restoration_blueprint` already exists, whether the display evidence pack covers fidelity-critical regions, whether those regions already have explicit fidelity classifications, and whether the required non-display behavior contracts have already stabilized for faithful display restoration.
-
-If code is landed or implementation screenshots exist, mention whether `flutter_render_vs_frozen_design_qa` has already run and whether it produced a pass, revision request, or blocker.
-
-### `next_action`
-
-Record the next skill, why it is next, and the minimum required inputs.
-
-If the workflow is waiting for user confirmation, set the actionable `next_skill` to `none` and move the queued transition plus queued status changes into the confirmation section instead of pretending the next skill is already allowed to run.
-
-If `execution_mode=auto` or `execution_mode=full_auto`, do not hold the workflow at ordinary downstream confirmation gates. Auto-apply them until workflow completion or a blocker is reached. In `execution_mode=full_auto`, deterministic human-facing gates may also be auto-applied when the active artifacts prove exactly one supported default.
-
-If `execution_mode=auto` or `execution_mode=full_auto`, `next_action` must describe the next real auto step for the same module or the next serial module. Do not write a pseudo-finished summary that leaves the remaining modules implicit.
-
-If the workflow is `blocked`, do not point `next_skill` at the next process stage and do not preserve a stale queued transition or stale queued status change from a failed routing attempt.
-
-If the latest downstream result drifted from the route lock, say so explicitly here and require the orchestrator to re-route instead of pretending the next move is already authorized.
-
-If the current step is delegated, describe the expected receipt boundary instead of implying the subagent may decide the next workflow state.
-
-### `confirmation_gate`
+### `phase_summary`
 
 Record:
 
-- `confirmation_status`
-- why confirmation is or is not required
-- `pending_next_stage`
-- `pending_next_skill`
-- `pending_status_updates`
-- the user-facing confirmation target, such as which artifact pack, which document maturity upgrade, or which design-source freeze is under review
+- whether the workflow is in `launch`, `premium`, or `scope_reopen`
+- whether the active phase freeze already exists
+- whether the active phase inherits another freeze
+- whether scope reopen is currently required
 
-If the workflow is waiting only on artifact maturity changes and not a stage switch, keep `pending_next_stage: none` but still persist `pending_status_updates`.
+### `current_stage_detail`
 
-### `blockers`
+Explain why the project is in the current stage and what must become true before the stage can advance.
 
-List blockers explicitly. Use `none` if there are no blockers.
+If the active phase still lacks:
 
-If the workflow is waiting on approval, include `waiting_for_user_confirmation` unless a stronger blocker already exists.
+- a confirmed prototype
+- a confirmed effect image
+- a confirmed Pencil design source
+- a confirmed phase freeze
+- a confirmed restoration contract
 
-If route drift, receipt mismatch, or no-progress auto advancement occurred, list that blocker explicitly instead of burying it inside the decision log only.
+say so explicitly and keep downstream work blocked.
+
+### `freeze_summary`
+
+Record:
+
+- active `freeze_type`
+- active freeze version
+- inherited freeze version when the premium phase reuses the launch baseline
+- allowed visual deltas
+- forbidden deltas
+- whether a scope reopen is required
 
 ### `global_artifact_index`
 
-Track project-level artifact paths when known, such as:
+At minimum, index:
 
-- raw requirement source or intake summary
-- requirements brainstorming notes
-- PRD question ledger
-- `docs/project/page-navigation-flow.md`
-- PRD
-- Product Design brief or recommendation packet
-- frozen design-device preset, design viewport, and `image_output_scale` record
-- design confirmation mode
-- design recommendation packet
-- public shell confirmation record
-- final product design direction confirmation record
-- root-level `DESIGN.md`
-- DESIGN.md quality audit
-- first module final effect-image path
-- first module final effect-image page
-- first module final effect-image status
-- selected module final effect-image path
-- selected module final effect-image status
-- module effect-image baseline lock record
-- visual-enhancement target scope record
-- all-page light-mode effect-image set and approval status for the required full image branch
-- global technical baseline
-- approved image-backed design packet
-- verified primary platform identifier
-- primary-platform device selection or emulator-start record
-- module index
-- `global-design-guidelines.md`
-- `docs/project/assets/global-asset-catalog.json`
-- chosen `design_source_branch` (`stitch_design_source_branch` or `pencil_mcp_design_source_branch`)
-- chosen `design_source_type` (`stitch` or `pencil_mcp`)
-- chosen `stitch_project_mode` (`new_project` or `existing_project`) when `design_source_branch=stitch_design_source_branch`
-- chosen `design_source_project_ref`, and when `stitch_project_mode=existing_project` it must include the target Stitch project `id`
-- legacy shared design-source file path, if present as non-authoritative evidence
-- module design-source file path or export packet when module scope is active
-- design-source compare report
-- design-source repair confirmation record
-- design-source human acceptance record
-- design-source-to-Flutter restoration contract path
-- display evidence pack artifact or status record
-- display-layer decision table artifact path
-- `display_restoration_blueprint` artifact path
-- render-vs-frozen-design QA artifact path
-- `light-theme-freeze.yaml`
-- `dark-theme-freeze.yaml`
-- shared freeze evidence or freeze decision
-- shared global effect-image directory under `docs/project/`
-- whether the module effect-image set is light mode or an explicitly approved override
-- effect-image policy recorded in `global-design-guidelines.md`
-- fidelity-critical display evidence pack paths when known
-- architecture summary
-- Flutter project root
-- `flutter-init` directory-creation summary
-- sibling `skills/flutter-dev/`
-- bootstrap code artifact summary or execution trace
-- project-level `@superpowers` execution trace when one exists
-- any approved generated bitmap assets that implementation must consume
-
-When a module effect image is reused as broader style evidence, keep it indexed as module evidence and reference it from the global style notes only as non-authoritative evidence.
-
-If the shared/public component freeze is tracked in a dedicated artifact, index it here too.
-
-### `module_status_table`
-
-Use one row per module with these columns:
-
-| module | current_state | confirmation_status | next_skill | pending_next_stage | pending_next_skill | pending_status_updates | design_source_branch | design_source_type | stitch_project_mode | design_source_project_ref | design_source_packet | effect_images | visual_enhancement_scope | impl_rd | impl_status | generation_trace_status | global_guidelines | light_theme | dark_theme | design_direction | visual_evidence | high_fidelity_freeze_status | design_source_status | code_status | init_status | blockers |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-
-Update the existing row for a module instead of creating duplicates.
-
-Keep the row values on the last confirmed state. Proposed upgrades go into `pending_status_updates` until the user confirms them.
-
-Use `visual_enhancement_scope` to record one of:
-
-- `not_required`
-- `candidate:<page list>|reason:<short reason>`
-- `required:<page list>|reason:<short reason>`
-
-If `execution_mode=auto` or `execution_mode=full_auto`, the table must make it obvious which modules are already fully implemented and which modules are still pending later workflow work.
-
-### `decision_log`
-
-Append short dated entries only when a stage changes, a blocker is cleared, a routing decision changes, or a confirmed artifact maturity change is applied.
-
-When the workflow attempts executable module document generation in the default path, each dated entry should also capture the confirmed serial-module-order reason, the real generation input and output, and `未执行` when a claimed downstream step did not really happen.
-
-When route drift, receipt mismatch, or no-progress auto stopping happens, add a dated entry that states the expected route lock, the actual downstream result, and why the orchestrator refused to advance.
+- PRD path
+- page-navigation-flow path
+- `DESIGN.md` path
+- launch effect-image paths
+- premium effect-image paths
+- launch Pencil design source path
+- premium Pencil design source path
+- restoration contract paths
+- display restoration blueprint path when it exists
 
 ## Update Rules
 
-- Update the metadata block on every orchestrator run.
-- Keep `current_stage` and the active module row in sync.
-- Keep `confirmation_status`, `pending_next_stage`, `pending_next_skill`, and `pending_status_updates` in sync between the metadata block and the active module row.
-- Keep `route_lock`, `last_receipt_status`, and `auto_progress_delta` in sync with the latest routing turn.
-- Keep `execution_owner` in sync with the latest routing turn.
-- If raw requirements are provided without a PRD artifact, set or keep `current_stage=requirements_brainstorming`, index the raw requirement source or intake summary, and record whether the PRD question ledger exists and whether the companion `docs/project/page-navigation-flow.md` artifact exists yet and has been confirmed.
-- If requirements brainstorming resolves decision-blocking questions, index the generated PRD artifact plus the confirmed companion `docs/project/page-navigation-flow.md` artifact and queue `pending_next_stage=prd_ready` instead of silently jumping to technical baseline.
-- If decision-blocking questions remain unresolved, record them in `required_inputs` or `blockers`, keep `current_stage=requirements_brainstorming`, and do not route to technical baseline, image-backed design direction, executable module document generation, architecture, or implementation.
-- If a default is used to answer a PRD question, record the assumption, rationale, and risk in the workflow record or PRD artifact index.
-- If the PRD exists but the global visual design direction has not yet been brainstormed, keep `DESIGN.md` blocked and route first to `@product-design` brief confirmation or global style-scheme recommendation as needed. If richer commercial evidence is needed before confirmation, record the pending pre-direction Creative Production branch explicitly instead of treating image-backed design-packet normalization as the primary direction owner.
-- If the technical baseline exists but the target design-device preset, design viewport, or `image_output_scale` is still missing, keep `current_stage=technical_baseline_ready`, record `required_inputs=design_device_preset_viewport_and_output_scale`, and do not route to Product Design brief confirmation yet. In `--auto` or `--full-auto`, if the viewport is still missing, record that `390 x 844 px` was auto-selected. If `image_output_scale` is still missing for iPhone-first work, record that `2x` was auto-selected.
-- If the global visual direction exists but the common public shell has not yet been agreed, keep design-direction confirmation blocked, record `required_inputs=public_shell_confirmation`, and do not route to representative or full page-effect generation.
-- If the brainstormed direction exists but the final product design direction has not been confirmed with the user, keep `DESIGN.md` blocked, record `required_inputs=final_product_design_direction_confirmation`, and do not route to downstream design-source generation.
-- If final product design direction is confirmed but the shared freeze packet is still not standardized, route to `global_style_scheme` and `DESIGN.md` refinement before any freeze promotion is queued.
-- If final product design direction is confirmed, index the confirmation artifact or decision-log entry before writing the root-level `DESIGN.md`.
-- If the root-level `DESIGN.md` is written, index its path before module design-source execution or later module bitmap generation.
-- If module design-source execution is required, index the corresponding `design_source_branch`, matching `design_source_type`, and when applicable both `stitch_project_mode` and `design_source_project_ref`. When `stitch_project_mode=existing_project`, require the recorded Stitch project `id`. Also index the tool-specific file path or export packet, compare report, repair receipt, human-acceptance result, and any bitmap-generation implications before allowing module freeze to continue.
-- If later visual-enhancement reinforcement returns a refreshed design source, index the reinforcement result under the already selected `design_source_branch` and matching `design_source_type`. When that branch is `stitch_design_source_branch`, require the recorded `stitch_project_mode` plus `design_source_project_ref`, and when `stitch_project_mode=existing_project`, require the same recorded Stitch project `id` to be reused for the reinforcement run. Also index the refreshed artifact path or export packet, compare report, repair receipt, and human-acceptance result before allowing refreshed `design_restoration_ready`.
-- If a confirmed module final effect image is required, index its local paths, the explicit confirmation result, the selected page scope, and whether the approved style constraints were explicitly inherited before allowing module native HTML prototype generation or later freeze work to continue.
-- If a module native HTML prototype is required, index its local paths, the static-layout receipt, the explicit confirmation result, whether the prototype stayed native `HTML/CSS/JS` without framework usage, and whether it explicitly restored the confirmed module final effect image before allowing module design-source execution or later freeze work to continue.
-- If `@product-design` participated in the module prototype stage, index the upstream artifact paths or references, the accepted review result, the inherited hierarchy or copy-compression decisions, and the receipt proving those decisions were translated back into the accepted native `HTML/CSS/JS` module prototype instead of replacing it.
-- If a legacy shared native HTML prototype exists, index its local paths, static-layout receipt, explicit confirmation result, and whether it stayed native `HTML/CSS/JS` without framework usage; keep it as non-authoritative evidence only and do not use it to allow shared/global final effect-image generation or design-source work.
-- If an atlas-analysis node runs, index the effect-image path, atlas analysis path, approved cell plan or extraction list, source effect-image canvas size, per-cell source-region bounds, and the explicit confirmation result before allowing atlas generation or later design-source work to continue.
-- If an atlas-preparation node runs, index the effect-image path, atlas image path, chosen background color, atlas manifest path, atlas slicing config path, whether the atlas reused the confirmed source-region bounds, and the explicit confirmation result before allowing background removal, the slicing node, or later design-source work to continue.
-- If an atlas background-removal node runs, index the solid atlas input path, transparent atlas output path, transparency validation result, and the explicit confirmation result before allowing the slicing node or later design-source work to continue.
-- If an atlas-slicing node runs, index the slice output directory, slice result manifest path, exported count, skipped count, failed count, and whether every image-backed slice passed the source-region resolution check before allowing downstream design-source or freeze work to continue.
-- If `DESIGN.md` captures task priority, first-screen CTA posture, interaction feedback, responsive strategy, critical states, and content tone, record that quality audit explicitly. If not, record the missing areas as blockers before design-source execution and any later bitmap generation.
-- If the confirmed brief or active module contract captures the commercial-product creation packet, record it explicitly: `surface_goal`, `primary_task`, `primary_cta`, `first_screen_required_information`, `defer_or_collapse_content`, `information_density_posture`, `copy_posture`, `disallowed_surface_modes`, `target_user_maturity`, `price_confidence_level`, `competitive_reference_band`, `trust_signal_strategy`, and `visual_premium_keywords`. If any field is missing, record the blocker before module prototype generation starts.
-- If copy-minimization review already ran, record whether redundant subtitles, repeated helper paragraphs, stacked explanation blocks, and overlong descriptive text were removed or are still blocking freeze.
-- If a commercial product surface gate runs, record `commercial_surface_gate` with `gate_owner`, `artifact_type`, `artifact_paths`, `result`, `first_screen_task_recognition`, `primary_cta_dominance`, `real_control_density`, `platform_information_density`, `primary_surface_scope_control`, `copy_compression_result`, `trust_signal_presence`, `premium_surface_score`, `reference_decision_inheritance`, `commercial_failure_modes`, `failed_dimensions`, and `revision_target`.
-- If the active module or shared direction binds mature category references, record `commercial_reference_set` with the chosen `competitive_reference_band`, the named references, and the exact hierarchy, density, CTA, trust-signal, and copy-compression decisions intentionally inherited from each one.
-- If default-surface copy is reviewed, record `minimal_default_copy_contract` with `status`, `explanatory_copy_budget`, `visible_explanation_count`, `kept_helper_lines`, `removed_or_compressed_copy`, `disclosure_destination`, `exception_reason`, and whether any `explanation_overload` remains.
-- If a global style scheme, module HTML prototype, final effect image, implementation-stage module effect image, design source, or freeze packet is about to promote the workflow, verify that its `commercial_surface_gate` was recorded before any downstream promotion and that `result=passed`; otherwise clear queued promotions and route to the recorded `revision_target`.
-- If commercial design exploration runs, record `commercial_design_exploration` with `direction_space_open`, `selected_direction`, `structure_recomposition_decisions`, `allowed_recomposition_scope`, `preserved_product_constraints`, `rejected_directions`, and `freeze_boundary`. Do not treat the global style scheme as locked while `direction_space_open=true`.
-- If the Mobbin-first reference step runs, record `mandatory_mobbin_reference` with `status`, `reference_screen_evidence`, extracted layout decisions, extracted hierarchy decisions, target-platform fit, viewport fit, rejected references, and the resulting direction candidates.
-- If a commercial direction is selected, record `fixed_style_direction` with `status`, `style_single_source`, palette posture, typography posture, component family, spacing rhythm, surface depth, icon or image treatment, CTA posture, and explicit rules for what must not vary across pages.
-- If hierarchy is frozen for a commercial direction, record `strong_hierarchy_contract` with `status`, `hierarchy_contrast_ladder`, primary action treatment, primary content treatment, secondary content treatment, metadata treatment, support-copy treatment, background-surface treatment, and failure conditions that require design revision.
-- If global style selection runs, record `global_style_scheme` with `status`, `theme_style_scope`, `theme_and_style_only`, `no_global_page_design_draft`, `page_design_deferred_to_module_stage`, selected theme name, palette posture, typography posture, density posture, surface depth, component family, CTA posture, icon or image treatment, motion restraint, copy posture, public-shell principles, reusable theme tokens, Mobbin evidence links, rejected style routes, and the reason page design is deferred to module scope. If an intuitive visual review artifact is produced, record `global_style_experience_image` with path, source, prompt or reference basis, covered style dimensions, manual image review record, human review result, and `non_page_design_evidence=true`; do not treat it as page layout, atlas, tool-specific design source, or module effect-image evidence.
-- If no module final effect image exists yet in manual mode for an active module route that requires it, generate exactly one first module final effect image, index its path and selected page, set `confirmation_status=pending_confirmation`, and stop before native HTML prototype generation, remaining page images, or downstream atlas artifacts.
-- If the first module final effect image is still pending confirmation or has been rejected in manual mode, keep remaining required page-image generation and downstream atlas work blocked.
-- If the first module final effect image is confirmed in manual mode, record that confirmation explicitly, then generate and index any remaining required module page-effect set.
-- If `execution_mode=auto` or `execution_mode=full_auto` and the active route explicitly requires additional effect images, generate the in-scope images automatically, record their paths, and do not create a confirmation stop.
-- If any workflow-generated image is created, record whether the matching row was also written or updated in `docs/project/assets/global-asset-catalog.json` during the same workflow step.
-- If any workflow-generated image is created, record whether manual image review also ran for that image and where the human review result or summary was stored.
-- If first-pass implementation review proves that a later visual-enhancement pass is still needed for specific module pages, mark that scope explicitly in the active module row as `candidate:<page list>|reason:<short reason>` or `required:<page list>|reason:<short reason>` before delegating to `flutter-visual-enhancement-branch`.
-- If the workflow has entered the later visual-enhancement branch for a module, record that every in-scope module page must enter the bitmap-enhancement loop, and then record for each page whether the workflow first checked `docs/project/assets/global-asset-catalog.json` plus the approved output paths it references for reuse and whether the outcome was `reused_existing`, `candidate_reuse_blocked`, or `new_generation_required`.
-- If approved image-backed module design direction is produced, index its artifact path in `global_artifact_index` and link it from active module rows when relevant.
-- If `platform_identifier` becomes explicit, record it in the relevant summary or artifact index instead of leaving it implicit in prose.
-- If primary-platform validation target selection changes from pending to selected device or emulator fallback, record that transition explicitly in the relevant summary or artifact index.
-- If image-backed design-packet normalization completes, record that status in the relevant summary or decision entry before any freeze promotion is queued.
-- If freeze preparation inspects static-image directories, record whether existing evidence was reused, skipped due to missing environment variables, or newly generated.
-- If effect images are accepted for workflow use, record whether they satisfy the default light-mode requirement.
-- If a design-source-to-Flutter restoration contract is produced, record the exact contract path or packet and the library-fit decisions it introduced.
-- If legacy shared/global effect images were generated, record them as non-authoritative evidence and keep `no_global_page_design_draft` active; do not treat them as global freeze requirements.
-- If the first module final effect image was generated, record its path, selected page, and approval status.
-- If a generated image required a retry, record whether the retry preserved the full original prompt plus frozen constraints, and record any blocker-specific additions separately instead of implying the prompt was simplified.
-- If a final effect image, implementation-stage module effect image, shared bitmap asset, or module bitmap asset was generated, record its catalog row id or a blocker explaining why the catalog update did not happen.
-- If shared/global freeze is under review, record whether the selected `global_style_scheme`, `DESIGN.md`, hierarchy contract, and minimal-copy contract are complete; do not block it on page effect images.
-- If shared/global freeze is under review, record whether task hierarchy, CTA discoverability, interaction feedback, responsive strategy, and critical-state coverage were explicitly verified.
-- If generated effect images were created after a shared/global direction existed, record whether palette direction, typography mood, component family cues, CTA posture, visual system, and image treatment were explicitly inherited.
-- If legacy shared/global effect images were created, record the frozen base design viewport only as provenance for non-authoritative evidence.
-- If `design-preview-to-global-guidelines` artifacts are created, update the relevant module row and queue `global_guidelines_frozen` in `pending_next_stage` instead of switching immediately.
-- If a module native HTML prototype is generated in manual mode, keep `current_stage` on the last confirmed stage, queue `pending_next_stage=module_html_prototype_ready`, set `next_skill: none`, and stop until the user confirms that prototype restored the confirmed module final effect image faithfully enough.
-- If a module native HTML prototype is confirmed, record the accepted prototype paths and receipt, synchronize the accepted prototype decisions into the active module `impl.md`, any affected shared rules, the workflow record, and the relevant artifact indexes, and only then promote or queue the downstream stage.
-- If an atlas analysis bundle is generated in manual mode, keep `current_stage` on the last confirmed stage, queue `pending_next_stage=ui_sheet_atlas_analysis_ready`, set `next_skill: none`, and stop until the user confirms that atlas analysis.
-- If an atlas bundle is generated in manual mode, keep `current_stage` on the last confirmed stage, queue `pending_next_stage=ui_sheet_atlas_ready`, set `next_skill: none`, and stop until the user confirms that atlas bundle.
-- If an atlas background-removal result is generated in manual mode, keep `current_stage` on the last confirmed stage, queue `pending_next_stage=ui_sheet_atlas_transparent_ready`, set `next_skill: none`, and stop until the user confirms that transparent atlas result.
-- If a freeze evaluation fails, keep the current stage unchanged, clear any queued freeze promotion, and route back to the correct upstream skill for exactly one scope-matched revision pass.
-- If `execution_mode=auto` or `execution_mode=full_auto`, the orchestrator should apply deterministic queued transitions and queued status updates without pausing for ordinary downstream confirmation, and it must otherwise stop only when workflow completion is reached or when a blocker appears.
-- If `execution_mode=full_auto`, the orchestrator may also apply deterministic human-facing workflow confirmations when the current artifacts prove there is exactly one supported default.
-- If `execution_mode=auto` or `execution_mode=full_auto`, the orchestrator must not stop just because one module reached a local milestone such as `implementation_final`, `module_design_frozen`, `impl_rd_ready`, or `architecture_ready`.
-- Before any downstream invocation, persist one route lock that names the expected stage, module, next skill, next stage delta, and status delta.
-- Before any delegated specialist invocation, persist `execution_owner` as the exact subagent-owned step for this turn.
+- Keep `current_phase` and `current_stage` in sync.
+- If raw requirements are provided without a PRD artifact, keep the run in the shared pre-phase route until the PRD and navigation artifact exist.
+- If the active phase is `launch`, do not record premium-only artifacts as if they already existed.
+- If the active phase is `premium`, explicitly state whether the run inherits the launch freeze or has triggered `scope_reopen`.
+- If a phase prototype is generated in manual mode, keep the current confirmed stage, queue the next stage, and wait for confirmation.
+- If a phase effect image is generated in manual mode, keep the current confirmed stage, queue the next stage, and wait for confirmation.
+- If a Pencil design source is generated in manual mode, keep the current confirmed stage, queue the next stage, and wait for confirmation.
+- If a freeze evaluation fails, keep the current phase and stage unchanged, clear any queued freeze promotion, and route back to the correct upstream revision path.
+- If `execution_mode=auto` or `execution_mode=full_auto`, apply deterministic queued transitions without pausing for ordinary downstream confirmation.
+- Before any downstream invocation, persist one route lock that names the expected phase, stage, module, next skill, next stage delta, freeze type, and status delta.
 - After any downstream invocation, evaluate the receipt against that route lock and store the result in `last_receipt_status`.
 - If the receipt is missing, ambiguous, or not provable from real artifacts, store `last_receipt_status` as `not_executed` or `route_drift`, clear queued promotions, and stop advancement.
-- If the shared bootstrap-critical baseline is ready and the project directory skeleton is still missing, the orchestrator should prefer `flutter-init` before waiting for every feature module to reach later architecture milestones.
-- If `execution_mode=auto` or `execution_mode=full_auto`, after one module reaches a local milestone, immediately update `current_module`, `current_stage`, `next_skill`, the active module row, and `decision_log` to reflect the next real workflow action in the confirmed serial module order.
-- If `execution_mode=auto` or `execution_mode=full_auto`, `current_module` means only the module being processed now. It must not imply that the current auto run is scoped to that single module.
-- If `execution_mode=auto` or `execution_mode=full_auto`, `workflow_summary` and `next_action` must explicitly state which modules remain to be advanced. Do not imply that auto is complete while target modules are still pending.
-- If `execution_mode=auto` or `execution_mode=full_auto`, do not use a generic "recommended next skill" as a stopping placeholder when unresolved target modules still exist. The record must reflect active continuation, not deferred manual pickup.
-- If `execution_mode=auto` or `execution_mode=full_auto`, each loop must either reduce the remaining workflow work in a provable way or add a new blocker. Record that outcome in `auto_progress_delta`.
-- If `execution_mode=auto` or `execution_mode=full_auto` changed modules, rewrote `next_skill`, or rewrote stage posture without new proof or blocker, record `auto_progress_delta: none`, set a blocker, and stop.
-- If module design freeze is evaluated, record `high_fidelity_freeze_status` as `passed`, `approved_reduction`, `blocked`, or `not_evaluated`. Do not queue `design_source_status=frozen` when the value is `blocked` or `not_evaluated`.
-- If the active module design-source packet is confirmed, queue or apply `design_source_status=frozen` according to the confirmation gate.
-- If the module `impl.md` references the frozen structured design-source packet and the user confirms, apply `impl_status=landed`.
-- If a step result is ready for review, keep `current_stage` on the last confirmed stage, set `confirmation_status: pending_confirmation`, set `next_skill: none`, and record candidate transitions and status changes in `pending_next_stage`, `pending_next_skill`, and `pending_status_updates`.
-- If the user confirms a pending transition, move `pending_next_stage` into `current_stage`, move `pending_next_skill` into `next_skill` only for that routing update, apply `pending_status_updates`, clear all pending fields to `none`, and set `confirmation_status: confirmed`.
-- If the user confirms only queued status changes and there is no stage switch, keep `current_stage` unchanged, apply `pending_status_updates`, clear all pending fields to `none`, and set `confirmation_status: confirmed`.
-- If the user rejects a pending transition or pending status change, keep the current confirmed stage and maturity values, set `confirmation_status: rejected`, and write the rejection reason into blockers plus the decision log.
-- If a step returns `blocked`, keep `current_stage` unchanged, clear `pending_next_stage`, `pending_next_skill`, and `pending_status_updates` to `none`, and do not rewrite the module into the next workflow state or next maturity level.
-- If `flutter-init` completes, update the global artifact index with the project root, directory-creation summary, and sibling `skills/flutter-dev/` path, then queue the relevant stage as `project_initialized` instead of switching immediately.
-- If `flutter-init` completes, also record that bootstrap code and feature implementation have not started yet and that initialization stopped at directory-creation boundaries.
-- If `flutter-init` has not run yet, record whether the shared bootstrap-critical baseline is already ready or still blocked, so the next routing decision can tell whether initialization should happen now.
-- If bootstrap code lands after initialization, record the execution summary or trace, the covered global public code baseline, and queue or apply `bootstrap_code_ready`.
-- If the workflow is entering delegated module document generation or module implementation, record that execution must be explicitly invoked through `@superpowers`; if corresponding page-image evidence exists, mention that display-layer landing should consult the page image and frozen design evidence.
-- If the workflow is entering implementation, record whether `@superpowers` `Spec` exists, whether `@superpowers` `Plan` exists, and do not treat execution as authorized before both exist.
-- If implementation execution begins, record the active serial module order, the current active module, and any explicitly approved ownership split. Default expectation is serial module execution.
-- If a selected module, module index row, executable module `impl.md`, or required structured design-source packet cannot be verified on disk, record the blocker and keep all generation, freeze, and architecture trace fields as `未执行`, `not_executed`, or `unknown`.
-- If `display_evidence_pack_ready` is required, record whether the main preview, detail preview, key state views, scroll evidence, and overlay evidence are all present for the active fidelity-critical scope.
-- If `design_restoration_ready` is required, record whether the frozen design source exists, whether the restoration contract exists, and whether standard-library, third-party plugin, and bitmap-fit decisions are all explicit.
-- If architecture planning decides that a visual must become a bitmap asset, record the selected asset path or the pending MCP-driven generation need explicitly.
-- If display-layer readiness preflight is required, record whether the main effect image, detail effect images, structure semantics, display-layer decision table, `display_restoration_blueprint`, fidelity classifications, region-level evidence coverage, and non-display behavior readiness are all ready.
-- If `display_restoration_blueprint_ready` is promoted, record the blueprint path plus the specific decision-table artifact that proves the module is ready for implementation entry.
-- If render-vs-frozen-design QA runs, record the compared source artifacts, screenshot set, result summary, and whether final human visual inspection is still blocked on revisions.
-- If a module is blocked, write the blocker both in the metadata summary section and in the module row.
-- If the workflow completes, set `workflow_status: completed`.
+- If a scope-reopen trigger is discovered, update `current_phase=scope_reopen`, `scope_reopen_required=yes`, and record the exact reason before routing again.
 
 ## Hard Rules
 
 - Do not create separate workflow state files per module.
-- Do not delete historical decisions from `decision_log`; append short entries instead.
-- Do not hide blockers in prose outside the `blockers` section.
-- Do not treat raw requirements as `prd_ready` until a PRD artifact exists, the companion `docs/project/page-navigation-flow.md` artifact exists and has been confirmed, and decision-blocking questions are resolved or explicitly defaulted.
-- Do not route from raw demand directly into technical baseline, image-backed design direction, executable module document generation, architecture, or implementation.
-- Do not record PRD assumptions as facts unless their rationale and risk are explicit.
-- Do not treat `platform_baseline` as if it already verified the real primary runtime and validation platform.
-- Do not leave the primary-platform validation target ambiguous once validation, debugging, human visual inspection, or implementation verification is in scope.
-- Do not leave `route_lock`, `last_receipt_status`, or `auto_progress_delta` blank once routing has started.
-- Do not leave `execution_owner` blank once a turn has selected local orchestration or delegated specialist ownership.
-- Do not mark a stage as advanced until the required artifacts for that stage are actually available.
-- Do not mark a maturity upgrade as confirmed until the artifact that proves it actually exists.
-- Do not treat a missing or non-executable module `impl.md` as implementation-ready.
-- Do not mark `impl_status=landed` before the module `impl.md` references a confirmed frozen structured design-source packet.
-- Do not mark `design_source_status=frozen` for module implementation when `high_fidelity_freeze_status` is `blocked`, `not_evaluated`, or missing.
+- Do not hide blockers outside the `blockers` section.
+- Do not leave `current_phase`, `freeze_type`, `launch_pencil_path`, or `premium_pencil_path` blank once the corresponding phase has started.
+- Do not mark a phase freeze as complete until the corresponding Pencil design source is actually confirmed.
+- Do not record effect images as the frozen design source.
+- Do not record Flutter restoration as direct-from-image when the active phase requires a Pencil design source.
+- Do not treat Phase 2 as a normal premium upgrade when `scope_reopen_required=yes`.
 - Do not mark `code_status=landed` before code output actually exists.
-- Do not claim static visual evidence was generated before recording whether the directory was checked first, whether the selected final effect-image direction path was actually available for that branch, and which selected Product Design candidate became the frozen final-image baseline.
-- Do not claim a generated image is workflow-valid until both its file path and its matching catalog update are recorded.
-- Do not claim a generated image is workflow-valid until its manual image review result is also recorded.
-- Do not simplify, shorten, or partially reconstruct a failed image-generation prompt during retry. Retries must preserve the full original prompt plus all frozen constraints.
-- Do not mark atlas-analysis work as complete until the effect image, atlas analysis, and approved atlas cell plan are all recorded.
-- Do not mark atlas-preparation work as complete until the effect image, atlas image, chosen background color, atlas manifest, and atlas slicing config are all recorded.
-- Do not mark atlas background-removal work as complete until the transparent atlas output and validation result are both recorded.
-- Do not mark atlas-slicing work as complete until the slice result manifest is recorded.
-- Do not accept an atlas bundle or atlas slice result unless the workflow record also proves that the source effect-image canvas size, per-cell source-region bounds, and slice-resolution check were recorded for image-backed cells.
-- Do not claim a newly generated bitmap asset is workflow-valid until the record also proves that the required reuse check ran first.
-- Do not accept effect-image evidence into the workflow record without stating whether it meets the default light-mode requirement.
-- Do not mark a structured design-source packet as frozen before recording the source effect-image paths and validation result.
-- Do not route module native HTML prototype generation, module design-source execution, or module freeze forward before the active module's final effect image is already confirmed and recorded for that same page scope.
-- Do not record global/shared page design drafts, page-level HTML prototypes, representative page sketches, final effect images, atlas bundles, or tool-specific design-source files as required global freeze inputs. Global design must stay `theme_and_style_only=true` and keep `page_design_deferred_to_module_stage=true`.
-- Do not route shared/global effect-image generation, atlas analysis, or shared design-source execution forward during the current global style-only workflow. Those page-level artifacts belong to module scope after the active module contract exists.
-- Do not mark a structured design-source packet as frozen before recording local paths for every exported image asset required for direct implementation use when module-scoped asset export was part of the accepted packet.
-- Do not mark a scope as freeze-ready while its mandatory design source is still missing or not yet human-accepted after the repair pass.
-- Do not mark `design_restoration_ready` unless the workflow record proves the restoration contract already exists.
-- Do not accept shared/global effect-image evidence as a global freeze requirement. If legacy shared/global effect images exist, record them only as non-authoritative evidence with provenance and keep `no_global_page_design_draft` active.
-- Do not treat the first confirmed module final effect image as if it also proves that the full module-scoped effect-image evidence set already exists.
-- In manual mode, do not generate remaining page effect images before the first module final effect image is explicitly confirmed.
-- Do not accept generated effect-image evidence into the workflow record without stating whether the approved style constraints were explicitly inherited.
-- Do not present shared/global freeze as blocked by missing page effect images; global freeze depends on `global_style_scheme`, `DESIGN.md`, hierarchy, minimal-copy, public-shell, component-family, and interaction-principle contracts.
-- Do not hide a required bitmap fallback or MCP-driven asset-generation need inside prose without indexing the asset path or pending generation note.
-- Do not mark a module ready for display-layer landing while the required preflight inputs or decision table are still missing.
-- Do not mark a fidelity-critical module ready for display-layer landing while its evidence pack still lacks the detail, state, scroll, or overlay coverage needed for faithful implementation.
-- Do not mark `display_restoration_blueprint_ready` unless the workflow record proves both the decision table and the concrete `display_restoration_blueprint` already exist.
-- Do not mark `module_done` before render-vs-frozen-design QA is recorded and final human visual inspection is accepted.
-- Do not treat a complete design draft as freeze-ready when the design package is still incomplete.
-- Do not switch to the next process while `confirmation_status` is `pending_confirmation`, unless `execution_mode=auto` or `execution_mode=full_auto`.
-- Do not let `execution_mode=auto` or `execution_mode=full_auto` stop because one module reached a local completed state while other target modules still remain.
-- Do not let `workflow_summary` or `next_action` present a single-module milestone as if the whole auto run were complete.
-- Do not hide the remaining auto scope in prose. When `execution_mode=auto` or `execution_mode=full_auto`, explicitly say which modules still need advancement.
-- Do not write `next_skill: none` as if auto were finished when the real state is "this module is done but other modules remain".
-- Do not store an "auto completed" interpretation when the actual state is only "one module reached a local stable node and the next module has not been selected yet".
-- Do not store a queued transition or queued maturity change only in prose; always persist it in `pending_next_stage`, `pending_next_skill`, and `pending_status_updates`.
-- Do not let a downstream receipt redefine the locked route for the same turn.
-- Do not let `execution_owner=subagent:*` imply that the subagent owns workflow bookkeeping or stage promotion.
-- Do not treat a downstream recommendation, polished prose, or module switch by itself as progress.
-- Do not keep auto running when `auto_progress_delta` is `none` and no new blocker was recorded.
-- Do not keep `pending_next_stage`, `pending_next_skill`, or `pending_status_updates` populated after a `blocked` result.
-- Do not rewrite `current_stage` to a later workflow state when the latest routing result is `blocked`.
-- Do not mark `project_initialized` unless both the directory skeleton and sibling `skills/flutter-dev/` exist.
-- Do not treat `project_initialized` as proof that any feature, page, or module implementation code already exists.
-- Do not mark `bootstrap_code_ready` unless the required global public code baseline actually exists on disk.
-- Do not let `execution_mode=auto` or `execution_mode=full_auto` claim implementation progress without recording the corresponding `@superpowers` gates, execution evidence, and code artifacts.
-- Do not wait for every feature module to finish late-stage architecture planning before triggering `flutter-init` when the shared bootstrap-critical baseline is already sufficient.
-- Do not hide the `@superpowers` implementation ownership or the display-layer evidence dependency when the module is already in or beyond implementation and those controls are relevant.
-- Do not treat implementation execution as valid before both `@superpowers` `Spec` and `@superpowers` `Plan` are recorded for the active module.
-- Do not treat implementation execution as valid unless the workflow record shows the active serial module order, the current active module, and any explicitly approved ownership split when one exists.
-- Do not record delegated module document generation or implementation as valid if it was routed directly to a downstream execution skill without explicit `@superpowers` invocation when execution ownership was required.
-- Do not infer verified execution from polished documents, manual backfill, or missing traces.
-- Do not hide a missing module index row, missing executable module `impl.md`, missing structured design-source packet, or other failed generation precondition behind a later stage label.
