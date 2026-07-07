@@ -17,6 +17,7 @@ Produce one workflow-ready bundle for a shared or module page:
 - atlas slicing config
 
 This skill is the visual-asset preparation node. It owns the page-level atlas bundle that must be reviewed before later Pencil or implementation work continues. After the atlas extraction analysis is confirmed, it may use `Product Design:ideate` to render the approved solid-background atlas image. It does not perform the actual slicing step, it does not remove atlas backgrounds itself, and it does not replace later Pencil design execution.
+The approved effect image remains the only visual slicing-source baseline for this atlas route. The atlas outputs are expected to be cut and used in the shipped product, so every cell must stay faithful to the approved effect image.
 
 This atlas bundle is not a raw crop-pack of the whole page. First analyze the confirmed effect image together with the original image-generation prompt and frozen visual constraints, identify the visuals that Flutter SDK standard capabilities cannot reproduce faithfully enough, explicitly exclude dynamic-data-driven regions, choose one least-conflicting flat background color from the preset atlas background palette, and only after that confirmed analysis generate one solid-background UI atlas whose cells are rectangular and non-overlapping.
 

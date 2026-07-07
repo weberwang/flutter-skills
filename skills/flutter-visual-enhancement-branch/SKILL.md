@@ -89,6 +89,7 @@ This skill owns the page-by-page sequencing for:
 
 - Reuse the confirmed atlas analysis and cell plan exactly.
 - Generate the solid-background atlas bundle through `Product Design:ideate`.
+- Keep one `UI-only atlas` contract for the page and preserve a later `transparent atlas output` when transparency is required downstream.
 - Record the chosen preset background color, atlas manifest, and atlas slicing config.
 - Keep atlas cells rectangular, non-overlapping, and faithful to the approved effect image.
 - When confirmed, return `ui_sheet_atlas_ready`.

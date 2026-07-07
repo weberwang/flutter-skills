@@ -4,10 +4,34 @@ Use this reference before applying any state promotion, freeze decision, impleme
 
 - Do not route raw requirements directly into technical baseline, design-source work, or implementation before the PRD flow is complete.
 - Do not begin any phase-specific design work before the technical baseline is ready.
+- Do not allow first-screen product UI to depend on long explanatory copy.
+- Do not freeze a settings, dashboard, utility, or task surface if its primary understanding requires reading multiple descriptive text blocks.
+- Do not keep subtitle, row-description, notice-card, and support-copy layers simultaneously when they repeat the same meaning.
+- Do not generate shared/global representative page sketches.
+- `global_style_experience_image` must stay non-page-design evidence.
+- `non_page_design_evidence=true`
+- `global_style_scheme.status=selected`
+- `theme_and_style_only=true`
+- `no_global_page_design_draft`
+- `page_design_deferred_to_module_stage=true`
+- Do not treat module effect images as optional evidence.
+- Do not bypass `@product-design` visual ideation.
+- `module final effect image` must remain product-facing evidence, not ad creative.
+- Do not generate the module final effect image through `gpt-image-2-generator`.
+- Do not generate the workflow atlas through `gpt-image-2-generator`.
+- Atlas generation may use `Product Design:ideate` only after the atlas extraction analysis is explicitly confirmed.
+- Do not use `@product-design` as a replacement for atlas background-removal.
+- Keep deterministic runtime asset preparation on the deterministic runtime asset preparation path.
 - Do not skip the prototype step in either phase.
 - Do not generate a premium effect image before the premium prototype structure is confirmed.
 - Do not skip the Pencil step in either phase.
 - Do not skip asset-enhancement resolution in either phase.
+- Do not treat ad creative, marketing compositions, or flighty concept mock output as valid product effect-image evidence.
+- Do not replace an approved effect-image-backed design route with prototype screenshots or speculative redesign input.
+- Do not allow a non-transparent atlas background to enter the transparent slicing route.
+- Do not bake runtime data layers into the atlas.
+- Do not rerun background processing on an already transparent atlas.
+- Do not try to make non-solid backgrounds transparent.
 - Do not treat an effect image as the frozen design source.
 - Do not restore Flutter code directly from effect images when the active phase requires a Pencil design source.
 - Do not freeze a launch design before the launch Pencil design source is confirmed.

@@ -137,10 +137,13 @@ Treat these as disallowed failure modes unless the workflow has explicitly switc
 - slogan-first layout
 - mood-board composition
 - concept-art treatment
+- flighty concept mock treatment
 - wireframe-like draft output
 - explanatory requirements mock styling
 
 If an image feels impressive but the user cannot imagine shipping it as an actual app screen, the image is off-target.
+If an image feels flashy before it feels shippable as a product screen, reject it.
+visual experience must still serve product-task clarity.
 
 ## 5C. Commercial Trust And Premium Confidence
 

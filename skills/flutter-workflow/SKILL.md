@@ -22,6 +22,7 @@ Phase 1 launch work uses the confirmed prototype plus required state contract as
 Phase 2 effect image confirms the premium visual target.
 Pencil is the only frozen design source by default.
 Flutter code restoration must default to the frozen Pencil design source instead of restoring directly from prototype screenshots or effect images.
+When the route has entered effect-image-backed design execution, the approved effect image is the only visual input source for later atlas preparation and design-file generation.
 
 `flutter-workflow` is the traffic controller. It chooses the next specialist skill, records state, blocks skipped gates, waits for explicit confirmation in manual mode, and keeps one stable workflow truth model for the whole project.
 
@@ -211,6 +212,86 @@ Use `@product-design` as a scoped design controller at specific workflow nodes i
 - optional design QA helper -> `Product Design:design-qa`
 
 `@product-design` owns direction and image generation quality. It does not own workflow control, freeze promotion, module routing, or Flutter implementation.
+
+## Commercial Product UI Constraint
+
+Design direction must optimize for how users scan, recognize, and act.
+
+Required checks include:
+
+- copy-compression check
+- If all long explanatory copy disappeared, the first screen should still communicate the product job clearly
+
+## Commercial Product Surface Gate
+
+Every reviewable image-facing product step should be evaluated through `commercial_surface_gate`.
+
+Track at minimum:
+
+- `first_screen_task_recognition`
+- `primary_cta_dominance`
+- `real_control_density`
+- `reference_decision_inheritance`
+- `revision_required`
+
+## Commercial Design Exploration Window
+
+Use one explicit exploration window before the downstream design route locks.
+
+- `wide-before-freeze, narrow-after-freeze`
+- `structure_recomposition_allowed`
+- `direction_space_open`
+- `freeze_boundary`
+
+## Mobbin And Hierarchy Contract
+
+Before direction images are accepted, record:
+
+- `mandatory_mobbin_reference`
+- `fixed_style_direction`
+- `strong_hierarchy_contract`
+- `style_single_source`
+- `hierarchy_contrast_ladder`
+
+## Global Style-Only Design Boundary
+
+The shared route remains style-only.
+
+- `global_style_scheme`
+- `global_style_experience_image`
+- `theme_and_style_only`
+- `no_global_page_design_draft`
+- `non_page_design_evidence`
+- `page_design_deferred_to_module_stage`
+
+## Minimal Default Copy Contract
+
+Default product surfaces must keep explanatory copy compressed.
+
+- `minimal_default_copy_contract`
+- `explanatory_copy_budget`
+- `one short helper line`
+- `move explanation behind disclosure`
+- `explanation_overload`
+
+## Product Design Image Policy
+
+Use `Product Design:ideate` as the default design-controller-owned path for direction images.
+
+- route shared style evidence through `global_style_experience_image`
+- later module final effect-image direction pass must stay under product-design control
+- select or revise a Product Design-generated candidate
+- keep `$imagegen` background removal on the deterministic runtime path
+
+## Image Review And Atlas Evidence
+
+- manual image review
+- human review result
+- user confirmation or revision feedback
+- `UI-only atlas`
+- `transparent atlas output`
+- `data_excluded_placeholder`
+- `atlas background is solid-color`
 
 ## Output Language Rule
 

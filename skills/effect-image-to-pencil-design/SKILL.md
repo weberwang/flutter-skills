@@ -10,6 +10,7 @@ description: Use when approved Flutter effect images and DESIGN.md must be turne
 Turn approved effect images into a mandatory high-fidelity Pencil design source.
 
 This skill uses Pencil MCP as the design-file execution owner. It does not treat Pencil as a loose redraw step. The `.pen` file becomes a frozen structured design source that must stay visually close to the approved effect image and must preserve the page hierarchy, spacing, component boundaries, state language, and reusable asset bindings needed by later Flutter restoration.
+Treat the approved effect image as the only visual input source for later design-file generation on this route. Do not fill missing layout, style, or asset decisions from prototype screenshots, ad references, or marketing redraws.
 
 The default workflow is:
 

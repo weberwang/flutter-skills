@@ -92,6 +92,7 @@ flowchart LR
 4. 效果图采用代表页优先：先在 `@product-design` 的产品设计约束下用本地 `$imagegen` 生成 1 张代表页草图，等你确认后再在同一套 `@product-design` 约束下调用 `gpt-image-2-generator` 生成代表页最终效果图，然后再生成其余页面。
    草图阶段只负责确认方向、结构、模块顺序和视觉语言，不负责冻结级细节精修；最终效果图阶段才负责高保真收口。
    草图和最终效果图都必须符合商业产品 UI/UX 目标，不得退化成纯概念图、营销海报或说明书式界面。
+   效果图是后续设计稿生成与分层切图的唯一视觉输入源，拒绝飞机稿，拒绝广告营销化表达，后续会用于正式产品资源切图。
 5. 效果图统一存放在全局目录 `docs/project/`，不再要求落到模块目录；生成效果图时必须同步生成 `sheet atlas`，而且 atlas 必须是透明背景、只包含 UI 层、附带可切割 manifest，cell 图片不得随意补额外背景或线框。
 6. `project_initialized` 只表示创建目录骨架以及与 `flutter-init` 同级的 `skills/flutter-dev/`，不包含 bootstrap 代码。
 7. `bootstrap_code_ready` 单独成阶段，负责 app 入口、app shell、共享启动 wiring、根路由宿主等全局公共代码。

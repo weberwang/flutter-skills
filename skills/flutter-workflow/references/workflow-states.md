@@ -46,6 +46,21 @@ Use this reference when classifying `current_phase`, `current_stage`, module mat
 | `phase_2_parity_qa_ready` | Premium implementation is ready for design parity QA. | `phase_2_done` |
 | `phase_2_done` | Premium enhancement has passed parity review and human acceptance. | maintain index only |
 
+Shared style-only state evidence should keep:
+
+- `global_style_scheme.status=selected`
+- `global_style_experience_image`
+- `theme_and_style_only=true`
+- `no_global_page_design_draft=true`
+- `non_page_design_evidence=true`
+- `page_design_deferred_to_module_stage=true`
+- not page design evidence
+
+Atlas-backed evidence should include:
+
+- one UI-only atlas image
+- transparent atlas result ready for slicing
+
 The final app-page acceptance must happen only at the end of the workflow.
 human visual inspection remains the final acceptance owner.
 

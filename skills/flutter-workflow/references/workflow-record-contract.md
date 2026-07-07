@@ -32,6 +32,41 @@ It must let any downstream agent answer:
 - which artifacts already exist
 - what blockers still prevent the next move
 
+It should also be able to persist these review and design-control records:
+
+- `commercial_surface_gate`
+- `gate_owner`
+- `failed_dimensions`
+- `revision_target`
+- recorded before any downstream promotion
+- `commercial_design_exploration`
+- `selected_direction`
+- `structure_recomposition_decisions`
+- `freeze_boundary`
+- `mandatory_mobbin_reference`
+- `reference_screen_evidence`
+- `fixed_style_direction`
+- `strong_hierarchy_contract`
+- `hierarchy_contrast_ladder`
+- `global_style_scheme`
+- `global_style_experience_image`
+- `theme_style_scope`
+- `theme_and_style_only`
+- `non_page_design_evidence`
+- `no_global_page_design_draft`
+- `page_design_deferred_to_module_stage`
+- `minimal_default_copy_contract`
+- `explanatory_copy_budget`
+- `visible_explanation_count`
+- `disclosure_destination`
+- `explanation_overload`
+- first module final effect image has been generated
+- selected final effect-image direction path was actually available
+- selected Product Design candidate
+- manual image review
+- human review result
+- user confirmation or revision feedback
+
 ## Initialization Rule
 
 On the first orchestrator run, if runtime persistence is enabled:
@@ -127,13 +162,14 @@ Explain why the project is in the current stage and what must become true before
 If the active phase still lacks:
 
 - a confirmed prototype
-- a confirmed effect image
 - a confirmed Pencil design source
 - a confirmed phase freeze
 - a confirmed restoration contract
 - a confirmed asset-enhancement resolution result
 
 say so explicitly and keep downstream work blocked.
+
+If the active phase is `premium` and still lacks a confirmed effect image, say so explicitly and keep premium downstream work blocked.
 
 ### `freeze_summary`
 
@@ -153,7 +189,6 @@ At minimum, index:
 - PRD path
 - page-navigation-flow path
 - `DESIGN.md` path
-- launch effect-image paths
 - premium effect-image paths
 - launch Pencil design source path
 - premium Pencil design source path
@@ -169,7 +204,7 @@ At minimum, index:
 - If the active phase is `launch`, do not record premium-only artifacts as if they already existed.
 - If the active phase is `premium`, explicitly state whether the run inherits the launch freeze or has triggered `scope_reopen`.
 - If a phase prototype is generated in manual mode, keep the current confirmed stage, queue the next stage, and wait for confirmation.
-- If a phase effect image is generated in manual mode, keep the current confirmed stage, queue the next stage, and wait for confirmation.
+- If a premium phase effect image is generated in manual mode, keep the current confirmed stage, queue the next stage, and wait for confirmation.
 - If a Pencil design source is generated in manual mode, keep the current confirmed stage, queue the next stage, and wait for confirmation.
 - If asset-enhancement resolution completes in manual mode, keep the current confirmed stage, queue the next stage, and wait for confirmation.
 - If a freeze evaluation fails, keep the current phase and stage unchanged, clear any queued freeze promotion, and route back to the correct upstream revision path.

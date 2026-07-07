@@ -24,6 +24,9 @@ The `--auto` goal is:
   `premium prototype -> premium effect image -> premium Pencil -> premium freeze -> premium restoration -> premium asset-enhancement resolution -> blueprint -> premium implementation -> parity QA`
 - do not treat the premium phase as an optional postscript once Phase 2 has started; only specific asset-enhancement methods inside that phase may remain conditional on actual design needs
 - stop only when workflow completion or a real blocker appears
+- complete the Product Design-owned final effect-image direction pass directly when the route already has one validated default
+- keep the Product Design-owned final effect-image direction pass inside the same deterministic auto loop when no alternate route remains
+- select or revise the Product Design-generated candidate instead of reopening legacy generator routing
 
 `--auto` is not allowed to:
 
