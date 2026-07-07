@@ -19,9 +19,9 @@ The `--auto` goal is:
 
 - finish PRD and technical baseline first
 - complete the launch phase chain in order:
-  `launch prototype -> launch effect image -> launch Pencil -> launch freeze -> launch restoration -> launch implementation -> launch QA -> release readiness`
+  `launch prototype -> launch effect image -> launch Pencil -> launch freeze -> launch restoration -> launch asset-enhancement resolution -> launch implementation -> launch QA -> release readiness`
 - if premium enhancement is explicitly in scope, continue into the mandatory premium phase chain in order:
-  `premium prototype -> premium effect image -> premium Pencil -> premium freeze -> premium restoration -> blueprint -> premium implementation -> parity QA`
+  `premium prototype -> premium effect image -> premium Pencil -> premium freeze -> premium restoration -> premium asset-enhancement resolution -> blueprint -> premium implementation -> parity QA`
 - do not treat the premium phase as an optional postscript once Phase 2 has started; only specific asset-enhancement methods inside that phase may remain conditional on actual design needs
 - stop only when workflow completion or a real blocker appears
 

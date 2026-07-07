@@ -49,6 +49,7 @@ Required sequence:
 -> `launch_pencil_design_generation`
 -> `launch_design_freeze`
 -> `launch_pencil_to_code_restoration`
+-> `launch_asset_enhancement_resolution`
 -> `native_ui_implementation`
 -> `functional_complete`
 -> `launch_quality_qa`
@@ -59,7 +60,7 @@ Required sequence:
 
 Goal: upgrade a launchable product into a more premium, visually stronger, and more refined experience while still using Pencil as the only frozen design source.
 
-This phase is the mandatory visual and experience enhancement flow once the project explicitly enters Phase 2. The Phase 2 main chain itself is not optional. Only specific asset-enhancement techniques inside that chain may be skipped when the frozen premium design does not require them.
+This phase is the mandatory visual and experience enhancement flow once the project explicitly enters Phase 2. The Phase 2 main chain itself is not optional. Both phases must pass through asset-enhancement resolution; only specific atlas-generation, background-processing, slicing, and bitmap-export techniques may be skipped when the frozen design does not require them.
 
 Required sequence:
 
@@ -88,6 +89,28 @@ Unless the user explicitly overrides the design-source branch, use `pencil_mcp_d
 - Prototype is not the frozen design source
 - Effect image is not the frozen design source
 - No phase may skip the Pencil step before design freeze or code restoration
+
+## Asset Enhancement Rule
+
+Both phases must explicitly resolve asset-enhancement needs after Pencil-to-Flutter restoration and before code implementation is finalized.
+
+- Phase 1 required node: `launch_asset_enhancement_resolution`
+- Phase 2 required node: `asset_enhancement_resolution`
+
+These nodes are always mandatory as decision points.
+
+Inside each node:
+
+- classify regions as `flutter_native`, `atlas_required`, or `placeholder_only`
+- if no region is `atlas_required`, the node may finish without atlas outputs
+- if any region is `atlas_required`, the workflow must continue through the deterministic atlas chain for those regions:
+  - atlas analysis
+  - atlas generation
+  - background processing when needed
+  - atlas slicing
+  - asset integration back into the frozen design-source and implementation contract
+
+Do not treat atlas generation and slicing as optional once the active phase has already proven that atlas-backed assets are required for fidelity.
 
 ## Design Source Branches
 
@@ -253,6 +276,8 @@ Do not move a module into implementation execution until all of the following ar
 For the launch phase, prefer Flutter SDK standard capabilities and keep high-cost visual enhancement branches closed unless explicitly justified.
 
 For the premium phase, allow stronger fidelity and asset strategy, but still restore from the frozen Pencil design source instead of from screenshots directly.
+
+For both phases, run the required asset-enhancement resolution node after Pencil restoration. If that node marks any region `atlas_required`, finish the corresponding atlas-generation and slicing chain before treating the implementation input packet as complete.
 
 Whenever this workflow or any downstream skill needs to actually execute a Flutter or Dart command, prefer the `fvm` form first and fall back to bare `flutter` or `dart` only when the project contract already proves that `fvm` is unavailable or the user explicitly requires another contract.
 

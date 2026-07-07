@@ -23,7 +23,8 @@ Use this reference when classifying `current_phase`, `current_stage`, module mat
 | `phase_1_effect_image_ready` | Launch effect image is confirmed under the frozen launch structure. | `phase_1_pencil_ready` |
 | `phase_1_pencil_ready` | Launch Pencil design source is confirmed and aligned to the approved launch effect image. | `phase_1_design_frozen` |
 | `phase_1_design_frozen` | Launch freeze is complete and the launch Pencil design source is the frozen design baseline. | `phase_1_restoration_ready` |
-| `phase_1_restoration_ready` | Launch Pencil-to-Flutter restoration contract exists and is confirmed. | `phase_1_implementing` |
+| `phase_1_restoration_ready` | Launch Pencil-to-Flutter restoration contract exists and is confirmed. | `phase_1_asset_enhancement_ready` |
+| `phase_1_asset_enhancement_ready` | Launch asset-enhancement resolution is complete. Any `atlas_required` launch regions already have the required atlas-analysis, generation, background-processing, slicing, and asset-integration outputs. | `phase_1_implementing` |
 | `phase_1_implementing` | Launch implementation is in progress. | `phase_1_launch_qa_ready` |
 | `phase_1_launch_qa_ready` | Launch build is ready for release-quality QA. | `phase_1_release_ready` |
 | `phase_1_release_ready` | Launch build meets release-readiness requirements. | `phase_2_scope_selected` or workflow completion |
@@ -39,7 +40,8 @@ Use this reference when classifying `current_phase`, `current_stage`, module mat
 | `phase_2_effect_image_ready` | High-fidelity premium effect image is confirmed under the frozen premium structure. | `phase_2_pencil_ready` |
 | `phase_2_pencil_ready` | Premium Pencil design source is confirmed and aligned to the approved premium effect image. | `phase_2_visual_frozen` |
 | `phase_2_visual_frozen` | Premium visual freeze is complete and the premium Pencil design source is the frozen premium baseline. | `phase_2_restoration_ready` |
-| `phase_2_restoration_ready` | Premium Pencil-to-Flutter restoration contract exists and is confirmed. | `phase_2_blueprint_ready` |
+| `phase_2_restoration_ready` | Premium Pencil-to-Flutter restoration contract exists and is confirmed. | `phase_2_asset_enhancement_ready` |
+| `phase_2_asset_enhancement_ready` | Premium asset-enhancement resolution is complete. Any `atlas_required` premium regions already have the required atlas-analysis, generation, background-processing, slicing, and asset-integration outputs. | `phase_2_blueprint_ready` or `phase_2_implementing` depending on route posture |
 | `phase_2_blueprint_ready` | Display restoration blueprint is ready for premium implementation. | `phase_2_implementing` |
 | `phase_2_implementing` | Premium implementation upgrade is in progress. | `phase_2_parity_qa_ready` |
 | `phase_2_parity_qa_ready` | Premium implementation is ready for design parity QA. | `phase_2_done` |

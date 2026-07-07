@@ -25,6 +25,8 @@ It must let any downstream agent answer:
 - which phase freeze is active
 - whether Phase 2 inherits the Phase 1 freeze
 - which Pencil design source is frozen for the active phase
+- whether the active phase has already completed asset-enhancement resolution
+- whether any active region was classified as `atlas_required`
 - whether a scope reopen is required
 - what specialist skill should run next
 - which artifacts already exist
@@ -66,6 +68,8 @@ last_receipt_status: advanced | blocked | rejected | not_executed | route_drift 
 auto_progress_delta: <what actually advanced this turn-or-none>
 launch_pencil_path: <path-or-none>
 premium_pencil_path: <path-or-none>
+launch_asset_resolution: pending | no_atlas_required | atlas_required_done | none
+premium_asset_resolution: pending | no_atlas_required | atlas_required_done | none
 ```
 
 ## Required Sections
@@ -88,8 +92,8 @@ Keep this exact order:
 
 Use one row per module with these columns:
 
-| module | current_phase | current_stage | confirmation_status | next_skill | pending_next_stage | pending_next_skill | pending_status_updates | design_source_branch | design_source_type | launch_prototype_status | launch_pencil_status | launch_freeze_status | premium_prototype_status | premium_pencil_status | premium_freeze_status | launch_pencil_path | premium_pencil_path | restoration_status | code_status | blockers |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| module | current_phase | current_stage | confirmation_status | next_skill | pending_next_stage | pending_next_skill | pending_status_updates | design_source_branch | design_source_type | launch_prototype_status | launch_pencil_status | launch_freeze_status | premium_prototype_status | premium_pencil_status | premium_freeze_status | launch_pencil_path | premium_pencil_path | restoration_status | launch_asset_resolution | premium_asset_resolution | code_status | blockers |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 
 Update the existing row for a module instead of creating duplicates.
 
@@ -113,6 +117,7 @@ Record:
 - whether the workflow is in `launch`, `premium`, or `scope_reopen`
 - whether the active phase freeze already exists
 - whether the active phase inherits another freeze
+- whether the active phase has already completed asset-enhancement resolution
 - whether scope reopen is currently required
 
 ### `current_stage_detail`
@@ -126,6 +131,7 @@ If the active phase still lacks:
 - a confirmed Pencil design source
 - a confirmed phase freeze
 - a confirmed restoration contract
+- a confirmed asset-enhancement resolution result
 
 say so explicitly and keep downstream work blocked.
 
@@ -152,6 +158,8 @@ At minimum, index:
 - launch Pencil design source path
 - premium Pencil design source path
 - restoration contract paths
+- launch asset-resolution result
+- premium asset-resolution result
 - display restoration blueprint path when it exists
 
 ## Update Rules
@@ -163,6 +171,7 @@ At minimum, index:
 - If a phase prototype is generated in manual mode, keep the current confirmed stage, queue the next stage, and wait for confirmation.
 - If a phase effect image is generated in manual mode, keep the current confirmed stage, queue the next stage, and wait for confirmation.
 - If a Pencil design source is generated in manual mode, keep the current confirmed stage, queue the next stage, and wait for confirmation.
+- If asset-enhancement resolution completes in manual mode, keep the current confirmed stage, queue the next stage, and wait for confirmation.
 - If a freeze evaluation fails, keep the current phase and stage unchanged, clear any queued freeze promotion, and route back to the correct upstream revision path.
 - If `execution_mode=auto` or `execution_mode=full_auto`, apply deterministic queued transitions without pausing for ordinary downstream confirmation.
 - Before any downstream invocation, persist one route lock that names the expected phase, stage, module, next skill, next stage delta, freeze type, and status delta.
@@ -178,5 +187,7 @@ At minimum, index:
 - Do not mark a phase freeze as complete until the corresponding Pencil design source is actually confirmed.
 - Do not record effect images as the frozen design source.
 - Do not record Flutter restoration as direct-from-image when the active phase requires a Pencil design source.
+- Do not mark a phase ready for implementation while its asset-enhancement resolution is still missing.
+- Do not record `no_atlas_required` implicitly. Write it explicitly when the phase completed asset-enhancement resolution and no region required atlas outputs.
 - Do not treat Phase 2 as a normal premium upgrade when `scope_reopen_required=yes`.
 - Do not mark `code_status=landed` before code output actually exists.

@@ -101,6 +101,7 @@ These stages may run in a subagent once the route is locked:
 - Stitch MCP design-source execution for `stitch_design_source_branch`
 - `flutter-design-freeze-gate`
 - `pencil-design-to-flutter-restoration`
+- asset-enhancement resolution, atlas analysis, atlas generation, background processing, slicing, and asset integration when the active phase already proved that atlas-backed assets are required
 - `flutter-uiux-to-architecture`
 - `flutter-init`
 - `flutter-design-parity-reviewer`
