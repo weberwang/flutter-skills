@@ -24,64 +24,64 @@ Use this reference before selecting any downstream skill, changing `current_phas
 14. Before `phase_1_scope_frozen`, ensure launch scope, core task path, and required launch states are explicit enough for a releasable first version.
 15. Before `phase_1_module_scope_frozen`, ensure module ownership is explicit enough that each primary page family has exactly one owning module.
 16. Before `phase_1_impl_contract_frozen`, ensure the active module contract fixes module responsibility, required states, primary task path, data dependencies, and acceptance criteria.
-17. Do not build the launch effect image before the launch prototype exists.
-18. Do not confirm the launch effect image before `phase_1_structure_frozen` is complete.
-19. The launch prototype is the structure source of truth. The launch effect image may strengthen visual direction, but it must not rewrite the already-frozen launch structure.
-20. Do not generate a launch Pencil design source before the launch effect image is confirmed.
-21. When `design_source_branch=pencil_mcp_design_source_branch`, route launch design-source generation to `effect-image-to-pencil-design`.
-22. Do not promote `phase_1_design_frozen` until the launch Pencil design source is confirmed and aligned to the approved launch effect image.
-23. Freeze the launch Pencil design source, not the launch effect image itself.
-24. Do not restore Flutter code directly from launch effect images. Route through `pencil-design-to-flutter-restoration` once the launch Pencil design source is frozen.
-25. After `phase_1_design_frozen`, prefer native Flutter SDK standard capabilities during launch implementation, but do not skip launch asset-enhancement resolution.
-26. Route launch restoration outputs through `launch_asset_enhancement_resolution` before launch implementation is treated as fully authorized.
-27. Inside `launch_asset_enhancement_resolution`, classify each important region as `flutter_native`, `atlas_required`, or `placeholder_only`.
-28. If any launch region is `atlas_required`, complete atlas analysis, atlas generation, background processing when needed, atlas slicing, and asset integration for that region before promoting `phase_1_asset_enhancement_ready`.
-29. If no launch region is `atlas_required`, promote `phase_1_asset_enhancement_ready` with an explicit `no_atlas_required` receipt instead of silently skipping the node.
-30. Do not promote `phase_1_release_ready` until launch QA proves the product is release-ready rather than merely demo-ready.
-31. Enter `phase_2_scope_selected` only after the launch build is ready for release or already launched.
+17. The launch prototype is the structure and upstream visual source of truth for Phase 1.
+18. Do not generate a launch Pencil design source before `phase_1_structure_frozen` is complete.
+19. When `design_source_branch=pencil_mcp_design_source_branch`, route launch design-source generation from the confirmed launch prototype evidence plus required state contract instead of requiring a launch effect image.
+20. Do not promote `phase_1_design_frozen` until the launch Pencil design source is confirmed and aligned to the approved launch prototype evidence.
+21. Freeze the launch Pencil design source, not the launch prototype itself.
+22. Do not restore Flutter code directly from launch prototype screenshots. Route through `pencil-design-to-flutter-restoration` once the launch Pencil design source is frozen.
+23. After `phase_1_design_frozen`, prefer native Flutter SDK standard capabilities during launch implementation, but do not skip launch asset-enhancement resolution.
+24. Route launch restoration outputs through `launch_asset_enhancement_resolution` before launch implementation is treated as fully authorized.
+25. Inside `launch_asset_enhancement_resolution`, classify each important region as `flutter_native`, `atlas_required`, or `placeholder_only`.
+26. If any launch region is `atlas_required`, complete atlas analysis, atlas generation, background processing when needed, atlas slicing, and asset integration for that region before promoting `phase_1_asset_enhancement_ready`.
+27. If no launch region is `atlas_required`, promote `phase_1_asset_enhancement_ready` with an explicit `no_atlas_required` receipt instead of silently skipping the node.
+28. Do not promote `phase_1_release_ready` until launch QA proves the product is release-ready rather than merely demo-ready.
+29. Enter `phase_2_scope_selected` only after the launch build is ready for release or already launched.
 
 ## Phase 2 Rules
 
-32. If `current_phase=premium`, the workflow must inherit the launch baseline by default.
-33. Do not start Phase 2 until premium enhancement scope is explicit and bounded.
-34. The premium prototype must exist before the premium effect image may be generated.
-35. Do not confirm the premium effect image before `phase_2_structure_frozen` is complete.
-36. The premium prototype is the structure source of truth for premium enhancement. The premium effect image may strengthen visual direction, but it must not silently rewrite the frozen premium structure.
-37. Do not generate a premium Pencil design source before the premium effect image is confirmed.
-38. When `design_source_branch=pencil_mcp_design_source_branch`, route premium design-source generation to `effect-image-to-pencil-design`.
-39. Do not promote `phase_2_visual_frozen` until the premium Pencil design source is confirmed and aligned to the approved premium effect image.
-40. Freeze the premium Pencil design source, not the premium effect image itself.
-41. Do not restore Flutter code directly from premium effect images. Route through `pencil-design-to-flutter-restoration` once the premium Pencil design source is frozen.
-42. Route premium restoration outputs through `asset_enhancement_resolution` before premium implementation input is treated as fully complete.
-43. Inside premium asset-enhancement resolution, classify each important region as `flutter_native`, `atlas_required`, or `placeholder_only`.
-44. If any premium region is `atlas_required`, complete atlas analysis, atlas generation, background processing when needed, atlas slicing, and asset integration for that region before promoting `phase_2_asset_enhancement_ready`.
-45. If no premium region is `atlas_required`, promote `phase_2_asset_enhancement_ready` with an explicit `no_atlas_required` receipt instead of silently skipping the node.
-46. After premium asset-enhancement resolution, route to `flutter-uiux-to-architecture` for the display restoration blueprint before premium implementation work begins.
-47. Use `flutter-design-parity-reviewer` as the default implementation-review skill for `phase_2_parity_qa_ready`.
+30. If `current_phase=premium`, the workflow must inherit the launch baseline by default.
+31. Do not start Phase 2 until premium enhancement scope is explicit and bounded.
+32. The premium prototype must exist before the premium effect image may be generated.
+33. Do not confirm the premium effect image before `phase_2_structure_frozen` is complete.
+34. The premium prototype is the structure source of truth for premium enhancement. The premium effect image may strengthen visual direction, but it must not silently rewrite the frozen premium structure.
+35. Do not generate a premium Pencil design source before the premium effect image is confirmed.
+36. When `design_source_branch=pencil_mcp_design_source_branch`, route premium design-source generation to `effect-image-to-pencil-design`.
+37. Do not promote `phase_2_visual_frozen` until the premium Pencil design source is confirmed and aligned to the approved premium effect image.
+38. Freeze the premium Pencil design source, not the premium effect image itself.
+39. Do not restore Flutter code directly from premium effect images. Route through `pencil-design-to-flutter-restoration` once the premium Pencil design source is frozen.
+40. Route premium restoration outputs through `asset_enhancement_resolution` before premium implementation input is treated as fully complete.
+41. Inside premium asset-enhancement resolution, classify each important region as `flutter_native`, `atlas_required`, or `placeholder_only`.
+42. If any premium region is `atlas_required`, complete atlas analysis, atlas generation, background processing when needed, atlas slicing, and asset integration for that region before promoting `phase_2_asset_enhancement_ready`.
+43. If no premium region is `atlas_required`, promote `phase_2_asset_enhancement_ready` with an explicit `no_atlas_required` receipt instead of silently skipping the node.
+44. After premium asset-enhancement resolution, route to `flutter-uiux-to-architecture` for the display restoration blueprint before premium implementation work begins.
+45. Use `flutter-design-parity-reviewer` as the default implementation-review skill for `phase_2_parity_qa_ready`.
 
 ## Scope Reopen Rules
 
-48. If a premium request changes `core_task_path`, `primary_cta_goal`, `page_flow`, `required_states` semantics, or `module_boundary`, set `current_phase=scope_reopen` and `current_stage=scope_reopen_required`.
-49. If `current_stage=scope_reopen_required`, do not continue inside the normal premium route. Route back to the matching launch scope, module, or contract step.
-50. Do not treat a scope-reopen event as a visual-only delta.
+46. If a premium request changes `core_task_path`, `primary_cta_goal`, `page_flow`, `required_states` semantics, or `module_boundary`, set `current_phase=scope_reopen` and `current_stage=scope_reopen_required`.
+47. If `current_stage=scope_reopen_required`, do not continue inside the normal premium route. Route back to the matching launch scope, module, or contract step.
+48. Do not treat a scope-reopen event as a visual-only delta.
 
 ## Initialization And Bootstrap Rules
 
-51. Once the shared technical baseline and launch scope are explicit enough, prefer `flutter-init` and bootstrap preparation before later implementation milestones.
-52. `flutter-init` must stop at initialization boundaries. It may create the directory skeleton and sibling `skills/flutter-dev/` container, but it must not implement feature code.
-53. If bootstrap code has landed and the required global public baseline is actually present on disk, record or queue the corresponding bootstrap-ready stage.
+49. Once the shared technical baseline and launch scope are explicit enough, prefer `flutter-init` and bootstrap preparation before later implementation milestones.
+50. `flutter-init` must stop at initialization boundaries. It may create the directory skeleton and sibling `skills/flutter-dev/` container, but it must not implement feature code.
+51. If bootstrap code has landed and the required global public baseline is actually present on disk, record or queue the corresponding bootstrap-ready stage.
 
 ## Implementation Rules
 
-54. Do not enter implementation execution in any phase until the corresponding phase freeze is complete, the frozen Pencil design source exists, the matching Pencil-to-Flutter restoration contract exists, and the required asset-enhancement resolution node is complete for that phase.
-55. Before code execution, require `@superpowers` `Spec`, then `@superpowers` `Plan`, and only then execute code work.
-56. Module implementation remains serial by default.
-57. During launch implementation, prefer native Flutter standard capabilities, but consume any launch atlas-backed assets that were marked required by launch asset-enhancement resolution.
-58. During premium implementation, allow stronger fidelity and asset strategy, but still restore from the frozen Pencil design source rather than from screenshots directly, and consume any atlas-backed assets that were marked required by premium asset-enhancement resolution.
+52. Do not enter implementation execution in any phase until the corresponding phase freeze is complete, the frozen Pencil design source exists, the matching Pencil-to-Flutter restoration contract exists, and the required asset-enhancement resolution node is complete for that phase.
+53. Before code execution, require `@superpowers` `Spec`, then `@superpowers` `Plan`, and only then execute code work.
+54. Module implementation remains serial by default.
+55. During launch implementation, prefer native Flutter standard capabilities, but consume any launch atlas-backed assets that were marked required by launch asset-enhancement resolution.
+56. During premium implementation, allow stronger fidelity and asset strategy, but still restore from the frozen Pencil design source rather than from screenshots directly, and consume any atlas-backed assets that were marked required by premium asset-enhancement resolution.
 
 ## Review Rules
 
-59. If code is complete or implementation screenshots exist, first route to the phase-appropriate review:
-60. In the launch phase, prioritize release-quality QA and stability checks before premium-level parity concerns, and verify that required atlas-backed assets were integrated correctly when launch asset-enhancement resolution marked them `atlas_required`.
-61. In the premium phase, route through `flutter-design-parity-reviewer` before final human visual inspection, and verify that required atlas-backed assets were integrated correctly when premium asset-enhancement resolution marked them `atlas_required`.
-62. `@product-design design-qa` may assist when a source visual target and implementation screenshots both exist, but it does not replace final human acceptance.
+57. If code is complete or implementation screenshots exist, first route to the phase-appropriate review:
+58. In the launch phase, prioritize release-quality QA and stability checks before premium-level parity concerns, and verify that required atlas-backed assets were integrated correctly when launch asset-enhancement resolution marked them `atlas_required`.
+59. In the premium phase, route through `flutter-design-parity-reviewer` before final human visual inspection, and verify that required atlas-backed assets were integrated correctly when premium asset-enhancement resolution marked them `atlas_required`.
+60. `@product-design design-qa` may assist when a source visual target and implementation screenshots both exist, but it does not replace final human acceptance.
+61. Do not treat `@product-design` `design-qa` as final acceptance of an app page.
+62. The final acceptance of app pages must happen only at the end of the workflow and only through explicit human visual inspection.

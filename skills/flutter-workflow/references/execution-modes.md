@@ -19,7 +19,7 @@ The `--auto` goal is:
 
 - finish PRD and technical baseline first
 - complete the launch phase chain in order:
-  `launch prototype -> launch effect image -> launch Pencil -> launch freeze -> launch restoration -> launch asset-enhancement resolution -> launch implementation -> launch QA -> release readiness`
+  `launch prototype -> launch Pencil -> launch freeze -> launch restoration -> launch asset-enhancement resolution -> launch implementation -> launch QA -> release readiness`
 - if premium enhancement is explicitly in scope, continue into the mandatory premium phase chain in order:
   `premium prototype -> premium effect image -> premium Pencil -> premium freeze -> premium restoration -> premium asset-enhancement resolution -> blueprint -> premium implementation -> parity QA`
 - do not treat the premium phase as an optional postscript once Phase 2 has started; only specific asset-enhancement methods inside that phase may remain conditional on actual design needs
@@ -43,6 +43,7 @@ The `--auto` goal is:
 - deterministic launch-phase review gates
 - deterministic premium-phase review gates
 - deterministic device selection when exactly one supported default exists
+- first module final effect-image review when one validated default remains
 
 `--full-auto` must still stop when:
 
@@ -50,6 +51,14 @@ The `--auto` goal is:
 - `scope_reopen_required=yes`
 - route lock validation, receipt validation, or no-progress rules fail
 - required tools, credentials, or artifacts are missing
+
+## Confirmation Minimization
+
+This reference follows a confirmation-minimization policy.
+
+- do not stop for a second confirmation that only repeats an already-frozen upstream decision
+- collapse deterministic review gates into the same auto-advance loop
+- if the only remaining review question is whether the generated artifact matches the already-approved direction closely enough and no alternate supported route remains, let `--full-auto` consume that gate
 
 ## Auto Loop Contract
 

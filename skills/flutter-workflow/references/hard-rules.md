@@ -5,7 +5,7 @@ Use this reference before applying any state promotion, freeze decision, impleme
 - Do not route raw requirements directly into technical baseline, design-source work, or implementation before the PRD flow is complete.
 - Do not begin any phase-specific design work before the technical baseline is ready.
 - Do not skip the prototype step in either phase.
-- Do not generate an effect image before the matching phase prototype structure is confirmed.
+- Do not generate a premium effect image before the premium prototype structure is confirmed.
 - Do not skip the Pencil step in either phase.
 - Do not skip asset-enhancement resolution in either phase.
 - Do not treat an effect image as the frozen design source.
@@ -22,4 +22,6 @@ Use this reference before applying any state promotion, freeze decision, impleme
 - Do not enter implementation execution in any phase until the corresponding asset-enhancement resolution node is complete. If any region was marked `atlas_required`, complete the required atlas-analysis, generation, background-processing, slicing, and asset-integration chain before implementation proceeds.
 - Do not bypass `@superpowers` `Spec` and `Plan` before code execution.
 - Do not treat `@product-design design-qa` as final human acceptance.
+- Do not let any automatic helper, including `@product-design` `design-qa`, close final app-page acceptance by itself.
+- Do not mark a module as fully accepted before the final human visual inspection step at the end of the workflow.
 - Do not mark a phase complete while its required Pencil design source, restoration contract, or implementation proof is still missing.

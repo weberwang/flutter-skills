@@ -155,6 +155,10 @@ When a specialist skill finishes and produces the required artifacts for a later
 In `--auto`, auto-apply deterministic orchestrator-owned transitions.
 In `--full-auto`, also auto-apply deterministic human-facing gates when exactly one supported default remains.
 
+Do not create a fresh human confirmation gate when the user already approved the only supported upstream direction and the new artifact only proves that deterministic route.
+Collapse stacked confirmations into one human decision when the later confirmations would not unlock any alternate downstream route.
+Keep human confirmation only for true branch selection, unresolved reuse ambiguity, external project binding, or final human visual acceptance.
+
 ## Module Artifact Maturity
 
 Track module maturity in addition to `current_phase` and `current_stage`.

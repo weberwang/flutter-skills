@@ -12,16 +12,20 @@ This workflow now runs in two explicit phases:
 1. `launchable_native_freeze`
 2. `premium_experience_freeze`
 
-Both phases use the same core design chain:
+The two phases use different design chains:
 
-`prototype -> effect image -> Pencil design source -> design freeze -> Pencil-to-Flutter restoration -> implementation`
+- Phase 1: `prototype -> Pencil design source -> design freeze -> Pencil-to-Flutter restoration -> implementation`
+- Phase 2: `prototype -> effect image -> Pencil design source -> design freeze -> Pencil-to-Flutter restoration -> implementation`
 
 Prototype confirms structure and interaction.
-Effect image confirms the visual target.
+Phase 1 launch work uses the confirmed prototype plus required state contract as the upstream visual handoff.
+Phase 2 effect image confirms the premium visual target.
 Pencil is the only frozen design source by default.
-Flutter code restoration must default to the frozen Pencil design source instead of restoring directly from effect images.
+Flutter code restoration must default to the frozen Pencil design source instead of restoring directly from prototype screenshots or effect images.
 
 `flutter-workflow` is the traffic controller. It chooses the next specialist skill, records state, blocks skipped gates, waits for explicit confirmation in manual mode, and keeps one stable workflow truth model for the whole project.
+
+It must also minimize confirmation churn. Once the workflow has already frozen the only supported upstream decision, do not ask the user to reconfirm the same deterministic downstream default.
 
 On the first call for a target project root, run a lightweight git preflight before any downstream routing: check whether `.git/` already exists, whether `git status` is readable in that root, and whether a root `.gitignore` baseline already exists. If any repository-baseline item is missing, keep that finding in the route context and let `flutter-init` own the actual `git init` plus `.gitignore` creation or repair.
 
@@ -45,7 +49,6 @@ Required sequence:
 -> `impl_contract_freeze`
 -> `launch_prototype_build`
 -> `launch_prototype_review_and_structure_freeze`
--> `launch_effect_image_generation`
 -> `launch_pencil_design_generation`
 -> `launch_design_freeze`
 -> `launch_pencil_to_code_restoration`
@@ -87,7 +90,7 @@ Unless the user explicitly overrides the design-source branch, use `pencil_mcp_d
 - Default frozen design artifact: confirmed Pencil design file
 - Default code restoration path: `Pencil -> Flutter`
 - Prototype is not the frozen design source
-- Effect image is not the frozen design source
+- Effect image is not the frozen design source when the active phase uses one
 - No phase may skip the Pencil step before design freeze or code restoration
 
 ## Asset Enhancement Rule
@@ -124,9 +127,10 @@ Supported values:
 Rules:
 
 - `pencil_mcp_design_source_branch` is the default branch.
-- When `design_source_branch=pencil_mcp_design_source_branch`, use `effect-image-to-pencil-design`.
+- When `design_source_branch=pencil_mcp_design_source_branch` and the active phase is `launch`, generate the Pencil design source from the confirmed launch prototype evidence plus required state contract.
+- When `design_source_branch=pencil_mcp_design_source_branch` and the active phase is `premium`, use `effect-image-to-pencil-design`.
 - When `design_source_branch=stitch_design_source_branch`, use Stitch MCP with `model=GEMINI_3_1_PRO`, record `stitch_project_mode=new_project|existing_project`, and record `design_source_project_ref`.
-- Freeze the resulting tool-specific design source, not the upstream effect image.
+- Freeze the resulting tool-specific design source, not the upstream prototype screenshots or effect image.
 - Restore Flutter from the frozen design source instead of restoring directly from screenshots or effect images.
 
 ## Freeze Model
@@ -202,7 +206,6 @@ Use `@product-design` as a scoped design controller at specific workflow nodes i
 
 - requirements and clarification support -> `Product Design:get-context`
 - shared direction exploration -> `Product Design:ideate`
-- phase 1 effect-image generation -> `Product Design:ideate`
 - phase 2 high-fidelity effect-image generation -> `Product Design:ideate`
 - optional UX evidence gathering -> `Product Design:research` or `Product Design:audit`
 - optional design QA helper -> `Product Design:design-qa`

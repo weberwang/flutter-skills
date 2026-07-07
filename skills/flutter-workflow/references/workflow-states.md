@@ -19,9 +19,8 @@ Use this reference when classifying `current_phase`, `current_stage`, module mat
 | `phase_1_module_scope_frozen` | Launch module boundaries and active module ownership are frozen. | `phase_1_impl_contract_frozen` |
 | `phase_1_impl_contract_frozen` | Launch implementation contract is frozen strongly enough to build the launch prototype. | `phase_1_prototype_ready` |
 | `phase_1_prototype_ready` | The launch prototype exists and is reviewable. | `phase_1_structure_frozen` |
-| `phase_1_structure_frozen` | Launch structure, primary CTA posture, and key state boundaries are frozen from the launch prototype. | `phase_1_effect_image_ready` |
-| `phase_1_effect_image_ready` | Launch effect image is confirmed under the frozen launch structure. | `phase_1_pencil_ready` |
-| `phase_1_pencil_ready` | Launch Pencil design source is confirmed and aligned to the approved launch effect image. | `phase_1_design_frozen` |
+| `phase_1_structure_frozen` | Launch structure, primary CTA posture, and key state boundaries are frozen from the launch prototype. | `phase_1_pencil_ready` |
+| `phase_1_pencil_ready` | Launch Pencil design source is confirmed and aligned to the approved launch prototype evidence. | `phase_1_design_frozen` |
 | `phase_1_design_frozen` | Launch freeze is complete and the launch Pencil design source is the frozen design baseline. | `phase_1_restoration_ready` |
 | `phase_1_restoration_ready` | Launch Pencil-to-Flutter restoration contract exists and is confirmed. | `phase_1_asset_enhancement_ready` |
 | `phase_1_asset_enhancement_ready` | Launch asset-enhancement resolution is complete. Any `atlas_required` launch regions already have the required atlas-analysis, generation, background-processing, slicing, and asset-integration outputs. | `phase_1_implementing` |
@@ -46,6 +45,9 @@ Use this reference when classifying `current_phase`, `current_stage`, module mat
 | `phase_2_implementing` | Premium implementation upgrade is in progress. | `phase_2_parity_qa_ready` |
 | `phase_2_parity_qa_ready` | Premium implementation is ready for design parity QA. | `phase_2_done` |
 | `phase_2_done` | Premium enhancement has passed parity review and human acceptance. | maintain index only |
+
+The final app-page acceptance must happen only at the end of the workflow.
+human visual inspection remains the final acceptance owner.
 
 ## Control States
 
