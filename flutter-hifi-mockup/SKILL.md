@@ -1,0 +1,71 @@
+---
+name: flutter-hifi-mockup
+description: Use when generating, selecting, reviewing, or freezing high-fidelity visual mockups, effect images, design references, image prompts, screen concepts, or visual target artifacts before Flutter UI implementation.
+---
+
+# Flutter HiFi Mockup
+
+## Overview
+
+Use this skill to confirm UX/UI direction with high-fidelity effect images. Global mockups confirm visual direction and design-system intent; page-level mockups confirm implementation targets after low-fidelity structure and Wireframe Review.
+
+## When to Use
+
+Use this before implementation when:
+
+- The user asks for effect images, high-fidelity mockups, visual concepts, app screen design, or visual direction.
+- The screen is commercially important: onboarding, home, paywall, checkout, dashboard, editor, settings, or error recovery.
+- The UI brief contains vague terms such as "premium", "clean", "modern", or "high quality".
+- UX/UI needs approval and text alone would be too abstract.
+- The implementation team needs a visual target for Flutter widgets, tokens, layout, and states.
+- A module or page implementation task is about to start and lacks approved page-level visual evidence.
+
+## Inputs
+
+- Product brief and MVP scope.
+- User flow and screen spec.
+- Reviewed low-fidelity Pencil structure and `docs/design/wireframe-spec.md` for page-level module work.
+- Brand constraints or references, if available.
+- Target device class: phone, tablet, or responsive set.
+- Required states: success, loading, empty, error, disabled, permission, paywall.
+
+## Workflow
+
+1. Classify the mockup as global direction or page-level implementation target.
+2. For page-level module work, confirm `docs/design/wireframe-spec.md` exists before writing the mockup brief.
+3. Write a mockup brief for the current module or page with [references/mockup-brief-template.md](references/mockup-brief-template.md).
+4. Generate 2-4 visual directions for the same screen or flow.
+5. Review directions with [references/mockup-review-rubric.md](references/mockup-review-rubric.md).
+6. Select one direction or combine explicit traits from multiple directions.
+7. Inventory illustrations, bitmaps, logos, photos, textures, and generated assets with [references/asset-inventory-template.md](references/asset-inventory-template.md).
+8. Freeze implementation constraints with [references/design-freeze-template.md](references/design-freeze-template.md).
+9. If editable design handoff is required for the page task, use `flutter-pencil-design` to restore the approved page direction in Pencil.
+10. Hand off the frozen constraints and optional Pencil restoration to `flutter-ux-ui-quality` and the implementation task.
+
+## Output Files
+
+- `docs/design/mockup-brief.md`
+- `docs/design/mockup-review.md`
+- `docs/design/asset-inventory.md` when visual assets are present
+- `docs/design/design-freeze.md`
+- mockup image paths recorded in `.codex-workflow/progress.md`
+
+For multiple pages, use page-scoped paths such as `docs/design/pages/<page-name>/design-freeze.md` and keep the same contracts.
+
+## Generation Rules
+
+- Generate screen-specific mockups, not generic mood boards.
+- Do not use global direction mockups as page implementation approval.
+- Generate page-level mockups close to implementation time so they reflect the current task scope and Flutter constraints.
+- For module page work, generate the high-fidelity effect image after low-fidelity Pencil structure has passed Wireframe Review.
+- Include realistic app content, not filler names or fake vanity metrics.
+- Use mockups to confirm UX/UI hierarchy, density, visual direction, and interaction intent before relying on text specs.
+- Keep platform feasibility in mind: Flutter Material 3, custom tokens, normal widget composition.
+- Cover the most important state first; generate secondary states when they affect layout or trust.
+- Do not treat an image as implementation truth until it is reviewed and converted into design-freeze constraints.
+- If Pencil is used later, allow it to carry page-level high-fidelity visual restoration only after the selected page mockup is reviewed and converted into `design-freeze.md`.
+- Treat every required bitmap or illustration as an asset with source, license, format, Flutter path, and fidelity requirements.
+
+## Gate
+
+Do not generate page-level high-fidelity mockups for module work until low-fidelity Pencil structure, Wireframe Review, and `docs/design/wireframe-spec.md` exist. Do not treat global visual direction as page implementation approval. Do not approve UX/UI or start Flutter UI implementation for a high-value screen until a selected page-level high-fidelity effect image or an explicit "no mockup needed" decision is recorded. If the mockup contains required bitmaps or illustrations, `docs/design/asset-inventory.md` is also required.

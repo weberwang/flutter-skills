@@ -1,0 +1,4 @@
+interface:
+  display_name: "Flutter Subagent Delivery"
+  short_description: "Run implementation through Codex subagents."
+  default_prompt: "Use $flutter-subagent-delivery to execute a Flutter implementation plan with subagents."

@@ -1,14 +1,7 @@
 {
   "name": "flutter-skills",
   "version": "0.1.0",
-  "description": "Install Flutter workflow skills into the current project's .agents/skills directory.",
-  "bin": {
-    "flutter-skills": "./bin/flutter-skills.js"
-  },
-  "files": [
-    "bin",
-    "skills",
-    "README.md"
-  ],
+  "description": "Flutter commercial app delivery skills for Codex.",
+  "private": true,
   "license": "UNLICENSED"
 }

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Flutter Release Readiness"
+  short_description: "Check Flutter app store release readiness."
+  default_prompt: "Use $flutter-release-readiness to prepare a Flutter app for release."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Flutter Tech Design"
+  short_description: "Create Flutter app architecture decisions."
+  default_prompt: "Use $flutter-tech-design to produce a Flutter technical design."

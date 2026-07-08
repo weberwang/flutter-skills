@@ -1,4 +1,0 @@
-interface:
-  display_name: "Design Preview To Global Guidelines"
-  short_description: "Freeze global guidance and dual themes"
-  default_prompt: "Use $design-preview-to-global-guidelines to analyze design previews or screenshots, extract the product's global visual and UI/UX guidance, and freeze typography hierarchy, contrast intent, CTA posture, and concrete light and dark theme values that downstream Flutter skills and optional external design adapters must consume without reinterpretation."

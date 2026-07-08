@@ -1,5 +1,0 @@
-interface:
-  display_name: "UI Sheet Atlas Slicer"
-  short_description: "Cut a confirmed UI atlas from config"
-  default_prompt: "Use $ui-sheet-atlas-slicer when a confirmed UI-only atlas bundle already exists and the workflow needs one deterministic slicing stage before later Pencil or implementation work continues. Read the atlas config, run the bundled generic slicing script, emit one file per exported slice plus a slice result manifest, and report exported, skipped, and failed slices without inventing new slice bounds."
-

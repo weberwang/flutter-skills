@@ -1,4 +1,0 @@
-interface:
-  display_name: "Flutter PRD RD Writer"
-  short_description: "Generate global Flutter technical baselines from PRDs"
-  default_prompt: "Use $flutter-prd-rd-writer to turn a PRD or feature brief into a global Flutter technical baseline with architecture, package stack choices, backend collaboration, and fullchain delivery guidance before module-level detailed design. Respect upstream PRD scope boundaries, assumptions, completeness findings, and handoff constraints instead of silently inventing missing product decisions."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Flutter Pencil Design"
+  short_description: "Turn Pencil designs into Flutter specs."
+  default_prompt: "Use $flutter-pencil-design to turn Pencil wireframes or high-fidelity restoration into reviewed Flutter text specs."

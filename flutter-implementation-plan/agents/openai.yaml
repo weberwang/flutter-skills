@@ -1,0 +1,4 @@
+interface:
+  display_name: "Flutter Implementation Plan"
+  short_description: "Split Flutter specs into buildable tasks."
+  default_prompt: "Use $flutter-implementation-plan to create a milestone plan."

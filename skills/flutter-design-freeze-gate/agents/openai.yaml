@@ -1,4 +1,0 @@
-interface:
-  display_name: "Flutter Design Freeze Gate"
-  short_description: "Enforce explicit design approval before architecture or Flutter work"
-  default_prompt: "Use $flutter-design-freeze-gate to verify that a Flutter shared or module design freeze has an approved UI/UX packet, frozen design-source evidence, complete visual evidence, no unresolved information-hierarchy or key-task-guidance failures, clear typography and contrast, explicit CTA clarity, immutable design constraints, and the right approval state before module splitting, architecture, or code work proceeds. For module implementation handoff, evaluate high-fidelity visual fidelity first and return `high_fidelity_freeze_status` as passed, approved_reduction, blocked, or not_evaluated; block freeze when visual fidelity is vague, missing, or deferred to implementation polish."

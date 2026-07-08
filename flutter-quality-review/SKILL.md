@@ -1,0 +1,65 @@
+---
+name: flutter-quality-review
+description: Use when reviewing a Flutter app, feature branch, screen, implementation task, UI evidence, tests, architecture, security, privacy, monetization, or commercial delivery quality before accepting work.
+---
+
+# Flutter Quality Review
+
+## Overview
+
+Review like a release-blocking commercial app gate. Findings lead; summaries are secondary.
+
+## Review Inputs
+
+- Product scope and task brief.
+- Project-local `flutter-dev` implementation constraints.
+- Module map and implementation plan.
+- High-fidelity mockup and design-freeze constraints when present.
+- Asset inventory when illustrations, bitmaps, logos, photos, textures, or generated visual assets are present.
+- Wireframe text spec, Pencil intake, high-fidelity Pencil restoration decision and reason, restoration evidence when required, and handoff when Pencil is present.
+- Technical design or relevant architecture decisions.
+- Diff or changed files.
+- Test commands and outputs.
+- Screenshots or golden evidence for UI changes.
+
+## Rubric
+
+Use [references/review-rubric.md](references/review-rubric.md). Always check:
+
+- Spec compliance.
+- Module dependency, cross-module contract, and page interaction order compliance.
+- Module acceptance and integration smoke results when module boundaries, routes, cross-module contracts, or user flows change.
+- User path completeness.
+- UI state coverage.
+- Page design gate order: low-fidelity Pencil structure, Wireframe Review, wireframe text spec, high-fidelity effect image, design-freeze, restoration decision, then required restoration evidence.
+- Pencil high-fidelity restoration decision quality: required screens are not skipped, and Not required decisions have a reason.
+- Mockup parity and recorded design deviations when a high-fidelity mockup exists.
+- Asset source, license, Flutter path, fallback, and fidelity compliance.
+- Wireframe spec, Pencil restoration, and recorded deviation compliance when Pencil is used.
+- Mobile and accessibility risks.
+- State management and data flow.
+- Fixed stack compliance: Riverpod, hooks, Freezed, fpdart, json generation, and ScreenUtil.
+- Annotation generation compliance: Freezed/json annotations and `build_runner` output for generated models, states, failures, unions, and DTOs.
+- Error handling and recoverability.
+- Payment, privacy, account, analytics, and crash reporting when in scope.
+- Test sufficiency.
+- Overengineering and unnecessary abstractions.
+
+## Output Shape
+
+Report in this order:
+
+1. Findings by severity with file and line references where available.
+2. Missing evidence.
+3. Open questions.
+4. Short summary.
+
+Severity:
+
+- Critical: blocks release or breaks core path.
+- Important: must fix before accepting the task.
+- Minor: should fix if cheap or track in ledger.
+
+## Gate
+
+If no issues are found, say so clearly and list residual risks or missing evidence. Do not approve if the task brief, module map, init report, generated `flutter-dev` path, required wireframe text spec, Pencil high-fidelity restoration decision and reason, required restoration evidence, required screenshots, or required tests are absent. Require module acceptance result and integration smoke result only when the task changes module boundaries, routes, cross-module contracts, or user flows; otherwise require `N/A: <reason>`.
