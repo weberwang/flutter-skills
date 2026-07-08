@@ -13,6 +13,8 @@ In this workflow, `DESIGN.md` must:
 - exist before downstream design-source execution
 - be self-contained
 - avoid references to other repo files, variables, or paths
+- consume the already decided design constraint package instead of replacing it
+- consume resolved human decision recommendations instead of restating upstream decision scaffolding
 
 ## Required Shape
 
@@ -32,6 +34,13 @@ The goal is not only visual consistency. A high-quality `DESIGN.md` in this work
 - one frozen base design viewport plus one frozen `image_output_scale` for the current design cycle
 - content and brand tone consistency
 - shared shell and shared component consistency
+
+`DESIGN.md` is not the place to collect every unresolved upstream decision.
+Keep the upstream split clean:
+
+1. `design_constraint_package.md` defines product and design boundaries.
+2. `human_decision_recommendation_package.md` presents the constrained human choices.
+3. `DESIGN.md` translates the confirmed result into a stable downstream design system packet.
 
 ## Minimum YAML Schema
 

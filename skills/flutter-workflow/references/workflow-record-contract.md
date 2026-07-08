@@ -12,6 +12,9 @@ If persistence is needed, prefer an untracked runtime location such as:
 
 Project-level durable workflow artifacts still default to `docs/project/` unless a downstream contract explicitly requires another path.
 
+The runtime workflow record is an internal orchestrator artifact.
+Do not treat it as a substitute for outward-facing design artifacts such as `design_constraint_package.md` or `human_decision_recommendation_package.md`.
+
 ## Purpose
 
 When persisted, this runtime artifact is the single stable source for workflow state for that run.
@@ -188,6 +191,8 @@ At minimum, index:
 
 - PRD path
 - page-navigation-flow path
+- design constraint package path
+- human decision recommendation package path
 - `DESIGN.md` path
 - premium effect-image paths
 - launch Pencil design source path

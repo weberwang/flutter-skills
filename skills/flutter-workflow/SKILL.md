@@ -295,6 +295,20 @@ Use `Product Design:ideate` as the default design-controller-owned path for dire
 - `data_excluded_placeholder`
 - `atlas background is solid-color`
 
+## Design Input Artifact Set
+
+For commercial app design work, keep the outward-facing design inputs minimal and non-overlapping:
+
+1. `design_constraint_package.md`
+2. `human_decision_recommendation_package.md`
+
+Treat the runtime workflow record as internal orchestrator state rather than a third outward-facing design artifact.
+
+Use the design constraint package to freeze product, interaction, visual, and implementation boundaries.
+Use the human decision recommendation package to present 2-3 recommended options whenever human confirmation is still required for style, reference band, or restoration tradeoffs.
+Do not force `DESIGN.md` to carry all upstream decision scaffolding.
+Do not force the human reviewer to answer open-ended style questions from scratch.
+
 ## Output Language Rule
 
 Unless the user explicitly requests another language for a specific artifact, all workflow-generated human-readable project artifacts must use Simplified Chinese, including PRD text, notes, workflow records, review notes, and visible prototype copy.
@@ -306,6 +320,8 @@ Read these references as needed:
 - `references/workflow-states.md`
 - `references/routing-rules.md`
 - `references/control-contracts.md`
+- `references/design-constraint-package-template.md`
+- `references/human-decision-recommendation-template.md`
 - `references/workflow-record-contract.md`
 - `references/hard-rules.md`
 - `references/execution-modes.md`

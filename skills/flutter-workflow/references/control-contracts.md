@@ -174,6 +174,21 @@ Use this normalized decision payload when possible:
 - `default_recommendation`
 - `human_action_required`
 
+## Design Input Artifact Contract
+
+When the workflow is preparing or consuming product-design inputs, keep the artifact split explicit:
+
+1. `design_constraint_package.md`
+2. `human_decision_recommendation_package.md`
+3. runtime workflow record
+
+The first two are outward-facing design collaboration artifacts.
+The runtime workflow record is internal orchestrator state.
+
+Do not ask the human for design direction before the design constraint package has captured the current product, interaction, visual, and implementation boundaries strongly enough.
+Do not ask the human to provide freeform style answers when the recommendation package can present 2-3 constrained options instead.
+Do not persist the recommendation package as if it were the workflow state file.
+
 ## Module Artifact Maturity
 
 Track module maturity in addition to `current_phase` and `current_stage`.
