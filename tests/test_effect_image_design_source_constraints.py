@@ -29,6 +29,8 @@ WORKFLOW_SKILL_SNIPPETS = [
 
 HARD_RULE_SNIPPETS = [
     "Do not treat ad creative, marketing compositions, or flighty concept mock output as valid product effect-image evidence.",
+    "Do not keep decorative detail in a product effect image when it adds no functional value, no hierarchy value, and no brand value.",
+    "Every accepted decorative treatment in a product effect image must strengthen function recognition, hierarchy separation, brand memory, or state feedback.",
     "Do not replace an approved effect-image-backed design route with prototype screenshots or speculative redesign input.",
 ]
 
@@ -36,6 +38,12 @@ DESIGN_GUIDANCE_SNIPPETS = [
     "flighty concept mock treatment",
     "If an image feels flashy before it feels shippable as a product screen, reject it.",
     "visual experience must still serve product-task clarity",
+    "Reject decorative detail that has no functional, hierarchical, or brand value.",
+    "strengthen functional recognition",
+    "strengthen hierarchy separation",
+    "strengthen brand memory",
+    "strengthen state feedback",
+    "treat it as invalid decoration and remove it",
 ]
 
 PENCIL_SKILL_SNIPPETS = [

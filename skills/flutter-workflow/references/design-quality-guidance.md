@@ -145,6 +145,17 @@ If an image feels impressive but the user cannot imagine shipping it as an actua
 If an image feels flashy before it feels shippable as a product screen, reject it.
 visual experience must still serve product-task clarity.
 
+Reject decorative detail that has no functional, hierarchical, or brand value.
+
+Every decorative treatment in a product effect image must do at least one of these:
+
+- strengthen functional recognition
+- strengthen hierarchy separation
+- strengthen brand memory
+- strengthen state feedback
+
+If a visual detail does not improve task understanding, does not clarify hierarchy, and does not belong to the product's brand language, treat it as invalid decoration and remove it.
+
 ## 5C. Commercial Trust And Premium Confidence
 
 High-commercial-value product surfaces must create confidence before they ask for effort, data, money, or commitment.

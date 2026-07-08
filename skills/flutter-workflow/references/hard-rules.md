@@ -27,6 +27,8 @@ Use this reference before applying any state promotion, freeze decision, impleme
 - Do not skip the Pencil step in either phase.
 - Do not skip asset-enhancement resolution in either phase.
 - Do not treat ad creative, marketing compositions, or flighty concept mock output as valid product effect-image evidence.
+- Do not keep decorative detail in a product effect image when it adds no functional value, no hierarchy value, and no brand value.
+- Every accepted decorative treatment in a product effect image must strengthen function recognition, hierarchy separation, brand memory, or state feedback.
 - Do not replace an approved effect-image-backed design route with prototype screenshots or speculative redesign input.
 - Do not allow a non-transparent atlas background to enter the transparent slicing route.
 - Do not bake runtime data layers into the atlas.

@@ -194,6 +194,7 @@ Produce recommended options first through `human_decision_recommendation_package
 - Effect image is the only visual input for later structured design generation:
 - Product-surface requirements it must prove:
 - Things that must never appear:
+- Decorative detail rejection rule:
 - Regions that must remain commercially shippable:
 - Restoration fidelity expectations:
 
@@ -209,6 +210,8 @@ Produce recommended options first through `human_decision_recommendation_package
 
 - Keep the package product-facing rather than art-poster-facing.
 - Reject ad-like, landing-hero-like, or concept-only language for product surfaces.
+- Reject decorative detail that has no functional value, no hierarchy value, and no brand value.
+- Require every accepted decorative treatment to strengthen function recognition, hierarchy separation, brand memory, or state feedback.
 - Prefer explicit boundaries over vague adjectives.
 - Every line should be actionable by design generation, Pencil structuring, or implementation review.
 - If a section is unknown, mark it explicitly instead of skipping it.

@@ -26,6 +26,12 @@ HUMAN_DECISION_TEMPLATE = (
     / "human-decision-recommendation-template.md"
 )
 
+DESIGN_CONSTRAINT_TEMPLATE_SNIPPETS = [
+    "Decorative detail rejection rule:",
+    "Reject decorative detail that has no functional value, no hierarchy value, and no brand value.",
+    "Require every accepted decorative treatment to strengthen function recognition, hierarchy separation, brand memory, or state feedback.",
+]
+
 
 class DesignInputArtifactTemplatesTest(unittest.TestCase):
     """Verify the two outward-facing design templates and the internal state split."""
@@ -64,6 +70,12 @@ class DesignInputArtifactTemplatesTest(unittest.TestCase):
         self.assertIn("consume resolved human decision recommendations instead of restating upstream decision scaffolding", content)
         self.assertIn("human_decision_recommendation_package.md", content)
         self.assertIn("stable downstream design system packet", content)
+
+    def test_design_constraint_template_captures_no_empty_decoration_rule(self) -> None:
+        """The design constraint template should carry the effect-image anti-decoration rule."""
+        content = DESIGN_CONSTRAINT_TEMPLATE.read_text(encoding="utf-8")
+        for snippet in DESIGN_CONSTRAINT_TEMPLATE_SNIPPETS:
+            self.assertIn(snippet, content)
 
 
 if __name__ == "__main__":
