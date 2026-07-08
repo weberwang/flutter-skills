@@ -27,6 +27,8 @@ When the route has entered effect-image-backed design execution, the approved ef
 `flutter-workflow` is the traffic controller. It chooses the next specialist skill, records state, blocks skipped gates, waits for explicit confirmation in manual mode, and keeps one stable workflow truth model for the whole project.
 
 It must also minimize confirmation churn. Once the workflow has already frozen the only supported upstream decision, do not ask the user to reconfirm the same deterministic downstream default.
+human decision nodes must receive multiple recommended options first.
+When a human must decide, provide one primary recommendation and explain why each option fits or risks the PRD.
 
 On the first call for a target project root, run a lightweight git preflight before any downstream routing: check whether `.git/` already exists, whether `git status` is readable in that root, and whether a root `.gitignore` baseline already exists. If any repository-baseline item is missing, keep that finding in the route context and let `flutter-init` own the actual `git init` plus `.gitignore` creation or repair.
 

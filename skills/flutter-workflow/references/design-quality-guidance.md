@@ -199,6 +199,37 @@ Useful inherited categories include:
 
 Avoid statements such as "inspired by modern fintech apps" without naming which decisions were actually carried forward.
 
+## 5E. Brand Visual World Extraction
+
+When the user provides a high-quality brand or visual prompt, extract the reusable common layer before sending anything downstream.
+
+Keep the extracted packet project-agnostic first, then bind project-specific nouns such as company name, logo subject, mascot subject, hero object, or campaign title later.
+
+For premium-but-playful brand systems, capture the core tension explicitly:
+
+- playful energy and premium creative-tech polish
+- approachable_but_art_directed
+
+Prefer reusable brand-language primitives such as:
+
+- high-saturation bright color
+- clean geometric form
+- modern typography system
+- dynamic visual rhythm
+- light surreal image posture
+
+When the prompt points to a broader brand world, preserve cross-surface world-building goals rather than only local screen styling:
+
+- product obsession
+- visual experimentation
+- packaging exploration
+- editorial photography
+- immersive retail
+- cross-platform brand application
+
+Do not copy project-private nouns into the reusable layer unless they are required downstream as explicit placeholders.
+Do not let one good prompt collapse into one aesthetic adjective. Extract the tension, visual language, world-building surfaces, and avoid-list separately so later workflow steps can reuse them without restating the whole prompt.
+
 ## 6. Mobile UI Is Not A Shrunk Desktop UI
 
 Mobile requires re-composition, not compression.

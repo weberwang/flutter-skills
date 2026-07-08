@@ -122,8 +122,20 @@ Recommended extension sections for this workflow:
 - `## Content & Tone`
 - `## Trust Signals`
 - `## Commercial Tone & Confidence`
+- `## Brand Visual World`
 
 If you add these extension sections, place them after `## Components` and before `## Do's and Don'ts`.
+
+When the upstream direction includes a reusable brand-world prompt packet, preserve it in normalized form instead of copying long raw prompt prose.
+
+Recommended machine-readable keys for that packet:
+
+- `brand_world_prompt_packet`
+- `core_tension`
+- `playful_premium_balance`
+- `visual_language`
+- `world_building_surfaces`
+- `approachable_but_art_directed`
 
 ## Writing Rules
 
@@ -312,6 +324,19 @@ Describe which confidence cues must appear for the product class, where they sho
 ## Commercial Tone & Confidence
 
 Describe the target market maturity, the competitive reference band, the intended premium feel, and which visual or structural decisions make the surface feel commercially ready rather than merely attractive.
+
+## Brand Visual World
+
+When the project includes a broader brand system, normalize the reusable packet here instead of pasting one huge raw prompt.
+
+Recommended sub-structure:
+
+- `brand_world_prompt_packet`: short summary of the reusable brand-world brief
+- `core_tension`: the main balance such as playful energy vs premium restraint
+- `playful_premium_balance`: how toy-like vitality and polished creative-tech confidence coexist
+- `visual_language`: palette, geometry, type, rhythm, motion, image posture
+- `world_building_surfaces`: which touchpoints the world must cover, such as packaging, editorial, retail, and cross-platform application
+- `approachable_but_art_directed`: how the system stays understandable while keeping studio-grade direction
 
 ## Do's and Don'ts
 

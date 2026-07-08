@@ -158,6 +158,21 @@ In `--full-auto`, also auto-apply deterministic human-facing gates when exactly 
 Do not create a fresh human confirmation gate when the user already approved the only supported upstream direction and the new artifact only proves that deterministic route.
 Collapse stacked confirmations into one human decision when the later confirmations would not unlock any alternate downstream route.
 Keep human confirmation only for true branch selection, unresolved reuse ambiguity, external project binding, or final human visual acceptance.
+Before asking for a human decision on direction, style, reference band, or restoration tradeoff, present 2-3 recommended options first.
+Every option should include fit reason, risk, and recommendation strength.
+When one option is clearly strongest, mark it as the default recommendation instead of asking the human to start from a blank slate.
+
+Use this normalized decision payload when possible:
+
+- `decision_topic`
+- `recommended_options`
+- `title`
+- `summary`
+- `fit_reason`
+- `risks`
+- `recommendation_strength`
+- `default_recommendation`
+- `human_action_required`
 
 ## Module Artifact Maturity
 
