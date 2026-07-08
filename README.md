@@ -4,45 +4,51 @@
 
 ## 一句命令安装
 
-不克隆仓库，不依赖 Python、git、Codex 内置 installer 或 PowerShell 脚本。只需要本机已有 Node.js/npm 提供的 `npx`：
+不克隆仓库，不使用压缩包 URL。直接从 GitHub 仓库安装：
 
 ```powershell
-npx --yes --package https://github.com/weberwang/flutter-skills/archive/refs/heads/master.tar.gz flutter-skills
+npx -y github:weberwang/flutter-skills
 ```
 
-默认安装到：
+默认安装到当前执行命令目录下的 `.agents/skills`。安装完成后重启 Codex，让新 skills 生效。
+
+例如在 `D:\Git\my-app` 下执行，默认安装到：
 
 ```text
-$env:USERPROFILE\.agents\skills
+D:\Git\my-app\.agents\skills
 ```
-
-安装完成后重启 Codex，让新 skills 生效。
 
 ## 可选参数
 
 安装到指定目录：
 
 ```powershell
-npx --yes --package https://github.com/weberwang/flutter-skills/archive/refs/heads/master.tar.gz flutter-skills --dest "D:\codex-skills"
+npx -y github:weberwang/flutter-skills --dest "D:\codex-skills"
+```
+
+安装到 Codex 个人 skills 目录：
+
+```powershell
+npx -y github:weberwang/flutter-skills --dest "$env:USERPROFILE\.agents\skills"
 ```
 
 覆盖已存在的同名 skill：
 
 ```powershell
-npx --yes --package https://github.com/weberwang/flutter-skills/archive/refs/heads/master.tar.gz flutter-skills --force
+npx -y github:weberwang/flutter-skills --force
 ```
 
 只查看将要安装的内容，不写入文件：
 
 ```powershell
-npx --yes --package https://github.com/weberwang/flutter-skills/archive/refs/heads/master.tar.gz flutter-skills --dry-run
+npx -y github:weberwang/flutter-skills --dry-run
 ```
 
-也可以用环境变量指定默认安装目录：
+也可以用环境变量覆盖默认安装目录：
 
 ```powershell
 $env:FLUTTER_SKILLS_DEST = "D:\codex-skills"
-npx --yes --package https://github.com/weberwang/flutter-skills/archive/refs/heads/master.tar.gz flutter-skills
+npx -y github:weberwang/flutter-skills
 ```
 
 ## 包含的 Skills
@@ -103,11 +109,11 @@ node .\bin\install-flutter-skills.js --dry-run
 安装器默认拒绝覆盖已存在的 skill，避免覆盖本地修改。需要重装时，使用：
 
 ```powershell
-npx --yes --package https://github.com/weberwang/flutter-skills/archive/refs/heads/master.tar.gz flutter-skills --force
+npx -y github:weberwang/flutter-skills --force
 ```
 
-如果只想删除某一个 skill：
+如果只想删除当前目录下的某一个 skill：
 
 ```powershell
-Remove-Item -Recurse -Force "$env:USERPROFILE\.agents\skills\flutter-app-orchestrator"
+Remove-Item -Recurse -Force ".\flutter-app-orchestrator"
 ```
