@@ -3,5 +3,26 @@
   "version": "0.1.0",
   "description": "Flutter commercial app delivery skills for Codex.",
   "private": true,
-  "license": "UNLICENSED"
+  "license": "UNLICENSED",
+  "files": [
+    "bin",
+    "flutter-app-orchestrator",
+    "flutter-product-spec",
+    "flutter-ux-ui-quality",
+    "flutter-hifi-mockup",
+    "flutter-pencil-design",
+    "flutter-tech-design",
+    "flutter-project-init",
+    "flutter-implementation-plan",
+    "flutter-subagent-delivery",
+    "flutter-quality-review",
+    "flutter-release-readiness",
+    "README.md"
+  ],
+  "bin": {
+    "flutter-skills": "./bin/install-flutter-skills.js"
+  },
+  "scripts": {
+    "install:remote": "node ./bin/install-flutter-skills.js"
+  }
 }
