@@ -27,7 +27,10 @@ Must not do:
 - UI brief:
 - Design freeze:
 - Wireframe spec:
+- Asset atlas:
+- Asset slicing manifest:
 - Asset inventory:
+- Asset fidelity review:
 - Pencil handoff:
 - Pencil high-fidelity restoration decision:
 - Pencil high-fidelity restoration reason:
@@ -49,6 +52,10 @@ If yes:
 - Selected high-fidelity mockup:
 - Approval record:
 - Design freeze:
+- Asset atlas:
+- Asset slicing manifest:
+- Asset inventory:
+- Asset fidelity review:
 - Pencil high-fidelity restoration decision:
 - Pencil high-fidelity restoration reason:
 - Pencil high-fidelity restoration:
@@ -95,6 +102,10 @@ If yes:
 - Screenshot path:
 - Mockup source:
 - Required assets:
+- Asset atlas:
+- Asset slicing manifest:
+- Asset inventory:
+- Asset fidelity review:
 - Low-fidelity Pencil source:
 - Pencil high-fidelity restoration decision:
 - Pencil high-fidelity restoration reason:

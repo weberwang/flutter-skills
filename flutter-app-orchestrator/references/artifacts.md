@@ -126,6 +126,34 @@ For module or page-level UI work, store repeated design artifacts under a page o
 - Parity findings.
 - Accepted deviations.
 
+`docs/design/asset-atlas.md`
+
+- Page or module.
+- Approved mockup.
+- Asset groups.
+- Source or generation plan.
+- Flutter mapping.
+- Open asset decisions.
+
+`docs/design/asset-slicing-manifest.md`
+
+- Export batch.
+- Output files.
+- Format.
+- Logical and pixel size.
+- DPR.
+- Flutter path.
+- `pubspec.yaml` entries.
+
+`docs/design/asset-fidelity-review.md`
+
+- Approved mockup.
+- Atlas and slicing manifest.
+- Per-asset match verdict.
+- Tolerance.
+- Approved deviations.
+- Blocking fixes.
+
 `docs/design/asset-inventory.md`
 
 - Asset list.

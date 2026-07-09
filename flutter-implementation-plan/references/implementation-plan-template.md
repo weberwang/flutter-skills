@@ -7,7 +7,7 @@
 - Use the generated project-local `flutter-dev` skill for implementation tasks.
 - Do not add features outside MVP scope.
 - UI tasks require screenshot or golden evidence.
-- UI page tasks require low-fidelity Pencil structure, Wireframe Review, page-level high-fidelity mockup approval, design-freeze constraints, Pencil high-fidelity restoration decision, required restoration evidence, and Flutter handoff before page code starts.
+- UI page tasks require low-fidelity Pencil structure, Wireframe Review, page-level high-fidelity mockup approval, design-freeze constraints, required asset atlas evidence, Pencil high-fidelity restoration decision, required restoration evidence, and Flutter handoff before page code starts.
 - Module tasks must follow `docs/plans/module-map.md` for module dependencies, cross-module contracts, and page interaction order.
 - Every task requires verification output.
 
@@ -42,6 +42,7 @@
 - Screens or flows:
 - Mockup evidence:
 - Design-freeze outputs:
+- Asset atlas outputs:
 - Verification:
 
 ### M2: Core Data and Services

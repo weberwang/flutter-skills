@@ -27,9 +27,10 @@ Do not jump from idea to code. Move through product, UX/UI, technical design, im
 ### Module Delivery
 
 7. Execute tasks with `flutter-subagent-delivery`; each UI module or page task must first create a low-fidelity Pencil structure, pass Wireframe Review, convert it into text specs, then generate and approve a page-level high-fidelity effect image.
-8. After page-level high-fidelity approval, decide whether Pencil high-fidelity restoration is required. Restore the page in Pencil when required, then implement the Flutter page from text specs and handoff artifacts.
-9. Review delivery with `flutter-quality-review`.
-10. Check store and business release readiness with `flutter-release-readiness`.
+8. After page-level high-fidelity approval and design freeze, use `flutter-asset-atlas` when the page has required visual assets that need generation, slicing, export, inventory, or fidelity review.
+9. Decide whether Pencil high-fidelity restoration is required. Restore the page in Pencil when required, then implement the Flutter page from text specs and handoff artifacts.
+10. Review delivery with `flutter-quality-review`.
+11. Check store and business release readiness with `flutter-release-readiness`.
 
 ## Required Artifacts
 
@@ -49,6 +50,9 @@ Create or update these files in the target app repo:
 - `docs/design/wireframe-review.md`
 - `docs/design/wireframe-spec.md`
 - `docs/design/pencil-parity-review.md`
+- `docs/design/asset-atlas.md`
+- `docs/design/asset-slicing-manifest.md`
+- `docs/design/asset-fidelity-review.md`
 - `docs/design/asset-inventory.md`
 - `docs/design/design-freeze.md`
 - `docs/architecture/flutter-init.md`
@@ -71,9 +75,9 @@ Use [references/artifacts.md](references/artifacts.md) for the artifact contract
 - No page implementation readiness from global high-fidelity direction alone; global mockups do not replace page-level design gates.
 - No page-level high-fidelity mockup before the current page task has a low-fidelity Pencil structure, Wireframe Review, and `docs/design/wireframe-spec.md`.
 - No page UI implementation before the current page task has a reviewed low-fidelity structure, selected high-fidelity effect image, recorded approval, design-freeze constraints, and a recorded Pencil high-fidelity restoration decision.
-- No high-fidelity Pencil restoration before Flutter initialization, Wireframe Review, `docs/design/wireframe-spec.md`, and page-level mockup approval.
+- No high-fidelity Pencil restoration before Flutter initialization, Wireframe Review, `docs/design/wireframe-spec.md`, page-level mockup approval, design freeze, and required asset atlas evidence.
 - No implementation from raw Pencil images; Pencil wireframes or high-fidelity restorations must be converted into text specs and `docs/design/pencil-flutter-handoff.md`.
-- No visual implementation completion when required illustrations or bitmaps lack an asset inventory entry with source, license status, Flutter path, and fidelity review.
+- No high-fidelity Pencil restoration or Flutter UI implementation when required illustrations, bitmaps, logos, textures, generated images, or visual exports lack asset atlas, slicing manifest, asset inventory, Flutter path, license status, and fidelity review.
 - No UI completion claim before screenshots or Flutter golden evidence exist.
 - No task completion before `flutter analyze` and relevant tests are reported.
 - No delivery completion while Critical or Important review findings remain open.
@@ -92,6 +96,7 @@ Use subagents for independent product, UX, architecture, review, and release che
 - Treating global high-fidelity direction as a substitute for page-level low-fidelity structure, Wireframe Review, and page mockup approval.
 - Splitting modules only by code folders instead of product flow, data ownership, routing, and page interaction order.
 - Generating page-level high-fidelity mockups before the page structure is reviewed and converted into text specs.
+- Skipping asset atlas and slicing when the approved mockup contains required visual assets.
 - Reading `.pen` files with normal filesystem tools instead of Pencil tools.
 - Passing Pencil screenshots or restored Pencil frames directly to implementation agents instead of converting them into text specs.
 - Skipping high-fidelity Pencil restoration when the user expects Pencil to carry the approved visual target.

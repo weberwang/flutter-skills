@@ -8,6 +8,7 @@ const SKILL_NAMES = [
   "flutter-product-spec",
   "flutter-ux-ui-quality",
   "flutter-hifi-mockup",
+  "flutter-asset-atlas",
   "flutter-pencil-design",
   "flutter-tech-design",
   "flutter-project-init",

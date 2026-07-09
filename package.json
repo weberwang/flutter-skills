@@ -1,6 +1,6 @@
 {
   "name": "flutter-skills",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Flutter commercial app delivery skills for Codex.",
   "private": true,
   "license": "UNLICENSED",
@@ -10,6 +10,7 @@
     "flutter-product-spec",
     "flutter-ux-ui-quality",
     "flutter-hifi-mockup",
+    "flutter-asset-atlas",
     "flutter-pencil-design",
     "flutter-tech-design",
     "flutter-project-init",

@@ -37,15 +37,18 @@ Use this before implementation when:
 4. Generate 2-4 visual directions for the same screen or flow.
 5. Review directions with [references/mockup-review-rubric.md](references/mockup-review-rubric.md).
 6. Select one direction or combine explicit traits from multiple directions.
-7. Inventory illustrations, bitmaps, logos, photos, textures, and generated assets with [references/asset-inventory-template.md](references/asset-inventory-template.md).
-8. Freeze implementation constraints with [references/design-freeze-template.md](references/design-freeze-template.md).
-9. If editable design handoff is required for the page task, use `flutter-pencil-design` to restore the approved page direction in Pencil.
-10. Hand off the frozen constraints and optional Pencil restoration to `flutter-ux-ui-quality` and the implementation task.
+7. Freeze implementation constraints with [references/design-freeze-template.md](references/design-freeze-template.md).
+8. If the selected mockup contains required illustrations, bitmaps, logos, photos, textures, generated images, or visual exports, use `flutter-asset-atlas` to create the atlas, slicing manifest, inventory, and fidelity review.
+9. If editable design handoff is required for the page task, use `flutter-pencil-design` to restore the approved page direction in Pencil after required asset atlas evidence exists.
+10. Hand off the frozen constraints, asset evidence, and optional Pencil restoration to `flutter-ux-ui-quality` and the implementation task.
 
 ## Output Files
 
 - `docs/design/mockup-brief.md`
 - `docs/design/mockup-review.md`
+- `docs/design/asset-atlas.md` when visual asset exports are required
+- `docs/design/asset-slicing-manifest.md` when visual asset exports are required
+- `docs/design/asset-fidelity-review.md` when visual asset exports are required
 - `docs/design/asset-inventory.md` when visual assets are present
 - `docs/design/design-freeze.md`
 - mockup image paths recorded in `.codex-workflow/progress.md`
@@ -63,9 +66,10 @@ For multiple pages, use page-scoped paths such as `docs/design/pages/<page-name>
 - Keep platform feasibility in mind: Flutter Material 3, custom tokens, normal widget composition.
 - Cover the most important state first; generate secondary states when they affect layout or trust.
 - Do not treat an image as implementation truth until it is reviewed and converted into design-freeze constraints.
+- Do not send required visual assets to Pencil or Flutter until `flutter-asset-atlas` has recorded source, slicing/export, Flutter path, license, fallback, and fidelity evidence.
 - If Pencil is used later, allow it to carry page-level high-fidelity visual restoration only after the selected page mockup is reviewed and converted into `design-freeze.md`.
 - Treat every required bitmap or illustration as an asset with source, license, format, Flutter path, and fidelity requirements.
 
 ## Gate
 
-Do not generate page-level high-fidelity mockups for module work until low-fidelity Pencil structure, Wireframe Review, and `docs/design/wireframe-spec.md` exist. Do not treat global visual direction as page implementation approval. Do not approve UX/UI or start Flutter UI implementation for a high-value screen until a selected page-level high-fidelity effect image or an explicit "no mockup needed" decision is recorded. If the mockup contains required bitmaps or illustrations, `docs/design/asset-inventory.md` is also required.
+Do not generate page-level high-fidelity mockups for module work until low-fidelity Pencil structure, Wireframe Review, and `docs/design/wireframe-spec.md` exist. Do not treat global visual direction as page implementation approval. Do not approve UX/UI or start Flutter UI implementation for a high-value screen until a selected page-level high-fidelity effect image or an explicit "no mockup needed" decision is recorded. If the mockup contains required bitmaps, illustrations, logos, textures, generated images, or visual exports, `docs/design/asset-atlas.md`, `docs/design/asset-slicing-manifest.md`, `docs/design/asset-inventory.md`, and `docs/design/asset-fidelity-review.md` are required.

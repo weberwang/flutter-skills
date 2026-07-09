@@ -13,6 +13,7 @@ Run implementation through controlled subagent loops. The controller owns sequen
 
 - Controller: owns plan, ledger, decisions, integration.
 - Page design agent: prepares low-fidelity structure, high-fidelity mockup evidence, and design-freeze constraints for UI tasks.
+- Asset atlas agent: prepares required visual asset atlas, slicing manifest, inventory, and fidelity review after mockup approval.
 - Pencil restoration agent: restores approved page visuals in Pencil and writes Flutter handoff constraints.
 - Implementer: executes one task brief.
 - Task reviewer: checks spec compliance and code quality.
@@ -34,7 +35,7 @@ Run implementation through controlled subagent loops. The controller owns sequen
 
 1. Read `.codex-workflow/progress.md`; resume at the first incomplete task.
 2. Read `docs/plans/module-map.md` and create a task brief from the next module/page in dependency order.
-3. For a UI page task, complete the page design gate first: create low-fidelity Pencil structure, run Wireframe Review, write `docs/design/wireframe-spec.md`, generate a page-level high-fidelity effect image, record approval, freeze constraints, decide whether high-fidelity Pencil restoration is required, restore the page in Pencil when required, and write Flutter handoff constraints.
+3. For a UI page task, complete the page design gate first: create low-fidelity Pencil structure, run Wireframe Review, write `docs/design/wireframe-spec.md`, generate a page-level high-fidelity effect image, record approval, freeze constraints, run `flutter-asset-atlas` when required visual assets exist, decide whether high-fidelity Pencil restoration is required, restore the page in Pencil when required, and write Flutter handoff constraints.
 4. Dispatch one implementer for the task scope.
 5. Require report with changed files, tests run, output summary, and concerns.
 6. Package diff and dispatch reviewer.
@@ -59,4 +60,4 @@ Parallelize exploration and review. Serialize implementation unless write scopes
 
 ## Gate
 
-Do not mark a task complete while any reviewer verdict is missing, any page design gate evidence is missing, any required command lacks output, or any Critical/Important issue is open.
+Do not mark a task complete while any reviewer verdict is missing, any page design gate evidence is missing, any required asset atlas evidence is missing, any required command lacks output, or any Critical/Important issue is open.

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Flutter Asset Atlas"
+  short_description: "Prepare Flutter visual asset atlases and slices"
+  default_prompt: "Create the asset atlas, slicing plan, inventory, and fidelity checks for this Flutter page."

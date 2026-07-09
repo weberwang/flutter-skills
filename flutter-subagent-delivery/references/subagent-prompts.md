@@ -17,7 +17,7 @@ Rules:
 - Do not add features outside the brief.
 - Read and follow the project-local `flutter-dev` skill before changing Flutter code.
 - Follow the module dependency order, cross-module contracts, and page interaction order from the module map.
-- For UI page tasks, do not start page code unless the task brief includes reviewed low-fidelity Pencil structure, wireframe text spec, approved page mockup, design-freeze, Pencil high-fidelity restoration decision and reason, required restoration evidence, and Pencil Flutter handoff.
+- For UI page tasks, do not start page code unless the task brief includes reviewed low-fidelity Pencil structure, wireframe text spec, approved page mockup, design-freeze, required asset atlas evidence or `N/A` reason, Pencil high-fidelity restoration decision and reason, required restoration evidence, and Pencil Flutter handoff.
 - Add tests before or with behavior changes.
 - Run the required verification commands.
 - For UI work, produce screenshot or golden evidence.
@@ -45,6 +45,9 @@ You are reviewing one Flutter task. Read:
 - Design-freeze: <path or none>
 - Wireframe text spec: <path or none>
 - Asset inventory: <path or none>
+- Asset atlas: <path, N/A with reason, or none>
+- Asset slicing manifest: <path, N/A with reason, or none>
+- Asset fidelity review: <path, N/A with reason, or none>
 - Pencil handoff: <path or none>
 - Pencil high-fidelity restoration decision: <Required / Not required / none>
 - Pencil high-fidelity restoration reason: <path, text, or none>

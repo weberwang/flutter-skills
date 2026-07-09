@@ -57,6 +57,7 @@ npx -y github:weberwang/flutter-skills
 - `flutter-product-spec`: 产品目标、MVP、用户故事。
 - `flutter-ux-ui-quality`: 全局 UX/UI、状态覆盖、视觉质量门禁。
 - `flutter-hifi-mockup`: 高保真效果图生成、评审、冻结。
+- `flutter-asset-atlas`: 高保真图后的视觉资产图集、切图、清单和还原验收。
 - `flutter-pencil-design`: Pencil 低保真结构稿、高保真还原、Flutter handoff。
 - `flutter-tech-design`: Flutter 技术方案和模块边界。
 - `flutter-project-init`: Flutter 初始化、固定插件栈、生成项目级 `flutter-dev` skill。
@@ -76,14 +77,16 @@ npx -y github:weberwang/flutter-skills
 5. Flutter 项目初始化和项目级 `flutter-dev` 生成。
 6. 模块拆分和实现计划。
 7. 模块页面低保真 Pencil、Wireframe Review、页面级高保真效果图。
-8. 必要时进行 Pencil 高保真视觉还原。
-9. Flutter 实现、截图或 golden 证据、质量审阅。
-10. 发布准备检查。
+8. 必要时生成资产图集、切图清单和资产还原验收。
+9. 必要时进行 Pencil 高保真视觉还原。
+10. Flutter 实现、截图或 golden 证据、质量审阅。
+11. 发布准备检查。
 
 ## 关键约束
 
 - 页面 UI 不从纯文字描述直接实现。
 - 页面级高保真效果图必须在低保真 Pencil 和 Wireframe Review 之后生成。
+- 高保真图中的插图、位图、logo、纹理、生成图等必须先完成图集、切图、资产台账和还原验收。
 - Pencil 图不能直接丢给实现代理，必须转成文字规格和 Flutter handoff。
 - 固定 Flutter 技术栈：Riverpod、hooks、Freezed、fpdart、json generation、ScreenUtil。
 - Freezed 和 JSON 必须使用注解和 `build_runner` 生成。

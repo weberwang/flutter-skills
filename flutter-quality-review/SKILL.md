@@ -15,7 +15,7 @@ Review like a release-blocking commercial app gate. Findings lead; summaries are
 - Project-local `flutter-dev` implementation constraints.
 - Module map and implementation plan.
 - High-fidelity mockup and design-freeze constraints when present.
-- Asset inventory when illustrations, bitmaps, logos, photos, textures, or generated visual assets are present.
+- Asset atlas, slicing manifest, asset inventory, and fidelity review when illustrations, bitmaps, logos, photos, textures, generated visual assets, or visual exports are present.
 - Wireframe text spec, Pencil intake, high-fidelity Pencil restoration decision and reason, restoration evidence when required, and handoff when Pencil is present.
 - Technical design or relevant architecture decisions.
 - Diff or changed files.
@@ -32,9 +32,10 @@ Use [references/review-rubric.md](references/review-rubric.md). Always check:
 - User path completeness.
 - UI state coverage.
 - Page design gate order: low-fidelity Pencil structure, Wireframe Review, wireframe text spec, high-fidelity effect image, design-freeze, restoration decision, then required restoration evidence.
+- Asset gate order: approved high-fidelity effect image, design-freeze, asset atlas, slicing manifest, asset inventory, fidelity review, then Pencil high-fidelity restoration or Flutter implementation.
 - Pencil high-fidelity restoration decision quality: required screens are not skipped, and Not required decisions have a reason.
 - Mockup parity and recorded design deviations when a high-fidelity mockup exists.
-- Asset source, license, Flutter path, fallback, and fidelity compliance.
+- Asset source, license, slicing/export, Flutter path, fallback, and fidelity compliance.
 - Wireframe spec, Pencil restoration, and recorded deviation compliance when Pencil is used.
 - Mobile and accessibility risks.
 - State management and data flow.
@@ -62,4 +63,4 @@ Severity:
 
 ## Gate
 
-If no issues are found, say so clearly and list residual risks or missing evidence. Do not approve if the task brief, module map, init report, generated `flutter-dev` path, required wireframe text spec, Pencil high-fidelity restoration decision and reason, required restoration evidence, required screenshots, or required tests are absent. Require module acceptance result and integration smoke result only when the task changes module boundaries, routes, cross-module contracts, or user flows; otherwise require `N/A: <reason>`.
+If no issues are found, say so clearly and list residual risks or missing evidence. Do not approve if the task brief, module map, init report, generated `flutter-dev` path, required wireframe text spec, required asset atlas evidence, Pencil high-fidelity restoration decision and reason, required restoration evidence, required screenshots, or required tests are absent. Require module acceptance result and integration smoke result only when the task changes module boundaries, routes, cross-module contracts, or user flows; otherwise require `N/A: <reason>`.

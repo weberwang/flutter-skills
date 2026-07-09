@@ -24,11 +24,14 @@ Create `.codex-workflow/progress.md` in the target app repo.
   - High-fidelity mockup:
   - Mockup approval:
   - Design freeze:
+  - Asset atlas:
+  - Asset slicing manifest:
+  - Asset inventory:
+  - Asset fidelity review:
   - Pencil high-fidelity restoration decision:
   - Pencil high-fidelity restoration reason:
   - Pencil high-fidelity restoration:
   - Pencil Flutter handoff:
-  - Asset inventory:
   - Flutter evidence:
   - Module acceptance result:
   - Integration smoke result:
@@ -52,6 +55,7 @@ Create `.codex-workflow/progress.md` in the target app repo.
 
 - Update the ledger after each completed task.
 - For UI page tasks, update each page design gate field before dispatching implementation.
+- For required visual assets, update atlas, slicing manifest, inventory, and fidelity review before Pencil high-fidelity restoration or implementation.
 - For fields that do not apply, write `N/A: <reason>` instead of leaving them blank.
 - Do not re-dispatch completed tasks after context compaction.
 - Record failed commands honestly.
