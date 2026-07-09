@@ -36,6 +36,7 @@ Use [references/review-rubric.md](references/review-rubric.md). Always check:
 - Pencil high-fidelity restoration decision quality: required screens are not skipped, and Not required decisions have a reason.
 - Mockup parity and recorded design deviations when a high-fidelity mockup exists.
 - Asset source, reuse decision, generation prompt constraints, background handling, background transparentization, transparent post-processing, transparency or retained-background decision, license, slicing/export, Flutter path, fallback, and fidelity compliance.
+- Bitmap source compliance: new bitmaps default to product-design or image generation evidence; Pencil exports are accepted only for approved production asset nodes with a recorded reason.
 - Wireframe spec, Pencil restoration, and recorded deviation compliance when Pencil is used.
 - Mobile and accessibility risks.
 - State management and data flow.

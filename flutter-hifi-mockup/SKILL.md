@@ -38,7 +38,7 @@ Use this before implementation when:
 5. Review directions with [references/mockup-review-rubric.md](references/mockup-review-rubric.md).
 6. Select one direction or combine explicit traits from multiple directions.
 7. Freeze implementation constraints with [references/design-freeze-template.md](references/design-freeze-template.md).
-8. If the selected mockup contains required illustrations, bitmaps, logos, photos, textures, generated images, or visual exports, use `flutter-asset-atlas` to create reuse checks, production decisions, generated assets when needed, background transparentization when needed, slicing/export manifest, inventory, and fidelity review under global and page design-freeze constraints.
+8. If the selected mockup contains required illustrations, bitmaps, logos, photos, textures, generated images, or visual exports, use `flutter-asset-atlas` to create reuse checks, production decisions, product-design or image generation outputs when new bitmaps are needed, background transparentization when needed, slicing/export manifest, inventory, and fidelity review under global and page design-freeze constraints.
 9. If editable design handoff is required for the page task, use `flutter-pencil-design` to restore the approved page direction in Pencil after required asset atlas evidence exists.
 10. Hand off the frozen constraints, asset evidence, and optional Pencil restoration to `flutter-ux-ui-quality` and the implementation task.
 
@@ -69,6 +69,7 @@ For multiple pages, use page-scoped paths such as `docs/design/pages/<page-name>
 - Do not treat an image as implementation truth until it is reviewed and converted into design-freeze constraints.
 - Convert global visual direction into `docs/design/global-design-freeze.md` before module/page asset generation depends on it.
 - Do not send required visual assets to Pencil or Flutter until `flutter-asset-atlas` has recorded reuse check, production decision, background handling, background transparentization when applicable, source or generation evidence, slicing/export, Flutter path, license, fallback, and fidelity evidence.
+- Treat product-design or image generation tools as the default source for new bitmap assets. Pencil export is valid only when the approved Pencil node is itself the production asset, not a whole-page screenshot or low-fidelity structure.
 - Do not generate assets from the page mockup alone; asset prompts must use the global design freeze and page design freeze.
 - If Pencil is used later, allow it to carry page-level high-fidelity visual restoration only after the selected page mockup is reviewed and converted into `design-freeze.md`.
 - Treat every required bitmap or illustration as an asset with source, license, format, Flutter path, and fidelity requirements.

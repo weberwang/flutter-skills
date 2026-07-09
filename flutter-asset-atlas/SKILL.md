@@ -26,10 +26,10 @@ Use this skill after a page-level high-fidelity mockup is approved and before hi
 2. Audit the approved mockup for required visual assets: illustrations, bitmaps, photos, logos, textures, backgrounds, generated images, chart bitmaps, and custom icons.
 3. Mark the asset track as Required or `N/A: no bitmap or exported visual assets`. Do not skip required assets because they look decorative if they affect brand, trust, conversion, or visual parity.
 4. Run a reuse check against brand assets, existing app assets, previous generated assets, source files, and `docs/design/asset-inventory.md`.
-5. Choose the production decision for each asset in this order: reuse existing asset, adapt existing asset, generate variant from existing source, generate new single asset, generate atlas/contact sheet, or extract from approved mockup with explicit approval.
+5. Choose the production decision for each asset in this order: reuse existing asset, adapt existing asset, generate variant from existing source, generate new single asset with product-design or image generation tools, generate atlas/contact sheet, export from an approved Pencil asset node, or extract from approved mockup with explicit approval.
 6. Decide background handling before generation or export: transparent background, retained full background, masked cutout, or non-transparent safe background for later removal. Record why.
 7. Fill [references/asset-atlas-template.md](references/asset-atlas-template.md) with reuse decisions, production strategy, background strategy, and global/page freeze constraints.
-8. Generate or collect source assets at production quality. Default to single-asset generation for new images; use atlas/contact sheet generation only when a coherent set must be reviewed together or sliced from one approved composite.
+8. Generate or collect source assets at production quality. Default to single-asset generation with product-design or image generation tools for new bitmaps; use atlas/contact sheet generation only when a coherent set must be reviewed together or sliced from one approved composite.
 9. Run the Background Transparentization Work Node for assets that must become transparent but were generated, extracted, or sourced with a non-transparent background.
 10. For transparent or masked assets, run transparent-background post-processing: alpha cleanup, matte or color-spill removal, edge decontamination, shadow/glow preservation, and target-background QA.
 11. Slice or export assets and fill [references/asset-slicing-manifest-template.md](references/asset-slicing-manifest-template.md).
@@ -53,6 +53,9 @@ For multiple pages, use page-scoped paths such as `docs/design/pages/<page-name>
 - Use PNG or WebP for transparent raster illustrations, textured backgrounds, and generated bitmaps.
 - Use JPG only for photographic assets without transparency.
 - Prefer direct single-image production for required new assets. Use atlas/contact sheet production only for style-consistent batches, multi-part illustrations, or explicitly approved composite slicing.
+- Use product-design or image generation tools as the default source for new bitmap production. Record the tool, prompt, references, selected output, and rejected outputs.
+- Use Pencil export only when the Pencil node is an approved production asset source, not when it is only a low-fidelity structure, high-fidelity restoration container, or screenshot of a page.
+- Do not use Pencil screenshots, Pencil whole-page exports, or high-fidelity mockup crops as default production bitmap sources. Allow them only with explicit approval and a recorded reason.
 - Reuse before generating. Every new generated image must record why existing assets were insufficient.
 - Asset generation prompts must cite the global design freeze and the page design freeze. Do not generate from the page mockup alone.
 - Decide the background before generation. If Flutter must composite the asset over variable surfaces, generate or export with transparent background from the start.

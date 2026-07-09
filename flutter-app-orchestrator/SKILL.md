@@ -27,7 +27,7 @@ Do not jump from idea to code. Move through product, UX/UI, technical design, im
 ### Module Delivery
 
 7. Execute tasks with `flutter-subagent-delivery`; each UI module or page task must first create a low-fidelity Pencil structure, pass Wireframe Review, convert it into text specs, then generate and approve a page-level high-fidelity effect image.
-8. After page-level high-fidelity approval and design freeze, use `flutter-asset-atlas` when the page has required visual assets that need reuse checks, generation, slicing, export, inventory, or fidelity review. Asset generation must follow the global design freeze and page design freeze.
+8. After page-level high-fidelity approval and design freeze, use `flutter-asset-atlas` when the page has required visual assets that need reuse checks, generation, slicing, export, inventory, or fidelity review. New bitmap generation must use product-design or image generation tools by default and follow the global design freeze and page design freeze.
 9. Decide whether Pencil high-fidelity restoration is required. Restore the page in Pencil when required, then implement the Flutter page from text specs and handoff artifacts.
 10. Review delivery with `flutter-quality-review`.
 11. Check store and business release readiness with `flutter-release-readiness`.
@@ -79,7 +79,7 @@ Use [references/artifacts.md](references/artifacts.md) for the artifact contract
 - No high-fidelity Pencil restoration before Flutter initialization, Wireframe Review, `docs/design/wireframe-spec.md`, page-level mockup approval, design freeze, and required asset atlas evidence.
 - No implementation from raw Pencil images; Pencil wireframes or high-fidelity restorations must be converted into text specs and `docs/design/pencil-flutter-handoff.md`.
 - No asset generation without global design-freeze constraints and page design-freeze constraints.
-- No high-fidelity Pencil restoration or Flutter UI implementation when required illustrations, bitmaps, logos, textures, generated images, or visual exports lack reuse check, production decision, background handling, background transparentization when applicable, transparent post-processing when applicable, asset atlas, generation evidence when used, slicing manifest, asset inventory, Flutter path, license status, and fidelity review.
+- No high-fidelity Pencil restoration or Flutter UI implementation when required illustrations, bitmaps, logos, textures, generated images, or visual exports lack reuse check, production decision, bitmap source policy, background handling, background transparentization when applicable, transparent post-processing when applicable, asset atlas, generation evidence when used, slicing manifest, asset inventory, Flutter path, license status, and fidelity review.
 - No UI completion claim before screenshots or Flutter golden evidence exist.
 - No task completion before `flutter analyze` and relevant tests are reported.
 - No delivery completion while Critical or Important review findings remain open.
@@ -101,6 +101,7 @@ Use subagents for independent product, UX, architecture, review, and release che
 - Skipping asset atlas and slicing when the approved mockup contains required visual assets.
 - Generating duplicate visual assets before checking existing brand, app, source, and inventory assets.
 - Generating assets from the page mockup alone instead of global and page design-freeze constraints.
+- Using Pencil whole-page screenshots or high-fidelity mockup crops as default bitmap sources instead of product-design or image generation output.
 - Generating assets without deciding whether the output must be transparent, retained-background, or masked.
 - Treating background transparentization as an implicit export step instead of a recorded work node with source, method, output, and reject/continue decision.
 - Accepting transparent assets without alpha cleanup, edge halo checks, and target-background QA.

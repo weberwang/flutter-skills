@@ -36,6 +36,7 @@
 - Asset reuse check, production decision, generation evidence when used, atlas, slicing manifest, inventory, and fidelity review exist when approved mockups include required visual assets.
 - Required assets are listed in `docs/design/asset-inventory.md`.
 - Asset source, reuse decision, generation prompt constraints, background handling, background transparentization when applicable, license status, slicing/export output, Flutter path, loading fallback, and error fallback are recorded.
+- New bitmap assets use product-design or image generation evidence by default; Pencil exports are approved only when the exported node is the recorded production asset source.
 - Transparent or composited assets have clean alpha edges, preserved shadows/glows, and no unintended background halos.
 - Transparent-background post-processing records matte removal, alpha cleanup, edge decontamination, padding, and target-background QA when applicable.
 - New generated assets reference global and page design-freeze constraints and explain why existing assets were not reused.

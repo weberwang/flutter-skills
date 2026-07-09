@@ -31,6 +31,7 @@ Must not do:
 - Asset atlas:
 - Asset reuse check:
 - Asset production decision:
+- Asset bitmap source policy:
 - Asset background handling:
 - Asset background transparentization:
 - Asset transparent post-processing:
@@ -63,6 +64,7 @@ If yes:
 - Asset atlas:
 - Asset reuse check:
 - Asset production decision:
+- Asset bitmap source policy:
 - Asset background handling:
 - Asset background transparentization:
 - Asset transparent post-processing:
@@ -120,6 +122,7 @@ If yes:
 - Asset atlas:
 - Asset reuse check:
 - Asset production decision:
+- Asset bitmap source policy:
 - Asset background handling:
 - Asset background transparentization:
 - Asset transparent post-processing:

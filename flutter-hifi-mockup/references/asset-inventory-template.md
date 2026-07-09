@@ -28,6 +28,7 @@ Use this for illustrations, bitmaps, logos, photos, screenshots, textures, icons
 - Type:
 - Source:
 - Source file or node:
+- Source tool or origin:
 - Reuse check:
 - Production decision:
 - Generation prompt:
@@ -39,6 +40,8 @@ Use this for illustrations, bitmaps, logos, photos, screenshots, textures, icons
 - Target backgrounds tested:
 - Selected generated output:
 - Rejected generated outputs:
+- Pencil export allowed:
+- Pencil export reason:
 - Required: Yes / No
 - Replaceable: Yes / No
 

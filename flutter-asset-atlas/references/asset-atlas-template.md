@@ -20,9 +20,14 @@ Use this after page-level high-fidelity mockup approval and design freeze.
 
 ## Production Decision
 
-Use this order before generating new images: reuse existing, adapt existing, generate variant from existing source, generate new single asset, generate atlas/contact sheet, extract from approved mockup.
+Use this order before generating new images: reuse existing, adapt existing, generate variant from existing source, generate new single asset with product-design or image generation tools, generate atlas/contact sheet, export from an approved Pencil asset node, extract from approved mockup with explicit approval.
 
-| Asset ID | Decision | Why new or changed | Global freeze constraints | Page freeze constraints | Background handling |
+| Asset ID | Decision | Source tool or origin | Why new or changed | Global freeze constraints | Page freeze constraints | Background handling |
+|---|---|---|---|---|---|---|
+
+## Bitmap Source Policy
+
+| Asset ID | Default source | Product-design or imagegen evidence | Pencil export allowed | Pencil export reason | Mockup extraction approval |
 |---|---|---|---|---|---|
 
 ## Background Handling
@@ -47,8 +52,8 @@ Use this order before generating new images: reuse existing, adapt existing, gen
 
 ## Generation Or Source Plan
 
-| Asset ID | Source type | Source path or prompt | Background prompt constraint | Reference image | Selected output | Rejected outputs | License status | Owner |
-|---|---|---|---|---|---|---|---|---|
+| Asset ID | Source type | Source path or prompt | Tool or origin | Background prompt constraint | Reference image | Selected output | Rejected outputs | License status | Owner |
+|---|---|---|---|---|---|---|---|---|---|
 
 ## Flutter Mapping
 
@@ -63,6 +68,7 @@ Use this order before generating new images: reuse existing, adapt existing, gen
 
 - All required visual assets have a source or generation plan.
 - New generation references global and page design-freeze constraints.
+- New bitmap generation uses product-design or image generation tools by default; Pencil export is allowed only for approved production asset nodes.
 - Every generated or exported asset has a background handling decision before generation.
 - Assets that require transparency but arrive with a non-transparent background have a completed Background Transparentization Work Node.
 - Transparent or masked assets have post-processing and target-background QA recorded.

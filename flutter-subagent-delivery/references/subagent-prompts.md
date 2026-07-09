@@ -49,6 +49,7 @@ You are reviewing one Flutter task. Read:
 - Asset atlas: <path, N/A with reason, or none>
 - Asset reuse check: <path, text, N/A with reason, or none>
 - Asset production decision: <path, text, N/A with reason, or none>
+- Asset bitmap source policy: <path, text, N/A with reason, or none>
 - Asset background handling: <path, text, N/A with reason, or none>
 - Asset background transparentization: <path, text, N/A with reason, or none>
 - Asset transparent post-processing: <path, text, N/A with reason, or none>

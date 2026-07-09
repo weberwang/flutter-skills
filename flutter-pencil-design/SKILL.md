@@ -78,6 +78,7 @@ For multiple pages, use page-scoped paths such as `docs/design/pages/<page-name>
 - Convert Pencil evidence into text specs before it reaches implementation agents.
 - Use `docs/design/design-freeze.md` as the source of truth for visual constraints; use `docs/design/pencil-hifi-restoration.md` to record how Pencil carries those constraints.
 - Record image assets through `flutter-asset-atlas`; Pencil docs should reference reuse, generation, slicing, license, Flutter path, and fidelity evidence rather than inventing those details.
+- Export bitmap assets from Pencil only when the node is recorded in `flutter-asset-atlas` as an approved production asset source. Do not export whole-page Pencil screenshots as production bitmaps by default.
 - Record uncertainties instead of guessing hidden interactions.
 - Do not infer extra app features from decorative design elements.
 - If the design conflicts with product scope, ask which source governs before implementing.
