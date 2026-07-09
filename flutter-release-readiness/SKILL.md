@@ -30,6 +30,7 @@ Always cover:
 - Data collection disclosures consistent with runtime analytics, crash, ads, and payment SDK behavior.
 - Accessibility, localization, network failures, and offline behavior.
 - Release build verification commands.
+- The global verification platform scope and its required release evidence.
 
 ## Verification Commands
 
@@ -43,6 +44,7 @@ Select commands that match the app:
 - `flutter build ios --release`
 
 Do not claim a platform build passed unless the command was run and output was observed.
+Use `docs/architecture/verification-platforms.md` as the sole source of truth for platform scope. Do not claim a platform is release-ready unless its required build, smoke, store, and privacy evidence exists. Mark unsupported platforms there as `N/A: <reason>`.
 
 ## Output
 

@@ -22,7 +22,7 @@ Do not jump from idea to code. Move through product, UX/UI, technical design, im
 3. Confirm global UX/UI direction with high-fidelity effect images using `flutter-hifi-mockup`; this confirms visual direction and design-system intent only, not page-level implementation readiness.
 4. Create architecture with `flutter-tech-design`, including module boundaries, cross-module contracts, data ownership, routing ownership, and shared foundations.
 5. Initialize or standardize the Flutter project from that technical design with `flutter-project-init`.
-6. Split modules and build order with `flutter-implementation-plan`; the plan must account for module dependencies and page interaction order.
+6. Split modules and build order with `flutter-implementation-plan`; the plan must account for module dependencies, page interaction order, and the global verification platform scope.
 
 ### Module Delivery
 
@@ -57,6 +57,7 @@ Create or update these files in the target app repo:
 - `docs/design/asset-inventory.md`
 - `docs/design/design-freeze.md`
 - `docs/architecture/flutter-init.md`
+- `docs/architecture/verification-platforms.md`
 - `docs/architecture/technical-design.md`
 - `docs/plans/module-map.md`
 - `docs/plans/implementation-plan.md`
@@ -71,6 +72,7 @@ Use [references/artifacts.md](references/artifacts.md) for the artifact contract
 
 - No implementation before MVP scope and screen states exist.
 - No implementation before the Flutter project has the fixed plugin stack and a generated `flutter-dev` skill path recorded in `docs/architecture/flutter-init.md`.
+- No implementation planning before `docs/architecture/verification-platforms.md` records the global platform scope, required evidence, and unsupported platforms with `N/A: <reason>`.
 - No UX/UI approval from text alone; high-value screens require selected high-fidelity effect images or an explicit "no mockup needed" decision.
 - No implementation plan before module boundaries, module dependencies, cross-module interactions, and page interaction order are recorded in `docs/plans/module-map.md`.
 - No page implementation readiness from global high-fidelity direction alone; global mockups do not replace page-level design gates.
@@ -81,7 +83,7 @@ Use [references/artifacts.md](references/artifacts.md) for the artifact contract
 - No asset generation without global design-freeze constraints and page design-freeze constraints.
 - No high-fidelity Pencil restoration or Flutter UI implementation when required illustrations, bitmaps, logos, textures, generated images, or visual exports lack reuse check, production decision, bitmap source policy, background handling, background transparentization when applicable, transparent post-processing when applicable, asset atlas, generation evidence when used, slicing manifest, asset inventory, Flutter path, license status, and fidelity review.
 - No UI completion claim before screenshots or Flutter golden evidence exist.
-- No task completion before `flutter analyze` and relevant tests are reported.
+- No task completion before `flutter analyze`, relevant tests, and the applicable evidence required by the global verification platform scope are reported or explicitly marked unavailable with a blocker.
 - No delivery completion while Critical or Important review findings remain open.
 - No release claim before privacy, account, payment, crash reporting, analytics, and store checklist are checked or explicitly marked out of scope.
 
@@ -111,4 +113,6 @@ Use subagents for independent product, UX, architecture, review, and release che
 - Treating bitmap or illustration details as implicit UI instead of tracked assets.
 - Adding alternative state, result, JSON, or responsive-layout packages before checking the fixed stack.
 - Running only unit tests for screen-heavy changes.
+- Repeating platform scope in every task instead of maintaining `docs/architecture/verification-platforms.md` as the single source of truth.
+- Claiming a platform is verified when its command, screenshot, golden, simulator, emulator, device, or browser evidence was not run or captured.
 - Accepting vague words such as "premium", "simple", or "polished" without screen-level acceptance criteria.

@@ -92,6 +92,7 @@ npx -y github:weberwang/flutter-skills
 - Freezed 和 JSON 必须使用注解和 `build_runner` 生成。
 - 子代理实现前必须有任务简报、模块顺序、验收路径和明确写入范围。
 - UI 完成前必须有截图或 golden 证据。
+- 在 `docs/architecture/verification-platforms.md` 全局限定验证平台，例如 Android emulator/device、iOS simulator/device、Chrome web、desktop 或 `N/A: <reason>`；任务不得把未列出或未实际运行的平台登记为已验证。
 
 ## 本地开发调试
 

@@ -206,6 +206,13 @@ For module or page-level UI work, store repeated design artifacts under a page o
 
 ## Architecture
 
+`docs/architecture/verification-platforms.md`
+
+- Target verification platforms.
+- Unsupported platforms with `N/A: <reason>`.
+- Required command, device, browser, emulator, simulator, screenshot, or golden evidence per platform.
+- Evidence storage location and update owner.
+
 `docs/architecture/technical-design.md`
 
 - Architecture decisions.

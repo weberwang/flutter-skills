@@ -5,7 +5,7 @@
 - Product:
 - MVP:
 - App type:
-- Platforms:
+- Verification platform scope: `docs/architecture/verification-platforms.md`
 
 ## Architecture Decisions
 

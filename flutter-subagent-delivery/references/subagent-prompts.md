@@ -11,6 +11,7 @@ Task brief: <path>
 Project-local flutter-dev skill: <required path>
 Module map: <path>
 Report file: <path>
+Global verification platform scope: <docs/architecture/verification-platforms.md>
 
 Rules:
 - Stay inside the expected write scope unless blocked.
@@ -19,8 +20,8 @@ Rules:
 - Follow the module dependency order, cross-module contracts, and page interaction order from the module map.
 - For UI page tasks, do not start page code unless the task brief includes reviewed low-fidelity Pencil structure, wireframe text spec, approved page mockup, global and page design-freeze constraints, required asset atlas evidence or `N/A` reason, Pencil high-fidelity restoration decision and reason, required restoration evidence, and Pencil Flutter handoff.
 - Add tests before or with behavior changes.
-- Run the required verification commands.
-- For UI work, produce screenshot or golden evidence.
+- Run the verification required by the global platform scope. Do not claim an unlisted platform is verified.
+- For UI work, produce the screenshot or golden evidence required by the global platform scope, or report the blocker.
 
 Return only:
 - Status: DONE / DONE_WITH_CONCERNS / NEEDS_CONTEXT / BLOCKED
@@ -42,6 +43,7 @@ You are reviewing one Flutter task. Read:
 - Implementer report: <path>
 - Diff package or changed files: <path>
 - UI evidence: <path or none>
+- Global verification platform scope: <path or none>
 - Global design-freeze: <path or none>
 - Design-freeze: <path or none>
 - Wireframe text spec: <path or none>
@@ -81,6 +83,7 @@ You are reviewing Flutter UI screenshots or golden evidence. Read the UI brief a
 
 UI brief: <path>
 Evidence: <path>
+Global verification platform scope: <path or none>
 
 Return:
 1. Visual verdict

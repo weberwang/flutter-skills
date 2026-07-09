@@ -3,7 +3,7 @@
 ## Verdict
 
 - Ready / Not ready:
-- Target platform:
+- Verification platform scope: `docs/architecture/verification-platforms.md`
 - Build:
 
 ## App Identity
@@ -70,8 +70,7 @@
 - `flutter analyze`:
 - `flutter test`:
 - Integration tests:
-- Android release build:
-- iOS release build:
+- Required platform build and smoke evidence: `docs/architecture/verification-platforms.md`
 
 ## Blockers
 

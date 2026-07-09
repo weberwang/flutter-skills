@@ -9,6 +9,7 @@
 - UI tasks require screenshot or golden evidence.
 - UI page tasks require low-fidelity Pencil structure, Wireframe Review, page-level high-fidelity mockup approval, global and page design-freeze constraints, required asset atlas evidence, Pencil high-fidelity restoration decision, required restoration evidence, and Flutter handoff before page code starts.
 - Module tasks must follow `docs/plans/module-map.md` for module dependencies, cross-module contracts, and page interaction order.
+- Follow the global platform scope in `docs/architecture/verification-platforms.md`. Do not treat unlisted platforms as verified.
 - Every task requires verification output.
 
 ## Module Map

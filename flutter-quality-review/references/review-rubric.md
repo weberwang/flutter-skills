@@ -10,6 +10,7 @@
 - Cross-module contracts are implemented before dependent UI or service work consumes them.
 - Module acceptance path and integration smoke path are preserved or updated when module behavior changes.
 - Module acceptance result and integration smoke result are reported when module boundaries, routes, cross-module contracts, or user flows change.
+- `docs/architecture/verification-platforms.md` records the global platform scope; unlisted platforms are not claimed as verified.
 
 ## Flutter Code Quality
 
@@ -63,6 +64,7 @@
 - Relevant unit/widget tests are reported.
 - Golden or screenshot evidence exists for UI work.
 - Integration tests are run when a user path is changed and tests exist.
+- Each globally required platform has matching command output or UI evidence. Missing device, simulator, emulator, browser, or desktop evidence blocks platform verification claims.
 
 ## Output
 

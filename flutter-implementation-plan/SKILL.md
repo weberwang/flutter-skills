@@ -30,6 +30,7 @@ Convert approved specs into small, verifiable Flutter implementation tasks. A go
 
 - One task should produce one vertical slice or one isolated foundation.
 - Each task must list scope, non-scope, files likely touched, acceptance criteria, and verification commands.
+- Each task must follow `docs/architecture/verification-platforms.md`; do not duplicate platform scope or claim an unrecorded platform as verified.
 - UI tasks must include screenshot or golden evidence requirements.
 - Risky shared foundations must happen before dependent feature tasks.
 - Module entry tasks must establish routing, state boundary, contracts, and test scaffolding before page tasks.
@@ -55,4 +56,4 @@ Use [references/module-map-template.md](references/module-map-template.md), [ref
 
 ## Gate
 
-Do not execute a Flutter implementation task until it has an isolated task brief, named verification commands, `docs/plans/module-map.md`, `docs/architecture/flutter-init.md`, and a generated project-local `flutter-dev` path.
+Do not execute a Flutter implementation task until it has an isolated task brief, `docs/architecture/verification-platforms.md`, named verification commands, `docs/plans/module-map.md`, `docs/architecture/flutter-init.md`, and a generated project-local `flutter-dev` path.
