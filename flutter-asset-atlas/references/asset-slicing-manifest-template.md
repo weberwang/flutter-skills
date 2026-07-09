@@ -6,14 +6,20 @@ Use this to record exported or sliced production assets before Pencil restoratio
 
 - Page or module:
 - Source mockup:
+- Global design freeze:
+- Page design freeze:
 - Source design file:
 - Export date:
 - Export owner:
+- Production mode: single asset / atlas contact sheet / source export / mockup extraction
+- Background mode: transparent / retained / safe flat background / masked cutout
+- Background transparentization: none / native transparent export / source-layer export / mask extraction / flat-background removal / manual alpha mask / regenerated
+- Transparent post-processing: none / alpha cleanup / matte removal / edge decontamination / manual mask
 
 ## Sliced Assets
 
-| Asset ID | Output file | Format | Logical size | Pixel size | DPR | Transparency | Compression | Flutter path |
-|---|---|---|---|---|---|---|---|---|
+| Asset ID | Output file | Format | Logical size | Pixel size | DPR | Background mode | Transparentization | Transparency | Post-processing | Edge padding | Compression | Flutter path |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
 
 ## Pubspec Entries
 
@@ -34,5 +40,10 @@ flutter:
 
 - Output files exist at the recorded paths.
 - File formats match transparency and scaling needs.
+- Background transparentization is recorded when the source asset was not natively transparent.
+- Transparent assets have clean alpha edges without background halos.
+- Retained-background assets match the page design-freeze background.
+- Post-processed transparent assets are checked on checkerboard, light, dark, and target page backgrounds.
+- Single-image output is used unless atlas/contact sheet slicing has an explicit reason.
 - Large assets have compression or replacement notes.
 - `pubspec.yaml` entries are recorded for implementation.

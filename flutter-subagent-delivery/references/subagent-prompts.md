@@ -17,7 +17,7 @@ Rules:
 - Do not add features outside the brief.
 - Read and follow the project-local `flutter-dev` skill before changing Flutter code.
 - Follow the module dependency order, cross-module contracts, and page interaction order from the module map.
-- For UI page tasks, do not start page code unless the task brief includes reviewed low-fidelity Pencil structure, wireframe text spec, approved page mockup, design-freeze, required asset atlas evidence or `N/A` reason, Pencil high-fidelity restoration decision and reason, required restoration evidence, and Pencil Flutter handoff.
+- For UI page tasks, do not start page code unless the task brief includes reviewed low-fidelity Pencil structure, wireframe text spec, approved page mockup, global and page design-freeze constraints, required asset atlas evidence or `N/A` reason, Pencil high-fidelity restoration decision and reason, required restoration evidence, and Pencil Flutter handoff.
 - Add tests before or with behavior changes.
 - Run the required verification commands.
 - For UI work, produce screenshot or golden evidence.
@@ -42,10 +42,17 @@ You are reviewing one Flutter task. Read:
 - Implementer report: <path>
 - Diff package or changed files: <path>
 - UI evidence: <path or none>
+- Global design-freeze: <path or none>
 - Design-freeze: <path or none>
 - Wireframe text spec: <path or none>
 - Asset inventory: <path or none>
 - Asset atlas: <path, N/A with reason, or none>
+- Asset reuse check: <path, text, N/A with reason, or none>
+- Asset production decision: <path, text, N/A with reason, or none>
+- Asset background handling: <path, text, N/A with reason, or none>
+- Asset background transparentization: <path, text, N/A with reason, or none>
+- Asset transparent post-processing: <path, text, N/A with reason, or none>
+- Asset generation evidence: <path, text, N/A with reason, or none>
 - Asset slicing manifest: <path, N/A with reason, or none>
 - Asset fidelity review: <path, N/A with reason, or none>
 - Pencil handoff: <path or none>

@@ -23,8 +23,15 @@ Create `.codex-workflow/progress.md` in the target app repo.
   - Wireframe spec:
   - High-fidelity mockup:
   - Mockup approval:
+  - Global design freeze:
   - Design freeze:
   - Asset atlas:
+  - Asset reuse check:
+  - Asset production decision:
+  - Asset background handling:
+  - Asset background transparentization:
+  - Asset transparent post-processing:
+  - Asset generation evidence:
   - Asset slicing manifest:
   - Asset inventory:
   - Asset fidelity review:
@@ -55,7 +62,7 @@ Create `.codex-workflow/progress.md` in the target app repo.
 
 - Update the ledger after each completed task.
 - For UI page tasks, update each page design gate field before dispatching implementation.
-- For required visual assets, update atlas, slicing manifest, inventory, and fidelity review before Pencil high-fidelity restoration or implementation.
+- For required visual assets, update reuse check, production decision, background handling, background transparentization when applicable, transparent post-processing when applicable, generation evidence when used, atlas, slicing manifest, inventory, and fidelity review before Pencil high-fidelity restoration or implementation.
 - For fields that do not apply, write `N/A: <reason>` instead of leaving them blank.
 - Do not re-dispatch completed tasks after context compaction.
 - Record failed commands honestly.

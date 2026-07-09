@@ -6,11 +6,39 @@ Use this after page-level high-fidelity mockup approval and design freeze.
 
 - Page or module:
 - Approved mockup:
-- Design freeze:
+- Global design freeze:
+- Page design freeze:
 - Wireframe spec:
 - Flutter target asset root:
 - Decision: Required / N/A
 - Decision reason:
+
+## Reuse Check
+
+| Asset need | Existing candidate | Source path | Reuse verdict | Reason |
+|---|---|---|---|---|
+
+## Production Decision
+
+Use this order before generating new images: reuse existing, adapt existing, generate variant from existing source, generate new single asset, generate atlas/contact sheet, extract from approved mockup.
+
+| Asset ID | Decision | Why new or changed | Global freeze constraints | Page freeze constraints | Background handling |
+|---|---|---|---|---|---|
+
+## Background Handling
+
+| Asset ID | Required background | Transparency needed | Removal or masking method | Edge risk | Reason |
+|---|---|---|---|---|---|
+
+## Background Transparentization Work Node
+
+| Asset ID | Required | Method | Source file | Working output | Removed background | Mask or threshold | Preserved effects | Reject or continue |
+|---|---|---|---|---|---|---|---|---|
+
+## Transparent Background Post-Processing
+
+| Asset ID | Required | Matte color removed | Alpha cleanup method | Edge decontamination | Shadow/glow handling | Target backgrounds tested |
+|---|---|---|---|---|---|---|
 
 ## Asset Groups
 
@@ -19,8 +47,8 @@ Use this after page-level high-fidelity mockup approval and design freeze.
 
 ## Generation Or Source Plan
 
-| Asset ID | Source type | Source path or prompt | License status | Regeneration needed | Owner |
-|---|---|---|---|---|---|
+| Asset ID | Source type | Source path or prompt | Background prompt constraint | Reference image | Selected output | Rejected outputs | License status | Owner |
+|---|---|---|---|---|---|---|---|---|
 
 ## Flutter Mapping
 
@@ -34,5 +62,10 @@ Use this after page-level high-fidelity mockup approval and design freeze.
 ## Gate
 
 - All required visual assets have a source or generation plan.
+- New generation references global and page design-freeze constraints.
+- Every generated or exported asset has a background handling decision before generation.
+- Assets that require transparency but arrive with a non-transparent background have a completed Background Transparentization Work Node.
+- Transparent or masked assets have post-processing and target-background QA recorded.
+- Every new generated asset has a reuse check and a reason existing assets were insufficient.
 - Assets that are not required are marked replaceable or removed from implementation scope.
 - Unknown license status blocks implementation.

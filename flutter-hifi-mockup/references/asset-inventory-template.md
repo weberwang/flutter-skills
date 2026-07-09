@@ -28,6 +28,17 @@ Use this for illustrations, bitmaps, logos, photos, screenshots, textures, icons
 - Type:
 - Source:
 - Source file or node:
+- Reuse check:
+- Production decision:
+- Generation prompt:
+- Background handling:
+- Background transparentization:
+- Background removal method:
+- Transparent post-processing:
+- Matte color removed:
+- Target backgrounds tested:
+- Selected generated output:
+- Rejected generated outputs:
 - Required: Yes / No
 - Replaceable: Yes / No
 
@@ -46,6 +57,10 @@ Use this for illustrations, bitmaps, logos, photos, screenshots, textures, icons
 - Size:
 - Pixel density:
 - Transparency:
+- Background mode:
+- Background transparentization:
+- Transparent post-processing:
+- Edge padding:
 - Compression:
 - Flutter path:
 - `pubspec.yaml` entry:
@@ -62,6 +77,10 @@ Use this for illustrations, bitmaps, logos, photos, screenshots, textures, icons
 
 - Must match:
 - May adapt:
+- Background fidelity:
+- Alpha edge quality:
+- Halo or color spill:
+- Target-background QA:
 - Loading fallback:
 - Error fallback:
 - Performance risk:

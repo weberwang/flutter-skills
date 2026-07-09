@@ -25,9 +25,16 @@ Must not do:
 - Local `flutter-dev` skill:
 - Module map:
 - UI brief:
+- Global design freeze:
 - Design freeze:
 - Wireframe spec:
 - Asset atlas:
+- Asset reuse check:
+- Asset production decision:
+- Asset background handling:
+- Asset background transparentization:
+- Asset transparent post-processing:
+- Asset generation evidence:
 - Asset slicing manifest:
 - Asset inventory:
 - Asset fidelity review:
@@ -51,8 +58,15 @@ If yes:
 - High-fidelity mockup brief:
 - Selected high-fidelity mockup:
 - Approval record:
+- Global design freeze:
 - Design freeze:
 - Asset atlas:
+- Asset reuse check:
+- Asset production decision:
+- Asset background handling:
+- Asset background transparentization:
+- Asset transparent post-processing:
+- Asset generation evidence:
 - Asset slicing manifest:
 - Asset inventory:
 - Asset fidelity review:
@@ -101,8 +115,15 @@ If yes:
 - Golden test:
 - Screenshot path:
 - Mockup source:
+- Global design freeze:
 - Required assets:
 - Asset atlas:
+- Asset reuse check:
+- Asset production decision:
+- Asset background handling:
+- Asset background transparentization:
+- Asset transparent post-processing:
+- Asset generation evidence:
 - Asset slicing manifest:
 - Asset inventory:
 - Asset fidelity review:

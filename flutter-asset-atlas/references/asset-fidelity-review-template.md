@@ -6,9 +6,12 @@ Use this before high-fidelity Pencil restoration or Flutter UI implementation wh
 
 - Page or module:
 - Approved mockup:
+- Global design freeze:
+- Page design freeze:
 - Asset atlas:
 - Slicing manifest:
 - Asset inventory:
+- Target background:
 - Review evidence:
 
 ## Per-Asset Review
@@ -21,7 +24,15 @@ Use this before high-fidelity Pencil restoration or Flutter UI implementation wh
 - Cropping:
 - Alignment:
 - Color:
+- Global style consistency:
+- Page-level constraint compliance:
+- Duplicate generation avoided:
+- Background handling:
+- Transparent post-processing:
 - Transparency:
+- Alpha edge or halo:
+- Shadow or glow preservation:
+- Tested backgrounds:
 - Resolution:
 - Dark mode:
 - Loading fallback:
@@ -38,4 +49,8 @@ Use this before high-fidelity Pencil restoration or Flutter UI implementation wh
 ## Gate
 
 - Fail blocks Pencil high-fidelity restoration and Flutter UI implementation.
+- Missing global/page design-freeze compliance blocks approval.
+- Unjustified duplicate generation blocks approval.
+- Missing background decision or visible background halo blocks approval for composited assets.
+- Missing transparent-background post-processing evidence blocks approval for transparent or masked raster assets.
 - Pass with deviations must list every accepted mismatch and its reason.

@@ -17,7 +17,7 @@ Use this skill to stop low-quality UI from shipping. Text specs are drafts until
 4. Feed global flows, screen inventory, and page interaction order into `docs/plans/module-map.md`.
 5. During each UI module or page implementation task, use `flutter-pencil-design` first for low-fidelity structure, Wireframe Review, and `docs/design/wireframe-spec.md`.
 6. After low-fidelity structure is reviewed, use `flutter-hifi-mockup` for the concrete page when page-level visual evidence is missing.
-7. After page-level high-fidelity approval and design freeze, use `flutter-asset-atlas` when required visual assets need generation, slicing, export, inventory, or fidelity review.
+7. After page-level high-fidelity approval and design freeze, use `flutter-asset-atlas` when required visual assets need reuse checks, generation, background transparentization, slicing, export, inventory, or fidelity review.
 8. After required asset atlas evidence exists, use `flutter-pencil-design` for high-fidelity Pencil restoration when editable visual handoff is required.
 9. Implement the screen against the UI brief, `docs/design/design-freeze.md`, `docs/design/wireframe-spec.md`, `docs/design/pencil-hifi-restoration.md`, and asset atlas evidence when present.
 10. Capture evidence using screenshots, golden tests, or integration screenshots.
@@ -61,4 +61,4 @@ Use this skill to stop low-quality UI from shipping. Text specs are drafts until
 
 ## Gate
 
-Do not approve UX/UI from text alone. Do not call a screen complete until high-fidelity confirmation, design-freeze constraints, wireframe text specs when present, required asset atlas evidence, screenshots or golden evidence, and visual QA have been reviewed with all Critical or Important findings closed.
+Do not approve UX/UI from text alone. Do not call a screen complete until high-fidelity confirmation, global and page design-freeze constraints, wireframe text specs when present, required asset atlas evidence including background transparentization when applicable, screenshots or golden evidence, and visual QA have been reviewed with all Critical or Important findings closed.

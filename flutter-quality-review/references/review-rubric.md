@@ -33,9 +33,12 @@
 - Page-level high-fidelity mockup was generated after low-fidelity Pencil structure, Wireframe Review, and `docs/design/wireframe-spec.md`.
 - Pencil high-fidelity restoration decision and reason are recorded; required restoration evidence exists for critical, complex, asset-heavy, or visual-parity-sensitive pages.
 - Implemented UI respects the selected mockup and recorded design-freeze constraints when present.
-- Asset atlas, slicing manifest, inventory, and fidelity review exist when approved mockups include required visual assets.
+- Asset reuse check, production decision, generation evidence when used, atlas, slicing manifest, inventory, and fidelity review exist when approved mockups include required visual assets.
 - Required assets are listed in `docs/design/asset-inventory.md`.
-- Asset source, license status, slicing/export output, Flutter path, loading fallback, and error fallback are recorded.
+- Asset source, reuse decision, generation prompt constraints, background handling, background transparentization when applicable, license status, slicing/export output, Flutter path, loading fallback, and error fallback are recorded.
+- Transparent or composited assets have clean alpha edges, preserved shadows/glows, and no unintended background halos.
+- Transparent-background post-processing records matte removal, alpha cleanup, edge decontamination, padding, and target-background QA when applicable.
+- New generated assets reference global and page design-freeze constraints and explain why existing assets were not reused.
 - Bitmap and illustration fidelity matches the approved mockup or Pencil evidence within recorded tolerances.
 - Implemented UI respects `docs/design/wireframe-spec.md` when low-fidelity Pencil wireframes are used.
 - Implemented UI respects `docs/design/pencil-hifi-restoration.md` when Pencil carries high-fidelity visual restoration.

@@ -27,7 +27,7 @@ Do not jump from idea to code. Move through product, UX/UI, technical design, im
 ### Module Delivery
 
 7. Execute tasks with `flutter-subagent-delivery`; each UI module or page task must first create a low-fidelity Pencil structure, pass Wireframe Review, convert it into text specs, then generate and approve a page-level high-fidelity effect image.
-8. After page-level high-fidelity approval and design freeze, use `flutter-asset-atlas` when the page has required visual assets that need generation, slicing, export, inventory, or fidelity review.
+8. After page-level high-fidelity approval and design freeze, use `flutter-asset-atlas` when the page has required visual assets that need reuse checks, generation, slicing, export, inventory, or fidelity review. Asset generation must follow the global design freeze and page design freeze.
 9. Decide whether Pencil high-fidelity restoration is required. Restore the page in Pencil when required, then implement the Flutter page from text specs and handoff artifacts.
 10. Review delivery with `flutter-quality-review`.
 11. Check store and business release readiness with `flutter-release-readiness`.
@@ -44,6 +44,7 @@ Create or update these files in the target app repo:
 - `docs/design/ui-quality-gates.md`
 - `docs/design/mockup-brief.md`
 - `docs/design/mockup-review.md`
+- `docs/design/global-design-freeze.md`
 - `docs/design/pencil-intake.md`
 - `docs/design/pencil-flutter-handoff.md`
 - `docs/design/pencil-hifi-restoration.md`
@@ -77,7 +78,8 @@ Use [references/artifacts.md](references/artifacts.md) for the artifact contract
 - No page UI implementation before the current page task has a reviewed low-fidelity structure, selected high-fidelity effect image, recorded approval, design-freeze constraints, and a recorded Pencil high-fidelity restoration decision.
 - No high-fidelity Pencil restoration before Flutter initialization, Wireframe Review, `docs/design/wireframe-spec.md`, page-level mockup approval, design freeze, and required asset atlas evidence.
 - No implementation from raw Pencil images; Pencil wireframes or high-fidelity restorations must be converted into text specs and `docs/design/pencil-flutter-handoff.md`.
-- No high-fidelity Pencil restoration or Flutter UI implementation when required illustrations, bitmaps, logos, textures, generated images, or visual exports lack asset atlas, slicing manifest, asset inventory, Flutter path, license status, and fidelity review.
+- No asset generation without global design-freeze constraints and page design-freeze constraints.
+- No high-fidelity Pencil restoration or Flutter UI implementation when required illustrations, bitmaps, logos, textures, generated images, or visual exports lack reuse check, production decision, background handling, background transparentization when applicable, transparent post-processing when applicable, asset atlas, generation evidence when used, slicing manifest, asset inventory, Flutter path, license status, and fidelity review.
 - No UI completion claim before screenshots or Flutter golden evidence exist.
 - No task completion before `flutter analyze` and relevant tests are reported.
 - No delivery completion while Critical or Important review findings remain open.
@@ -97,6 +99,11 @@ Use subagents for independent product, UX, architecture, review, and release che
 - Splitting modules only by code folders instead of product flow, data ownership, routing, and page interaction order.
 - Generating page-level high-fidelity mockups before the page structure is reviewed and converted into text specs.
 - Skipping asset atlas and slicing when the approved mockup contains required visual assets.
+- Generating duplicate visual assets before checking existing brand, app, source, and inventory assets.
+- Generating assets from the page mockup alone instead of global and page design-freeze constraints.
+- Generating assets without deciding whether the output must be transparent, retained-background, or masked.
+- Treating background transparentization as an implicit export step instead of a recorded work node with source, method, output, and reject/continue decision.
+- Accepting transparent assets without alpha cleanup, edge halo checks, and target-background QA.
 - Reading `.pen` files with normal filesystem tools instead of Pencil tools.
 - Passing Pencil screenshots or restored Pencil frames directly to implementation agents instead of converting them into text specs.
 - Skipping high-fidelity Pencil restoration when the user expects Pencil to carry the approved visual target.

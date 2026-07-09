@@ -72,6 +72,17 @@ For module or page-level UI work, store repeated design artifacts under a page o
 - Iteration notes.
 - Confirmation that page-level mockups were generated after Wireframe Review when applicable.
 
+`docs/design/global-design-freeze.md`
+
+- Global visual direction.
+- Brand tone.
+- Color system.
+- Typography and shape language.
+- Illustration and icon style.
+- Material, lighting, and texture rules.
+- Banned visual styles.
+- Reuse rules for visual assets.
+
 `docs/design/pencil-intake.md`
 
 - Low-fidelity Pencil source context.
@@ -130,8 +141,14 @@ For module or page-level UI work, store repeated design artifacts under a page o
 
 - Page or module.
 - Approved mockup.
+- Global design freeze.
+- Page design freeze.
+- Reuse check.
+- Production decision.
+- Background handling and transparentization work node when applicable.
 - Asset groups.
 - Source or generation plan.
+- Generation prompts and selected outputs when assets are generated.
 - Flutter mapping.
 - Open asset decisions.
 
@@ -142,6 +159,8 @@ For module or page-level UI work, store repeated design artifacts under a page o
 - Format.
 - Logical and pixel size.
 - DPR.
+- Production mode.
+- Background transparentization method when applicable.
 - Flutter path.
 - `pubspec.yaml` entries.
 
@@ -150,6 +169,10 @@ For module or page-level UI work, store repeated design artifacts under a page o
 - Approved mockup.
 - Atlas and slicing manifest.
 - Per-asset match verdict.
+- Global style consistency.
+- Page-level constraint compliance.
+- Duplicate generation check.
+- Background transparentization and transparent post-processing evidence when applicable.
 - Tolerance.
 - Approved deviations.
 - Blocking fixes.

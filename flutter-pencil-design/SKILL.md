@@ -30,7 +30,7 @@ Before any Pencil read, design, screenshot, export, or HTML action, call `get_ed
 2. Confirm the current module or page task brief exists.
 3. For low-fidelity structure, confirm the page or state being structured comes from `docs/plans/module-map.md`.
 4. If the high-fidelity restoration track is needed, confirm Wireframe Review, `docs/design/wireframe-spec.md`, approved high-fidelity mockup, and `docs/design/design-freeze.md` exist.
-5. If the approved mockup has required visual assets, confirm `docs/design/asset-atlas.md`, `docs/design/asset-slicing-manifest.md`, `docs/design/asset-inventory.md`, and `docs/design/asset-fidelity-review.md` exist before restoring high-fidelity visuals.
+5. If the approved mockup has required visual assets, confirm `docs/design/asset-atlas.md`, `docs/design/asset-slicing-manifest.md`, `docs/design/asset-inventory.md`, and `docs/design/asset-fidelity-review.md` exist before restoring high-fidelity visuals. Required generated assets must cite global and page design-freeze constraints.
 6. Read current Pencil context through Pencil tools.
 7. Capture screenshots or layout snapshots for the target frames.
 8. Fill [references/pencil-intake-template.md](references/pencil-intake-template.md).
@@ -77,11 +77,11 @@ For multiple pages, use page-scoped paths such as `docs/design/pages/<page-name>
 - Do not silently skip high-fidelity restoration; record Required or Not required with a reason.
 - Convert Pencil evidence into text specs before it reaches implementation agents.
 - Use `docs/design/design-freeze.md` as the source of truth for visual constraints; use `docs/design/pencil-hifi-restoration.md` to record how Pencil carries those constraints.
-- Record image assets through `flutter-asset-atlas`; Pencil docs should reference atlas evidence rather than inventing source, slicing, license, or Flutter path details.
+- Record image assets through `flutter-asset-atlas`; Pencil docs should reference reuse, generation, slicing, license, Flutter path, and fidelity evidence rather than inventing those details.
 - Record uncertainties instead of guessing hidden interactions.
 - Do not infer extra app features from decorative design elements.
 - If the design conflicts with product scope, ask which source governs before implementing.
 
 ## Gate
 
-Do not implement from raw Pencil screenshots. Do not generate a page-level high-fidelity mockup until Pencil intake, Wireframe Review, and `docs/design/wireframe-spec.md` exist. Do not restore high-fidelity Pencil visuals when required visual assets lack asset atlas, slicing manifest, inventory, and fidelity review. Do not implement a Pencil-sourced screen until page-level high-fidelity approval, the Pencil high-fidelity restoration decision, required restoration evidence, asset evidence when required, and Flutter handoff constraints are written.
+Do not implement from raw Pencil screenshots. Do not generate a page-level high-fidelity mockup until Pencil intake, Wireframe Review, and `docs/design/wireframe-spec.md` exist. Do not restore high-fidelity Pencil visuals when required visual assets lack reuse check, production decision, background handling, background transparentization when applicable, transparent post-processing when applicable, generation evidence when used, asset atlas, slicing manifest, inventory, and fidelity review. Do not implement a Pencil-sourced screen until page-level high-fidelity approval, the Pencil high-fidelity restoration decision, required restoration evidence, asset evidence when required, and Flutter handoff constraints are written.
