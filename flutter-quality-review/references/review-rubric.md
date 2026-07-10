@@ -60,7 +60,7 @@
 
 ## Testing
 
-- `flutter analyze` output is reported.
+- `fvm flutter analyze` output is reported.
 - Relevant unit/widget tests are reported.
 - Golden or screenshot evidence exists for UI work.
 - Integration tests are run when a user path is changed and tests exist.

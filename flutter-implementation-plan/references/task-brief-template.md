@@ -104,8 +104,8 @@ If yes:
 
 ## Verification Commands
 
-- `flutter analyze`
-- `flutter test`
+- `fvm flutter analyze`
+- `fvm flutter test`
 
 ## UI Evidence
 

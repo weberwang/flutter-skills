@@ -9,6 +9,10 @@ description: Use when implementing, refactoring, reviewing, or debugging Flutter
 
 Use this project-local skill for Flutter implementation. Prefer the existing plugin stack, existing project primitives, and the smallest state surface that satisfies the task.
 
+## FVM Environment Rule
+
+Use `fvm flutter` and `fvm dart` for every Flutter or Dart command. Do not run bare `flutter` or `dart` commands.
+
 ## Fixed Stack
 
 Use these packages before adding alternatives:
@@ -49,7 +53,7 @@ Use annotations plus `build_runner` for all generated Dart code.
 - Freezed annotations are required for immutable models, state objects, union states, failures, and value objects that need equality or copy semantics.
 - JSON annotations are required for API DTOs and persisted JSON models.
 - `part` files must be declared correctly.
-- Run `dart run build_runner build --delete-conflicting-outputs` after changing annotated files.
+- Run `fvm dart run build_runner build --delete-conflicting-outputs` after changing annotated files.
 - Do not handwrite `copyWith`, equality, sealed union plumbing, `fromJson`, or `toJson` when Freezed or json_serializable can generate it.
 
 ## Minimum State Change Rule
@@ -94,9 +98,9 @@ Do not create a provider for a constant, one-off callback, static config, or pur
 Run after relevant changes:
 
 ```bash
-dart run build_runner build --delete-conflicting-outputs
-flutter analyze
-flutter test
+fvm dart run build_runner build --delete-conflicting-outputs
+fvm flutter analyze
+fvm flutter test
 ```
 
 For UI work, also capture screenshot or golden evidence required by the task.

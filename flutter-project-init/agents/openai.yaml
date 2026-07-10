@@ -1,4 +1,4 @@
 interface:
   display_name: "Flutter Project Init"
   short_description: "Initialize Flutter apps with fixed stack."
-  default_prompt: "Use $flutter-project-init to initialize a Flutter project with the fixed Riverpod hooks Freezed fpdart json ScreenUtil stack."
+  default_prompt: "Use $flutter-project-init to initialize a Flutter project with the fixed Riverpod hooks Freezed fpdart json ScreenUtil stack, requiring FVM for every Flutter and Dart command."

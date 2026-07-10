@@ -53,9 +53,9 @@ Parallelize exploration and review. Serialize implementation unless write scopes
 
 ## Required Verification
 
-- `flutter analyze`
-- relevant `flutter test` targets
-- `flutter test integration_test` when integration tests exist and the task affects flows
+- `fvm flutter analyze`
+- relevant `fvm flutter test` targets
+- `fvm flutter test integration_test` when integration tests exist and the task affects flows
 - screenshots or golden tests for UI work
 
 ## Gate

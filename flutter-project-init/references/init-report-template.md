@@ -6,6 +6,7 @@
 - Target path:
 - New or existing:
 - Flutter version:
+- FVM SDK version:
 
 ## Technical Design Inputs
 
@@ -52,9 +53,9 @@ Dev:
 
 ## Verification
 
-- `dart run build_runner build --delete-conflicting-outputs`:
-- `flutter analyze`:
-- `flutter test`:
+- `fvm dart run build_runner build --delete-conflicting-outputs`:
+- `fvm flutter analyze`:
+- `fvm flutter test`:
 
 ## Open Risks
 

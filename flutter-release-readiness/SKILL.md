@@ -36,12 +36,12 @@ Always cover:
 
 Select commands that match the app:
 
-- `flutter analyze`
-- `flutter test`
-- `flutter test integration_test`
-- `flutter build apk --release`
-- `flutter build appbundle --release`
-- `flutter build ios --release`
+- `fvm flutter analyze`
+- `fvm flutter test`
+- `fvm flutter test integration_test`
+- `fvm flutter build apk --release`
+- `fvm flutter build appbundle --release`
+- `fvm flutter build ios --release`
 
 Do not claim a platform build passed unless the command was run and output was observed.
 Use `docs/architecture/verification-platforms.md` as the sole source of truth for platform scope. Do not claim a platform is release-ready unless its required build, smoke, store, and privacy evidence exists. Mark unsupported platforms there as `N/A: <reason>`.

@@ -65,6 +65,7 @@
 
 - `flutter-project-init` required: Yes / No
 - Generated `flutter-dev` path:
+- Flutter environment: FVM
 - Fixed stack deviations:
 - Approved package additions:
 
@@ -78,9 +79,9 @@
 
 ## Verification Commands
 
-- `flutter analyze`
-- `flutter test`
-- `flutter test integration_test`
+- `fvm flutter analyze`
+- `fvm flutter test`
+- `fvm flutter test integration_test`
 
 ## Risks
 

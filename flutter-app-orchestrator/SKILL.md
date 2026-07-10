@@ -83,7 +83,7 @@ Use [references/artifacts.md](references/artifacts.md) for the artifact contract
 - No asset generation without global design-freeze constraints and page design-freeze constraints.
 - No high-fidelity Pencil restoration or Flutter UI implementation when required illustrations, bitmaps, logos, textures, generated images, or visual exports lack reuse check, production decision, bitmap source policy, background handling, background transparentization when applicable, transparent post-processing when applicable, asset atlas, generation evidence when used, slicing manifest, asset inventory, Flutter path, license status, and fidelity review.
 - No UI completion claim before screenshots or Flutter golden evidence exist.
-- No task completion before `flutter analyze`, relevant tests, and the applicable evidence required by the global verification platform scope are reported or explicitly marked unavailable with a blocker.
+- No task completion before `fvm flutter analyze`, relevant tests, and the applicable evidence required by the global verification platform scope are reported or explicitly marked unavailable with a blocker.
 - No delivery completion while Critical or Important review findings remain open.
 - No release claim before privacy, account, payment, crash reporting, analytics, and store checklist are checked or explicitly marked out of scope.
 

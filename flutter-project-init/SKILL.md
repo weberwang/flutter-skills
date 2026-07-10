@@ -9,6 +9,10 @@ description: Use when creating, bootstrapping, re-initializing, or standardizing
 
 Use this skill to initialize a Flutter app for the commercial delivery workflow. It installs the fixed plugin stack, writes project-level constraints, and generates a project-local `flutter-dev` skill for all later implementation work.
 
+## FVM Environment Rule
+
+Use FVM as the only Flutter and Dart execution environment. Run Flutter commands through `fvm flutter` and Dart commands through `fvm dart`; do not use bare `flutter` or `dart` commands. Record the selected FVM SDK version in the initialization report before treating the project as initialized.
+
 ## Fixed Stack
 
 The default stack is mandatory unless `docs/architecture/technical-design.md` explicitly rejects one item and records the approved alternative:
@@ -36,7 +40,7 @@ Annotation-based code generation is mandatory. Use Freezed and JSON annotations 
 
 1. Confirm the target directory and whether this is a new or existing Flutter project.
 2. Read `docs/architecture/technical-design.md`; if it is missing, create or request it before initialization.
-3. Create the Flutter project if needed.
+3. Confirm the FVM SDK version and create the Flutter project if needed.
 4. Add the fixed plugin stack.
 5. Ensure `ScreenUtilInit`, `ProviderScope`, theme, routing shell, and code generation commands are planned.
 6. Generate the project-local `flutter-dev` skill from [assets/flutter-dev/SKILL.md](assets/flutter-dev/SKILL.md).
@@ -48,17 +52,17 @@ Annotation-based code generation is mandatory. Use Freezed and JSON annotations 
 For a new app:
 
 ```bash
-flutter create <app_name>
+fvm flutter create <app_name>
 ```
 
 Then in the app root:
 
 ```bash
-flutter pub add flutter_riverpod hooks_riverpod flutter_hooks freezed_annotation json_annotation fpdart flutter_screenutil
-flutter pub add --dev build_runner freezed json_serializable riverpod_lint custom_lint
-dart run build_runner build --delete-conflicting-outputs
-flutter analyze
-flutter test
+fvm flutter pub add flutter_riverpod hooks_riverpod flutter_hooks freezed_annotation json_annotation fpdart flutter_screenutil
+fvm flutter pub add --dev build_runner freezed json_serializable riverpod_lint custom_lint
+fvm dart run build_runner build --delete-conflicting-outputs
+fvm flutter analyze
+fvm flutter test
 ```
 
 ## Generated Skill
@@ -72,7 +76,8 @@ Generate `flutter-dev/SKILL.md` in the target app repo, or another project-local
 - Use json annotations and generated serialization for API or persisted data.
 - Use ScreenUtil through app-level initialization and design tokens.
 - Minimize state changes and rebuild scope.
+- Use FVM for every Flutter and Dart command.
 
 ## Gate
 
-Do not mark initialization complete until dependencies are installed, annotation-based generated code succeeds through `build_runner`, `docs/architecture/flutter-init.md` records the generated `flutter-dev` path, and `flutter analyze` plus relevant tests are reported.
+Do not mark initialization complete until the FVM SDK version is recorded, dependencies are installed, annotation-based generated code succeeds through `build_runner`, `docs/architecture/flutter-init.md` records the generated `flutter-dev` path, and `fvm flutter analyze` plus relevant tests are reported.

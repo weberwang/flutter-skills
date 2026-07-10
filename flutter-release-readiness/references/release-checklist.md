@@ -67,8 +67,8 @@
 
 ## Verification
 
-- `flutter analyze`:
-- `flutter test`:
+- `fvm flutter analyze`:
+- `fvm flutter test`:
 - Integration tests:
 - Required platform build and smoke evidence: `docs/architecture/verification-platforms.md`
 

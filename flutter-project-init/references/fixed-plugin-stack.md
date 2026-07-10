@@ -27,15 +27,16 @@ Use this stack by default for every initialized Flutter app.
 ## Commands
 
 ```bash
-flutter pub add flutter_riverpod hooks_riverpod flutter_hooks freezed_annotation json_annotation fpdart flutter_screenutil
-flutter pub add --dev build_runner freezed json_serializable riverpod_lint custom_lint
-dart run build_runner build --delete-conflicting-outputs
-flutter analyze
-flutter test
+fvm flutter pub add flutter_riverpod hooks_riverpod flutter_hooks freezed_annotation json_annotation fpdart flutter_screenutil
+fvm flutter pub add --dev build_runner freezed json_serializable riverpod_lint custom_lint
+fvm dart run build_runner build --delete-conflicting-outputs
+fvm flutter analyze
+fvm flutter test
 ```
 
 ## Package Selection Rules
 
+- Use `fvm flutter` and `fvm dart` for every command in this stack.
 - Do not add another state management package.
 - Do not add another result or Either package.
 - Do not handwrite JSON serialization for generated DTOs.
