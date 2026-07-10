@@ -7,6 +7,8 @@ Review the image as a product artifact, not artwork.
 - Mockup level: Global direction / Page-level implementation target
 - Select / Reject / Needs iteration:
 - Selected direction:
+- Product Design ideation direction: 1 / 2 / 3
+- Product Design interactive prototype: N/A / path or URL
 - UX/UI confirmed: Yes / No
 - Page-level generated after Wireframe Review: Yes / No / Not applicable
 - Decoded dimensions verified as `780 x 1688 px`: Yes / No

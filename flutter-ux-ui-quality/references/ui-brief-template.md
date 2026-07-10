@@ -36,6 +36,9 @@
 
 ## Visual Direction
 
+- Product Design context confirmation:
+- Product Design ideation directions:
+- Selected Product Design direction:
 - Design system:
 - High-fidelity confirmation required: Yes / No
 - High-fidelity mockup path:

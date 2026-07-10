@@ -34,13 +34,14 @@ Use this before implementation when:
 1. Classify the mockup as global direction or page-level implementation target.
 2. For page-level module work, confirm `docs/design/wireframe-spec.md` exists before writing the mockup brief.
 3. Write a mockup brief for the current module or page with [references/mockup-brief-template.md](references/mockup-brief-template.md).
-4. Generate 2-4 visual directions for the same screen or flow.
+4. Confirm `@product-design user-context` preflight has completed, then use `@product-design get-context` to confirm the design target and intended user outcome. Use `@product-design ideate` to generate exactly three visual directions for the same screen or flow.
 5. Review directions with [references/mockup-review-rubric.md](references/mockup-review-rubric.md).
 6. Select one direction or combine explicit traits from multiple directions.
-7. Freeze implementation constraints with [references/design-freeze-template.md](references/design-freeze-template.md).
-8. If the selected mockup contains required illustrations, bitmaps, logos, photos, textures, generated images, or visual exports, use `flutter-asset-atlas` to create reuse checks, production decisions, product-design or image generation outputs when new bitmaps are needed, background transparentization when needed, slicing/export manifest, inventory, and fidelity review under global and page design-freeze constraints.
-9. If editable design handoff is required for the page task, use `flutter-pencil-design` to restore the approved page direction in Pencil after required asset atlas evidence exists.
-10. Hand off the frozen constraints, asset evidence, and optional Pencil restoration to `flutter-ux-ui-quality` and the implementation task.
+7. If the selected page has interaction ambiguity that a static effect image cannot resolve, use `@product-design image-to-code` to create a review-only interactive prototype. Do not treat this prototype as Flutter implementation code or as a substitute for Pencil restoration.
+8. Freeze implementation constraints with [references/design-freeze-template.md](references/design-freeze-template.md).
+9. If the selected mockup contains required illustrations, bitmaps, logos, photos, textures, generated images, or visual exports, use `flutter-asset-atlas` to create reuse checks, production decisions, product-design or image generation outputs when new bitmaps are needed, background transparentization when needed, slicing/export manifest, inventory, and fidelity review under global and page design-freeze constraints.
+10. If editable design handoff is required for the page task, use `flutter-pencil-design` to restore the approved page direction in Pencil after required asset atlas evidence exists.
+11. Hand off the frozen constraints, asset evidence, optional Product Design prototype, and optional Pencil restoration to `flutter-ux-ui-quality` and the implementation task.
 
 ## Output Files
 
@@ -59,6 +60,7 @@ For multiple pages, use page-scoped paths such as `docs/design/pages/<page-name>
 ## Generation Rules
 
 - Generate every high-fidelity effect image at exactly `780 x 1688 px`, and verify the decoded file dimensions before review or selection.
+- Use `@product-design ideate` as the visual-direction owner; do not generate more or fewer than its three reviewable directions before selection.
 - Generate screen-specific mockups, not generic mood boards.
 - Do not use global direction mockups as page implementation approval.
 - Generate page-level mockups close to implementation time so they reflect the current task scope and Flutter constraints.
@@ -77,4 +79,4 @@ For multiple pages, use page-scoped paths such as `docs/design/pages/<page-name>
 
 ## Gate
 
-Do not generate page-level high-fidelity mockups for module work until low-fidelity Pencil structure, Wireframe Review, and `docs/design/wireframe-spec.md` exist. Do not treat global visual direction as page implementation approval. Do not approve a generated effect image unless its decoded file dimensions are exactly `780 x 1688 px`. Do not approve UX/UI or start Flutter UI implementation for a high-value screen until a selected page-level high-fidelity effect image or an explicit "no mockup needed" decision is recorded. If the mockup contains required bitmaps, illustrations, logos, textures, generated images, or visual exports, `docs/design/asset-atlas.md`, `docs/design/asset-slicing-manifest.md`, `docs/design/asset-inventory.md`, and `docs/design/asset-fidelity-review.md` are required; generated assets must reference global and page design-freeze constraints, and non-transparent sources that must be composited must pass the background transparentization work node.
+Do not generate page-level high-fidelity mockups for module work until low-fidelity Pencil structure, Wireframe Review, and `docs/design/wireframe-spec.md` exist. Do not treat global visual direction as page implementation approval. Do not approve a generated effect image unless its decoded file dimensions are exactly `780 x 1688 px` and its selected direction is recorded from the three-direction `@product-design ideate` review. Do not approve UX/UI or start Flutter UI implementation for a high-value screen until a selected page-level high-fidelity effect image or an explicit "no mockup needed" decision is recorded. If the mockup contains required bitmaps, illustrations, logos, textures, generated images, or visual exports, `docs/design/asset-atlas.md`, `docs/design/asset-slicing-manifest.md`, `docs/design/asset-inventory.md`, and `docs/design/asset-fidelity-review.md` are required; generated assets must reference global and page design-freeze constraints, and non-transparent sources that must be composited must pass the background transparentization work node.

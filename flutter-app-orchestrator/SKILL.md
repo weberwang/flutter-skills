@@ -18,8 +18,8 @@ Do not jump from idea to code. Move through product, UX/UI, technical design, im
 ### Global Design
 
 1. Define the product with `flutter-product-spec`.
-2. Draft global UX/UI goals, flows, states, navigation model, and design-system direction with `flutter-ux-ui-quality`.
-3. Confirm global UX/UI direction with high-fidelity effect images using `flutter-hifi-mockup`; this confirms visual direction and design-system intent only, not page-level implementation readiness.
+2. Draft global UX/UI goals, flows, states, navigation model, and design-system direction with `flutter-ux-ui-quality`, then run `@product-design user-context` preflight followed by `@product-design get-context` and `@product-design ideate` to select one of three global visual directions.
+3. Confirm global UX/UI direction with high-fidelity effect images using `flutter-hifi-mockup`; use `@product-design image-to-code` only when the selected visual target has interaction ambiguity that needs a review-only prototype. This confirms visual direction and design-system intent only, not page-level implementation readiness.
 4. Create architecture with `flutter-tech-design`, including module boundaries, cross-module contracts, data ownership, routing ownership, and shared foundations.
 5. Initialize or standardize the Flutter project from that technical design with `flutter-project-init`.
 6. Split modules and build order with `flutter-implementation-plan`; the plan must account for module dependencies, page interaction order, and the global verification platform scope.
@@ -29,7 +29,7 @@ Do not jump from idea to code. Move through product, UX/UI, technical design, im
 7. Execute tasks with `flutter-subagent-delivery`; each UI module or page task must first create a low-fidelity Pencil structure, pass Wireframe Review, convert it into text specs, then generate and approve a page-level high-fidelity effect image.
 8. After page-level high-fidelity approval and design freeze, use `flutter-asset-atlas` when the page has required visual assets that need reuse checks, generation, slicing, export, inventory, or fidelity review. New bitmap generation must use product-design or image generation tools by default and follow the global design freeze and page design freeze.
 9. Decide whether Pencil high-fidelity restoration is required. Restore the page in Pencil when required, then implement the Flutter page from text specs and handoff artifacts.
-10. Review delivery with `flutter-quality-review`.
+10. Review delivery with `flutter-quality-review`; for user-facing UI flows, run `@product-design audit` against screenshots before the final UX/UI verdict.
 11. Check store and business release readiness with `flutter-release-readiness`.
 
 ## Required Artifacts
@@ -74,6 +74,7 @@ Use [references/artifacts.md](references/artifacts.md) for the artifact contract
 - No implementation before the Flutter project has the fixed plugin stack and a generated `flutter-dev` skill path recorded in `docs/architecture/flutter-init.md`.
 - No implementation planning before `docs/architecture/verification-platforms.md` records the global platform scope, required evidence, and unsupported platforms with `N/A: <reason>`.
 - No UX/UI approval from text alone; high-value screens require selected high-fidelity effect images or an explicit "no mockup needed" decision.
+- No global visual direction approval before `@product-design ideate` provides three reviewable directions and one selected direction is recorded.
 - No implementation plan before module boundaries, module dependencies, cross-module interactions, and page interaction order are recorded in `docs/plans/module-map.md`.
 - No page implementation readiness from global high-fidelity direction alone; global mockups do not replace page-level design gates.
 - No page-level high-fidelity mockup before the current page task has a low-fidelity Pencil structure, Wireframe Review, and `docs/design/wireframe-spec.md`.
@@ -83,6 +84,7 @@ Use [references/artifacts.md](references/artifacts.md) for the artifact contract
 - No asset generation without global design-freeze constraints and page design-freeze constraints.
 - No high-fidelity Pencil restoration or Flutter UI implementation when required illustrations, bitmaps, logos, textures, generated images, or visual exports lack reuse check, production decision, bitmap source policy, background handling, background transparentization when applicable, transparent post-processing when applicable, asset atlas, generation evidence when used, slicing manifest, asset inventory, Flutter path, license status, and fidelity review.
 - No UI completion claim before screenshots or Flutter golden evidence exist.
+- No user-facing UI completion claim before `@product-design audit` findings are resolved or explicitly accepted in the review record.
 - No task completion before `fvm flutter analyze`, relevant tests, and the applicable evidence required by the global verification platform scope are reported or explicitly marked unavailable with a blocker.
 - No delivery completion while Critical or Important review findings remain open.
 - No release claim before privacy, account, payment, crash reporting, analytics, and store checklist are checked or explicitly marked out of scope.

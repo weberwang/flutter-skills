@@ -30,6 +30,7 @@
 ## UX/UI
 
 - UI evidence exists for screen changes.
+- `@product-design audit` findings for user-facing flows are resolved or explicitly accepted.
 - Page implementation order does not skip required prior interactions, states, or transitions from the module map.
 - Page-level high-fidelity mockup was generated after low-fidelity Pencil structure, Wireframe Review, and `docs/design/wireframe-spec.md`.
 - Pencil high-fidelity restoration decision and reason are recorded; required restoration evidence exists for critical, complex, asset-heavy, or visual-parity-sensitive pages.

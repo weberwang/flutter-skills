@@ -1,4 +1,4 @@
 interface:
   display_name: "Flutter App Orchestrator"
   short_description: "Coordinate commercial Flutter app delivery."
-  default_prompt: "Use $flutter-app-orchestrator to coordinate a commercial Flutter app workflow."
+  default_prompt: "Use $flutter-app-orchestrator to coordinate a commercial Flutter app workflow, using @product-design ideate for visual direction, optional image-to-code for interaction validation, and audit for user-facing UI review."

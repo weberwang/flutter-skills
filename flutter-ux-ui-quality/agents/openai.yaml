@@ -1,4 +1,4 @@
 interface:
   display_name: "Flutter UX UI Quality"
   short_description: "Design and verify high-quality Flutter UX/UI."
-  default_prompt: "Use $flutter-ux-ui-quality to define and verify a Flutter app screen."
+  default_prompt: "Use $flutter-ux-ui-quality to define and verify a Flutter app screen, using @product-design ideate for three visual directions and audit for user-facing flow review."

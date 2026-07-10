@@ -28,6 +28,7 @@ Report by severity:
 - Mobile layout is not a compressed desktop layout.
 - No generic AI UI tells: random gradients, fake metrics, filler avatars, inconsistent card shapes.
 - Motion supports state or hierarchy and respects reduced motion.
+- `@product-design audit` findings for the user-facing flow are resolved or explicitly accepted.
 
 ## Output Shape
 
