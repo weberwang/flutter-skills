@@ -1,4 +1,4 @@
 interface:
   display_name: "Flutter HiFi Mockup"
   short_description: "Generate and freeze high-fidelity Flutter mockups."
-  default_prompt: "Use $flutter-hifi-mockup to create high-fidelity Flutter app mockups."
+  default_prompt: "Use $flutter-hifi-mockup to create high-fidelity Flutter app mockups at exactly 780 x 1688 px and verify the decoded dimensions before review or selection."

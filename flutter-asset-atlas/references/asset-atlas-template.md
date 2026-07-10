@@ -52,8 +52,8 @@ Use this order before generating new images: reuse existing, adapt existing, gen
 
 ## Generation Or Source Plan
 
-| Asset ID | Source type | Source path or prompt | Tool or origin | Background prompt constraint | Reference image | Selected output | Rejected outputs | License status | Owner |
-|---|---|---|---|---|---|---|---|---|---|
+| Asset ID | Source type | Source path or prompt | Tool or origin | Logical display size | Required 2x pixel size | Verified pixel size | Background prompt constraint | Reference image | Selected output | Rejected outputs | License status | Owner |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
 
 ## Flutter Mapping
 
@@ -69,6 +69,7 @@ Use this order before generating new images: reuse existing, adapt existing, gen
 - All required visual assets have a source or generation plan.
 - New generation references global and page design-freeze constraints.
 - New bitmap generation uses product-design or image generation tools by default; Pencil export is allowed only for approved production asset nodes.
+- Every newly generated concrete bitmap records its logical display size and passes the exact `2x` decoded-dimension check; only full-screen bitmaps use `780 x 1688 px`.
 - Every generated or exported asset has a background handling decision before generation.
 - Assets that require transparency but arrive with a non-transparent background have a completed Background Transparentization Work Node.
 - Transparent or masked assets have post-processing and target-background QA recorded.

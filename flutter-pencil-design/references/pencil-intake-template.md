@@ -6,6 +6,8 @@ Replace every placeholder before implementation planning or the page design gate
 
 - Pencil file or editor context:
 - Target frame or node IDs:
+- Required frame size: `390 x 844 px`
+- Verified frame dimensions:
 - Screen or flow:
 - Approved source: Yes / No
 - Related mockup:
@@ -21,8 +23,8 @@ Replace every placeholder before implementation planning or the page design gate
 
 ## Screen Inventory
 
-| Screen or frame | Purpose | State | Priority |
-|---|---|---|---|
+| Screen or frame | Purpose | State | Frame size | Size verified | Priority |
+|---|---|---|---|---|---|
 
 ## Interaction Notes
 

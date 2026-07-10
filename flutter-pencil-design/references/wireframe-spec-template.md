@@ -5,6 +5,7 @@ Use this to convert reviewed low-fidelity Pencil wireframes into implementation-
 ## Source
 
 - Pencil evidence:
+- Pencil frame size: `390 x 844 px`
 - Wireframe review:
 - Related high-fidelity mockup:
 - Related design-freeze:
@@ -40,6 +41,7 @@ Use this to convert reviewed low-fidelity Pencil wireframes into implementation-
 ## Constraints
 
 - Must follow:
+- Frame dimensions must remain `390 x 844 px` in Pencil evidence:
 - May adapt:
 - Must not infer:
 - Depends on:

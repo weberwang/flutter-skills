@@ -15,6 +15,12 @@ Do not read, grep, parse, copy, or edit `.pen` files with filesystem tools. Penc
 
 Before any Pencil read, design, screenshot, export, or HTML action, call `get_editor_state(include_schema: true)` if the current Pencil schema is not already loaded in context.
 
+## Frame Size Rule
+
+- Create every Pencil screen or state frame at exactly `390 x 844 px` for both low-fidelity wireframes and high-fidelity restoration.
+- Verify the frame node width and height through Pencil tools before screenshot capture, Wireframe Review, high-fidelity approval, or Flutter handoff.
+- Reject or resize non-compliant Pencil frames before they can become workflow evidence.
+
 ## Use Cases
 
 - Existing Pencil file is a low-fidelity wireframe source.
@@ -32,7 +38,7 @@ Before any Pencil read, design, screenshot, export, or HTML action, call `get_ed
 4. If the high-fidelity restoration track is needed, confirm Wireframe Review, `docs/design/wireframe-spec.md`, approved high-fidelity mockup, and `docs/design/design-freeze.md` exist.
 5. If the approved mockup has required visual assets, confirm `docs/design/asset-atlas.md`, `docs/design/asset-slicing-manifest.md`, `docs/design/asset-inventory.md`, and `docs/design/asset-fidelity-review.md` exist before restoring high-fidelity visuals. Required generated assets must cite global and page design-freeze constraints.
 6. Read current Pencil context through Pencil tools.
-7. Capture screenshots or layout snapshots for the target frames.
+7. Verify every target screen or state frame is exactly `390 x 844 px`, then capture screenshots or layout snapshots.
 8. Fill [references/pencil-intake-template.md](references/pencil-intake-template.md).
 9. For low-fidelity structure, run Wireframe Review with [references/wireframe-review-template.md](references/wireframe-review-template.md).
 10. Convert the reviewed wireframe into text specs with [references/wireframe-spec-template.md](references/wireframe-spec-template.md).
@@ -72,6 +78,7 @@ For multiple pages, use page-scoped paths such as `docs/design/pages/<page-name>
 ## Handoff Rules
 
 - Treat Pencil as editable design evidence, not implementation code.
+- Keep every Pencil screen or state frame at exactly `390 x 844 px`; do not use a differently sized frame as reviewed design evidence.
 - Use Pencil low-fidelity wireframes first for structure, navigation, state coverage, and layout intent before page-level high-fidelity effect images are generated.
 - Use Pencil high-fidelity restoration only for a concrete module or page after that page high-fidelity mockup is approved and converted into `docs/design/design-freeze.md`.
 - Do not silently skip high-fidelity restoration; record Required or Not required with a reason.
@@ -85,4 +92,4 @@ For multiple pages, use page-scoped paths such as `docs/design/pages/<page-name>
 
 ## Gate
 
-Do not implement from raw Pencil screenshots. Do not generate a page-level high-fidelity mockup until Pencil intake, Wireframe Review, and `docs/design/wireframe-spec.md` exist. Do not restore high-fidelity Pencil visuals when required visual assets lack reuse check, production decision, background handling, background transparentization when applicable, transparent post-processing when applicable, generation evidence when used, asset atlas, slicing manifest, inventory, and fidelity review. Do not implement a Pencil-sourced screen until page-level high-fidelity approval, the Pencil high-fidelity restoration decision, required restoration evidence, asset evidence when required, and Flutter handoff constraints are written.
+Do not implement from raw Pencil screenshots. Do not accept a Pencil screen or state frame as workflow evidence unless its node dimensions are exactly `390 x 844 px`. Do not generate a page-level high-fidelity mockup until Pencil intake, Wireframe Review, and `docs/design/wireframe-spec.md` exist. Do not restore high-fidelity Pencil visuals when required visual assets lack reuse check, production decision, background handling, background transparentization when applicable, transparent post-processing when applicable, generation evidence when used, asset atlas, slicing manifest, inventory, and fidelity review. Do not implement a Pencil-sourced screen until page-level high-fidelity approval, the Pencil high-fidelity restoration decision, required restoration evidence, asset evidence when required, and Flutter handoff constraints are written.

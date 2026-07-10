@@ -33,7 +33,7 @@ Use this before high-fidelity Pencil restoration or Flutter UI implementation wh
 - Alpha edge or halo:
 - Shadow or glow preservation:
 - Tested backgrounds:
-- Resolution:
+- Resolution and exact `2x` verification against each bitmap's logical display size:
 - Dark mode:
 - Loading fallback:
 - Error fallback:

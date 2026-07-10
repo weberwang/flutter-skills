@@ -1,4 +1,4 @@
 interface:
   display_name: "Flutter Asset Atlas"
   short_description: "Prepare Flutter visual asset atlases and slices"
-  default_prompt: "Create the asset atlas, slicing plan, inventory, and fidelity checks for this Flutter page."
+  default_prompt: "Create the asset atlas, slicing plan, inventory, and fidelity checks for this Flutter page. Use the 390 x 844 logical design frame as the reference, provide only 2x raster resources, verify each bitmap is exactly twice its recorded logical display size, and reserve 780 x 1688 px for full-screen bitmaps."

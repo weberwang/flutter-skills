@@ -29,7 +29,7 @@ Use this skill after a page-level high-fidelity mockup is approved and before hi
 5. Choose the production decision for each asset in this order: reuse existing asset, adapt existing asset, generate variant from existing source, generate new single asset with product-design or image generation tools, generate atlas/contact sheet, export from an approved Pencil asset node, or extract from approved mockup with explicit approval.
 6. Decide background handling before generation or export: transparent background, retained full background, masked cutout, or non-transparent safe background for later removal. Record why.
 7. Fill [references/asset-atlas-template.md](references/asset-atlas-template.md) with reuse decisions, production strategy, background strategy, and global/page freeze constraints.
-8. Generate or collect source assets at production quality. Default to single-asset generation with product-design or image generation tools for new bitmaps; use atlas/contact sheet generation only when a coherent set must be reviewed together or sliced from one approved composite.
+8. Generate or collect source assets at production quality. Use the `390 x 844` logical design frame as the sizing reference and provide only `2x` raster resources. For each new concrete bitmap, record its logical display size, generate it at twice that width and height, and verify the decoded pixel dimensions before accepting it. Only a full-screen bitmap uses `780 x 1688 px`. Default to single-asset generation with product-design or image generation tools for new bitmaps; use atlas/contact sheet generation only when a coherent set must be reviewed together or sliced from one approved composite.
 9. Run the Background Transparentization Work Node for assets that must become transparent but were generated, extracted, or sourced with a non-transparent background.
 10. For transparent or masked assets, run transparent-background post-processing: alpha cleanup, matte or color-spill removal, edge decontamination, shadow/glow preservation, and target-background QA.
 11. Slice or export assets and fill [references/asset-slicing-manifest-template.md](references/asset-slicing-manifest-template.md).
@@ -54,6 +54,7 @@ For multiple pages, use page-scoped paths such as `docs/design/pages/<page-name>
 - Use JPG only for photographic assets without transparency.
 - Prefer direct single-image production for required new assets. Use atlas/contact sheet production only for style-consistent batches, multi-part illustrations, or explicitly approved composite slicing.
 - Use product-design or image generation tools as the default source for new bitmap production. Record the tool, prompt, references, selected output, and rejected outputs.
+- Provide only `2x` raster resources from the `390 x 844` logical design reference. Require each newly generated concrete bitmap to decode to exactly twice its recorded logical display width and height; use `780 x 1688 px` only for full-screen bitmaps.
 - Use Pencil export only when the Pencil node is an approved production asset source, not when it is only a low-fidelity structure, high-fidelity restoration container, or screenshot of a page.
 - Do not use Pencil screenshots, Pencil whole-page exports, or high-fidelity mockup crops as default production bitmap sources. Allow them only with explicit approval and a recorded reason.
 - Reuse before generating. Every new generated image must record why existing assets were insufficient.
@@ -65,7 +66,7 @@ For multiple pages, use page-scoped paths such as `docs/design/pages/<page-name>
 - Validate transparent assets on checkerboard, light, dark, and actual page backgrounds before approval.
 - Do not flatten shadows, glows, translucent glass, or antialiased edges into an opaque matte unless the asset is intentionally retained-background.
 - Keep prompt, reference image, selected output, rejected outputs, and selection reason for each generated asset.
-- Record DPR or logical-size assumptions for every raster asset.
+- Record the logical display size and `DPR=2` for every raster asset; do not generate separate `1x` or `3x` variants unless the user explicitly changes the resource policy.
 - Record dark-mode variants when the asset changes meaning, contrast, or brand treatment.
 - Record loading and error fallbacks for every required runtime-loaded asset.
 - Do not use mockup screenshots as production assets unless explicitly approved as screenshot content.
@@ -85,4 +86,4 @@ Use this node only after source asset approval and before transparent-background
 
 ## Gate
 
-Do not generate, extract, restore in Pencil, or implement Flutter UI for required visual assets when global design-freeze constraints, page design-freeze constraints, reuse check, production decision, background handling decision, background transparentization evidence when applicable, transparent-background post-processing evidence when applicable, generation evidence when used, slicing/export manifest, inventory entries, Flutter paths, license status, and fidelity review are missing. If no exported assets are needed, record `N/A: no bitmap or exported visual assets` in the task brief and progress ledger.
+Do not generate, extract, restore in Pencil, or implement Flutter UI for required visual assets when global design-freeze constraints, page design-freeze constraints, reuse check, production decision, background handling decision, background transparentization evidence when applicable, transparent-background post-processing evidence when applicable, generation evidence when used, logical display size plus verified `2x` decoded dimensions for every newly generated concrete bitmap, slicing/export manifest, inventory entries, Flutter paths, license status, and fidelity review are missing. If no exported assets are needed, record `N/A: no bitmap or exported visual assets` in the task brief and progress ledger.

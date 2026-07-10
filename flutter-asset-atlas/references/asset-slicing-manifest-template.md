@@ -45,5 +45,6 @@ flutter:
 - Retained-background assets match the page design-freeze background.
 - Post-processed transparent assets are checked on checkerboard, light, dark, and target page backgrounds.
 - Single-image output is used unless atlas/contact sheet slicing has an explicit reason.
+- Raster outputs use only `DPR=2`, with pixel width and height exactly twice the recorded logical size; no separate `1x` or `3x` variants are required.
 - Large assets have compression or replacement notes.
 - `pubspec.yaml` entries are recorded for implementation.

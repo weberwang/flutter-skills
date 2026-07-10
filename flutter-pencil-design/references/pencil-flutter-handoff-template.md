@@ -12,9 +12,11 @@ Use this to translate reviewed low-fidelity Pencil wireframes and approved high-
 - Design-freeze:
 - Exported assets:
 - Source frame:
+- Source frame dimensions verified as `390 x 844 px`: Yes / No
 
 ## Layout
 
+- Pencil frame size: `390 x 844 px`
 - Safe area:
 - Scaffold structure:
 - App bar:

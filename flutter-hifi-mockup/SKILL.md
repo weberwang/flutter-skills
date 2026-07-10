@@ -58,6 +58,7 @@ For multiple pages, use page-scoped paths such as `docs/design/pages/<page-name>
 
 ## Generation Rules
 
+- Generate every high-fidelity effect image at exactly `780 x 1688 px`, and verify the decoded file dimensions before review or selection.
 - Generate screen-specific mockups, not generic mood boards.
 - Do not use global direction mockups as page implementation approval.
 - Generate page-level mockups close to implementation time so they reflect the current task scope and Flutter constraints.
@@ -76,4 +77,4 @@ For multiple pages, use page-scoped paths such as `docs/design/pages/<page-name>
 
 ## Gate
 
-Do not generate page-level high-fidelity mockups for module work until low-fidelity Pencil structure, Wireframe Review, and `docs/design/wireframe-spec.md` exist. Do not treat global visual direction as page implementation approval. Do not approve UX/UI or start Flutter UI implementation for a high-value screen until a selected page-level high-fidelity effect image or an explicit "no mockup needed" decision is recorded. If the mockup contains required bitmaps, illustrations, logos, textures, generated images, or visual exports, `docs/design/asset-atlas.md`, `docs/design/asset-slicing-manifest.md`, `docs/design/asset-inventory.md`, and `docs/design/asset-fidelity-review.md` are required; generated assets must reference global and page design-freeze constraints, and non-transparent sources that must be composited must pass the background transparentization work node.
+Do not generate page-level high-fidelity mockups for module work until low-fidelity Pencil structure, Wireframe Review, and `docs/design/wireframe-spec.md` exist. Do not treat global visual direction as page implementation approval. Do not approve a generated effect image unless its decoded file dimensions are exactly `780 x 1688 px`. Do not approve UX/UI or start Flutter UI implementation for a high-value screen until a selected page-level high-fidelity effect image or an explicit "no mockup needed" decision is recorded. If the mockup contains required bitmaps, illustrations, logos, textures, generated images, or visual exports, `docs/design/asset-atlas.md`, `docs/design/asset-slicing-manifest.md`, `docs/design/asset-inventory.md`, and `docs/design/asset-fidelity-review.md` are required; generated assets must reference global and page design-freeze constraints, and non-transparent sources that must be composited must pass the background transparentization work node.

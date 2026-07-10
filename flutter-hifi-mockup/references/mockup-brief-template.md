@@ -26,6 +26,7 @@ Replace every placeholder before generating images or dispatching a visual agent
 - Primary device:
 - Secondary device:
 - Orientation:
+- Exact output size: `780 x 1688 px`
 - Safe area or platform constraints:
 
 ## Required States

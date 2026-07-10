@@ -9,6 +9,7 @@ Review the image as a product artifact, not artwork.
 - Selected direction:
 - UX/UI confirmed: Yes / No
 - Page-level generated after Wireframe Review: Yes / No / Not applicable
+- Decoded dimensions verified as `780 x 1688 px`: Yes / No
 - Reason:
 
 ## Review Checks
@@ -23,6 +24,7 @@ Review the image as a product artifact, not artwork.
 - It avoids generic AI UI patterns: random gradients, meaningless glass cards, fake charts, filler avatars, decorative labels.
 - It respects platform constraints, safe areas, touch targets, and text scaling.
 - It does not imply features outside MVP scope.
+- The generated file decodes to exactly `780 x 1688 px`.
 - Required illustrations, photos, logos, textures, screenshots, and generated bitmaps are identified for `docs/design/asset-inventory.md`.
 
 ## Findings

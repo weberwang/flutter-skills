@@ -13,6 +13,8 @@ Use this during the page design gate after Wireframe Review when Pencil must car
 - Module or page task:
 - Asset inventory:
 - Target Pencil frame or node IDs:
+- Required frame size: `390 x 844 px`
+- Verified frame dimensions:
 - Exported Pencil screenshot:
 - Layout snapshot:
 
@@ -50,5 +52,6 @@ Use this during the page design gate after Wireframe Review when Pencil must car
 ## Approval
 
 - Restoration verdict: Approved / Needs iteration
+- Frame dimensions verified as `390 x 844 px`: Yes / No
 - Blocking issues:
 - Follow-up required:

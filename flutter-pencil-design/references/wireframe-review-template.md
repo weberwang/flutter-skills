@@ -6,6 +6,7 @@ Use this after capturing low-fidelity Pencil evidence and before writing impleme
 
 - Pencil evidence path:
 - Layout snapshot path:
+- Frame dimensions verified as `390 x 844 px`: Yes / No
 - UI brief:
 - High-fidelity mockup review:
 - Flutter init report:
@@ -18,6 +19,7 @@ Use this after capturing low-fidelity Pencil evidence and before writing impleme
 ## Review Checks
 
 - The wireframe maps to approved product scope.
+- Every reviewed Pencil screen or state frame is exactly `390 x 844 px`.
 - Main navigation is clear.
 - Screen hierarchy is clear.
 - Primary and secondary actions are placed.
