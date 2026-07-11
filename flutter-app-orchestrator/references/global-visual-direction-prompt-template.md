@@ -1,6 +1,6 @@
 # 全局视觉方向选择提示词模板
 
-在生成前，先将本模板填充并保存为 `docs/design/prompts/global-visual-direction-prompt.md`。该正式提示词文件必须包含：模板来源、PRD 来源文件、逐项“PRD 要求—提示词表达—来源位置”映射、产品设计原则检查，以及最终用于生成的提示词正文。只填写能够在 `product-brief.md`、`mvp-scope.md`、`user-stories.md`、`user-flows.md`、`screen-spec.md` 或已批准决策中追溯的信息；不得补造功能、用户目标、业务承诺或页面内容。三套方向必须使用同一代表页面、设备尺寸、信息结构、文案和页面状态。
+在生成前，先将本模板填充并保存为 `docs/design/prompts/global-visual-direction-prompt.md`。该正式提示词文件必须包含：模板来源、PRD 来源文件、逐项“PRD 要求—提示词表达—来源位置”映射和产品设计原则检查。它用于定义三套方向的比较约束，不得直接作为代表页面效果图的生成提示词。若选择代表页面生成效果图，必须对每套候选方向使用 `page-hifi-mockup-prompt-template.md` 创建独立的页面提示词文件。只填写能够在 `product-brief.md`、`mvp-scope.md`、`user-stories.md`、`user-flows.md`、`screen-spec.md` 或已批准决策中追溯的信息；不得补造功能、用户目标、业务承诺或页面内容。三套方向必须使用同一代表页面、设备尺寸、信息结构、文案和页面状态。
 
 ```text
 你是一名资深产品设计总监和移动端视觉设计师。请为以下 App 探索 3 套具有明显差异、可以落地到完整产品中的视觉设计方向。

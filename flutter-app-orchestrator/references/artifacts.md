@@ -72,7 +72,15 @@ For module or page-level UI work, store repeated design artifacts under a page o
 - PRD source artifacts: product brief, MVP scope, user stories, user flows, screen specification, and applicable decisions.
 - Requirement mapping: PRD requirement, prompt expression, and source location.
 - Product-design-principle check: primary user task, scoped functionality, information hierarchy, single primary action where applicable, mobile accessibility, realistic content, and approved visual constraints.
-- Final generation prompt used for the global effect-image batch.
+- Three-direction comparison specification; representative-page image prompts are stored in the per-candidate page prompt files.
+
+`docs/design/prompts/global-visual-directions/<direction-name>-representative-page-hifi-mockup-prompt.md`
+
+- Page high-fidelity prompt template source and candidate direction name.
+- Shared representative-page task, device, information structure, copy, data, and state.
+- Candidate-only visual-direction fields.
+- PRD requirement mapping and product-design-principle check.
+- Final generation prompt used for that candidate's representative-page effect image.
 
 `docs/design/prompts/pages/<page-name>-hifi-mockup-prompt.md`
 
