@@ -87,16 +87,6 @@ For module or page-level UI work, store repeated design artifacts under a page o
 - Product-design-principle check: primary user task, scoped functionality, information hierarchy, primary-action clarity, mobile accessibility, realistic content, and approved visual constraints.
 - Final generation prompt used for the page-level effect image.
 
-`docs/design/mockup-review.md`
-
-- Candidate mockups.
-- Selection verdict.
-- Independent reviewer findings: the five highest-impact problems or an explicit “no material issue” verdict, each tied to the reviewed image and with a concrete fix.
-- Iteration notes.
-- User decision to apply or decline the proposed changes.
-- User's explicit selected global visual direction when reviewing the global effect-image batch.
-- Confirmation that page-level mockups were generated after Wireframe Review when applicable.
-
 `docs/design/global-design-freeze.md`
 
 - Global visual direction.
