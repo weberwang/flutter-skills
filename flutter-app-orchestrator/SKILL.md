@@ -18,7 +18,7 @@ Do not jump from idea to code. Move through product, UX/UI, technical design, im
 ### Global Design
 
 1. Define the product with `flutter-product-spec`.
-2. Draft global UX/UI goals, flows, states, navigation model, and design-system direction with `flutter-ux-ui-quality`, then run `@product-design user-context` preflight followed by `@product-design get-context` and `@product-design ideate` to select one of three global visual directions.
+2. Draft global UX/UI goals, flows, states, navigation model, and design-system direction with `flutter-ux-ui-quality`. Use [references/global-visual-direction-prompt-template.md](references/global-visual-direction-prompt-template.md) to generate three comparable global visual directions, then run `@product-design user-context` preflight followed by `@product-design get-context` and `@product-design ideate` to select one direction.
 3. Confirm global UX/UI direction with high-fidelity effect images using `flutter-hifi-mockup`; use `@product-design image-to-code` only when the selected visual target has interaction ambiguity that needs a review-only prototype. This confirms visual direction and design-system intent only, not page-level implementation readiness.
 4. Create architecture with `flutter-tech-design`, including module boundaries, cross-module contracts, data ownership, routing ownership, and shared foundations.
 5. Initialize or standardize the Flutter project from that technical design with `flutter-project-init`.
@@ -26,7 +26,7 @@ Do not jump from idea to code. Move through product, UX/UI, technical design, im
 
 ### Module Delivery
 
-7. Execute tasks with `flutter-subagent-delivery`; each UI module or page task must first create a low-fidelity Pencil structure, pass Wireframe Review, convert it into text specs, then generate and approve a page-level high-fidelity effect image.
+7. Execute tasks with `flutter-subagent-delivery`; each UI module or page task must first create a low-fidelity Pencil structure, pass Wireframe Review, convert it into text specs, then use [references/page-hifi-mockup-prompt-template.md](references/page-hifi-mockup-prompt-template.md) to generate and approve a page-level high-fidelity effect image.
 8. After page-level high-fidelity approval and design freeze, use `flutter-asset-atlas` when the page has required visual assets that need reuse checks, generation, enhancement, slicing, export, inventory, or fidelity review. New bitmap generation must use product-design or image generation tools by default and follow the global design freeze and page design freeze. Treat bitmap enhancement as a design change: replace the corresponding asset in the design draft, preserve the approved layout and constraints, and record the updated design evidence before implementation.
 9. Decide whether Pencil high-fidelity restoration is required. Restore the page in Pencil when required, including every generated or enhanced bitmap used by the approved page, then implement the Flutter page from text specs and handoff artifacts.
 10. Review delivery with `flutter-quality-review`; for user-facing UI flows, run `@product-design audit` against screenshots before the final UX/UI verdict.
