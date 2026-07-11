@@ -12,6 +12,7 @@ Use subagents when work is independent and the controller can continue or integr
 | Mockup reviewer | Select or reject mockups against product and Flutter feasibility | No |
 | Pencil handoff agent | Convert low-fidelity Pencil evidence into Flutter text specs | No |
 | Pencil visual restoration agent | Restore approved high-fidelity visuals into Pencil and produce text handoff | No |
+| Bitmap enhancement agent | Enhance approved bitmap assets and synchronize each final output to the corresponding design-draft asset or Pencil node | No |
 | Wireframe reviewer | Review low-fidelity Pencil wireframes before implementation | No |
 | Module planner | Convert global design and architecture into module order and page interaction order | No |
 | Flutter init agent | Initialize fixed plugin stack and generate `flutter-dev` | Yes |

@@ -27,8 +27,8 @@ Do not jump from idea to code. Move through product, UX/UI, technical design, im
 ### Module Delivery
 
 7. Execute tasks with `flutter-subagent-delivery`; each UI module or page task must first create a low-fidelity Pencil structure, pass Wireframe Review, convert it into text specs, then generate and approve a page-level high-fidelity effect image.
-8. After page-level high-fidelity approval and design freeze, use `flutter-asset-atlas` when the page has required visual assets that need reuse checks, generation, slicing, export, inventory, or fidelity review. New bitmap generation must use product-design or image generation tools by default and follow the global design freeze and page design freeze.
-9. Decide whether Pencil high-fidelity restoration is required. Restore the page in Pencil when required, then implement the Flutter page from text specs and handoff artifacts.
+8. After page-level high-fidelity approval and design freeze, use `flutter-asset-atlas` when the page has required visual assets that need reuse checks, generation, enhancement, slicing, export, inventory, or fidelity review. New bitmap generation must use product-design or image generation tools by default and follow the global design freeze and page design freeze. Treat bitmap enhancement as a design change: replace the corresponding asset in the design draft, preserve the approved layout and constraints, and record the updated design evidence before implementation.
+9. Decide whether Pencil high-fidelity restoration is required. Restore the page in Pencil when required, including every generated or enhanced bitmap used by the approved page, then implement the Flutter page from text specs and handoff artifacts.
 10. Review delivery with `flutter-quality-review`; for user-facing UI flows, run `@product-design audit` against screenshots before the final UX/UI verdict.
 11. Check store and business release readiness with `flutter-release-readiness`.
 12. After completing a task, list exactly one next task.
@@ -83,6 +83,7 @@ Use [references/artifacts.md](references/artifacts.md) for the artifact contract
 - No high-fidelity Pencil restoration before Flutter initialization, Wireframe Review, `docs/design/wireframe-spec.md`, page-level mockup approval, design freeze, and required asset atlas evidence.
 - No implementation from raw Pencil images; Pencil wireframes or high-fidelity restorations must be converted into text specs and `docs/design/pencil-flutter-handoff.md`.
 - No asset generation without global design-freeze constraints and page design-freeze constraints.
+- No enhanced bitmap may be handed to Flutter implementation before the same output is synchronized to the corresponding design-draft asset or Pencil node and the updated design evidence is recorded. A bitmap enhancement includes upscaling, cleanup, relighting, recoloring, background removal, compositing, retouching, or other pixel-level changes.
 - No high-fidelity Pencil restoration or Flutter UI implementation when required illustrations, bitmaps, logos, textures, generated images, or visual exports lack reuse check, production decision, bitmap source policy, background handling, background transparentization when applicable, transparent post-processing when applicable, asset atlas, generation evidence when used, slicing manifest, asset inventory, Flutter path, license status, and fidelity review.
 - No UI completion claim before screenshots or Flutter golden evidence exist.
 - No user-facing UI completion claim before `@product-design audit` findings are resolved or explicitly accepted in the review record.
@@ -108,6 +109,7 @@ Use subagents for independent product, UX, architecture, review, and release che
 - Generating assets from the page mockup alone instead of global and page design-freeze constraints.
 - Using Pencil whole-page screenshots or high-fidelity mockup crops as default bitmap sources instead of product-design or image generation output.
 - Generating assets without deciding whether the output must be transparent, retained-background, or masked.
+- Enhancing a bitmap only in the Flutter asset pipeline without replacing the corresponding asset in the design draft and capturing updated design evidence.
 - Treating background transparentization as an implicit export step instead of a recorded work node with source, method, output, and reject/continue decision.
 - Accepting transparent assets without alpha cleanup, edge halo checks, and target-background QA.
 - Reading `.pen` files with normal filesystem tools instead of Pencil tools.

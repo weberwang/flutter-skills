@@ -109,6 +109,7 @@ For module or page-level UI work, store repeated design artifacts under a page o
 - Target Pencil frames or nodes.
 - Restored visual roles.
 - Asset restoration evidence.
+- Generated or enhanced bitmap synchronization evidence, including source asset, final asset, and target Pencil node.
 - Deviations and approval.
 - Flutter handoff constraints.
 
@@ -148,7 +149,9 @@ For module or page-level UI work, store repeated design artifacts under a page o
 - Background handling and transparentization work node when applicable.
 - Asset groups.
 - Source or generation plan.
+- Bitmap enhancement plan and the design-draft synchronization target when enhancement is required.
 - Generation prompts and selected outputs when assets are generated.
+- Enhanced output, replaced design-draft asset or Pencil node, and updated design evidence.
 - Flutter mapping.
 - Open asset decisions.
 
@@ -173,6 +176,7 @@ For module or page-level UI work, store repeated design artifacts under a page o
 - Page-level constraint compliance.
 - Duplicate generation check.
 - Background transparentization and transparent post-processing evidence when applicable.
+- Enhanced bitmap parity between the design draft and Flutter production asset.
 - Tolerance.
 - Approved deviations.
 - Blocking fixes.
@@ -181,6 +185,7 @@ For module or page-level UI work, store repeated design artifacts under a page o
 
 - Asset list.
 - Source and ownership.
+- Enhancement lineage and synchronized design-draft location when applicable.
 - Production format.
 - Flutter path.
 - License status.
@@ -256,6 +261,7 @@ For module or page-level UI work, store repeated design artifacts under a page o
 - UI page design gate evidence.
 - Pencil high-fidelity restoration decision.
 - Pencil high-fidelity restoration reason.
+- Bitmap enhancement synchronization evidence when applicable.
 - Module acceptance result.
 - Integration smoke result.
 
