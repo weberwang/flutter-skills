@@ -72,15 +72,12 @@ For module or page-level UI work, store repeated design artifacts under a page o
 - PRD source artifacts: product brief, MVP scope, user stories, user flows, screen specification, and applicable decisions.
 - Requirement mapping: PRD requirement, prompt expression, and source location.
 - Product-design-principle check: primary user task, scoped functionality, information hierarchy, single primary action where applicable, mobile accessibility, realistic content, and approved visual constraints.
-- Three-direction comparison specification; representative-page image prompts are stored in the per-candidate page prompt files.
-
-`docs/design/prompts/global-visual-directions/<direction-name>-representative-page-hifi-mockup-prompt.md`
-
-- Page high-fidelity prompt template source and candidate direction name.
+- Three-direction comparison specification.
+- Candidate direction list and confirmation that categories were derived from the PRD rather than restricted to template examples.
+- User's explicit selected direction; no automatic selection.
+- Autonomously selected representative page and PRD-based selection rationale.
 - Shared representative-page task, device, information structure, copy, data, and state.
-- Candidate-only visual-direction fields.
-- PRD requirement mapping and product-design-principle check.
-- Final generation prompt used for that candidate's representative-page effect image.
+- Confirmation that the page high-fidelity prompt template was used for each candidate direction without saving separate representative-page prompt files.
 
 `docs/design/prompts/pages/<page-name>-hifi-mockup-prompt.md`
 
@@ -97,6 +94,7 @@ For module or page-level UI work, store repeated design artifacts under a page o
 - Independent reviewer findings: the five highest-impact problems or an explicit “no material issue” verdict, each tied to the reviewed image and with a concrete fix.
 - Iteration notes.
 - User decision to apply or decline the proposed changes.
+- User's explicit selected global visual direction when reviewing the global effect-image batch.
 - Confirmation that page-level mockups were generated after Wireframe Review when applicable.
 
 `docs/design/global-design-freeze.md`
