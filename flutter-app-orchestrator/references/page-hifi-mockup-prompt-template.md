@@ -1,6 +1,6 @@
 # 单页高保真效果图提示词模板
 
-将方括号中的占位符替换为当前产品、页面和已选全局视觉方向的信息。仅展示一个互不冲突的页面状态。
+在生成前，先将本模板填充并保存为 `docs/design/prompts/pages/<page-name>-hifi-mockup-prompt.md`。该正式提示词文件必须包含：模板来源、PRD 和已批准设计来源文件、逐项“页面要求—提示词表达—来源位置”映射、产品设计原则检查，以及最终用于生成的提示词正文。只填写能够在 PRD、`wireframe-spec.md`、已选全局方向和已批准设计冻结中追溯的信息；不得补造功能、用户目标、业务承诺、页面状态或视觉例外。仅展示一个互不冲突的页面状态。
 
 ```text
 你是一名资深移动端产品设计师。请根据已经确定的产品视觉方向，设计一张可以用于产品评审和后续开发的高保真 App 页面。
@@ -245,7 +245,7 @@
 纵向
 
 设计规范：
-[iOS Human Interface Guidelines / Material 3]
+[iOS Human Interface Guidelines]
 
 间距系统：
 使用 8pt spacing system。

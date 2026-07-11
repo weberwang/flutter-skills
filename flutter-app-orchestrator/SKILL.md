@@ -18,7 +18,7 @@ Do not jump from idea to code. Move through product, UX/UI, technical design, im
 ### Global Design
 
 1. Define the product with `flutter-product-spec`.
-2. Draft global UX/UI goals, flows, states, navigation model, and design-system direction with `flutter-ux-ui-quality`. Use [references/global-visual-direction-prompt-template.md](references/global-visual-direction-prompt-template.md) to generate three comparable global visual directions, then run `@product-design user-context` preflight followed by `@product-design get-context` and `@product-design ideate` to select one direction.
+2. Draft global UX/UI goals, flows, states, navigation model, and design-system direction with `flutter-ux-ui-quality`. Before generating any global effect image, use [references/global-visual-direction-prompt-template.md](references/global-visual-direction-prompt-template.md) to create and save `docs/design/prompts/global-visual-direction-prompt.md`. Trace every product claim, task, state, content constraint, and acceptance criterion to the PRD artifacts; document the product-design-principle check in the same file; then use that saved prompt file to generate three comparable global visual directions. Run `@product-design user-context` preflight followed by `@product-design get-context` and `@product-design ideate` to select one direction.
 3. Confirm global UX/UI direction with high-fidelity effect images using `flutter-hifi-mockup`. After the effect-image batch is complete, automatically dispatch the Mockup reviewer subagent with the images, product brief, and [references/mockup-self-review-prompt-template.md](references/mockup-self-review-prompt-template.md). Record the five highest-impact findings and concrete fixes in `docs/design/mockup-review.md`, then ask the user whether to apply the proposed changes. Do not revise, select, or freeze a direction until the user explicitly approves changes or explicitly accepts the current result. Use `@product-design image-to-code` only when the selected visual target has interaction ambiguity that needs a review-only prototype. This confirms visual direction and design-system intent only, not page-level implementation readiness.
 4. Create architecture with `flutter-tech-design`, including module boundaries, cross-module contracts, data ownership, routing ownership, and shared foundations.
 5. Initialize or standardize the Flutter project from that technical design with `flutter-project-init`.
@@ -26,7 +26,7 @@ Do not jump from idea to code. Move through product, UX/UI, technical design, im
 
 ### Module Delivery
 
-7. Execute tasks with `flutter-subagent-delivery`; each UI module or page task must first create a low-fidelity Pencil structure, pass Wireframe Review, convert it into text specs, then use [references/page-hifi-mockup-prompt-template.md](references/page-hifi-mockup-prompt-template.md) to generate a page-level high-fidelity effect image. After the image is complete, automatically dispatch the Mockup reviewer subagent with the image, wireframe spec, and [references/mockup-self-review-prompt-template.md](references/mockup-self-review-prompt-template.md). Record the five highest-impact findings and concrete fixes in `docs/design/mockup-review.md`, then ask the user whether to apply the proposed changes. Do not revise, approve, or freeze the page design until the user explicitly approves changes or explicitly accepts the current result.
+7. Execute tasks with `flutter-subagent-delivery`; each UI module or page task must first create a low-fidelity Pencil structure, pass Wireframe Review, and convert it into text specs. Before generating any page-level effect image, use [references/page-hifi-mockup-prompt-template.md](references/page-hifi-mockup-prompt-template.md) to create and save `docs/design/prompts/pages/<page-name>-hifi-mockup-prompt.md`. Trace every page task, module, state, copy, data, interaction, and visual constraint to the PRD and approved design artifacts; document the product-design-principle check in the same file; then use that saved prompt file to generate the page-level high-fidelity effect image. After the image is complete, automatically dispatch the Mockup reviewer subagent with the image, wireframe spec, and [references/mockup-self-review-prompt-template.md](references/mockup-self-review-prompt-template.md). Record the five highest-impact findings and concrete fixes in `docs/design/mockup-review.md`, then ask the user whether to apply the proposed changes. Do not revise, approve, or freeze the page design until the user explicitly approves changes or explicitly accepts the current result.
 8. After page-level high-fidelity approval and design freeze, use `flutter-asset-atlas` when the page has required visual assets that need reuse checks, generation, enhancement, slicing, export, inventory, or fidelity review. New bitmap generation must use product-design or image generation tools by default and follow the global design freeze and page design freeze. Treat bitmap enhancement as a design change: replace the corresponding asset in the design draft, preserve the approved layout and constraints, and record the updated design evidence before implementation.
 9. Decide whether Pencil high-fidelity restoration is required. Restore the page in Pencil when required, including every generated or enhanced bitmap used by the approved page, then implement the Flutter page from text specs and handoff artifacts.
 10. Review delivery with `flutter-quality-review`; for user-facing UI flows, run `@product-design audit` against screenshots before the final UX/UI verdict.
@@ -44,6 +44,8 @@ Create or update these files in the target app repo:
 - `docs/design/screen-spec.md`
 - `docs/design/ui-quality-gates.md`
 - `docs/design/mockup-brief.md`
+- `docs/design/prompts/global-visual-direction-prompt.md`
+- `docs/design/prompts/pages/<page-name>-hifi-mockup-prompt.md`
 - `docs/design/mockup-review.md`
 - `docs/design/global-design-freeze.md`
 - `docs/design/pencil-intake.md`
@@ -76,10 +78,13 @@ Use [references/artifacts.md](references/artifacts.md) for the artifact contract
 - No implementation planning before `docs/architecture/verification-platforms.md` records the global platform scope, required evidence, and unsupported platforms with `N/A: <reason>`.
 - No UX/UI approval from text alone; high-value screens require selected high-fidelity effect images or an explicit "no mockup needed" decision.
 - No global visual direction approval before `@product-design ideate` provides three reviewable directions and one selected direction is recorded.
+- No global effect-image generation before `docs/design/prompts/global-visual-direction-prompt.md` exists, is populated from the prompt template, maps every product requirement to PRD artifacts, and records the product-design-principle check.
 - No global visual direction approval before its completed effect-image batch has an independent Mockup reviewer result, five prioritized findings or an explicit “no material issue” verdict, and the user's recorded decision to apply or decline the proposed changes.
 - No implementation plan before module boundaries, module dependencies, cross-module interactions, and page interaction order are recorded in `docs/plans/module-map.md`.
 - No page implementation readiness from global high-fidelity direction alone; global mockups do not replace page-level design gates.
 - No page-level high-fidelity mockup before the current page task has a low-fidelity Pencil structure, Wireframe Review, and `docs/design/wireframe-spec.md`.
+- No page-level effect-image generation before `docs/design/prompts/pages/<page-name>-hifi-mockup-prompt.md` exists, is populated from the prompt template, maps every page requirement to the PRD and approved design artifacts, and records the product-design-principle check.
+- Do not generate or approve an effect image whose formal prompt invents a feature, user goal, content, state, commercial claim, or visual exception that conflicts with the PRD or approved product-design principles.
 - No page design approval or design freeze before the completed page-level effect image has an independent Mockup reviewer result, five prioritized findings or an explicit “no material issue” verdict, and the user's recorded decision to apply or decline the proposed changes.
 - Do not modify any effect image from an independent review without the user's explicit approval.
 - No page UI implementation before the current page task has a reviewed low-fidelity structure, selected high-fidelity effect image, recorded approval, design-freeze constraints, and a recorded Pencil high-fidelity restoration decision.
@@ -103,6 +108,8 @@ Use subagents for independent product, UX, architecture, review, and release che
 - Treating a prototype as a commercial app.
 - Letting the implementer self-approve UI quality.
 - Treating a generated mockup as implementation truth without design-freeze constraints.
+- Generating an effect image directly from an unsaved chat prompt instead of a formal prompt file traced to the PRD and product-design principles.
+- Adding attractive but unscoped features, data, user goals, or visual exceptions to a prompt when they are absent from the PRD.
 - Treating text-only UX/UI descriptions as sufficient for visual approval.
 - Treating global high-fidelity direction as a substitute for page-level low-fidelity structure, Wireframe Review, and page mockup approval.
 - Splitting modules only by code folders instead of product flow, data ownership, routing, and page interaction order.

@@ -63,6 +63,24 @@ For module or page-level UI work, store repeated design artifacts under a page o
 - Required states.
 - Source wireframe spec for page-level module work.
 - Image prompt constraints.
+- Formal prompt file path.
+- PRD alignment status.
+
+`docs/design/prompts/global-visual-direction-prompt.md`
+
+- Template source and version.
+- PRD source artifacts: product brief, MVP scope, user stories, user flows, screen specification, and applicable decisions.
+- Requirement mapping: PRD requirement, prompt expression, and source location.
+- Product-design-principle check: primary user task, scoped functionality, information hierarchy, single primary action where applicable, mobile accessibility, realistic content, and approved visual constraints.
+- Final generation prompt used for the global effect-image batch.
+
+`docs/design/prompts/pages/<page-name>-hifi-mockup-prompt.md`
+
+- Template source and version.
+- PRD and approved design source artifacts.
+- Requirement mapping: page task, state, copy, data, actions, visual constraints, and source location.
+- Product-design-principle check: primary user task, scoped functionality, information hierarchy, primary-action clarity, mobile accessibility, realistic content, and approved visual constraints.
+- Final generation prompt used for the page-level effect image.
 
 `docs/design/mockup-review.md`
 
