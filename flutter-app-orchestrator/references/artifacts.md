@@ -68,8 +68,9 @@ For module or page-level UI work, store repeated design artifacts under a page o
 
 - Candidate mockups.
 - Selection verdict.
-- Findings.
+- Independent reviewer findings: the five highest-impact problems or an explicit “no material issue” verdict, each tied to the reviewed image and with a concrete fix.
 - Iteration notes.
+- User decision to apply or decline the proposed changes.
 - Confirmation that page-level mockups were generated after Wireframe Review when applicable.
 
 `docs/design/global-design-freeze.md`

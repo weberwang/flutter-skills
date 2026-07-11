@@ -9,7 +9,7 @@ Use subagents when work is independent and the controller can continue or integr
 | Product agent | Product brief, MVP, user stories | No |
 | UX agent | Flows, screen states, usability risks | No |
 | Mockup agent | Generate high-fidelity screen directions and visual prompts | No |
-| Mockup reviewer | Select or reject mockups against product and Flutter feasibility | No |
+| Mockup reviewer | Independently review completed mockups against product goals, Flutter feasibility, and the review template; report at most five issues with concrete fixes, without redesigning or modifying the mockup | No |
 | Pencil handoff agent | Convert low-fidelity Pencil evidence into Flutter text specs | No |
 | Pencil visual restoration agent | Restore approved high-fidelity visuals into Pencil and produce text handoff | No |
 | Bitmap enhancement agent | Enhance approved bitmap assets and synchronize each final output to the corresponding design-draft asset or Pencil node | No |
