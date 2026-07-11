@@ -31,6 +31,7 @@ Do not jump from idea to code. Move through product, UX/UI, technical design, im
 9. Decide whether Pencil high-fidelity restoration is required. Restore the page in Pencil when required, then implement the Flutter page from text specs and handoff artifacts.
 10. Review delivery with `flutter-quality-review`; for user-facing UI flows, run `@product-design audit` against screenshots before the final UX/UI verdict.
 11. Check store and business release readiness with `flutter-release-readiness`.
+12. After completing a task, list exactly one next task.
 
 ## Required Artifacts
 
