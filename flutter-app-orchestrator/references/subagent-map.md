@@ -7,6 +7,7 @@ Use subagents when work is independent and the controller can continue or integr
 | Agent | Use | Writes code |
 |---|---|---|
 | Product agent | Product brief, MVP, user stories | No |
+| Market analysis agent | Market context, competitor patterns, category conventions, differentiation opportunities, and evidence sources | No |
 | UX agent | Flows, screen states, usability risks | No |
 | Mockup agent | Generate high-fidelity screen directions and visual prompts | No |
 | Mockup reviewer | Independently review completed mockups against product goals, Flutter feasibility, and the review template; report at most five issues with concrete fixes, without redesigning or modifying the mockup | No |

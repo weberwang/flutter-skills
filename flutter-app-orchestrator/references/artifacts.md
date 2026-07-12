@@ -29,6 +29,14 @@ For module or page-level UI work, store repeated design artifacts under a page o
 - Priority.
 - Release status.
 
+`docs/product/market-analysis.md`
+
+- Target market and category context.
+- Competitor and adjacent-product patterns.
+- User expectations and category visual conventions.
+- Differentiation opportunities, commercial risks, and evidence sources.
+- Implications for global visual-direction exploration.
+
 ## Design
 
 `docs/design/user-flows.md`
@@ -70,10 +78,11 @@ For module or page-level UI work, store repeated design artifacts under a page o
 
 - Template source and version.
 - PRD source artifacts: product brief, MVP scope, user stories, user flows, screen specification, and applicable decisions.
-- Requirement mapping: PRD requirement, prompt expression, and source location.
+- Market-analysis source, relevant findings, and source location.
+- Requirement mapping: PRD requirement or market finding, prompt expression, and source location.
 - Product-design-principle check: primary user task, scoped functionality, information hierarchy, single primary action where applicable, mobile accessibility, realistic content, and approved visual constraints.
 - Three-direction comparison specification.
-- Candidate direction list and confirmation that categories were derived from the PRD rather than restricted to template examples.
+- Three recommended candidate directions, each tied to PRD needs, market opportunity, category conventions, and differentiation opportunity; categories are not restricted to template examples.
 - User's explicit selected direction; no automatic selection.
 - Autonomously selected representative page and PRD-based selection rationale.
 - Shared representative-page task, device, information structure, copy, data, and state.
