@@ -32,7 +32,8 @@ Do not jump from idea to code. Move through product, UX/UI, technical design, im
 9. Decide whether Pencil high-fidelity restoration is required. Restore the page in Pencil when required, including every generated or enhanced bitmap used by the approved page, then implement the Flutter page from text specs and handoff artifacts.
 10. Review delivery with `flutter-quality-review`; for user-facing UI flows, run `@product-design audit` against screenshots before the final UX/UI verdict.
 11. Check store and business release readiness with `flutter-release-readiness`.
-12. After completing a task, list exactly one next task.
+12. After a task passes its required checks and is explicitly confirmed, remove task-scoped temporary files, invalid or expired artifacts, and superseded unselected design drafts. Before deletion, verify that each candidate is not referenced by the current approved design, implementation, required workflow evidence, or user-provided source assets. Preserve the selected design, final assets, and required evidence; record deleted paths and any `N/A` cleanup decision in `.codex-workflow/progress.md`.
+13. After cleanup, list exactly one next task.
 
 ## Required Artifacts
 
@@ -98,6 +99,7 @@ Use [references/artifacts.md](references/artifacts.md) for the artifact contract
 - No UI completion claim before screenshots or Flutter golden evidence exist.
 - No user-facing UI completion claim before `@product-design audit` findings are resolved or explicitly accepted in the review record.
 - No task completion before `fvm flutter analyze`, relevant tests, and the applicable evidence required by the global verification platform scope are reported or explicitly marked unavailable with a blocker.
+- No next-task handoff before the confirmed task has completed its scoped cleanup or recorded `N/A` in `.codex-workflow/progress.md`.
 - No delivery completion while Critical or Important review findings remain open.
 - No release claim before privacy, account, payment, crash reporting, analytics, and store checklist are checked or explicitly marked out of scope.
 
@@ -133,3 +135,4 @@ Use subagents for independent product, UX, architecture, review, and release che
 - Repeating platform scope in every task instead of maintaining `docs/architecture/verification-platforms.md` as the single source of truth.
 - Claiming a platform is verified when its command, screenshot, golden, simulator, emulator, device, or browser evidence was not run or captured.
 - Accepting vague words such as "premium", "simple", or "polished" without screen-level acceptance criteria.
+- Retaining temporary files, invalid or expired artifacts, or superseded unselected design drafts after task confirmation without checking whether they are still required as approved or audit evidence.

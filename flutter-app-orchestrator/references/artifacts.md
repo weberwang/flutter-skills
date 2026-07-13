@@ -288,6 +288,7 @@ For module or page-level UI work, store repeated design artifacts under a page o
 - Bitmap enhancement synchronization evidence when applicable.
 - Module acceptance result.
 - Integration smoke result.
+- Confirmed-task cleanup decision, including deleted paths or `N/A`.
 
 `.codex-workflow/decisions.md`
 
