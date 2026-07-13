@@ -35,7 +35,7 @@ Use this before implementation when:
 2. For page-level module work, confirm `docs/design/wireframe-spec.md` exists before writing the mockup brief.
 3. Write a mockup brief for the current module or page with [references/mockup-brief-template.md](references/mockup-brief-template.md).
 4. Confirm `@product-design user-context` preflight has completed, then use `@product-design get-context` to confirm the design target and intended user outcome. Use `@product-design ideate` to generate exactly three visual directions for the same screen or flow.
-5. Review directions with [references/mockup-review-rubric.md](references/mockup-review-rubric.md).
+5. Run exactly one combined effect-image review with [references/mockup-review-rubric.md](references/mockup-review-rubric.md). Use Apple Human Interface Guidelines as the interaction baseline, then report product-design issues and premium-feel improvements in separate sections; do not run a second aesthetic-only review.
 6. Select one direction or combine explicit traits from multiple directions.
 7. If the selected page has interaction ambiguity that a static effect image cannot resolve, use `@product-design image-to-code` to create a review-only interactive prototype. Do not treat this prototype as Flutter implementation code or as a substitute for Pencil restoration.
 8. Freeze implementation constraints with [references/design-freeze-template.md](references/design-freeze-template.md).

@@ -36,6 +36,7 @@ Use [references/review-rubric.md](references/review-rubric.md). Always check:
 - Asset gate order: approved high-fidelity effect image, global and page design-freeze constraints, reuse check, production decision, background handling, background transparentization when applicable, transparent post-processing when applicable, generation evidence when used, asset atlas, slicing manifest, asset inventory, fidelity review, then Pencil high-fidelity restoration or Flutter implementation.
 - Pencil high-fidelity restoration decision quality: required screens are not skipped, and Not required decisions have a reason.
 - Mockup parity and recorded design deviations when a high-fidelity mockup exists.
+- Visual aesthetics and intended premium feel: hierarchy, spacing, typography, color and contrast, component consistency, asset quality, and restrained use of decoration, borders, shadows, and radii. Compare the implementation screenshot with the approved mockup and design-freeze constraints; record an explicit aesthetic verdict and actionable findings.
 - Product Design audit findings are resolved or explicitly accepted for user-facing UI flows.
 - Asset source, reuse decision, generation prompt constraints, background handling, background transparentization, transparent post-processing, transparency or retained-background decision, license, slicing/export, Flutter path, fallback, and fidelity compliance.
 - Bitmap source compliance: new bitmaps default to product-design or image generation evidence; Pencil exports are accepted only for approved production asset nodes with a recorded reason.
@@ -55,9 +56,10 @@ Use [references/review-rubric.md](references/review-rubric.md). Always check:
 Report in this order:
 
 1. Findings by severity with file and line references where available.
-2. Missing evidence.
-3. Open questions.
-4. Short summary.
+2. Aesthetic verdict for user-facing UI work: approved / approved with Minor findings / not approved, with the visual evidence and remaining actions.
+3. Missing evidence.
+4. Open questions.
+5. Short summary.
 
 Severity:
 
@@ -67,4 +69,4 @@ Severity:
 
 ## Gate
 
-If no issues are found, say so clearly and list residual risks or missing evidence. Do not approve if the task brief, global verification platform scope, applicable platform evidence, module map, init report, generated `flutter-dev` path, required wireframe text spec, required asset atlas evidence, required asset generation evidence or `N/A` reason, Pencil high-fidelity restoration decision and reason, required restoration evidence, required screenshots, required `@product-design audit` result for a user-facing flow, or required tests are absent. Require module acceptance result and integration smoke result only when the task changes module boundaries, routes, cross-module contracts, or user flows; otherwise require `N/A: <reason>`.
+If no issues are found, say so clearly and list residual risks or missing evidence. Do not approve if the task brief, global verification platform scope, applicable platform evidence, module map, init report, generated `flutter-dev` path, required wireframe text spec, required asset atlas evidence, required asset generation evidence or `N/A` reason, Pencil high-fidelity restoration decision and reason, required restoration evidence, required screenshots, required `@product-design audit` result for a user-facing flow, required aesthetic verdict for user-facing UI work, or required tests are absent. Require module acceptance result and integration smoke result only when the task changes module boundaries, routes, cross-module contracts, or user flows; otherwise require `N/A: <reason>`.

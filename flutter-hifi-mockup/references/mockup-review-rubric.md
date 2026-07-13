@@ -16,6 +16,7 @@ Review the image as a product artifact, not artwork.
 
 ## Review Checks
 
+- Use Apple Human Interface Guidelines as the interaction baseline, without requiring the product to copy Apple's visual style. Review task clarity, hierarchy, familiar control and navigation behavior, clear feedback, accessibility, and comfortable touch targets for the target platform.
 - The main user task is obvious.
 - The hierarchy matches the screen goal.
 - The mockup resolves the UX/UI ambiguity that text could not settle.
@@ -33,6 +34,18 @@ Review the image as a product artifact, not artwork.
 
 | Severity | Finding | Required change |
 |---|---|---|
+
+## Product Design Issues
+
+| Apple HIG principle or interaction concern | Severity | Evidence | Required change |
+|---|---|---|---|
+
+## Premium-Feel Improvements
+
+| Visual area | Improvement | Expected effect |
+|---|---|---|
+
+Keep this section separate from product-design issues. Evaluate deliberate hierarchy, typography, spacing, component consistency, asset quality, and restrained use of decoration; do not require Apple visual styling.
 
 ## Selection Notes
 

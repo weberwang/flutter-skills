@@ -62,6 +62,7 @@ For module or page-level UI work, store repeated design artifacts under a page o
 - Required states per screen.
 - Screenshot or golden evidence requirements.
 - Visual QA verdicts.
+- Aesthetic verdict, its visual evidence, and required fixes for user-facing UI work.
 
 `docs/design/mockup-brief.md`
 
