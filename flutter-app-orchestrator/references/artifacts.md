@@ -131,6 +131,10 @@ For module or page-level UI work, store repeated design artifacts under a page o
 - Design-freeze dependency.
 - Module or page task.
 - Restoration decision and reason.
+- Effect-image restoration analysis that classifies each restorable layer or atomic unit as exactly one of: bitmap, UI, or data; composite elements must be split into these units before classification.
+- Data placeholders, including the preserved hierarchy, text length, and layout constraints.
+- Per-bitmap source, crop, size, background treatment, target Pencil node, and 100% approved-visual-content match verdict. A recorded rasterization or scaling tolerance may not change bitmap content.
+- Per-UI native-Flutter feasibility decision, reason, expected implementation approach, and screenshot or golden confirmation. When native Flutter cannot reproduce the unit exactly, record the bitmap-fill requirement, reason, and generated bitmap evidence; otherwise record that no bitmap generation is required.
 - Target Pencil frames or nodes.
 - Restored visual roles.
 - Asset restoration evidence.
@@ -202,7 +206,7 @@ For module or page-level UI work, store repeated design artifacts under a page o
 - Duplicate generation check.
 - Background transparentization and transparent post-processing evidence when applicable.
 - Enhanced bitmap parity between the design draft and Flutter production asset.
-- Tolerance.
+- Allowed rasterization or scaling tolerance; it must not change approved bitmap content.
 - Approved deviations.
 - Blocking fixes.
 
@@ -286,6 +290,7 @@ For module or page-level UI work, store repeated design artifacts under a page o
 - UI page design gate evidence.
 - Pencil high-fidelity restoration decision.
 - Pencil high-fidelity restoration reason.
+- Effect-image bitmap/UI/data analysis and any UI bitmap-fill decision.
 - Bitmap enhancement synchronization evidence when applicable.
 - Module acceptance result.
 - Integration smoke result.
