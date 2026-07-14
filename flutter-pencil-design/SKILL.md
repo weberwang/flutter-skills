@@ -42,10 +42,12 @@ Before any Pencil read, design, screenshot, export, or HTML action, call `get_ed
 8. Fill [references/pencil-intake-template.md](references/pencil-intake-template.md).
 9. For low-fidelity structure, run Wireframe Review with [references/wireframe-review-template.md](references/wireframe-review-template.md).
 10. Convert the reviewed wireframe into text specs with [references/wireframe-spec-template.md](references/wireframe-spec-template.md).
-11. After page-level mockup approval, classify Pencil high-fidelity restoration as Required or Not required using the rules below.
-12. For required high-fidelity visual restoration, recreate or inspect the approved page direction in Pencil and fill [references/pencil-hifi-restoration-template.md](references/pencil-hifi-restoration-template.md).
-13. Extract Flutter handoff constraints with [references/pencil-flutter-handoff-template.md](references/pencil-flutter-handoff-template.md).
-14. Reference asset atlas artifacts instead of redefining asset sources in Pencil docs.
+11. Before deciding restoration scope, classify every restorable atomic unit as bitmap, UI, or data. Restore every data unit with editable Pencil text or representative placeholder values that preserve the approved hierarchy, text length, and layout; data units must never request or generate restoration bitmaps.
+12. Record unresolved visual facts in the restoration evidence before making assumptions. Include the affected unit, available evidence, the decision needed, and whether the uncertainty blocks approval or Flutter handoff for that unit.
+13. After page-level mockup approval, classify Pencil high-fidelity restoration as Required or Not required using the rules below.
+14. For required high-fidelity visual restoration, recreate or inspect the approved page direction in Pencil and fill [references/pencil-hifi-restoration-template.md](references/pencil-hifi-restoration-template.md).
+15. Extract Flutter handoff constraints with [references/pencil-flutter-handoff-template.md](references/pencil-flutter-handoff-template.md).
+16. Reference asset atlas artifacts instead of redefining asset sources in Pencil docs.
 
 ## Restoration Decision
 
@@ -84,12 +86,13 @@ For multiple pages, use page-scoped paths such as `docs/design/pages/<page-name>
 - Do not silently skip high-fidelity restoration; record Required or Not required with a reason.
 - Convert Pencil evidence into text specs before it reaches implementation agents.
 - Use `docs/design/design-freeze.md` as the source of truth for visual constraints; use `docs/design/pencil-hifi-restoration.md` to record how Pencil carries those constraints.
+- Restore data as editable text and representative placeholder values, never as generated or extracted bitmap assets. Keep the visual treatment of a data field in its containing UI specification.
 - Record image assets through `flutter-asset-atlas`; Pencil docs should reference reuse, generation, slicing, license, Flutter path, and fidelity evidence rather than inventing those details.
 - Export bitmap assets from Pencil only when the node is recorded in `flutter-asset-atlas` as an approved production asset source. Do not export whole-page Pencil screenshots as production bitmaps by default.
-- Record uncertainties instead of guessing hidden interactions.
+- Record uncertainties instead of guessing hidden interactions, asset provenance, font or icon sources, component states, crop rules, or layout behavior. An unresolved uncertainty blocks approval and Flutter handoff for its affected unit.
 - Do not infer extra app features from decorative design elements.
 - If the design conflicts with product scope, ask which source governs before implementing.
 
 ## Gate
 
-Do not implement from raw Pencil screenshots. Do not accept a Pencil screen or state frame as workflow evidence unless its node dimensions are exactly `390 x 844 px`. Do not generate a page-level high-fidelity mockup until Pencil intake, Wireframe Review, and `docs/design/wireframe-spec.md` exist. Do not restore high-fidelity Pencil visuals when required visual assets lack reuse check, production decision, background handling, background transparentization when applicable, transparent post-processing when applicable, generation evidence when used, asset atlas, slicing manifest, inventory, and fidelity review. Do not implement a Pencil-sourced screen until page-level high-fidelity approval, the Pencil high-fidelity restoration decision, required restoration evidence, asset evidence when required, and Flutter handoff constraints are written.
+Do not implement from raw Pencil screenshots. Do not accept a Pencil screen or state frame as workflow evidence unless its node dimensions are exactly `390 x 844 px`. Do not generate a page-level high-fidelity mockup until Pencil intake, Wireframe Review, and `docs/design/wireframe-spec.md` exist. Do not restore high-fidelity Pencil visuals when required visual assets lack reuse check, production decision, background handling, background transparentization when applicable, transparent post-processing when applicable, generation evidence when used, asset atlas, slicing manifest, inventory, and fidelity review. Do not approve a restoration or hand off an affected unit while a material visual uncertainty remains unresolved. Do not implement a Pencil-sourced screen until page-level high-fidelity approval, the Pencil high-fidelity restoration decision, required restoration evidence, asset evidence when required, and Flutter handoff constraints are written.

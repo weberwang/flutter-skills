@@ -31,6 +31,20 @@ Use this during the page design gate after Wireframe Review when Pencil must car
 | Images or bitmaps | | | |
 | Component states | | | |
 
+## Data Restoration
+
+Do not create, extract, or request a bitmap for a data unit. Restore its approved visual treatment with an editable Pencil text node; use representative placeholder values only when production data is unavailable.
+
+| Data field | Representative value | Pencil text node | Visual treatment source | Flutter data source | Evidence |
+|---|---|---|---|---|---|
+
+## Unresolved Design Questions
+
+Record facts that cannot be established from the approved mockup or existing artifacts. Do not guess them. An unresolved material question blocks approval and Flutter handoff for its affected unit.
+
+| Question | Affected unit | Available evidence | Decision needed | Blocks approval or handoff | Resolution |
+|---|---|---|---|---|---|
+
 ## Asset Restoration
 
 | Asset | Source | Pencil node or export | Flutter path | Fidelity requirement |

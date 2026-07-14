@@ -35,6 +35,8 @@ Use [references/review-rubric.md](references/review-rubric.md). Always check:
 - Page design gate order: low-fidelity Pencil structure, Wireframe Review, wireframe text spec, high-fidelity effect image, design-freeze, restoration decision, then required restoration evidence.
 - Asset gate order: approved high-fidelity effect image, global and page design-freeze constraints, reuse check, production decision, background handling, background transparentization when applicable, transparent post-processing when applicable, generation evidence when used, asset atlas, slicing manifest, asset inventory, fidelity review, then Pencil high-fidelity restoration or Flutter implementation.
 - Pencil high-fidelity restoration decision quality: required screens are not skipped, and Not required decisions have a reason.
+- Data units are restored as editable text or representative placeholders and do not create bitmap-generation or extraction work.
+- Material visual uncertainties record their affected units, available evidence, required decision, and blocking status; no affected unit is approved or handed off while unresolved.
 - Mockup parity and recorded design deviations when a high-fidelity mockup exists.
 - Visual aesthetics and intended premium feel: hierarchy, spacing, typography, color and contrast, component consistency, asset quality, and restrained use of decoration, borders, shadows, and radii. Compare the implementation screenshot with the approved mockup and design-freeze constraints; record an explicit aesthetic verdict and actionable findings.
 - Product Design audit findings are resolved or explicitly accepted for user-facing UI flows.
