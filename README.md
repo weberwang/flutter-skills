@@ -29,7 +29,7 @@ npx -y github:weberwang/flutter-skills --dest "D:\codex-skills"
 安装到 Codex 个人 skills 目录：
 
 ```powershell
-npx -y github:weberwang/flutter-skills --dest "$env:USERPROFILE\.agents\skills"
+npx -y github:weberwang/flutter-skills --dest "$env:USERPROFILE\.codex\skills"
 ```
 
 覆盖已存在的同名 skill：
