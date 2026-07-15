@@ -31,6 +31,7 @@ Use [references/review-rubric.md](references/review-rubric.md). Always check:
 - Module dependency, cross-module contract, and page interaction order compliance.
 - Module acceptance and integration smoke results when module boundaries, routes, cross-module contracts, or user flows change.
 - User path completeness.
+- First-value, safe-to-try, trust, and recovery conditions for user-facing adoption flows.
 - UI state coverage.
 - Page design gate order: low-fidelity Pencil structure, Wireframe Review, wireframe text spec, high-fidelity effect image, design-freeze, restoration decision, then required restoration evidence.
 - Asset gate order: approved high-fidelity effect image, global and page design-freeze constraints, reuse check, production decision, background handling, background transparentization when applicable, transparent post-processing when applicable, generation evidence when used, asset atlas, slicing manifest, asset inventory, fidelity review, then Pencil high-fidelity restoration or Flutter implementation.
@@ -39,6 +40,7 @@ Use [references/review-rubric.md](references/review-rubric.md). Always check:
 - Material visual uncertainties record their affected units, available evidence, required decision, and blocking status; no affected unit is approved or handed off while unresolved.
 - Mockup parity and recorded design deviations when a high-fidelity mockup exists.
 - Visual aesthetics and intended premium feel: hierarchy, spacing, typography, color and contrast, component consistency, asset quality, and restrained use of decoration, borders, shadows, and radii. Compare the implementation screenshot with the approved mockup and design-freeze constraints; record an explicit aesthetic verdict and actionable findings.
+- Product-fit quality: visual character supports the intended audience and product promise; polish does not hide unclear value, unnecessary friction, or unresolved trust concerns.
 - Product Design audit findings are resolved or explicitly accepted for user-facing UI flows.
 - Asset source, reuse decision, generation prompt constraints, background handling, background transparentization, transparent post-processing, transparency or retained-background decision, license, slicing/export, Flutter path, fallback, and fidelity compliance.
 - Bitmap source compliance: new bitmaps default to product-design or image generation evidence; Pencil exports are accepted only for approved production asset nodes with a recorded reason.

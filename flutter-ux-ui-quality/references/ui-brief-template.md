@@ -6,6 +6,9 @@
 - Route:
 - User goal:
 - Business goal:
+- Entry context and prior step:
+- First-value contribution:
+- Trust or risk concern:
 - Primary action:
 - Secondary actions:
 
@@ -14,6 +17,13 @@
 1.
 2.
 3.
+
+## First-Time Experience
+
+- Value the user should understand in the first 3 seconds:
+- Result the user should receive before leaving this flow:
+- Friction to remove (registration, input, payment, permission, or uncertainty):
+- Safe-to-try evidence or recovery path:
 
 ## Required States
 
@@ -39,6 +49,9 @@
 - Product Design context confirmation:
 - Product Design ideation directions:
 - Selected Product Design direction:
+- Product character (three qualities):
+- Avoided impressions:
+- Decoration purpose and limits:
 - Design system:
 - High-fidelity confirmation required: Yes / No
 - High-fidelity mockup path:
@@ -62,6 +75,8 @@
 ## Acceptance Criteria
 
 - 
+- The primary user understands the screen value and next action without relying on decorative treatment.
+- Applicable trust, permission, payment, privacy, loading, error, and recovery information is clear before it can block the user's first-value moment.
 
 ## Rejection Criteria
 

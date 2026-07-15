@@ -9,6 +9,8 @@ Replace every placeholder before generating images or dispatching a visual agent
 - Route or flow:
 - User goal:
 - Business goal:
+- First-value contribution:
+- Safe-to-try condition:
 - UX/UI decision to confirm:
 - Source wireframe spec:
 - Primary action:
@@ -20,6 +22,7 @@ Replace every placeholder before generating images or dispatching a visual agent
 - Core promise:
 - Commercial context:
 - Trust requirements:
+- Risk, permission, payment, privacy, or recovery disclosure:
 
 ## Device Targets
 
@@ -45,6 +48,7 @@ Replace every placeholder before generating images or dispatching a visual agent
 
 - Design system baseline:
 - Brand traits:
+- Decoration purpose and limits:
 - Avoid:
 - References:
 - Density:

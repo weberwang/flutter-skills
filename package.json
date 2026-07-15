@@ -6,6 +6,7 @@
   "license": "UNLICENSED",
   "files": [
     "bin",
+    "grilling",
     "flutter-app-orchestrator",
     "flutter-product-spec",
     "flutter-ux-ui-quality",

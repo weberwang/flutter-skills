@@ -28,6 +28,7 @@ Use this before implementation when:
 - Brand constraints or references, if available.
 - Target device class: phone, tablet, or responsive set.
 - Required states: success, loading, empty, error, disabled, permission, paywall.
+- First-value moment, safe-to-try conditions, and trust evidence when the screen is part of first-time adoption.
 
 ## Workflow
 
@@ -71,6 +72,7 @@ For multiple pages, use page-scoped paths such as `docs/design/pages/<page-name>
 - Use mockups to confirm UX/UI hierarchy, density, visual direction, and interaction intent before relying on text specs.
 - Keep platform feasibility in mind: Flutter Material 3, custom tokens, normal widget composition.
 - Cover the most important state first; generate secondary states when they affect layout or trust.
+- For first-run, onboarding, paywall, permission, or data-import screens, make the expected value, risk, and recovery path visible before relying on visual polish.
 - Do not treat an image as implementation truth until it is reviewed and converted into design-freeze constraints.
 - Convert global visual direction into `docs/design/global-design-freeze.md` before module/page asset generation depends on it.
 - Do not send required visual assets to Pencil or Flutter until `flutter-asset-atlas` has recorded reuse check, production decision, background handling, background transparentization when applicable, source or generation evidence, slicing/export, Flutter path, license, fallback, and fidelity evidence.

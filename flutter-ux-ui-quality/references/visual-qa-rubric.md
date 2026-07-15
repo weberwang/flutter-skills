@@ -20,6 +20,7 @@ Report by severity:
 ## Checklist
 
 - Main user goal is obvious in 3 seconds.
+- The screen communicates its immediate value and the user's next step without relying on a tutorial or decorative cue.
 - Primary CTA is visually dominant and reachable.
 - Text does not clip or overflow.
 - Loading, empty, error, disabled, and success states match the UI brief.
@@ -27,6 +28,8 @@ Report by severity:
 - Screen remains usable with long content.
 - Mobile layout is not a compressed desktop layout.
 - No generic AI UI tells: random gradients, fake metrics, filler avatars, inconsistent card shapes.
+- Decoration, gradients, shadows, textures, and motion have a stated hierarchy, feedback, or brand purpose; they do not compete with content or primary actions.
+- The first-value path exposes relevant privacy, payment, permission, and recovery conditions before the user takes an irreversible or high-friction action.
 - Motion supports state or hierarchy and respects reduced motion.
 - `@product-design audit` findings for the user-facing flow are resolved or explicitly accepted.
 

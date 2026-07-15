@@ -49,6 +49,7 @@
 - Layout works on target viewports.
 - Empty, loading, error, success, disabled, and permission-denied states are covered where relevant.
 - CTA hierarchy is clear.
+- The first-value path is understandable, and the user sees applicable privacy, payment, permission, or recovery conditions before a high-friction or irreversible step.
 - Text is readable and not clipped.
 - Accessibility basics are respected.
 
@@ -58,6 +59,7 @@
 - Verify hierarchy, alignment, spacing rhythm, typography, color and contrast, component consistency, and asset quality as one visual system.
 - Verify that decoration, borders, shadows, corner radii, and accent colors are restrained and intentional; flag visual noise, generic treatment, or competing focal points.
 - Verify that the screen gives visual priority to the primary user task and uses content imagery or assets that fit the product and target audience.
+- Verify that the visual system supports the documented product character and that polish does not conceal unclear value, unnecessary friction, or unresolved trust concerns.
 - Record an explicit verdict: `approved`, `approved with Minor findings`, or `not approved`. A Critical or Important aesthetic finding results in `not approved` until resolved or explicitly accepted.
 
 ## Commercial Readiness

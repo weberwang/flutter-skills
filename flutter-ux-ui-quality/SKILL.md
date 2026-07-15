@@ -11,7 +11,7 @@ Use this skill to stop low-quality UI from shipping. Text specs are drafts until
 
 ## Required Sequence
 
-1. Write a global UI brief with [references/ui-brief-template.md](references/ui-brief-template.md) covering navigation, screen inventory, state coverage, and cross-module page flows.
+1. Write a global UI brief with [references/ui-brief-template.md](references/ui-brief-template.md) covering navigation, screen inventory, state coverage, cross-module page flows, first-value delivery, trust, and safe-to-try conditions.
 2. Select or define the Flutter design system using [references/flutter-design-system.md](references/flutter-design-system.md).
 3. Run `@product-design user-context` preflight, then use `@product-design get-context` to confirm the design target and intended user outcome. Use `@product-design ideate` to generate exactly three global visual directions and record the selected direction.
 4. Use `flutter-hifi-mockup` to confirm global high-value UX/UI decisions with high-fidelity effect images.
@@ -32,6 +32,7 @@ Use this skill to stop low-quality UI from shipping. Text specs are drafts until
 - Build reusable primitives for buttons, text fields, scaffold, empty state, error state, and loading skeletons.
 - Use real user content examples. Avoid generic fake names and filler content.
 - Test at small phone, normal phone, tablet, and large text scale where relevant.
+- Treat visual quality as task clarity, system consistency, and reliable feedback before material or decorative polish. Any decoration, gradient, shadow, texture, or motion must reinforce hierarchy, state, or brand character.
 
 ## Rejection Criteria
 
@@ -41,6 +42,7 @@ Use this skill to stop low-quality UI from shipping. Text specs are drafts until
 - Page-level high-fidelity effect image generated before low-fidelity structure passes Wireframe Review.
 - UI page implementation starts from text-only descriptions without page-level high-fidelity effect image confirmation.
 - Module page order contradicts the primary user flow or skips required transition states.
+- A first-time user cannot understand the value, safely begin, or reach the specified first-value moment from the planned flow.
 - Implementation claims "polished" without screenshots or golden evidence.
 - Visual style diverges from the selected design system without written reason.
 - Global visual direction is selected without the three-direction `@product-design ideate` review.

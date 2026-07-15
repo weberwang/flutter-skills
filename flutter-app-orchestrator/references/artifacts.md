@@ -6,11 +6,20 @@ For module or page-level UI work, store repeated design artifacts under a page o
 
 ## Product
 
+`docs/product/grilling-log.md`
+
+- PRD availability check and reviewed source artifacts.
+- One-question-at-a-time decision log, including recommendation and user answer.
+- Confirmed decisions, unresolved items, decision dependencies, and rejected alternatives.
+- User's explicit shared-understanding confirmation.
+
 `docs/product/product-brief.md`
 
 - Target user.
 - Problem and high-value moment.
 - MVP promise.
+- First-value moment, safe-to-try conditions, and trust evidence.
+- Product character, avoided impressions, and decoration rule.
 - Commercial model.
 - Success metrics.
 - Risks and assumptions.
@@ -43,6 +52,8 @@ For module or page-level UI work, store repeated design artifacts under a page o
 
 - Primary path.
 - First-run path.
+- First-value path and its time or interaction target.
+- Trust, permission, payment, privacy, and recovery points that may interrupt first-time use.
 - Account and settings path.
 - Payment path when monetized.
 - Error recovery path.
@@ -50,6 +61,7 @@ For module or page-level UI work, store repeated design artifacts under a page o
 `docs/design/screen-spec.md`
 
 - Screen purpose.
+- First-value contribution and trust or risk concerns.
 - Information hierarchy.
 - Actions.
 - Required states.
@@ -63,6 +75,7 @@ For module or page-level UI work, store repeated design artifacts under a page o
 - Screenshot or golden evidence requirements.
 - Visual QA verdicts.
 - Aesthetic verdict, its visual evidence, and required fixes for user-facing UI work.
+- First-value, trust, and safe-to-try verification for each applicable user-facing flow.
 
 `docs/design/mockup-brief.md`
 

@@ -12,8 +12,8 @@
 
 ## Required Screens
 
-| Screen | Purpose | Required states |
-|---|---|---|
+| Screen | Purpose | First-value contribution | Required states |
+|---|---|---|---|
 
 ## Required Capabilities
 

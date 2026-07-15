@@ -18,6 +18,7 @@ Review the image as a product artifact, not artwork.
 
 - Use Apple Human Interface Guidelines as the interaction baseline, without requiring the product to copy Apple's visual style. Review task clarity, hierarchy, familiar control and navigation behavior, clear feedback, accessibility, and comfortable touch targets for the target platform.
 - The main user task is obvious.
+- The mockup makes the immediate value, required commitment, and applicable recovery path understandable before the user takes a high-friction or irreversible action.
 - The hierarchy matches the screen goal.
 - The mockup resolves the UX/UI ambiguity that text could not settle.
 - The design fits the target user and commercial model.
@@ -25,6 +26,7 @@ Review the image as a product artifact, not artwork.
 - It can be tokenized into color, typography, spacing, radius, elevation, and motion.
 - It covers required content and state.
 - It avoids generic AI UI patterns: random gradients, meaningless glass cards, fake charts, filler avatars, decorative labels.
+- Decoration, material, texture, shadow, and motion serve hierarchy, feedback, or the documented product character rather than visual novelty.
 - It respects platform constraints, safe areas, touch targets, and text scaling.
 - It does not imply features outside MVP scope.
 - The generated file decodes to exactly `780 x 1688 px`.
