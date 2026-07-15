@@ -86,6 +86,7 @@ npx -y github:weberwang/flutter-skills
 
 - 页面 UI 不从纯文字描述直接实现。
 - 页面级高保真效果图必须在低保真 Pencil 和 Wireframe Review 之后生成。
+- 全局视觉冻结仅固定跨页面复用的视觉语言和设计系统；全局探索中的代表页面效果图不得作为任何后续页面的效果图确认、页面设计冻结或实现批准依据。
 - 高保真图中的插图、位图、logo、纹理、生成图等必须先做复用检查；新位图默认使用 product-design 或 image generation 工具生成，Pencil 仅在节点本身是已批准生产资产时允许导出，不能默认使用 Pencil 整页截图或高保真图裁切；必须严格遵守全局和页面设计冻结约束，并先决定透明背景、保留背景或遮罩切图策略。需要透明但来源不透明的资产，必须先进入背景透明化工作节点，记录方法、源文件、输出、移除背景和继续/驳回结论；透明资产还必须完成 alpha 清理、去白边/色边、阴影保留和目标背景验收，再导出、登记和实现。
 - Pencil 图不能直接丢给实现代理，必须转成文字规格和 Flutter handoff。
 - 固定 Flutter 技术栈：Riverpod、hooks、Freezed、fpdart、json generation、ScreenUtil。

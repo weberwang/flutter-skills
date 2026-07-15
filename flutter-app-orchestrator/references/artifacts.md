@@ -120,6 +120,7 @@ For module or page-level UI work, store repeated design artifacts under a page o
 - Material, lighting, and texture rules.
 - Banned visual styles.
 - Reuse rules for visual assets.
+- Scope limitation: this baseline does not approve a page effect image, page design freeze, or page implementation. The global exploration's representative-page images are direction-comparison evidence only.
 
 `docs/design/pencil-intake.md`
 
