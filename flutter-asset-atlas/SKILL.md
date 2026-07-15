@@ -23,8 +23,8 @@ Use this skill after a page-level high-fidelity mockup is approved and before hi
 ## Workflow
 
 1. Confirm global design-freeze constraints and page design-freeze constraints exist before asset generation or extraction.
-2. Audit the approved mockup for required visual assets: illustrations, bitmaps, photos, logos, textures, backgrounds, generated images, chart bitmaps, and custom icons.
-3. Mark the asset track as Required or `N/A: no bitmap or exported visual assets`. Do not skip required assets because they look decorative if they affect brand, trust, conversion, or visual parity.
+2. Start from the page decomposition's separate-bitmap review, then audit the approved mockup for required visual assets: illustrations, bitmaps, photos, logos, textures, backgrounds, generated images, chart bitmaps, and custom icons.
+3. Mark the asset track as Required or `N/A: no bitmap or exported visual assets`. Preserve a per-unit verdict for every decomposed bitmap: reuse, adapt, generate, approved Pencil-node export, explicit mockup extraction, or `N/A: native Flutter/UI/data`. Do not skip required assets because they look decorative if they affect brand, trust, conversion, or visual parity.
 4. Run a reuse check against brand assets, existing app assets, previous generated assets, source files, and `docs/design/asset-inventory.md`.
 5. Choose the production decision for each asset in this order: reuse existing asset, adapt existing asset, generate variant from existing source, generate new single asset with product-design or image generation tools, generate atlas/contact sheet, export from an approved Pencil asset node, or extract from approved mockup with explicit approval.
 6. Decide background handling before generation or export: transparent background, retained full background, masked cutout, or non-transparent safe background for later removal. Record why.
@@ -70,6 +70,7 @@ For multiple pages, use page-scoped paths such as `docs/design/pages/<page-name>
 - Record dark-mode variants when the asset changes meaning, contrast, or brand treatment.
 - Record loading and error fallbacks for every required runtime-loaded asset.
 - Do not use mockup screenshots as production assets unless explicitly approved as screenshot content.
+- Treat the page decomposition's separate-bitmap review as the entry criterion for asset work. A bitmap unit needs separate generation when native Flutter cannot reproduce the approved visual content exactly and no approved reusable or source asset exists.
 - Do not trace or recreate third-party art without a license or replacement decision.
 - Do not bury asset decisions inside design-freeze text; keep the inventory and slicing manifest explicit.
 
@@ -86,4 +87,4 @@ Use this node only after source asset approval and before transparent-background
 
 ## Gate
 
-Do not generate, extract, restore in Pencil, or implement Flutter UI for required visual assets when global design-freeze constraints, page design-freeze constraints, reuse check, production decision, background handling decision, background transparentization evidence when applicable, transparent-background post-processing evidence when applicable, generation evidence when used, logical display size plus verified `2x` decoded dimensions for every newly generated concrete bitmap, slicing/export manifest, inventory entries, Flutter paths, license status, and fidelity review are missing. If no exported assets are needed, record `N/A: no bitmap or exported visual assets` in the task brief and progress ledger.
+Do not generate, extract, restore in Pencil, or implement Flutter UI for required visual assets when the page decomposition has no per-unit separate-bitmap review verdict, or when global design-freeze constraints, page design-freeze constraints, reuse check, production decision, background handling decision, background transparentization evidence when applicable, transparent-background post-processing evidence when applicable, generation evidence when used, logical display size plus verified `2x` decoded dimensions for every newly generated concrete bitmap, slicing/export manifest, inventory entries, Flutter paths, license status, and fidelity review are missing. If no exported assets are needed, record `N/A: no bitmap or exported visual assets` in the task brief and progress ledger.

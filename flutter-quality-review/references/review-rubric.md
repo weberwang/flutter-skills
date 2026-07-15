@@ -34,16 +34,18 @@
 - Page implementation order does not skip required prior interactions, states, or transitions from the module map.
 - Page-level high-fidelity mockup was generated after low-fidelity Pencil structure, Wireframe Review, and `docs/design/wireframe-spec.md`.
 - Pencil high-fidelity restoration decision and reason are recorded; required restoration evidence exists for critical, complex, asset-heavy, or visual-parity-sensitive pages.
+- High-fidelity Pencil restoration uses the selected page-level mockup and page design freeze as the visual source of truth; the wireframe is applied only to page scope, structure, states, and interactions.
 - Implemented UI respects the selected mockup and recorded design-freeze constraints when present.
 - Asset reuse check, production decision, generation evidence when used, atlas, slicing manifest, inventory, and fidelity review exist when approved mockups include required visual assets.
 - Required assets are listed in `docs/design/asset-inventory.md`.
 - Asset source, reuse decision, generation prompt constraints, background handling, background transparentization when applicable, license status, slicing/export output, Flutter path, loading fallback, and error fallback are recorded.
 - New bitmap assets use product-design or image generation evidence by default; Pencil exports are approved only when the exported node is the recorded production asset source.
+- Every decomposed bitmap unit has a separate-asset review verdict; new bitmap generation is recommended only when native Flutter cannot match the approved visual content and no approved reusable or source asset is available.
 - Transparent or composited assets have clean alpha edges, preserved shadows/glows, and no unintended background halos.
 - Transparent-background post-processing records matte removal, alpha cleanup, edge decontamination, padding, and target-background QA when applicable.
 - New generated assets reference global and page design-freeze constraints and explain why existing assets were not reused.
 - Bitmap and illustration fidelity matches the approved mockup or Pencil evidence within recorded tolerances.
-- Implemented UI respects `docs/design/wireframe-spec.md` when low-fidelity Pencil wireframes are used.
+- Implemented UI respects `docs/design/wireframe-spec.md` for page scope, structure, states, and interactions when low-fidelity Pencil wireframes are used.
 - Implemented UI respects `docs/design/pencil-hifi-restoration.md` when Pencil carries high-fidelity visual restoration.
 - Raw Pencil screenshots are not used as the sole implementation spec.
 - Layout works on target viewports.
