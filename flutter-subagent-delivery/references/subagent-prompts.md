@@ -18,7 +18,7 @@ Rules:
 - Do not add features outside the brief.
 - Read and follow the project-local `flutter-dev` skill before changing Flutter code.
 - Follow the module dependency order, cross-module contracts, and page interaction order from the module map.
-- For UI page tasks, do not start page code unless the task brief includes reviewed low-fidelity Pencil structure, wireframe text spec, approved page mockup, global and page design-freeze constraints, required asset atlas evidence or `N/A` reason, Pencil high-fidelity restoration decision and reason, required restoration evidence, and Pencil Flutter handoff.
+- For UI page tasks, do not start page code unless the task brief includes reviewed low-fidelity Pencil structure, wireframe text spec, approved page mockup, global and page design-freeze constraints, 100%-match evidence for visual resources, required asset atlas evidence or `N/A` reason, Pencil high-fidelity restoration decision and reason, required restoration evidence, and Pencil Flutter handoff. An unmatched icon, image, illustration, logo, texture, or bitmap must have completed dedicated bitmap generation and fidelity review.
 - Add tests before or with behavior changes.
 - Run the verification required by the global platform scope. Do not claim an unlisted platform is verified.
 - For UI work, produce the screenshot or golden evidence required by the global platform scope, or report the blocker.
@@ -52,6 +52,7 @@ You are reviewing one Flutter task. Read:
 - Asset reuse check: <path, text, N/A with reason, or none>
 - Asset production decision: <path, text, N/A with reason, or none>
 - Asset bitmap source policy: <path, text, N/A with reason, or none>
+- Asset 100%-match evidence: <path, text, N/A with reason, or none>
 - Asset background handling: <path, text, N/A with reason, or none>
 - Asset background transparentization: <path, text, N/A with reason, or none>
 - Asset transparent post-processing: <path, text, N/A with reason, or none>

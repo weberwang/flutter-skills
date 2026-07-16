@@ -37,15 +37,15 @@ Use this during the page design gate after Wireframe Review when Pencil must car
 
 Decompose the selected mockup before Pencil restoration. Use `N/A: native Flutter/UI/data` when a separate bitmap is not needed. Do not use a whole-page mockup crop as the default source.
 
-| Unit | Classification | Mockup evidence | Native Flutter exact-match verdict | Separate asset verdict | Recommended decision | Review reason |
-|---|---|---|---|---|---|---|
+| Unit | Classification | Mockup evidence | 100%-match evidence | Native Flutter exact-match verdict | Separate asset verdict | Required decision | Review reason |
+|---|---|---|---|---|---|---|---|
 
 Review recommendations:
 
-- Prefer `N/A: native Flutter/UI/data` for text, simple icons, standard components, gradients, shapes, and effects Flutter can reproduce exactly.
-- Prefer reuse or adaptation when an approved, licensed source already satisfies the selected mockup.
-- Recommend separate generation for approved illustrations, photos, textured or lit raster art, and complex bitmap fills that native Flutter cannot match exactly.
-- Use approved Pencil-node export or mockup extraction only when their explicit production-source approval is recorded; otherwise generate the asset separately and send it through the asset atlas.
+- Use `N/A: native Flutter/UI/data` only for a non-resource UI or data unit that has recorded exact-match evidence.
+- Reuse, adapt, approved Pencil-node export, or mockup extraction is allowed only when the resource's silhouette, crop, color, texture, lighting, and transparency match the approved mockup 100% and its production-source approval is recorded.
+- For any icon, image, illustration, logo, texture, or other resource that lacks 100%-match evidence, the required decision is `generate`; generate the dedicated bitmap and send it through the asset atlas.
+- Do not approve a near-match system icon, Flutter component, existing asset, or full-page mockup crop as a substitute for a required resource.
 
 ## Data Restoration
 

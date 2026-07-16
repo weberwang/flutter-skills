@@ -29,6 +29,7 @@ Create `.codex-workflow/progress.md` in the target app repo.
   - Asset reuse check:
   - Asset production decision:
   - Asset bitmap source policy:
+  - Asset 100%-match evidence:
   - Asset background handling:
   - Asset background transparentization:
   - Asset transparent post-processing:
@@ -63,7 +64,7 @@ Create `.codex-workflow/progress.md` in the target app repo.
 
 - Update the ledger after each completed task.
 - For UI page tasks, update each page design gate field before dispatching implementation.
-- For required visual assets, update reuse check, production decision, bitmap source policy, background handling, background transparentization when applicable, transparent post-processing when applicable, generation evidence when used, atlas, slicing manifest, inventory, and fidelity review before Pencil high-fidelity restoration or implementation.
+- For required visual assets, update reuse check, production decision, bitmap source policy, 100%-match evidence, background handling, background transparentization when applicable, transparent post-processing when applicable, generation evidence when used, atlas, slicing manifest, inventory, and fidelity review before Pencil high-fidelity restoration or implementation. An unmatched icon, image, illustration, logo, texture, or bitmap must record the dedicated bitmap-generation path.
 - For fields that do not apply, write `N/A: <reason>` instead of leaving them blank.
 - Do not re-dispatch completed tasks after context compaction.
 - Record failed commands honestly.

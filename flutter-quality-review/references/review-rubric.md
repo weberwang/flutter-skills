@@ -40,11 +40,11 @@
 - Required assets are listed in `docs/design/asset-inventory.md`.
 - Asset source, reuse decision, generation prompt constraints, background handling, background transparentization when applicable, license status, slicing/export output, Flutter path, loading fallback, and error fallback are recorded.
 - New bitmap assets use product-design or image generation evidence by default; Pencil exports are approved only when the exported node is the recorded production asset source.
-- Every decomposed bitmap unit has a separate-asset review verdict; new bitmap generation is recommended only when native Flutter cannot match the approved visual content and no approved reusable or source asset is available.
+- Every icon, image, illustration, logo, texture, and bitmap unit has 100%-match evidence and a separate-asset review verdict. An unmatched resource completed dedicated bitmap generation and asset fidelity review; near-match system icons, Flutter components, and existing assets are rejected.
 - Transparent or composited assets have clean alpha edges, preserved shadows/glows, and no unintended background halos.
 - Transparent-background post-processing records matte removal, alpha cleanup, edge decontamination, padding, and target-background QA when applicable.
 - New generated assets reference global and page design-freeze constraints and explain why existing assets were not reused.
-- Bitmap and illustration fidelity matches the approved mockup or Pencil evidence within recorded tolerances.
+- Icon, image, illustration, logo, texture, and bitmap fidelity matches the approved mockup 100%; only documented rasterization or scaling tolerance is allowed.
 - Implemented UI respects `docs/design/wireframe-spec.md` for page scope, structure, states, and interactions when low-fidelity Pencil wireframes are used.
 - Implemented UI respects `docs/design/pencil-hifi-restoration.md` when Pencil carries high-fidelity visual restoration.
 - Raw Pencil screenshots are not used as the sole implementation spec.

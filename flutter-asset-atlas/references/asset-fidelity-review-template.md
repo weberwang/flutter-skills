@@ -16,8 +16,8 @@ Use this before high-fidelity Pencil restoration or Flutter UI implementation wh
 
 ## Per-Asset Review
 
-| Asset ID | Mockup role | Exported file | Match verdict | Tolerance | Required fixes |
-|---|---|---|---|---|---|
+| Asset ID | Mockup role | Exported file | 100%-match verdict | Verified details | Tolerance | Required fixes |
+|---|---|---|---|---|---|---|
 
 ## Visual Checks
 
@@ -54,3 +54,4 @@ Use this before high-fidelity Pencil restoration or Flutter UI implementation wh
 - Missing background decision or visible background halo blocks approval for composited assets.
 - Missing transparent-background post-processing evidence blocks approval for transparent or masked raster assets.
 - Pass with deviations must list every accepted mismatch and its reason.
+- An icon, image, illustration, logo, texture, or other visual resource without a 100%-match verdict fails review. It must return to dedicated bitmap generation; a near-match substitute is not an accepted deviation.

@@ -32,6 +32,7 @@ Must not do:
 - Asset reuse check:
 - Asset production decision:
 - Asset bitmap source policy:
+- Asset 100%-match evidence:
 - Asset background handling:
 - Asset background transparentization:
 - Asset transparent post-processing:
@@ -65,6 +66,7 @@ If yes:
 - Asset reuse check:
 - Asset production decision:
 - Asset bitmap source policy:
+- Asset 100%-match evidence:
 - Asset background handling:
 - Asset background transparentization:
 - Asset transparent post-processing:
@@ -123,6 +125,7 @@ If yes:
 - Asset reuse check:
 - Asset production decision:
 - Asset bitmap source policy:
+- Asset 100%-match evidence:
 - Asset background handling:
 - Asset background transparentization:
 - Asset transparent post-processing:

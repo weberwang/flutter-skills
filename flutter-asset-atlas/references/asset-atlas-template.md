@@ -23,8 +23,8 @@ Use this after page-level high-fidelity mockup approval and design freeze.
 
 Carry forward every bitmap unit from `pencil-hifi-restoration.md`; `N/A: native Flutter/UI/data` means no asset-atlas entry is required for that unit.
 
-| Unit | Mockup evidence | Separate asset verdict | Asset ID or N/A reason | Review status |
-|---|---|---|---|---|
+| Unit | Mockup evidence | 100%-match evidence | Separate asset verdict | Asset ID or N/A reason | Review status |
+|---|---|---|---|---|---|
 
 ## Production Decision
 
@@ -75,7 +75,7 @@ Use this order before generating new images: reuse existing, adapt existing, gen
 ## Gate
 
 - All required visual assets have a source or generation plan.
-- Every decomposed bitmap unit has a separate-asset review verdict, and only `generate` decisions proceed to new bitmap generation.
+- Every decomposed visual resource has a 100%-match evidence record and a separate-asset review verdict. An unmatched icon, image, illustration, logo, texture, or bitmap must use `generate` and complete dedicated bitmap generation.
 - New generation references global and page design-freeze constraints.
 - New bitmap generation uses product-design or image generation tools by default; Pencil export is allowed only for approved production asset nodes.
 - Every newly generated concrete bitmap records its logical display size and passes the exact `2x` decoded-dimension check; only full-screen bitmaps use `780 x 1688 px`.
