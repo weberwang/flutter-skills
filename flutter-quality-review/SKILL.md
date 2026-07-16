@@ -28,7 +28,7 @@ Review like a release-blocking commercial app gate. Findings lead; summaries are
 Use [references/review-rubric.md](references/review-rubric.md). Always check:
 
 - Spec compliance.
-- Module dependency, cross-module contract, and page interaction order compliance.
+- Business-flow level, module dependency, cross-module contract, and page interaction order compliance.
 - Module acceptance and integration smoke results when module boundaries, routes, cross-module contracts, or user flows change.
 - User path completeness.
 - First-value, safe-to-try, trust, and recovery conditions for user-facing adoption flows.

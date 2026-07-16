@@ -8,17 +8,18 @@
 - Do not add features outside MVP scope.
 - UI tasks require screenshot or golden evidence.
 - UI page tasks require low-fidelity Pencil structure, Wireframe Review, page-level high-fidelity mockup approval, global and page design-freeze constraints, required asset atlas evidence, Pencil high-fidelity restoration decision, required restoration evidence, and Flutter handoff before page code starts.
-- Module tasks must follow `docs/plans/module-map.md` for module dependencies, cross-module contracts, and page interaction order.
+- Module and page tasks must follow `docs/plans/module-map.md` for business-flow levels, module dependencies, cross-module contracts, and page interaction order. Finish and verify each level before starting the next; parallel work is limited to explicitly parallel-safe tasks in the same level.
 - Follow the global platform scope in `docs/architecture/verification-platforms.md`. Do not treat unlisted platforms as verified.
 - Every task requires verification output.
 
 ## Module Map
 
 - Module map:
-- Module implementation order:
+- Business-flow levels:
+- Level advancement gates:
 - Module acceptance paths:
 - Cross-module contracts:
-- Page interaction order:
+- Page interaction levels:
 - Parallelization limits:
 
 ## Milestones
@@ -78,5 +79,5 @@
 
 ## Task List
 
-| ID | Module | Task | Depends on | Write scope | Design gate | Verification | UI evidence |
-|---|---|---|---|---|---|---|---|
+| ID | Business-flow level | Module | Task | Depends on and prior-level evidence | Write scope | Design gate | Verification | UI evidence |
+|---|---|---|---|---|---|---|---|---|

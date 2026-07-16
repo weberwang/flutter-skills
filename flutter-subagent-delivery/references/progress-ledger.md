@@ -16,6 +16,8 @@ Create `.codex-workflow/progress.md` in the target app repo.
 
 - [ ] T01: task name
   - Brief:
+  - Business-flow level:
+  - Required prior-level evidence:
   - Module:
   - Page/state:
   - Low-fidelity Pencil:
@@ -63,6 +65,7 @@ Create `.codex-workflow/progress.md` in the target app repo.
 ## Rules
 
 - Update the ledger after each completed task.
+- Do not mark a business-flow level complete until all of its required tasks, acceptance paths, and cross-module contracts have passed or are explicitly accepted; record the advancement verdict before dispatching any later-level task.
 - For UI page tasks, update each page design gate field before dispatching implementation.
 - For required visual assets, update reuse check, production decision, bitmap source policy, 100%-match evidence, background handling, background transparentization when applicable, transparent post-processing when applicable, generation evidence when used, atlas, slicing manifest, inventory, and fidelity review before Pencil high-fidelity restoration or implementation. An unmatched icon, image, illustration, logo, texture, or bitmap must record the dedicated bitmap-generation path.
 - For fields that do not apply, write `N/A: <reason>` instead of leaving them blank.

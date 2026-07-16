@@ -1,6 +1,6 @@
 # Module Map Template
 
-Use this before implementation planning. It turns global design and architecture into module boundaries, module order, and page interaction order.
+Use this before implementation planning. It turns global design and architecture into module boundaries, business-flow levels, and page interaction order. A level is determined by prerequisite business outcomes and dependencies, not by folder or technical-layer naming.
 
 ## Global Context
 
@@ -26,9 +26,14 @@ Use this before implementation planning. It turns global design and architecture
 | Module | Depends on | Blocks | Reason |
 |---|---|---|---|
 
-## Implementation Order
+## Business-Flow Levels
 
-| Order | Module | Reason | Entry task | Exit evidence |
+| Level | Module | Business-flow prerequisite | Entry task | Exit evidence | Required before next level |
+|---|---|---|---|---|---|
+
+## Level Advancement Gate
+
+| Level | Required task and contract evidence | Acceptance path | Advancement verdict | Explicitly accepted exception |
 |---|---|---|---|---|
 
 ## Module Acceptance Paths
@@ -36,15 +41,15 @@ Use this before implementation planning. It turns global design and architecture
 | Module | Acceptance path | Start state | Success evidence | Integration smoke path |
 |---|---|---|---|---|
 
-## Page Interaction Order
+## Page Interaction Levels
 
-| Module | Page or state | Previous interaction | Next interaction | Required design gate |
-|---|---|---|---|---|
+| Level | Module | Page or state | Previous interaction | Next interaction | Required design gate | Exit evidence |
+|---|---|---|---|---|---|---|
 
 ## Parallelization
 
-| Work item | Can run parallel | Why | Shared files to avoid |
-|---|---|---|---|
+| Business-flow level | Work item | Can run parallel | Why | Shared files to avoid |
+|---|---|---|---|---|
 
 ## Risks
 

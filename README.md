@@ -94,6 +94,7 @@ npx -y github:weberwang/flutter-skills
 - 固定 Flutter 技术栈：Riverpod、hooks、Freezed、fpdart、json generation、ScreenUtil。
 - Freezed 和 JSON 必须使用注解和 `build_runner` 生成。
 - 子代理实现前必须有任务简报、模块顺序、验收路径和明确写入范围。
+- 模块与模块内页面必须按业务流程依赖划分推进等级；同一等级完成其验收和跨模块契约后，才能开始下一等级。仅在写入范围无重叠且模块图明确标记为安全时，才可并行执行同一等级的任务。
 - UI 完成前必须有截图或 golden 证据。
 - 在 `docs/architecture/verification-platforms.md` 全局限定验证平台，例如 Android emulator/device、iOS simulator/device、Chrome web、desktop 或 `N/A: <reason>`；任务不得把未列出或未实际运行的平台登记为已验证。
 

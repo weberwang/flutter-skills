@@ -6,7 +6,8 @@
 - Acceptance criteria are met.
 - Required states and flows exist.
 - Product assumptions are not silently changed.
-- Task follows `docs/plans/module-map.md` for module dependency order, cross-module contracts, and page interaction order.
+- Task follows `docs/plans/module-map.md` for business-flow level, module dependency order, cross-module contracts, and page interaction order.
+- No task started before all required tasks, acceptance paths, and cross-module contracts of its preceding business-flow level passed or were explicitly accepted.
 - Cross-module contracts are implemented before dependent UI or service work consumes them.
 - Module acceptance path and integration smoke path are preserved or updated when module behavior changes.
 - Module acceptance result and integration smoke result are reported when module boundaries, routes, cross-module contracts, or user flows change.

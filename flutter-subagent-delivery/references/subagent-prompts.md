@@ -17,7 +17,7 @@ Rules:
 - Stay inside the expected write scope unless blocked.
 - Do not add features outside the brief.
 - Read and follow the project-local `flutter-dev` skill before changing Flutter code.
-- Follow the module dependency order, cross-module contracts, and page interaction order from the module map.
+- Follow the business-flow level, module dependency order, cross-module contracts, and page interaction order from the module map. Do not start a later-level task until the task brief includes the prior-level advancement evidence.
 - For UI page tasks, do not start page code unless the task brief includes reviewed low-fidelity Pencil structure, wireframe text spec, approved page mockup, global and page design-freeze constraints, 100%-match evidence for visual resources, required asset atlas evidence or `N/A` reason, Pencil high-fidelity restoration decision and reason, required restoration evidence, and Pencil Flutter handoff. An unmatched icon, image, illustration, logo, texture, or bitmap must have completed dedicated bitmap generation and fidelity review.
 - Add tests before or with behavior changes.
 - Run the verification required by the global platform scope. Do not claim an unlisted platform is verified.

@@ -7,7 +7,7 @@ description: Use when converting Flutter product, UX, UI, or architecture specs 
 
 ## Overview
 
-Convert approved specs into small, verifiable Flutter implementation tasks. A good plan separates global design from module delivery, then orders modules by dependency and page interaction flow so Codex or subagents can execute without guessing scope.
+Convert approved specs into small, verifiable Flutter implementation tasks. A good plan separates global design from module delivery, then derives business-flow levels from dependency and page interaction flow so Codex or subagents can execute without guessing scope.
 
 ## Inputs
 
@@ -21,8 +21,9 @@ Convert approved specs into small, verifiable Flutter implementation tasks. A go
 
 - Define modules by product responsibility, route ownership, data ownership, and page interactions, not just folder names.
 - Keep modules independently deliverable where possible, but record every required cross-module contract.
-- Order modules by shared foundations first, then primary user path, then dependent secondary paths.
-- Within a module, order pages by user interaction sequence and state dependency.
+- Assign every module and page a business-flow level based on the prerequisite user outcome, shared foundation, contract, and page interaction it requires; do not infer levels from folders or technical layers alone.
+- Order levels from shared foundations through the primary user path to dependent secondary paths. Complete the acceptance paths and required contracts of one level before beginning the next.
+- Within a module, assign page levels from user interaction sequence and state dependency; pages in a later level cannot start before their prerequisite page level passes.
 - If two modules interact, identify the contract task before either module implements UI against that contract.
 - Do not split a module so finely that one user action requires multiple agents to change the same files in parallel.
 
@@ -34,6 +35,7 @@ Convert approved specs into small, verifiable Flutter implementation tasks. A go
 - UI tasks must include screenshot or golden evidence requirements.
 - Risky shared foundations must happen before dependent feature tasks.
 - Module entry tasks must establish routing, state boundary, contracts, and test scaffolding before page tasks.
+- A task brief must name its business-flow level and the prior-level evidence it depends on.
 - Do not plan parallel implementation tasks that write the same files.
 
 ## Output Files
@@ -56,4 +58,4 @@ Use [references/module-map-template.md](references/module-map-template.md), [ref
 
 ## Gate
 
-Do not execute a Flutter implementation task until it has an isolated task brief, `docs/architecture/verification-platforms.md`, named verification commands, `docs/plans/module-map.md`, `docs/architecture/flutter-init.md`, and a generated project-local `flutter-dev` path.
+Do not execute a Flutter implementation task until it has an isolated task brief, `docs/architecture/verification-platforms.md`, named verification commands, `docs/plans/module-map.md`, `docs/architecture/flutter-init.md`, a generated project-local `flutter-dev` path, and evidence that all prerequisite business-flow levels have passed or are explicitly accepted.

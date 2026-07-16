@@ -7,6 +7,8 @@ Replace every placeholder before dispatching this brief to an implementer.
 - ID:
 - Name:
 - Milestone:
+- Business-flow level:
+- Required prior-level evidence:
 - Goal:
 
 ## Scope
