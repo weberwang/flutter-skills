@@ -22,11 +22,12 @@ Review the image as a product artifact, not artwork.
 - The hierarchy matches the screen goal.
 - The mockup resolves the UX/UI ambiguity that text could not settle.
 - The design fits the target user and commercial model.
-- It is feasible in Flutter without exotic custom rendering.
-- It can be tokenized into color, typography, spacing, radius, elevation, and motion.
+- It has a credible Flutter implementation path. Native widgets, authored components, `CustomPainter`, shaders, animation, and dedicated bitmap assets are all valid when their product value and cost are explicit.
+- Reusable system decisions can be tokenized where appropriate, while deliberate hero moments and brand signatures may remain authored exceptions.
+- It has a recognizable product character and at least one purposeful compositional or visual signature beyond stock platform components.
 - It covers required content and state.
 - It avoids generic AI UI patterns: random gradients, meaningless glass cards, fake charts, filler avatars, decorative labels.
-- Decoration, material, texture, shadow, and motion serve hierarchy, feedback, or the documented product character rather than visual novelty.
+- Decoration, material, texture, shadow, custom illustration, and motion serve hierarchy, feedback, storytelling, or the documented product character. Do not penalize expressive treatment merely for being non-standard.
 - It respects platform constraints, safe areas, touch targets, and text scaling.
 - It does not imply features outside MVP scope.
 - The generated file decodes to exactly `780 x 1688 px`.
@@ -48,6 +49,8 @@ Review the image as a product artifact, not artwork.
 |---|---|---|
 
 Keep this section separate from product-design issues. Evaluate deliberate hierarchy, typography, spacing, component consistency, asset quality, and restrained use of decoration; do not require Apple visual styling.
+
+Also evaluate whether excessive reliance on stock components, repetitive cards, uniform spacing, or overly safe composition has flattened the product character. Recommend a stronger authored treatment when it improves recognition without harming task clarity.
 
 ## Selection Notes
 

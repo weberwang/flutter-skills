@@ -1,4 +1,4 @@
 interface:
   display_name: "Flutter HiFi Mockup"
   short_description: "Generate and freeze high-fidelity Flutter mockups."
-  default_prompt: "Use $flutter-hifi-mockup with @product-design ideate to create three high-fidelity Flutter visual directions at exactly 780 x 1688 px, then verify decoded dimensions and select one."
+  default_prompt: "Use $flutter-hifi-mockup with @product-design ideate to create three distinctive high-fidelity Flutter visual directions at exactly 780 x 1688 px, verify decoded dimensions, let me choose one, then assess its Flutter implementation path without limiting exploration to stock components."

@@ -70,7 +70,9 @@ For multiple pages, use page-scoped paths such as `docs/design/pages/<page-name>
 - For module page work, generate the high-fidelity effect image after low-fidelity Pencil structure has passed Wireframe Review.
 - Include realistic app content, not filler names or fake vanity metrics.
 - Use mockups to confirm UX/UI hierarchy, density, visual direction, and interaction intent before relying on text specs.
-- Keep platform feasibility in mind: Flutter Material 3, custom tokens, normal widget composition.
+- Separate visual exploration from implementation assessment. During global-direction exploration, optimize first for product character, compositional distinction, emotional energy, and task clarity; do not reject a direction merely because it needs custom widgets, `CustomPainter`, shaders, animation, or dedicated bitmap assets.
+- After a direction is selected, record a credible Flutter implementation path for each distinctive treatment: native widget, authored component, custom painting, shader or animation, or bitmap asset. Treat implementation complexity as an explicit tradeoff for user review, not an automatic rejection criterion.
+- Use Apple Human Interface Guidelines and iOS conventions as interaction, accessibility, and semantic foundations rather than a visual ceiling. A brand-led component language may depart from stock Cupertino component appearance when the departure is intentional and implementable.
 - Cover the most important state first; generate secondary states when they affect layout or trust.
 - For first-run, onboarding, paywall, permission, or data-import screens, make the expected value, risk, and recovery path visible before relying on visual polish.
 - Do not treat an image as implementation truth until it is reviewed and converted into design-freeze constraints.
@@ -80,6 +82,7 @@ For multiple pages, use page-scoped paths such as `docs/design/pages/<page-name>
 - Do not generate assets from the page mockup alone; asset prompts must use the global design freeze and page design freeze.
 - If Pencil is used later, allow it to carry page-level high-fidelity visual restoration only after the selected page mockup is reviewed and converted into `design-freeze.md`.
 - Treat every required bitmap or illustration as an asset with source, license, format, Flutter path, and fidelity requirements.
+- Do not simplify global exploration to avoid downstream asset work. Record asset cost and risk after exploration, then let the user choose whether the visual value justifies them.
 
 ## Gate
 

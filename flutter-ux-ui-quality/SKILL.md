@@ -27,12 +27,12 @@ Use this skill to stop low-quality UI from shipping. Text specs are drafts until
 
 ## Flutter UI Standards
 
-- Prefer Material 3 as the baseline unless the app has a stronger platform or brand requirement.
+- Use Apple Human Interface Guidelines and iOS conventions as the interaction, accessibility, and semantic baseline, not as a mandatory visual language. Define an authored component system whenever the approved product character benefits from shapes, composition, materials, imagery, or motion beyond stock Cupertino components.
 - Centralize tokens: color, typography, spacing, radius, elevation, motion.
 - Build reusable primitives for buttons, text fields, scaffold, empty state, error state, and loading skeletons.
 - Use real user content examples. Avoid generic fake names and filler content.
 - Test at small phone, normal phone, tablet, and large text scale where relevant.
-- Treat visual quality as task clarity, system consistency, and reliable feedback before material or decorative polish. Any decoration, gradient, shadow, texture, or motion must reinforce hierarchy, state, or brand character.
+- Treat visual quality as task clarity, system consistency, reliable feedback, and recognizable product character. Decoration, gradient, shadow, texture, illustration, unconventional composition, or motion is allowed when it reinforces hierarchy, state, storytelling, or brand character; require purpose, not visual austerity.
 
 ## Rejection Criteria
 

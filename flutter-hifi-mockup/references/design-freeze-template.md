@@ -46,7 +46,7 @@ Use this after selecting a high-fidelity mockup. It converts the image into impl
 
 ## Flutter Constraints
 
-- Material 3 mapping:
+- iOS HIG / Cupertino mapping:
 - Custom painter needed: Yes / No
 - Animation complexity:
 - Asset requirements:
