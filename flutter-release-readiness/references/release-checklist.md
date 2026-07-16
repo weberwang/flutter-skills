@@ -71,6 +71,7 @@
 - `fvm flutter test`:
 - Integration tests:
 - Required platform build and smoke evidence: `docs/architecture/verification-platforms.md`
+- Final runtime validation: completed after all modules/pages and high-fidelity restoration; record platform evidence in `docs/architecture/verification-platforms.md`
 
 ## Blockers
 

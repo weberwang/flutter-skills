@@ -17,7 +17,7 @@ This skill selects and documents integration strategy. It does not certify launc
 2. Identify app type: local-first, API-backed, subscription, content, community, commerce, AI, or enterprise.
 3. Choose state, routing, persistence, networking, auth, payments, analytics, crash reporting, and environment strategy.
 4. Define module boundaries, data flow, routing ownership, and cross-module contracts.
-5. Define the global verification platform scope, required evidence, and test layers. Do not repeat platform scope in task briefs or progress records.
+5. Define the global verification platform scope, required evidence, test layers, and final runtime-validation timing. Do not repeat platform scope in task briefs or progress records; device, emulator, simulator, browser, and desktop runtime validation occurs only after all modules/pages and required high-fidelity restoration are complete.
 6. Write `docs/architecture/technical-design.md` with [references/technical-design-template.md](references/technical-design-template.md).
 7. Write `docs/architecture/verification-platforms.md` with [references/verification-platforms-template.md](references/verification-platforms-template.md).
 

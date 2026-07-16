@@ -9,6 +9,7 @@ Replace every placeholder before dispatching this brief to an implementer.
 - Milestone:
 - Business-flow level:
 - Required prior-level evidence:
+- Runtime platform validation: Deferred to final integration
 - Goal:
 
 ## Scope
@@ -121,6 +122,7 @@ If yes:
 - Golden test:
 - Screenshot path:
 - Mockup source:
+- Runtime platform validation: Deferred to final integration; screenshot/golden is design evidence only
 - Global design freeze:
 - Required assets:
 - Asset atlas:

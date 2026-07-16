@@ -10,6 +10,7 @@
 - UI page tasks require low-fidelity Pencil structure, Wireframe Review, page-level high-fidelity mockup approval, global and page design-freeze constraints, required asset atlas evidence, Pencil high-fidelity restoration decision, required restoration evidence, and Flutter handoff before page code starts.
 - Module and page tasks must follow `docs/plans/module-map.md` for business-flow levels, module dependencies, cross-module contracts, and page interaction order. Finish and verify each level before starting the next; parallel work is limited to explicitly parallel-safe tasks in the same level.
 - Follow the global platform scope in `docs/architecture/verification-platforms.md`. Do not treat unlisted platforms as verified.
+- Defer device, emulator, simulator, browser, and desktop runtime validation until final integration after all module/page tasks and required high-fidelity restoration are complete. Task-level screenshots or goldens are design evidence only.
 - Every task requires verification output.
 
 ## Module Map
@@ -75,6 +76,14 @@
 
 - Goal:
 - Tasks:
+- Verification:
+
+### M6.5: Final Platform Runtime Validation
+
+- Entry condition: all business-flow levels, module/page functionality, and required high-fidelity restoration are complete.
+- Platforms: `docs/architecture/verification-platforms.md`
+- Runtime evidence:
+- Blocking findings and fixes:
 - Verification:
 
 ## Task List

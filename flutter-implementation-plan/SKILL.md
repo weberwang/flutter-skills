@@ -31,11 +31,12 @@ Convert approved specs into small, verifiable Flutter implementation tasks. A go
 
 - One task should produce one vertical slice or one isolated foundation.
 - Each task must list scope, non-scope, files likely touched, acceptance criteria, and verification commands.
-- Each task must follow `docs/architecture/verification-platforms.md`; do not duplicate platform scope or claim an unrecorded platform as verified.
+- Each task must follow `docs/architecture/verification-platforms.md`; do not duplicate platform scope or claim an unrecorded platform as verified. Defer device, emulator, simulator, browser, and desktop runtime validation until final integration after all modules/pages and high-fidelity restoration are complete.
 - UI tasks must include screenshot or golden evidence requirements.
 - Risky shared foundations must happen before dependent feature tasks.
 - Module entry tasks must establish routing, state boundary, contracts, and test scaffolding before page tasks.
 - A task brief must name its business-flow level and the prior-level evidence it depends on.
+- Task briefs must mark runtime platform validation as deferred to final integration; task-level screenshots or goldens are design evidence only.
 - Do not plan parallel implementation tasks that write the same files.
 
 ## Output Files

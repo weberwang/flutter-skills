@@ -43,7 +43,7 @@ Run implementation through controlled subagent loops. The controller owns sequen
 8. Dispatch a fixer for Critical and Important findings.
 9. Re-review until approved.
 10. Mark task complete in the ledger.
-11. After all tasks, run final branch review.
+11. After all tasks and required high-fidelity restoration are complete, run final branch review and the in-scope device, emulator, simulator, browser, or desktop runtime validation. Record platform evidence only at this final integration stage.
 
 Use [references/subagent-prompts.md](references/subagent-prompts.md) and [references/progress-ledger.md](references/progress-ledger.md).
 
@@ -57,6 +57,8 @@ Parallelize exploration and review. Serialize delivery across business-flow leve
 - relevant `fvm flutter test` targets
 - `fvm flutter test integration_test` when integration tests exist and the task affects flows
 - screenshots or golden tests for UI work
+
+Run device, emulator, simulator, browser, and desktop runtime validation only after all module/page tasks have passed; task-level screenshots or goldens remain design evidence and do not verify a platform.
 
 ## Gate
 

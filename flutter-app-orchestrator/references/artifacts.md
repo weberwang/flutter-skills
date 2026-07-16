@@ -259,6 +259,7 @@ For module or page-level UI work, store repeated design artifacts under a page o
 - Target verification platforms.
 - Unsupported platforms with `N/A: <reason>`.
 - Required command, device, browser, emulator, simulator, screenshot, or golden evidence per platform.
+- Final-integration timing: run device, browser, emulator, simulator, and desktop runtime validation only after all modules/pages and high-fidelity restoration are complete; task-level screenshots or goldens do not verify a platform.
 - Evidence storage location and update owner.
 
 `docs/architecture/technical-design.md`

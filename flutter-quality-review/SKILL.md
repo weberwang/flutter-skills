@@ -20,7 +20,7 @@ Review like a release-blocking commercial app gate. Findings lead; summaries are
 - Technical design or relevant architecture decisions.
 - Diff or changed files.
 - Test commands and outputs.
-- Global `docs/architecture/verification-platforms.md`, its applicable evidence, and screenshots or golden evidence for UI changes.
+- Global `docs/architecture/verification-platforms.md`, final-integration platform evidence when reviewing final delivery, and screenshots or golden evidence for UI changes.
 - `@product-design audit` result for user-facing UI flows.
 
 ## Rubric
@@ -52,7 +52,7 @@ Use [references/review-rubric.md](references/review-rubric.md). Always check:
 - Error handling and recoverability.
 - Payment, privacy, account, analytics, and crash reporting when in scope.
 - Test sufficiency.
-- Verification platform compliance: use the global platform scope as the only source of truth; accept a platform only when its required evidence exists.
+- Verification platform compliance: use the global platform scope as the only source of truth; review runtime platform evidence only at final integration after all module/page functionality and high-fidelity restoration are complete.
 - Overengineering and unnecessary abstractions.
 
 ## Output Shape
@@ -73,4 +73,4 @@ Severity:
 
 ## Gate
 
-If no issues are found, say so clearly and list residual risks or missing evidence. Do not approve if the task brief, global verification platform scope, applicable platform evidence, module map, init report, generated `flutter-dev` path, required wireframe text spec, required asset atlas evidence, required asset generation evidence or `N/A` reason, Pencil high-fidelity restoration decision and reason, required restoration evidence, required screenshots, required `@product-design audit` result for a user-facing flow, required aesthetic verdict for user-facing UI work, or required tests are absent. Require module acceptance result and integration smoke result only when the task changes module boundaries, routes, cross-module contracts, or user flows; otherwise require `N/A: <reason>`.
+If no issues are found, say so clearly and list residual risks or missing evidence. Do not approve a task if the task brief, global verification platform scope, module map, init report, generated `flutter-dev` path, required wireframe text spec, required asset atlas evidence, required asset generation evidence or `N/A` reason, Pencil high-fidelity restoration decision and reason, required restoration evidence, required screenshots, required `@product-design audit` result for a user-facing flow, required aesthetic verdict for user-facing UI work, or required tests are absent. Require runtime platform evidence only for final-integration review, after all module/page functionality and high-fidelity restoration are complete. Require module acceptance result and integration smoke result only when the task changes module boundaries, routes, cross-module contracts, or user flows; otherwise require `N/A: <reason>`.

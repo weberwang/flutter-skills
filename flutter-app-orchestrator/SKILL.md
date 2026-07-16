@@ -34,9 +34,10 @@ Do not jump from idea to code. Move through product, UX/UI, technical design, im
 9. After the analysis identifies a bitmap or bitmap-fill requirement, use `flutter-asset-atlas` for its reuse check, production decision, generation or enhancement, slicing, export, inventory, and fidelity review. New bitmap generation must use product-design or image generation tools by default and follow the global design freeze and page design freeze. Treat bitmap enhancement as a design change: replace the corresponding asset in the design draft, preserve the approved layout and constraints, and record the updated design evidence before implementation. When the analysis identifies no bitmap or bitmap fill, record `N/A: no bitmap or exported visual assets` in the task brief and `.codex-workflow/progress.md`.
 10. Decide whether Pencil high-fidelity restoration is required. Restore the page in Pencil when required, including every bitmap and bitmap fill identified by the analysis, then implement the Flutter page from text specs and handoff artifacts.
 11. Review delivery with `flutter-quality-review`; for user-facing UI flows, run `@product-design audit` against screenshots before the final UX/UI verdict.
-12. Check store and business release readiness with `flutter-release-readiness`.
-13. After a task passes its required checks and is explicitly confirmed, remove task-scoped temporary files, invalid or expired artifacts, and superseded unselected design drafts. Before deletion, verify that each candidate is not referenced by the current approved design, implementation, required workflow evidence, or user-provided source assets. Preserve the selected design, final assets, and required evidence; record deleted paths and any `N/A` cleanup decision in `.codex-workflow/progress.md`.
-14. After cleanup, list exactly one next task.
+12. After every business-flow level is complete and all module/page functionality and high-fidelity restoration are implemented, run the final device runtime validation for every platform in `docs/architecture/verification-platforms.md`. Record device, emulator, simulator, browser, or desktop evidence only in this final integration stage.
+13. Check store and business release readiness with `flutter-release-readiness`.
+14. After a task passes its required checks and is explicitly confirmed, remove task-scoped temporary files, invalid or expired artifacts, and superseded unselected design drafts. Before deletion, verify that each candidate is not referenced by the current approved design, implementation, required workflow evidence, or user-provided source assets. Preserve the selected design, final assets, and required evidence; record deleted paths and any `N/A` cleanup decision in `.codex-workflow/progress.md`.
+15. After cleanup, list exactly one next task.
 
 ## Required Artifacts
 
@@ -85,6 +86,7 @@ Use [references/artifacts.md](references/artifacts.md) for the artifact contract
 - No UX/UI direction approval before the product brief defines a testable first-value moment, safe-to-try conditions, trust evidence, and product character; visual treatment must not be used to conceal an unresolved value or trust problem.
 - No implementation before the Flutter project has the fixed plugin stack and a generated `flutter-dev` skill path recorded in `docs/architecture/flutter-init.md`.
 - No implementation planning before `docs/architecture/verification-platforms.md` records the global platform scope, required evidence, and unsupported platforms with `N/A: <reason>`.
+- Do not perform or claim device, emulator, simulator, browser, or desktop runtime verification during an individual module or page task. Defer it until all business-flow levels, module/page functionality, and required high-fidelity restoration are complete.
 - No UX/UI approval from text alone; high-value screens require selected high-fidelity effect images or an explicit "no mockup needed" decision.
 - No global visual direction approval before `@product-design ideate` provides three market-informed reviewable directions, the candidates are listed for the user, and the user's explicit selected direction is recorded. Do not select a direction automatically.
 - No global effect-image generation before `docs/product/market-analysis.md` exists and `docs/design/prompts/global-visual-direction-prompt.md` is populated from the global prompt template, maps every product requirement to PRD artifacts and every direction rationale to market-analysis findings, and records the product-design-principle check.
@@ -114,7 +116,8 @@ Use [references/artifacts.md](references/artifacts.md) for the artifact contract
 - No UI completion claim before screenshots or Flutter golden evidence exist.
 - No user-facing UI completion before `flutter-quality-review` records an aesthetic verdict against the approved mockup and design-freeze constraints; Critical or Important aesthetic findings must be resolved or explicitly accepted.
 - No user-facing UI completion claim before `@product-design audit` findings are resolved or explicitly accepted in the review record.
-- No task completion before `fvm flutter analyze`, relevant tests, and the applicable evidence required by the global verification platform scope are reported or explicitly marked unavailable with a blocker.
+- No task completion before `fvm flutter analyze`, relevant tests, and required non-runtime design evidence are reported or explicitly marked unavailable with a blocker. Runtime platform evidence is a final-integration gate, not a module/page-task gate.
+- No final delivery or release-readiness claim before every in-scope platform has completed its final device, emulator, simulator, browser, or desktop runtime validation after all modules and pages are implemented.
 - No next-task handoff before the confirmed task has completed its scoped cleanup or recorded `N/A` in `.codex-workflow/progress.md`.
 - No delivery completion while Critical or Important review findings remain open.
 - No release claim before privacy, account, payment, crash reporting, analytics, and store checklist are checked or explicitly marked out of scope.
