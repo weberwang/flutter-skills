@@ -11,6 +11,7 @@ For module or page-level UI work, store repeated design artifacts under a page o
 - PRD availability check and reviewed source artifacts.
 - One-question-at-a-time decision log, including recommendation and user answer.
 - Confirmed decisions, unresolved items, decision dependencies, and rejected alternatives.
+- Light visual interrogation answers for the derived expression preset (once before global visual exploration).
 - User's explicit shared-understanding confirmation.
 
 `docs/product/product-brief.md`
@@ -20,6 +21,7 @@ For module or page-level UI work, store repeated design artifacts under a page o
 - MVP promise.
 - First-value moment, safe-to-try conditions, and trust evidence.
 - Product character, avoided impressions, and decoration rule.
+- Visual expression preset: preset ID, category/audience derivation, axis values, wow requirement, light-interrogation commitments, and any later pin/raise/loosen override.
 - Commercial model.
 - Success metrics.
 - Risks and assumptions.
@@ -84,6 +86,7 @@ For module or page-level UI work, store repeated design artifacts under a page o
 - Device targets.
 - Required states.
 - Source wireframe spec for page-level module work.
+- Active visual expression preset, page-type budget dial, and whether a restatable signature moment is required.
 - Image prompt constraints.
 - Formal prompt file path.
 - PRD alignment status.
@@ -95,9 +98,11 @@ For module or page-level UI work, store repeated design artifacts under a page o
 - Market-analysis source, relevant findings, and source location.
 - Requirement mapping: PRD requirement or market finding, prompt expression, and source location.
 - Product-design-principle check: primary user task, scoped functionality, information hierarchy, single primary action where applicable, mobile accessibility, realistic content, and approved visual constraints.
+- Active visual expression preset: preset ID, axes, required three-direction mix, scoring-weight emphasis, and light-interrogation commitments.
 - Three-direction comparison specification.
-- Three recommended candidate directions, each tied to PRD needs, market opportunity, category conventions, and differentiation opportunity; categories are not restricted to template examples.
+- Three recommended candidate directions, each tied to PRD needs, market opportunity, category conventions, differentiation opportunity, and the preset’s required mix; categories are not restricted to template examples, and the set must not collapse into three restrained professional looks.
 - User's explicit selected direction; no automatic selection.
+- Restatable-signature confirmation when Global Freeze Signature Rule applies, or recorded N/A reason when it does not; any pin / raise / loosen override after selection.
 - Autonomously selected representative page and PRD-based selection rationale.
 - Shared representative-page task, device, information structure, copy, data, and state.
 - Confirmation that the page high-fidelity prompt template was used for each candidate direction without saving separate representative-page prompt files.
@@ -108,12 +113,15 @@ For module or page-level UI work, store repeated design artifacts under a page o
 - PRD and approved design source artifacts.
 - Requirement mapping: page task, state, copy, data, actions, visual constraints, and source location.
 - Product-design-principle check: primary user task, scoped functionality, information hierarchy, primary-action clarity, mobile accessibility, realistic content, and approved visual constraints.
+- Active visual expression preset, page-type budget dial, and whether this page must show a restatable signature moment.
 - Final generation prompt used for the page-level effect image.
 
 `docs/design/global-design-freeze.md`
 
 - Global visual direction.
 - Brand tone.
+- Visual expression preset in force, including any pin / raise / loosen override.
+- Required signature moment commitment for hero-class pages.
 - Color system.
 - Typography and shape language.
 - Illustration and icon style.
@@ -238,6 +246,8 @@ For module or page-level UI work, store repeated design artifacts under a page o
 `docs/design/design-freeze.md`
 
 - Selected mockup path.
+- Active expression preset and page-type budget dial.
+- Required signature moment for this page, or N/A with reason.
 - Frozen layout.
 - Tokens.
 - Components.

@@ -60,7 +60,7 @@
 
 - Compare the implementation screenshot with the approved mockup and design-freeze constraints before judging aesthetics.
 - Verify hierarchy, alignment, spacing rhythm, typography, color and contrast, component consistency, and asset quality as one visual system.
-- Verify that decoration, borders, shadows, corner radii, and accent colors are restrained and intentional; flag visual noise, generic treatment, or competing focal points.
+- Verify that decoration, borders, shadows, corner radii, and accent colors are purposeful and match the active expression preset and page-type budget; flag visual noise, generic treatment, competing focal points, and missing signature on full-budget or wow-required pages. Do not require austerity when the preset calls for higher signature strength.
 - Verify that the screen gives visual priority to the primary user task and uses content imagery or assets that fit the product and target audience.
 - Verify that the visual system supports the documented product character and that polish does not conceal unclear value, unnecessary friction, or unresolved trust concerns.
 - Record an explicit verdict: `approved`, `approved with Minor findings`, or `not approved`. A Critical or Important aesthetic finding results in `not approved` until resolved or explicitly accepted.

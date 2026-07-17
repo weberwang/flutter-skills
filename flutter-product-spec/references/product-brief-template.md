@@ -37,6 +37,16 @@ The first release succeeds if:
 - Brand character: Three product qualities the experience must consistently convey.
 - Avoid: Visual or interaction impressions that would reduce trust or product fit.
 - Decoration rule: The intended purpose of any material, texture, illustration, gradient, or motion; use none when it does not improve hierarchy, feedback, or brand expression.
+- Visual expression preset: Derive from [visual-expression-presets.md](../../flutter-ux-ui-quality/references/visual-expression-presets.md) using category and audience. Record preset ID, derivation basis, axes, wow requirement, and any user override after light interrogation.
+  - Preset ID:
+  - Derived from (category / audience):
+  - signature_strength:
+  - decoration_budget:
+  - trust_priority:
+  - information_density:
+  - wow_requirement:
+  - Light interrogation commitments:
+  - Override after direction pick: pin / raise / loosen / none yet
 
 ## Commercial Model
 

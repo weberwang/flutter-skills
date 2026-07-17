@@ -47,6 +47,9 @@ Replace every placeholder before generating images or dispatching a visual agent
 ## Visual Direction
 
 - Design system baseline:
+- Visual expression preset ID and axes:
+- Page-type budget dial: full / moderate / dial-down / N/A for global
+- Restatable signature required for this mockup: Yes / No — description or N/A reason:
 - Brand traits:
 - Decoration purpose and limits:
 - Avoid:

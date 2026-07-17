@@ -50,6 +50,8 @@
 - Product Design ideation directions:
 - Selected Product Design direction:
 - Product character (three qualities):
+- Visual expression preset ID and axes:
+- Page-type budget dial:
 - Avoided impressions:
 - Decoration purpose and limits:
 - Design system:

@@ -8,6 +8,9 @@ Use this after selecting a high-fidelity mockup. It converts the image into impl
 - Selected date:
 - Selected by:
 - Screen or flow:
+- Visual expression preset:
+- Page-type budget dial: full / moderate / dial-down
+- Required signature moment: Yes / No / N/A — description:
 
 ## Frozen Layout
 

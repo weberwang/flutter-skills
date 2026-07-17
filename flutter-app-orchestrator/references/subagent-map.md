@@ -10,7 +10,7 @@ Use subagents when work is independent and the controller can continue or integr
 | Market analysis agent | Market context, competitor patterns, category conventions, differentiation opportunities, and evidence sources | No |
 | UX agent | Flows, screen states, usability risks | No |
 | Mockup agent | Generate high-fidelity screen directions and visual prompts | No |
-| Effect Image Reviewer | Independently review completed mockups against product goals, Flutter feasibility, and Apple Human Interface Guidelines interaction principles; separately report at most five product-design issues and at most five premium-feel improvements, without redesigning or modifying the mockup | No |
+| Effect Image Reviewer | Independently review completed mockups against product goals, Flutter feasibility, Apple Human Interface Guidelines interaction principles, and the active visual expression preset; separately report at most five product-design issues and at most five premium-feel or signature-strength improvements, without redesigning or modifying the mockup | No |
 | Pencil handoff agent | Convert low-fidelity Pencil evidence into Flutter text specs | No |
 | Pencil visual restoration agent | Restore approved high-fidelity visuals into Pencil and produce text handoff | No |
 | Bitmap enhancement agent | Enhance approved bitmap assets and synchronize each final output to the corresponding design-draft asset or Pencil node | No |

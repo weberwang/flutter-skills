@@ -1,4 +1,4 @@
 interface:
   display_name: "Flutter UX UI Quality"
   short_description: "Design and verify high-quality Flutter UX/UI."
-  default_prompt: "Use $flutter-ux-ui-quality to define and verify a distinctive Flutter iOS app screen, using Apple Human Interface Guidelines and Cupertino semantics as the interaction baseline rather than a visual ceiling, @product-design ideate for three visual directions, and audit for user-facing flow review."
+  default_prompt: "Use $flutter-ux-ui-quality with the derived visual expression preset to define and verify a distinctive Flutter iOS app screen, using Apple Human Interface Guidelines and Cupertino semantics as the interaction baseline rather than a visual ceiling, @product-design ideate for three preset-distributed visual directions, and audit for user-facing flow review."

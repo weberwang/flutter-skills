@@ -11,9 +11,9 @@ Use this skill to stop low-quality UI from shipping. Text specs are drafts until
 
 ## Required Sequence
 
-1. Write a global UI brief with [references/ui-brief-template.md](references/ui-brief-template.md) covering navigation, screen inventory, state coverage, cross-module page flows, first-value delivery, trust, and safe-to-try conditions.
+1. Write a global UI brief with [references/ui-brief-template.md](references/ui-brief-template.md) covering navigation, screen inventory, state coverage, cross-module page flows, first-value delivery, trust, safe-to-try conditions, and the active visual expression preset from [references/visual-expression-presets.md](references/visual-expression-presets.md).
 2. Select or define the Flutter design system using [references/flutter-design-system.md](references/flutter-design-system.md).
-3. Run `@product-design user-context` preflight, then use `@product-design get-context` to confirm the design target and intended user outcome. Use `@product-design ideate` to generate exactly three global visual directions and record the selected direction.
+3. Confirm the product brief already recorded a derived expression preset and completed the one-time light visual interrogation with grilling-log answers and product-brief mirror before exploration. Run `@product-design user-context` preflight, then use `@product-design get-context` to confirm the design target and intended user outcome. Use `@product-design ideate` to generate exactly three global visual directions that satisfy the preset’s required direction mix, and record the selected direction, Global Freeze Signature Rule confirmation or N/A reason, plus any pin / raise / loosen override.
 4. Use `flutter-hifi-mockup` to confirm global high-value UX/UI decisions with high-fidelity effect images.
 5. Feed global flows, screen inventory, and page interaction order into `docs/plans/module-map.md`.
 6. During each UI module or page implementation task, use `flutter-pencil-design` first for low-fidelity structure, Wireframe Review, and `docs/design/wireframe-spec.md`.
@@ -32,7 +32,7 @@ Use this skill to stop low-quality UI from shipping. Text specs are drafts until
 - Build reusable primitives for buttons, text fields, scaffold, empty state, error state, and loading skeletons.
 - Use real user content examples. Avoid generic fake names and filler content.
 - Test at small phone, normal phone, tablet, and large text scale where relevant.
-- Treat visual quality as task clarity, system consistency, reliable feedback, and recognizable product character. Decoration, gradient, shadow, texture, illustration, unconventional composition, or motion is allowed when it reinforces hierarchy, state, storytelling, or brand character; require purpose, not visual austerity.
+- Treat visual quality as task clarity, system consistency, reliable feedback, and recognizable product character at the strength required by the visual expression preset. Decorations, gradient, shadow, texture, illustration, unconventional composition, or motion is allowed when it reinforces hierarchy, state, storytelling, or brand character within the page-type budget; require purpose and preset fit, not visual austerity.
 
 ## Rejection Criteria
 
@@ -45,7 +45,8 @@ Use this skill to stop low-quality UI from shipping. Text specs are drafts until
 - A first-time user cannot understand the value, safely begin, or reach the specified first-value moment from the planned flow.
 - Implementation claims "polished" without screenshots or golden evidence.
 - Visual style diverges from the selected design system without written reason.
-- Global visual direction is selected without the three-direction `@product-design ideate` review.
+- Global visual direction is selected without the three-direction `@product-design ideate` review or without satisfying the active preset’s required direction mix.
+- Full-budget or wow-required pages ship without a restatable visual signature, or exploration defaults to universal restraint instead of the derived preset.
 
 ## Output Files
 
