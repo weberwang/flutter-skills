@@ -61,7 +61,8 @@ If yes:
 - Wireframe review:
 - Wireframe text spec:
 - High-fidelity mockup brief:
-- Selected high-fidelity mockup:
+- Selected frozen high-fidelity mockup: `.codex-workflow/visuals/pages/<page-name>/frozen-<slug>.png`
+- Mockup candidate ID / SHA-256 / confirmation time:
 - Approval record:
 - Global design freeze:
 - Design freeze:

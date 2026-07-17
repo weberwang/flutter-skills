@@ -106,6 +106,7 @@ For module or page-level UI work, store repeated design artifacts under a page o
 - Autonomously selected representative page and PRD-based selection rationale.
 - Shared representative-page task, device, information structure, copy, data, and state.
 - Confirmation that the page high-fidelity prompt template was used for each candidate direction without saving separate representative-page prompt files.
+- Written only after the selected global direction is explicitly frozen; until then, keep the prompt transient in the conversation.
 
 `docs/design/prompts/pages/<page-name>-hifi-mockup-prompt.md`
 
@@ -115,6 +116,7 @@ For module or page-level UI work, store repeated design artifacts under a page o
 - Product-design-principle check: primary user task, scoped functionality, information hierarchy, primary-action clarity, mobile accessibility, realistic content, and approved visual constraints.
 - Active visual expression preset, page-type budget dial, and whether this page must show a restatable signature moment.
 - Final generation prompt used for the page-level effect image.
+- Written only after the selected page image is explicitly frozen; until then, keep the prompt transient in the conversation.
 
 `docs/design/global-design-freeze.md`
 
@@ -129,6 +131,7 @@ For module or page-level UI work, store repeated design artifacts under a page o
 - Banned visual styles.
 - Reuse rules for visual assets.
 - Scope limitation: this baseline does not approve a page effect image, page design freeze, or page implementation. The global exploration's representative-page images are direction-comparison evidence only.
+- Frozen image record: `.codex-workflow/visuals/global/frozen-<slug>.png`, source candidate ID, decoded dimensions, SHA-256, and user confirmation time.
 
 `docs/design/pencil-intake.md`
 
@@ -245,7 +248,8 @@ For module or page-level UI work, store repeated design artifacts under a page o
 
 `docs/design/design-freeze.md`
 
-- Selected mockup path.
+- Selected frozen mockup path under `.codex-workflow/visuals/pages/<page-name>/`.
+- Source candidate ID, decoded dimensions, SHA-256, and user confirmation time.
 - Active expression preset and page-type budget dial.
 - Required signature moment for this page, or N/A with reason.
 - Frozen layout.
@@ -313,6 +317,7 @@ For module or page-level UI work, store repeated design artifacts under a page o
 - Test evidence.
 - Review verdict.
 - UI page design gate evidence.
+- Frozen effect-image path, candidate ID, decoded dimensions, SHA-256, and confirmation time.
 - Pencil high-fidelity restoration decision.
 - Pencil high-fidelity restoration reason.
 - Effect-image bitmap/UI/data analysis and any UI bitmap-fill decision.

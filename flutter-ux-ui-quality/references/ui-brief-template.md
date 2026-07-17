@@ -56,7 +56,8 @@
 - Decoration purpose and limits:
 - Design system:
 - High-fidelity confirmation required: Yes / No
-- High-fidelity mockup path:
+- Frozen high-fidelity mockup path: `.codex-workflow/visuals/<scope>/frozen-<slug>.png` / `N/A: not frozen`
+- Mockup candidate ID / SHA-256 / confirmation time:
 - High-fidelity approval notes:
 - Mockup required: Yes / No
 - Mockup reason:

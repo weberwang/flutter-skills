@@ -14,7 +14,7 @@ Review like a release-blocking commercial app gate. Findings lead; summaries are
 - Product scope and task brief.
 - Project-local `flutter-dev` implementation constraints.
 - Module map and implementation plan.
-- High-fidelity mockup, global design-freeze constraints, and page design-freeze constraints when present.
+- High-fidelity mockup frozen under `.codex-workflow/visuals/<scope>/`, plus global design-freeze constraints and page design-freeze constraints when present.
 - Asset reuse check, production decision, background handling, background transparentization when applicable, transparent post-processing when applicable, generation evidence when used, atlas, slicing manifest, asset inventory, and fidelity review when illustrations, bitmaps, logos, photos, textures, generated visual assets, or visual exports are present.
 - Wireframe text spec, Pencil intake, high-fidelity Pencil restoration decision and reason, restoration evidence when required, and handoff when Pencil is present.
 - Technical design or relevant architecture decisions.
@@ -34,6 +34,7 @@ Use [references/review-rubric.md](references/review-rubric.md). Always check:
 - First-value, safe-to-try, trust, and recovery conditions for user-facing adoption flows.
 - UI state coverage.
 - Page design gate order: low-fidelity Pencil structure, Wireframe Review, wireframe text spec, high-fidelity effect image, design-freeze, restoration decision, then required restoration evidence.
+- Freeze-record integrity: the selected image is stored under `.codex-workflow/visuals/<scope>/` before related visual artifacts, and its candidate ID, decoded dimensions, SHA-256, and user confirmation time match the design freeze and ledger.
 - Asset gate order: approved high-fidelity effect image, global and page design-freeze constraints, reuse check, production decision, background handling, background transparentization when applicable, transparent post-processing when applicable, generation evidence when used, asset atlas, slicing manifest, asset inventory, fidelity review, then Pencil high-fidelity restoration or Flutter implementation.
 - Pencil high-fidelity restoration decision quality: required screens are not skipped, and Not required decisions have a reason.
 - Data units are restored as editable text or representative placeholders and do not create bitmap-generation or extraction work.

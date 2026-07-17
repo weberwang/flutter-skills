@@ -4,7 +4,11 @@ Use this after selecting a high-fidelity mockup. It converts the image into impl
 
 ## Source Mockup
 
-- Image path:
+- Frozen image path: `.codex-workflow/visuals/<scope>/frozen-<slug>.png`
+- Source candidate ID:
+- SHA-256:
+- Decoded dimensions: `780 x 1688 px`
+- Freeze confirmation time:
 - Selected date:
 - Selected by:
 - Screen or flow:

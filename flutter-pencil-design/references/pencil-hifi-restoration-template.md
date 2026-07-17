@@ -6,7 +6,8 @@ Use this during the page design gate after Wireframe Review when Pencil must car
 
 - Restoration decision: Required / Not required
 - Decision reason:
-- Selected high-fidelity mockup:
+- Selected frozen high-fidelity mockup: `.codex-workflow/visuals/pages/<page-name>/frozen-<slug>.png`
+- Mockup candidate ID / SHA-256 / confirmation time:
 - Mockup review:
 - Design-freeze:
 - Wireframe text spec:

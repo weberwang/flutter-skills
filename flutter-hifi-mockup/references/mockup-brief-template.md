@@ -1,6 +1,14 @@
 # Mockup Brief Template
 
-Replace every placeholder before generating images or dispatching a visual agent.
+Fill this transiently before generating images or dispatching a visual agent. Write it to the repository only after the user explicitly confirms a freeze, after the exact selected image has been persisted under `.codex-workflow/visuals/<scope>/`.
+
+## Freeze Record
+
+- Frozen image path:
+- Source candidate ID:
+- SHA-256:
+- Decoded dimensions: `780 x 1688 px`
+- User confirmation time:
 
 ## Screen or Flow
 

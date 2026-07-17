@@ -11,7 +11,7 @@ Use this skill after a page-level high-fidelity mockup is approved and before hi
 
 ## Required Inputs
 
-- Approved page-level high-fidelity mockup.
+- Approved frozen page-level high-fidelity mockup under `.codex-workflow/visuals/pages/<page-name>/`, with its candidate ID, SHA-256, and confirmation time from the design freeze.
 - Global design freeze, for example `docs/design/global-design-freeze.md` or the project-approved global design-freeze path.
 - Page design freeze, for example `docs/design/design-freeze.md` or a page-scoped design-freeze path.
 - `docs/design/wireframe-spec.md` for the page.
@@ -22,7 +22,7 @@ Use this skill after a page-level high-fidelity mockup is approved and before hi
 
 ## Workflow
 
-1. Confirm global design-freeze constraints and page design-freeze constraints exist before asset generation or extraction.
+1. Confirm the exact approved mockup is already frozen under `.codex-workflow/visuals/pages/<page-name>/` and that global/page design-freeze constraints reference it before asset generation or extraction.
 2. Start from the page decomposition's separate-bitmap review, then audit the approved mockup for required visual assets: illustrations, bitmaps, photos, logos, textures, backgrounds, generated images, chart bitmaps, and custom icons.
 3. Mark the asset track as Required or `N/A: no bitmap or exported visual assets`. For every icon, image, illustration, logo, texture, or other visual resource, record 100%-match evidence against the approved mockup before preserving a per-unit verdict: reuse, adapt, generate, approved Pencil-node export, explicit mockup extraction, or `N/A: native Flutter/UI/data`. Without that evidence, the verdict must be `generate`; do not skip required assets because they look decorative if they affect brand, trust, conversion, or visual parity.
 4. Run a reuse check against brand assets, existing app assets, previous generated assets, source files, and `docs/design/asset-inventory.md`.
@@ -87,4 +87,4 @@ Use this node only after source asset approval and before transparent-background
 
 ## Gate
 
-Do not generate, extract, restore in Pencil, or implement Flutter UI for required visual assets when the page decomposition has no per-unit separate-bitmap review verdict and 100%-match evidence, or when an unmatched icon, image, illustration, logo, texture, or other resource has not completed dedicated bitmap generation, or when global design-freeze constraints, page design-freeze constraints, reuse check, production decision, background handling decision, background transparentization evidence when applicable, transparent-background post-processing evidence when applicable, generation evidence when used, logical display size plus verified `2x` decoded dimensions for every newly generated concrete bitmap, slicing/export manifest, inventory entries, Flutter paths, license status, and fidelity review are missing. If no exported assets are needed, record `N/A: no bitmap or exported visual assets` in the task brief and progress ledger.
+Do not generate, extract, restore in Pencil, or implement Flutter UI for required visual assets when the approved page mockup is not an explicitly frozen image under `.codex-workflow/visuals/pages/<page-name>/`, when the page decomposition has no per-unit separate-bitmap review verdict and 100%-match evidence, or when an unmatched icon, image, illustration, logo, texture, or other resource has not completed dedicated bitmap generation, or when global design-freeze constraints, page design-freeze constraints, reuse check, production decision, background handling decision, background transparentization evidence when applicable, transparent-background post-processing evidence when applicable, generation evidence when used, logical display size plus verified `2x` decoded dimensions for every newly generated concrete bitmap, slicing/export manifest, inventory entries, Flutter paths, license status, and fidelity review are missing. If no exported assets are needed, record `N/A: no bitmap or exported visual assets` in the task brief and progress ledger.

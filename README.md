@@ -86,6 +86,7 @@ npx -y github:weberwang/flutter-skills
 
 - 页面 UI 不从纯文字描述直接实现。
 - 页面级高保真效果图必须在低保真 Pencil 和 Wireframe Review 之后生成。
+- 效果图候选、提示词草案和评审结果在用户明确确认冻结前仅保留在当前对话中；冻结时先将原始选中图片写入 `.codex-workflow/visuals/global/` 或 `.codex-workflow/visuals/pages/<page-name>/`，再写入提示词、简报、设计冻结和进度记录，并登记候选 ID、尺寸、SHA-256 与确认时间。
 - 全局视觉探索优先验证产品性格、构图差异、情绪活力和任务清晰度；先由品类与受众推导视觉表达预算预设，并在探索前做一次轻量视觉拷问。以 Apple Human Interface Guidelines 和 iOS/Cupertino 语义作为交互、无障碍与平台基线，但不得以普通 Flutter Widget、原生 Cupertino 外观、普遍克制或后续资产工作量作为视觉上限；方向选定后再记录原生组件、自定义组件、`CustomPainter`、Shader/动效或位图资产的实现路径和成本。
 - 高清 Pencil 还原以已确认的页面级效果图及页面设计冻结为视觉准据；草图和 Wireframe 仅约束页面范围、结构、状态与交互，不得替代或反向覆盖效果图的视觉细节。
 - 图标、图片、插图、logo、纹理及其他视觉资源必须逐项验证与已确认效果图的视觉内容 100% 一致；无法一致时，禁止使用近似组件、系统图标或替代资源，必须进入独立位图生成、资产图集与保真验收流程。

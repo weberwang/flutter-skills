@@ -1,11 +1,12 @@
 # Asset Atlas Template
 
-Use this after page-level high-fidelity mockup approval and design freeze.
+Use this after page-level high-fidelity mockup approval and design freeze. The approved mockup must be the frozen image persisted under `.codex-workflow/visuals/pages/<page-name>/`.
 
 ## Context
 
 - Page or module:
-- Approved mockup:
+- Approved frozen mockup:
+- Mockup candidate ID / SHA-256 / confirmation time:
 - Global design freeze:
 - Page design freeze:
 - Wireframe spec:
