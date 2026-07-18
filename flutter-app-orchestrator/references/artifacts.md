@@ -13,6 +13,7 @@ For module or page-level UI work, store repeated design artifacts under a page o
 - Confirmed decisions, unresolved items, decision dependencies, and rejected alternatives.
 - Light visual interrogation answers for the derived expression preset (once before global visual exploration).
 - User's explicit shared-understanding confirmation.
+- Per-module implementation-stage grilling entries with module name, included-function and non-goal decisions, dependencies, acceptance path, explicit shared-understanding confirmation, and confirmation time.
 
 `docs/product/product-brief.md`
 
@@ -300,6 +301,16 @@ For module or page-level UI work, store repeated design artifacts under a page o
 - Integration smoke paths.
 - Page interaction order.
 - Parallelization limits.
+- Per-module grilling, confirmed-scope, and function/page-refinement status.
+
+`docs/plans/modules/<module-name>-scope.md`
+
+- Module identity, business-flow level, product responsibility, route ownership, and data ownership.
+- PRD, design, technical, code, and prior-decision evidence reviewed before module-level grilling.
+- Module-level questions, user answers, explicit shared-understanding confirmation, confirmation time, and gate verdict.
+- Confirmed included functions, explicit non-goals, priorities, dependencies, accepted risks, and acceptance evidence.
+- Post-confirmation refinement of page functions, states, actions, transitions, cross-module contracts, module acceptance path, and vertical-slice tasks.
+- Open decisions and whether each blocks implementation.
 
 ## Delivery
 
@@ -309,6 +320,7 @@ For module or page-level UI work, store repeated design artifacts under a page o
 - Task briefs.
 - Verification commands.
 - Dependencies.
+- Per-module just-in-time grilling and refinement status.
 
 `.codex-workflow/progress.md`
 

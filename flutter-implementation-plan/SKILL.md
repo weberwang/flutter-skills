@@ -7,7 +7,7 @@ description: Use when converting Flutter product, UX, UI, or architecture specs 
 
 ## Overview
 
-Convert approved specs into small, verifiable Flutter implementation tasks. A good plan separates global design from module delivery, then derives business-flow levels from dependency and page interaction flow so Codex or subagents can execute without guessing scope.
+Convert approved specs into a coarse cross-module build sequence, then refine each module just in time into small, verifiable Flutter implementation tasks after its module-level grilling gate. This keeps global dependencies visible without pretending every module and page function is settled before implementation reaches it.
 
 ## Inputs
 
@@ -16,6 +16,7 @@ Convert approved specs into small, verifiable Flutter implementation tasks. A go
 - Technical design.
 - Module boundaries, page flow, and cross-module contracts.
 - Existing app structure, if this is not a greenfield app.
+- Product grilling log and the current module's implementation-stage confirmation when refining that module.
 
 ## Module Planning Rules
 
@@ -26,10 +27,13 @@ Convert approved specs into small, verifiable Flutter implementation tasks. A go
 - Within a module, assign page levels from user interaction sequence and state dependency; pages in a later level cannot start before their prerequisite page level passes.
 - If two modules interact, identify the contract task before either module implements UI against that contract.
 - Do not split a module so finely that one user action requires multiple agents to change the same files in parallel.
+- Treat the initial implementation plan as coarse. Record module boundaries, known pages, dependencies, contracts, levels, and acceptance paths, but defer final function/page/task refinement until the module becomes eligible for implementation.
+- When a module first becomes eligible, run `grilling` again and confirm included functions, non-goals, page/state boundaries, dependencies, and its acceptance path. Only after explicit shared-understanding confirmation may `docs/plans/modules/<module-name>-scope.md` refine the module and page functions.
 
 ## Task Rules
 
 - One task should produce one vertical slice or one isolated foundation.
+- Create task briefs from the confirmed module scope, not directly from the coarse global plan.
 - Each task must list scope, non-scope, files likely touched, acceptance criteria, and verification commands.
 - Each task must follow `docs/architecture/verification-platforms.md`; do not duplicate platform scope or claim an unrecorded platform as verified. Defer device, emulator, simulator, browser, and desktop runtime validation until final integration after all modules/pages and high-fidelity restoration are complete.
 - UI tasks must include screenshot or golden evidence requirements.
@@ -42,10 +46,11 @@ Convert approved specs into small, verifiable Flutter implementation tasks. A go
 ## Output Files
 
 - `docs/plans/module-map.md`
+- `docs/plans/modules/<module-name>-scope.md`
 - `docs/plans/implementation-plan.md`
 - `.codex-workflow/progress.md`
 
-Use [references/module-map-template.md](references/module-map-template.md), [references/implementation-plan-template.md](references/implementation-plan-template.md), and [references/task-brief-template.md](references/task-brief-template.md).
+Use [references/module-map-template.md](references/module-map-template.md), [references/module-scope-template.md](references/module-scope-template.md), [references/implementation-plan-template.md](references/implementation-plan-template.md), and [references/task-brief-template.md](references/task-brief-template.md).
 
 ## Default Milestones
 
@@ -59,4 +64,4 @@ Use [references/module-map-template.md](references/module-map-template.md), [ref
 
 ## Gate
 
-Do not execute a Flutter implementation task until it has an isolated task brief, `docs/architecture/verification-platforms.md`, named verification commands, `docs/plans/module-map.md`, `docs/architecture/flutter-init.md`, a generated project-local `flutter-dev` path, and evidence that all prerequisite business-flow levels have passed or are explicitly accepted.
+Do not refine or execute a Flutter implementation task until the current module has completed implementation-stage `grilling`, the explicit shared-understanding confirmation is recorded in `docs/product/grilling-log.md`, and `docs/plans/modules/<module-name>-scope.md` contains the confirmed function inventory and page-function refinement. Execution also requires an isolated task brief, `docs/architecture/verification-platforms.md`, named verification commands, `docs/plans/module-map.md`, `docs/architecture/flutter-init.md`, a generated project-local `flutter-dev` path, and evidence that all prerequisite business-flow levels have passed or are explicitly accepted.

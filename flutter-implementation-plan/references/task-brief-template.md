@@ -10,6 +10,9 @@ Replace every placeholder before dispatching this brief to an implementer.
 - Business-flow level:
 - Required prior-level evidence:
 - Runtime platform validation: Deferred to final integration
+- Module grilling log entry:
+- Module shared-understanding confirmation:
+- Confirmed module scope: `docs/plans/modules/<module-name>-scope.md`
 - Goal:
 
 ## Scope
@@ -27,6 +30,7 @@ Must not do:
 - Product spec:
 - Local `flutter-dev` skill:
 - Module map:
+- Confirmed module scope:
 - UI brief:
 - Global design freeze:
 - Design freeze:
@@ -88,6 +92,9 @@ If yes:
 ## Module Context
 
 - Module:
+- Confirmed included functions:
+- Confirmed non-goals:
+- Refined page functions:
 - Module responsibility:
 - Route ownership:
 - Data ownership:

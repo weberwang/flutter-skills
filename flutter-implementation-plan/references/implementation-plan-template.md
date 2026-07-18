@@ -9,6 +9,7 @@
 - UI tasks require screenshot or golden evidence.
 - UI page tasks require low-fidelity Pencil structure, Wireframe Review, page-level high-fidelity mockup approval, an exact frozen image under `.codex-workflow/visuals/pages/<page-name>/`, global and page design-freeze constraints, required asset atlas evidence, Pencil high-fidelity restoration decision, required restoration evidence, and Flutter handoff before page code starts.
 - Module and page tasks must follow `docs/plans/module-map.md` for business-flow levels, module dependencies, cross-module contracts, and page interaction order. Finish and verify each level before starting the next; parallel work is limited to explicitly parallel-safe tasks in the same level.
+- Treat the cross-module task list as provisional until the current module becomes eligible. Re-run grilling for that module, record explicit shared understanding, then refine its functions, page functions, states, acceptance path, and task briefs in `docs/plans/modules/<module-name>-scope.md`.
 - Follow the global platform scope in `docs/architecture/verification-platforms.md`. Do not treat unlisted platforms as verified.
 - Defer device, emulator, simulator, browser, and desktop runtime validation until final integration after all module/page tasks and required high-fidelity restoration are complete. Task-level screenshots or goldens are design evidence only.
 - Every task requires verification output.
@@ -22,6 +23,8 @@
 - Cross-module contracts:
 - Page interaction levels:
 - Parallelization limits:
+- Module refinement status:
+- Confirmed module scope files:
 
 ## Milestones
 
@@ -88,5 +91,5 @@
 
 ## Task List
 
-| ID | Business-flow level | Module | Task | Depends on and prior-level evidence | Write scope | Design gate | Verification | UI evidence |
-|---|---|---|---|---|---|---|---|---|
+| ID | Business-flow level | Module | Module scope confirmation | Task | Depends on and prior-level evidence | Write scope | Design gate | Verification | UI evidence |
+|---|---|---|---|---|---|---|---|---|---|

@@ -75,12 +75,13 @@ npx -y github:weberwang/flutter-skills
 3. 全局高保真效果图确认。
 4. 技术方案。
 5. Flutter 项目初始化和项目级 `flutter-dev` 生成。
-6. 模块拆分和实现计划。
-7. 模块页面低保真 Pencil、Wireframe Review、页面级高保真效果图。
-8. 必要时生成资产图集、切图清单和资产还原验收。
-9. 必要时进行 Pencil 高保真视觉还原。
-10. Flutter 实现、截图或 golden 证据、质量审阅。
-11. 发布准备检查。
+6. 粗粒度模块拆分、业务流程等级和实现顺序。
+7. 每个模块开始实现前再次拷问，确认模块功能范围；确认后再细化模块功能、页面功能和任务简报。
+8. 模块页面低保真 Pencil、Wireframe Review、页面级高保真效果图。
+9. 必要时生成资产图集、切图清单和资产还原验收。
+10. 必要时进行 Pencil 高保真视觉还原。
+11. Flutter 实现、截图或 golden 证据、质量审阅。
+12. 发布准备检查。
 
 ## 关键约束
 
@@ -96,6 +97,7 @@ npx -y github:weberwang/flutter-skills
 - 固定 Flutter 技术栈：Riverpod、hooks、Freezed、fpdart、json generation、ScreenUtil。
 - Freezed 和 JSON 必须使用注解和 `build_runner` 生成。
 - 子代理实现前必须有任务简报、模块顺序、验收路径和明确写入范围。
+- 每个模块进入实现前必须重新执行一次模块级拷问，先确认该模块包含和不包含的功能；用户确认共同理解后，才能细化该模块的功能、页面、状态、验收路径和任务简报。
 - 模块与模块内页面必须按业务流程依赖划分推进等级；同一等级完成其验收和跨模块契约后，才能开始下一等级。仅在写入范围无重叠且模块图明确标记为安全时，才可并行执行同一等级的任务。
 - UI 完成前必须有截图或 golden 证据。
 - 在 `docs/architecture/verification-platforms.md` 全局限定验证平台，例如 Android emulator/device、iOS simulator/device、Chrome web、desktop 或 `N/A: <reason>`；任务不得把未列出或未实际运行的平台登记为已验证。

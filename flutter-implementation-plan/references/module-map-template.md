@@ -31,6 +31,13 @@ Use this before implementation planning. It turns global design and architecture
 | Level | Module | Business-flow prerequisite | Entry task | Exit evidence | Required before next level |
 |---|---|---|---|---|---|
 
+## Module Refinement Status
+
+The initial plan may leave refinement pending. Complete each row just in time when the module first becomes eligible for implementation.
+
+| Module | Eligible after | Module grilling status | Grilling confirmation | Confirmed scope file | Function/page refinement status |
+|---|---|---|---|---|---|
+
 ## Level Advancement Gate
 
 | Level | Required task and contract evidence | Acceptance path | Advancement verdict | Explicitly accepted exception |

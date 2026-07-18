@@ -24,8 +24,9 @@ Run implementation through controlled subagent loops. The controller owns sequen
 ## Preflight
 
 - Confirm subagent tools are available before dispatch.
-- Confirm each task has an approved task brief.
 - Confirm `docs/plans/module-map.md` exists, the next task is in the first incomplete business-flow level, and all prior-level acceptance paths and cross-module contracts have passed or are explicitly accepted.
+- When the next module first becomes eligible, stop before task refinement and run `grilling` again. Confirm its included functions, non-goals, page/state boundaries, dependencies, and acceptance path; require the user's explicit shared-understanding confirmation in `docs/product/grilling-log.md` and a confirmed `docs/plans/modules/<module-name>-scope.md` before creating or dispatching its tasks.
+- After module refinement, confirm each task has an approved task brief derived from the confirmed module scope.
 - Confirm expected write scopes do not overlap for any parallel implementation work.
 - Confirm `.codex-workflow/progress.md` exists or create it from [references/progress-ledger.md](references/progress-ledger.md).
 - If subagent tools are unavailable, run the same implementer, reviewer, visual QA, and fixer roles sequentially in the controller session and record the downgrade in the ledger.
@@ -34,16 +35,17 @@ Run implementation through controlled subagent loops. The controller owns sequen
 ## Execution Loop
 
 1. Read `.codex-workflow/progress.md`; resume at the first incomplete task.
-2. Read `docs/plans/module-map.md` and create a task brief from the first incomplete business-flow level. Within that level, select the next module/page in dependency and page-interaction order; do not create a later-level brief before the current level's advancement gate passes.
-3. For a UI page task, complete the page design gate first: create low-fidelity Pencil structure, run Wireframe Review, write `docs/design/wireframe-spec.md`, then generate and review a page-level high-fidelity effect image transiently. Do not write the candidate image, prompt, brief, review, freeze, or ledger visual entry until the user explicitly confirms the freeze. At freeze, persist the exact selected image first at `.codex-workflow/visuals/pages/<page-name>/frozen-<slug>.png`, then record its candidate ID, decoded dimensions, SHA-256, confirmation time, approval, and global/page constraints. Before visual-asset work or Pencil restoration, classify each restorable layer or atomic unit as bitmap, UI, or data; split composite elements before classification. Restore data only as editable text or representative placeholders while preserving hierarchy, text length, and layout; data must never trigger bitmap generation or extraction. Record every unresolved visual fact with its affected unit, evidence, decision needed, and whether it blocks approval or Flutter handoff; do not guess the answer. For UI, record whether native Flutter can reproduce it exactly and generate a bitmap fill only when it cannot. Run `flutter-asset-atlas` only for identified bitmaps or bitmap fills; otherwise record `N/A: no bitmap or exported visual assets` in the task brief and progress ledger. Decide whether high-fidelity Pencil restoration is required, restore the page in Pencil when required, and write Flutter handoff constraints.
-4. Dispatch one implementer for the task scope.
-5. Require report with changed files, tests run, output summary, and concerns.
-6. Package diff and dispatch reviewer.
-7. For UI tasks, include screenshots or golden evidence and dispatch visual QA.
-8. Dispatch a fixer for Critical and Important findings.
-9. Re-review until approved.
-10. Mark task complete in the ledger.
-11. After all tasks and required high-fidelity restoration are complete, run final branch review and the in-scope device, emulator, simulator, browser, or desktop runtime validation. Record platform evidence only at this final integration stage.
+2. Read `docs/plans/module-map.md` and select the next eligible module from the first incomplete business-flow level. If this module has not completed its implementation-stage grilling gate, run it now and do not refine functions, pages, or task briefs until the user explicitly confirms shared understanding.
+3. After confirmation, append the module decision to `docs/product/grilling-log.md`, create `docs/plans/modules/<module-name>-scope.md`, and refine the confirmed module into its function inventory, page functions, states, contracts, acceptance path, and vertical-slice tasks. Update the module map and implementation plan with the refinement result, then create the next task brief in dependency and page-interaction order.
+4. For a UI page task, complete the page design gate first: create low-fidelity Pencil structure, run Wireframe Review, write `docs/design/wireframe-spec.md`, then generate and review a page-level high-fidelity effect image transiently. Do not write the candidate image, prompt, brief, review, freeze, or ledger visual entry until the user explicitly confirms the freeze. At freeze, persist the exact selected image first at `.codex-workflow/visuals/pages/<page-name>/frozen-<slug>.png`, then record its candidate ID, decoded dimensions, SHA-256, confirmation time, approval, and global/page constraints. Before visual-asset work or Pencil restoration, classify each restorable layer or atomic unit as bitmap, UI, or data; split composite elements before classification. Restore data only as editable text or representative placeholders while preserving hierarchy, text length, and layout; data must never trigger bitmap generation or extraction. Record every unresolved visual fact with its affected unit, evidence, decision needed, and whether it blocks approval or Flutter handoff; do not guess the answer. For UI, record whether native Flutter can reproduce it exactly and generate a bitmap fill only when it cannot. Run `flutter-asset-atlas` only for identified bitmaps or bitmap fills; otherwise record `N/A: no bitmap or exported visual assets` in the task brief and progress ledger. Decide whether high-fidelity Pencil restoration is required, restore the page in Pencil when required, and write Flutter handoff constraints.
+5. Dispatch one implementer for the task scope.
+6. Require report with changed files, tests run, output summary, and concerns.
+7. Package diff and dispatch reviewer.
+8. For UI tasks, include screenshots or golden evidence and dispatch visual QA.
+9. Dispatch a fixer for Critical and Important findings.
+10. Re-review until approved.
+11. Mark task complete in the ledger.
+12. After all tasks and required high-fidelity restoration are complete, run final branch review and the in-scope device, emulator, simulator, browser, or desktop runtime validation. Record platform evidence only at this final integration stage.
 
 Use [references/subagent-prompts.md](references/subagent-prompts.md) and [references/progress-ledger.md](references/progress-ledger.md).
 
@@ -62,4 +64,4 @@ Run device, emulator, simulator, browser, and desktop runtime validation only af
 
 ## Gate
 
-Do not mark a task complete while any reviewer verdict is missing, any page design gate evidence is missing, any required asset atlas evidence is missing, any required command lacks output, or any Critical/Important issue is open.
+Do not create or dispatch a task before the module-level grilling confirmation and module scope refinement exist. Do not mark a task complete while any reviewer verdict is missing, any page design gate evidence is missing, any required asset atlas evidence is missing, any required command lacks output, or any Critical/Important issue is open.

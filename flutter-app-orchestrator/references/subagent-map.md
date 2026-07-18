@@ -15,7 +15,7 @@ Use subagents when work is independent and the controller can continue or integr
 | Pencil visual restoration agent | Restore approved high-fidelity visuals into Pencil and produce text handoff | No |
 | Bitmap enhancement agent | Enhance approved bitmap assets and synchronize each final output to the corresponding design-draft asset or Pencil node | No |
 | Wireframe reviewer | Review low-fidelity Pencil wireframes before implementation | No |
-| Module planner | Convert global design and architecture into module order and page interaction order | No |
+| Module planner | Create the coarse module order, then refine one eligible module's functions and page functions only after the controller records module-level grilling confirmation | No |
 | Flutter init agent | Initialize fixed plugin stack and generate `flutter-dev` | Yes |
 | Visual QA agent | Screenshot and golden review | No |
 | Architecture agent | Technical design review or alternatives | No |
@@ -50,5 +50,6 @@ Each subagent receives:
 - Non-scope.
 - Required output file or output shape.
 - Verification expectations.
+- For implementation work, the confirmed module scope and its grilling-log entry.
 
 Do not paste full session history into subagent prompts.

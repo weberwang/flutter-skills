@@ -10,6 +10,8 @@ You are the implementer for one Flutter task. You are not alone in the codebase;
 Task brief: <path>
 Project-local flutter-dev skill: <required path>
 Module map: <path>
+Confirmed module scope: <docs/plans/modules/<module-name>-scope.md>
+Module grilling confirmation: <docs/product/grilling-log.md entry>
 Report file: <path>
 Global verification platform scope: <docs/architecture/verification-platforms.md>
 
@@ -18,6 +20,7 @@ Rules:
 - Do not add features outside the brief.
 - Read and follow the project-local `flutter-dev` skill before changing Flutter code.
 - Follow the business-flow level, module dependency order, cross-module contracts, and page interaction order from the module map. Do not start a later-level task until the task brief includes the prior-level advancement evidence.
+- Implement only functions and page behavior present in the confirmed module scope. If the brief conflicts with that scope or the module grilling confirmation is missing, return `NEEDS_CONTEXT` without guessing.
 - For UI page tasks, do not start page code unless the task brief includes reviewed low-fidelity Pencil structure, wireframe text spec, approved page mockup, global and page design-freeze constraints, 100%-match evidence for visual resources, required asset atlas evidence or `N/A` reason, Pencil high-fidelity restoration decision and reason, required restoration evidence, and Pencil Flutter handoff. An unmatched icon, image, illustration, logo, texture, or bitmap must have completed dedicated bitmap generation and fidelity review.
 - Add tests before or with behavior changes.
 - Run task-level static analysis and tests required by the brief. Do not perform or claim device, emulator, simulator, browser, or desktop runtime verification; that validation is deferred to final integration.
@@ -40,6 +43,8 @@ You are reviewing one Flutter task. Read:
 - Task brief: <path>
 - Project-local flutter-dev skill: <required path>
 - Module map: <path>
+- Confirmed module scope: <path>
+- Module grilling confirmation: <path or entry>
 - Implementer report: <path>
 - Diff package or changed files: <path>
 - UI evidence: <path or none>
