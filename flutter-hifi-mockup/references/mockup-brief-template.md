@@ -1,6 +1,6 @@
 # Mockup Brief Template
 
-Fill this transiently before generating images or dispatching a visual agent. Write it to the repository only after the user explicitly confirms a freeze, after the exact selected image has been persisted under `.codex-workflow/visuals/<scope>/`.
+Fill this transiently during module implementation before generating page images or dispatching a visual agent. Write it only after the user confirms a page freeze and the exact selected image is persisted under `.codex-workflow/visuals/pages/<page-name>/`.
 
 ## Freeze Record
 
@@ -10,9 +10,10 @@ Fill this transiently before generating images or dispatching a visual agent. Wr
 - Decoded dimensions: `780 x 1688 px`
 - User confirmation time:
 
-## Screen or Flow
+## Module and Page
 
-- Mockup level: Global direction / Page-level implementation target
+- Confirmed module scope:
+- Module Effect-Image Interrogation Gate:
 - Name:
 - Route or flow:
 - User goal:
@@ -56,7 +57,7 @@ Fill this transiently before generating images or dispatching a visual agent. Wr
 
 - Design system baseline:
 - Visual expression preset ID and axes:
-- Page-type budget dial: full / moderate / dial-down / N/A for global
+- Page-type budget dial: full / moderate / dial-down
 - Restatable signature required for this mockup: Yes / No — description or N/A reason:
 - Brand traits:
 - Decoration purpose and limits:

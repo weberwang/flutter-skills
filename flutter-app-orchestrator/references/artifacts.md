@@ -14,6 +14,7 @@ For module or page-level UI work, store repeated design artifacts under a page o
 - Light visual interrogation answers for the derived expression preset (once before global visual exploration).
 - User's explicit shared-understanding confirmation.
 - Per-module implementation-stage grilling entries with module name, included-function and non-goal decisions, dependencies, acceptance path, explicit shared-understanding confirmation, and confirmation time.
+- Per-UI-module Effect-Image Interrogation Gate entries with visual outcome, page/state image list, page budgets, signature expectations, accepted implementation/asset cost, scope-consistency confirmation, and confirmation time.
 
 `docs/product/product-brief.md`
 
@@ -98,15 +99,12 @@ For module or page-level UI work, store repeated design artifacts under a page o
 - PRD source artifacts: product brief, MVP scope, user stories, user flows, screen specification, and applicable decisions.
 - Market-analysis source, relevant findings, and source location.
 - Requirement mapping: PRD requirement or market finding, prompt expression, and source location.
-- Product-design-principle check: primary user task, scoped functionality, information hierarchy, single primary action where applicable, mobile accessibility, realistic content, and approved visual constraints.
+- Product-design-principle check: product character, trust, accessibility, task clarity, and approved visual constraints.
 - Active visual expression preset: preset ID, axes, required three-direction mix, scoring-weight emphasis, and light-interrogation commitments.
-- Three-direction comparison specification.
-- Three recommended candidate directions, each tied to PRD needs, market opportunity, category conventions, differentiation opportunity, and the preset’s required mix; categories are not restricted to template examples, and the set must not collapse into three restrained professional looks.
+- Three-direction positioning specification without page, module, representative-page, or screen effect images.
+- Three recommended visual-system directions, each defining color, typography, shape, imagery, material, motion, signature, extension rules, implementation path, cost, and risk.
 - User's explicit selected direction; no automatic selection.
 - Restatable-signature confirmation when Global Freeze Signature Rule applies, or recorded N/A reason when it does not; any pin / raise / loosen override after selection.
-- Autonomously selected representative page and PRD-based selection rationale.
-- Shared representative-page task, device, information structure, copy, data, and state.
-- Confirmation that the page high-fidelity prompt template was used for each candidate direction without saving separate representative-page prompt files.
 - Written only after the selected global direction is explicitly frozen; until then, keep the prompt transient in the conversation.
 
 `docs/design/prompts/pages/<page-name>-hifi-mockup-prompt.md`
@@ -121,6 +119,7 @@ For module or page-level UI work, store repeated design artifacts under a page o
 
 `docs/design/global-design-freeze.md`
 
+- Global direction freeze record: one-time light-interrogation evidence, selected direction, signature and implementation-cost acceptance, signature confirmation or N/A reason, expression-budget override, unresolved-decision audit, explicit freeze intent, and gate verdict.
 - Global visual direction.
 - Brand tone.
 - Visual expression preset in force, including any pin / raise / loosen override.
@@ -131,8 +130,7 @@ For module or page-level UI work, store repeated design artifacts under a page o
 - Material, lighting, and texture rules.
 - Banned visual styles.
 - Reuse rules for visual assets.
-- Scope limitation: this baseline does not approve a page effect image, page design freeze, or page implementation. The global exploration's representative-page images are direction-comparison evidence only.
-- Frozen image record: `.codex-workflow/visuals/global/frozen-<slug>.png`, source candidate ID, decoded dimensions, SHA-256, and user confirmation time.
+- Scope limitation: this baseline contains no effect image and does not approve a module, page layout, page state, page design freeze, or implementation.
 
 `docs/design/pencil-intake.md`
 
@@ -310,6 +308,7 @@ For module or page-level UI work, store repeated design artifacts under a page o
 - Module-level questions, user answers, explicit shared-understanding confirmation, confirmation time, and gate verdict.
 - Confirmed included functions, explicit non-goals, priorities, dependencies, accepted risks, and acceptance evidence.
 - Post-confirmation refinement of page functions, states, actions, transitions, cross-module contracts, module acceptance path, and vertical-slice tasks.
+- Module Effect-Image Interrogation Gate: visual outcome, pages/states requiring images, page budgets, signature expectations, accepted implementation/asset cost, scope consistency, explicit confirmation, and verdict.
 - Open decisions and whether each blocks implementation.
 
 ## Delivery
@@ -329,7 +328,8 @@ For module or page-level UI work, store repeated design artifacts under a page o
 - Test evidence.
 - Review verdict.
 - UI page design gate evidence.
-- Frozen effect-image path, candidate ID, decoded dimensions, SHA-256, and confirmation time.
+- Module Effect-Image Interrogation Gate evidence for UI modules.
+- Frozen page effect-image path, candidate ID, decoded dimensions, SHA-256, and confirmation time.
 - Pencil high-fidelity restoration decision.
 - Pencil high-fidelity restoration reason.
 - Effect-image bitmap/UI/data analysis and any UI bitmap-fill decision.

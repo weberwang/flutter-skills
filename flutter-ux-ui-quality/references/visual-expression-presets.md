@@ -7,8 +7,8 @@ Derive a visual expression budget from product category and audience. Use it to 
 1. Map the product to one preset below using category first, then audience modifiers.
 2. Apply audience modifiers only when they change an axis by one step.
 3. Record the result in `docs/product/product-brief.md`.
-4. Before global visual exploration, run the light visual interrogation once. Record answers in `docs/product/grilling-log.md` and mirror the resulting signature and implementation-cost commitments in `docs/product/product-brief.md`. Both records are required; do not choose only one.
-5. After the user selects a global direction, require an explicit restatable-signature confirmation when Global Freeze Signature Rule says so, then allow an explicit override: `pin`, `raise`, or `loosen`. Record confirmation and override in `docs/design/global-design-freeze.md`.
+4. Before global visual direction positioning, run the light visual interrogation once. Record answers in `docs/product/grilling-log.md` and mirror the resulting signature and implementation-cost commitments in `docs/product/product-brief.md`. Both records are required; do not choose only one.
+5. Define and compare three global visual-system directions without generating page effect images. After the user selects one, require an explicit restatable-signature confirmation when Global Freeze Signature Rule says so, then allow `pin`, `raise`, or `loosen`. Record the direction definition, confirmation, override, and accepted implementation cost in `docs/design/global-design-freeze.md`.
 
 Task clarity is a hard floor for every preset. Presets change expression ceiling, three-direction distribution, review thresholds, and scoring weights only.
 
@@ -49,7 +49,7 @@ Only `trust-critical` with `wow_requirement: none` and `signature_strength` at m
 
 ## Three-Direction Distribution
 
-When generating the three global directions, enforce the distribution for the active preset. Do not let all three converge on restrained professional neutrality.
+When defining the three global directions, enforce the distribution for the active preset. Do not generate page or representative-page effect images, and do not let all three directions converge on restrained professional neutrality.
 
 | Preset | Required direction mix |
 |---|---|
@@ -89,7 +89,7 @@ Wireframe may lock scope, structure, states, and interactions. On full-budget pa
 
 ## Light Visual Interrogation
 
-Run once after the product brief has a derived preset and before global visual exploration. Ask at most three questions, one at a time. Record answers in `docs/product/grilling-log.md` and mirror the resulting commitments in the product brief. Both are mandatory.
+Run once after the product brief has a derived preset and before global visual direction positioning. Ask at most three questions, one at a time. Record answers in `docs/product/grilling-log.md` and mirror the resulting commitments in the product brief. Both are mandatory.
 
 Required questions:
 
@@ -97,7 +97,33 @@ Required questions:
 2. 若更具辨识度的视觉需要自定义组件、插画、动效或位图资产，是否接受为此付实现与维护成本？
 3. 仅当预设为 `entertainment`、`visual-led`、`lifestyle`，或用户主动要求更强表达时再问：当前预设是否需要上调或下调表达预算？
 
-Do not run this interrogation on every page. After the three global directions are shown and before freeze, ask exactly one confirmation when Global Freeze Signature Rule applies: “选中的方向是否有一个可复述的视觉签名？” If the answer is no, do not freeze; iterate directions. When the rule does not apply, still record why a hero-level signature is not required, using the distinctive trait from the selected direction’s mix.
+Do not run this interrogation on every page. After the three global direction definitions are shown and before freeze, ask exactly one confirmation when Global Freeze Signature Rule applies: “选中的方向是否有一个可复述的视觉签名？” If the answer is no, do not freeze; iterate the direction definitions. When the rule does not apply, still record why a hero-level signature is not required.
+
+## Global Direction Freeze Gate
+
+Run this gate after direction selection and before any global freeze write. This gate freezes a visual-system direction definition, not an effect image. Do not treat it as a second copy of the light visual interrogation.
+
+Confirm one decision at a time:
+
+1. Selected global direction.
+2. Accept or reject the direction's visual signature and implementation-cost commitment.
+3. Restatable signature when the Global Freeze Signature Rule applies, or the N/A reason when it does not.
+4. `pin`, `raise`, `loosen`, or no expression-budget override.
+5. Explicit intent to freeze the current direction definition.
+
+Audit the answers against the product brief, grilling log, market analysis, and active preset. If scope, priority, tradeoffs, risks, acceptance criteria, or dependencies are new, conflicting, or unresolved, re-enter full `grilling`, record the freeze-stage shared-understanding confirmation in `docs/product/grilling-log.md`, then resume this gate. If none remain, record `N/A: no repeated full grilling required—freeze decisions already confirmed`. Persist the gate in `docs/design/global-design-freeze.md`; do not create a global frozen image.
+
+## Module Effect-Image Interrogation Gate
+
+Run once for each UI module after its function/page refinement and before generating any page effect image. Ask one question at a time and confirm:
+
+1. The module's visual outcome and the user perception it must create.
+2. Which pages and states require effect images in this module.
+3. The page-type budget and signature expectation for those pages.
+4. Accepted custom-component, motion, bitmap-asset, implementation, and maintenance cost.
+5. Explicit shared understanding that the effect images will follow the frozen global direction without changing module scope.
+
+Record answers and confirmation in `docs/product/grilling-log.md` and the module scope file. Do not repeat this gate for every page unless a new visual decision, scope conflict, or cost conflict appears.
 
 ## Review Threshold
 

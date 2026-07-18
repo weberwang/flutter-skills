@@ -4,9 +4,10 @@ Review the image as a product artifact, not artwork.
 
 ## Verdict
 
-- Mockup level: Global direction / Page-level implementation target
+- Mockup level: Page-level implementation target
+- Module Effect-Image Interrogation Gate:
 - Visual expression preset:
-- Page-type budget dial: full / moderate / dial-down / N/A
+- Page-type budget dial: full / moderate / dial-down
 - Signature moment present when required: Yes / No / N/A
 - Select / Reject / Needs iteration:
 - Selected direction:

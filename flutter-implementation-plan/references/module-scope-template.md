@@ -38,6 +38,20 @@ Fill only after the confirmed function inventory is complete.
 | Page or state | Function | Entry condition | User action | Success result | Empty/loading/error states | Next interaction | Design gate |
 |---|---|---|---|---|---|---|---|
 
+## Module Effect-Image Interrogation Gate
+
+Complete after function/page refinement and before generating any page effect image.
+
+- Grilling log entry:
+- Module visual outcome:
+- Pages and states requiring effect images:
+- Page-type budgets and signature requirements:
+- Accepted custom-component, motion, bitmap, implementation, and maintenance cost:
+- Scope-consistency confirmation:
+- Shared-understanding confirmation:
+- Confirmation time:
+- Gate verdict: Confirmed / Blocked
+
 ## Cross-Module Refinement
 
 | Contract | Provider | Consumer | Data or event | Failure behavior | Required before |

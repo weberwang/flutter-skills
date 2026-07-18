@@ -1,6 +1,6 @@
 # 效果图合并评审提示词模板
 
-将完成的效果图作为附件交给一个 Effect Image Reviewer；页面级评审还要附上 `wireframe-spec.md`，全局方向评审还要附上产品简报。评审子代理只在当前对话中输出问题和方案，不修改效果图，也不保存评审文件；控制代理负责向用户询问是否按方案修改。以 [Apple Human Interface Guidelines](https://developer.apple.com/design/human-interface-guidelines/) 为交互评审依据，不要求复制 Apple 的视觉风格。必须附上当前视觉表达预算预设（preset ID、各轴、页面类型拨档、wow 要求）；评审“高级感”时对照预设的签名强度，而不是追求普遍克制。
+将模块实现阶段完成的页面效果图作为附件交给一个 Effect Image Reviewer，并附上模块效果图拷问记录、`wireframe-spec.md`、全局设计冻结和页面视觉表达预算。评审子代理只在当前对话中输出问题和方案，不修改效果图，也不保存评审文件；控制代理负责向用户询问是否按方案修改。以 [Apple Human Interface Guidelines](https://developer.apple.com/design/human-interface-guidelines/) 为交互评审依据，不要求复制 Apple 的视觉风格。全局视觉定位阶段不得调用本模板，因为该阶段不生成效果图。
 
 ```text
 请以资深产品设计师的角度，对这张 App 效果图执行一次合并评审。

@@ -1,4 +1,4 @@
 interface:
   display_name: "Flutter HiFi Mockup"
-  short_description: "Generate and freeze high-fidelity Flutter mockups."
-  default_prompt: "Use $flutter-hifi-mockup with the active visual expression preset and @product-design ideate to create three distinctive high-fidelity Flutter visual directions at exactly 780 x 1688 px that satisfy the preset direction mix, verify decoded dimensions, let me choose one with a restatable signature, then assess its Flutter implementation path without limiting exploration to stock components or universal restraint."
+  short_description: "Generate module-time page effect images."
+  default_prompt: "Use $flutter-hifi-mockup after module effect-image interrogation and Wireframe Review to generate three page-level candidates at exactly 780 x 1688 px, review them against the frozen global direction, and freeze my selected image."

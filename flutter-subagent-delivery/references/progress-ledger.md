@@ -24,6 +24,7 @@ Create `.codex-workflow/progress.md` in the target app repo.
   - Confirmed module scope:
   - Module function refinement:
   - Page function refinement:
+  - Module Effect-Image Interrogation Gate:
   - Page/state:
   - Low-fidelity Pencil:
   - Wireframe review:
@@ -80,7 +81,7 @@ Create `.codex-workflow/progress.md` in the target app repo.
 - Record device, emulator, simulator, browser, and desktop runtime validation in a final-integration section only after all task entries and required high-fidelity restoration are complete; task-level screenshots and goldens are not platform-verification records.
 - For UI page tasks, update each page design gate field before dispatching implementation.
 - Before creating the first task for a module, record its implementation-stage grilling entry, explicit shared-understanding confirmation, confirmed module scope, and completed function/page refinement. A prior global grilling pass is not a substitute.
-- Keep effect-image candidates, prompts, briefs, and review output transient until the user explicitly confirms a freeze. At freeze, write the exact selected image first under `.codex-workflow/visuals/global/` or `.codex-workflow/visuals/pages/<page-name>/`; only then write its related visual artifacts and ledger fields.
+- Keep page effect-image candidates, prompts, briefs, and review output transient until the user explicitly confirms a freeze. At freeze, write the exact selected image first under `.codex-workflow/visuals/pages/<page-name>/`; only then write related artifacts and ledger fields. Never create a global frozen effect image.
 - For required visual assets, update reuse check, production decision, bitmap source policy, 100%-match evidence, background handling, background transparentization when applicable, transparent post-processing when applicable, generation evidence when used, atlas, slicing manifest, inventory, and fidelity review before Pencil high-fidelity restoration or implementation. An unmatched icon, image, illustration, logo, texture, or bitmap must record the dedicated bitmap-generation path.
 - For fields that do not apply, write `N/A: <reason>` instead of leaving them blank.
 - Do not re-dispatch completed tasks after context compaction.

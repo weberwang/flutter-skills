@@ -13,6 +13,7 @@ Replace every placeholder before dispatching this brief to an implementer.
 - Module grilling log entry:
 - Module shared-understanding confirmation:
 - Confirmed module scope: `docs/plans/modules/<module-name>-scope.md`
+- Module Effect-Image Interrogation Gate: Required for UI / N/A — evidence:
 - Goal:
 
 ## Scope
@@ -31,6 +32,7 @@ Must not do:
 - Local `flutter-dev` skill:
 - Module map:
 - Confirmed module scope:
+- Module Effect-Image Interrogation Gate:
 - UI brief:
 - Global design freeze:
 - Design freeze:

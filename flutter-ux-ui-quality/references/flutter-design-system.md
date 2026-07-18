@@ -2,7 +2,7 @@
 
 Use Apple Human Interface Guidelines and iOS conventions for interaction semantics, accessibility behavior, navigation, feedback, and platform-familiar control logic. Do not treat stock Cupertino appearance as the default visual answer. Derive the visible component language from the approved product character and allow authored components, custom painting, shaders, motion, imagery, and intentional one-off brand signatures.
 
-During global visual exploration, do not reject a direction because it is not expressible through ordinary widget composition. After selection, document whether each distinctive treatment uses a native widget, authored component, `CustomPainter`, shader or animation, or bitmap asset, together with its implementation cost and fallback.
+During global direction positioning, define the intended component, material, imagery, and motion language without generating page effect images. Do not reject a direction because it exceeds ordinary widget composition. During module effect-image interrogation, confirm whether distinctive treatments may use authored components, `CustomPainter`, shaders, animation, or bitmap assets, together with accepted cost and fallback.
 
 ## Required Tokens
 

@@ -4,7 +4,7 @@ Use this after selecting a high-fidelity mockup. It converts the image into impl
 
 ## Source Mockup
 
-- Frozen image path: `.codex-workflow/visuals/<scope>/frozen-<slug>.png`
+- Frozen image path: `.codex-workflow/visuals/pages/<page-name>/frozen-<slug>.png`
 - Source candidate ID:
 - SHA-256:
 - Decoded dimensions: `780 x 1688 px`
@@ -15,6 +15,17 @@ Use this after selecting a high-fidelity mockup. It converts the image into impl
 - Visual expression preset:
 - Page-type budget dial: full / moderate / dial-down
 - Required signature moment: Yes / No / N/A — description:
+
+## Module Effect-Image Interrogation
+
+- Confirmed module scope:
+- Grilling-log entry:
+- Module visual goals confirmed:
+- Pages and states requiring effect images:
+- Signature and page-budget decisions:
+- Accepted implementation and asset cost:
+- Shared-understanding confirmation:
+- Gate verdict: Pass / Blocked
 
 ## Frozen Layout
 
