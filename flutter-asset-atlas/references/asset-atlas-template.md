@@ -27,12 +27,36 @@ Carry forward every bitmap unit from `pencil-hifi-restoration.md`; `N/A: native 
 | Unit | Mockup evidence | 100%-match evidence | Separate asset verdict | Asset ID or N/A reason | Review status |
 |---|---|---|---|---|---|
 
+## Decomposition Coverage Intake
+
+- Unowned visible elements: `0` / list
+- Runtime-data visuals marked for export: `0` / list
+- Missing background decorations: `0` / list
+- Missing icon placements or states: `0` / list
+
+| Runtime-derived visual excluded from assets | Data source | Flutter renderer | Representative placeholder | Loading and fallback | Fixed treatment split into UI/bitmap |
+|---|---|---|---|---|---|
+
 ## Production Decision
 
 Use this order before generating new images: reuse existing, adapt existing, generate variant from existing source, generate new single asset with product-design or image generation tools, generate atlas/contact sheet, export from an approved Pencil asset node, extract from approved mockup with explicit approval.
 
 | Asset ID | Decision | Source tool or origin | Why new or changed | Global freeze constraints | Page freeze constraints | Background handling |
 |---|---|---|---|---|---|---|
+
+## Pre-Slicing User Confirmation
+
+Present this complete table inline before generating, adapting, extracting, exporting, transparentizing, or slicing any bitmap.
+
+- Confirmation table version:
+- User decision: Pending / Confirmed / Revision requested
+- Confirmed by:
+- Confirmation time:
+
+| Asset ID | Visible role | Placements and states | Production verdict | Proposed source | Crop and clipped-content rule | Background / transparency / mask / shadow / glow | Logical size | Required output size | Risk | Proposed action |
+|---|---|---|---|---|---|---|---|---|---|---|
+
+Any material row change invalidates confirmation for that row. Present the revised table and wait for explicit reconfirmation.
 
 ## Bitmap Source Policy
 
@@ -77,6 +101,10 @@ Use this order before generating new images: reuse existing, adapt existing, gen
 
 - All required visual assets have a source or generation plan.
 - Every decomposed visual resource has a 100%-match evidence record and a separate-asset review verdict. An unmatched icon, image, illustration, logo, texture, or bitmap must use `generate` and complete dedicated bitmap generation.
+- The coverage intake has zero unowned visible elements, zero runtime-data export candidates, zero missing background decorations, and zero missing icon placements or states.
+- Runtime-derived visuals are excluded from asset generation and record their renderer, placeholder, loading state, and fallback; any fixed surrounding treatment is split independently.
+- The complete pre-slicing table was shown inline and explicitly confirmed; its version, decision, and confirmation time are recorded.
+- Every produced, extracted, exported, transparentized, or sliced asset matches a currently confirmed row.
 - New generation references global and page design-freeze constraints.
 - New bitmap generation uses product-design or image generation tools by default; Pencil export is allowed only for approved production asset nodes.
 - Every newly generated concrete bitmap records its logical display size and passes the exact `2x` decoded-dimension check; only full-screen bitmaps use `780 x 1688 px`.

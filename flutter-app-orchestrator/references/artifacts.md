@@ -156,6 +156,8 @@ For module or page-level UI work, store repeated design artifacts under a page o
 - Module or page task.
 - Restoration decision and reason.
 - Effect-image restoration analysis that classifies each restorable layer or atomic unit as exactly one of: bitmap, UI, or data; composite elements must be split into these units before classification.
+- Ownership-first decomposition that separates runtime data from its UI renderer and fixed visual treatment; runtime-derived mockup pixels are never production bitmap candidates.
+- Back-to-front and top-left-to-bottom-right coverage audit with zero unowned visible elements, zero runtime-data export candidates, and explicit coverage of every background decoration and icon placement/state.
 - Data placeholders, including the preserved hierarchy, text length, and layout constraints.
 - Per-bitmap source, crop, size, background treatment, target Pencil node, and 100% approved-visual-content match verdict. A recorded rasterization or scaling tolerance may not change bitmap content.
 - Per-UI native-Flutter feasibility decision, reason, expected implementation approach, and screenshot or golden confirmation. When native Flutter cannot reproduce the unit exactly, record the bitmap-fill requirement, reason, and generated bitmap evidence; otherwise record that no bitmap generation is required.
@@ -202,6 +204,7 @@ For module or page-level UI work, store repeated design artifacts under a page o
 - Background handling and transparentization work node when applicable.
 - Asset groups.
 - Source or generation plan.
+- Pre-slicing confirmation table with asset role, placements/states, production verdict, source, crop, background treatment, dimensions, risks, proposed action, confirmed version, explicit user decision, and confirmation time.
 - Bitmap enhancement plan and the design-draft synchronization target when enhancement is required.
 - Generation prompts and selected outputs when assets are generated.
 - Enhanced output, replaced design-draft asset or Pencil node, and updated design evidence.
@@ -216,6 +219,7 @@ For module or page-level UI work, store repeated design artifacts under a page o
 - Logical and pixel size.
 - DPR.
 - Production mode.
+- Confirmed pre-slicing table version and user confirmation time.
 - Background transparentization method when applicable.
 - Flutter path.
 - `pubspec.yaml` entries.
@@ -333,6 +337,7 @@ For module or page-level UI work, store repeated design artifacts under a page o
 - Pencil high-fidelity restoration decision.
 - Pencil high-fidelity restoration reason.
 - Effect-image bitmap/UI/data analysis and any UI bitmap-fill decision.
+- Pre-slicing confirmation table version, explicit user decision, confirmation time, and any invalidated or reconfirmed rows.
 - Bitmap enhancement synchronization evidence when applicable.
 - Module acceptance result.
 - Integration smoke result.

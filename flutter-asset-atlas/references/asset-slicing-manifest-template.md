@@ -11,6 +11,8 @@ Use this to record exported or sliced production assets before Pencil restoratio
 - Source design file:
 - Export date:
 - Export owner:
+- Confirmed pre-slicing table version:
+- User confirmation time:
 - Production mode: single asset / atlas contact sheet / source export / mockup extraction
 - Background mode: transparent / retained / safe flat background / masked cutout
 - Background transparentization: none / native transparent export / source-layer export / mask extraction / flat-background removal / manual alpha mask / regenerated
@@ -39,6 +41,7 @@ flutter:
 ## Gate
 
 - Output files exist at the recorded paths.
+- Every output maps to a currently confirmed pre-slicing table row; no unconfirmed asset was generated or exported.
 - File formats match transparency and scaling needs.
 - Background transparentization is recorded when the source asset was not natively transparent.
 - Transparent assets have clean alpha edges without background halos.
