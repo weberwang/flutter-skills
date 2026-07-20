@@ -1,4 +1,4 @@
 interface:
   display_name: "Flutter App Orchestrator"
   short_description: "Coordinate commercial Flutter app delivery."
-  default_prompt: "Use $flutter-app-orchestrator to freeze a global visual-system direction without effect images, then re-run module grilling and use page-level effect images, implementation, audit, and release gates during module delivery."
+  default_prompt: "Use $flutter-app-orchestrator to delegate UX, visual direction, wireframes, high-fidelity pages, bitmap decomposition, asset planning/production, Pencil restoration, implementation, and independent review to specialized subagents while keeping user decisions, confirmations, freezes, and integration in the controller."

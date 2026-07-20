@@ -75,14 +75,13 @@ Fill this transiently during module implementation before generating page images
 
 ## Image Prompt Contract
 
-The prompt must specify:
+This brief is planning evidence, not the text sent to the image model. Build the final prompt with [image-prompt-principles.md](image-prompt-principles.md) and include only:
 
-- Flutter mobile app screen or flow.
-- Exact screen purpose.
-- UX/UI decision being confirmed.
-- Device frame or no frame.
-- Layout hierarchy.
-- Visual system.
-- Required content.
-- Required state.
-- Things to avoid.
+- the screen outcome and primary task;
+- essential hierarchy and required content;
+- the approved visual signature and a few concrete cues;
+- material scope, state, trust, accessibility, or compositing constraints;
+- viewpoint, frame rule, and required dimensions;
+- only the most likely material failure modes.
+
+Do not include source paths, rationale, requirement mappings, exhaustive component/token specifications, repeated negatives, or decorative adjective stacks. Leave secondary composition and detail open unless frozen evidence makes them non-negotiable.

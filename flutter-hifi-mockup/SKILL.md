@@ -9,6 +9,10 @@ description: Use when generating, selecting, reviewing, or freezing page-level h
 
 Generate and freeze page-level effect images during module implementation. Treat `docs/design/global-design-freeze.md` as the visual-system baseline; never generate global or representative-page effect images during global direction positioning.
 
+## Orchestrated Roles
+
+When used inside the full workflow, dispatch a Page high-fidelity agent to generate transient candidates and a separate Effect Image Reviewer to review them. Neither agent may persist, select, modify, approve, or freeze a candidate. The controller presents the results, records the user's decision, persists the exact selected image, and writes the freeze evidence.
+
 ## Inputs
 
 - Confirmed module scope: `docs/plans/modules/<module-name>-scope.md`.
@@ -24,8 +28,8 @@ Generate and freeze page-level effect images during module implementation. Treat
 
 1. Confirm the module-level functional grilling, function/page refinement, and Module Effect-Image Interrogation Gate are complete. Do not repeat the visual interrogation for every page unless a new conflict or decision appears.
 2. Confirm the current page's low-fidelity Pencil structure passed Wireframe Review and `docs/design/wireframe-spec.md` exists.
-3. Draft the page mockup brief with [references/mockup-brief-template.md](references/mockup-brief-template.md), including the global direction, expression preset, page-type budget dial, required state, and module effect-image decisions. Keep the brief, prompt, candidates, and review transient.
-4. Prepare the page prompt from the orchestrator's page high-fidelity prompt template. Trace every function, state, action, copy, data, and visual constraint to the confirmed module scope, PRD, wireframe spec, and global design freeze.
+3. Draft the page mockup brief with [references/mockup-brief-template.md](references/mockup-brief-template.md), including the global direction, expression preset, page-type budget dial, required state, and module effect-image decisions. Keep the brief, prompt, candidates, and review transient. Treat the brief as planning evidence, not generation prose.
+4. Prepare the page prompt from the orchestrator's page high-fidelity prompt template and [references/image-prompt-principles.md](references/image-prompt-principles.md). Keep full traceability in the planning artifact, then reduce the actual generation prompt to one clear outcome, essential structure/content, a concise visual direction, true non-negotiables, and output requirements. Do not paste PRD mappings, rationale, exhaustive component details, or repeated avoid lists into the image model.
 5. Run `@product-design user-context`, `@product-design get-context`, and `@product-design ideate` to generate exactly three page-level effect-image candidates for the same page, state, content, and device.
 6. Run exactly one combined Effect Image Review with [references/mockup-review-rubric.md](references/mockup-review-rubric.md). Report product-design issues and premium-feel improvements separately; use Apple Human Interface Guidelines as the interaction baseline and judge visual quality against the frozen global direction and active page budget.
 7. Present candidates and review, then ask the user to select, accept or decline review changes, and explicitly freeze one image. Do not write any candidate or visual artifact before confirmation.
@@ -46,6 +50,8 @@ Generate and freeze page-level effect images during module implementation. Treat
 ## Generation Rules
 
 - Generate each effect image at exactly `780 x 1688 px` and verify decoded dimensions.
+- Use the shortest prompt that preserves task, state, signature, critical content, trust/accessibility boundaries, and output requirements. Guide secondary composition and detail instead of prescribing them.
+- Reject a prompt with duplicated constraints, contradictory directions, adjective stacks, unrelated style references, or planning rationale. Keep only material negative constraints.
 - Generate page effects only during module delivery, after module visual interrogation and Wireframe Review.
 - Keep the page, state, content, data, and device identical across all three candidates.
 - Follow the global design freeze without treating it as a page layout or page approval.
@@ -56,4 +62,4 @@ Generate and freeze page-level effect images during module implementation. Treat
 
 ## Gate
 
-Do not generate any effect image during global visual direction positioning. Do not generate a module page effect image before the module-level functional grilling, function/page refinement, Module Effect-Image Interrogation Gate, low-fidelity Pencil structure, Wireframe Review, and wireframe text spec are complete. Do not write a candidate, prompt, brief, review, freeze, or ledger visual entry before explicit page freeze confirmation. Do not approve a page image without one combined review, exact `780 x 1688 px` dimensions, global-direction alignment, required signature verdict, and the user's explicit decision on proposed changes. Do not begin asset work, Pencil restoration, or Flutter page implementation until the selected page image and design freeze exist. Do not approve decomposition while a runtime-data visual is marked for bitmap export, a visible element lacks ownership, or a background decoration or icon placement/state is absent from the coverage audit.
+Do not generate any effect image during global visual direction positioning. Do not generate a module page effect image before the module-level functional grilling, function/page refinement, Module Effect-Image Interrogation Gate, low-fidelity Pencil structure, Wireframe Review, and wireframe text spec are complete. Do not send the planning worksheet, source mapping, rationale, exhaustive detail list, or repeated negative constraints to the image model; block prompts with contradictions or no meaningful creative space. Do not write a candidate, prompt, brief, review, freeze, or ledger visual entry before explicit page freeze confirmation. Do not approve a page image without one combined review, exact `780 x 1688 px` dimensions, global-direction alignment, required signature verdict, and the user's explicit decision on proposed changes. Do not begin asset work, Pencil restoration, or Flutter page implementation until the selected page image and design freeze exist. Do not approve decomposition while a runtime-data visual is marked for bitmap export, a visible element lacks ownership, or a background decoration or icon placement/state is absent from the coverage audit.

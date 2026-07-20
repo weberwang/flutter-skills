@@ -2,6 +2,8 @@
 
 Create these artifacts in the target Flutter app repo as the workflow advances.
 
+For every delegable design artifact, record its producer role, assigned input paths, write scope, report/status, and controller validation. Review artifacts must identify a reviewer distinct from the producer. User decision, confirmation, and freeze records belong to the controller, not a subagent.
+
 For module or page-level UI work, store repeated design artifacts under a page or module scoped path, for example `docs/design/pages/<page-name>/design-freeze.md`, while keeping the same document contract.
 
 ## Product
@@ -115,6 +117,7 @@ For module or page-level UI work, store repeated design artifacts under a page o
 - Product-design-principle check: primary user task, scoped functionality, information hierarchy, primary-action clarity, mobile accessibility, realistic content, and approved visual constraints.
 - Active visual expression preset, page-type budget dial, and whether this page must show a restatable signature moment.
 - Final generation prompt used for the page-level effect image.
+- Prompt-quality check confirming that planning evidence was not pasted into the model prompt, duplicated/conflicting instructions were removed, optional details were left open, and the final prompt is the shortest version that preserves correctness.
 - Written only after the selected page image is explicitly frozen; until then, keep the prompt transient in the conversation.
 
 `docs/design/global-design-freeze.md`

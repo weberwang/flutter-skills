@@ -9,6 +9,10 @@ description: Use when a Flutter page or module has approved high-fidelity mockup
 
 Use this skill after a page-level high-fidelity mockup is approved and before high-fidelity Pencil restoration or Flutter UI implementation when the page contains required visual assets. It prevents duplicate image generation, enforces global and page design-freeze constraints, and turns approved visual assets into Flutter-ready files with source, path, license, fallback, and fidelity evidence.
 
+## Orchestrated Roles
+
+In the full workflow, split this skill across two agents. The Asset planning agent performs reuse checks and prepares the pre-slicing table but cannot produce assets. The controller presents the table and records explicit user confirmation. Only then may the Asset production agent generate, adapt, extract, transparentize, export, or slice the confirmed rows. Any material row change returns control to the controller for reconfirmation.
+
 ## Required Inputs
 
 - Approved frozen page-level high-fidelity mockup under `.codex-workflow/visuals/pages/<page-name>/`, with its candidate ID, SHA-256, and confirmation time from the design freeze.
@@ -59,7 +63,7 @@ For multiple pages, use page-scoped paths such as `docs/design/pages/<page-name>
 - Use Pencil export only when the Pencil node is an approved production asset source, not when it is only a low-fidelity structure, high-fidelity restoration container, or screenshot of a page.
 - Do not use Pencil screenshots, Pencil whole-page exports, or high-fidelity mockup crops as default production bitmap sources. Allow them only with explicit approval and a recorded reason.
 - Reuse before generating. Every new generated image must record why existing assets were insufficient.
-- Asset generation prompts must cite the global design freeze and the page design freeze. Do not generate from the page mockup alone.
+- Build asset generation prompts with [image-prompt-principles.md](../flutter-hifi-mockup/references/image-prompt-principles.md). Use the global and page freezes as planning sources, but send only the compact asset role, frozen visual traits, critical edge/background behavior, output size, and material failure modes. Do not paste freeze documents or rationale into the prompt, and do not generate from the page mockup alone.
 - Decide the background before generation. If Flutter must composite the asset over variable surfaces, generate or export with transparent background from the start.
 - Do not rely on late background removal for soft shadows, hairlines, glows, glass, translucent objects, or antialiased edges unless the removal method and edge tolerance are recorded.
 - If a model cannot reliably generate transparent output, generate on a flat, high-contrast safe background and record the planned masking/removal method before accepting the asset.
@@ -67,6 +71,7 @@ For multiple pages, use page-scoped paths such as `docs/design/pages/<page-name>
 - Validate transparent assets on checkerboard, light, dark, and actual page backgrounds before approval.
 - Do not flatten shadows, glows, translucent glass, or antialiased edges into an opaque matte unless the asset is intentionally retained-background.
 - Keep prompt, reference image, selected output, rejected outputs, and selection reason for each generated asset.
+- Reject verbose, contradictory, adjective-heavy, or over-specified asset prompts. Leave secondary lighting, surface nuance, and supporting detail open when they are not frozen fidelity requirements.
 - Record the logical display size and `DPR=2` for every raster asset; do not generate separate `1x` or `3x` variants unless the user explicitly changes the resource policy.
 - Record dark-mode variants when the asset changes meaning, contrast, or brand treatment.
 - Record loading and error fallbacks for every required runtime-loaded asset.

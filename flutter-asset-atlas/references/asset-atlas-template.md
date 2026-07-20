@@ -88,6 +88,11 @@ Any material row change invalidates confirmation for that row. Present the revis
 | Asset ID | Source type | Source path or prompt | Tool or origin | Logical display size | Required 2x pixel size | Verified pixel size | Background prompt constraint | Reference image | Selected output | Rejected outputs | License status | Owner |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|
 
+For generated assets, keep source traceability outside the model prompt. Build the actual prompt with [image-prompt-principles.md](../../flutter-hifi-mockup/references/image-prompt-principles.md) and record its compact final form below.
+
+| Asset ID | Outcome and role | Essential frozen traits | Edge/background non-negotiables | Creative freedom left open | Output requirement | Material avoid items | Final compact prompt |
+|---|---|---|---|---|---|---|---|
+
 ## Flutter Mapping
 
 | Asset ID | Flutter path | Used by screen/state | Widget or component | Light mode | Dark mode |

@@ -62,7 +62,7 @@ npx -y github:weberwang/flutter-skills
 - `flutter-tech-design`: Flutter 技术方案和模块边界。
 - `flutter-project-init`: Flutter 初始化、固定插件栈、生成项目级 `flutter-dev` skill。
 - `flutter-implementation-plan`: 模块拆分、任务简报、验收路径。
-- `flutter-subagent-delivery`: 使用 Codex 子代理推进模块实现、审阅和修复。
+- `flutter-subagent-delivery`: 使用专业 Codex 子代理推进产品/UX 草拟、视觉方向、页面设计、位图拆解、资产生产、Pencil 还原、Flutter 实现、独立审阅和修复。
 - `flutter-quality-review`: 商业交付质量审阅。
 - `flutter-release-readiness`: 发布前检查。
 
@@ -86,6 +86,7 @@ npx -y github:weberwang/flutter-skills
 ## 关键约束
 
 - 页面 UI 不从纯文字描述直接实现。
+- 生图提示词必须将完整规划证据与实际生成正文分离：正文只保留目标、关键结构和内容、简洁视觉方向、真正不可协商项与输出要求；删除重复、矛盾、辞藻堆叠、设计理由、组件穷举和冗长负面清单，并为未冻结的次要构图与细节保留发挥空间。
 - 页面级高保真效果图必须在低保真 Pencil 和 Wireframe Review 之后生成。
 - 模块页面效果图候选、提示词草案和评审结果在用户明确确认冻结前仅保留在当前对话中；冻结时先将原始选中图片写入 `.codex-workflow/visuals/pages/<page-name>/`，再写入提示词、简报、页面设计冻结和进度记录，并登记候选 ID、尺寸、SHA-256 与确认时间。
 - 全局视觉定位优先确认产品性格、视觉语言差异、情绪强度和任务清晰度；先由品类与受众推导视觉表达预算预设，并在定位前做一次轻量视觉拷问。以 Apple Human Interface Guidelines 和 iOS/Cupertino 语义作为交互、无障碍与平台基线，但不得以普通 Flutter Widget、原生 Cupertino 外观、普遍克制或后续资产工作量作为视觉上限；方向选定后记录原生组件、自定义组件、`CustomPainter`、Shader/动效或位图资产的预期路径和成本。
@@ -101,6 +102,7 @@ npx -y github:weberwang/flutter-skills
 - 固定 Flutter 技术栈：Riverpod、hooks、Freezed、fpdart、json generation、ScreenUtil。
 - Freezed 和 JSON 必须使用注解和 `build_runner` 生成。
 - 子代理实现前必须有任务简报、模块顺序、验收路径和明确写入范围。
+- 子代理工具可用时，产品/UX 草拟、市场分析、全局方向、页面结构、高保真效果图、位图拆解、资产规划与生产、Pencil 还原和视觉 QA 必须由对应专业子代理执行；主代理只保留用户问答、选择确认、设计冻结、冲突裁决、顺序控制和最终集成。生产者不得评审或批准自己的输出。
 - 每个模块进入实现前必须重新执行一次模块级拷问，先确认该模块包含和不包含的功能；用户确认共同理解后，才能细化该模块的功能、页面、状态、验收路径和任务简报。
 - 模块与模块内页面必须按业务流程依赖划分推进等级；同一等级完成其验收和跨模块契约后，才能开始下一等级。仅在写入范围无重叠且模块图明确标记为安全时，才可并行执行同一等级的任务。
 - UI 完成前必须有截图或 golden 证据。

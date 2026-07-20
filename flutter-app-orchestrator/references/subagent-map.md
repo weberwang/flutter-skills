@@ -1,39 +1,45 @@
 # Subagent Map
 
-Use subagents when work is independent and the controller can continue or integrate safely.
+Use specialized subagents for delegable design production and review whenever subagent tools are available. Keep user decisions, confirmations, freezes, sequencing, conflict resolution, and final integration in the controller. Follow [design-subagent-orchestration.md](../../flutter-subagent-delivery/references/design-subagent-orchestration.md).
 
 ## Recommended Agents
 
-| Agent | Use | Writes code |
+| Agent | Use | Write scope |
 |---|---|---|
-| Product agent | Product brief, MVP, user stories | No |
-| Market analysis agent | Market context, competitor patterns, category conventions, differentiation opportunities, and evidence sources | No |
-| UX agent | Flows, screen states, usability risks | No |
-| Mockup agent | Generate high-fidelity screen directions and visual prompts | No |
-| Effect Image Reviewer | Independently review completed mockups against product goals, Flutter feasibility, Apple Human Interface Guidelines interaction principles, and the active visual expression preset; separately report at most five product-design issues and at most five premium-feel or signature-strength improvements, without redesigning or modifying the mockup | No |
-| Pencil handoff agent | Convert low-fidelity Pencil evidence into Flutter text specs | No |
-| Pencil visual restoration agent | Restore approved high-fidelity visuals into Pencil and produce text handoff | No |
-| Bitmap enhancement agent | Enhance approved bitmap assets and synchronize each final output to the corresponding design-draft asset or Pencil node | No |
-| Wireframe reviewer | Review low-fidelity Pencil wireframes before implementation | No |
-| Module planner | Create the coarse module order, then refine one eligible module's functions and page functions only after the controller records module-level grilling confirmation | No |
-| Flutter init agent | Initialize fixed plugin stack and generate `flutter-dev` | Yes |
-| Visual QA agent | Screenshot and golden review | No |
-| Architecture agent | Technical design review or alternatives | No |
-| Implementer agent | One task brief | Yes |
-| Task reviewer agent | Spec and code quality review | No |
-| Release agent | Store and production readiness | No |
+| Product/UX agent | Draft product brief, MVP, user stories, flows, states, and screen specs from confirmed decisions | Assigned product/design docs |
+| Market analysis agent | Market context, competitor patterns, category conventions, differentiation opportunities, and evidence sources | `market-analysis.md` |
+| Global direction agent | Produce exactly three traceable visual-system definitions | Transient response or assigned draft only |
+| Global direction reviewer | Independently review direction traceability, differentiation, accessibility, implementation cost, and preset compliance | Review report only |
+| Page structure agent | Create low-fidelity Pencil structure and text specification | Assigned page Pencil/spec paths |
+| Wireframe reviewer | Independently review structure, states, interaction, and scope compliance | Review report only |
+| Page high-fidelity agent | Generate exactly three page candidates from frozen inputs | Transient candidates only |
+| Effect Image Reviewer | Independently review completed mockups against product goals, Flutter feasibility, Apple HIG, and the active visual expression preset | Review report only |
+| Bitmap decomposition agent | Perform ownership classification, visual sweep, and coverage audit | Assigned restoration-analysis path |
+| Asset planning agent | Prepare reuse decisions and complete pre-slicing confirmation table | Assigned asset-atlas draft |
+| Asset production agent | Produce only confirmed assets and evidence | Confirmed asset, manifest, inventory, and review paths |
+| Pencil visual restoration agent | Restore approved visuals and produce Flutter handoff | Assigned Pencil/restoration paths |
+| Module planner | Refine one eligible module after controller-recorded confirmation | Assigned module plan paths |
+| Flutter init agent | Initialize fixed plugin stack and generate `flutter-dev` | Project initialization scope |
+| Visual QA agent | Screenshot and golden review | Review report only |
+| Architecture agent | Technical design review or alternatives | Assigned architecture docs |
+| Implementer agent | One task brief | Explicit code scope |
+| Task reviewer agent | Spec and code quality review | Review report only |
+| Release agent | Store and production readiness | Release report only |
 
 ## Parallel Safe
 
 - Product exploration and UX exploration.
-- Mockup generation for different visual directions.
+- Market analysis and confirmed-scope UX drafting.
+- Independent page or asset production only after shared freezes and with disjoint write scopes.
 - Architecture alternatives and release risk scan.
+- Independent read-only reviews.
 
 ## Parallel Unsafe
 
 - Flutter init and feature implementation in the same project.
 - Dependency edits and code generation from multiple agents.
-- Independent read-only reviews.
+- A producer and its reviewer before production has completed.
+- Asset planning and asset production before user confirmation.
 
 ## Serialize
 
@@ -51,5 +57,7 @@ Each subagent receives:
 - Required output file or output shape.
 - Verification expectations.
 - For implementation work, the confirmed module scope and its grilling-log entry.
+- Required user-confirmation dependency and explicit instruction to return `NEEDS_CONTEXT` rather than infer approval.
+- Exact status/report shape: `DONE`, `DONE_WITH_CONCERNS`, `NEEDS_CONTEXT`, or `BLOCKED`.
 
 Do not paste full session history into subagent prompts.

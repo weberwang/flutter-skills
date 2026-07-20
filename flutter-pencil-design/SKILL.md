@@ -9,6 +9,10 @@ description: Use when a Flutter workflow needs Pencil .pen files, low-fidelity w
 
 Use this skill after Flutter project initialization when Pencil is used for module/page low-fidelity structure or page-level high-fidelity visual restoration during module implementation. Low-fidelity Pencil structure comes before page-level high-fidelity mockups. After approval, the selected page-level mockup and page design freeze are the visual source of truth for Pencil restoration; the wireframe remains a structural and interaction prerequisite. Pencil can carry the approved visual target for a concrete page, but implementation agents must receive reviewed text specifications and handoff constraints instead of raw Pencil images as the only spec.
 
+## Orchestrated Roles
+
+In the full workflow, dispatch a Page structure agent for low-fidelity Pencil/spec work, a separate Wireframe reviewer, a Bitmap decomposition agent after page freeze, and a Pencil restoration agent after confirmed asset evidence. Give each agent disjoint paths and forbid scope changes, user decisions, self-review, and design freeze writes. The controller validates reports and owns every confirmation and freeze.
+
 ## Safety Rule
 
 Do not read, grep, parse, copy, or edit `.pen` files with filesystem tools. Pencil files must be accessed only through Pencil MCP tools. If the Pencil tools are unavailable, stop and ask for the design to be exported as screenshots or another supported artifact.

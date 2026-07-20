@@ -1,4 +1,4 @@
 interface:
   display_name: "Flutter HiFi Mockup"
   short_description: "Generate module-time page effect images."
-  default_prompt: "Use $flutter-hifi-mockup after module effect-image interrogation and Wireframe Review to generate three page-level candidates at exactly 780 x 1688 px, review them against the frozen global direction, and freeze my selected image."
+  default_prompt: "Use $flutter-hifi-mockup after module interrogation and Wireframe Review: dispatch a Page high-fidelity subagent using a compact, structured, non-conflicting prompt with creative space for three transient 780 x 1688 px candidates, then a separate reviewer before controller-led selection and freeze."

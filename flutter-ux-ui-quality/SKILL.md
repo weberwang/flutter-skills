@@ -9,6 +9,10 @@ description: Use when defining Flutter screen briefs, navigation flows, visual s
 
 Use this skill to freeze the global visual-system direction, then stop low-quality page UI from shipping through module-time effect images and evidence.
 
+## Orchestrated Roles
+
+When used inside `flutter-app-orchestrator`, dispatch Product/UX, Global direction, Global direction reviewer, and Visual QA subagents for their respective production or review work. The controller alone presents alternatives, requests user decisions, records confirmation, and freezes the selected direction or final verdict. Producer and reviewer must be different agents.
+
 ## Required Sequence
 
 1. Write a global UI brief with [references/ui-brief-template.md](references/ui-brief-template.md) covering navigation, screen inventory, state coverage, cross-module page flows, first-value delivery, trust, safe-to-try conditions, and the active visual expression preset from [references/visual-expression-presets.md](references/visual-expression-presets.md).

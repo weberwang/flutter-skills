@@ -1,4 +1,4 @@
 interface:
   display_name: "Flutter Asset Atlas"
   short_description: "Prepare Flutter visual asset atlases and slices"
-  default_prompt: "Create the asset atlas and pre-slicing confirmation table for this Flutter page, show the complete table inline, and wait for my explicit confirmation before generating, extracting, exporting, transparentizing, or slicing assets. After confirmation, produce only 2x raster resources and complete the inventory and fidelity checks."
+  default_prompt: "Use a planning subagent to prepare the asset atlas and pre-slicing table, wait for controller-led confirmation, then use a separate production subagent with concise non-conflicting image prompts to produce only confirmed 2x assets and fidelity evidence."
