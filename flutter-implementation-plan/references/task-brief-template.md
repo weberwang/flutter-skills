@@ -1,6 +1,6 @@
 # Task Brief Template
 
-Replace every placeholder before dispatching this brief to an implementer.
+Replace every placeholder before dispatching this brief to its routed App team role.
 
 ## Task
 
@@ -15,6 +15,23 @@ Replace every placeholder before dispatching this brief to an implementer.
 - Confirmed module scope: `docs/plans/modules/<module-name>-scope.md`
 - Module Effect-Image Interrogation Gate: Required for UI / N/A — evidence:
 - Goal:
+
+## Team Assignment
+
+- Task profile:
+- Current Gate:
+- DRI core role:
+- DRI agent ID: Assigned at dispatch
+- Specialist seat:
+- Independent acceptance role:
+- Reviewer/approver agent ID: Assigned at dispatch; must differ from producer
+- Consulted roles:
+- Omitted roles and `N/A: <reason>`:
+- Role routing source: `flutter-app-orchestrator/references/subagent-map.md`
+- Accepted upstream evidence/version:
+- Shared-resource locks:
+- Execution mode: serial / parallel-safe
+- Review snapshot requirement: commit/diff ID plus artifact and evidence versions
 
 ## Scope
 
@@ -113,6 +130,12 @@ If yes:
 
 - 
 
+## Read and Non-Scope
+
+- Read scope:
+- Must not write:
+- Must not decide:
+
 ## Acceptance Criteria
 
 - 
@@ -165,3 +188,6 @@ Return:
 - Module acceptance result.
 - Integration smoke result.
 - Concerns.
+- Gate verdict.
+- Missing evidence.
+- Recommended next role.

@@ -1,6 +1,6 @@
 # Design Subagent Orchestration
 
-Use this contract whenever subagent tools are available. The controller orchestrates; specialized subagents perform design production and evidence work.
+Use this contract whenever subagent tools are available. The Controller assembles roles with [app-team-role-prompts.md](app-team-role-prompts.md); specialized UX/UI and QA seats perform design production and independent evidence work.
 
 ## Controller-Only Authority
 
@@ -19,7 +19,8 @@ No subagent may select its own proposal, infer user approval, freeze a design, b
 
 | Role | Performs | May write | Must not do |
 |---|---|---|---|
-| Product/UX agent | Draft product, flow, state, and screen artifacts from confirmed decisions | Assigned product/design artifact paths | Ask or answer decision questions |
+| Product Manager | Draft product scope, stories, business rules, metrics, and acceptance artifacts from confirmed decisions | Assigned product artifact paths | Perform UX/UI design or answer decision questions |
+| UX/UI Lead | Draft flows, states, navigation, screen semantics, accessibility, and design handoff from accepted product scope | Assigned design artifact paths | Add product scope or approve its own output |
 | Market agent | Produce market and category analysis | `market-analysis.md` | Select a visual direction |
 | Global direction agent | Produce exactly three traceable visual-system definitions | Transient response or assigned draft | Generate page images or freeze a direction |
 | Global direction reviewer | Independently check traceability, differentiation, accessibility, cost, and preset compliance | Review report only | Redesign or select |
@@ -37,7 +38,8 @@ No subagent may select its own proposal, infer user approval, freeze a design, b
 
 ```text
 confirmed product decisions
-→ Product/UX agent + Market agent
+→ Product Manager + Market agent
+→ UX/UI Lead
 → Global direction agent
 → Global direction reviewer
 → controller presents and freezes user selection
@@ -57,8 +59,9 @@ confirmed product decisions
 
 ## Dispatch Rules
 
-- Give each agent one role, exact inputs, exact output shape, write scope, non-scope, and blocking conditions.
+- Give each agent one core role, at most one specialist seat, agent ID, exact inputs, exact output shape, write scope, non-scope, and blocking conditions.
 - Keep producer and reviewer roles on different agents.
+- Bind every review to immutable artifact versions or hashes and record different producer/reviewer agent IDs. Any later change makes the review stale.
 - Require `DONE`, `DONE_WITH_CONCERNS`, `NEEDS_CONTEXT`, or `BLOCKED`; the controller validates the result before advancing.
 - Never let concurrent agents write the same artifact, Pencil frame, asset path, design freeze, ledger entry, theme, navigation, or shared configuration.
 - Treat `docs/design/app-design.pen` as one shared write scope: serialize every Page structure, Pencil restoration, or asset-synchronization writer even when node assignments do not overlap.

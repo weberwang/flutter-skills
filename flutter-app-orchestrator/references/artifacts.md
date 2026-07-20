@@ -4,6 +4,8 @@ Create these artifacts in the target Flutter app repo as the workflow advances.
 
 For every delegable design artifact, record its producer role, assigned input paths, write scope, report/status, and controller validation. Review artifacts must identify a reviewer distinct from the producer. User decision, confirmation, and freeze records belong to the controller, not a subagent.
 
+For every dispatched task, also record its task profile, enabled and omitted core roles with reasons, DRI role and agent ID, independent acceptance role and agent ID, consulted roles, immutable review snapshot, shared-resource locks, functional verdicts, and Controller Gate validation. A later producer or fixer change makes the prior review stale.
+
 For module or page-level UI work, store repeated design artifacts under a page or module scoped path, for example `docs/design/pages/<page-name>/design-freeze.md`, while keeping the same document contract.
 
 ## Product
@@ -301,7 +303,10 @@ For module or page-level UI work, store repeated design artifacts under a page o
 - Routing.
 - Persistence.
 - API boundaries.
+- API contracts, schemas, data migration, and rollback.
 - Auth, payments, analytics, crash reporting.
+- Security, privacy, performance, observability, and operational ownership.
+- CI/CD, environment, signing, rollout, and rollback assumptions when release engineering is in scope.
 - Verification commands.
 
 `docs/plans/module-map.md`
@@ -341,6 +346,10 @@ For module or page-level UI work, store repeated design artifacts under a page o
 
 `.codex-workflow/progress.md`
 
+- App team role activation with enablement reasons or `N/A: <reason>`.
+- Current Gate, owner verdicts, evidence version, state, and Controller validation.
+- Per-task DRI/reviewer roles and agent IDs, consulted roles, read/write scopes, shared-resource locks, and execution mode.
+- Immutable commit/diff and artifact hashes for reviews; stale-review state after any change.
 - Task status.
 - Commit or diff range.
 - Test evidence.

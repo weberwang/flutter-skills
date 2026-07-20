@@ -11,10 +11,45 @@ Create `.codex-workflow/progress.md` in the target app repo.
 
 - Phase:
 - Status:
+- Current Gate:
+- Gate state: PENDING / BLOCKED / PASSED / WAIVED / STALE
+- Gate owner roles:
+- Gate evidence/version:
+- Controller validation/time:
+
+## App Team Role Activation
+
+| Core role | Enabled | Reason or N/A | Default responsibility | Assigned agent ID |
+|---|---|---|---|---|
+| Controller | Yes | Required | Orchestration, decisions, Gate recording, integration | |
+| Product Manager | | | Scope, value, metrics, business criteria | |
+| UX/UI Lead | | | Flow, interaction, visual, accessibility, handoff | |
+| Tech Lead | | | Architecture, contracts, technical verdict | |
+| Flutter Engineer | | | Client implementation and tests | |
+| Backend/Data Engineer | | | API, data, auth, migration, service tests | |
+| QA Engineer | | | Independent evidence and quality verdict | |
+| DevOps/Release Engineer | | | Build, CI/CD, signing, rollout, rollback | |
 
 ## Tasks
 
 - [ ] T01: task name
+  - Task profile:
+  - Current Gate:
+  - DRI role:
+  - DRI agent ID:
+  - Independent acceptance role:
+  - Reviewer/approver agent ID:
+  - Consulted roles:
+  - Role routing source: `flutter-app-orchestrator/references/subagent-map.md`
+  - Accepted upstream evidence/version:
+  - Read scope:
+  - Write scope:
+  - Shared-resource locks:
+  - Execution mode: serial / parallel-safe
+  - Review snapshot ID/hashes:
+  - Gate verdict: PENDING / BLOCKED / PASSED / WAIVED / STALE
+  - Gate owner verdicts:
+  - Controller validation/time:
   - Brief:
   - Business-flow level:
   - Required prior-level evidence:
@@ -82,6 +117,11 @@ Create `.codex-workflow/progress.md` in the target app repo.
   - Evidence:
   - Commit/diff:
 
+## Assignments and Reports
+
+| Task | Stage | Core role | Specialist seat | Agent ID | Scope | Status | Evidence/version | Independent |
+|---|---|---|---|---|---|---|---|---|
+
 ## Open Findings
 
 | Severity | Finding | Owner | Status |
@@ -95,6 +135,12 @@ Create `.codex-workflow/progress.md` in the target app repo.
 ## Rules
 
 - Update the ledger after each completed task.
+- Record team activation before dispatching the first task. Every omitted core role requires `N/A: <reason>`; do not dispatch ceremonial roles.
+- Record one DRI and one independent acceptance owner for every task. Producer and reviewer agent IDs must differ, including product, architecture, design, asset, Pencil, code, quality, and release work.
+- Record immutable commit/diff identifiers and artifact or evidence versions for every review. Any producer or fixer change marks the previous verdict `STALE` and requires re-review.
+- Treat a same-session producer/reviewer fallback as `Independent: No`; it cannot alone pass a high-risk Product, Design, Technical, Quality, or Release Gate.
+- Do not advance a Gate when `DONE_WITH_CONCERNS` contains a Critical or Important finding, when mandatory evidence is missing, or when the current review is stale.
+- The Controller records Gate state and validates completeness but must not impersonate a missing Product Manager, UX/UI Lead, Tech Lead, QA Engineer, or DevOps/Release verdict.
 - Do not mark a business-flow level complete until all of its required tasks, acceptance paths, and cross-module contracts have passed or are explicitly accepted; record the advancement verdict before dispatching any later-level task.
 - Record device, emulator, simulator, browser, and desktop runtime validation in a final-integration section only after all task entries and required high-fidelity restoration are complete; task-level screenshots and goldens are not platform-verification records.
 - For UI page tasks, update each page design gate field before dispatching implementation.

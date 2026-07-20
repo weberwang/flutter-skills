@@ -11,6 +11,19 @@ Use this before implementation planning. It turns global design and architecture
 - Flutter init:
 - Generated `flutter-dev` skill:
 
+## App Team Role Activation
+
+| Core role | Enabled | Reason or N/A | Default responsibility |
+|---|---|---|---|
+| Controller | Yes | Required | Orchestration, user decisions, Gate recording, integration |
+| Product Manager | | | Scope, value, metrics, business acceptance |
+| UX/UI Lead | | | Flow, interaction, visual, accessibility, handoff |
+| Tech Lead | | | Architecture, contracts, technical verdict |
+| Flutter Engineer | | | Client implementation and tests |
+| Backend/Data Engineer | | | API, data, auth, migration, service tests |
+| QA Engineer | | | Independent evidence and quality verdict |
+| DevOps/Release Engineer | | | Build, CI/CD, signing, rollout, rollback |
+
 ## Module Inventory
 
 | Module | Product responsibility | Route ownership | Data ownership | Shared dependencies | Release priority |
@@ -55,8 +68,8 @@ The initial plan may leave refinement pending. Complete each row just in time wh
 
 ## Parallelization
 
-| Business-flow level | Work item | Can run parallel | Why | Shared files to avoid |
-|---|---|---|---|---|
+| Business-flow level | Work item | DRI role | Acceptance role | Can run parallel | Why | Shared-resource locks |
+|---|---|---|---|---|---|---|
 
 ## Risks
 
