@@ -15,6 +15,8 @@ Use this during the page design gate after Wireframe Review when Pencil must car
 - Wireframe scope: required content, priority, tasks, states, navigation, interactions, outcomes, accessibility meaning, and ownership only; no final geometry or composition
 - Module or page task:
 - Asset inventory:
+- Canonical Pencil file: `docs/design/app-design.pen`
+- Module/high-fidelity section:
 - Target Pencil frame or node IDs:
 - Required frame size: `390 x 844 px`
 - Verified frame dimensions:

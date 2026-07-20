@@ -73,10 +73,11 @@ Page task: <path>
 Global design freeze: <path>
 Required states: <list or path>
 Wireframe level standard: <path>
-Assigned Pencil/spec outputs: <paths>
+Canonical Pencil file: docs/design/app-design.pen
+Assigned Pencil node/section scope and spec outputs: <node scope and paths>
 Write scope: <paths>
 
-Select Full, Lightweight, or Reuse and record the reason. Create the semantic contract for every level; create a 390 x 844 px Pencil wireframe only for Full. Preserve scope, required content, information priority, navigation, actions, outcomes, states, accessibility meaning, and data/UI/fixed-asset ownership. Do not freeze exact coordinates, spacing, containers, component silhouettes, image ratio/crop, secondary composition, or decoration placement. Do not introduce high-fidelity styling or new functions.
+Select Full, Lightweight, or Reuse and record the reason. Create the semantic contract for every level; create a 390 x 844 px Pencil wireframe only for Full. Put every Pencil node in the assigned section of `docs/design/app-design.pen`; never create another `.pen` file. Preserve scope, required content, information priority, navigation, actions, outcomes, states, accessibility meaning, and data/UI/fixed-asset ownership. Do not freeze exact coordinates, spacing, containers, component silhouettes, image ratio/crop, secondary composition, or decoration placement. Do not introduce high-fidelity styling or new functions.
 
 Return: status, selected level/reason, node/frame IDs or N/A, output paths, state coverage, unresolved facts, concerns.
 ```
@@ -189,9 +190,10 @@ Frozen page image and design freeze: <paths>
 Restoration analysis: <path>
 Confirmed asset evidence or N/A: <paths>
 Assigned Pencil nodes and handoff outputs: <paths>
+Canonical Pencil file: docs/design/app-design.pen
 Write scope: <paths>
 
-Restore the approved page without changing its frozen visual intent. Use editable UI/data nodes and only approved assets. Produce Flutter handoff constraints and parity evidence. Do not redesign or resolve unknown facts by guessing.
+Restore the approved page into the assigned nodes of `docs/design/app-design.pen` without changing its frozen visual intent; never create another `.pen` file. Use editable UI/data nodes and only approved assets. Produce Flutter handoff constraints and parity evidence. Do not redesign or resolve unknown facts by guessing.
 
 Return: status, node/frame IDs, output paths, parity result, deviations, concerns.
 ```

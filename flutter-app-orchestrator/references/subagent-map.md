@@ -10,14 +10,14 @@ Use specialized subagents for delegable design production and review whenever su
 | Market analysis agent | Market context, competitor patterns, category conventions, differentiation opportunities, and evidence sources | `market-analysis.md` |
 | Global direction agent | Produce exactly three traceable visual-system definitions | Transient response or assigned draft only |
 | Global direction reviewer | Independently review direction traceability, differentiation, accessibility, implementation cost, and preset compliance | Review report only |
-| Page structure agent | Select Full, Lightweight, or Reuse and create the semantic contract; Pencil only for Full | Assigned page Pencil/spec paths |
+| Page structure agent | Select Full, Lightweight, or Reuse and create the semantic contract; Pencil only for Full | Assigned nodes in `docs/design/app-design.pen` plus page spec paths |
 | Wireframe reviewer | Independently review level choice, semantic coverage, states, interaction, and scope compliance | Review report only |
 | Page high-fidelity agent | Generate exactly three page candidates from frozen inputs | Transient candidates only |
 | Effect Image Reviewer | Independently review completed mockups against product goals, Flutter feasibility, Apple HIG, and the active visual expression preset | Review report only |
 | Bitmap decomposition agent | Perform ownership classification, visual sweep, and coverage audit | Assigned restoration-analysis path |
 | Asset planning agent | Prepare reuse decisions and complete pre-slicing confirmation table | Assigned asset-atlas draft |
 | Asset production agent | Produce only confirmed assets and evidence | Confirmed asset, manifest, inventory, and review paths |
-| Pencil visual restoration agent | Restore approved visuals and produce Flutter handoff | Assigned Pencil/restoration paths |
+| Pencil visual restoration agent | Restore approved visuals and produce Flutter handoff | Assigned nodes in `docs/design/app-design.pen` plus restoration paths |
 | Module planner | Refine one eligible module after controller-recorded confirmation | Assigned module plan paths |
 | Flutter init agent | Initialize fixed plugin stack and generate `flutter-dev` | Project initialization scope |
 | Visual QA agent | Screenshot and golden review | Review report only |
@@ -40,10 +40,12 @@ Use specialized subagents for delegable design production and review whenever su
 - Dependency edits and code generation from multiple agents.
 - A producer and its reviewer before production has completed.
 - Asset planning and asset production before user confirmation.
+- Any two agents that can modify `docs/design/app-design.pen`, even with disjoint node assignments.
 
 ## Serialize
 
 - Code implementation in the same Flutter project.
+- All writes to the canonical `docs/design/app-design.pen` file.
 - Tasks that touch shared navigation, theme, generated files, app config, dependency graph, or state container.
 
 ## Dispatch Contract

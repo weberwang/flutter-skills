@@ -99,6 +99,7 @@ npx -y github:weberwang/flutter-skills
 - 全局视觉冻结仅固定跨页面复用的视觉语言和设计系统，不包含效果图，不得作为任何页面效果图确认、页面设计冻结或实现批准依据。
 - 高保真图中的插图、位图、logo、纹理、生成图等必须先做复用检查；新位图默认使用 product-design 或 image generation 工具生成，Pencil 仅在节点本身是已批准生产资产时允许导出，不能默认使用 Pencil 整页截图或高保真图裁切；必须严格遵守全局和页面设计冻结约束，并先决定透明背景、保留背景或遮罩切图策略。需要透明但来源不透明的资产，必须先进入背景透明化工作节点，记录方法、源文件、输出、移除背景和继续/驳回结论；透明资产还必须完成 alpha 清理、去白边/色边、阴影保留和目标背景验收，再导出、登记和实现。
 - Pencil 图不能直接丢给实现代理，必须转成文字规格和 Flutter handoff。
+- 每个项目只允许一个 Pencil 设计文件 `docs/design/app-design.pen`；所有低保真页面、状态、高保真 Pencil 还原、复用组件和设计稿资产同步都按模块与保真度分区写入该文件，并通过稳定节点 ID 引用。禁止创建页面级、模块级、临时、候选、备份或还原专用 `.pen` 文件；所有 Pencil 写入必须串行执行。
 - 固定 Flutter 技术栈：Riverpod、hooks、Freezed、fpdart、json generation、ScreenUtil。
 - Freezed 和 JSON 必须使用注解和 `build_runner` 生成。
 - 子代理实现前必须有任务简报、模块顺序、验收路径和明确写入范围。

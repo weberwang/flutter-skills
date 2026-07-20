@@ -27,6 +27,9 @@ Create `.codex-workflow/progress.md` in the target app repo.
   - Module Effect-Image Interrogation Gate:
   - Page structure agent report:
   - Page/state:
+  - Canonical Pencil file: `docs/design/app-design.pen`
+  - Canonical Pencil section/node IDs:
+  - Other project `.pen` files: `0` / consolidation required
   - Wireframe level:
   - Wireframe level reason:
   - Low-fidelity Pencil:
@@ -95,6 +98,7 @@ Create `.codex-workflow/progress.md` in the target app repo.
 - Do not mark a business-flow level complete until all of its required tasks, acceptance paths, and cross-module contracts have passed or are explicitly accepted; record the advancement verdict before dispatching any later-level task.
 - Record device, emulator, simulator, browser, and desktop runtime validation in a final-integration section only after all task entries and required high-fidelity restoration are complete; task-level screenshots and goldens are not platform-verification records.
 - For UI page tasks, update each page design gate field before dispatching implementation.
+- Keep the canonical Pencil file field fixed to `docs/design/app-design.pen`, record stable section/node IDs, and block Pencil work when another project `.pen` file or active Pencil writer exists.
 - Record Full, Lightweight, or Reuse for every UI page. Full requires `390 x 844 px` Pencil evidence; Lightweight records optional Pencil evidence or `N/A`; Reuse records the approved pattern and page-specific delta contract.
 - When subagent tools are available, record the assigned design role, report, write scope, and status for every delegable design stage. If unavailable, record the controller-session downgrade explicitly.
 - Record the pre-slicing confirmation table version and explicit user decision before dispatching the Asset production agent. Reconfirm and update affected rows after material changes.

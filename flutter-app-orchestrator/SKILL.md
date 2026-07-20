@@ -30,7 +30,7 @@ Do not jump from idea to code. Move through product, UX/UI, technical design, im
 
 ### Module Delivery
 
-7. Execute modules with `flutter-subagent-delivery` and [references/subagent-map.md](references/subagent-map.md). The controller performs module questioning and confirmation, then dispatches the Module planner. For each UI page, dispatch the Page structure agent to select Full, Lightweight, or Reuse with [wireframe-level-standard.md](../flutter-pencil-design/references/wireframe-level-standard.md), then a separate Wireframe reviewer, the Page high-fidelity agent, and a separate Effect Image Reviewer in sequence. Require a reviewed semantic contract at every level, but require Pencil evidence only for Full. Require the Page high-fidelity agent to keep traceability in planning evidence and send only the compact final prompt defined by [image-prompt-principles.md](../flutter-hifi-mockup/references/image-prompt-principles.md). The controller alone presents candidates, records the user's selection/change disposition, persists the selected image, and freezes the page.
+7. Execute modules with `flutter-subagent-delivery` and [references/subagent-map.md](references/subagent-map.md). The controller performs module questioning and confirmation, then dispatches the Module planner. Use `docs/design/app-design.pen` as the only project `.pen` file and serialize every subagent that can write it. For each UI page, dispatch the Page structure agent to select Full, Lightweight, or Reuse with [wireframe-level-standard.md](../flutter-pencil-design/references/wireframe-level-standard.md), then a separate Wireframe reviewer, the Page high-fidelity agent, and a separate Effect Image Reviewer in sequence. Require a reviewed semantic contract at every level, but require Pencil evidence only for Full. Require the Page high-fidelity agent to keep traceability in planning evidence and send only the compact final prompt defined by [image-prompt-principles.md](../flutter-hifi-mockup/references/image-prompt-principles.md). The controller alone presents candidates, records the user's selection/change disposition, persists the selected image, and freezes the page.
 8. After page freeze, dispatch the Bitmap decomposition agent to apply [bitmap-decomposition-standard.md](../flutter-pencil-design/references/bitmap-decomposition-standard.md), write the ownership classification and coverage audit, and return unresolved facts. The agent must not generate or cut assets. The controller validates the zero-count gates before advancing.
 9. When bitmap work is required, dispatch the Asset planning agent to prepare reuse decisions and the complete pre-slicing table. The controller presents the table and waits for explicit user confirmation. Only after confirmation dispatch the Asset production agent to produce confirmed rows, inventory, manifests, and fidelity evidence; reconfirm affected rows after material changes. Record `N/A: no bitmap or exported visual assets` when applicable.
 10. When high-fidelity Pencil restoration is required, dispatch the Pencil restoration agent with the frozen page, restoration analysis, and confirmed assets. Validate its parity and Flutter handoff before dispatching the Implementer.
@@ -57,6 +57,7 @@ Create or update these files in the target app repo:
 - `docs/design/prompts/pages/<page-name>-hifi-mockup-prompt.md`
 - `docs/design/global-design-freeze.md`
 - `docs/design/pencil-intake.md`
+- `docs/design/app-design.pen` as the only project `.pen` file
 - `docs/design/pencil-flutter-handoff.md`
 - `docs/design/pencil-hifi-restoration.md`
 - `docs/design/wireframe-review.md`
@@ -86,6 +87,7 @@ Use [references/artifacts.md](references/artifacts.md) for the artifact contract
 - No PRD confirmation, UX/UI direction, technical design, implementation plan, or delivery work before the initial `grilling` pass has recorded the user's explicit shared-understanding confirmation in `docs/product/grilling-log.md`.
 - When subagent tools are available, no delegable design-production stage may be silently executed by the controller instead of its assigned Product/UX, Market, Global direction, Page structure, Page high-fidelity, Bitmap decomposition, Asset planning/production, Pencil restoration, or Visual QA subagent. Record an explicit downgrade only when subagent tools are unavailable.
 - No design producer may review or approve its own output. No subagent may ask the user for decisions, infer confirmation, select a candidate, or freeze/unfreeze an artifact.
+- No project design may be written to a `.pen` file other than `docs/design/app-design.pen`. No two agents that can modify Pencil may run concurrently, even when their assigned node scopes differ.
 - Before approving or executing a decision-bearing stage with unresolved scope, priority, tradeoffs, risks, acceptance criteria, or dependencies, re-enter `grilling` and record the user's explicit confirmation; do not block factual discovery, deterministic work, or already confirmed low-risk execution.
 - No implementation before MVP scope and screen states exist.
 - No UX/UI direction approval before the product brief defines a testable first-value moment, safe-to-try conditions, trust evidence, product character, and a derived visual expression preset; visual treatment must not be used to conceal an unresolved value or trust problem, and task clarity must not be lowered to satisfy expression.
@@ -158,6 +160,7 @@ Use subagents for delegable product/UX drafting, market analysis, visual-directi
 - Treating background transparentization as an implicit export step instead of a recorded work node with source, method, output, and reject/continue decision.
 - Accepting transparent assets without alpha cleanup, edge halo checks, and target-background QA.
 - Reading `.pen` files with normal filesystem tools instead of Pencil tools.
+- Creating separate `.pen` files for pages, modules, fidelity stages, candidates, temporary work, exports, backups, or restorations instead of organizing them as sections and stable nodes in `docs/design/app-design.pen`.
 - Passing Pencil screenshots or restored Pencil frames directly to implementation agents instead of converting them into text specs.
 - Skipping high-fidelity Pencil restoration when the user expects Pencil to carry the approved visual target.
 - Treating bitmap or illustration details as implicit UI instead of tracked assets.

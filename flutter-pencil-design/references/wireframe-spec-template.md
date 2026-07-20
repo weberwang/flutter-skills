@@ -7,6 +7,8 @@ Use this to record the page's low-fidelity semantic and interaction contract. It
 - Wireframe level: Full / Lightweight / Reuse
 - Level reason:
 - Pencil evidence or `N/A`:
+- Canonical Pencil file: `docs/design/app-design.pen` / N/A
+- Frame/node IDs:
 - Pencil frame size: `390 x 844 px` / N/A
 - Reused approved pattern and page-specific deltas:
 - Wireframe review:

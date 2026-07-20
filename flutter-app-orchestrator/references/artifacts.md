@@ -54,6 +54,13 @@ For module or page-level UI work, store repeated design artifacts under a page o
 
 ## Design
 
+`docs/design/app-design.pen`
+
+- The only project `.pen` file.
+- Contains all low-fidelity Pencil evidence, approved high-fidelity restorations, states, reusable primitives, and synchronized design-draft asset placements.
+- Uses labeled module/fidelity sections and frame names in the form `<module>/<page>/<state>/<low|high>`.
+- Is modified by only one Pencil-writing agent at a time; page-scoped text artifacts reference stable node IDs in this file.
+
 `docs/design/user-flows.md`
 
 - Primary path.
@@ -137,7 +144,8 @@ For module or page-level UI work, store repeated design artifacts under a page o
 
 `docs/design/pencil-intake.md`
 
-- Low-fidelity Pencil source context.
+- Canonical `docs/design/app-design.pen` context and active-file verification.
+- Single-file audit and any consolidation result.
 - Target frames or nodes.
 - Screens and states.
 - Screenshots, layout snapshots, or exports.

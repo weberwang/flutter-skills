@@ -4,7 +4,9 @@ Replace every placeholder before implementation planning or the page design gate
 
 ## Source
 
-- Pencil file or editor context:
+- Canonical Pencil file: `docs/design/app-design.pen`
+- Active file verified as canonical: Yes / No
+- Module/fidelity section:
 - Target frame or node IDs:
 - Required frame size: `390 x 844 px`
 - Verified frame dimensions:
@@ -25,6 +27,13 @@ Replace every placeholder before implementation planning or the page design gate
 
 | Screen or frame | Purpose | State | Frame size | Size verified | Priority |
 |---|---|---|---|---|---|
+
+## Single-File Audit
+
+- Other project-owned `.pen` files: `0` / list
+- Consolidation required: Yes / No
+- Node naming follows `<module>/<page>/<state>/<low|high>`: Yes / No
+- Concurrent Pencil writer: None / blocker
 
 ## Interaction Notes
 

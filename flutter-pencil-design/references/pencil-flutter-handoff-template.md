@@ -6,6 +6,8 @@ Use this to translate a reviewed low-fidelity semantic contract and any approved
 
 - Pencil screenshot:
 - Layout snapshot:
+- Canonical Pencil file: `docs/design/app-design.pen` / N/A
+- Source frame/node IDs:
 - Wireframe level and reason:
 - Wireframe review:
 - Wireframe text spec:

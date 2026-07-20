@@ -36,6 +36,7 @@ Run design and implementation through controlled subagent loops. The controller 
 - For a UI module, after function/page refinement and before any page design task, run the Module Effect-Image Interrogation Gate once and record it in the grilling log and module scope. Do not dispatch page-effect generation without it.
 - After module refinement, confirm each task has an approved task brief derived from the confirmed module scope.
 - Confirm expected write scopes do not overlap for any parallel implementation work.
+- Confirm `docs/design/app-design.pen` is the only project `.pen` file and reserve it for one writer at a time. Assign stable module/fidelity sections and node scopes before dispatching Page structure, Pencil restoration, or design-asset synchronization work.
 - Confirm `.codex-workflow/progress.md` exists or create it from [references/progress-ledger.md](references/progress-ledger.md).
 - If subagent tools are unavailable, run the same design, implementer, reviewer, visual QA, and fixer roles sequentially in the controller session and record the downgrade in the ledger.
 - If a subagent times out, returns `NEEDS_CONTEXT`, or returns `BLOCKED`, update the ledger before retrying with clearer context, smaller scope, or a stronger model.
@@ -46,10 +47,10 @@ Run design and implementation through controlled subagent loops. The controller 
 2. Read `docs/plans/module-map.md` and select the next eligible module from the first incomplete business-flow level. If this module has not completed its implementation-stage grilling gate, run it now and do not refine functions, pages, or task briefs until the user explicitly confirms shared understanding.
 3. After confirmation, append the module decision to `docs/product/grilling-log.md`, create `docs/plans/modules/<module-name>-scope.md`, and refine the confirmed module into its function inventory, page functions, states, contracts, acceptance path, and vertical-slice tasks.
 4. For a UI module, run the Module Effect-Image Interrogation Gate once. Confirm the visual outcome, effect-image page/state list, budgets, signatures, accepted implementation/asset cost, and scope consistency; record explicit shared understanding before any page effect generation.
-5. For a UI page task, dispatch the Page structure agent to select the wireframe level and produce its semantic contract, then a separate Wireframe reviewer. Require Pencil evidence only for Full. The controller validates their outputs before advancing.
+5. For a UI page task, dispatch the Page structure agent to select the wireframe level and produce its semantic contract, then a separate Wireframe reviewer. Require Pencil evidence only for Full and write it into the assigned section of `docs/design/app-design.pen`. The controller validates their outputs before advancing.
 6. Dispatch the Page high-fidelity agent to generate exactly three transient candidates, then a separate Effect Image Reviewer. The controller presents results, records the user's choice and change disposition, and alone persists and freezes the selected image.
 7. Dispatch the Bitmap decomposition agent. If assets are required, dispatch the Asset planning agent to prepare the complete pre-slicing table; the controller presents it and waits for explicit confirmation. Only then dispatch the Asset production agent for confirmed rows.
-8. When required, dispatch the Pencil restoration agent and validate its restoration and Flutter handoff evidence.
+8. When required, dispatch the Pencil restoration agent as the sole active Pencil writer, restore into its assigned section of `docs/design/app-design.pen`, and validate its restoration and Flutter handoff evidence.
 9. Dispatch one implementer for the task scope.
 10. Require report with changed files, tests run, output summary, and concerns.
 11. Package diff and dispatch reviewer.
@@ -63,7 +64,7 @@ Use [references/design-subagent-orchestration.md](references/design-subagent-orc
 
 ## Parallelism Rule
 
-Parallelize read-only exploration, independent reviews, and disjoint page or asset production after their shared freeze exists. Serialize producer/reviewer pairs, user-confirmation gates, delivery across business-flow levels, and any overlapping write scopes. Within one level, parallelize only when contracts are established and `docs/plans/module-map.md` marks the work parallel-safe.
+Parallelize read-only exploration, independent reviews, and disjoint page or asset production after their shared freeze exists. Serialize producer/reviewer pairs, user-confirmation gates, delivery across business-flow levels, overlapping write scopes, and every write to `docs/design/app-design.pen`. Disjoint Pencil node scopes do not make shared-file writes parallel-safe. Within one level, parallelize only when contracts are established and `docs/plans/module-map.md` marks the work parallel-safe.
 
 ## Required Verification
 
@@ -76,4 +77,4 @@ Run device, emulator, simulator, browser, and desktop runtime validation only af
 
 ## Gate
 
-Do not create or dispatch a task before the module-level grilling confirmation and module scope refinement exist. When subagent tools are available, do not silently perform delegable design production in the controller session; dispatch the required specialized role. Do not let a producer review itself, let a subagent request or infer user approval, or let an agent write outside its assigned scope. Do not generate a UI module's page effect images before its Module Effect-Image Interrogation Gate passes. Do not mark a task complete while any required design-agent report, reviewer verdict, page design gate evidence, asset confirmation/evidence, command output, or Critical/Important resolution is missing.
+Do not create or dispatch a task before the module-level grilling confirmation and module scope refinement exist. When subagent tools are available, do not silently perform delegable design production in the controller session; dispatch the required specialized role. Do not create a second project `.pen` file or run multiple Pencil writers concurrently. Do not let a producer review itself, let a subagent request or infer user approval, or let an agent write outside its assigned scope. Do not generate a UI module's page effect images before its Module Effect-Image Interrogation Gate passes. Do not mark a task complete while any required design-agent report, reviewer verdict, page design gate evidence, asset confirmation/evidence, command output, or Critical/Important resolution is missing.

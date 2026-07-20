@@ -7,17 +7,26 @@ description: Use when a Flutter workflow needs Pencil .pen files, low-fidelity w
 
 ## Overview
 
-Use this skill after Flutter project initialization when a page needs a reviewed low-fidelity semantic contract or page-level high-fidelity visual restoration. Select Full, Lightweight, or Reuse with [references/wireframe-level-standard.md](references/wireframe-level-standard.md). Only Full requires a Pencil wireframe; every level requires a reviewed text contract. After approval, the selected page-level mockup and page design freeze are the visual source of truth for Pencil restoration. Low-fidelity evidence constrains meaning and behavior, never final geometry or composition.
+Use this skill after Flutter project initialization when a page needs a reviewed low-fidelity semantic contract or page-level high-fidelity visual restoration. Keep every Pencil design for the project in the single canonical file `docs/design/app-design.pen`. Select Full, Lightweight, or Reuse with [references/wireframe-level-standard.md](references/wireframe-level-standard.md). Only Full requires a Pencil wireframe; every level requires a reviewed text contract. After approval, the selected page-level mockup and page design freeze are the visual source of truth for Pencil restoration. Low-fidelity evidence constrains meaning and behavior, never final geometry or composition.
 
 ## Orchestrated Roles
 
-In the full workflow, dispatch a Page structure agent to select and produce the page's Full, Lightweight, or Reuse contract, a separate Wireframe reviewer, a Bitmap decomposition agent after page freeze, and a Pencil restoration agent after confirmed asset evidence. Give each agent disjoint paths and forbid scope changes, user decisions, self-review, and design freeze writes. The controller validates reports and owns every confirmation and freeze.
+In the full workflow, dispatch a Page structure agent to select and produce the page's Full, Lightweight, or Reuse contract, a separate Wireframe reviewer, a Bitmap decomposition agent after page freeze, and a Pencil restoration agent after confirmed asset evidence. Give Pencil-writing agents disjoint node scopes inside `docs/design/app-design.pen` and serialize every write to that shared file. Forbid scope changes, user decisions, self-review, and design freeze writes. The controller validates reports and owns every confirmation and freeze.
 
 ## Safety Rule
 
 Do not read, grep, parse, copy, or edit `.pen` files with filesystem tools. Pencil files must be accessed only through Pencil MCP tools. If the Pencil tools are unavailable, stop and ask for the design to be exported as screenshots or another supported artifact.
 
 Before any Pencil read, design, screenshot, export, or HTML action, call `get_editor_state(include_schema: true)` if the current Pencil schema is not already loaded in context.
+
+## Single File Rule
+
+- Use exactly one project design file: `docs/design/app-design.pen`.
+- Put low-fidelity frames, approved high-fidelity restorations, states, reusable design primitives, and design-draft asset placements in that file.
+- Organize the canvas with labeled module and fidelity sections. Name frames `<module>/<page>/<state>/<low|high>` and record their stable node IDs in page-scoped text artifacts.
+- Do not create page-specific, module-specific, temporary, candidate, export, backup, or restoration `.pen` files.
+- Serialize Page structure, Pencil restoration, and any asset-synchronization writes because node scopes are disjoint but the file is shared. Read-only reviewers may run after the relevant write completes.
+- If multiple `.pen` files already exist, stop new Pencil writes, select `docs/design/app-design.pen` as the target, consolidate required frames through Pencil tools, verify the node inventory, and remove obsolete project-owned duplicates only through the confirmed cleanup flow. Never delete user-provided source files without explicit confirmation.
 
 ## Frame Size Rule
 
@@ -41,7 +50,7 @@ Before any Pencil read, design, screenshot, export, or HTML action, call `get_ed
 3. Confirm the page or state comes from `docs/plans/module-map.md`, then select Full, Lightweight, or Reuse with [references/wireframe-level-standard.md](references/wireframe-level-standard.md) and record the reason.
 4. If the high-fidelity restoration track is needed, confirm Wireframe Review, `docs/design/wireframe-spec.md`, an approved frozen high-fidelity mockup under `.codex-workflow/visuals/pages/<page-name>/`, and `docs/design/design-freeze.md` exist; verify that its candidate ID, SHA-256, and confirmation time match the freeze record.
 5. If the approved mockup has required visual assets, confirm `docs/design/asset-atlas.md`, `docs/design/asset-slicing-manifest.md`, `docs/design/asset-inventory.md`, and `docs/design/asset-fidelity-review.md` exist before restoring high-fidelity visuals. Required generated assets must cite global and page design-freeze constraints.
-6. Read current Pencil context through Pencil tools only when Full, optional Pencil evidence, or high-fidelity restoration requires Pencil; otherwise record the Pencil step as `N/A`.
+6. When Full, optional Pencil evidence, or high-fidelity restoration requires Pencil, confirm the active file is `docs/design/app-design.pen`, then read its current context through Pencil tools. Otherwise record the Pencil step as `N/A`.
 7. For Full or any optional Pencil evidence, verify every target screen or state frame is exactly `390 x 844 px`, then capture screenshots or layout snapshots. For Lightweight or Reuse without Pencil evidence, record `N/A: <reason>`.
 8. Fill [references/pencil-intake-template.md](references/pencil-intake-template.md) when Pencil evidence is present; otherwise record `N/A: selected wireframe level does not require Pencil evidence`.
 9. Write the semantic contract with [references/wireframe-spec-template.md](references/wireframe-spec-template.md). Preserve scope, content priority, tasks, states, navigation, interactions, outcomes, accessibility meaning, and content ownership; do not freeze final geometry or visual composition.
@@ -68,6 +77,7 @@ Mark it Not required only when the page is simple, standard, low-risk, and `docs
 ## Output Files
 
 - `docs/design/pencil-intake.md`
+- `docs/design/app-design.pen` as the only project `.pen` file
 - `docs/design/pencil-flutter-handoff.md`
 - `docs/design/pencil-hifi-restoration.md` when Pencil restores approved high-fidelity visuals
 - `docs/design/wireframe-review.md`
@@ -84,6 +94,7 @@ For multiple pages, use page-scoped paths such as `docs/design/pages/<page-name>
 ## Handoff Rules
 
 - Treat Pencil as editable design evidence, not implementation code.
+- Keep every Pencil design and restoration in `docs/design/app-design.pen`; page-scoped text evidence must reference frame/node IDs in that shared file rather than another `.pen` path.
 - Keep every Pencil screen or state frame at exactly `390 x 844 px`; do not use a differently sized frame as reviewed design evidence.
 - Require a reviewed low-fidelity semantic contract before page-level high-fidelity generation. Require Pencil evidence only for Full; allow Lightweight text contracts and Reuse delta contracts when the level standard permits them.
 - Use Pencil high-fidelity restoration only for a concrete module or page after that page high-fidelity mockup is approved and converted into `docs/design/design-freeze.md`.
@@ -103,4 +114,4 @@ For multiple pages, use page-scoped paths such as `docs/design/pages/<page-name>
 
 ## Gate
 
-Do not implement from raw Pencil screenshots. Do not accept a Pencil screen or state frame as workflow evidence unless its node dimensions are exactly `390 x 844 px`. Do not generate a page-level high-fidelity mockup until the wireframe level, reviewed semantic contract, and `docs/design/wireframe-spec.md` exist; require Pencil intake only for Full or when optional Pencil evidence is used. Do not let high-fidelity review demand geometry parity with low-fidelity evidence. Do not restore high-fidelity Pencil visuals unless the selected page-level effect image has been explicitly frozen under `.codex-workflow/visuals/pages/<page-name>/` and the page design freeze records that exact path. Do not approve decomposition when any visible element lacks ownership, any runtime-data visual is marked for bitmap export, or any background decoration or icon placement/state is missing from the coverage audit. Do not restore an icon, image, illustration, logo, texture, or other visual resource unless it has 100%-match evidence or a generated bitmap that has passed the asset-atlas flow. Do not restore high-fidelity Pencil visuals when required visual assets lack a separate-asset review verdict, reuse check, production decision, background handling, background transparentization when applicable, transparent post-processing when applicable, generation evidence when used, asset atlas, slicing manifest, inventory, and fidelity review. Do not approve a restoration or hand off an affected unit while a material visual uncertainty remains unresolved. Do not implement a Pencil-sourced screen until page-level high-fidelity approval, the Pencil high-fidelity restoration decision, required restoration evidence, asset evidence when required, and Flutter handoff constraints are written.
+Do not implement from raw Pencil screenshots. Do not create or write any project `.pen` file other than `docs/design/app-design.pen`, and do not concurrently dispatch two agents that can modify it. Do not accept a Pencil screen or state frame as workflow evidence unless its node dimensions are exactly `390 x 844 px`. Do not generate a page-level high-fidelity mockup until the wireframe level, reviewed semantic contract, and `docs/design/wireframe-spec.md` exist; require Pencil intake only for Full or when optional Pencil evidence is used. Do not let high-fidelity review demand geometry parity with low-fidelity evidence. Do not restore high-fidelity Pencil visuals unless the selected page-level effect image has been explicitly frozen under `.codex-workflow/visuals/pages/<page-name>/` and the page design freeze records that exact path. Do not approve decomposition when any visible element lacks ownership, any runtime-data visual is marked for bitmap export, or any background decoration or icon placement/state is missing from the coverage audit. Do not restore an icon, image, illustration, logo, texture, or other visual resource unless it has 100%-match evidence or a generated bitmap that has passed the asset-atlas flow. Do not restore high-fidelity Pencil visuals when required visual assets lack a separate-asset review verdict, reuse check, production decision, background handling, background transparentization when applicable, transparent post-processing when applicable, generation evidence when used, asset atlas, slicing manifest, inventory, and fidelity review. Do not approve a restoration or hand off an affected unit while a material visual uncertainty remains unresolved. Do not implement a Pencil-sourced screen until page-level high-fidelity approval, the Pencil high-fidelity restoration decision, required restoration evidence, asset evidence when required, and Flutter handoff constraints are written.
