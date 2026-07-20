@@ -173,19 +173,22 @@ For module or page-level UI work, store repeated design artifacts under a page o
 
 `docs/design/wireframe-review.md`
 
-- Low-fidelity Pencil evidence.
-- Navigation and hierarchy review.
+- Full, Lightweight, or Reuse level and reason.
+- Low-fidelity Pencil evidence for Full, optional evidence or `N/A` for Lightweight, and approved-pattern reference for Reuse.
+- Navigation and semantic-hierarchy review.
 - Missing states.
 - Ambiguities.
 - Required text-spec changes.
 
 `docs/design/wireframe-spec.md`
 
-- Text-only implementation spec derived from Pencil wireframes.
-- Screen structure.
+- Text semantic contract; Pencil is one possible source, not a mandatory source or visual blueprint.
+- Required content, information priority, and semantic grouping intent.
 - Navigation behavior.
 - Component roles.
 - State requirements.
+- Actions, outcomes, recovery paths, accessibility meaning, and data/UI/fixed-asset ownership.
+- Explicit high-fidelity recomposition freedom for geometry, containers, whitespace, component silhouettes, image ratios/crops, and decoration placement.
 - Constraints and non-goals.
 
 `docs/design/pencil-parity-review.md`

@@ -10,8 +10,8 @@ Use specialized subagents for delegable design production and review whenever su
 | Market analysis agent | Market context, competitor patterns, category conventions, differentiation opportunities, and evidence sources | `market-analysis.md` |
 | Global direction agent | Produce exactly three traceable visual-system definitions | Transient response or assigned draft only |
 | Global direction reviewer | Independently review direction traceability, differentiation, accessibility, implementation cost, and preset compliance | Review report only |
-| Page structure agent | Create low-fidelity Pencil structure and text specification | Assigned page Pencil/spec paths |
-| Wireframe reviewer | Independently review structure, states, interaction, and scope compliance | Review report only |
+| Page structure agent | Select Full, Lightweight, or Reuse and create the semantic contract; Pencil only for Full | Assigned page Pencil/spec paths |
+| Wireframe reviewer | Independently review level choice, semantic coverage, states, interaction, and scope compliance | Review report only |
 | Page high-fidelity agent | Generate exactly three page candidates from frozen inputs | Transient candidates only |
 | Effect Image Reviewer | Independently review completed mockups against product goals, Flutter feasibility, Apple HIG, and the active visual expression preset | Review report only |
 | Bitmap decomposition agent | Perform ownership classification, visual sweep, and coverage audit | Assigned restoration-analysis path |

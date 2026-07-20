@@ -21,7 +21,8 @@ Fill this transiently during module implementation before generating page images
 - First-value contribution:
 - Safe-to-try condition:
 - UX/UI decision to confirm:
-- Source wireframe spec:
+- Source wireframe level and semantic contract:
+- High-fidelity recomposition freedom: exact geometry, containers, whitespace, component silhouettes, image ratios/crops, text-image orientation, and decoration placement
 - Primary action:
 - Secondary actions:
 

@@ -1,4 +1,4 @@
 interface:
   display_name: "Flutter Pencil Design"
   short_description: "Turn Pencil designs into Flutter specs."
-  default_prompt: "Use $flutter-pencil-design with separate Page structure, Wireframe reviewer, Bitmap decomposition, and Pencil restoration subagents; keep every frame at 390 x 844 px and retain confirmation and freeze authority in the controller."
+  default_prompt: "Use $flutter-pencil-design with separate Page structure, Wireframe reviewer, Bitmap decomposition, and Pencil restoration subagents; choose Full, Lightweight, or Reuse, require Pencil only for Full, treat low fidelity as a semantic contract rather than a visual blueprint, and retain confirmation and freeze authority in the controller."

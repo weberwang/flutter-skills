@@ -72,12 +72,13 @@ Confirmed module scope: <path>
 Page task: <path>
 Global design freeze: <path>
 Required states: <list or path>
+Wireframe level standard: <path>
 Assigned Pencil/spec outputs: <paths>
 Write scope: <paths>
 
-Create the low-fidelity Pencil structure and matching text specification. Preserve scope, hierarchy, navigation, actions, states, safe areas, and data ownership. Do not introduce high-fidelity styling or new functions.
+Select Full, Lightweight, or Reuse and record the reason. Create the semantic contract for every level; create a 390 x 844 px Pencil wireframe only for Full. Preserve scope, required content, information priority, navigation, actions, outcomes, states, accessibility meaning, and data/UI/fixed-asset ownership. Do not freeze exact coordinates, spacing, containers, component silhouettes, image ratio/crop, secondary composition, or decoration placement. Do not introduce high-fidelity styling or new functions.
 
-Return: status, node/frame IDs, output paths, state coverage, unresolved facts, concerns.
+Return: status, selected level/reason, node/frame IDs or N/A, output paths, state coverage, unresolved facts, concerns.
 ```
 
 ## Wireframe Reviewer
@@ -89,8 +90,9 @@ Confirmed module scope: <path>
 Page task: <path>
 Wireframe evidence: <path or node IDs>
 Wireframe spec: <path>
+Wireframe level standard: <path>
 
-Review scope compliance, hierarchy, navigation, state coverage, interaction clarity, accessibility, and implementation ambiguity.
+Review the level choice, scope compliance, semantic hierarchy, navigation, state coverage, interaction outcomes, accessibility, ownership, and implementation ambiguity. Fail contracts that freeze non-essential geometry or visual composition. Do not judge layout polish or require high-fidelity geometry to match low-fidelity evidence.
 
 Return: status, verdict, Critical/Important/Minor findings, missing states, required fixes.
 ```
@@ -109,6 +111,8 @@ Image prompt principles: <path>
 
 Generate exactly three transient page candidates at the required dimensions. Keep planning evidence separate and send only a compact, structured prompt with the outcome, essential hierarchy/content, concise visual direction, true non-negotiables, and output rule. Remove duplicated constraints, contradictions, rationale, adjective stacks, exhaustive details, and long avoid lists; leave secondary composition and detail open. Keep scope, copy, data, state, and user task fixed. Do not persist repository artifacts, select a candidate, infer approval, or freeze a design.
 
+Treat the wireframe as a semantic contract, not a composition reference. Preserve functional meaning, content priority, required states, navigation, interactions, and outcomes, but freely recompose exact geometry, containers, whitespace, component silhouettes, image ratios/crops, text-image orientation, and decoration placement inside the frozen visual direction.
+
 Return: status, three candidate references/images, prompt mapping, dimensions, concerns.
 ```
 
@@ -122,7 +126,7 @@ Product/page sources: <paths>
 Wireframe spec: <path>
 Global design freeze and preset: <paths>
 
-Review task clarity, scope fidelity, Apple HIG interaction principles, accessibility, visual quality, signature strength, Flutter feasibility, and asset implications. Keep product-design issues separate from premium/signature improvements. Do not modify, rank, select, persist, or freeze candidates.
+Review task clarity, semantic-contract coverage, Apple HIG interaction principles, accessibility, visual quality, signature strength, Flutter feasibility, and asset implications. Do not score geometry similarity to low-fidelity evidence. Keep product-design issues separate from premium/signature improvements. Do not modify, rank, select, persist, or freeze candidates.
 
 Return: status, per-candidate verdict, findings, required changes, missing evidence.
 ```
@@ -212,7 +216,7 @@ Rules:
 - Read and follow the project-local `flutter-dev` skill before changing Flutter code.
 - Follow the business-flow level, module dependency order, cross-module contracts, and page interaction order from the module map. Do not start a later-level task until the task brief includes the prior-level advancement evidence.
 - Implement only functions and page behavior present in the confirmed module scope. If the brief conflicts with that scope or the module grilling confirmation is missing, return `NEEDS_CONTEXT` without guessing.
-- For UI page tasks, do not start page code unless the task brief includes reviewed low-fidelity Pencil structure, wireframe text spec, approved page mockup, global and page design-freeze constraints, 100%-match evidence for visual resources, required asset atlas evidence or `N/A` reason, Pencil high-fidelity restoration decision and reason, required restoration evidence, and Pencil Flutter handoff. An unmatched icon, image, illustration, logo, texture, or bitmap must have completed dedicated bitmap generation and fidelity review.
+- For UI page tasks, do not start page code unless the task brief includes a justified Full, Lightweight, or Reuse level, reviewed semantic contract, wireframe text spec, approved page mockup, global and page design-freeze constraints, 100%-match evidence for visual resources, required asset atlas evidence or `N/A` reason, Pencil high-fidelity restoration decision and reason, required restoration evidence, and Pencil Flutter handoff. Require low-fidelity Pencil evidence only for Full. An unmatched icon, image, illustration, logo, texture, or bitmap must have completed dedicated bitmap generation and fidelity review.
 - For UI page tasks, return `NEEDS_CONTEXT` if the module's Effect-Image Interrogation Gate is missing or blocked.
 - Add tests before or with behavior changes.
 - Run task-level static analysis and tests required by the brief. Do not perform or claim device, emulator, simulator, browser, or desktop runtime verification; that validation is deferred to final integration.

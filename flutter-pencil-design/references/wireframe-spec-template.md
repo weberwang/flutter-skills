@@ -1,24 +1,29 @@
 # Wireframe Text Spec Template
 
-Use this to convert reviewed low-fidelity Pencil wireframes into implementation-ready text.
+Use this to record the page's low-fidelity semantic and interaction contract. It is an input to high-fidelity exploration and implementation, not a visual blueprint.
 
 ## Source
 
-- Pencil evidence:
-- Pencil frame size: `390 x 844 px`
+- Wireframe level: Full / Lightweight / Reuse
+- Level reason:
+- Pencil evidence or `N/A`:
+- Pencil frame size: `390 x 844 px` / N/A
+- Reused approved pattern and page-specific deltas:
 - Wireframe review:
 - Related high-fidelity mockup:
 - Related design-freeze:
 
-## Screen Structure
+## Semantic Contract
 
 - Screen:
 - Route:
 - App shell:
-- Header:
-- Content regions:
-- Footer or persistent actions:
-- Scroll behavior:
+- User task:
+- Required content:
+- Information priority:
+- Semantic grouping intent:
+- Persistent actions:
+- Scroll or progressive-disclosure behavior:
 
 ## Navigation
 
@@ -35,14 +40,15 @@ Use this to convert reviewed low-fidelity Pencil wireframes into implementation-
 
 ## States
 
-| State | Layout behavior | Copy | Actions |
+| State | Semantic behavior | Copy | Actions and outcomes |
 |---|---|---|---|
 
 ## Constraints
 
 - Must follow:
-- Frame dimensions must remain `390 x 844 px` in Pencil evidence:
-- May adapt:
+- Pencil evidence dimensions must remain `390 x 844 px` when present:
+- High fidelity may recompose: exact geometry, containers, whitespace, component silhouettes, image ratio/crop, text-image orientation, and decoration placement
+- High fidelity must preserve: scope, required content, priority, tasks, states, navigation, interactions, outcomes, accessibility meaning, and ownership
 - Must not infer:
 - Depends on:
 

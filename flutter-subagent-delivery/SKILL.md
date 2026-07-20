@@ -15,7 +15,7 @@ Run design and implementation through controlled subagent loops. The controller 
 - Product/UX agent: drafts confirmed product, flow, state, and screen artifacts.
 - Market agent: produces market and category analysis.
 - Global direction agent and reviewer: produce and independently review three visual-system definitions.
-- Page structure agent and Wireframe reviewer: prepare and independently review low-fidelity structure and text specs.
+- Page structure agent and Wireframe reviewer: select Full, Lightweight, or Reuse, then prepare and independently review the page semantic contract; Pencil evidence is required only for Full.
 - Page high-fidelity agent and Effect Image Reviewer: generate and independently review page candidates without selecting or freezing them.
 - Bitmap decomposition agent: performs ownership classification, visual sweep, and coverage audit.
 - Asset planning agent: prepares reuse decisions and the pre-slicing confirmation table without producing assets.
@@ -46,7 +46,7 @@ Run design and implementation through controlled subagent loops. The controller 
 2. Read `docs/plans/module-map.md` and select the next eligible module from the first incomplete business-flow level. If this module has not completed its implementation-stage grilling gate, run it now and do not refine functions, pages, or task briefs until the user explicitly confirms shared understanding.
 3. After confirmation, append the module decision to `docs/product/grilling-log.md`, create `docs/plans/modules/<module-name>-scope.md`, and refine the confirmed module into its function inventory, page functions, states, contracts, acceptance path, and vertical-slice tasks.
 4. For a UI module, run the Module Effect-Image Interrogation Gate once. Confirm the visual outcome, effect-image page/state list, budgets, signatures, accepted implementation/asset cost, and scope consistency; record explicit shared understanding before any page effect generation.
-5. For a UI page task, dispatch the Page structure agent, then a separate Wireframe reviewer. The controller validates their outputs before advancing.
+5. For a UI page task, dispatch the Page structure agent to select the wireframe level and produce its semantic contract, then a separate Wireframe reviewer. Require Pencil evidence only for Full. The controller validates their outputs before advancing.
 6. Dispatch the Page high-fidelity agent to generate exactly three transient candidates, then a separate Effect Image Reviewer. The controller presents results, records the user's choice and change disposition, and alone persists and freezes the selected image.
 7. Dispatch the Bitmap decomposition agent. If assets are required, dispatch the Asset planning agent to prepare the complete pre-slicing table; the controller presents it and waits for explicit confirmation. Only then dispatch the Asset production agent for confirmed rows.
 8. When required, dispatch the Pencil restoration agent and validate its restoration and Flutter handoff evidence.

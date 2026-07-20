@@ -14,7 +14,7 @@ Review the image as a product artifact, not artwork.
 - Product Design ideation direction: 1 / 2 / 3
 - Product Design interactive prototype: N/A / path or URL
 - UX/UI confirmed: Yes / No
-- Page-level generated after Wireframe Review: Yes / No / Not applicable
+- Page-level generated after semantic-contract Wireframe Review: Yes / No
 - Decoded dimensions verified as `780 x 1688 px`: Yes / No
 - Reason:
 
@@ -30,6 +30,7 @@ Review the image as a product artifact, not artwork.
 - Reusable system decisions can be tokenized where appropriate, while deliberate hero moments and brand signatures may remain authored exceptions.
 - It has a recognizable product character and at least one purposeful compositional or visual signature beyond stock platform components when the active expression preset and page-type dial require it.
 - It covers required content and state.
+- It preserves the wireframe contract's functional meaning and information priority; it is not penalized for changing low-fidelity geometry, containers, whitespace, image composition, or decoration placement.
 - It avoids generic AI UI patterns: random gradients, meaningless glass cards, fake charts, filler avatars, decorative labels.
 - Decorations, material, texture, shadow, custom illustration, and motion serve hierarchy, feedback, storytelling, or the documented product character, and stay within the page's expression budget. Do not penalize expressive treatment merely for being non-standard or insufficiently restrained.
 - It respects platform constraints, safe areas, touch targets, and text scaling.

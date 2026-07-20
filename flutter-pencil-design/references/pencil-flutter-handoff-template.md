@@ -1,11 +1,12 @@
 # Pencil to Flutter Handoff Template
 
-Use this to translate reviewed low-fidelity Pencil wireframes and approved high-fidelity Pencil restoration into Flutter implementation constraints. Do not use raw Pencil screenshots as the implementation spec.
+Use this to translate a reviewed low-fidelity semantic contract and any approved high-fidelity Pencil restoration into Flutter implementation constraints. Pencil evidence is required only for Full wireframes. Do not use raw Pencil screenshots as the implementation spec.
 
 ## Source Evidence
 
 - Pencil screenshot:
 - Layout snapshot:
+- Wireframe level and reason:
 - Wireframe review:
 - Wireframe text spec:
 - Pencil high-fidelity restoration:
@@ -16,7 +17,7 @@ Use this to translate reviewed low-fidelity Pencil wireframes and approved high-
 
 ## Layout
 
-- Pencil frame size: `390 x 844 px`
+- Pencil frame size: `390 x 844 px` / N/A
 - Safe area:
 - Scaffold structure:
 - App bar:

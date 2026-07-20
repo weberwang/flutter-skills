@@ -27,6 +27,8 @@ Create `.codex-workflow/progress.md` in the target app repo.
   - Module Effect-Image Interrogation Gate:
   - Page structure agent report:
   - Page/state:
+  - Wireframe level:
+  - Wireframe level reason:
   - Low-fidelity Pencil:
   - Wireframe reviewer report:
   - Wireframe review:
@@ -93,6 +95,7 @@ Create `.codex-workflow/progress.md` in the target app repo.
 - Do not mark a business-flow level complete until all of its required tasks, acceptance paths, and cross-module contracts have passed or are explicitly accepted; record the advancement verdict before dispatching any later-level task.
 - Record device, emulator, simulator, browser, and desktop runtime validation in a final-integration section only after all task entries and required high-fidelity restoration are complete; task-level screenshots and goldens are not platform-verification records.
 - For UI page tasks, update each page design gate field before dispatching implementation.
+- Record Full, Lightweight, or Reuse for every UI page. Full requires `390 x 844 px` Pencil evidence; Lightweight records optional Pencil evidence or `N/A`; Reuse records the approved pattern and page-specific delta contract.
 - When subagent tools are available, record the assigned design role, report, write scope, and status for every delegable design stage. If unavailable, record the controller-session downgrade explicitly.
 - Record the pre-slicing confirmation table version and explicit user decision before dispatching the Asset production agent. Reconfirm and update affected rows after material changes.
 - Before creating the first task for a module, record its implementation-stage grilling entry, explicit shared-understanding confirmation, confirmed module scope, and completed function/page refinement. A prior global grilling pass is not a substitute.

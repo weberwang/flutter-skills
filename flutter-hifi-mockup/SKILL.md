@@ -20,14 +20,14 @@ When used inside the full workflow, dispatch a Page high-fidelity agent to gener
 - Module Effect-Image Interrogation Gate record.
 - Product brief, MVP scope, user flow, and screen spec.
 - Global design freeze.
-- Reviewed low-fidelity Pencil structure and `docs/design/wireframe-spec.md`.
+- Reviewed Full, Lightweight, or Reuse semantic contract and `docs/design/wireframe-spec.md`; Pencil evidence is required only for Full.
 - Target device and required page state.
 - First-value, trust, permission, payment, privacy, and recovery constraints when applicable.
 
 ## Workflow
 
 1. Confirm the module-level functional grilling, function/page refinement, and Module Effect-Image Interrogation Gate are complete. Do not repeat the visual interrogation for every page unless a new conflict or decision appears.
-2. Confirm the current page's low-fidelity Pencil structure passed Wireframe Review and `docs/design/wireframe-spec.md` exists.
+2. Confirm the page's justified wireframe level and semantic contract passed Wireframe Review and `docs/design/wireframe-spec.md` exists. Require Pencil evidence only for Full.
 3. Draft the page mockup brief with [references/mockup-brief-template.md](references/mockup-brief-template.md), including the global direction, expression preset, page-type budget dial, required state, and module effect-image decisions. Keep the brief, prompt, candidates, and review transient. Treat the brief as planning evidence, not generation prose.
 4. Prepare the page prompt from the orchestrator's page high-fidelity prompt template and [references/image-prompt-principles.md](references/image-prompt-principles.md). Keep full traceability in the planning artifact, then reduce the actual generation prompt to one clear outcome, essential structure/content, a concise visual direction, true non-negotiables, and output requirements. Do not paste PRD mappings, rationale, exhaustive component details, or repeated avoid lists into the image model.
 5. Run `@product-design user-context`, `@product-design get-context`, and `@product-design ideate` to generate exactly three page-level effect-image candidates for the same page, state, content, and device.
@@ -52,7 +52,8 @@ When used inside the full workflow, dispatch a Page high-fidelity agent to gener
 - Generate each effect image at exactly `780 x 1688 px` and verify decoded dimensions.
 - Use the shortest prompt that preserves task, state, signature, critical content, trust/accessibility boundaries, and output requirements. Guide secondary composition and detail instead of prescribing them.
 - Reject a prompt with duplicated constraints, contradictory directions, adjective stacks, unrelated style references, or planning rationale. Keep only material negative constraints.
-- Generate page effects only during module delivery, after module visual interrogation and Wireframe Review.
+- Generate page effects only during module delivery, after module visual interrogation and semantic-contract Wireframe Review.
+- Treat the wireframe as a functional contract, not a composition reference. Preserve scope, content priority, task, states, navigation, interactions, outcomes, accessibility meaning, and ownership, while freely recomposing exact geometry, containers, whitespace, component silhouettes, image ratios/crops, text-image orientation, and decoration placement inside the frozen visual direction.
 - Keep the page, state, content, data, and device identical across all three candidates.
 - Follow the global design freeze without treating it as a page layout or page approval.
 - Use realistic content and do not invent features, states, claims, or visual exceptions.
@@ -62,4 +63,4 @@ When used inside the full workflow, dispatch a Page high-fidelity agent to gener
 
 ## Gate
 
-Do not generate any effect image during global visual direction positioning. Do not generate a module page effect image before the module-level functional grilling, function/page refinement, Module Effect-Image Interrogation Gate, low-fidelity Pencil structure, Wireframe Review, and wireframe text spec are complete. Do not send the planning worksheet, source mapping, rationale, exhaustive detail list, or repeated negative constraints to the image model; block prompts with contradictions or no meaningful creative space. Do not write a candidate, prompt, brief, review, freeze, or ledger visual entry before explicit page freeze confirmation. Do not approve a page image without one combined review, exact `780 x 1688 px` dimensions, global-direction alignment, required signature verdict, and the user's explicit decision on proposed changes. Do not begin asset work, Pencil restoration, or Flutter page implementation until the selected page image and design freeze exist. Do not approve decomposition while a runtime-data visual is marked for bitmap export, a visible element lacks ownership, or a background decoration or icon placement/state is absent from the coverage audit.
+Do not generate any effect image during global visual direction positioning. Do not generate a module page effect image before the module-level functional grilling, function/page refinement, Module Effect-Image Interrogation Gate, justified wireframe level, Wireframe Review, and wireframe semantic contract are complete. Do not require low-fidelity geometry parity or let Pencil evidence become a composition blueprint. Do not send the planning worksheet, source mapping, rationale, exhaustive detail list, or repeated negative constraints to the image model; block prompts with contradictions or no meaningful creative space. Do not write a candidate, prompt, brief, review, freeze, or ledger visual entry before explicit page freeze confirmation. Do not approve a page image without one combined review, exact `780 x 1688 px` dimensions, global-direction alignment, required signature verdict, and the user's explicit decision on proposed changes. Do not begin asset work, Pencil restoration, or Flutter page implementation until the selected page image and design freeze exist. Do not approve decomposition while a runtime-data visual is marked for bitmap export, a visible element lacks ownership, or a background decoration or icon placement/state is absent from the coverage audit.

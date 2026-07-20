@@ -1,4 +1,4 @@
 interface:
   display_name: "Flutter App Orchestrator"
   short_description: "Coordinate commercial Flutter app delivery."
-  default_prompt: "Use $flutter-app-orchestrator to delegate UX, visual direction, wireframes, high-fidelity pages, bitmap decomposition, asset planning/production, Pencil restoration, implementation, and independent review to specialized subagents while keeping user decisions, confirmations, freezes, and integration in the controller."
+  default_prompt: "Use $flutter-app-orchestrator to delegate UX, visual direction, tiered semantic wireframes, high-fidelity pages, bitmap decomposition, asset planning/production, Pencil restoration, implementation, and independent review to specialized subagents while keeping user decisions, confirmations, freezes, and integration in the controller."

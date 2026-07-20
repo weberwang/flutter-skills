@@ -5,7 +5,7 @@ Review Flutter evidence against the wireframe text spec. Use Pencil evidence onl
 ## Inputs
 
 - Pencil screenshot or layout snapshot:
-- Pencil frame dimensions verified as `390 x 844 px`: Yes / No
+- Pencil frame dimensions verified as `390 x 844 px`: Yes / No / N/A
 - Wireframe text spec:
 - Flutter screenshot or golden:
 - Handoff document:
@@ -19,9 +19,9 @@ Review Flutter evidence against the wireframe text spec. Use Pencil evidence onl
 
 ## Checks
 
-- Layout regions match the reviewed wireframe text spec.
-- The reviewed Pencil screen or state frame is exactly `390 x 844 px`.
-- Primary action, navigation, and hierarchy match.
+- Functional scope, required content, priority, states, navigation, interactions, and outcomes match the reviewed wireframe contract.
+- When Pencil evidence exists, the reviewed screen or state frame is exactly `390 x 844 px`; otherwise the selected level permits `N/A`.
+- Primary action, navigation, and semantic hierarchy match; geometry need not match low-fidelity evidence.
 - Typography roles and text density are close enough for platform constraints.
 - Color roles and contrast match the handoff.
 - Spacing, radius, and surface treatment match the handoff.

@@ -12,7 +12,7 @@ Use this during the page design gate after Wireframe Review when Pencil must car
 - Design-freeze:
 - Wireframe text spec:
 - Visual source of truth: selected high-fidelity mockup and page design freeze
-- Wireframe scope: page structure, states, and interactions only
+- Wireframe scope: required content, priority, tasks, states, navigation, interactions, outcomes, accessibility meaning, and ownership only; no final geometry or composition
 - Module or page task:
 - Asset inventory:
 - Target Pencil frame or node IDs:

@@ -23,8 +23,8 @@ No subagent may select its own proposal, infer user approval, freeze a design, b
 | Market agent | Produce market and category analysis | `market-analysis.md` | Select a visual direction |
 | Global direction agent | Produce exactly three traceable visual-system definitions | Transient response or assigned draft | Generate page images or freeze a direction |
 | Global direction reviewer | Independently check traceability, differentiation, accessibility, cost, and preset compliance | Review report only | Redesign or select |
-| Page structure agent | Create low-fidelity Pencil structure and text specification | Assigned page-scoped Pencil/spec paths | Add scope or high-fidelity styling |
-| Wireframe reviewer | Independently review structure, state coverage, and interaction | Review report only | Modify the wireframe |
+| Page structure agent | Select Full, Lightweight, or Reuse and create the semantic contract; create Pencil evidence only for Full | Assigned page-scoped Pencil/spec paths | Add scope, freeze visual geometry, or add high-fidelity styling |
+| Wireframe reviewer | Independently review level choice, semantic coverage, states, and interaction | Review report only | Modify the contract or judge low-fidelity visual polish |
 | Page high-fidelity agent | Generate required candidates with the compact image-prompt principles | Transient candidates only | Paste planning evidence into prompts; persist, select, or freeze candidates |
 | Effect Image Reviewer | Independently review completed candidates | Review report only | Modify or select a candidate |
 | Bitmap decomposition agent | Perform ownership classification, visual sweep, and coverage audit | Assigned restoration-analysis path | Generate or cut assets |

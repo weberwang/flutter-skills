@@ -1,4 +1,4 @@
 interface:
   display_name: "Flutter Subagent Delivery"
   short_description: "Run Flutter design and implementation through subagents."
-  default_prompt: "Use $flutter-subagent-delivery to orchestrate specialized subagents for UX, visual direction, wireframes, high-fidelity pages, bitmap decomposition, confirmed asset production, Pencil restoration, Flutter implementation, and independent review while retaining user confirmations and freezes in the controller."
+  default_prompt: "Use $flutter-subagent-delivery to orchestrate specialized subagents for UX, visual direction, tiered semantic wireframes, high-fidelity pages, bitmap decomposition, confirmed asset production, Pencil restoration, Flutter implementation, and independent review while retaining user confirmations and freezes in the controller."
