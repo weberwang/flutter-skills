@@ -1,6 +1,6 @@
 # Progress Ledger
 
-Create `.codex-workflow/progress.md` in the target app repo.
+Create `.codex-workflow/progress.md` in the target app repo. This is a Controller-only dashboard; use `.codex-workflow/tasks/<task-id>.yaml` for mutable task state.
 
 ## Format
 
@@ -33,6 +33,10 @@ Create `.codex-workflow/progress.md` in the target app repo.
 ## Tasks
 
 - [ ] T01: task name
+  - Task state: `.codex-workflow/tasks/T01.yaml`
+  - Task owner / lease:
+  - Integration base commit / task branch:
+  - Worktree:
   - Task profile:
   - Current Gate:
   - DRI role:
@@ -107,14 +111,14 @@ Create `.codex-workflow/progress.md` in the target app repo.
   - Pencil restoration agent report:
   - Pencil Flutter handoff:
   - Flutter evidence:
-  - Runtime platform validation: Deferred to final integration
+  - Runtime platform validation: Final platform matrix; level smoke runs after integration-branch merge
   - Module acceptance result:
   - Integration smoke result:
-  - Implementer report:
-  - Review:
-  - Visual QA agent report:
+  - Implementer report: `docs/tasks/T01/implementer-report.md`
+  - Review: `docs/tasks/T01/review.md`
+  - Visual QA agent report: `docs/tasks/T01/visual-qa.md` or `N/A: non-UI task`
   - Verification:
-  - Evidence:
+  - Evidence manifest: `docs/tasks/T01/evidence/manifest.md`
   - Commit/diff:
 
 ## Assignments and Reports
@@ -134,7 +138,8 @@ Create `.codex-workflow/progress.md` in the target app repo.
 
 ## Rules
 
-- Update the ledger after each completed task.
+- Only the Controller updates the ledger and task-state files. Agents write their reports to the assigned task directory and never claim or complete work by editing the ledger.
+- Record the task claim before dispatching work, not only after completion. A claimed task must have an owner, lease, base commit, branch, worktree, and non-overlapping write scope.
 - Record team activation before dispatching the first task. Every omitted core role requires `N/A: <reason>`; do not dispatch ceremonial roles.
 - Record one DRI and one independent acceptance owner for every task. Producer and reviewer agent IDs must differ, including product, architecture, design, asset, Pencil, code, quality, and release work.
 - Record immutable commit/diff identifiers and artifact or evidence versions for every review. Any producer or fixer change marks the previous verdict `STALE` and requires re-review.
@@ -142,7 +147,7 @@ Create `.codex-workflow/progress.md` in the target app repo.
 - Do not advance a Gate when `DONE_WITH_CONCERNS` contains a Critical or Important finding, when mandatory evidence is missing, or when the current review is stale.
 - The Controller records Gate state and validates completeness but must not impersonate a missing Product Manager, UX/UI Lead, Tech Lead, QA Engineer, or DevOps/Release verdict.
 - Do not mark a business-flow level complete until all of its required tasks, acceptance paths, and cross-module contracts have passed or are explicitly accepted; record the advancement verdict before dispatching any later-level task.
-- Record device, emulator, simulator, browser, and desktop runtime validation in a final-integration section only after all task entries and required high-fidelity restoration are complete; task-level screenshots and goldens are not platform-verification records.
+- Run the planned integration smoke after each business-flow level merges to the integration branch, without marking a platform verified. Record device, emulator, simulator, browser, and desktop runtime validation in a final-integration section only after all task entries and required high-fidelity restoration are complete; task-level screenshots and goldens are not platform-verification records.
 - For UI page tasks, update each page design gate field before dispatching implementation.
 - Keep the canonical Pencil file field fixed to `docs/design/app-design.pen`, record stable section/node IDs, and block Pencil work when another project `.pen` file or active Pencil writer exists.
 - Record Full, Lightweight, or Reuse for every UI page. Full requires `390 x 844 px` Pencil evidence; Lightweight records optional Pencil evidence or `N/A`; Reuse records the approved pattern and page-specific delta contract.
@@ -152,6 +157,6 @@ Create `.codex-workflow/progress.md` in the target app repo.
 - Keep page effect-image candidates, prompts, briefs, and review output transient until the user explicitly confirms a freeze. At freeze, write the exact selected image first under `.codex-workflow/visuals/pages/<page-name>/`; only then write related artifacts and ledger fields. Never create a global frozen effect image.
 - For required visual assets, update reuse check, production decision, bitmap source policy, 100%-match evidence, background handling, background transparentization when applicable, transparent post-processing when applicable, generation evidence when used, atlas, slicing manifest, inventory, and fidelity review before Pencil high-fidelity restoration or implementation. An unmatched icon, image, illustration, logo, texture, or bitmap must record the dedicated bitmap-generation path.
 - For fields that do not apply, write `N/A: <reason>` instead of leaving them blank.
-- Do not re-dispatch completed tasks after context compaction.
+- Do not re-dispatch accepted tasks after context compaction. Resume from the Controller-owned task-state file and verify the branch commit still exists.
 - Record failed commands honestly.
 - Record missing screenshots as missing evidence, not as pass.

@@ -9,7 +9,9 @@ Replace every placeholder before dispatching this brief to its routed App team r
 - Milestone:
 - Business-flow level:
 - Required prior-level evidence:
-- Runtime platform validation: Deferred to final integration
+- Task state: `.codex-workflow/tasks/<task-id>.yaml`
+- Base commit / task branch / worktree:
+- Runtime platform validation: Final platform matrix; level integration smoke is scheduled after merge
 - Module grilling log entry:
 - Module shared-understanding confirmation:
 - Confirmed module scope: `docs/plans/modules/<module-name>-scope.md`
@@ -30,6 +32,8 @@ Replace every placeholder before dispatching this brief to its routed App team r
 - Role routing source: `flutter-app-orchestrator/references/subagent-map.md`
 - Accepted upstream evidence/version:
 - Shared-resource locks:
+- Evidence manifest: `docs/tasks/<task-id>/evidence/manifest.md`
+- Report directory: `docs/tasks/<task-id>/`
 - Execution mode: serial / parallel-safe
 - Review snapshot requirement: commit/diff ID plus artifact and evidence versions
 
@@ -155,7 +159,7 @@ If yes:
 - Golden test:
 - Screenshot path:
 - Mockup source:
-- Runtime platform validation: Deferred to final integration; screenshot/golden is design evidence only
+- Runtime platform validation: Final platform matrix; screenshot/golden is design evidence only and level smoke runs only after integration-branch merge
 - Global design freeze:
 - Required assets:
 - Asset atlas:
@@ -187,6 +191,7 @@ Return:
 - Screenshots or golden evidence.
 - Module acceptance result.
 - Integration smoke result.
+- Task branch commit SHA.
 - Concerns.
 - Gate verdict.
 - Missing evidence.

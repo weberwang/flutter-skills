@@ -27,7 +27,7 @@ When used inside `flutter-app-orchestrator`, dispatch Product/UX, Global directi
 10. After required asset atlas evidence exists, use `flutter-pencil-design` for high-fidelity Pencil restoration when editable visual handoff is required.
 11. Implement the screen against the UI brief, `docs/design/design-freeze.md`, `docs/design/wireframe-spec.md`, `docs/design/pencil-hifi-restoration.md`, and asset atlas evidence when present.
 12. Capture evidence using screenshots, golden tests, or integration screenshots.
-13. Review evidence with [references/visual-qa-rubric.md](references/visual-qa-rubric.md), then run `@product-design audit` for user-facing flows.
+13. Review evidence with [references/visual-qa-rubric.md](references/visual-qa-rubric.md), then run an independent visual-QA review for user-facing flows.
 14. Fix Critical and Important issues, then repeat evidence capture and audit when the UI flow changed.
 
 ## Flutter UI Standards
