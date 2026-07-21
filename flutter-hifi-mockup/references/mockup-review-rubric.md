@@ -11,8 +11,8 @@ Review the image as a product artifact, not artwork.
 - Signature moment present when required: Yes / No / N/A
 - Select / Reject / Needs iteration:
 - Selected direction:
-- Product Design ideation direction: 1 / 2 / 3
-- Product Design interactive prototype: N/A / path or URL
+- Visual direction: 1 / 2 / 3
+- Review-only interactive prototype: N/A / path or URL
 - UX/UI confirmed: Yes / No
 - Page-level generated after semantic-contract Wireframe Review: Yes / No
 - Decoded dimensions verified as `780 x 1688 px`: Yes / No
@@ -36,14 +36,14 @@ Review the image as a product artifact, not artwork.
 - It respects platform constraints, safe areas, touch targets, and text scaling.
 - It does not imply features outside MVP scope.
 - The generated file decodes to exactly `780 x 1688 px`.
-- Required illustrations, photos, logos, textures, screenshots, and generated bitmaps are identified for `docs/design/asset-inventory.md`.
+- Required illustrations, photos, logos, textures, screenshots, and generated bitmaps are identified for the page-scoped asset inventory.
 
 ## Findings
 
 | Severity | Finding | Required change |
 |---|---|---|
 
-## Product Design Issues
+## 产品体验问题
 
 | Apple HIG principle or interaction concern | Severity | Evidence | Required change |
 |---|---|---|---|

@@ -1,0 +1,22 @@
+# 仅 Controller 可修改；其他代理只读取此文件。
+id: T01
+state: planned # planned | claimed | implementing | reviewing | accepted | blocked
+owner: ""
+lease:
+  holder: ""
+  issued_at: ""
+  expires_at: ""
+base_commit: ""
+branch: codex/T01
+worktree: ""
+write_scope: []
+inputs: []
+reports:
+  implementer: docs/tasks/T01/implementer-report.md
+  review: docs/tasks/T01/review.md
+  visual_qa: docs/tasks/T01/visual-qa.md
+  evidence_manifest: docs/tasks/T01/evidence/manifest.md
+integration:
+  merged_commit: ""
+  level_smoke: pending
+blocker: ""

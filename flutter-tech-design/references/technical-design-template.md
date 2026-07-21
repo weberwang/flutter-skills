@@ -75,7 +75,8 @@
 - Widget:
 - Golden:
 - Integration:
-- Runtime platform validation timing: final integration only, after all module/page functionality and high-fidelity restoration are complete
+- Level integration smoke target and command:
+- Runtime platform validation timing: final platform matrix only, after all module/page functionality and high-fidelity restoration are complete
 - Manual release checks:
 
 ## Verification Commands

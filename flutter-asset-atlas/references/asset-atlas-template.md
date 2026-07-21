@@ -39,7 +39,7 @@ Carry forward every bitmap unit from `pencil-hifi-restoration.md`; `N/A: native 
 
 ## Production Decision
 
-Use this order before generating new images: reuse existing, adapt existing, generate variant from existing source, generate new single asset with product-design or image generation tools, generate atlas/contact sheet, export from an approved Pencil asset node, extract from approved mockup with explicit approval.
+Use this order before generating new images: reuse existing, adapt existing, generate variant from existing source, generate a new single asset with the available image-generation capability, generate atlas/contact sheet, export from an approved Pencil asset node, extract from an approved mockup with explicit approval.
 
 | Asset ID | Decision | Source tool or origin | Why new or changed | Global freeze constraints | Page freeze constraints | Background handling |
 |---|---|---|---|---|---|---|
@@ -60,7 +60,7 @@ Any material row change invalidates confirmation for that row. Present the revis
 
 ## Bitmap Source Policy
 
-| Asset ID | Default source | Product-design or imagegen evidence | Pencil export allowed | Pencil export reason | Mockup extraction approval |
+| Asset ID | Default source | Image-generation evidence | Pencil export allowed | Pencil export reason | Mockup extraction approval |
 |---|---|---|---|---|---|
 
 ## Background Handling
@@ -111,7 +111,7 @@ For generated assets, keep source traceability outside the model prompt. Build t
 - The complete pre-slicing table was shown inline and explicitly confirmed; its version, decision, and confirmation time are recorded.
 - Every produced, extracted, exported, transparentized, or sliced asset matches a currently confirmed row.
 - New generation references global and page design-freeze constraints.
-- New bitmap generation uses product-design or image generation tools by default; Pencil export is allowed only for approved production asset nodes.
+- New bitmap generation uses the available image-generation capability by default; Pencil export is allowed only for approved production asset nodes.
 - Every newly generated concrete bitmap records its logical display size and passes the exact `2x` decoded-dimension check; only full-screen bitmaps use `780 x 1688 px`.
 - Every generated or exported asset has a background handling decision before generation.
 - Assets that require transparency but arrive with a non-transparent background have a completed Background Transparentization Work Node.
