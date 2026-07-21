@@ -35,8 +35,8 @@ Before any Pencil read, design, screenshot, export, or HTML action, call `get_ed
 1. Confirm `docs/architecture/flutter-init.md` and the project-local `flutter-dev` path exist.
 2. Confirm the current module or page task brief exists.
 3. For low-fidelity structure, confirm the page or state being structured comes from `docs/plans/module-map.md`.
-4. If the high-fidelity restoration track is needed, confirm Wireframe Review, `docs/design/wireframe-spec.md`, an approved frozen high-fidelity mockup under `.codex-workflow/visuals/pages/<page-name>/`, and `docs/design/design-freeze.md` exist; verify that its candidate ID, SHA-256, and confirmation time match the freeze record.
-5. If the approved mockup has required visual assets, confirm `docs/design/asset-atlas.md`, `docs/design/asset-slicing-manifest.md`, `docs/design/asset-inventory.md`, and `docs/design/asset-fidelity-review.md` exist before restoring high-fidelity visuals. Required generated assets must cite global and page design-freeze constraints.
+4. If the high-fidelity restoration track is needed, confirm Wireframe Review, `docs/design/pages/<page-name>/wireframe-spec.md`, an approved frozen high-fidelity mockup under `.codex-workflow/visuals/pages/<page-name>/`, and `docs/design/pages/<page-name>/design-freeze.md` exist; verify that its candidate ID, SHA-256, and confirmation time match the freeze record.
+5. If the approved mockup has required visual assets, confirm the page-scoped `asset-atlas.md`, `asset-slicing-manifest.md`, `asset-inventory.md`, and `asset-fidelity-review.md` exist before restoring high-fidelity visuals. Required generated assets must cite global and page design-freeze constraints.
 6. Read current Pencil context through Pencil tools.
 7. Verify every target screen or state frame is exactly `390 x 844 px`, then capture screenshots or layout snapshots.
 8. Fill [references/pencil-intake-template.md](references/pencil-intake-template.md).
@@ -59,21 +59,18 @@ Mark Pencil high-fidelity restoration as Required when any condition applies:
 - Visual parity is explicitly requested by the user or recorded as a release acceptance criterion.
 - Flutter implementation would otherwise rely on raw mockup interpretation instead of text handoff constraints.
 
-Mark it Not required only when the page is simple, standard, low-risk, and `docs/design/design-freeze.md` plus `docs/design/pencil-flutter-handoff.md` are sufficient for implementation. Record the decision and reason in the task brief and progress ledger.
+Mark it Not required only when the page is simple, standard, low-risk, and its page-scoped `design-freeze.md` plus `pencil-flutter-handoff.md` are sufficient for implementation. Record the decision and reason in the task brief and evidence manifest.
 
 ## Output Files
 
-- `docs/design/pencil-intake.md`
-- `docs/design/pencil-flutter-handoff.md`
-- `docs/design/pencil-hifi-restoration.md` when Pencil restores approved high-fidelity visuals
-- `docs/design/wireframe-review.md`
-- `docs/design/wireframe-spec.md`
-- `docs/design/pencil-parity-review.md`
-- `docs/design/asset-atlas.md` when required visual assets exist
-- `docs/design/asset-slicing-manifest.md` when required visual assets exist
-- `docs/design/asset-fidelity-review.md` when required visual assets exist
-- `docs/design/asset-inventory.md` when Pencil includes required visual assets
-- exported screenshots, layout snapshots, or node assets recorded in `.codex-workflow/progress.md`
+- `docs/design/pages/<page-name>/pencil-intake.md`
+- `docs/design/pages/<page-name>/pencil-flutter-handoff.md`
+- `docs/design/pages/<page-name>/pencil-hifi-restoration.md` when Pencil restores approved high-fidelity visuals
+- `docs/design/pages/<page-name>/wireframe-review.md`
+- `docs/design/pages/<page-name>/wireframe-spec.md`
+- `docs/design/pages/<page-name>/pencil-parity-review.md`
+- `docs/design/pages/<page-name>/asset-atlas.md`, `asset-slicing-manifest.md`, `asset-fidelity-review.md`, and `asset-inventory.md` when required visual assets exist
+- exported screenshots, layout snapshots, or node assets recorded in `docs/tasks/<task-id>/evidence/manifest.md`
 
 For multiple pages, use page-scoped paths such as `docs/design/pages/<page-name>/pencil-hifi-restoration.md` and keep the same contracts.
 
@@ -82,12 +79,12 @@ For multiple pages, use page-scoped paths such as `docs/design/pages/<page-name>
 - Treat Pencil as editable design evidence, not implementation code.
 - Keep every Pencil screen or state frame at exactly `390 x 844 px`; do not use a differently sized frame as reviewed design evidence.
 - Use Pencil low-fidelity wireframes first for structure, navigation, state coverage, and layout intent before page-level high-fidelity effect images are generated.
-- Use Pencil high-fidelity restoration only for a concrete module or page after that page high-fidelity mockup is approved and converted into `docs/design/design-freeze.md`.
+- Use Pencil high-fidelity restoration only for a concrete module or page after that page high-fidelity mockup is approved and converted into its page-scoped `design-freeze.md`.
 - Treat the selected page-level mockup and page design freeze as the visual source of truth for high-fidelity restoration. Use the wireframe only for page scope, structure, states, and interactions; record and resolve any conflict instead of allowing it to change the approved visual target.
 - After decomposing the selected mockup, review every icon, image, illustration, logo, texture, and bitmap unit before restoration. A resource may reuse an existing source or native Flutter only with recorded 100%-match evidence; otherwise separate bitmap generation and asset-atlas review are mandatory. Never use a near-match system icon, Flutter component, existing asset, or full-page mockup crop as a substitute.
 - Do not silently skip high-fidelity restoration; record Required or Not required with a reason.
 - Convert Pencil evidence into text specs before it reaches implementation agents.
-- Use `docs/design/design-freeze.md` as the source of truth for visual constraints; use `docs/design/pencil-hifi-restoration.md` to record how Pencil carries those constraints.
+- Use the page-scoped `design-freeze.md` as the source of truth for visual constraints; use page-scoped `pencil-hifi-restoration.md` to record how Pencil carries those constraints.
 - Restore data as editable text and representative placeholder values, never as generated or extracted bitmap assets. Keep the visual treatment of a data field in its containing UI specification.
 - Record image assets through `flutter-asset-atlas`; Pencil docs should reference reuse, generation, slicing, license, Flutter path, and fidelity evidence rather than inventing those details.
 - Export bitmap assets from Pencil only when the node is recorded in `flutter-asset-atlas` as an approved production asset source. Do not export whole-page Pencil screenshots as production bitmaps by default.
@@ -97,4 +94,4 @@ For multiple pages, use page-scoped paths such as `docs/design/pages/<page-name>
 
 ## Gate
 
-Do not implement from raw Pencil screenshots. Do not accept a Pencil screen or state frame as workflow evidence unless its node dimensions are exactly `390 x 844 px`. Do not generate a page-level high-fidelity mockup until Pencil intake, Wireframe Review, and `docs/design/wireframe-spec.md` exist. Do not restore high-fidelity Pencil visuals unless the selected page-level effect image has been explicitly frozen under `.codex-workflow/visuals/pages/<page-name>/` and the page design freeze records that exact path. Do not restore an icon, image, illustration, logo, texture, or other visual resource unless it has 100%-match evidence or a generated bitmap that has passed the asset-atlas flow. Do not restore high-fidelity Pencil visuals when required visual assets lack a separate-asset review verdict, reuse check, production decision, background handling, background transparentization when applicable, transparent post-processing when applicable, generation evidence when used, asset atlas, slicing manifest, inventory, and fidelity review. Do not approve a restoration or hand off an affected unit while a material visual uncertainty remains unresolved. Do not implement a Pencil-sourced screen until page-level high-fidelity approval, the Pencil high-fidelity restoration decision, required restoration evidence, asset evidence when required, and Flutter handoff constraints are written.
+Do not implement from raw Pencil screenshots. Do not accept a Pencil screen or state frame as workflow evidence unless its node dimensions are exactly `390 x 844 px`. Do not generate a page-level high-fidelity mockup until Pencil intake, Wireframe Review, and `docs/design/pages/<page-name>/wireframe-spec.md` exist. Do not restore high-fidelity Pencil visuals unless the selected page-level effect image has been explicitly frozen under `.codex-workflow/visuals/pages/<page-name>/` and the page design freeze records that exact path. Do not restore an icon, image, illustration, logo, texture, or other visual resource unless it has 100%-match evidence or a generated bitmap that has passed the asset-atlas flow. Do not restore high-fidelity Pencil visuals when required visual assets lack a separate-asset review verdict, reuse check, production decision, background handling, background transparentization when applicable, transparent post-processing when applicable, generation evidence when used, asset atlas, slicing manifest, inventory, and fidelity review. Do not approve a restoration or hand off an affected unit while a material visual uncertainty remains unresolved. Do not implement a Pencil-sourced screen until page-level high-fidelity approval, the Pencil high-fidelity restoration decision, required restoration evidence, asset evidence when required, and Flutter handoff constraints are written.

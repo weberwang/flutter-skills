@@ -13,17 +13,17 @@ Use this skill to stop low-quality UI from shipping. Text specs are drafts until
 
 1. Write a global UI brief with [references/ui-brief-template.md](references/ui-brief-template.md) covering navigation, screen inventory, state coverage, cross-module page flows, first-value delivery, trust, safe-to-try conditions, and the active visual expression preset from [references/visual-expression-presets.md](references/visual-expression-presets.md).
 2. Select or define the Flutter design system using [references/flutter-design-system.md](references/flutter-design-system.md).
-3. Confirm the product brief already recorded a derived expression preset and completed the one-time light visual interrogation with grilling-log answers and product-brief mirror before exploration. Run `@product-design user-context` preflight, then use `@product-design get-context` to confirm the design target and intended user outcome. Use `@product-design ideate` to generate exactly three global visual directions that satisfy the preset’s required direction mix, and record the selected direction, Global Freeze Signature Rule confirmation or N/A reason, plus any pin / raise / loosen override.
+3. Confirm the product brief already recorded a derived expression preset and completed the one-time light visual interrogation with grilling-log answers and product-brief mirror before exploration. Use the product brief, market analysis, and UI brief to confirm the design target and intended user outcome. Generate exactly three global visual directions with the available image-generation capability, then record the selected direction, Global Freeze Signature Rule confirmation or N/A reason, plus any pin / raise / loosen override. Do not require an external visual-design skill.
 4. Use `flutter-hifi-mockup` to confirm global high-value UX/UI decisions with high-fidelity effect images. Keep candidates and visual artifacts transient until explicit freeze confirmation; then persist the exact selected image first in `.codex-workflow/visuals/global/` and write the related artifacts with its candidate ID, dimensions, SHA-256, and confirmation time.
 5. Feed global flows, screen inventory, and page interaction order into `docs/plans/module-map.md`.
-6. During each UI module or page implementation task, use `flutter-pencil-design` first for low-fidelity structure, Wireframe Review, and `docs/design/wireframe-spec.md`.
+6. During each UI module or page implementation task, use `flutter-pencil-design` first for low-fidelity structure, Wireframe Review, and `docs/design/pages/<page-name>/wireframe-spec.md`.
 7. After low-fidelity structure is reviewed, use `flutter-hifi-mockup` for the concrete page when page-level visual evidence is missing. On confirmation, persist the exact selected image first in `.codex-workflow/visuals/pages/<page-name>/` before writing the page prompt, brief, freeze, or ledger record.
 8. After page-level high-fidelity approval and design freeze, use `flutter-asset-atlas` when required visual assets need reuse checks, generation, background transparentization, slicing, export, inventory, or fidelity review.
 9. After required asset atlas evidence exists, use `flutter-pencil-design` for high-fidelity Pencil restoration when editable visual handoff is required.
-10. Implement the screen against the UI brief, `docs/design/design-freeze.md`, `docs/design/wireframe-spec.md`, `docs/design/pencil-hifi-restoration.md`, and asset atlas evidence when present.
+10. Implement the screen against the UI brief and its page-scoped `design-freeze.md`, `wireframe-spec.md`, `pencil-hifi-restoration.md`, and asset atlas evidence when present.
 11. Capture evidence using screenshots, golden tests, or integration screenshots.
-12. Review evidence with [references/visual-qa-rubric.md](references/visual-qa-rubric.md), then run `@product-design audit` for user-facing flows.
-13. Fix Critical and Important issues, then repeat evidence capture and audit when the UI flow changed.
+12. Review evidence with [references/visual-qa-rubric.md](references/visual-qa-rubric.md), then write an independent visual-QA report for user-facing flows.
+13. Fix Critical and Important issues, then repeat evidence capture and visual QA when the UI flow changed.
 
 ## Flutter UI Standards
 
@@ -45,7 +45,7 @@ Use this skill to stop low-quality UI from shipping. Text specs are drafts until
 - A first-time user cannot understand the value, safely begin, or reach the specified first-value moment from the planned flow.
 - Implementation claims "polished" without screenshots or golden evidence.
 - Visual style diverges from the selected design system without written reason.
-- Global visual direction is selected without the three-direction `@product-design ideate` review or without satisfying the active preset’s required direction mix.
+- Global visual direction is selected without the three-direction image-generation review or without satisfying the active preset’s required direction mix.
 - Full-budget or wow-required pages ship without a restatable visual signature, or exploration defaults to universal restraint instead of the derived preset.
 
 ## Output Files
@@ -53,18 +53,14 @@ Use this skill to stop low-quality UI from shipping. Text specs are drafts until
 - `docs/design/user-flows.md`
 - `docs/design/screen-spec.md`
 - `docs/design/ui-quality-gates.md`
-- `docs/design/design-freeze.md` when high-fidelity mockups are used
-- `docs/design/wireframe-spec.md` when low-fidelity Pencil wireframes are used
-- `docs/design/asset-atlas.md` when required visual assets exist
-- `docs/design/asset-slicing-manifest.md` when required visual assets exist
-- `docs/design/asset-fidelity-review.md` when required visual assets exist
-- `docs/design/asset-inventory.md` when required illustrations or bitmaps exist
-- `docs/design/pencil-flutter-handoff.md` when Pencil is used
-- `docs/design/pencil-hifi-restoration.md` when Pencil carries high-fidelity visual restoration
-- `docs/design/pencil-parity-review.md` when wireframe parity is reviewed
-- screenshot or golden evidence path recorded in `.codex-workflow/progress.md`
+- `docs/design/global/design-freeze.md` for global high-fidelity direction
+- `docs/design/pages/<page-name>/design-freeze.md` when page-level high-fidelity mockups are used
+- `docs/design/pages/<page-name>/wireframe-spec.md` when low-fidelity Pencil wireframes are used
+- `docs/design/pages/<page-name>/asset-atlas.md`, `asset-slicing-manifest.md`, `asset-fidelity-review.md`, and `asset-inventory.md` when required visual assets exist
+- `docs/design/pages/<page-name>/pencil-flutter-handoff.md`, `pencil-hifi-restoration.md`, and `pencil-parity-review.md` when Pencil is used
+- screenshot or golden evidence path recorded in `docs/tasks/<task-id>/evidence/manifest.md`
 - frozen effect images stored in `.codex-workflow/visuals/global/` or `.codex-workflow/visuals/pages/<page-name>/`
 
 ## Gate
 
-Do not approve UX/UI from text alone. Do not write a candidate effect image or its prompt, brief, review, freeze, or ledger entry before the user explicitly confirms the freeze. At confirmation, persist the exact selected image under `.codex-workflow/visuals/<scope>/` before its related artifacts and record the candidate ID, decoded dimensions, SHA-256, and confirmation time. Do not call a screen complete until the selected `@product-design ideate` direction, high-fidelity confirmation, global and page design-freeze constraints, wireframe text specs when present, required asset atlas evidence including background transparentization when applicable, screenshots or golden evidence, `@product-design audit` findings for user-facing flows, and visual QA have been reviewed with all Critical or Important findings closed.
+Do not approve UX/UI from text alone. Do not write a candidate effect image or its prompt, brief, review, freeze, or ledger entry before the user explicitly confirms the freeze. At confirmation, persist the exact selected image under `.codex-workflow/visuals/<scope>/` before its related artifacts and record the candidate ID, decoded dimensions, SHA-256, prompt hash, review verdict, and confirmation time in the task visual-decision record. Do not call a screen complete until the selected three-direction image-generation review, high-fidelity confirmation, global and page design-freeze constraints, wireframe text specs when present, required asset atlas evidence including background transparentization when applicable, screenshots or golden evidence, independent visual-QA findings for user-facing flows, and visual QA have been reviewed with all Critical or Important findings closed.

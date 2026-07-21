@@ -12,12 +12,12 @@ Use this skill after a page-level high-fidelity mockup is approved and before hi
 ## Required Inputs
 
 - Approved frozen page-level high-fidelity mockup under `.codex-workflow/visuals/pages/<page-name>/`, with its candidate ID, SHA-256, and confirmation time from the design freeze.
-- Global design freeze, for example `docs/design/global-design-freeze.md` or the project-approved global design-freeze path.
-- Page design freeze, for example `docs/design/design-freeze.md` or a page-scoped design-freeze path.
-- `docs/design/wireframe-spec.md` for the page.
+- Global design freeze: `docs/design/global/design-freeze.md`.
+- Page design freeze: `docs/design/pages/<page-name>/design-freeze.md`.
+- `docs/design/pages/<page-name>/wireframe-spec.md` for the page.
 - Product and module context.
 - Existing brand assets, licensed source files, generated images, or screenshots when present.
-- Existing `docs/design/asset-inventory.md` and prior page/module asset inventories when present.
+- Existing `docs/design/pages/<page-name>/asset-inventory.md` and prior page/module asset inventories when present.
 - Target Flutter asset conventions and `pubspec.yaml` location.
 
 ## Workflow
@@ -25,24 +25,24 @@ Use this skill after a page-level high-fidelity mockup is approved and before hi
 1. Confirm the exact approved mockup is already frozen under `.codex-workflow/visuals/pages/<page-name>/` and that global/page design-freeze constraints reference it before asset generation or extraction.
 2. Start from the page decomposition's separate-bitmap review, then audit the approved mockup for required visual assets: illustrations, bitmaps, photos, logos, textures, backgrounds, generated images, chart bitmaps, and custom icons.
 3. Mark the asset track as Required or `N/A: no bitmap or exported visual assets`. For every icon, image, illustration, logo, texture, or other visual resource, record 100%-match evidence against the approved mockup before preserving a per-unit verdict: reuse, adapt, generate, approved Pencil-node export, explicit mockup extraction, or `N/A: native Flutter/UI/data`. Without that evidence, the verdict must be `generate`; do not skip required assets because they look decorative if they affect brand, trust, conversion, or visual parity.
-4. Run a reuse check against brand assets, existing app assets, previous generated assets, source files, and `docs/design/asset-inventory.md`.
-5. For each asset with 100%-match evidence, choose the production decision in this order: reuse existing asset, adapt existing asset, generate variant from existing source, generate new single asset with product-design or image generation tools, generate atlas/contact sheet, export from an approved Pencil asset node, or extract from approved mockup with explicit approval. If the resource cannot be verified as a 100% match, generate a new dedicated bitmap; do not use a near-match substitute.
+4. Run a reuse check against brand assets, existing app assets, previous generated assets, source files, and the page-scoped asset inventory.
+5. For each asset with 100%-match evidence, choose the production decision in this order: reuse existing asset, adapt existing asset, generate variant from existing source, generate a new single asset with the available image-generation capability, generate an atlas/contact sheet, export from an approved Pencil asset node, or extract from an approved mockup with explicit approval. If the resource cannot be verified as a 100% match, generate a new dedicated bitmap; do not use a near-match substitute.
 6. Decide background handling before generation or export: transparent background, retained full background, masked cutout, or non-transparent safe background for later removal. Record why.
 7. Fill [references/asset-atlas-template.md](references/asset-atlas-template.md) with reuse decisions, production strategy, background strategy, and global/page freeze constraints.
-8. Generate or collect source assets at production quality. Use the `390 x 844` logical design frame as the sizing reference and provide only `2x` raster resources. For each new concrete bitmap, record its logical display size, generate it at twice that width and height, and verify the decoded pixel dimensions before accepting it. Only a full-screen bitmap uses `780 x 1688 px`. Default to single-asset generation with product-design or image generation tools for new bitmaps; use atlas/contact sheet generation only when a coherent set must be reviewed together or sliced from one approved composite.
+8. Generate or collect source assets at production quality. Use the `390 x 844` logical design frame as the sizing reference and provide only `2x` raster resources. For each new concrete bitmap, record its logical display size, generate it at twice that width and height, and verify the decoded pixel dimensions before accepting it. Only a full-screen bitmap uses `780 x 1688 px`. Default to single-asset generation with the available image-generation capability for new bitmaps; use atlas/contact sheet generation only when a coherent set must be reviewed together or sliced from one approved composite.
 9. Run the Background Transparentization Work Node for assets that must become transparent but were generated, extracted, or sourced with a non-transparent background.
 10. For transparent or masked assets, run transparent-background post-processing: alpha cleanup, matte or color-spill removal, edge decontamination, shadow/glow preservation, and target-background QA.
 11. Slice or export assets and fill [references/asset-slicing-manifest-template.md](references/asset-slicing-manifest-template.md).
-12. Update `docs/design/asset-inventory.md` with source, reuse decision, generation prompt when used, background handling, transparentization method, post-processing method, license, Flutter path, size, density, format, fallback, and review status.
+12. Update `docs/design/pages/<page-name>/asset-inventory.md` with source, reuse decision, generation prompt when used, background handling, transparentization method, post-processing method, license, Flutter path, size, density, format, fallback, and review status.
 13. Run fidelity review against the approved mockup, global design freeze, page design freeze, and target background, then fill [references/asset-fidelity-review-template.md](references/asset-fidelity-review-template.md).
 14. Hand off the atlas, slicing manifest, asset inventory, and fidelity review to `flutter-pencil-design` and the Flutter task brief.
 
 ## Output Files
 
-- `docs/design/asset-atlas.md`
-- `docs/design/asset-slicing-manifest.md`
-- `docs/design/asset-fidelity-review.md`
-- `docs/design/asset-inventory.md`
+- `docs/design/pages/<page-name>/asset-atlas.md`
+- `docs/design/pages/<page-name>/asset-slicing-manifest.md`
+- `docs/design/pages/<page-name>/asset-fidelity-review.md`
+- `docs/design/pages/<page-name>/asset-inventory.md`
 - Exported assets under the target Flutter app asset directory, for example `assets/images/<module>/`.
 
 For multiple pages, use page-scoped paths such as `docs/design/pages/<page-name>/asset-atlas.md` and keep the same contracts.
@@ -53,7 +53,7 @@ For multiple pages, use page-scoped paths such as `docs/design/pages/<page-name>
 - Use PNG or WebP for transparent raster illustrations, textured backgrounds, and generated bitmaps.
 - Use JPG only for photographic assets without transparency.
 - Prefer direct single-image production for required new assets. Use atlas/contact sheet production only for style-consistent batches, multi-part illustrations, or explicitly approved composite slicing.
-- Use product-design or image generation tools as the default source for new bitmap production. Record the tool, prompt, references, selected output, and rejected outputs.
+- Use the available image-generation capability as the default source for new bitmap production. Record the tool, prompt, references, selected output, and rejected outputs.
 - Provide only `2x` raster resources from the `390 x 844` logical design reference. Require each newly generated concrete bitmap to decode to exactly twice its recorded logical display width and height; use `780 x 1688 px` only for full-screen bitmaps.
 - Use Pencil export only when the Pencil node is an approved production asset source, not when it is only a low-fidelity structure, high-fidelity restoration container, or screenshot of a page.
 - Do not use Pencil screenshots, Pencil whole-page exports, or high-fidelity mockup crops as default production bitmap sources. Allow them only with explicit approval and a recorded reason.
@@ -87,4 +87,4 @@ Use this node only after source asset approval and before transparent-background
 
 ## Gate
 
-Do not generate, extract, restore in Pencil, or implement Flutter UI for required visual assets when the approved page mockup is not an explicitly frozen image under `.codex-workflow/visuals/pages/<page-name>/`, when the page decomposition has no per-unit separate-bitmap review verdict and 100%-match evidence, or when an unmatched icon, image, illustration, logo, texture, or other resource has not completed dedicated bitmap generation, or when global design-freeze constraints, page design-freeze constraints, reuse check, production decision, background handling decision, background transparentization evidence when applicable, transparent-background post-processing evidence when applicable, generation evidence when used, logical display size plus verified `2x` decoded dimensions for every newly generated concrete bitmap, slicing/export manifest, inventory entries, Flutter paths, license status, and fidelity review are missing. If no exported assets are needed, record `N/A: no bitmap or exported visual assets` in the task brief and progress ledger.
+Do not generate, extract, restore in Pencil, or implement Flutter UI for required visual assets when the approved page mockup is not an explicitly frozen image under `.codex-workflow/visuals/pages/<page-name>/`, when the page decomposition has no per-unit separate-bitmap review verdict and 100%-match evidence, or when an unmatched icon, image, illustration, logo, texture, or other resource has not completed dedicated bitmap generation, or when global and page design-freeze constraints, reuse check, production decision, background handling decision, background transparentization evidence when applicable, transparent-background post-processing evidence when applicable, generation evidence when used, logical display size plus verified `2x` decoded dimensions for every newly generated concrete bitmap, slicing/export manifest, inventory entries, Flutter paths, license status, and fidelity review are missing. If no exported assets are needed, record `N/A: no bitmap or exported visual assets` in the task brief and evidence manifest.

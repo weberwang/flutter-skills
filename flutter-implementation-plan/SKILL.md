@@ -30,14 +30,15 @@ Convert approved specs into small, verifiable Flutter implementation tasks. A go
 ## Task Rules
 
 - One task should produce one vertical slice or one isolated foundation.
-- Each task must list scope, non-scope, files likely touched, acceptance criteria, and verification commands.
-- Each task must follow `docs/architecture/verification-platforms.md`; do not duplicate platform scope or claim an unrecorded platform as verified. Defer device, emulator, simulator, browser, and desktop runtime validation until final integration after all modules/pages and high-fidelity restoration are complete.
+- Each task must list scope, non-scope, files likely touched, acceptance criteria, verification commands, base commit, task branch/worktree, and its task-state path.
+- Each task must follow `docs/architecture/verification-platforms.md`; do not duplicate platform scope or claim an unrecorded platform as verified. Run integration smoke after each business-flow level merges to the integration branch; reserve the full device, emulator, simulator, browser, and desktop matrix for final integration.
 - UI tasks must include screenshot or golden evidence requirements.
 - Risky shared foundations must happen before dependent feature tasks.
 - Module entry tasks must establish routing, state boundary, contracts, and test scaffolding before page tasks.
 - A task brief must name its business-flow level and the prior-level evidence it depends on.
-- Task briefs must mark runtime platform validation as deferred to final integration; task-level screenshots or goldens are design evidence only.
-- Do not plan parallel implementation tasks that write the same files.
+- Task briefs must distinguish level integration smoke from the final platform matrix; task-level screenshots or goldens are design evidence only.
+- Do not plan parallel implementation tasks that write the same files, global design artifacts, generated files, dependencies, routes, themes, or shared state containers. Record a single owner for every such shared path.
+- Store each UI page's design artifacts under `docs/design/pages/<page-name>/` and each task's reports under `docs/tasks/<task-id>/`; never use a global page-design filename for multiple tasks.
 
 ## Output Files
 
@@ -59,4 +60,4 @@ Use [references/module-map-template.md](references/module-map-template.md), [ref
 
 ## Gate
 
-Do not execute a Flutter implementation task until it has an isolated task brief, `docs/architecture/verification-platforms.md`, named verification commands, `docs/plans/module-map.md`, `docs/architecture/flutter-init.md`, a generated project-local `flutter-dev` path, and evidence that all prerequisite business-flow levels have passed or are explicitly accepted.
+Do not execute a Flutter implementation task until it has an isolated task brief, task-state claim, clean integration base commit, isolated branch/worktree, `docs/architecture/verification-platforms.md`, named verification commands, `docs/plans/module-map.md`, `docs/architecture/flutter-init.md`, a generated project-local `flutter-dev` path, and evidence that all prerequisite business-flow levels have passed or are explicitly accepted. Follow [../flutter-subagent-delivery/references/collaboration-protocol.md](../flutter-subagent-delivery/references/collaboration-protocol.md).

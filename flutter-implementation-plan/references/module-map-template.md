@@ -48,8 +48,13 @@ Use this before implementation planning. It turns global design and architecture
 
 ## Parallelization
 
-| Business-flow level | Work item | Can run parallel | Why | Shared files to avoid |
-|---|---|---|---|---|
+| Business-flow level | Work item | Can run parallel | Why | Shared files to avoid | Task branch/worktree |
+|---|---|---|---|---|---|
+
+## Shared-Path Ownership
+
+| Path or path group | Sole owner task | Why it must be serialized | Handoff evidence |
+|---|---|---|---|
 
 ## Risks
 

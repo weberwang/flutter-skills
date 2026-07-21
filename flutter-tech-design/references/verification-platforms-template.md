@@ -7,7 +7,8 @@ Use this file as the single source of truth for the app-wide verification scope.
 - Owner:
 - Last updated:
 - Evidence root:
-- Runtime validation timing: final integration only, after all modules, page functionality, and high-fidelity restoration are complete
+- Level integration smoke: command, target, and owner after every business-flow-level merge; this is not platform verification
+- Runtime validation timing: final platform matrix only, after all modules, page functionality, and high-fidelity restoration are complete
 
 ## Required Platforms
 

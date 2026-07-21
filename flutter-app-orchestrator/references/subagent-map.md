@@ -33,6 +33,8 @@ Use subagents when work is independent and the controller can continue or integr
 
 - Flutter init and feature implementation in the same project.
 - Dependency edits and code generation from multiple agents.
+- Page-design artifacts in the same `docs/design/pages/<page-name>/` directory.
+- Any task without a Controller-owned task-state claim, dedicated branch, and worktree.
 - Independent read-only reviews.
 
 ## Serialize
@@ -45,6 +47,8 @@ Use subagents when work is independent and the controller can continue or integr
 Each subagent receives:
 
 - One role.
+- Task ID and read-only task-state path.
+- Base commit, assigned branch, and worktree for writable roles.
 - One artifact or task brief path.
 - Exact scope.
 - Non-scope.
@@ -52,3 +56,4 @@ Each subagent receives:
 - Verification expectations.
 
 Do not paste full session history into subagent prompts.
+Only the Controller changes `.codex-workflow/progress.md` or `.codex-workflow/tasks/`; reviewers are read-only against implementation branches.

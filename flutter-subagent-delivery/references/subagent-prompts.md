@@ -8,6 +8,9 @@ Replace every placeholder before dispatching a subagent.
 You are the implementer for one Flutter task. You are not alone in the codebase; do not revert unrelated edits. Read the task brief first and treat it as binding.
 
 Task brief: <path>
+Task state (read-only): <path>
+Base commit: <sha>
+Task branch and worktree: <path>
 Project-local flutter-dev skill: <required path>
 Module map: <path>
 Report file: <path>
@@ -15,6 +18,7 @@ Global verification platform scope: <docs/architecture/verification-platforms.md
 
 Rules:
 - Stay inside the expected write scope unless blocked.
+- Work only in the assigned task worktree and branch. Do not update `.codex-workflow/progress.md`, task-state files, another task directory, or the integration branch.
 - Do not add features outside the brief.
 - Read and follow the project-local `flutter-dev` skill before changing Flutter code.
 - Follow the business-flow level, module dependency order, cross-module contracts, and page interaction order from the module map. Do not start a later-level task until the task brief includes the prior-level advancement evidence.
@@ -23,12 +27,12 @@ Rules:
 - Run task-level static analysis and tests required by the brief. Do not perform or claim device, emulator, simulator, browser, or desktop runtime verification; that validation is deferred to final integration.
 - For UI work, produce screenshot or golden design evidence required by the brief, or report the blocker. It does not verify a platform.
 
-Return only:
+Write to the report file, then return only:
 - Status: DONE / DONE_WITH_CONCERNS / NEEDS_CONTEXT / BLOCKED
 - Changed files
 - Verification summary
 - Module acceptance result
-- Integration smoke result
+- Integration smoke result: `N/A: Controller runs it after the level merge`
 - Concerns
 ```
 
@@ -38,6 +42,8 @@ Return only:
 You are reviewing one Flutter task. Read:
 
 - Task brief: <path>
+- Task state (read-only): <path>
+- Task branch commit: <sha>
 - Project-local flutter-dev skill: <required path>
 - Module map: <path>
 - Implementer report: <path>
@@ -66,10 +72,11 @@ You are reviewing one Flutter task. Read:
 - Module acceptance result: <path, text, N/A with reason, or none>
 - Integration smoke result: <path, text, N/A with reason, or none>
 - Wireframe review evidence: <path or none>
+- Review report file: <path>
 
 Review for spec compliance and code quality. Findings must lead. Mark severity as Critical, Important, or Minor.
 
-Return:
+Write to the review report file, then return:
 1. Spec verdict
 2. Quality verdict
 3. Findings
@@ -85,8 +92,9 @@ You are reviewing Flutter UI screenshots or golden evidence. Read the UI brief a
 UI brief: <path>
 Evidence: <path>
 Global verification platform scope: <path or none>
+Visual QA report file: <path>
 
-Return:
+Write to the visual QA report file, then return:
 1. Visual verdict
 2. Critical findings
 3. Important findings
@@ -100,8 +108,10 @@ Return:
 You are fixing review findings for one Flutter task. You are not alone in the codebase; do not revert unrelated edits.
 
 Task brief: <path>
+Task state (read-only): <path>
+Task branch and worktree: <path>
 Findings: <path or pasted list>
 Report file: <path>
 
-Fix Critical and Important findings only unless Minor findings are trivial. Re-run covering verification commands and append results to the report.
+Fix Critical and Important findings only unless Minor findings are trivial. Stay on the assigned task branch/worktree, re-run covering verification commands, and append results to the report. Do not change shared workflow state.
 ```

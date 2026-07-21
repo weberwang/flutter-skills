@@ -9,7 +9,9 @@ Replace every placeholder before dispatching this brief to an implementer.
 - Milestone:
 - Business-flow level:
 - Required prior-level evidence:
-- Runtime platform validation: Deferred to final integration
+- Task state: `.codex-workflow/tasks/<task-id>.yaml`
+- Base commit / task branch / worktree:
+- Runtime platform validation: Final platform matrix; level integration smoke is scheduled after merge
 - Goal:
 
 ## Scope
@@ -50,6 +52,13 @@ Must not do:
 - Technical design:
 - Existing files:
 
+## Collaboration Boundary
+
+- Expected write scope:
+- Shared-file owner or `N/A`:
+- Report directory: `docs/tasks/<task-id>/`
+- Evidence manifest: `docs/tasks/<task-id>/evidence/manifest.md`
+
 ## Page Design Gate
 
 Required for UI page task: Yes / No
@@ -57,6 +66,7 @@ Required for UI page task: Yes / No
 If yes:
 
 - Page or module:
+- Page artifact directory: `docs/design/pages/<page-name>/`
 - Low-fidelity Pencil source:
 - Wireframe review:
 - Wireframe text spec:
@@ -100,10 +110,6 @@ If yes:
 - Integration smoke path:
 - Integration smoke result:
 
-## Expected Write Scope
-
-- 
-
 ## Acceptance Criteria
 
 - 
@@ -123,7 +129,7 @@ If yes:
 - Golden test:
 - Screenshot path:
 - Mockup source:
-- Runtime platform validation: Deferred to final integration; screenshot/golden is design evidence only
+- Runtime platform validation: Final platform matrix; screenshot/golden is design evidence only and level smoke runs only after integration-branch merge
 - Global design freeze:
 - Required assets:
 - Asset atlas:
@@ -155,4 +161,5 @@ Return:
 - Screenshots or golden evidence.
 - Module acceptance result.
 - Integration smoke result.
+- Task branch commit SHA.
 - Concerns.

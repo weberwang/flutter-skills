@@ -46,9 +46,9 @@
 
 ## Visual Direction
 
-- Product Design context confirmation:
-- Product Design ideation directions:
-- Selected Product Design direction:
+- Visual context confirmation:
+- Image-generation directions:
+- Selected visual direction:
 - Product character (three qualities):
 - Visual expression preset ID and axes:
 - Page-type budget dial:

@@ -1,4 +1,4 @@
 interface:
   display_name: "Flutter Quality Review"
   short_description: "Review Flutter app code and product quality."
-  default_prompt: "Use $flutter-quality-review to review a Flutter app before delivery, requiring @product-design audit evidence for user-facing UI flows."
+  default_prompt: "Use $flutter-quality-review to review a Flutter app before delivery, requiring independent visual-QA evidence for user-facing UI flows."

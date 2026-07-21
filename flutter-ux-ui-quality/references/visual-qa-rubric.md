@@ -32,7 +32,7 @@ Report by severity:
 - The screen meets the active visual expression preset and page-type budget: full-budget or wow-required pages show a restatable signature; dial-down pages stay clearer without abandoning system consistency.
 - The first-value path exposes relevant privacy, payment, permission, and recovery conditions before the user takes an irreversible or high-friction action.
 - Motion supports state or hierarchy and respects reduced motion.
-- `@product-design audit` findings for the user-facing flow are resolved or explicitly accepted.
+- Independent visual-QA findings for the user-facing flow are resolved or explicitly accepted.
 
 ## Output Shape
 

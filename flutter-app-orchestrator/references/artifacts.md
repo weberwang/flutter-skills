@@ -79,7 +79,7 @@ For module or page-level UI work, store repeated design artifacts under a page o
 - Aesthetic verdict, its visual evidence, and required fixes for user-facing UI work.
 - First-value, trust, and safe-to-try verification for each applicable user-facing flow.
 
-`docs/design/mockup-brief.md`
+`docs/design/pages/<page-name>/mockup-brief.md`
 
 - Screen, module, or flow to visualize.
 - Product context.
@@ -91,7 +91,7 @@ For module or page-level UI work, store repeated design artifacts under a page o
 - Formal prompt file path.
 - PRD alignment status.
 
-`docs/design/prompts/global-visual-direction-prompt.md`
+`docs/design/global/prompts/visual-direction-prompt.md`
 
 - Template source and version.
 - PRD source artifacts: product brief, MVP scope, user stories, user flows, screen specification, and applicable decisions.
@@ -108,7 +108,7 @@ For module or page-level UI work, store repeated design artifacts under a page o
 - Confirmation that the page high-fidelity prompt template was used for each candidate direction without saving separate representative-page prompt files.
 - Written only after the selected global direction is explicitly frozen; until then, keep the prompt transient in the conversation.
 
-`docs/design/prompts/pages/<page-name>-hifi-mockup-prompt.md`
+`docs/design/pages/<page-name>/prompts/hifi-mockup-prompt.md`
 
 - Template source and version.
 - PRD and approved design source artifacts.
@@ -118,7 +118,7 @@ For module or page-level UI work, store repeated design artifacts under a page o
 - Final generation prompt used for the page-level effect image.
 - Written only after the selected page image is explicitly frozen; until then, keep the prompt transient in the conversation.
 
-`docs/design/global-design-freeze.md`
+`docs/design/global/design-freeze.md`
 
 - Global visual direction.
 - Brand tone.
@@ -133,7 +133,7 @@ For module or page-level UI work, store repeated design artifacts under a page o
 - Scope limitation: this baseline does not approve a page effect image, page design freeze, or page implementation. The global exploration's representative-page images are direction-comparison evidence only.
 - Frozen image record: `.codex-workflow/visuals/global/frozen-<slug>.png`, source candidate ID, decoded dimensions, SHA-256, and user confirmation time.
 
-`docs/design/pencil-intake.md`
+`docs/design/pages/<page-name>/pencil-intake.md`
 
 - Low-fidelity Pencil source context.
 - Target frames or nodes.
@@ -141,7 +141,7 @@ For module or page-level UI work, store repeated design artifacts under a page o
 - Screenshots, layout snapshots, or exports.
 - Open questions.
 
-`docs/design/pencil-flutter-handoff.md`
+`docs/design/pages/<page-name>/pencil-flutter-handoff.md`
 
 - Layout constraints.
 - Tokens.
@@ -150,7 +150,7 @@ For module or page-level UI work, store repeated design artifacts under a page o
 - State requirements.
 - Approved deviations.
 
-`docs/design/pencil-hifi-restoration.md`
+`docs/design/pages/<page-name>/pencil-hifi-restoration.md`
 
 - Selected high-fidelity mockup.
 - Design-freeze dependency.
@@ -167,7 +167,7 @@ For module or page-level UI work, store repeated design artifacts under a page o
 - Deviations and approval.
 - Flutter handoff constraints.
 
-`docs/design/wireframe-review.md`
+`docs/design/pages/<page-name>/wireframe-review.md`
 
 - Low-fidelity Pencil evidence.
 - Navigation and hierarchy review.
@@ -175,7 +175,7 @@ For module or page-level UI work, store repeated design artifacts under a page o
 - Ambiguities.
 - Required text-spec changes.
 
-`docs/design/wireframe-spec.md`
+`docs/design/pages/<page-name>/wireframe-spec.md`
 
 - Text-only implementation spec derived from Pencil wireframes.
 - Screen structure.
@@ -184,7 +184,7 @@ For module or page-level UI work, store repeated design artifacts under a page o
 - State requirements.
 - Constraints and non-goals.
 
-`docs/design/pencil-parity-review.md`
+`docs/design/pages/<page-name>/pencil-parity-review.md`
 
 - Wireframe text spec.
 - Pencil evidence used only for review questions.
@@ -192,7 +192,7 @@ For module or page-level UI work, store repeated design artifacts under a page o
 - Parity findings.
 - Accepted deviations.
 
-`docs/design/asset-atlas.md`
+`docs/design/pages/<page-name>/asset-atlas.md`
 
 - Page or module.
 - Approved mockup.
@@ -209,7 +209,7 @@ For module or page-level UI work, store repeated design artifacts under a page o
 - Flutter mapping.
 - Open asset decisions.
 
-`docs/design/asset-slicing-manifest.md`
+`docs/design/pages/<page-name>/asset-slicing-manifest.md`
 
 - Export batch.
 - Output files.
@@ -221,7 +221,7 @@ For module or page-level UI work, store repeated design artifacts under a page o
 - Flutter path.
 - `pubspec.yaml` entries.
 
-`docs/design/asset-fidelity-review.md`
+`docs/design/pages/<page-name>/asset-fidelity-review.md`
 
 - Approved mockup.
 - Atlas and slicing manifest.
@@ -235,7 +235,7 @@ For module or page-level UI work, store repeated design artifacts under a page o
 - Approved deviations.
 - Blocking fixes.
 
-`docs/design/asset-inventory.md`
+`docs/design/pages/<page-name>/asset-inventory.md`
 
 - Asset list.
 - Source and ownership.
@@ -246,7 +246,7 @@ For module or page-level UI work, store repeated design artifacts under a page o
 - Fidelity requirements.
 - Loading and error fallbacks.
 
-`docs/design/design-freeze.md`
+`docs/design/pages/<page-name>/design-freeze.md`
 
 - Selected frozen mockup path under `.codex-workflow/visuals/pages/<page-name>/`.
 - Source candidate ID, decoded dimensions, SHA-256, and user confirmation time.

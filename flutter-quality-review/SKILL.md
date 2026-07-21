@@ -21,7 +21,7 @@ Review like a release-blocking commercial app gate. Findings lead; summaries are
 - Diff or changed files.
 - Test commands and outputs.
 - Global `docs/architecture/verification-platforms.md`, final-integration platform evidence when reviewing final delivery, and screenshots or golden evidence for UI changes.
-- `@product-design audit` result for user-facing UI flows.
+- Independent visual-QA report for user-facing UI flows.
 
 ## Rubric
 
@@ -42,9 +42,9 @@ Use [references/review-rubric.md](references/review-rubric.md). Always check:
 - Mockup parity and recorded design deviations when a high-fidelity mockup exists.
 - Visual aesthetics and intended premium feel: hierarchy, spacing, typography, color and contrast, component consistency, asset quality, and decoration that meets the active visual expression preset’s signature strength and page-type budget without harming task clarity. Compare the implementation screenshot with the approved mockup and design-freeze constraints; record an explicit aesthetic verdict and actionable findings. Do not treat restraint as the default premium standard.
 - Product-fit quality: visual character supports the intended audience and product promise; polish does not hide unclear value, unnecessary friction, or unresolved trust concerns.
-- Product Design audit findings are resolved or explicitly accepted for user-facing UI flows.
+- Independent visual-QA findings are resolved or explicitly accepted for user-facing UI flows.
 - Asset source, reuse decision, generation prompt constraints, background handling, background transparentization, transparent post-processing, transparency or retained-background decision, license, slicing/export, Flutter path, fallback, and fidelity compliance.
-- Bitmap source compliance: new bitmaps default to product-design or image generation evidence; Pencil exports are accepted only for approved production asset nodes with a recorded reason.
+- Bitmap source compliance: new bitmaps default to available image-generation evidence; Pencil exports are accepted only for approved production asset nodes with a recorded reason.
 - Wireframe spec, Pencil restoration, and recorded deviation compliance when Pencil is used.
 - Mobile and accessibility risks.
 - State management and data flow.
@@ -74,4 +74,4 @@ Severity:
 
 ## Gate
 
-If no issues are found, say so clearly and list residual risks or missing evidence. Do not approve a task if the task brief, global verification platform scope, module map, init report, generated `flutter-dev` path, required wireframe text spec, required asset atlas evidence, required asset generation evidence or `N/A` reason, Pencil high-fidelity restoration decision and reason, required restoration evidence, required screenshots, required `@product-design audit` result for a user-facing flow, required aesthetic verdict for user-facing UI work, or required tests are absent. Require runtime platform evidence only for final-integration review, after all module/page functionality and high-fidelity restoration are complete. Require module acceptance result and integration smoke result only when the task changes module boundaries, routes, cross-module contracts, or user flows; otherwise require `N/A: <reason>`.
+If no issues are found, say so clearly and list residual risks or missing evidence. Do not approve a task if its task-state claim, branch commit, task brief, global verification platform scope, module map, init report, generated `flutter-dev` path, required page-scoped wireframe text spec, required asset atlas evidence, required asset generation evidence or `N/A` reason, Pencil high-fidelity restoration decision and reason, required restoration evidence, required screenshots, required independent visual-QA report for a user-facing flow, required aesthetic verdict for user-facing UI work, required tests, or evidence manifest is absent. Require the level integration-smoke result when a business-flow level closes. Require final runtime platform evidence only for final-integration review; otherwise require `N/A: <reason>`.

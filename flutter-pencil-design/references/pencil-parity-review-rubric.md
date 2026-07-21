@@ -26,7 +26,7 @@ Review Flutter evidence against the wireframe text spec. Use Pencil evidence onl
 - Color roles and contrast match the handoff.
 - Spacing, radius, and surface treatment match the handoff.
 - Assets and icons are exported or substituted with approved equivalents.
-- Required assets match `docs/design/asset-inventory.md`.
+- Required assets match the page-scoped `asset-inventory.md`.
 - Asset license and replacement status are not unresolved.
 - Required states are implemented.
 - Flutter adaptations are recorded and approved in text.
