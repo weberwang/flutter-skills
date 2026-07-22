@@ -11,6 +11,9 @@ Replace every placeholder before dispatching this brief to its routed App team r
 - Required prior-level evidence:
 - Task state: `.codex-workflow/tasks/<task-id>.yaml`
 - Base commit / task branch / worktree:
+- Controller integration worktree / branch:
+- 活动任务状态：仅在 Controller 集成 worktree 中未提交保存；任务分支不得携带该文件。
+- 自动收尾命令：`python <flutter-subagent-delivery>/scripts/finalize-task.py .codex-workflow/tasks/<task-id>.yaml --integration-worktree <集成-worktree> --integration-branch <集成分支>`
 - Runtime platform validation: Final platform matrix; level integration smoke is scheduled after merge
 - Module grilling log entry:
 - Module shared-understanding confirmation:
@@ -192,6 +195,7 @@ Return:
 - Module acceptance result.
 - Integration smoke result.
 - Task branch commit SHA.
+- 自动合并提交 / 状态提交 / worktree 与分支清理结果。
 - Concerns.
 - Gate verdict.
 - Missing evidence.

@@ -1,6 +1,6 @@
 # 仅 Controller 可修改；其他代理只读取此文件。
 id: T01
-state: planned # planned | claimed | implementing | reviewing | accepted | blocked
+state: planned # planned | claimed | implementing | reviewing | integrating | accepted | blocked
 owner: ""
 lease:
   holder: ""
@@ -16,7 +16,12 @@ reports:
   review: docs/tasks/T01/review.md
   visual_qa: docs/tasks/T01/visual-qa.md
   evidence_manifest: docs/tasks/T01/evidence/manifest.md
+acceptance:
+  verdict: pending # pending | approved | changes_requested
+  approved_by: ""
+  approved_at: ""
 integration:
   merged_commit: ""
+  cleanup: pending # pending | completed
   level_smoke: pending
 blocker: ""
