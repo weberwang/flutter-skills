@@ -28,7 +28,7 @@ The contract must not freeze:
 - card count, container boundaries, or a specific layout arrangement;
 - final typography scale, component silhouette, material, lighting, or decoration placement;
 - image ratio, crop, text-image orientation, or secondary composition;
-- any visual detail that belongs to the global or page design freeze.
+- any visual detail that belongs to the global visual direction or page design decision.
 
 ## High-Fidelity Handoff
 

@@ -28,6 +28,11 @@ The first release succeeds if:
 2.
 3.
 
+## MVP Boundary
+
+- Must ship:
+- Explicit non-goals:
+
 ## Experience And Quality Promise
 
 - First-value moment: What useful result the user receives first.
@@ -55,6 +60,13 @@ The first release succeeds if:
 - Paid tier:
 - Payment trigger:
 - Retention loop:
+
+## Market Evidence
+
+- Sources:
+- Category patterns:
+- Differentiation or risk:
+- Inference versus sourced fact:
 
 ## Core User Stories
 

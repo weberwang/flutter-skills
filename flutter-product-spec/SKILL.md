@@ -22,18 +22,16 @@ Turn an app idea into a constrained commercial product spec. The output must mak
 1. State assumptions and ask only for information that changes MVP scope.
 2. Identify target users, painful jobs, high-value moments, and the first value the user must receive after starting.
 3. Split MVP from later features.
-4. Define user stories with acceptance criteria, including the value, trust, and perceived-risk conditions that affect first-time adoption.
+4. Define user stories with acceptance criteria, including the value, trust, and perceived-risk conditions that affect first-time adoption; keep them as sections of the product brief.
 5. Define commercial constraints: payment, account, data ownership, privacy, support, and retention.
 6. Record the intended product quality: brand character, interaction tone, visual constraints, and decorations that are justified by the product rather than added for novelty.
 7. Derive a visual expression preset from product category and audience using [../flutter-ux-ui-quality/references/visual-expression-presets.md](../flutter-ux-ui-quality/references/visual-expression-presets.md). Record preset ID, axis values, and derivation basis in the product brief. Do not lower task-clarity or trust gates; the preset only sets expression ceiling and exploration bias.
 8. Before handing off to global UX/UI exploration, run the one-time light visual interrogation from the preset reference. Record answers in `docs/product/grilling-log.md` and mirror signature and implementation-cost commitments in the product brief. Both records are required.
-9. Write product artifacts using [references/product-brief-template.md](references/product-brief-template.md) and [references/mvp-scope-template.md](references/mvp-scope-template.md).
+9. Write the product brief using [references/product-brief-template.md](references/product-brief-template.md). Keep MVP scope, stories, market assumptions and acceptance criteria in that same document unless the user explicitly requests a standalone export.
 
 ## Output Files
 
 - `docs/product/product-brief.md`
-- `docs/product/mvp-scope.md`
-- `docs/product/user-stories.md`
 - `docs/product/grilling-log.md` updates for the light visual interrogation
 
 ## Gate

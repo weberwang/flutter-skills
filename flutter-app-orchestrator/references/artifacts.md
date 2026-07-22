@@ -1,382 +1,42 @@
-# Artifact Contract
-
-Create these artifacts in the target Flutter app repo as the workflow advances.
-
-For every delegable design artifact, record its producer role, assigned input paths, write scope, report/status, and controller validation. Review artifacts must identify a reviewer distinct from the producer. User decision, confirmation, and freeze records belong to the controller, not a subagent.
-
-For every dispatched task, also record its task profile, enabled and omitted core roles with reasons, DRI role and agent ID, independent acceptance role and agent ID, consulted roles, immutable review snapshot, shared-resource locks, functional verdicts, and Controller Gate validation. A later producer or fixer change makes the prior review stale.
-
-For module or page-level UI work, store repeated design artifacts under a page or module scoped path, for example `docs/design/pages/<page-name>/design-freeze.md`, while keeping the same document contract.
-
-## Product
-
-`docs/product/grilling-log.md`
-
-- PRD availability check and reviewed source artifacts.
-- One-question-at-a-time decision log, including recommendation and user answer.
-- Confirmed decisions, unresolved items, decision dependencies, and rejected alternatives.
-- Light visual interrogation answers for the derived expression preset (once before global visual exploration).
-- User's explicit shared-understanding confirmation.
-- Per-module implementation-stage grilling entries with module name, included-function and non-goal decisions, dependencies, acceptance path, explicit shared-understanding confirmation, and confirmation time.
-- Per-UI-module Effect-Image Interrogation Gate entries with visual outcome, page/state image list, page budgets, signature expectations, accepted implementation/asset cost, scope-consistency confirmation, and confirmation time.
-
-`docs/product/product-brief.md`
-
-- Target user.
-- Problem and high-value moment.
-- MVP promise.
-- First-value moment, safe-to-try conditions, and trust evidence.
-- Product character, avoided impressions, and decoration rule.
-- Visual expression preset: preset ID, category/audience derivation, axis values, wow requirement, light-interrogation commitments, and any later pin/raise/loosen override.
-- Commercial model.
-- Success metrics.
-- Risks and assumptions.
-
-`docs/product/mvp-scope.md`
-
-- In scope.
-- Out of scope.
-- Release-blocking acceptance criteria.
-- Later backlog.
-
-`docs/product/user-stories.md`
-
-- User stories.
-- Given/When/Then acceptance criteria.
-- Priority.
-- Release status.
-
-`docs/product/market-analysis.md`
-
-- Target market and category context.
-- Competitor and adjacent-product patterns.
-- User expectations and category visual conventions.
-- Differentiation opportunities, commercial risks, and evidence sources.
-- Implications for global visual-direction exploration.
-
-## Design
-
-`docs/design/app-design.pen`
-
-- The only project `.pen` file.
-- Contains all low-fidelity Pencil evidence, approved high-fidelity restorations, states, reusable primitives, and synchronized design-draft asset placements.
-- Uses labeled module/fidelity sections and frame names in the form `<module>/<page>/<state>/<low|high>`.
-- Is modified by only one Pencil-writing agent at a time; page-scoped text artifacts reference stable node IDs in this file.
-
-`docs/design/user-flows.md`
-
-- Primary path.
-- First-run path.
-- First-value path and its time or interaction target.
-- Trust, permission, payment, privacy, and recovery points that may interrupt first-time use.
-- Account and settings path.
-- Payment path when monetized.
-- Error recovery path.
-
-`docs/design/screen-spec.md`
-
-- Screen purpose.
-- First-value contribution and trust or risk concerns.
-- Information hierarchy.
-- Actions.
-- Required states.
-- Responsive rules.
-- Accessibility requirements.
-
-`docs/design/ui-quality-gates.md`
-
-- Screen list.
-- Required states per screen.
-- Screenshot or golden evidence requirements.
-- Visual QA verdicts.
-- Aesthetic verdict, its visual evidence, and required fixes for user-facing UI work.
-- First-value, trust, and safe-to-try verification for each applicable user-facing flow.
-
-`docs/design/mockup-brief.md`
-
-- Screen, module, or flow to visualize.
-- Product context.
-- Device targets.
-- Required states.
-- Source wireframe spec for page-level module work.
-- Active visual expression preset, page-type budget dial, and whether a restatable signature moment is required.
-- Image prompt constraints.
-- Formal prompt file path.
-- PRD alignment status.
-
-`docs/design/prompts/global-visual-direction-prompt.md`
-
-- Template source and version.
-- PRD source artifacts: product brief, MVP scope, user stories, user flows, screen specification, and applicable decisions.
-- Market-analysis source, relevant findings, and source location.
-- Requirement mapping: PRD requirement or market finding, prompt expression, and source location.
-- Product-design-principle check: product character, trust, accessibility, task clarity, and approved visual constraints.
-- Active visual expression preset: preset ID, axes, required three-direction mix, scoring-weight emphasis, and light-interrogation commitments.
-- Three-direction positioning specification without page, module, representative-page, or screen effect images.
-- Three recommended visual-system directions, each defining color, typography, shape, imagery, material, motion, signature, extension rules, implementation path, cost, and risk.
-- User's explicit selected direction; no automatic selection.
-- Restatable-signature confirmation when Global Freeze Signature Rule applies, or recorded N/A reason when it does not; any pin / raise / loosen override after selection.
-- Written only after the selected global direction is explicitly frozen; until then, keep the prompt transient in the conversation.
-
-`docs/design/prompts/pages/<page-name>-hifi-mockup-prompt.md`
-
-- Template source and version.
-- PRD and approved design source artifacts.
-- Requirement mapping: page task, state, copy, data, actions, visual constraints, and source location.
-- Product-design-principle check: primary user task, scoped functionality, information hierarchy, primary-action clarity, mobile accessibility, realistic content, and approved visual constraints.
-- Active visual expression preset, page-type budget dial, and whether this page must show a restatable signature moment.
-- Final generation prompt used for the page-level effect image.
-- Prompt-quality check confirming that planning evidence was not pasted into the model prompt, duplicated/conflicting instructions were removed, optional details were left open, and the final prompt is the shortest version that preserves correctness.
-- Written only after the selected page image is explicitly frozen; until then, keep the prompt transient in the conversation.
-
-`docs/design/global-design-freeze.md`
-
-- Global direction freeze record: one-time light-interrogation evidence, selected direction, signature and implementation-cost acceptance, signature confirmation or N/A reason, expression-budget override, unresolved-decision audit, explicit freeze intent, and gate verdict.
-- Global visual direction.
-- Brand tone.
-- Visual expression preset in force, including any pin / raise / loosen override.
-- Required signature moment commitment for hero-class pages.
-- Color system.
-- Typography and shape language.
-- Illustration and icon style.
-- Material, lighting, and texture rules.
-- Banned visual styles.
-- Reuse rules for visual assets.
-- Scope limitation: this baseline contains no effect image and does not approve a module, page layout, page state, page design freeze, or implementation.
-
-`docs/design/pencil-intake.md`
-
-- Canonical `docs/design/app-design.pen` context and active-file verification.
-- Single-file audit and any consolidation result.
-- Target frames or nodes.
-- Screens and states.
-- Screenshots, layout snapshots, or exports.
-- Open questions.
-
-`docs/design/pencil-flutter-handoff.md`
-
-- Layout constraints.
-- Tokens.
-- Component mapping.
-- Assets.
-- State requirements.
-- Approved deviations.
-
-`docs/design/pencil-hifi-restoration.md`
-
-- Selected high-fidelity mockup.
-- Design-freeze dependency.
-- Module or page task.
-- Restoration decision and reason.
-- Effect-image restoration analysis that classifies each restorable layer or atomic unit as exactly one of: bitmap, UI, or data; composite elements must be split into these units before classification.
-- Ownership-first decomposition that separates runtime data from its UI renderer and fixed visual treatment; runtime-derived mockup pixels are never production bitmap candidates.
-- Back-to-front and top-left-to-bottom-right coverage audit with zero unowned visible elements, zero runtime-data export candidates, and explicit coverage of every background decoration and icon placement/state.
-- Data placeholders, including the preserved hierarchy, text length, and layout constraints.
-- Per-bitmap source, crop, size, background treatment, target Pencil node, and 100% approved-visual-content match verdict. A recorded rasterization or scaling tolerance may not change bitmap content.
-- Per-UI native-Flutter feasibility decision, reason, expected implementation approach, and screenshot or golden confirmation. When native Flutter cannot reproduce the unit exactly, record the bitmap-fill requirement, reason, and generated bitmap evidence; otherwise record that no bitmap generation is required.
-- Target Pencil frames or nodes.
-- Restored visual roles.
-- Asset restoration evidence.
-- Generated or enhanced bitmap synchronization evidence, including source asset, final asset, and target Pencil node.
-- Deviations and approval.
-- Flutter handoff constraints.
-
-`docs/design/wireframe-review.md`
-
-- Full, Lightweight, or Reuse level and reason.
-- Low-fidelity Pencil evidence for Full, optional evidence or `N/A` for Lightweight, and approved-pattern reference for Reuse.
-- Navigation and semantic-hierarchy review.
-- Missing states.
-- Ambiguities.
-- Required text-spec changes.
-
-`docs/design/wireframe-spec.md`
-
-- Text semantic contract; Pencil is one possible source, not a mandatory source or visual blueprint.
-- Required content, information priority, and semantic grouping intent.
-- Navigation behavior.
-- Component roles.
-- State requirements.
-- Actions, outcomes, recovery paths, accessibility meaning, and data/UI/fixed-asset ownership.
-- Explicit high-fidelity recomposition freedom for geometry, containers, whitespace, component silhouettes, image ratios/crops, and decoration placement.
-- Constraints and non-goals.
-
-`docs/design/pencil-parity-review.md`
-
-- Wireframe text spec.
-- Pencil evidence used only for review questions.
-- Flutter evidence.
-- Parity findings.
-- Accepted deviations.
-
-`docs/design/asset-atlas.md`
-
-- Page or module.
-- Approved mockup.
-- Global design freeze.
-- Page design freeze.
-- Reuse check.
-- Production decision.
-- Background handling and transparentization work node when applicable.
-- Asset groups.
-- Source or generation plan.
-- Pre-slicing confirmation table with asset role, placements/states, production verdict, source, crop, background treatment, dimensions, risks, proposed action, confirmed version, explicit user decision, and confirmation time.
-- Bitmap enhancement plan and the design-draft synchronization target when enhancement is required.
-- Generation prompts and selected outputs when assets are generated.
-- Enhanced output, replaced design-draft asset or Pencil node, and updated design evidence.
-- Flutter mapping.
-- Open asset decisions.
-
-`docs/design/asset-slicing-manifest.md`
-
-- Export batch.
-- Output files.
-- Format.
-- Logical and pixel size.
-- DPR.
-- Production mode.
-- Confirmed pre-slicing table version and user confirmation time.
-- Background transparentization method when applicable.
-- Flutter path.
-- `pubspec.yaml` entries.
-
-`docs/design/asset-fidelity-review.md`
-
-- Approved mockup.
-- Atlas and slicing manifest.
-- Per-asset match verdict.
-- Global style consistency.
-- Page-level constraint compliance.
-- Duplicate generation check.
-- Background transparentization and transparent post-processing evidence when applicable.
-- Enhanced bitmap parity between the design draft and Flutter production asset.
-- Allowed rasterization or scaling tolerance; it must not change approved bitmap content.
-- Approved deviations.
-- Blocking fixes.
-
-`docs/design/asset-inventory.md`
-
-- Asset list.
-- Source and ownership.
-- Enhancement lineage and synchronized design-draft location when applicable.
-- Production format.
-- Flutter path.
-- License status.
-- Fidelity requirements.
-- Loading and error fallbacks.
-
-`docs/design/design-freeze.md`
-
-- Selected frozen mockup path under `.codex-workflow/visuals/pages/<page-name>/`.
-- Source candidate ID, decoded dimensions, SHA-256, and user confirmation time.
-- Active expression preset and page-type budget dial.
-- Required signature moment for this page, or N/A with reason.
-- Frozen layout.
-- Tokens.
-- Components.
-- State requirements.
-- Flutter implementation constraints.
-
-`docs/architecture/flutter-init.md`
-
-- Target project.
-- Fixed plugin stack status.
-- Generated `flutter-dev` skill path.
-- Required app setup.
-- Verification output.
-
-## Architecture
-
-`docs/architecture/verification-platforms.md`
-
-- Target verification platforms.
-- Unsupported platforms with `N/A: <reason>`.
-- Required command, device, browser, emulator, simulator, screenshot, or golden evidence per platform.
-- Final-integration timing: run device, browser, emulator, simulator, and desktop runtime validation only after all modules/pages and high-fidelity restoration are complete; task-level screenshots or goldens do not verify a platform.
-- Evidence storage location and update owner.
-
-`docs/architecture/technical-design.md`
-
-- Architecture decisions.
-- Data ownership.
-- State management.
-- Routing.
-- Persistence.
-- API boundaries.
-- API contracts, schemas, data migration, and rollback.
-- Auth, payments, analytics, crash reporting.
-- Security, privacy, performance, observability, and operational ownership.
-- CI/CD, environment, signing, rollout, and rollback assumptions when release engineering is in scope.
-- Verification commands.
-
-`docs/plans/module-map.md`
-
-- Module inventory.
-- Product responsibility per module.
-- Route ownership.
-- Data ownership.
-- Cross-module contracts.
-- Module dependency graph.
-- Implementation order.
-- Module acceptance paths.
-- Integration smoke paths.
-- Page interaction order.
-- Parallelization limits.
-- Per-module grilling, confirmed-scope, and function/page-refinement status.
-
-`docs/plans/modules/<module-name>-scope.md`
-
-- Module identity, business-flow level, product responsibility, route ownership, and data ownership.
-- PRD, design, technical, code, and prior-decision evidence reviewed before module-level grilling.
-- Module-level questions, user answers, explicit shared-understanding confirmation, confirmation time, and gate verdict.
-- Confirmed included functions, explicit non-goals, priorities, dependencies, accepted risks, and acceptance evidence.
-- Post-confirmation refinement of page functions, states, actions, transitions, cross-module contracts, module acceptance path, and vertical-slice tasks.
-- Module Effect-Image Interrogation Gate: visual outcome, pages/states requiring images, page budgets, signature expectations, accepted implementation/asset cost, scope consistency, explicit confirmation, and verdict.
-- Open decisions and whether each blocks implementation.
-
-## Delivery
-
-`docs/plans/implementation-plan.md`
-
-- Milestones.
-- Task briefs.
-- Verification commands.
-- Dependencies.
-- Per-module just-in-time grilling and refinement status.
-
-`.codex-workflow/progress.md`
-
-- App team role activation with enablement reasons or `N/A: <reason>`.
-- Current Gate, owner verdicts, evidence version, state, and Controller validation.
-- Per-task DRI/reviewer roles and agent IDs, consulted roles, read/write scopes, shared-resource locks, and execution mode.
-- Immutable commit/diff and artifact hashes for reviews; stale-review state after any change.
-- Task status.
-- Commit or diff range.
-- Test evidence.
-- Review verdict.
-- UI page design gate evidence.
-- Module Effect-Image Interrogation Gate evidence for UI modules.
-- Frozen page effect-image path, candidate ID, decoded dimensions, SHA-256, and confirmation time.
-- Pencil high-fidelity restoration decision.
-- Pencil high-fidelity restoration reason.
-- Effect-image bitmap/UI/data analysis and any UI bitmap-fill decision.
-- Pre-slicing confirmation table version, explicit user decision, confirmation time, and any invalidated or reconfirmed rows.
-- Bitmap enhancement synchronization evidence when applicable.
-- Module acceptance result.
-- Integration smoke result.
-- Confirmed-task cleanup decision, including deleted paths or `N/A`.
-
-`.codex-workflow/decisions.md`
-
-- Decision.
-- Reason.
-- Alternatives rejected.
-- Date.
-
-`.codex-workflow/risks.md`
-
-- Risk.
-- Severity.
-- Owner.
-- Mitigation.
-- Status.
+# 最小工件矩阵
+
+只为决策、可复现验证或跨角色交接创建工件。一个事实只能有一个权威位置；其他文档只链接，不复制字段、`N/A` 理由或证据摘要。
+
+## 全局工件
+
+| 工件 | 创建时机 | 权威内容 |
+|---|---|---|
+| `docs/product/product-brief.md` | 产品确认 | MVP、用户故事、验收、市场依据与产品性格 |
+| `docs/product/grilling-log.md` | 用户作出关键决定 | 确认记录与尚未解决的决定 |
+| `docs/design/ui-spec.md` | UX/UI 设计 | 流程、页面/状态和全局质量约束 |
+| `docs/design/global-design-freeze.md` | 用户冻结方向 | 选定方向、签名、成本承诺和精简提示词哈希 |
+| `docs/architecture/technical-design.md` | 技术门禁 | 架构、契约、数据与风险决策 |
+| `docs/architecture/flutter-init.md` | 项目初始化 | 固定栈与项目本地 `flutter-dev` 路径 |
+| `docs/architecture/verification-platforms.md` | 技术设计 | 平台范围、命令和最终运行时证据 |
+| `docs/plans/module-map.md` | 实施规划 | 模块、依赖、业务流等级和共享资源所有者 |
+| `docs/plans/implementation-plan.md` | 实施规划 | 粗粒度里程碑和模块顺序 |
+| `docs/plans/modules/<module-name>-scope.md` | 模块变为可实施时 | 已确认的功能、非目标、契约与验收路径 |
+
+不要另建 MVP、用户故事、市场分析、流程、屏幕规格或 UI 质量门禁文档；这些是产品简报或 UI 规格中的章节。只有用户要求独立交付件时才拆出。
+
+## 条件工件
+
+| 条件 | 工件 | 必须包含 |
+|---|---|---|
+| 页面有 UI 决策 | `docs/design/pages/<page-name>/design-decision.md` | 语义契约、线框级别/审阅、冻结图 ID/哈希、偏差、Pencil 决定与交接约束 |
+| 页面有固定视觉资产 | `docs/design/pages/<page-name>/asset-manifest.md` | 资产来源、许可、生产/背景/切图决定、Flutter 路径和保真结论 |
+| 需要可编辑 Pencil 交接 | `docs/design/app-design.pen` | 稳定页面/节点 ID；详情链接页面设计决策 |
+| 页面冻结 | `.codex-workflow/visuals/pages/<page-name>/frozen-<slug>.png` | 唯一选中原图 |
+| 可写任务 | `.codex-workflow/tasks/<task-id>.yaml` | 状态、租约、分支、范围、验收和合并记录 |
+| 任务验收 | `docs/tasks/<task-id>/review.md` | 快照、审阅结论、测试/截图链接、发现与清理结果 |
+| 发布 | `docs/release/release-checklist.md` | 仅发布范围内的证据和阻塞项 |
+
+未满足条件时不创建占位文件，也不写 `N/A` 文档；在调用方的单行条件字段写明不适用原因即可。
+
+## 交接规则
+
+- 实现者只返回提交 SHA、变更文件、验证摘要和阻塞项；这些信息由独立验收者写入 `review.md`，不再生成实现报告或证据清单。
+- UI 审阅、视觉 QA 和技术验收写入同一 `review.md` 的具名小节；每个小节保留作者、快照和结论。
+- 资产、Pencil 和冻结细节只存到对应页面工件，不复制进任务简报、进度账本或审阅报告。
+- `.codex-workflow/progress.md` 只是 Controller 的任务索引；以任务状态、页面决策和审阅记录为真相来源。
+- 截图、golden、命令输出和冻结图使用文件路径或 SHA 引用，不转写内容。

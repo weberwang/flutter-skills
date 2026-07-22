@@ -111,7 +111,7 @@ Confirm one decision at a time:
 4. `pin`, `raise`, `loosen`, or no expression-budget override.
 5. Explicit intent to freeze the current direction definition.
 
-Audit the answers against the product brief, grilling log, market analysis, and active preset. If scope, priority, tradeoffs, risks, acceptance criteria, or dependencies are new, conflicting, or unresolved, re-enter full `grilling`, record the freeze-stage shared-understanding confirmation in `docs/product/grilling-log.md`, then resume this gate. If none remain, record `N/A: no repeated full grilling required—freeze decisions already confirmed`. Persist the gate in `docs/design/global-design-freeze.md`; do not create a global frozen image.
+Audit the answers against the product brief, grilling log, product brief market evidence, and active preset. If scope, priority, tradeoffs, risks, acceptance criteria, or dependencies are new, conflicting, or unresolved, re-enter full `grilling`, record the freeze-stage shared-understanding confirmation in `docs/product/grilling-log.md`, then resume this gate. If none remain, record `N/A: no repeated full grilling required—freeze decisions already confirmed`. Persist the gate in `docs/design/global-design-freeze.md`; do not create a global frozen image.
 
 ## Module Effect-Image Interrogation Gate
 

@@ -1,6 +1,6 @@
 # Bitmap Decomposition Standard
 
-Use this standard after a page effect image is frozen and before Pencil high-fidelity restoration or asset-atlas work.
+Use this standard after a page effect image is frozen and before Pencil high-fidelity restoration or asset-manifest work.
 
 ## Two Decisions, In Order
 
@@ -58,4 +58,4 @@ After coverage passes and before any bitmap is generated, adapted, extracted, ex
 - reuse or maintenance risk;
 - proposed action: include, exclude, or revise.
 
-Wait for explicit user confirmation. Record the confirmed table version, user decision, and confirmation time in `asset-atlas.md`. Any later change to asset membership, crop, source, background handling, dimensions, or production verdict invalidates confirmation for the affected rows and requires a revised table before work resumes.
+Wait for explicit user confirmation. Record the confirmed table version, user decision, and confirmation time in the page `asset-manifest.md`. Any later change to asset membership, crop, source, background handling, dimensions, or production verdict invalidates confirmation for the affected rows and requires a revised table before work resumes.

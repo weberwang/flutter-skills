@@ -24,15 +24,15 @@ No subagent may select its own proposal, infer user approval, freeze a design, b
 | Market agent | Produce market and category analysis | `market-analysis.md` | Select a visual direction |
 | Global direction agent | Produce exactly three traceable visual-system definitions | Transient response or assigned draft | Generate page images or freeze a direction |
 | Global direction reviewer | Independently check traceability, differentiation, accessibility, cost, and preset compliance | Review report only | Redesign or select |
-| Page structure agent | Select Full, Lightweight, or Reuse and create the semantic contract; create Pencil evidence only for Full | Assigned nodes in `docs/design/app-design.pen` and page-scoped spec paths | Create another `.pen`, add scope, freeze visual geometry, or add high-fidelity styling |
-| Wireframe reviewer | Independently review level choice, semantic coverage, states, and interaction | Review report only | Modify the contract or judge low-fidelity visual polish |
+| Page structure agent | Select Full, Lightweight, or Reuse and create the semantic contract; create Pencil evidence only for Full | Assigned nodes and page `design-decision.md` | Create another `.pen`, add scope, freeze visual geometry, or add high-fidelity styling |
+| Wireframe reviewer | Independently review level choice, semantic coverage, states, and interaction | Verdict for page `design-decision.md` | Modify the contract or judge low-fidelity visual polish |
 | Page high-fidelity agent | Generate required candidates with the compact image-prompt principles | Transient candidates only | Paste planning evidence into prompts; persist, select, or freeze candidates |
 | Effect Image Reviewer | Independently review completed candidates | Review report only | Modify or select a candidate |
-| Bitmap decomposition agent | Perform ownership classification, visual sweep, and coverage audit | Assigned restoration-analysis path | Generate or cut assets |
-| Asset planning agent | Perform reuse checks and prepare the complete pre-slicing confirmation table | Assigned asset-atlas draft | Produce assets before confirmation |
+| Bitmap decomposition agent | Perform ownership classification, visual sweep, and coverage audit | Page `design-decision.md` section | Generate or cut assets |
+| Asset planning agent | Perform reuse checks and prepare the complete pre-slicing confirmation table | Assigned `asset-manifest.md` draft | Produce assets before confirmation |
 | Asset production agent | Generate with compact prompts, adapt, extract, transparentize, export, and slice confirmed rows | Confirmed asset paths and manifests | Paste planning evidence into prompts, change confirmed rows, or create unconfirmed assets |
-| Pencil restoration agent | Restore the frozen page and write Flutter handoff | Assigned nodes in `docs/design/app-design.pen` and restoration paths | Create another `.pen` or change the frozen design |
-| Visual QA agent | Compare implementation evidence with approved design | Review report only | Self-approve implementation |
+| Pencil restoration agent | Restore the frozen page and write Flutter handoff | Assigned nodes in `docs/design/app-design.pen` and page decision | Create another `.pen` or change the frozen design |
+| Visual QA agent | Compare implementation evidence with approved design | Named task-review section | Self-approve implementation |
 
 ## Dispatch Sequence
 

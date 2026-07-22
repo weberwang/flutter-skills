@@ -1,4 +1,4 @@
 interface:
   display_name: "Flutter Asset Atlas"
-  short_description: "Prepare Flutter visual asset atlases and slices"
-  default_prompt: "Use a planning subagent to prepare the asset atlas and pre-slicing table, wait for controller-led confirmation, then use a separate production subagent with concise non-conflicting image prompts to produce only confirmed 2x assets and fidelity evidence."
+  short_description: "Plan and verify Flutter visual assets."
+  default_prompt: "Use $flutter-asset-atlas to confirm page assets and produce one concise asset manifest after controller-led pre-slicing approval."

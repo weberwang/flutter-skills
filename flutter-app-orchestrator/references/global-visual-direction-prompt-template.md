@@ -2,7 +2,7 @@
 
 在全局设计阶段使用本模板定位三套视觉方向。此阶段只定义和冻结跨页面视觉语言，不生成页面、模块或代表页面效果图，也不创建 `.codex-workflow/visuals/global/` 图片。
 
-冻结前将本模板保留在当前对话。用户明确选定并冻结方向后，保存为 `docs/design/prompts/global-visual-direction-prompt.md`，并将结果写入 `docs/design/global-design-freeze.md`。
+冻结前将本模板保留在当前对话。用户明确选定并冻结方向后，只将选定方向、精简提示词哈希和冻结结果写入 `docs/design/global-design-freeze.md`。
 
 ## 产品依据
 
@@ -14,7 +14,7 @@
 - 产品气质：
 - 需要避免的印象：
 - PRD 来源：
-- 市场分析来源：`docs/product/market-analysis.md`
+- 市场分析来源：产品简报的 Market evidence 章节
 
 ## 视觉表达预算
 

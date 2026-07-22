@@ -82,11 +82,11 @@ def require_clean_integration_worktree(integration_root: Path, state_file: Path)
 
 
 def ensure_task_reports(task_worktree: Path, reports: object) -> None:
-    """确认自动合并前至少存在实现、独立审阅和证据清单。"""
+    """确认自动合并前存在包含快照和验证链接的独立验收记录。"""
     if not isinstance(reports, dict):
         raise WorkflowError("任务状态缺少 reports 映射")
 
-    for name in ("implementer", "review", "evidence_manifest"):
+    for name in ("review",):
         report = task_worktree / str(reports.get(name, ""))
         if not report.is_file():
             raise WorkflowError(f"任务分支缺少必需报告：reports.{name} ({report})")

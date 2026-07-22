@@ -18,34 +18,32 @@ When used inside the full workflow, dispatch a Page high-fidelity agent to gener
 - Confirmed module scope: `docs/plans/modules/<module-name>-scope.md`.
 - Module function and page-function refinement.
 - Module Effect-Image Interrogation Gate record.
-- Product brief, MVP scope, user flow, and screen spec.
+- Product brief and UI spec with the page's flow, state, and screen contract.
 - Global design freeze.
-- Reviewed Full, Lightweight, or Reuse semantic contract and `docs/design/wireframe-spec.md`; Pencil evidence is required only for Full.
+- Reviewed Full, Lightweight, or Reuse semantic contract in `docs/design/pages/<page-name>/design-decision.md`; Pencil evidence is required only for Full.
 - Target device and required page state.
 - First-value, trust, permission, payment, privacy, and recovery constraints when applicable.
 
 ## Workflow
 
 1. Confirm the module-level functional grilling, function/page refinement, and Module Effect-Image Interrogation Gate are complete. Do not repeat the visual interrogation for every page unless a new conflict or decision appears.
-2. Confirm the page's justified wireframe level and semantic contract passed Wireframe Review and `docs/design/wireframe-spec.md` exists. Require Pencil evidence only for Full.
+2. Confirm the page's justified wireframe level and semantic contract passed Wireframe Review in its `design-decision.md`. Require Pencil evidence only for Full.
 3. Draft the page mockup brief with [references/mockup-brief-template.md](references/mockup-brief-template.md), including the global direction, expression preset, page-type budget dial, required state, and module effect-image decisions. Keep the brief, prompt, candidates, and review transient. Treat the brief as planning evidence, not generation prose.
 4. Prepare the page prompt from the orchestrator's page high-fidelity prompt template and [references/image-prompt-principles.md](references/image-prompt-principles.md). Keep full traceability in the planning artifact, then reduce the actual generation prompt to one clear outcome, essential structure/content, a concise visual direction, true non-negotiables, and output requirements. Do not paste PRD mappings, rationale, exhaustive component details, or repeated avoid lists into the image model.
 5. Use the product brief, module scope, and page prompt to generate exactly three page-level effect-image candidates with the available image-generation capability for the same page, state, content, and device. Do not require an external visual-design skill; if image generation is unavailable, record a blocker and do not fabricate image evidence.
 6. Run exactly one combined Effect Image Review with [references/mockup-review-rubric.md](references/mockup-review-rubric.md). Report product-design issues and premium-feel improvements separately; use Apple Human Interface Guidelines as the interaction baseline and judge visual quality against the frozen global direction and active page budget.
 7. Present candidates and review, then ask the user to select, accept or decline review changes, and explicitly freeze one image. Do not write any candidate or visual artifact before confirmation.
-8. Persist the exact selected image first at `.codex-workflow/visuals/pages/<page-name>/frozen-<slug>.png`. Then write the page prompt, brief, page design freeze, and progress entry with candidate ID, decoded dimensions, SHA-256, confirmation time, and module effect-image interrogation evidence.
-9. Freeze implementation constraints with [references/design-freeze-template.md](references/design-freeze-template.md), referencing only the persisted page image.
+8. Persist the exact selected image first at `.codex-workflow/visuals/pages/<page-name>/frozen-<slug>.png`. Then update the page `design-decision.md` with candidate ID, decoded dimensions, SHA-256, confirmation time, compact prompt hash, semantic contract and frozen constraints.
+9. Keep the mockup brief, full prompt, candidates and review prose transient; only their final identifiers and decisions belong in `design-decision.md`.
 10. Before asset work or Pencil restoration, apply the ownership-first decomposition in [bitmap-decomposition-standard.md](../flutter-pencil-design/references/bitmap-decomposition-standard.md): split runtime data from its renderer and fixed treatment, then classify every atomic unit as bitmap, UI, or data. Never turn representative runtime data into a production bitmap. Run the mandatory back-to-front visual sweep for backgrounds, decorations, overlays, icons, logos, textures, and clipped fragments; require a coverage audit with zero unowned visible elements. Record unresolved visual facts and native-Flutter feasibility evidence for UI units.
-11. Use `flutter-asset-atlas` for required bitmaps or bitmap fills. Require its complete pre-slicing table to be shown inline and explicitly confirmed before any asset generation, adaptation, extraction, export, transparentization, or slicing; otherwise record `N/A: no bitmap or exported visual assets`.
+11. Use `flutter-asset-atlas` for required bitmaps or bitmap fills. Require its complete pre-slicing table to be shown inline and explicitly confirmed before any asset generation, adaptation, extraction, export, transparentization, or slicing; record the result in the page `asset-manifest.md`.
 12. Restore the approved page in Pencil when editable high-fidelity handoff is required, then hand off the frozen constraints and evidence to implementation.
 
 ## Output Files
 
-- `docs/design/prompts/pages/<page-name>-hifi-mockup-prompt.md` after freeze.
-- Page-scoped mockup brief and `design-freeze.md` after freeze.
+- `docs/design/pages/<page-name>/design-decision.md`.
 - `.codex-workflow/visuals/pages/<page-name>/frozen-<slug>.png`.
-- Asset and Pencil artifacts when required.
-- Freeze evidence in `.codex-workflow/progress.md`.
+- `asset-manifest.md` and Pencil node references only when required.
 
 ## Generation Rules
 

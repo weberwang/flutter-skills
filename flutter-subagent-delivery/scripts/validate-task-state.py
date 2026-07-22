@@ -88,7 +88,7 @@ def validate_task_state(data: dict[str, object]) -> list[str]:
         errors.append("reports 必须是映射")
     elif task_id:
         expected_prefix = f"docs/tasks/{task_id}/"
-        for name in ("implementer", "review", "visual_qa", "evidence_manifest"):
+        for name in ("review",):
             path = str(reports.get(name, ""))
             if not path.startswith(expected_prefix):
                 errors.append(f"reports.{name} 必须位于 {expected_prefix}")

@@ -33,21 +33,20 @@
 - UI evidence exists for screen changes.
 - Independent visual-QA findings for user-facing flows are resolved or explicitly accepted.
 - Page implementation order does not skip required prior interactions, states, or transitions from the module map.
-- Page-level high-fidelity mockup was generated after low-fidelity Pencil structure, Wireframe Review, and the page-scoped `wireframe-spec.md`.
-- Pencil high-fidelity restoration decision and reason are recorded; required restoration evidence exists for critical, complex, asset-heavy, or visual-parity-sensitive pages.
-- High-fidelity Pencil restoration uses the selected page-level mockup and page design freeze as the visual source of truth; the wireframe is applied only to page scope, structure, states, and interactions.
-- Implemented UI respects the selected mockup and recorded design-freeze constraints when present.
-- Asset reuse check, production decision, generation evidence when used, atlas, slicing manifest, inventory, and fidelity review exist when approved mockups include required visual assets.
-- Required assets are listed in the page-scoped `asset-inventory.md`.
-- Asset source, reuse decision, generation prompt constraints, background handling, background transparentization when applicable, license status, slicing/export output, Flutter path, loading fallback, and error fallback are recorded.
+- Page-level high-fidelity mockup was generated after low-fidelity structure and Wireframe Review, both recorded in the page decision.
+- Pencil restoration decision and reason are recorded in the page decision; required restoration evidence exists for critical, complex, asset-heavy, or visual-parity-sensitive pages.
+- High-fidelity Pencil restoration uses the selected page-level mockup and page decision as the visual source of truth; the semantic contract applies only to scope, structure, states and interactions.
+- Implemented UI respects the selected mockup and page decision constraints when present.
+- A page asset manifest exists when approved mockups include required visual assets.
+- Asset source, reuse decision, generation prompt constraints, background handling, license status, output/Flutter path, loading fallback and error fallback are recorded in the manifest.
 - New bitmap assets use available image-generation evidence by default; Pencil exports are approved only when the exported node is the recorded production asset source.
 - Every icon, image, illustration, logo, texture, and bitmap unit has 100%-match evidence and a separate-asset review verdict. An unmatched resource completed dedicated bitmap generation and asset fidelity review; near-match system icons, Flutter components, and existing assets are rejected.
 - Transparent or composited assets have clean alpha edges, preserved shadows/glows, and no unintended background halos.
 - Transparent-background post-processing records matte removal, alpha cleanup, edge decontamination, padding, and target-background QA when applicable.
-- New generated assets reference global and page design-freeze constraints and explain why existing assets were not reused.
+- New generated assets reference global visual-direction and page-design-decision constraints and explain why existing assets were not reused.
 - Icon, image, illustration, logo, texture, and bitmap fidelity matches the approved mockup 100%; only documented rasterization or scaling tolerance is allowed.
-- Implemented UI respects the page-scoped `wireframe-spec.md` for page scope, structure, states, and interactions when low-fidelity Pencil wireframes are used.
-- Implemented UI respects the page-scoped `pencil-hifi-restoration.md` when Pencil carries high-fidelity visual restoration.
+- Implemented UI respects the page decision for scope, structure, states and interactions when low-fidelity Pencil wireframes are used.
+- Implemented UI respects the page decision's Pencil section when Pencil carries high-fidelity visual restoration.
 - Raw Pencil screenshots are not used as the sole implementation spec.
 - Layout works on target viewports.
 - Empty, loading, error, success, disabled, and permission-denied states are covered where relevant.
@@ -58,7 +57,7 @@
 
 ## Visual Aesthetics And Premium Feel
 
-- Compare the implementation screenshot with the approved mockup and design-freeze constraints before judging aesthetics.
+- Compare the implementation screenshot with the approved mockup and page-design-decision constraints before judging aesthetics.
 - Verify hierarchy, alignment, spacing rhythm, typography, color and contrast, component consistency, and asset quality as one visual system.
 - Verify that decoration, borders, shadows, corner radii, and accent colors are purposeful and match the active expression preset and page-type budget; flag visual noise, generic treatment, competing focal points, and missing signature on full-budget or wow-required pages. Do not require austerity when the preset calls for higher signature strength.
 - Verify that the screen gives visual priority to the primary user task and uses content imagery or assets that fit the product and target audience.

@@ -11,8 +11,8 @@ Convert approved specs into a coarse cross-module build sequence, then refine ea
 
 ## Inputs
 
-- Product brief and MVP scope.
-- Screen specs and UI quality gates.
+- Product brief with MVP scope and user stories.
+- UI spec with screen states and quality gates.
 - Technical design.
 - Module boundaries, page flow, and cross-module contracts.
 - Existing app structure, if this is not a greenfield app.
@@ -53,7 +53,7 @@ Convert approved specs into a coarse cross-module build sequence, then refine ea
 - `docs/plans/implementation-plan.md`
 - `.codex-workflow/progress.md`
 - `.codex-workflow/tasks/<task-id>.yaml`
-- `docs/tasks/<task-id>/`
+- `docs/tasks/<task-id>/review.md`
 
 Use [references/module-map-template.md](references/module-map-template.md), [references/module-scope-template.md](references/module-scope-template.md), [references/implementation-plan-template.md](references/implementation-plan-template.md), and [references/task-brief-template.md](references/task-brief-template.md).
 

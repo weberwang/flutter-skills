@@ -1,202 +1,53 @@
-# Task Brief Template
+# Task Brief
 
-Replace every placeholder before dispatching this brief to its routed App team role.
+仅保留实施者完成当前任务所需的信息。链接权威工件，不复制其内容；不适用的条件工件留空并在“条件”写一行原因。
 
-## Task
+## 任务
 
-- ID:
-- Name:
-- Milestone:
-- Business-flow level:
-- Required prior-level evidence:
-- Task state: `.codex-workflow/tasks/<task-id>.yaml`
-- Base commit / task branch / worktree:
-- Controller integration worktree / branch:
-- 活动任务状态：仅在 Controller 集成 worktree 中未提交保存；任务分支不得携带该文件。
+- ID / 名称：
+- 模块 / 业务流等级：
+- 目标：
+- 前置等级证据：
+- 任务状态：`.codex-workflow/tasks/<task-id>.yaml`
+- 基线提交 / 任务分支 / worktree：
+- Controller 集成 worktree / 分支：
 - 自动收尾命令：`python <flutter-subagent-delivery>/scripts/finalize-task.py .codex-workflow/tasks/<task-id>.yaml --integration-worktree <集成-worktree> --integration-branch <集成分支>`
-- Runtime platform validation: Final platform matrix; level integration smoke is scheduled after merge
-- Module grilling log entry:
-- Module shared-understanding confirmation:
-- Confirmed module scope: `docs/plans/modules/<module-name>-scope.md`
-- Module Effect-Image Interrogation Gate: Required for UI / N/A — evidence:
-- Goal:
 
-## Team Assignment
+## 责任与范围
 
-- Task profile:
-- Current Gate:
-- DRI core role:
-- DRI agent ID: Assigned at dispatch
-- Specialist seat:
-- Independent acceptance role:
-- Reviewer/approver agent ID: Assigned at dispatch; must differ from producer
-- Consulted roles:
-- Omitted roles and `N/A: <reason>`:
-- Role routing source: `flutter-app-orchestrator/references/subagent-map.md`
-- Accepted upstream evidence/version:
-- Shared-resource locks:
-- Evidence manifest: `docs/tasks/<task-id>/evidence/manifest.md`
-- Report directory: `docs/tasks/<task-id>/`
-- Execution mode: serial / parallel-safe
-- Review snapshot requirement: commit/diff ID plus artifact and evidence versions
+- DRI 核心角色 / agent ID：
+- 独立验收角色 / agent ID：
+- 已启用专家席位与原因：
+- 读范围：
+- 唯一写范围：
+- 非目标：
+- 共享资源锁：
 
-## Scope
+## 权威输入
 
-Must do:
+- 产品简报：
+- UI 规格：
+- 技术设计：
+- 模块图 / 已确认模块 scope：
+- 项目本地 `flutter-dev`：
+- 平台验证范围：
 
-- 
+## 条件输入
 
-Must not do:
+- 页面设计决策：`docs/design/pages/<page-name>/design-decision.md` / 不适用原因：
+- 资产清单：`docs/design/pages/<page-name>/asset-manifest.md` / 不适用原因：
+- Pencil 节点 ID：`docs/design/app-design.pen` / 不适用原因：
+- 冻结图：`.codex-workflow/visuals/pages/<page-name>/...` / 不适用原因：
 
-- 
+## 验收
 
-## Inputs
+- 功能与状态：
+- 可访问性 / 性能 / 安全约束：
+- UI 证据（截图或 golden）/ 不适用原因：
+- 验证命令：
+  - `fvm flutter analyze`
+  - `fvm flutter test <相关目标>`
 
-- Product spec:
-- Local `flutter-dev` skill:
-- Module map:
-- Confirmed module scope:
-- Module Effect-Image Interrogation Gate:
-- UI brief:
-- Global design freeze:
-- Design freeze:
-- Wireframe spec:
-- Asset atlas:
-- Asset reuse check:
-- Asset production decision:
-- Asset bitmap source policy:
-- Asset 100%-match evidence:
-- Asset background handling:
-- Asset background transparentization:
-- Asset transparent post-processing:
-- Asset generation evidence:
-- Asset slicing manifest:
-- Asset inventory:
-- Asset fidelity review:
-- Pencil handoff:
-- Pencil high-fidelity restoration decision:
-- Pencil high-fidelity restoration reason:
-- Pencil high-fidelity restoration:
-- Technical design:
-- Existing files:
+## 交付
 
-## Page Design Gate
-
-Required for UI page task: Yes / No
-
-If yes:
-
-- Page or module:
-- Low-fidelity Pencil source:
-- Wireframe review:
-- Wireframe text spec:
-- High-fidelity mockup brief:
-- Selected frozen high-fidelity mockup: `.codex-workflow/visuals/pages/<page-name>/frozen-<slug>.png`
-- Mockup candidate ID / SHA-256 / confirmation time:
-- Approval record:
-- Global design freeze:
-- Design freeze:
-- Asset atlas:
-- Asset reuse check:
-- Asset production decision:
-- Asset bitmap source policy:
-- Asset 100%-match evidence:
-- Asset background handling:
-- Asset background transparentization:
-- Asset transparent post-processing:
-- Asset generation evidence:
-- Asset slicing manifest:
-- Asset inventory:
-- Asset fidelity review:
-- Pencil high-fidelity restoration decision:
-- Pencil high-fidelity restoration reason:
-- Pencil high-fidelity restoration:
-- Pencil Flutter handoff:
-- Required assets:
-- Allowed deviations:
-
-## Module Context
-
-- Module:
-- Confirmed included functions:
-- Confirmed non-goals:
-- Refined page functions:
-- Module responsibility:
-- Route ownership:
-- Data ownership:
-- Depends on modules:
-- Blocks modules:
-- Cross-module contracts:
-- Page interaction order:
-- Module acceptance path:
-- Module acceptance result:
-- Integration smoke path:
-- Integration smoke result:
-
-## Expected Write Scope
-
-- 
-
-## Read and Non-Scope
-
-- Read scope:
-- Must not write:
-- Must not decide:
-
-## Acceptance Criteria
-
-- 
-
-## Verification Commands
-
-- `fvm flutter analyze`
-- `fvm flutter test`
-
-## UI Evidence
-
-Required: Yes / No
-
-If yes:
-
-- Viewports:
-- Golden test:
-- Screenshot path:
-- Mockup source:
-- Runtime platform validation: Final platform matrix; screenshot/golden is design evidence only and level smoke runs only after integration-branch merge
-- Global design freeze:
-- Required assets:
-- Asset atlas:
-- Asset reuse check:
-- Asset production decision:
-- Asset bitmap source policy:
-- Asset 100%-match evidence:
-- Asset background handling:
-- Asset background transparentization:
-- Asset transparent post-processing:
-- Asset generation evidence:
-- Asset slicing manifest:
-- Asset inventory:
-- Asset fidelity review:
-- Low-fidelity Pencil source:
-- Pencil high-fidelity restoration decision:
-- Pencil high-fidelity restoration reason:
-- High-fidelity Pencil restoration:
-- Wireframe text spec:
-- Allowed deviations:
-
-## Report Contract
-
-Return:
-
-- Status: DONE / DONE_WITH_CONCERNS / NEEDS_CONTEXT / BLOCKED
-- Changed files.
-- Tests run and output summary.
-- Screenshots or golden evidence.
-- Module acceptance result.
-- Integration smoke result.
-- Task branch commit SHA.
-- 自动合并提交 / 状态提交 / worktree 与分支清理结果。
-- Concerns.
-- Gate verdict.
-- Missing evidence.
-- Recommended next role.
+实现者只返回：状态、任务提交 SHA、变更文件、验证摘要、阻塞项。独立验收者将快照、发现、测试/截图路径、UI QA（如适用）和最终结论写入 `docs/tasks/<task-id>/review.md`。

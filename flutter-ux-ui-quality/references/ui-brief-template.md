@@ -1,4 +1,15 @@
-# UI Brief Template
+# UI Spec Template
+
+## Navigation and Screen Inventory
+
+| Screen / route | User outcome | State coverage | Design level |
+|---|---|---|---|
+| | | | |
+
+## Cross-page Quality Gates
+
+- Accessibility, responsive, and localization constraints:
+- Shared interaction and state rules:
 
 ## Screen
 
@@ -61,14 +72,12 @@
 - High-fidelity approval notes:
 - Mockup required: Yes / No
 - Mockup reason:
-- Design-freeze path:
+- Page design decision path:
 - Low-fidelity Pencil wireframe required: Yes / No
-- Wireframe review path:
-- Wireframe text spec path:
-- Asset inventory required: Yes / No
-- Asset inventory path:
-- Low-fidelity Pencil wireframe required: Yes / No
-- Pencil handoff path:
+- Wireframe verdict and semantic contract: page design decision
+- Asset manifest required: Yes / No
+- Asset manifest path:
+- Pencil nodes and handoff: page design decision
 - Color tokens:
 - Typography:
 - Spacing:

@@ -12,10 +12,7 @@ worktree: ""
 write_scope: []
 inputs: []
 reports:
-  implementer: docs/tasks/T01/implementer-report.md
   review: docs/tasks/T01/review.md
-  visual_qa: docs/tasks/T01/visual-qa.md
-  evidence_manifest: docs/tasks/T01/evidence/manifest.md
 acceptance:
   verdict: pending # pending | approved | changes_requested
   approved_by: ""
