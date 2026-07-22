@@ -7,7 +7,17 @@ import sys
 from pathlib import Path
 
 
-VALID_STATES = {"planned", "claimed", "implementing", "reviewing", "accepted", "blocked"}
+VALID_STATES = {
+    "planned",
+    "claimed",
+    "implementing",
+    "reviewing",
+    "integrating",
+    "accepted",
+    "blocked",
+}
+VALID_ACCEPTANCE_VERDICTS = {"pending", "approved", "changes_requested"}
+VALID_CLEANUP_STATES = {"pending", "completed"}
 REQUIRED_ROOT_KEYS = {
     "id",
     "state",
@@ -19,6 +29,7 @@ REQUIRED_ROOT_KEYS = {
     "write_scope",
     "inputs",
     "reports",
+    "acceptance",
     "integration",
     "blocker",
 }
@@ -99,10 +110,40 @@ def validate_task_state(data: dict[str, object]) -> list[str]:
                 if not str(lease.get(key, "")):
                     errors.append(f"可写任务需要 lease.{key}")
 
-    if state == "accepted":
-        integration = data.get("integration")
-        if not isinstance(integration, dict) or not str(integration.get("merged_commit", "")):
-            errors.append("accepted 状态需要 integration.merged_commit")
+    acceptance = data.get("acceptance")
+    if not isinstance(acceptance, dict):
+        errors.append("acceptance 必须是映射")
+    else:
+        verdict = str(acceptance.get("verdict", ""))
+        if verdict not in VALID_ACCEPTANCE_VERDICTS:
+            errors.append(
+                "acceptance.verdict 必须是以下值之一："
+                f"{', '.join(sorted(VALID_ACCEPTANCE_VERDICTS))}"
+            )
+        if verdict == "approved":
+            for key in ("approved_by", "approved_at"):
+                if not str(acceptance.get(key, "")):
+                    errors.append(f"acceptance.verdict 为 approved 时需要 acceptance.{key}")
+
+    integration = data.get("integration")
+    if not isinstance(integration, dict):
+        errors.append("integration 必须是映射")
+    else:
+        cleanup = str(integration.get("cleanup", ""))
+        if cleanup not in VALID_CLEANUP_STATES:
+            errors.append(
+                "integration.cleanup 必须是以下值之一："
+                f"{', '.join(sorted(VALID_CLEANUP_STATES))}"
+            )
+
+        if state in {"integrating", "accepted"}:
+            if not str(integration.get("merged_commit", "")):
+                errors.append(f"{state} 状态需要 integration.merged_commit")
+            if not isinstance(acceptance, dict) or str(acceptance.get("verdict", "")) != "approved":
+                errors.append(f"{state} 状态需要 acceptance.verdict 为 approved")
+
+        if state == "accepted" and cleanup != "completed":
+            errors.append("accepted 状态需要 integration.cleanup 为 completed")
 
     return errors
 

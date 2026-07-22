@@ -37,6 +37,7 @@ Create `.codex-workflow/progress.md` in the target app repo. This is a Controlle
   - Task owner / lease:
   - Integration base commit / task branch:
   - Worktree:
+  - Controller integration worktree / branch:
   - Task profile:
   - Current Gate:
   - DRI role:
@@ -120,6 +121,8 @@ Create `.codex-workflow/progress.md` in the target app repo. This is a Controlle
   - Verification:
   - Evidence manifest: `docs/tasks/T01/evidence/manifest.md`
   - Commit/diff:
+  - 自动合并提交 / 状态提交:
+  - worktree / 本地分支 / 远端分支清理结果:
 
 ## Assignments and Reports
 
@@ -157,6 +160,6 @@ Create `.codex-workflow/progress.md` in the target app repo. This is a Controlle
 - Keep page effect-image candidates, prompts, briefs, and review output transient until the user explicitly confirms a freeze. At freeze, write the exact selected image first under `.codex-workflow/visuals/pages/<page-name>/`; only then write related artifacts and ledger fields. Never create a global frozen effect image.
 - For required visual assets, update reuse check, production decision, bitmap source policy, 100%-match evidence, background handling, background transparentization when applicable, transparent post-processing when applicable, generation evidence when used, atlas, slicing manifest, inventory, and fidelity review before Pencil high-fidelity restoration or implementation. An unmatched icon, image, illustration, logo, texture, or bitmap must record the dedicated bitmap-generation path.
 - For fields that do not apply, write `N/A: <reason>` instead of leaving them blank.
-- Do not re-dispatch accepted tasks after context compaction. Resume from the Controller-owned task-state file and verify the branch commit still exists.
+- Do not re-dispatch accepted tasks after context compaction. Resume from the Controller-owned task-state file and verify the recorded merge and status commits; completed tasks no longer retain their task worktree or local branch.
 - Record failed commands honestly.
 - Record missing screenshots as missing evidence, not as pass.
