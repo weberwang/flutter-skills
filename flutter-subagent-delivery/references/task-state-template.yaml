@@ -1,6 +1,7 @@
 # 仅 Controller 可修改；其他代理只读取此文件。
 id: T01
-risk_tier: high # high | release；light/standard 顺序任务不使用本模板
+risk_tier: high # standard | high | release；light 任务不使用本模板
+isolation: branch # branch | worktree
 state: planned # planned | claimed | implementing | reviewing | integrating | accepted | blocked
 owner: ""
 lease:
@@ -9,7 +10,7 @@ lease:
   expires_at: ""
 base_commit: ""
 branch: codex/T01
-worktree: ""
+worktree: "" # 仅 isolation=worktree 时填写
 write_scope: []
 inputs: []
 validation: pending # pending | passed

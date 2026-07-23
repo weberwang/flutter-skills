@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""安全合并已验收任务，并清理对应 worktree 与临时分支。"""
+"""安全合并已验收任务，并按隔离模式清理临时分支或 worktree。"""
 
 import argparse
 import importlib.util
@@ -45,9 +45,9 @@ def git_succeeds(repository: Path, *arguments: str) -> bool:
     return completed.returncode == 0
 
 
-def repository_root(worktree: Path) -> Path:
-    """解析 worktree 的仓库根目录，确保后续路径检查使用真实位置。"""
-    return Path(run_git(worktree, "rev-parse", "--show-toplevel")).resolve()
+def repository_root(repository: Path) -> Path:
+    """解析当前 Git 工作目录根路径，确保后续路径检查使用真实位置。"""
+    return Path(run_git(repository, "rev-parse", "--show-toplevel")).resolve()
 
 
 def normalized_path(path: Path) -> str:
@@ -55,41 +55,45 @@ def normalized_path(path: Path) -> str:
     return os.path.normcase(str(path.resolve()))
 
 
-def require_clean_worktree(worktree: Path, label: str) -> None:
-    """拒绝在含未提交改动的 worktree 上自动合并或删除。"""
-    if run_git(worktree, "status", "--porcelain", "--untracked-files=all"):
-        raise WorkflowError(f"{label} worktree 不干净；请先提交、转移或删除未提交改动后重试")
+def require_clean_workspace(workspace: Path, label: str) -> None:
+    """拒绝在含未提交实现改动的工作目录上自动切换、合并或删除。"""
+    if run_git(workspace, "status", "--porcelain", "--untracked-files=all"):
+        raise WorkflowError(f"{label}工作目录不干净；请先提交、转移或删除未提交改动后重试")
 
 
-def require_clean_integration_worktree(integration_root: Path, state_file: Path) -> None:
-    """只容许当前未提交任务状态存在，避免任务分支携带易冲突的活动状态。"""
+def require_clean_controller_workspace(repository: Path, state_file: Path) -> None:
+    """只容许当前任务状态未提交，保证分支切换和集成不覆盖用户改动。"""
     try:
-        state_relative = state_file.relative_to(integration_root).as_posix()
+        state_relative = state_file.relative_to(repository).as_posix()
     except ValueError as error:
-        raise WorkflowError("任务状态文件必须位于 Controller 集成 worktree 内") from error
+        raise WorkflowError("任务状态文件必须位于 Controller 工作目录内") from error
 
     unexpected: list[str] = []
     for line in run_git(
-        integration_root, "status", "--porcelain", "--untracked-files=all"
+        repository, "status", "--porcelain", "--untracked-files=all"
     ).splitlines():
         path = line[3:].replace("\\", "/")
         if path != state_relative:
             unexpected.append(line)
     if unexpected:
         raise WorkflowError(
-            "集成 worktree 除当前任务状态外仍有未提交改动：\n" + "\n".join(unexpected)
+            "Controller 工作目录除当前任务状态外仍有未提交改动：\n"
+            + "\n".join(unexpected)
         )
 
 
-def ensure_task_reports(task_worktree: Path, reports: object) -> None:
-    """确认自动合并前存在包含快照和验证链接的独立验收记录。"""
+def ensure_task_reports(repository: Path, candidate_commit: str, reports: object) -> None:
+    """确认已验收候选提交包含必需报告，避免依赖特定工作目录。"""
     if not isinstance(reports, dict):
         raise WorkflowError("任务状态缺少 reports 映射")
 
     for name in ("review",):
-        report = task_worktree / str(reports.get(name, ""))
-        if not report.is_file():
-            raise WorkflowError(f"任务分支缺少必需报告：reports.{name} ({report})")
+        report = str(reports.get(name, "")).replace("\\", "/")
+        report_path = Path(report)
+        if report_path.is_absolute() or ".." in report_path.parts:
+            raise WorkflowError(f"reports.{name} 必须是仓库内相对路径")
+        if not git_succeeds(repository, "cat-file", "-e", f"{candidate_commit}:{report}"):
+            raise WorkflowError(f"候选提交缺少必需报告：reports.{name} ({report})")
 
 
 def ensure_valid_branch_name(repository: Path, branch: str, label: str) -> None:
@@ -99,9 +103,8 @@ def ensure_valid_branch_name(repository: Path, branch: str, label: str) -> None:
     run_git(repository, "check-ref-format", "--branch", branch)
 
 
-def worktree_matches_branch(repository: Path, task_worktree: Path, branch: str) -> bool:
-    """确认待删除路径确实是该仓库中任务分支关联的 worktree。"""
-    expected_path = normalized_path(task_worktree)
+def branch_checkout_path(repository: Path, branch: str) -> Path | None:
+    """返回本地分支当前注册的工作目录；未检出时返回空。"""
     expected_branch = f"refs/heads/{branch}"
     current_path = ""
     current_branch = ""
@@ -113,12 +116,46 @@ def worktree_matches_branch(repository: Path, task_worktree: Path, branch: str) 
         elif line.startswith("branch "):
             current_branch = line.removeprefix("branch ")
         elif not line:
-            if current_path and normalized_path(Path(current_path)) == expected_path:
-                return current_branch == expected_branch
+            if current_path and current_branch == expected_branch:
+                return Path(current_path).resolve()
             current_path = ""
             current_branch = ""
 
-    return False
+    return None
+
+
+def worktree_matches_branch(repository: Path, task_worktree: Path, branch: str) -> bool:
+    """确认待删除路径确实是该仓库中任务分支关联的 worktree。"""
+    checkout = branch_checkout_path(repository, branch)
+    return checkout is not None and normalized_path(checkout) == normalized_path(task_worktree)
+
+
+def prepare_integration_branch(
+    repository: Path,
+    task_branch: str,
+    integration_branch: str,
+    isolation: str,
+) -> None:
+    """按隔离模式定位集成分支；普通分支模式允许从任务分支安全切回。"""
+    current_branch = run_git(repository, "branch", "--show-current")
+    if isolation == "worktree":
+        if current_branch != integration_branch:
+            raise WorkflowError(
+                "worktree 隔离模式要求 Controller 工作目录保持在集成分支"
+            )
+        return
+
+    checkout = branch_checkout_path(repository, task_branch)
+    if checkout is not None and normalized_path(checkout) != normalized_path(repository):
+        raise WorkflowError("branch 隔离模式的任务分支不得检出到其他 worktree")
+    if current_branch == task_branch:
+        run_git(repository, "switch", integration_branch)
+        return
+    if current_branch != integration_branch:
+        raise WorkflowError(
+            f"当前分支为 {current_branch or 'detached HEAD'}，"
+            f"不是任务分支 {task_branch} 或集成分支 {integration_branch}"
+        )
 
 
 def replace_yaml_value(content: str, key: str, value: str, indent: int) -> str:
@@ -157,7 +194,7 @@ def commit_state_record(repository: Path, state_file: Path, task_id: str, stage:
     run_git(repository, "add", "--", str(relative_state))
     staged_files = run_git(repository, "diff", "--cached", "--name-only")
     if staged_files.splitlines() != [str(relative_state).replace("\\", "/")]:
-        raise WorkflowError("状态提交暂存区包含非任务状态文件；请恢复干净集成 worktree 后重试")
+        raise WorkflowError("状态提交暂存区包含非任务状态文件；请恢复干净工作目录后重试")
     run_git(repository, "commit", "-m", f"chore(workflow): {stage} {task_id}")
 
 
@@ -188,22 +225,23 @@ def merge_task_branch(repository: Path, task_branch: str) -> None:
         run_git(repository, "merge", "--abort")
     detail = completed.stderr.strip() or completed.stdout.strip() or "未知 Git 错误"
     raise WorkflowError(
-        "任务分支自动合并失败，已撤销集成 worktree 中的半完成合并；"
+        "任务分支自动合并失败，已撤销工作目录中的半完成合并；"
         f"请由任务所有者修复分支后重试。\n{detail}"
     )
 
 
 def cleanup_task_checkout(
     repository: Path,
-    task_worktree: Path,
+    isolation: str,
+    task_worktree: Path | None,
     branch: str,
     remote: str | None,
 ) -> None:
-    """只删除已合并、已验证且属于任务分支的本地资源。"""
-    if task_worktree.exists():
+    """只删除已合并任务对应的分支，以及按需创建的 worktree。"""
+    if isolation == "worktree" and task_worktree is not None and task_worktree.exists():
         if not worktree_matches_branch(repository, task_worktree, branch):
             raise WorkflowError("任务 worktree 未注册为指定任务分支；拒绝删除该路径")
-        require_clean_worktree(task_worktree, "任务")
+        require_clean_workspace(task_worktree, "任务")
         run_git(repository, "worktree", "remove", "--", str(task_worktree))
 
     if branch_exists(repository, branch):
@@ -237,29 +275,25 @@ def task_branch_tracks_state(repository: Path, branch: str, state_file: Path) ->
 
 def finish_task(
     state_file: Path,
-    integration_worktree: Path,
+    repository_path: Path,
     integration_branch: str,
     remote: str | None,
 ) -> None:
-    """执行可重试的合并、状态记录和任务 worktree/分支清理流程。"""
-    integration_root = repository_root(integration_worktree)
-    if integration_root != integration_worktree:
-        raise WorkflowError("--integration-worktree 必须指向 Git worktree 根目录")
+    """执行普通分支或 worktree 模式的可重试合并与清理。"""
+    repository = repository_root(repository_path)
+    if repository != repository_path:
+        raise WorkflowError("--repository 必须指向当前 Git 工作目录根路径")
     try:
-        state_file.relative_to(integration_root)
+        state_file.relative_to(repository)
     except ValueError:
-        raise WorkflowError("任务状态文件必须位于 Controller 集成 worktree 内")
+        raise WorkflowError("任务状态文件必须位于 Controller 工作目录内")
 
-    ensure_valid_branch_name(integration_root, integration_branch, "集成")
-    current_branch = run_git(integration_root, "branch", "--show-current")
-    if current_branch != integration_branch:
-        raise WorkflowError(
-            f"集成 worktree 当前分支为 {current_branch or 'detached HEAD'}，不是 {integration_branch}"
-        )
+    ensure_valid_branch_name(repository, integration_branch, "集成")
 
     data = load_and_validate(state_file)
     task_id = str(data["id"])
     state = str(data["state"])
+    isolation = str(data["isolation"])
     acceptance = data["acceptance"]
     integration = data["integration"]
     if not isinstance(acceptance, dict) or acceptance.get("verdict") != "approved":
@@ -270,64 +304,69 @@ def finish_task(
         raise WorkflowError("自动收尾只接受 reviewing 或可重试的 integrating 状态")
 
     task_branch = str(data["branch"])
-    task_worktree = Path(str(data["worktree"])).resolve()
+    worktree_value = str(data["worktree"])
+    task_worktree = Path(worktree_value).resolve() if worktree_value else None
     base_commit = str(data["base_commit"])
     candidate_commit = str(data["candidate_commit"])
     merged_commit = str(integration.get("merged_commit", ""))
-    ensure_valid_branch_name(integration_root, task_branch, "任务")
+    ensure_valid_branch_name(repository, task_branch, "任务")
     if task_branch == integration_branch:
         raise WorkflowError("任务分支不得与集成分支相同")
 
-    require_clean_integration_worktree(integration_root, state_file)
+    require_clean_controller_workspace(repository, state_file)
+    if task_branch_tracks_state(repository, task_branch, state_file):
+        raise WorkflowError("任务分支包含活动任务状态文件；请先移出并提交任务实现")
+    prepare_integration_branch(repository, task_branch, integration_branch, isolation)
 
     if state == "reviewing":
-        if not task_worktree.exists() or not worktree_matches_branch(
-            integration_root, task_worktree, task_branch
+        if isolation == "worktree" and (
+            task_worktree is None
+            or not task_worktree.exists()
+            or not worktree_matches_branch(repository, task_worktree, task_branch)
         ):
-            raise WorkflowError("reviewing 任务必须保留与任务分支匹配的 worktree")
-        if not branch_exists(integration_root, task_branch):
+            raise WorkflowError("worktree 隔离任务必须保留与任务分支匹配的 worktree")
+        if not branch_exists(repository, task_branch):
             raise WorkflowError("任务本地分支不存在，无法自动合并")
-        if run_git(integration_root, "rev-parse", task_branch) != candidate_commit:
+        if run_git(repository, "rev-parse", task_branch) != candidate_commit:
             raise WorkflowError("任务分支 HEAD 与已验收候选提交不一致；请完成受影响范围复审")
-        if task_branch_tracks_state(integration_root, task_branch, state_file):
-            raise WorkflowError("任务分支包含活动任务状态文件；请先由 Controller 重建隔离分支")
-        require_clean_worktree(task_worktree, "任务")
-        ensure_task_reports(task_worktree, data.get("reports"))
-        run_git(integration_root, "cat-file", "-e", f"{base_commit}^{{commit}}")
-        if not branch_is_merged(integration_root, base_commit, integration_branch):
+        if isolation == "worktree" and task_worktree is not None:
+            require_clean_workspace(task_worktree, "任务")
+        ensure_task_reports(repository, candidate_commit, data.get("reports"))
+        run_git(repository, "cat-file", "-e", f"{base_commit}^{{commit}}")
+        if not branch_is_merged(repository, base_commit, integration_branch):
             raise WorkflowError("任务基线不是当前集成分支祖先；请先由 Controller 解决集成顺序")
-        if not branch_is_merged(integration_root, base_commit, task_branch):
+        if not branch_is_merged(repository, base_commit, task_branch):
             raise WorkflowError("任务基线不是任务分支祖先")
-        if branch_is_merged(integration_root, task_branch, integration_branch):
+        if branch_is_merged(repository, task_branch, integration_branch):
             raise WorkflowError("任务分支已进入集成分支，但状态仍为 reviewing；请先修复状态记录")
 
-        run_git(integration_root, "diff", "--check", f"{base_commit}..{task_branch}")
-        merge_task_branch(integration_root, task_branch)
-        merged_commit = run_git(integration_root, "rev-parse", "HEAD")
+        run_git(repository, "diff", "--check", f"{base_commit}..{task_branch}")
+        merge_task_branch(repository, task_branch)
+        merged_commit = run_git(repository, "rev-parse", "HEAD")
         write_state_transition(state_file, "integrating", merged_commit, "pending")
         load_and_validate(state_file)
     else:
         if not merged_commit:
             raise WorkflowError("integrating 状态缺少 integration.merged_commit")
-        run_git(integration_root, "cat-file", "-e", f"{merged_commit}^{{commit}}")
-        if not branch_is_merged(integration_root, merged_commit, integration_branch):
+        run_git(repository, "cat-file", "-e", f"{merged_commit}^{{commit}}")
+        if not branch_is_merged(repository, merged_commit, integration_branch):
             raise WorkflowError("记录的合并提交不在当前集成分支；拒绝清理任务资源")
 
-    cleanup_task_checkout(integration_root, task_worktree, task_branch, remote)
+    cleanup_task_checkout(repository, isolation, task_worktree, task_branch, remote)
     write_state_transition(state_file, "accepted", merged_commit, "completed")
     load_and_validate(state_file)
-    commit_state_record(integration_root, state_file, task_id, "accept")
+    commit_state_record(repository, state_file, task_id, "accept")
     print(
         f"任务 {task_id} 已合并：{merged_commit}；"
-        "任务 worktree 与本地分支已清理，仅最终 accepted 状态已提交"
+        f"{isolation} 隔离资源已清理，仅最终 accepted 状态已提交"
     )
 
 
 def main() -> int:
     """解析 Controller 参数并输出可直接用于恢复流程的失败信息。"""
     parser = argparse.ArgumentParser(description="自动合并并清理 Flutter 协作任务")
-    parser.add_argument("state_file", type=Path, help="集成 worktree 内的任务状态文件")
-    parser.add_argument("--integration-worktree", type=Path, required=True)
+    parser.add_argument("state_file", type=Path, help="Controller 工作目录内的任务状态文件")
+    parser.add_argument("--repository", type=Path, required=True)
     parser.add_argument("--integration-branch", required=True)
     parser.add_argument(
         "--remote",
@@ -338,7 +377,7 @@ def main() -> int:
     try:
         finish_task(
             args.state_file.resolve(),
-            args.integration_worktree.resolve(),
+            args.repository.resolve(),
             args.integration_branch,
             args.remote,
         )

@@ -36,8 +36,8 @@ Convert approved specs into a coarse cross-module build sequence, then refine ea
 - Create task briefs from the confirmed module scope, not directly from the coarse global plan.
 - Classify every task with [task-risk-tiers.md](../flutter-subagent-delivery/references/task-risk-tiers.md). Add a DRI, independent acceptance, specialist roles, and shared-resource locks only when the selected tier requires them.
 - Route Flutter work to Flutter Engineer, API/schema/migration work to Backend/Data Engineer, cross-cutting technical work to Tech Lead, quality evidence to QA Engineer, and build/pipeline/release work to DevOps/Release Engineer. Do not use a generic implementer when the owning discipline is known.
-- Each task must list risk tier, scope, non-scope, acceptance criteria, verified integration base, and executable verification commands. Add task-state, worktree and finalizer fields only for `high`, `release`, or concurrent multi-agent work.
-- For a controlled worktree task, keep one active task-state file in the Controller integration worktree and one task worktree through final acceptance. Do not recreate either for review rounds.
+- Each task must list risk tier, isolation mode, scope, non-scope, acceptance criteria, verified integration base, and executable verification commands. Add task-state and finalizer fields for controlled `standard`, `high`, or `release` work; add a worktree field only when isolation is `worktree`.
+- Keep one active task-state file uncommitted in the Controller working directory. Use a normal task branch by default; when concurrency requires a worktree, keep one through final acceptance and do not recreate it for review rounds.
 - Each task must follow `docs/architecture/verification-platforms.md`; do not duplicate platform scope or claim an unrecorded platform as verified. Run integration smoke after each business-flow level merges to the integration branch; reserve the full device, emulator, simulator, browser, and desktop matrix for final integration.
 - UI tasks must include screenshot or golden evidence requirements.
 - Deterministic verification and known regression fixtures must execute successfully before formal review starts.
@@ -68,4 +68,4 @@ Use [references/module-map-template.md](references/module-map-template.md), [ref
 
 ## Gate
 
-Do not execute from an uncertain integration base, unresolved material scope, missing acceptance criteria, or unexecutable verification plan. Do not require grilling, worktrees, task-state files, role assembly, independent review, or release evidence merely because the task exists; select them from the risk tier. For controlled multi-agent work, follow [collaboration-protocol.md](../flutter-subagent-delivery/references/collaboration-protocol.md).
+Do not execute from an uncertain integration base, unresolved material scope, missing acceptance criteria, or unexecutable verification plan. Do not require grilling, task-state files, role assembly, independent review, or release evidence merely because the task exists; select them from the risk tier. Select worktree independently and only for a concrete concurrency or workspace-protection need. For controlled work, follow [collaboration-protocol.md](../flutter-subagent-delivery/references/collaboration-protocol.md).

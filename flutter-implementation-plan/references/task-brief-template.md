@@ -6,12 +6,14 @@
 
 - ID / 名称：
 - 风险等级：light / standard / high / release
+- 隔离方式：branch / worktree
 - 模块 / 业务流等级：
 - 目标：
 - 前置等级证据：
 - 已验证集成分支 / 基线提交：
 - 任务分支：
-- 高风险、发布或并发任务的状态 / worktree：
+- 受控任务状态：
+- worktree（仅选择 worktree 隔离时）：
 - 条件自动收尾命令：
 
 ## 责任与范围

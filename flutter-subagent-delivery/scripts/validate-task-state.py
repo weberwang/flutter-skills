@@ -18,11 +18,13 @@ VALID_STATES = {
 }
 VALID_ACCEPTANCE_VERDICTS = {"pending", "approved", "changes_requested"}
 VALID_CLEANUP_STATES = {"pending", "completed"}
-VALID_RISK_TIERS = {"high", "release"}
+VALID_RISK_TIERS = {"standard", "high", "release"}
+VALID_ISOLATION_MODES = {"branch", "worktree"}
 VALID_VALIDATION_STATES = {"pending", "passed"}
 REQUIRED_ROOT_KEYS = {
     "id",
     "risk_tier",
+    "isolation",
     "state",
     "owner",
     "lease",
@@ -57,9 +59,14 @@ def parse_restricted_yaml(content: str) -> dict[str, object]:
         if not separator or not key:
             raise ValueError(f"无法解析 YAML 行：{raw_line}")
 
-        normalized = value.strip().strip('"')
+        raw_value = value.strip()
+        normalized = raw_value.strip('"')
         if indent == 0:
-            if normalized:
+            # 根级显式空字符串是标量；只有完全省略值的字段才开启二层映射。
+            if raw_value == '""':
+                result[key] = ""
+                section = None
+            elif normalized:
                 result[key] = normalized
                 section = None
             else:
@@ -84,6 +91,7 @@ def validate_task_state(data: dict[str, object]) -> list[str]:
     task_id = str(data.get("id", ""))
     state = str(data.get("state", ""))
     risk_tier = str(data.get("risk_tier", ""))
+    isolation = str(data.get("isolation", ""))
     validation = str(data.get("validation", ""))
     if not task_id:
         errors.append("id 不能为空")
@@ -91,6 +99,11 @@ def validate_task_state(data: dict[str, object]) -> list[str]:
         errors.append(f"state 必须是以下值之一：{', '.join(sorted(VALID_STATES))}")
     if risk_tier not in VALID_RISK_TIERS:
         errors.append(f"risk_tier 必须是以下值之一：{', '.join(sorted(VALID_RISK_TIERS))}")
+    if isolation not in VALID_ISOLATION_MODES:
+        errors.append(
+            "isolation 必须是以下值之一："
+            f"{', '.join(sorted(VALID_ISOLATION_MODES))}"
+        )
     if validation not in VALID_VALIDATION_STATES:
         errors.append(
             "validation 必须是以下值之一："
@@ -114,9 +127,14 @@ def validate_task_state(data: dict[str, object]) -> list[str]:
                 errors.append(f"reports.{name} 必须位于 {expected_prefix}")
 
     if state != "planned":
-        for key in ("owner", "base_commit", "branch", "worktree"):
+        for key in ("owner", "base_commit", "branch"):
             if not str(data.get(key, "")):
                 errors.append(f"{state} 状态需要 {key}")
+        worktree = str(data.get("worktree", ""))
+        if isolation == "worktree" and not worktree:
+            errors.append(f"{state} 状态在 worktree 隔离模式下需要 worktree")
+        if isolation == "branch" and worktree:
+            errors.append("branch 隔离模式不得填写 worktree")
         if not str(data.get("branch", "")).startswith("codex/"):
             errors.append("可写任务分支必须以 codex/ 开头")
         if str(data.get("write_scope", "[]")) in {"", "[]"}:

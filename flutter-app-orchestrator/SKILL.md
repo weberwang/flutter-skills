@@ -32,7 +32,7 @@ Coordinate Flutter delivery with the smallest process that protects the current 
 1. Resolve the correct integration branch and base commit before drafting or reviewing a task. Discover FVM, dependencies, existing contracts, and required commands during this preflight.
 2. `light`: work directly or on a short branch, run deterministic checks, and do not create task state, worktree, team assembly, or independent-review artifacts.
 3. `standard`: use a normal task branch and concise task brief. Add one independent review after validation when the change affects behavior or acceptance.
-4. `high` or `release`, or any concurrent multi-agent write: use `flutter-subagent-delivery`, a validated task-state file, one dedicated worktree for the full task lifecycle, one DRI, and independent acceptance.
+4. `high`, `release`, or controlled multi-agent work: use `flutter-subagent-delivery`, a validated task-state file, one task branch, one DRI, and independent acceptance. Add a worktree only for simultaneous writable branches, protection of an existing dirty workspace, or a Controller that must remain on the integration branch.
 5. Escalate the tier when scope, irreversibility, shared ownership, security, data, payment, migration, visual fidelity, or release risk increases.
 
 ### Build, Validate, Review
@@ -54,8 +54,8 @@ Coordinate Flutter delivery with the smallest process that protects the current 
 
 ### Integration And Release
 
-1. For worktree-isolated tasks, run `flutter-subagent-delivery/scripts/finalize-task.py` once after final approval. It merges the task and removes its worktree and local branch.
-2. For light or standard non-worktree tasks, use the normal branch integration path and do not manufacture task-state transitions.
+1. For controlled branch or worktree tasks, run `flutter-subagent-delivery/scripts/finalize-task.py` once after final approval. It merges the task, removes the local branch, and removes the worktree only when one was created.
+2. For light tasks without task state, use the normal branch integration path and do not manufacture state transitions.
 3. Run business-flow integration smoke after the relevant level merges. Run the complete platform matrix only for final integration or when the current task explicitly owns it.
 4. Use `flutter-release-readiness` only when release is in scope. Publishing, production mutation, signing, rollout, and remote branch deletion still require the applicable authorization.
 5. After integration, list exactly one next eligible task.
@@ -68,7 +68,7 @@ Use [references/artifacts.md](references/artifacts.md). Create only artifacts re
 
 - Do not start from an uncertain integration branch or unverified base commit.
 - Do not request formal review before required deterministic validation succeeds.
-- Do not recreate a task worktree for each review round; one worktree lasts until final acceptance or explicit abandonment.
+- Do not create a worktree solely because a task is high risk or release-related. When concurrency requires one, reuse it until final acceptance or explicit abandonment.
 - Do not invalidate unrelated reviews after a narrow fix.
 - Do not force three design candidates when one direction is already clear.
 - Do not require independent role separation for `light` work; require it for `high`, `release`, and materially risky `standard` work.

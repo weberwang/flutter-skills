@@ -1,4 +1,4 @@
 interface:
   display_name: "Flutter Subagent Delivery"
   short_description: "Run Flutter design and implementation through subagents."
-  default_prompt: "Use $flutter-subagent-delivery for high-risk or concurrent Flutter work with one persistent task worktree, validation before review, targeted re-review, and automatic cleanup."
+  default_prompt: "Use $flutter-subagent-delivery with a normal task branch by default, add a worktree only for true concurrency, validate before review, and automatically merge and clean up."
