@@ -32,7 +32,7 @@ Coordinate Flutter delivery with the smallest process that protects the current 
 1. Resolve the correct integration branch and base commit before drafting or reviewing a task. Discover FVM, dependencies, existing contracts, and required commands during this preflight.
 2. `light`: work directly or on a short branch, run deterministic checks, and do not create task state, worktree, team assembly, or independent-review artifacts.
 3. `standard`: use a normal task branch and concise task brief. Add one independent review after validation when the change affects behavior or acceptance.
-4. `high`, `release`, or controlled multi-agent work: use `flutter-subagent-delivery`, a validated task-state file, one task branch, one DRI, and independent acceptance. Add a worktree only for simultaneous writable branches, protection of an existing dirty workspace, or a Controller that must remain on the integration branch.
+4. `high`, `release`, or controlled multi-agent work: use `flutter-subagent-delivery`, a validated task-state file, one task branch, one DRI, and independent acceptance. Add a worktree only when multiple writable branches must run simultaneously.
 5. Escalate the tier when scope, irreversibility, shared ownership, security, data, payment, migration, visual fidelity, or release risk increases.
 
 ### Build, Validate, Review

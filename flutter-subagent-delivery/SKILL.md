@@ -14,7 +14,7 @@ Use this skill only when the task needs multi-agent coordination, concurrent wri
 1. Classify the task with [references/task-risk-tiers.md](references/task-risk-tiers.md). Stop using this skill when a light workflow without durable task state is sufficient.
 2. Resolve the actual integration branch and base commit before creating the task. Confirm FVM, dependencies, upstream contracts, write scope, and executable verification commands.
 3. Assign one DRI and an independent acceptance owner. Add specialist roles only for material work; do not document omitted roles.
-4. Create one task branch from the verified base. Use `isolation: branch` by default; choose `worktree` only for simultaneous writable branches, protection of existing uncommitted work, or when the Controller must remain on the integration branch.
+4. Create one task branch from the verified base. Use `isolation: branch` by default; choose `worktree` only when multiple writable branches must run simultaneously.
 5. Create `.codex-workflow/tasks/<task-id>.yaml` from [references/task-state-template.yaml](references/task-state-template.yaml), record `risk_tier`, `isolation`, lease and write scope, then run `scripts/validate-task-state.py`.
 6. Keep the active task-state file uncommitted in the Controller working directory. Only the Controller updates task state and `.codex-workflow/progress.md`; the task branch must not track the active state file.
 7. Serialize all writes to `docs/design/app-design.pen` and every other shared generated file.

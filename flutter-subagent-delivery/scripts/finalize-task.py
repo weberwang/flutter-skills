@@ -55,33 +55,6 @@ def normalized_path(path: Path) -> str:
     return os.path.normcase(str(path.resolve()))
 
 
-def require_clean_workspace(workspace: Path, label: str) -> None:
-    """拒绝在含未提交实现改动的工作目录上自动切换、合并或删除。"""
-    if run_git(workspace, "status", "--porcelain", "--untracked-files=all"):
-        raise WorkflowError(f"{label}工作目录不干净；请先提交、转移或删除未提交改动后重试")
-
-
-def require_clean_controller_workspace(repository: Path, state_file: Path) -> None:
-    """只容许当前任务状态未提交，保证分支切换和集成不覆盖用户改动。"""
-    try:
-        state_relative = state_file.relative_to(repository).as_posix()
-    except ValueError as error:
-        raise WorkflowError("任务状态文件必须位于 Controller 工作目录内") from error
-
-    unexpected: list[str] = []
-    for line in run_git(
-        repository, "status", "--porcelain", "--untracked-files=all"
-    ).splitlines():
-        path = line[3:].replace("\\", "/")
-        if path != state_relative:
-            unexpected.append(line)
-    if unexpected:
-        raise WorkflowError(
-            "Controller 工作目录除当前任务状态外仍有未提交改动：\n"
-            + "\n".join(unexpected)
-        )
-
-
 def ensure_task_reports(repository: Path, candidate_commit: str, reports: object) -> None:
     """确认已验收候选提交包含必需报告，避免依赖特定工作目录。"""
     if not isinstance(reports, dict):
@@ -185,17 +158,23 @@ def write_state_transition(
 
 
 def commit_state_record(repository: Path, state_file: Path, task_id: str, stage: str) -> None:
-    """只在最终接受时提交状态，避免每次迁移制造元数据提交。"""
+    """只提交任务状态，保留工作区中其他任务或用户的暂存改动。"""
     try:
         relative_state = state_file.relative_to(repository)
     except ValueError as error:
         raise WorkflowError("任务状态文件必须位于集成仓库内") from error
 
+    # 使用 --only 隔离状态提交，避免把用户已有的暂存改动混入自动收尾提交。
     run_git(repository, "add", "--", str(relative_state))
-    staged_files = run_git(repository, "diff", "--cached", "--name-only")
-    if staged_files.splitlines() != [str(relative_state).replace("\\", "/")]:
-        raise WorkflowError("状态提交暂存区包含非任务状态文件；请恢复干净工作目录后重试")
-    run_git(repository, "commit", "-m", f"chore(workflow): {stage} {task_id}")
+    run_git(
+        repository,
+        "commit",
+        "--only",
+        "-m",
+        f"chore(workflow): {stage} {task_id}",
+        "--",
+        str(relative_state),
+    )
 
 
 def branch_exists(repository: Path, branch: str) -> bool:
@@ -216,7 +195,17 @@ def branch_is_merged(repository: Path, branch_or_commit: str, integration_branch
 
 def merge_task_branch(repository: Path, task_branch: str) -> None:
     """创建无快进合并；冲突或钩子失败时撤销半完成合并以便任务分支修复。"""
-    command = ["git", "-C", str(repository), "merge", "--no-ff", "--no-edit", task_branch]
+    # 让 Git 临时保存可暂存的既有改动，合并后恢复，避免把脏工作区当成流程门禁。
+    command = [
+        "git",
+        "-C",
+        str(repository),
+        "merge",
+        "--autostash",
+        "--no-ff",
+        "--no-edit",
+        task_branch,
+    ]
     completed = subprocess.run(command, capture_output=True, text=True, check=False)
     if completed.returncode == 0:
         return
@@ -241,7 +230,6 @@ def cleanup_task_checkout(
     if isolation == "worktree" and task_worktree is not None and task_worktree.exists():
         if not worktree_matches_branch(repository, task_worktree, branch):
             raise WorkflowError("任务 worktree 未注册为指定任务分支；拒绝删除该路径")
-        require_clean_workspace(task_worktree, "任务")
         run_git(repository, "worktree", "remove", "--", str(task_worktree))
 
     if branch_exists(repository, branch):
@@ -313,7 +301,6 @@ def finish_task(
     if task_branch == integration_branch:
         raise WorkflowError("任务分支不得与集成分支相同")
 
-    require_clean_controller_workspace(repository, state_file)
     if task_branch_tracks_state(repository, task_branch, state_file):
         raise WorkflowError("任务分支包含活动任务状态文件；请先移出并提交任务实现")
     prepare_integration_branch(repository, task_branch, integration_branch, isolation)
@@ -329,8 +316,6 @@ def finish_task(
             raise WorkflowError("任务本地分支不存在，无法自动合并")
         if run_git(repository, "rev-parse", task_branch) != candidate_commit:
             raise WorkflowError("任务分支 HEAD 与已验收候选提交不一致；请完成受影响范围复审")
-        if isolation == "worktree" and task_worktree is not None:
-            require_clean_workspace(task_worktree, "任务")
         ensure_task_reports(repository, candidate_commit, data.get("reports"))
         run_git(repository, "cat-file", "-e", f"{base_commit}^{{commit}}")
         if not branch_is_merged(repository, base_commit, integration_branch):

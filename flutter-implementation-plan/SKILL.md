@@ -68,4 +68,4 @@ Use [references/module-map-template.md](references/module-map-template.md), [ref
 
 ## Gate
 
-Do not execute from an uncertain integration base, unresolved material scope, missing acceptance criteria, or unexecutable verification plan. Do not require grilling, task-state files, role assembly, independent review, or release evidence merely because the task exists; select them from the risk tier. Select worktree independently and only for a concrete concurrency or workspace-protection need. For controlled work, follow [collaboration-protocol.md](../flutter-subagent-delivery/references/collaboration-protocol.md).
+Do not execute from an uncertain integration base, unresolved material scope, missing acceptance criteria, or unexecutable verification plan. Do not require grilling, task-state files, role assembly, independent review, or release evidence merely because the task exists; select them from the risk tier. Select worktree independently and only when multiple writable branches must run simultaneously. For controlled work, follow [collaboration-protocol.md](../flutter-subagent-delivery/references/collaboration-protocol.md).
