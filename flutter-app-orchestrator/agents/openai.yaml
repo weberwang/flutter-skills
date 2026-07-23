@@ -1,4 +1,4 @@
 interface:
   display_name: "Flutter App Orchestrator"
   short_description: "Coordinate commercial Flutter app delivery."
-  default_prompt: "Use $flutter-app-orchestrator to delegate design work to specialized subagents, keep every Pencil design in the single docs/design/app-design.pen file with serialized writers, and retain user decisions, confirmations, freezes, and integration in the controller."
+  default_prompt: "Use $flutter-app-orchestrator to choose the smallest safe risk tier, validate before review, and escalate to isolated multi-agent delivery only when the task requires it."

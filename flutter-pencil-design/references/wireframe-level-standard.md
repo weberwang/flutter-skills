@@ -8,7 +8,7 @@ Use low fidelity as a semantic and interaction contract, not as a visual bluepri
 |---|---|---|
 | Full | Core, commercial-critical, interaction-heavy, state-heavy, or structurally unusual page | `390 x 844 px` Pencil wireframe, semantic contract, independent review |
 | Lightweight | Conventional list, detail, form, or content page whose behavior still needs explicit definition | Text semantic contract and independent review; Pencil evidence is optional |
-| Reuse | Settings, about, standard selector, or repeated page that follows an already approved pattern | Approved pattern reference, page-specific delta contract, and independent review; new Pencil evidence is `N/A` |
+| Reuse | Settings, about, standard selector, or repeated page that follows an already approved pattern | Approved pattern reference and page-specific delta contract; add independent review only when risk requires it |
 
 Do not choose Lightweight or Reuse merely to save time when hierarchy, interaction, state coverage, or data ownership is unresolved. Record the selected level and reason in the page task and progress ledger.
 

@@ -20,7 +20,7 @@
 ## 资产与 Pencil
 
 - 分解覆盖审计与未决事实：
-- 资产清单：`asset-manifest.md` / 不适用原因：
+- 资产清单（存在固定视觉资产时）：`asset-manifest.md`
 - Pencil：Required / Not required；原因：
 - `app-design.pen` 页面 / 节点 ID：
 - Flutter 交接约束：

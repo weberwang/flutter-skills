@@ -5,7 +5,7 @@ Review the image as a product artifact, not artwork.
 ## Verdict
 
 - Mockup level: Page-level implementation target
-- Module Effect-Image Interrogation Gate:
+- Conditional module visual decision:
 - Visual expression preset:
 - Page-type budget dial: full / moderate / dial-down
 - Signature moment present when required: Yes / No / N/A
@@ -36,7 +36,7 @@ Review the image as a product artifact, not artwork.
 - It respects platform constraints, safe areas, touch targets, and text scaling.
 - It does not imply features outside MVP scope.
 - The generated file decodes to exactly `780 x 1688 px`.
-- Required illustrations, photos, logos, textures, screenshots, and generated bitmaps are identified for the page-scoped asset inventory.
+- Required illustrations, photos, logos, textures, screenshots, and generated bitmaps are identified in the page asset manifest.
 
 ## Findings
 
@@ -53,7 +53,7 @@ Review the image as a product artifact, not artwork.
 | Visual area | Improvement | Expected effect |
 |---|---|---|
 
-Keep this section separate from product-design issues. Evaluate deliberate hierarchy, typography, spacing, component consistency, asset quality, and whether decoration meets the active visual expression preset’s signature strength and wow requirement without harming task clarity; do not require Apple visual styling, and do not treat restraint as the default definition of premium.
+Keep this section separate from usability and product-fit issues. Evaluate deliberate hierarchy, typography, spacing, component consistency, asset quality, and whether decoration meets the active visual expression preset’s signature strength and wow requirement without harming task clarity; do not require Apple visual styling, and do not treat restraint as the default definition of premium.
 
 Also evaluate whether excessive reliance on stock components, repetitive cards, uniform spacing, or overly safe composition has flattened the product character. On full-budget or wow-required pages, missing restatable signature is an Important finding. Recommend a stronger authored treatment when it improves recognition without harming task clarity.
 

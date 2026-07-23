@@ -7,7 +7,7 @@ description: Use when reviewing a Flutter app, feature branch, screen, implement
 
 ## Overview
 
-Review like a release-blocking commercial app gate. Findings lead; summaries are secondary.
+Review against the task's declared risk and acceptance scope. Use release-blocking rigor for `high` and `release`; keep standard reviews focused on changed behavior and evidence.
 
 ## Review Inputs
 
@@ -21,11 +21,11 @@ Review like a release-blocking commercial app gate. Findings lead; summaries are
 - Diff or changed files.
 - Test commands and outputs.
 - Global `docs/architecture/verification-platforms.md`, final-integration platform evidence when reviewing final delivery, and screenshots or golden evidence for UI changes.
-- Named Visual QA section in the task review for user-facing UI flows.
+- Named Visual QA section when visual risk or acceptance requires independent visual review.
 
 ## Rubric
 
-Use [references/review-rubric.md](references/review-rubric.md). Always check:
+Use [references/review-rubric.md](references/review-rubric.md). Select checks that cover the changed behavior, declared risk, and acceptance criteria; do not expand a narrow review into a release audit. Applicable checks include:
 
 - Spec compliance.
 - Business-flow level, module dependency, cross-module contract, and page interaction order compliance.
@@ -42,7 +42,7 @@ Use [references/review-rubric.md](references/review-rubric.md). Always check:
 - Mockup parity and recorded design deviations when a high-fidelity mockup exists.
 - Visual aesthetics and intended premium feel: hierarchy, spacing, typography, color and contrast, component consistency, asset quality, and decoration that meets the active visual expression preset’s signature strength and page-type budget without harming task clarity. Compare the implementation screenshot with the approved mockup and page-design-decision constraints; record an explicit aesthetic verdict and actionable findings. Do not treat restraint as the default premium standard.
 - Product-fit quality: visual character supports the intended audience and product promise; polish does not hide unclear value, unnecessary friction, or unresolved trust concerns.
-- Independent visual-QA findings are resolved or explicitly accepted for user-facing UI flows.
+- Independent visual-QA findings are resolved or explicitly accepted when visual risk requires that review.
 - Asset source, reuse decision, generation prompt constraints, background handling, license, output/Flutter path, fallback and fidelity compliance from the page manifest.
 - Bitmap source compliance: new bitmaps default to available image-generation evidence; Pencil exports are accepted only for approved production asset nodes with a recorded reason.
 - Page design decision, Pencil restoration, and recorded deviation compliance when Pencil is used.
@@ -74,4 +74,4 @@ Severity:
 
 ## Gate
 
-If no issues are found, say so clearly and list residual risks or missing evidence. Do not approve a task if its task-state claim, branch commit, task brief, global verification platform scope, module map, init report, generated `flutter-dev` path, required page decision, required asset manifest, required screenshots, named Visual QA conclusion for a user-facing flow, required aesthetic verdict, required tests or task review snapshot is absent. Require the level integration-smoke result when a business-flow level closes. Require final runtime platform evidence only for final-integration review; otherwise record one inapplicability reason.
+Do not start formal review until required deterministic commands and regression fixtures pass against a candidate commit. Approve against the declared risk tier: light work needs no durable independent review; standard work needs only evidence relevant to changed behavior; high and release work require the declared independent sections and task-state evidence. After a fix, invalidate only review dimensions whose covered facts changed. Require level integration smoke only when a business-flow level closes and full runtime platform evidence only for final integration or release; do not write inapplicability records for unrelated checks.

@@ -1,142 +1,83 @@
 ---
 name: flutter-app-orchestrator
-description: Use when a user wants to build, redesign, commercialize, or ship a Flutter app with Codex, especially when the request spans product definition, UX/UI quality, architecture, implementation planning, subagent execution, review, or release readiness.
+description: Use when a user wants to build, redesign, commercialize, or ship a Flutter app with Codex, especially when the request spans product definition, UX/UI quality, architecture, implementation planning, risk-based task execution, review, or release readiness.
 ---
 
 # Flutter App Orchestrator
 
 ## Overview
 
-Use this as the entry point for commercial Flutter app delivery. The controller keeps scope tight, selects the next specialist skill, writes durable artifacts, and blocks delivery when quality gates are missing.
+Coordinate Flutter delivery with the smallest process that protects the current risk. Keep one canonical source for each decision, complete deterministic validation before formal review, and escalate only when scope or risk requires it.
 
-## Core Rule
+## Operating Model
 
-Do not jump from idea to code. Move through product, UX/UI, technical design, implementation plan, delivery, review, and release gates. If the user asks for a shortcut, state the risk and keep the smallest safe gate that protects quality.
+1. Classify the request with [task-risk-tiers.md](../flutter-subagent-delivery/references/task-risk-tiers.md) before assembling roles or creating task infrastructure.
+2. Use `light` for deterministic small work, `standard` for bounded feature work, `high` for risky or concurrent work, and `release` for production delivery.
+3. Ask the user only for decisions that cannot be established from code, configuration, existing artifacts, or deterministic execution.
+4. Use `grilling` only when material scope, priority, tradeoff, risk, acceptance, dependency, visual direction, or release authority remains unresolved. Do not repeat it merely because a new phase or module started.
+5. Activate only roles that produce or independently accept material work. Do not record omitted ceremonial roles.
 
-## Workflow
+## Project Workflow
 
-Before step 0, run the Team Assembly Gate from [references/subagent-map.md](references/subagent-map.md). Classify the App and current task, activate the smallest sufficient set of core roles, record `N/A: <reason>` for omissions, and assign one DRI plus one independent acceptance owner. Build every dispatch from [../flutter-subagent-delivery/references/app-team-role-prompts.md](../flutter-subagent-delivery/references/app-team-role-prompts.md). Re-run team assembly when task type, risk, dependency, or delivery stage materially changes.
+### Product And Global Design
 
-### Global Design
+1. For a new or materially changed product, confirm the product brief with `flutter-product-spec`; record only actual user decisions in `docs/product/grilling-log.md`.
+2. Run market analysis only when current category evidence can change positioning, scope, trust, or commercial decisions. Condense decision-relevant sources into the product brief.
+3. Define `docs/design/ui-spec.md` and the global design system with `flutter-ux-ui-quality` when UI scope exists.
+4. If the user already supplied a brand, reference, or clear direction, prepare one global visual direction. Prepare two or three meaningfully different directions only when exploration is requested or material uncertainty remains. Review and freeze only the selected direction in `docs/design/global-design-freeze.md`.
+5. Create technical design, Flutter initialization, platform scope, module map, and implementation plan only when the project stage requires them. Existing accepted artifacts remain valid until a material dependency or decision changes.
 
-0. Run `grilling` before PRD confirmation. When no PRD exists, grill the product assumptions before `flutter-product-spec`; when PRD artifacts already exist, grill their decisions, gaps, conflicts, and dependencies before continuing. Do not proceed until the user explicitly confirms shared understanding and `docs/product/grilling-log.md` records the result.
-0.1. Before starting or approving any decision-bearing stage, assess whether scope, priority, tradeoffs, risks, acceptance criteria, or dependencies remain for the user to decide. If so, re-enter `grilling`, record the user's confirmation, then continue from the interrupted stage. Do not invoke it for factual discovery, deterministic work, or already confirmed low-risk execution.
-1. After the controller completes product questioning and records confirmed decisions, dispatch the Product Manager to draft `flutter-product-spec` artifacts, including the first-value moment, safe-to-try conditions, trust evidence, product character, measurable activation conditions, and a visual expression preset derived from category and audience via [../flutter-ux-ui-quality/references/visual-expression-presets.md](../flutter-ux-ui-quality/references/visual-expression-presets.md). The controller validates traceability and records user acceptance; the Product Manager owns the product verdict.
-1.1. After the PRD is complete, dispatch the Market analysis agent before global visual direction positioning. The agent returns sourced category patterns and risks; Controller condenses only decision-relevant citations and inferences into the product brief's Market evidence section.
-1.2. After the product brief records the derived preset and before global visual direction positioning, ensure the light visual interrogation from the preset reference has been completed once (at most three questions, one at a time). If `flutter-product-spec` already recorded grilling-log answers and product-brief mirrors, do not re-ask; otherwise run it now. Do not create a per-page visual interrogation stage.
-2. Dispatch the UX/UI Lead to draft global UX/UI goals, flows, states, navigation model, and screen specifications with `flutter-ux-ui-quality`. Then dispatch the Global direction agent as a UX/UI specialist to use [references/global-visual-direction-prompt-template.md](references/global-visual-direction-prompt-template.md) transiently and define exactly three market-informed visual-system positions that satisfy the active preset mix. Dispatch a separate Global direction reviewer before the controller presents the three definitions to the user. No subagent may generate a page/screen image, recommend or select a direction, persist a freeze, or infer approval. The controller alone records the user's choice and advances to the freeze gate.
-3. Freeze only the selected global visual-system direction. Run the Global Direction Freeze Gate one decision at a time: confirm the direction, acceptance of its signature and implementation-cost commitment, restatable signature or N/A reason, any `pin` / `raise` / `loosen` override, and explicit freeze intent. Re-enter full `grilling` only when the audit finds a new, conflicting, or unresolved decision; otherwise record why repeated full grilling is N/A. After confirmation, write the decision and compact prompt hash only to `docs/design/global-design-freeze.md`. The global freeze is a cross-page positioning baseline only: it contains no frozen page image and approves no module, page layout, page state, effect image, or implementation.
-4. Dispatch the Tech Lead to create architecture with `flutter-tech-design`, including module boundaries, cross-module contracts, data ownership, routing ownership, shared foundations, security/privacy, non-functional requirements, and verification strategy. When enabled by the team map, require Backend/Data review of API/schema/migration contracts and DevOps/Release review of environments, CI/CD, observability, rollout, and rollback before the Technical Gate passes.
-5. Initialize or standardize the Flutter project from that technical design with `flutter-project-init`.
-6. Split coarse module boundaries and build order with `flutter-implementation-plan`; derive business-flow levels from the end-to-end user flow, module dependencies, and known page interaction order. Each known module and page must have a level, and delivery must complete and verify one level before advancing to the next; the plan must also account for the global verification platform scope. Do not prematurely freeze the detailed function and page task list for every module at this stage.
+### Task Preparation
 
-### Module Delivery
+1. Resolve the correct integration branch and base commit before drafting or reviewing a task. Discover FVM, dependencies, existing contracts, and required commands during this preflight.
+2. `light`: work directly or on a short branch, run deterministic checks, and do not create task state, worktree, team assembly, or independent-review artifacts.
+3. `standard`: use a normal task branch and concise task brief. Add one independent review after validation when the change affects behavior or acceptance.
+4. `high` or `release`, or any concurrent multi-agent write: use `flutter-subagent-delivery`, a validated task-state file, one dedicated worktree for the full task lifecycle, one DRI, and independent acceptance.
+5. Escalate the tier when scope, irreversibility, shared ownership, security, data, payment, migration, visual fidelity, or release risk increases.
 
-7. Execute modules with `flutter-subagent-delivery` and [references/subagent-map.md](references/subagent-map.md). Before each task, route it to a core-role DRI and independent acceptance owner, then attach any required specialist seat. The controller performs module questioning and confirmation, then dispatches the Module planner under the Tech Lead role. Use `docs/design/app-design.pen` as the only project `.pen` file and serialize every subagent that can write it. For each UI page, dispatch the Page structure agent to select Full, Lightweight, or Reuse with [wireframe-level-standard.md](../flutter-pencil-design/references/wireframe-level-standard.md), then a separate Wireframe reviewer, the Page high-fidelity agent, and a separate Effect Image Reviewer in sequence. Record their durable result only in `docs/design/pages/<page-name>/design-decision.md`; require Pencil evidence only for Full. The controller alone presents candidates, records the user's selection/change disposition, persists the selected image, and freezes the page.
-8. After page freeze, dispatch the Bitmap decomposition agent to apply [bitmap-decomposition-standard.md](../flutter-pencil-design/references/bitmap-decomposition-standard.md), write the ownership classification and coverage audit, and return unresolved facts. The agent must not generate or cut assets. The controller validates the zero-count gates before advancing.
-9. When bitmap work is required, dispatch the Asset planning agent to prepare reuse decisions and the complete pre-slicing table. The controller presents the table and waits for explicit user confirmation. Only after confirmation dispatch the Asset production agent to produce confirmed rows, inventory, manifests, and fidelity evidence; reconfirm affected rows after material changes. Record `N/A: no bitmap or exported visual assets` when applicable.
-10. When high-fidelity Pencil restoration is required, dispatch the Pencil restoration agent with the frozen page, restoration analysis, and confirmed assets. Validate its parity and Flutter handoff before dispatching the Implementer.
-11. Dispatch the independent QA Engineer using Task reviewer and, for UI work, Visual QA specialist prompts. Bind every verdict to an immutable commit/diff and evidence snapshot. For user-facing UI flows, dispatch the product-design audit role against screenshots before the UX/UI Lead issues the design verdict and the Controller records the Gate outcome.
-12. After every business-flow level is complete and all module/page functionality and high-fidelity restoration are implemented, dispatch an independent QA Final reviewer, obtain the Tech Lead integration verdict, and run final device runtime validation for every platform in `docs/architecture/verification-platforms.md`. Record device, emulator, simulator, browser, or desktop evidence only in this final integration stage.
-13. Dispatch the DevOps/Release Engineer to perform release engineering and check store and business release readiness with `flutter-release-readiness`. Require accepted QA evidence, reproducible artifacts, signing/environment checks, observability, rollout, and rollback evidence. External release still requires explicit user authorization recorded by the Controller.
-14. After a task passes its required checks and independent approval, run `flutter-subagent-delivery/scripts/finalize-task.py` from the clean Controller integration worktree. It merges the completed task branch, records the transition, and removes the task worktree and local branch. Then remove only invalid or superseded temporary artifacts that are not referenced by the page decision, asset manifest, implementation, or user-provided source assets. Preserve the selected design and final assets; link cleanup from the task review or state record rather than creating a separate manifest.
-15. After cleanup, list exactly one next task.
+### Build, Validate, Review
 
-## Required Artifacts
+1. Let the implementer iterate in the same branch or worktree until every deterministic command and known regression fixture passes. A task brief, audit script, test matrix, or implementation that has not executed successfully is not review-ready.
+2. Freeze one candidate commit and evidence snapshot only after validation passes.
+3. Dispatch the required Product, QA, technical, or visual reviewers against that same snapshot. Run independent reviews in parallel when their scopes do not depend on one another.
+4. Store all task conclusions in `docs/tasks/<task-id>/review.md` when a durable review is required.
+5. After a fix, invalidate only reviews whose covered facts changed. Scope changes invalidate Product and QA; command, test, audit, or implementation changes invalidate QA; visual-only changes invalidate visual QA; formatting-only changes normally require no new human review.
+6. Keep the same task branch or worktree during repair and targeted re-review.
 
-Create the global and conditional artifacts in [references/artifacts.md](references/artifacts.md). The default global set is product brief, grilling log, UI spec, global design freeze, technical design, Flutter init, verification platforms, module map and implementation plan. Create page decisions, asset manifests, Pencil evidence, frozen images, task reviews and release checklists only when their stated condition applies. Do not create standalone derivative reports when a canonical record already holds the decision or evidence.
+### Conditional UI Delivery
+
+1. Use a semantic page contract before high-fidelity work. Require Pencil wireframes only for structurally complex or high-risk pages.
+2. Generate one page candidate when direction is clear. Generate two or three only when the user requests exploration, the direction is unresolved, or materially different design tradeoffs need comparison.
+3. Require an independent effect-image review only for high-value, high-risk, or exploratory pages. The Controller records the user's selection and freezes the selected image.
+4. Run bitmap decomposition, asset planning/production, and Pencil restoration only when the selected design actually requires those outputs. Record their durable facts in the page design decision and asset manifest.
+5. Use `flutter-quality-review` for screenshot or golden-based visual acceptance. External product-design tooling is optional and must never be a workflow dependency unless the user explicitly requests it.
+
+### Integration And Release
+
+1. For worktree-isolated tasks, run `flutter-subagent-delivery/scripts/finalize-task.py` once after final approval. It merges the task and removes its worktree and local branch.
+2. For light or standard non-worktree tasks, use the normal branch integration path and do not manufacture task-state transitions.
+3. Run business-flow integration smoke after the relevant level merges. Run the complete platform matrix only for final integration or when the current task explicitly owns it.
+4. Use `flutter-release-readiness` only when release is in scope. Publishing, production mutation, signing, rollout, and remote branch deletion still require the applicable authorization.
+5. After integration, list exactly one next eligible task.
+
+## Artifacts
+
+Use [references/artifacts.md](references/artifacts.md). Create only artifacts required by the current project stage and risk tier. Link canonical evidence rather than copying command output, review prose, page facts, or asset facts.
 
 ## Hard Gates
 
-- No work dispatch before the Team Assembly Gate records the task profile, enabled and omitted core roles with reasons, one DRI, one independent acceptance owner, agent IDs, accepted upstream evidence, and non-overlapping write scopes. Every writable task also requires a Controller-validated task-state claim, integration base commit, dedicated `codex/<task-id>` branch/worktree, lease, and report paths under `docs/tasks/<task-id>/`.
-- No PRD confirmation, UX/UI direction, technical design, implementation plan, or delivery work before the initial `grilling` pass has recorded the user's explicit shared-understanding confirmation in `docs/product/grilling-log.md`.
-- When subagent tools are available, no delegable design-production stage may be silently executed by the controller instead of its assigned Product Manager, UX/UI Lead, Market, Global direction, Page structure, Page high-fidelity, Bitmap decomposition, Asset planning/production, Pencil restoration, or Visual QA subagent. Record an explicit downgrade only when subagent tools are unavailable.
-- No design producer may review or approve its own output. No subagent may ask the user for decisions, infer confirmation, select a candidate, or freeze/unfreeze an artifact.
-- No project design may be written to a `.pen` file other than `docs/design/app-design.pen`. No two agents that can modify Pencil may run concurrently, even when their assigned node scopes differ.
-- Before approving or executing a decision-bearing stage with unresolved scope, priority, tradeoffs, risks, acceptance criteria, or dependencies, re-enter `grilling` and record the user's explicit confirmation; do not block factual discovery, deterministic work, or already confirmed low-risk execution.
-- No implementation before MVP scope and screen states exist.
-- No UX/UI direction approval before the product brief defines a testable first-value moment, safe-to-try conditions, trust evidence, product character, and a derived visual expression preset; visual treatment must not be used to conceal an unresolved value or trust problem, and task clarity must not be lowered to satisfy expression.
-- No global visual direction positioning before the light visual interrogation for the derived preset has been asked once and recorded, with signature and implementation-cost commitments mirrored in the product brief.
-- No implementation before the Flutter project has the fixed plugin stack and a generated `flutter-dev` skill path recorded in `docs/architecture/flutter-init.md`.
-- No implementation planning before `docs/architecture/verification-platforms.md` records the global platform scope, required evidence, and unsupported platforms with `N/A: <reason>`.
-- Do not claim a platform verified during an individual module or page task. After each business-flow level merges to the integration branch, run the planned integration smoke; run the full device, emulator, simulator, browser, and desktop matrix only after all modules/pages and high-fidelity restoration are complete.
-- No page UX/UI approval from text alone; high-value screens require selected page-level effect images or an explicit "no mockup needed" decision. This does not require an effect image for the global direction definition.
-- No global visual direction freeze before exactly three market-informed direction definitions satisfy the active preset mix, the user selects one, and the Global Direction Freeze Gate confirms its signature, implementation-cost commitment, override, and freeze intent. Do not select automatically.
-- Never generate or persist a page, representative-page, module, or screen effect image during global direction positioning. The global prompt and freeze define a visual system only; `.codex-workflow/visuals/global/` is forbidden.
-- No implementation plan before module boundaries, module dependencies, cross-module interactions, page interaction order, and business-flow levels for modules and pages are recorded in `docs/plans/module-map.md`.
-- No module function refinement, page-function refinement, task brief, page design gate, or implementation before that module has completed its implementation-stage `grilling` pass, the user's explicit shared-understanding confirmation is appended to `docs/product/grilling-log.md`, and `docs/plans/modules/<module-name>-scope.md` records the confirmed included functions and non-goals.
-- Module-level grilling must happen just in time when the module first becomes eligible for implementation. A global PRD confirmation or earlier implementation plan does not substitute for this gate.
-- No task in a later business-flow level may start until every required task, acceptance path, and cross-module contract in the preceding level has passed or is explicitly accepted. Same-level work may run in parallel only when task branches/worktrees are isolated and the module map marks it parallel-safe.
-- No page implementation readiness from the global direction definition alone; it does not replace module effect-image interrogation or page-level design gates.
-- The global design freeze is a reusable visual-system baseline only and contains no effect image.
-- No module page effect-image generation before the module's function/page refinement and Module Effect-Image Interrogation Gate are confirmed and recorded. Do not repeat the gate per page unless a new visual or cost decision appears.
-- No page-level high-fidelity mockup before the current page task records a justified Full, Lightweight, or Reuse level and independent Wireframe Review in its page `design-decision.md`. Require low-fidelity Pencil evidence only for Full; Lightweight may use a text contract and Reuse may use an approved-pattern delta contract.
-- No page-level effect-image generation before a transient formal prompt prepared from the page prompt template maps every page requirement to the PRD and approved design artifacts, records the active expression preset and page-type budget dial, and records the product-design-principle check. Persist it only after freeze confirmation.
-- No image generation from the full planning worksheet, PRD mapping, design rationale, exhaustive component specification, or accumulated avoid list. The actual prompt must be the shortest coherent version that preserves outcome, essential structure/content, approved direction, true non-negotiables, and output requirements; it must contain no duplicate or contradictory instruction and must leave non-frozen secondary details open.
-- Do not generate or approve an effect image whose formal prompt invents a feature, user goal, content, state, commercial claim, or visual exception that conflicts with the PRD or approved product-design principles.
-- No page design approval or design freeze before the completed page-level effect image has one independent Effect Image Reviewer result using Apple Human Interface Guidelines as the interaction baseline, separate product-design issues and premium-feel improvements judged against the active expression preset and page-type budget dial rather than universal restraint, or an explicit “no material issue” verdict for each section, and the user's explicit decision to apply or decline the proposed changes. On full-budget or wow-required pages, missing restatable signature is a blocking Important finding unless explicitly accepted. Review output is transient and must not be saved as a repository artifact.
-- No page visual write before explicit page freeze confirmation. At freeze, persist the exact selected image under `.codex-workflow/visuals/pages/<page-name>/` before updating its page design decision; record the frozen path, candidate ID, decoded dimensions, SHA-256, and confirmation time.
-- Do not modify any effect image from an independent review without the user's explicit approval.
-- No page UI implementation before the current page task has a reviewed low-fidelity semantic contract, selected high-fidelity effect image, recorded approval, page-design-decision constraints, and a recorded Pencil high-fidelity restoration decision.
-- For high-fidelity generation and Pencil restoration, the selected page-level effect image and page design decision control all visual details. A low-fidelity contract may define scope, required content, priority, tasks, states, navigation, interactions, outcomes, accessibility meaning, and ownership, but must not freeze or override exact geometry, containers, whitespace, component silhouettes, image ratios/crops, or decoration placement.
-- No high-fidelity Pencil restoration before Flutter initialization, Wireframe Review, page-level mockup approval, a frozen page decision, and a recorded effect-image analysis that assigns every restorable layer or atomic unit to bitmap, UI, or data.
-- No high-fidelity Pencil restoration approval or Flutter handoff for an affected unit while a material visual uncertainty is unresolved; record it and obtain a decision instead of guessing.
-- No UI bitmap fill or asset generation before the analysis records why native Flutter cannot reproduce the UI unit exactly. No bitmap restoration may be accepted before its source, crop, size, background treatment, target Pencil node, and 100% visual-content match verdict are recorded; only documented rasterization or scaling tolerance is allowed.
-- No icon, image, illustration, logo, texture, or other visual resource may be restored with a near match. When its approved visual content cannot be verified as a 100% match, the task must generate a dedicated bitmap and complete the asset-manifest review flow before Pencil restoration or Flutter implementation.
-- No page decomposition may enter Pencil restoration or Flutter implementation until every bitmap unit has a recorded separate-asset review verdict: reuse, adapt, generate, approved Pencil-node export, explicit mockup extraction, or `N/A: native Flutter/UI/data`.
-- No decomposition may pass while a runtime-data visual is marked for bitmap export, a visible element lacks ownership, or a background decoration or icon placement/state is absent from the coverage audit.
-- No bitmap generation, adaptation, extraction, export, transparentization, or slicing before the complete pre-slicing table is shown inline and explicitly confirmed. A material row change invalidates confirmation for that row and blocks work until reconfirmed.
-- No high-fidelity Pencil restoration before required bitmap or bitmap-fill requirements have asset-manifest evidence, or before the manifest records why the page has no bitmap requirement.
-- No implementation from raw Pencil images; Pencil wireframes or high-fidelity restorations must be converted into text handoff constraints in the page decision.
-- No asset generation without global visual-direction constraints and page-design-decision constraints.
-- No enhanced bitmap may be handed to Flutter implementation before the same output is synchronized to the corresponding design-draft asset or Pencil node and the updated design evidence is recorded. A bitmap enhancement includes upscaling, cleanup, relighting, recoloring, background removal, compositing, retouching, or other pixel-level changes.
-- No high-fidelity Pencil restoration or Flutter UI implementation when required illustrations, bitmaps, logos, textures, generated images, or visual exports lack reuse check, production decision, bitmap source policy, background handling, background transparentization when applicable, transparent post-processing when applicable, asset atlas, generation evidence when used, slicing manifest, asset inventory, Flutter path, license status, and fidelity review.
-- No UI completion claim before screenshots or Flutter golden evidence exist.
-- No user-facing UI completion before `flutter-quality-review` records an aesthetic verdict against the approved mockup and page-design-decision constraints; Critical or Important aesthetic findings must be resolved or explicitly accepted.
-- No user-facing UI completion claim before independent visual-QA findings are resolved or explicitly accepted in the review record.
-- No task completion before its validated task-state transition, branch commit, `fvm flutter analyze`, relevant tests, and required design evidence are reported or explicitly marked unavailable with a blocker. Level integration smoke is an integration-branch gate; the full platform matrix is a final-integration gate.
-- No final delivery or release-readiness claim before every in-scope platform has completed its final device, emulator, simulator, browser, or desktop runtime validation after all modules and pages are implemented.
-- No next-task handoff before the confirmed task has completed `finalize-task.py`, including its task worktree/local-branch cleanup, and completed its scoped artifact cleanup or recorded the result in the task review or state record.
-- No delivery completion while Critical or Important review findings remain open.
-- No release claim before privacy, account, payment, crash reporting, analytics, and store checklist are checked or explicitly marked out of scope.
+- Do not start from an uncertain integration branch or unverified base commit.
+- Do not request formal review before required deterministic validation succeeds.
+- Do not recreate a task worktree for each review round; one worktree lasts until final acceptance or explicit abandonment.
+- Do not invalidate unrelated reviews after a narrow fix.
+- Do not force three design candidates when one direction is already clear.
+- Do not require independent role separation for `light` work; require it for `high`, `release`, and materially risky `standard` work.
+- Do not let a producer independently approve its own high-risk output.
+- Do not run parallel writers against overlapping scopes or the shared `docs/design/app-design.pen` file.
+- Do not infer user approval for product scope, visual freeze, destructive action, external release, or accepted risk.
+- Do not claim platform verification from task-level screenshots, goldens, builds, or static analysis.
+- Do not create standalone derivative reports when a canonical record already holds the decision or evidence.
 
-## Subagent Use
+## Routing
 
-Use [references/subagent-map.md](references/subagent-map.md) as the team and task-routing source of truth. Use [../flutter-subagent-delivery/references/app-team-role-prompts.md](../flutter-subagent-delivery/references/app-team-role-prompts.md) for the core-role prompt, [../flutter-subagent-delivery/references/subagent-prompts.md](../flutter-subagent-delivery/references/subagent-prompts.md) for one optional specialist prompt, and [../flutter-subagent-delivery/references/collaboration-protocol.md](../flutter-subagent-delivery/references/collaboration-protocol.md) for writable-task isolation. Use subagents for delegable product, UX/UI, market, architecture, Flutter, backend/data, QA, visual, asset, Pencil, and release work. The controller retains user interaction, decisions, freezes, conflict resolution, sequencing, and final integration but must not impersonate missing functional verdicts. Do not dispatch agents against overlapping write scopes or without a task-state claim.
-
-## Common Mistakes
-
-- Treating a prototype as a commercial app.
-- Letting the implementer self-approve UI quality.
-- Treating a generated mockup as implementation truth without page-design-decision constraints.
-- Generating an effect image without a formal transient prompt traced to the PRD and product-design principles, or writing that prompt and candidate visual files before the user confirms a freeze.
-- Adding attractive but unscoped features, data, user goals, or visual exceptions to a prompt when they are absent from the PRD.
-- Treating text-only UX/UI descriptions as sufficient for visual approval.
-- Generating a representative-page or other effect image during global direction positioning.
-- Treating the global direction freeze as a substitute for module effect-image interrogation, a reviewed low-fidelity semantic contract, Wireframe Review, or page mockup approval.
-- Splitting modules only by code folders instead of product flow, data ownership, routing, and page interaction order.
-- Generating page-level high-fidelity mockups before the page structure is reviewed and converted into text specs.
-- Skipping asset-manifest and slicing evidence when the approved mockup contains required visual assets.
-- Generating duplicate visual assets before checking existing brand, app, source, and inventory assets.
-- Generating assets from the page mockup alone instead of global visual-direction and page-design-decision constraints.
-- Using Pencil whole-page screenshots or high-fidelity mockup crops as default bitmap sources instead of available image-generation output.
-- Generating assets without deciding whether the output must be transparent, retained-background, or masked.
-- Enhancing a bitmap only in the Flutter asset pipeline without replacing the corresponding asset in the design draft and capturing updated design evidence.
-- Treating background transparentization as an implicit export step instead of a recorded work node with source, method, output, and reject/continue decision.
-- Accepting transparent assets without alpha cleanup, edge halo checks, and target-background QA.
-- Reading `.pen` files with normal filesystem tools instead of Pencil tools.
-- Creating separate `.pen` files for pages, modules, fidelity stages, candidates, temporary work, exports, backups, or restorations instead of organizing them as sections and stable nodes in `docs/design/app-design.pen`.
-- Passing Pencil screenshots or restored Pencil frames directly to implementation agents instead of converting them into text specs.
-- Skipping high-fidelity Pencil restoration when the user expects Pencil to carry the approved visual target.
-- Treating bitmap or illustration details as implicit UI instead of tracked assets.
-- Restoring an approved effect image without first separating bitmap, UI, and data, or generating a UI bitmap before confirming that native Flutter cannot reproduce it exactly.
-- Adding alternative state, result, JSON, or responsive-layout packages before checking the fixed stack.
-- Running only unit tests for screen-heavy changes.
-- Repeating platform scope in every task instead of maintaining `docs/architecture/verification-platforms.md` as the single source of truth.
-- Claiming a platform is verified when its command, screenshot, golden, simulator, emulator, device, or browser evidence was not run or captured.
-- Accepting vague words such as "premium", "simple", or "polished" without screen-level acceptance criteria.
-- Defaulting every product to restrained professional visuals instead of deriving a visual expression preset from category and audience.
-- Skipping the one-time light visual interrogation before global exploration, or running a per-page visual interrogation stage.
-- Skipping the module effect-image interrogation before page effect generation, or mechanically repeating it for every page without a new decision.
-- Freezing a global direction that lacks a restatable signature when the preset requires one.
-- Retaining temporary files, invalid or expired artifacts, or superseded unselected design drafts after task confirmation without checking whether they are still required as approved or audit evidence.
+Use [references/subagent-map.md](references/subagent-map.md) only after the risk tier shows that multiple roles are useful. Use [app-team-role-prompts.md](../flutter-subagent-delivery/references/app-team-role-prompts.md) for core responsibility, [subagent-prompts.md](../flutter-subagent-delivery/references/subagent-prompts.md) for a necessary specialist seat, and [collaboration-protocol.md](../flutter-subagent-delivery/references/collaboration-protocol.md) only for isolated multi-agent or high-risk writable tasks.

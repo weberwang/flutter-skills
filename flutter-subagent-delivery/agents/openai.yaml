@@ -1,4 +1,4 @@
 interface:
   display_name: "Flutter Subagent Delivery"
   short_description: "Run Flutter design and implementation through subagents."
-  default_prompt: "Use $flutter-subagent-delivery to orchestrate specialized subagents while keeping every Pencil design in docs/design/app-design.pen, serializing all writers to that shared file, and retaining user confirmations and freezes in the controller."
+  default_prompt: "Use $flutter-subagent-delivery for high-risk or concurrent Flutter work with one persistent task worktree, validation before review, targeted re-review, and automatic cleanup."

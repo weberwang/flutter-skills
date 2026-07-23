@@ -148,7 +148,7 @@ def write_state_transition(
 
 
 def commit_state_record(repository: Path, state_file: Path, task_id: str, stage: str) -> None:
-    """单独提交状态记录，避免将自动化元数据混入任务实现提交。"""
+    """只在最终接受时提交状态，避免每次迁移制造元数据提交。"""
     try:
         relative_state = state_file.relative_to(repository)
     except ValueError as error:
@@ -272,6 +272,7 @@ def finish_task(
     task_branch = str(data["branch"])
     task_worktree = Path(str(data["worktree"])).resolve()
     base_commit = str(data["base_commit"])
+    candidate_commit = str(data["candidate_commit"])
     merged_commit = str(integration.get("merged_commit", ""))
     ensure_valid_branch_name(integration_root, task_branch, "任务")
     if task_branch == integration_branch:
@@ -286,6 +287,8 @@ def finish_task(
             raise WorkflowError("reviewing 任务必须保留与任务分支匹配的 worktree")
         if not branch_exists(integration_root, task_branch):
             raise WorkflowError("任务本地分支不存在，无法自动合并")
+        if run_git(integration_root, "rev-parse", task_branch) != candidate_commit:
+            raise WorkflowError("任务分支 HEAD 与已验收候选提交不一致；请完成受影响范围复审")
         if task_branch_tracks_state(integration_root, task_branch, state_file):
             raise WorkflowError("任务分支包含活动任务状态文件；请先由 Controller 重建隔离分支")
         require_clean_worktree(task_worktree, "任务")
@@ -303,7 +306,6 @@ def finish_task(
         merged_commit = run_git(integration_root, "rev-parse", "HEAD")
         write_state_transition(state_file, "integrating", merged_commit, "pending")
         load_and_validate(state_file)
-        commit_state_record(integration_root, state_file, task_id, "integrate")
     else:
         if not merged_commit:
             raise WorkflowError("integrating 状态缺少 integration.merged_commit")
@@ -317,7 +319,7 @@ def finish_task(
     commit_state_record(integration_root, state_file, task_id, "accept")
     print(
         f"任务 {task_id} 已合并：{merged_commit}；"
-        "任务 worktree 与本地分支已清理，状态已提交为 accepted"
+        "任务 worktree 与本地分支已清理，仅最终 accepted 状态已提交"
     )
 
 

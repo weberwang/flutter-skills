@@ -1,32 +1,42 @@
 # 团队协作协议
 
-在任何可写任务开始前，由 Controller 创建并认领任务状态文件。实现、修复、生成代码和资产的代理只能在该状态文件指定的分支与 worktree 中写入；审阅代理只写入自己的任务报告，不得修改实现分支。
+本协议只用于并发、多代理、`high` 或 `release` 可写任务。轻量任务和顺序执行的标准任务使用普通分支流程，不创建任务状态或 worktree。
 
 ## 任务隔离
 
-- 每个可写任务使用 `codex/<task-id>` 分支和独立 worktree，基线为 Controller 记录的集成分支提交。
-- 每个页面的设计产物写入 `docs/design/pages/<page-name>/`；全局设计产物仅写入 `docs/design/global/`。不得用全局同名文件承载页面状态。
-- 每个任务只保留 `docs/tasks/<task-id>/review.md` 作为验收记录；它链接提交、测试/截图、具名 UI QA 小节（如适用）和清理结果。页面与资产事实分别归入页面设计决策和资产清单，不复制到任务目录。
-- 依赖、路由、主题、代码生成配置、共享状态容器和生成文件为串行所有权；模块图必须明确其唯一写入任务。
+- Controller 先确认真实集成分支和基线提交，再创建任务。
+- 每个受控任务只创建一个 `codex/<task-id>` 分支和一个独立 worktree，并持续使用到最终验收或明确放弃。
+- 修复和定向复审继续使用原 worktree；不得按审查轮次重建、合并或清理 worktree。
+- 依赖、路由、主题、代码生成配置、共享状态容器和 `docs/design/app-design.pen` 必须有唯一写入者。
+- 每个任务只保留 `docs/tasks/<task-id>/review.md` 作为验收记录；页面和资产事实分别保存在页面设计决策与资产清单中。
 
 ## 状态与派发
 
-Controller 是 `.codex-workflow/tasks/<task-id>.yaml` 和 `.codex-workflow/progress.md` 的唯一写入者。状态只能按 `planned → claimed → implementing → reviewing → integrating → accepted` 迁移；遇到阻塞使用 `blocked`，修复后回到 `implementing`。认领前检查租约、基线提交和写入范围；过期租约必须由 Controller 显式释放，不得由其他代理抢占。每次创建或迁移状态后运行 `python <flutter-subagent-delivery>/scripts/validate-task-state.py .codex-workflow/tasks/<task-id>.yaml`。
+Controller 是 `.codex-workflow/tasks/<task-id>.yaml` 和 `.codex-workflow/progress.md` 的唯一写入者。状态按 `planned → claimed → implementing → reviewing → integrating → accepted` 迁移；阻塞时使用 `blocked`，修复后返回 `implementing`。
 
-活动任务状态文件只保留在 Controller 集成 worktree，且在任务分支创建后保持未提交；任务分支不得携带自己的活动状态文件。这样 Controller 可以持续更新状态而不会在合并实现分支时产生状态文件冲突。运行自动收尾前，集成 worktree 除当前任务状态文件外必须干净；Controller 应先单独提交账本更新或在脚本成功后再写入账本。`finalize-task.py` 在创建合并提交后依次提交 `integrating` 与 `accepted` 记录。
+派发前记录任务风险、基线、租约、分支、worktree、唯一写入范围、权威输入和验证命令，并运行 `scripts/validate-task-state.py`。实现者和审阅者不得修改任务状态、账本、其他任务目录或集成分支。
 
-派发内容必须包含：任务 ID、状态文件、基线提交、分支/worktree、唯一写入范围、权威输入链接、验证命令和非目标。实现者只在回复中交付提交 SHA、变更文件、验证摘要和阻塞项；独立验收人把快照和结论写入 `review.md`。代理不得修改任务状态、账本、其他任务目录或集成分支。
+活动状态文件只保留在 Controller 集成 worktree，任务分支不得携带自己的活动状态。自动收尾前，集成 worktree 除当前任务状态文件外必须干净。
 
-## 集成与证据
+## 先验证后审查
 
-- 实现和修复在同一任务分支完成，并形成一个可审查提交；独立验收通过后，Controller 在干净的集成 worktree 运行 `python <flutter-subagent-delivery>/scripts/finalize-task.py .codex-workflow/tasks/<task-id>.yaml --integration-worktree <集成-worktree> --integration-branch <集成分支>`。脚本会检查报告、租约、基线和 `git diff --check`，以 `--no-ff` 合并任务分支，将状态记录为 `integrating`，再清理任务 worktree 和本地任务分支，最后将状态提交为 `accepted`。
-- 自动收尾仅接受 `reviewing` 且 `acceptance.verdict: approved` 的任务；验收人和时间必须已写入状态文件。合并冲突、未提交改动、缺失报告、未通过状态校验或清理失败会停止流程，不会伪造 `accepted` 状态。合并冲突会自动撤销集成 worktree 的半完成合并，由任务所有者修复任务分支后重试；`integrating` 状态可安全重试，直至清理和状态提交完成。
-- 若任务分支已推送且团队允许自动删除远端临时分支，Controller 在上述命令附加 `--remote origin`；未显式指定远端时只删除本地 worktree 与本地任务分支。
-- Controller 在账本索引中链接脚本生成的合并/状态提交和 `review.md`；冲突仅由对应任务所有者处理。
-- 视觉冻结信息写入页面 `design-decision.md`：候选 ID、提示词哈希、评审结论、确认时间、冻结文件哈希和删除清单。可删除未选原图，但不得删除该最小记录。
+1. 实现者在原 worktree 中完成构建、静态检查、相关测试、审计命令和已知回归夹具。
+2. 任一定义明确的命令仍失败时，任务保持 `implementing`；不得创建正式审查快照。
+3. 所有确定性检查通过后，形成候选提交并转为 `reviewing`。
+4. 所需 Product、QA、技术和视觉审查针对同一候选并行执行，结论写入同一 `review.md` 的具名小节。
+5. 修复产生新候选后，仅重新派发覆盖受影响事实的审阅者。选择规则见 [task-risk-tiers.md](task-risk-tiers.md)。
+
+不可变快照变化意味着旧快照不能证明新提交，但不等于所有审查维度都失效。未受影响的结论可在 `review.md` 中保留，并明确其覆盖范围和沿用依据。
+
+## 集成与清理
+
+- 所有必需审查批准最终候选后，Controller 仅运行一次 `finalize-task.py`。脚本检查状态、候选提交、报告、租约、基线和 `git diff --check`，合并任务分支，清理任务 worktree 和本地分支，并只提交最终接受状态；`integrating` 是失败重试状态，不再产生独立提交。
+- 冲突会撤销半完成合并；任务所有者在原任务分支修复后重试，不创建替代 worktree。
+- 只有团队授权时才使用 `--remote origin` 删除远端临时分支。
+- 清理状态、链接或格式修正不启动新的产品或 QA 审查轮次。
 
 ## 验证层级
 
-- 任务：静态分析、相关单元/组件测试、golden 或截图设计证据。
-- 业务流等级：合并到集成分支后运行集成冒烟；这是一项回归检查，不得把它登记为全平台验证。
-- 最终集成：执行 `docs/architecture/verification-platforms.md` 中的完整平台矩阵，并更新平台验证状态。
+- 任务：静态分析、相关测试、任务审计脚本、回归夹具、必要的截图或 golden。
+- 业务流等级：合并后执行集成冒烟，不把它登记为完整平台验证。
+- 最终集成或发布：执行 `docs/architecture/verification-platforms.md` 中的完整平台矩阵。

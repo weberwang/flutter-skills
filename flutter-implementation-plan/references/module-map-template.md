@@ -13,7 +13,7 @@ Use this before implementation planning. It turns global design and architecture
 
 ## App Team Role Activation
 
-| Core role | Enabled | Reason or N/A | Default responsibility |
+| Core role | Enabled | Activation reason | Default responsibility |
 |---|---|---|---|
 | Controller | Yes | Required | Orchestration, user decisions, Gate recording, integration |
 | Product Manager | | | Scope, value, metrics, business acceptance |

@@ -1,5 +1,6 @@
 # 仅 Controller 可修改；其他代理只读取此文件。
 id: T01
+risk_tier: high # high | release；light/standard 顺序任务不使用本模板
 state: planned # planned | claimed | implementing | reviewing | integrating | accepted | blocked
 owner: ""
 lease:
@@ -11,6 +12,8 @@ branch: codex/T01
 worktree: ""
 write_scope: []
 inputs: []
+validation: pending # pending | passed
+candidate_commit: ""
 reports:
   review: docs/tasks/T01/review.md
 acceptance:

@@ -18,8 +18,11 @@ VALID_STATES = {
 }
 VALID_ACCEPTANCE_VERDICTS = {"pending", "approved", "changes_requested"}
 VALID_CLEANUP_STATES = {"pending", "completed"}
+VALID_RISK_TIERS = {"high", "release"}
+VALID_VALIDATION_STATES = {"pending", "passed"}
 REQUIRED_ROOT_KEYS = {
     "id",
+    "risk_tier",
     "state",
     "owner",
     "lease",
@@ -28,6 +31,8 @@ REQUIRED_ROOT_KEYS = {
     "worktree",
     "write_scope",
     "inputs",
+    "validation",
+    "candidate_commit",
     "reports",
     "acceptance",
     "integration",
@@ -78,10 +83,25 @@ def validate_task_state(data: dict[str, object]) -> list[str]:
 
     task_id = str(data.get("id", ""))
     state = str(data.get("state", ""))
+    risk_tier = str(data.get("risk_tier", ""))
+    validation = str(data.get("validation", ""))
     if not task_id:
         errors.append("id 不能为空")
     if state not in VALID_STATES:
         errors.append(f"state 必须是以下值之一：{', '.join(sorted(VALID_STATES))}")
+    if risk_tier not in VALID_RISK_TIERS:
+        errors.append(f"risk_tier 必须是以下值之一：{', '.join(sorted(VALID_RISK_TIERS))}")
+    if validation not in VALID_VALIDATION_STATES:
+        errors.append(
+            "validation 必须是以下值之一："
+            f"{', '.join(sorted(VALID_VALIDATION_STATES))}"
+        )
+
+    if state in {"reviewing", "integrating", "accepted"}:
+        if validation != "passed":
+            errors.append(f"{state} 状态需要 validation 为 passed")
+        if not str(data.get("candidate_commit", "")):
+            errors.append(f"{state} 状态需要 candidate_commit")
 
     reports = data.get("reports")
     if not isinstance(reports, dict):

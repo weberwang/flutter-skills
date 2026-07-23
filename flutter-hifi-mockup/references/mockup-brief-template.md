@@ -13,7 +13,7 @@ Fill this transiently during module implementation before generating page images
 ## Module and Page
 
 - Confirmed module scope:
-- Module Effect-Image Interrogation Gate:
+- Conditional module visual decision:
 - Name:
 - Route or flow:
 - User goal:
@@ -59,7 +59,7 @@ Fill this transiently during module implementation before generating page images
 - Design system baseline:
 - Visual expression preset ID and axes:
 - Page-type budget dial: full / moderate / dial-down
-- Restatable signature required for this mockup: Yes / No — description or N/A reason:
+- Restatable signature when required:
 - Brand traits:
 - Decoration purpose and limits:
 - Avoid:

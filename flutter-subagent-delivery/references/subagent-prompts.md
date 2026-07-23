@@ -9,21 +9,22 @@ Before using any specialist template below, prepend exactly one core role prompt
 ```text
 Task ID: <id>
 Task profile: <routing-table value>
+Risk tier: light / standard / high / release
 Current Gate: <gate>
 Core role: <one role>
-Specialist seat: <one seat or N/A>
+Specialist seat: <one seat when used>
 DRI agent ID: <id>
-Independent acceptance role and agent ID: <role and different id>
+Independent acceptance role and agent ID: <role and different id when required>
 Accepted upstream evidence: <paths, versions, or hashes>
 Read scope: <paths>
 Write scope: <exact paths or read-only>
 Non-scope: <explicit exclusions>
 Required output: <paths or response shape>
 Verification: <commands or evidence>
-Review snapshot identifier: <commit/diff/artifact hash or N/A before review>
+Review snapshot identifier: <commit/diff/artifact hash when reviewing>
 ```
 
-Any change after review invalidates the review snapshot and requires re-review. Never mark a same-session producer/reviewer pass as independent.
+Do not dispatch formal review until deterministic verification passes. A changed snapshot invalidates only review dimensions whose covered facts changed; follow [task-risk-tiers.md](task-risk-tiers.md). Never mark a same-session producer/reviewer pass as independent when independence is required.
 
 ## Product Manager Specialist
 
@@ -77,9 +78,9 @@ Product artifacts and Market evidence section: <paths>
 Visual expression preset: <path or embedded values>
 Output mode: transient response / assigned draft
 
-Produce exactly three traceable visual-system definitions with product character, color, typography, shape, imagery/icons, material, motion, restatable signature, extension rules, Flutter implementation path, cost, and risk. Generate no page or screen image. Do not recommend, select, persist, or freeze a direction.
+Produce the requested number of traceable visual-system definitions: one when the direction is already clear, or two to three when exploration or a material tradeoff remains. Cover product character, color, typography, shape, imagery/icons, material, motion, restatable signature, extension rules, Flutter implementation path, cost, and risk. Generate no page or screen image. Do not recommend, select, persist, or freeze a direction.
 
-Return: status, three definitions, requirement mapping, unresolved facts, concerns.
+Return: status, requested definitions, requirement mapping, unresolved facts, concerns.
 ```
 
 ## Global Direction Reviewer
@@ -113,7 +114,7 @@ Write scope: <paths>
 
 Select Full, Lightweight, or Reuse and record the reason. Create the semantic contract for every level; create a 390 x 844 px Pencil wireframe only for Full. Put every Pencil node in the assigned section of `docs/design/app-design.pen`; never create another `.pen` file. Preserve scope, required content, information priority, navigation, actions, outcomes, states, accessibility meaning, and data/UI/fixed-asset ownership. Do not freeze exact coordinates, spacing, containers, component silhouettes, image ratio/crop, secondary composition, or decoration placement. Do not introduce high-fidelity styling or new functions.
 
-Return: status, selected level/reason, node/frame IDs or N/A, output paths, state coverage, unresolved facts, concerns.
+Return: status, selected level/reason, applicable node/frame IDs, output paths, state coverage, unresolved facts, concerns.
 ```
 
 ## Wireframe Reviewer
@@ -140,15 +141,15 @@ You are the Page high-fidelity agent.
 Confirmed module scope: <path>
 Page decision with reviewed semantic contract: <path>
 Global design freeze: <path>
-Module Effect-Image Interrogation Gate: <path or entry>
+Conditional module visual decision: <path or entry when a new user decision was required>
 Page prompt template: <path>
 Image prompt principles: <path>
 
-Generate exactly three transient page candidates at the required dimensions. Keep planning evidence separate and send only a compact, structured prompt with the outcome, essential hierarchy/content, concise visual direction, true non-negotiables, and output rule. Remove duplicated constraints, contradictions, rationale, adjective stacks, exhaustive details, and long avoid lists; leave secondary composition and detail open. Keep scope, copy, data, state, and user task fixed. Do not persist repository artifacts, select a candidate, infer approval, or freeze a design.
+Generate the requested number of transient page candidates at the required dimensions: one when the visual target is clear, or two to three for requested exploration or unresolved material tradeoffs. Keep planning evidence separate and send only a compact, structured prompt with the outcome, essential hierarchy/content, concise visual direction, true non-negotiables, and output rule. Remove duplicated constraints, contradictions, rationale, adjective stacks, exhaustive details, and long avoid lists; leave secondary composition and detail open. Keep scope, copy, data, state, and user task fixed. Do not persist repository artifacts, select a candidate, infer approval, or freeze a design.
 
 Treat the wireframe as a semantic contract, not a composition reference. Preserve functional meaning, content priority, required states, navigation, interactions, and outcomes, but freely recompose exact geometry, containers, whitespace, component silhouettes, image ratios/crops, text-image orientation, and decoration placement inside the frozen visual direction.
 
-Return: status, three candidate references/images, prompt mapping, dimensions, concerns.
+Return: status, requested candidate references/images, prompt mapping, dimensions, concerns.
 ```
 
 ## Effect Image Reviewer
@@ -161,7 +162,7 @@ Product/page sources: <paths>
 Page decision: <path>
 Global design freeze and preset: <paths>
 
-Review task clarity, semantic-contract coverage, Apple HIG interaction principles, accessibility, visual quality, signature strength, Flutter feasibility, and asset implications. Do not score geometry similarity to low-fidelity evidence. Keep product-design issues separate from premium/signature improvements. Do not modify, rank, select, persist, or freeze candidates.
+Review task clarity, semantic-contract coverage, Apple HIG interaction principles, accessibility, visual quality, signature strength, Flutter feasibility, and asset implications. Do not score geometry similarity to low-fidelity evidence. Keep usability and product-fit issues separate from premium/signature improvements. Do not modify, rank, select, persist, or freeze candidates.
 
 Return: status, per-candidate verdict, findings, required changes, missing evidence.
 ```
@@ -195,7 +196,7 @@ Write scope: <path>
 
 Perform reuse checks and prepare the complete pre-slicing confirmation table. Do not generate, adapt, extract, transparentize, export, or slice assets. Do not infer user confirmation.
 
-Return: status, output path, full confirmation table, N/A rows, unresolved decisions, concerns.
+Return: status, output path, full confirmation table, unresolved decisions, concerns.
 ```
 
 ## Asset Production Agent
@@ -305,7 +306,7 @@ Project-local flutter-dev skill: <required path>
 Module map: <path>
 Confirmed module scope: <docs/plans/modules/<module-name>-scope.md>
 Module grilling confirmation: <docs/product/grilling-log.md entry>
-Module Effect-Image Interrogation Gate: <path, entry, or N/A for non-UI>
+Conditional module visual decision: <path or entry when applicable>
 Report file: <path>
 Global verification platform scope: <docs/architecture/verification-platforms.md>
 
@@ -343,7 +344,7 @@ You are the independent QA or technical review specialist for one task. You did 
 - Module map: <path>
 - Confirmed module scope: <path>
 - Module grilling confirmation: <path or entry>
-- Module Effect-Image Interrogation Gate: <path, entry, or N/A>
+- Conditional module visual decision: <path or entry when applicable>
 - Diff package or changed files: <path>
 - UI evidence: <path or none>
 - Global verification platform scope: <path or none>
@@ -351,8 +352,8 @@ You are the independent QA or technical review specialist for one task. You did 
 - Page design decision: <path or none>
 - Asset manifest: <path or none>
 - Pencil node IDs / handoff constraints: <in page decision or none>
-- Module acceptance result: <path, text, N/A with reason, or none>
-- Integration smoke result: <path, text, N/A with reason, or none>
+- Module acceptance result: <path or text when applicable>
+- Integration smoke result: <path or text when applicable>
 
 Review for spec compliance, code quality, regression risk, and evidence completeness against the immutable snapshot. Findings must lead. Mark severity as Critical, Important, or Minor. Return `NEEDS_CONTEXT` when the snapshot cannot be identified or the producer and reviewer identities are not demonstrably different.
 
@@ -393,7 +394,7 @@ Task brief: <path>
 Findings: <path or pasted list>
 Report file: <path>
 
-Fix Critical and Important findings only unless Minor findings are trivial. Re-run covering verification commands and append results to the report. State that the prior review snapshot is stale and provide the new diff or commit identifier for independent re-review.
+Fix Critical and Important findings only unless Minor findings are trivial. Re-run covering verification commands and append results to the report. Provide the new diff or commit identifier and identify which review dimensions changed so the Controller can request only the affected independent re-review.
 ```
 
 ## Final Reviewer

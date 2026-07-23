@@ -1,72 +1,69 @@
 ---
 name: flutter-subagent-delivery
-description: Use when coordinating multi-agent design and implementation of an approved Flutter delivery plan, including UX, visual direction, wireframes, high-fidelity pages, bitmap decomposition, asset production, Pencil restoration, implementation, and independent review.
+description: Use when coordinating concurrent, multi-agent, high-risk, or release-sensitive implementation of an approved Flutter delivery plan with isolated worktrees, deterministic pre-review validation, independent acceptance, targeted re-review, and automatic integration cleanup.
 ---
 
 # Flutter Subagent Delivery
 
 ## Overview
 
-Run App delivery through role-based feature squads and controlled subagent loops. The controller assembles the smallest sufficient team and owns sequencing, context packaging, user confirmations, freeze gates, conflict resolution, and final integration; core engineering roles and specialized seats perform production and independent review work.
-
-## Roles
-
-Use the core App team, activation rules, task routing, specialist mapping, and decision authority in [../flutter-app-orchestrator/references/subagent-map.md](../flutter-app-orchestrator/references/subagent-map.md). Use the preset positioning, team value, and executable role prompts in [references/app-team-role-prompts.md](references/app-team-role-prompts.md).
-
-The core roles are Controller, Product Manager, UX/UI Lead, Tech Lead, Flutter Engineer, Backend/Data Engineer, QA Engineer, and DevOps/Release Engineer. Market, visual direction, wireframe, high-fidelity, asset, Pencil, architecture, implementation, fixer, review, and release agents are task-scoped specialist seats under exactly one core role. A producer and reviewer must be different agent instances.
+Use this skill only when the task needs multi-agent coordination, concurrent writes, high-risk isolation, or release-grade acceptance. Light and ordinary sequential tasks should use a simpler branch workflow from `flutter-app-orchestrator`.
 
 ## Preflight
 
-- Confirm subagent tools are available before dispatch.
-- Read [../flutter-app-orchestrator/references/subagent-map.md](../flutter-app-orchestrator/references/subagent-map.md) and [references/app-team-role-prompts.md](references/app-team-role-prompts.md). Classify the task, activate the smallest sufficient team, and record `N/A: <reason>` for omitted roles.
-- Assign exactly one DRI and one independent acceptance owner. Record identities, lease, scope and upstream links in the task-state file; add only the task-state link and current gate to `.codex-workflow/progress.md`.
-- Read [references/design-subagent-orchestration.md](references/design-subagent-orchestration.md) and preserve its controller-only authority and required role separation.
-- Confirm `docs/plans/module-map.md` exists, the next task is in the first incomplete business-flow level, and all prior-level acceptance paths and cross-module contracts have passed or are explicitly accepted.
-- When the next module first becomes eligible, stop before task refinement and run `grilling` again. Confirm its included functions, non-goals, page/state boundaries, dependencies, and acceptance path; require the user's explicit shared-understanding confirmation in `docs/product/grilling-log.md` and a confirmed `docs/plans/modules/<module-name>-scope.md` before creating or dispatching its tasks.
-- For a UI module, after function/page refinement and before any page design task, run the Module Effect-Image Interrogation Gate once and record it in the grilling log and module scope. Do not dispatch page-effect generation without it.
-- After module refinement, confirm each task has an approved task brief derived from the confirmed module scope.
-- Confirm expected write scopes do not overlap for any parallel implementation work.
-- Read [references/collaboration-protocol.md](references/collaboration-protocol.md). Before dispatching any writable task, the Controller must create `.codex-workflow/tasks/<task-id>.yaml` from [references/task-state-template.yaml](references/task-state-template.yaml), record the integration base commit, dedicated `codex/<task-id>` branch/worktree, lease, and unique write scope, then run `scripts/validate-task-state.py`. Keep this active state uncommitted in the Controller-owned integration worktree after creating the task branch, so the task branch cannot overwrite it. Reserve that integration worktree for `scripts/finalize-task.py`; no task agent may use it for implementation.
-- Confirm `docs/design/app-design.pen` is the only project `.pen` file and reserve it for one writer at a time. Assign stable module/fidelity sections and node scopes before dispatching Page structure, Pencil restoration, or design-asset synchronization work.
-- Confirm `.codex-workflow/progress.md` exists or create it from [references/progress-ledger.md](references/progress-ledger.md). Only the Controller may update the ledger or task-state files.
-- If subagent tools are unavailable, run the same roles sequentially in the controller session and record the downgrade in the ledger. Mark every same-session review as non-independent; it cannot alone pass a high-risk Product, Design, Technical, Quality, or Release Gate.
-- If a subagent times out, returns `NEEDS_CONTEXT`, or returns `BLOCKED`, update the ledger before retrying with clearer context, smaller scope, or a stronger model.
+1. Classify the task with [references/task-risk-tiers.md](references/task-risk-tiers.md). Stop using this skill if a light or standard sequential workflow is sufficient.
+2. Resolve the actual integration branch and base commit before creating the task. Confirm FVM, dependencies, upstream contracts, write scope, and executable verification commands.
+3. Assign one DRI and an independent acceptance owner. Add specialist roles only for material work; do not document omitted roles.
+4. Create one task branch and one dedicated worktree from the verified base. Reuse them through implementation, fixes, and targeted re-review.
+5. Create `.codex-workflow/tasks/<task-id>.yaml` from [references/task-state-template.yaml](references/task-state-template.yaml), set `risk_tier` to `high` or `release`, record the lease and write scope, then run `scripts/validate-task-state.py`.
+6. Keep the active task-state file in the Controller integration worktree. Only the Controller updates task state and `.codex-workflow/progress.md`.
+7. Serialize all writes to `docs/design/app-design.pen` and every other shared generated file.
 
 ## Execution Loop
 
-1. Read `.codex-workflow/progress.md` and task-state files; select the first eligible unleased task, transition it to `claimed`, validate the state, and create its dedicated branch/worktree before dispatch.
-2. Read `docs/plans/module-map.md` and select the next eligible module from the first incomplete business-flow level. If this module has not completed its implementation-stage grilling gate, run it now and do not refine functions, pages, or task briefs until the user explicitly confirms shared understanding.
-3. After confirmation, append the module decision to `docs/product/grilling-log.md`, create `docs/plans/modules/<module-name>-scope.md`, and refine the confirmed module into its function inventory, page functions, states, contracts, acceptance path, and vertical-slice tasks.
-3.1. Classify each task with the task-routing table, record the Team Assignment, and create one role card per dispatched agent from `references/app-team-role-prompts.md`. Backend/data work may not be inferred or absorbed by the Flutter Engineer when its contract or owner is missing.
-4. For a UI module, run the Module Effect-Image Interrogation Gate once. Confirm the visual outcome, effect-image page/state list, budgets, signatures, accepted implementation/asset cost, and scope consistency; record explicit shared understanding before any page effect generation.
-5. For a UI page task, dispatch the Page structure agent to select the wireframe level and produce its semantic contract, then a separate Wireframe reviewer. Store the contract, verdict, freeze, Pencil decision and handoff constraints only in `docs/design/pages/<page-name>/design-decision.md`; require Pencil evidence only for Full.
-6. Dispatch the Page high-fidelity agent to generate exactly three transient candidates, then a separate Effect Image Reviewer. The controller presents results, records the user's choice and change disposition, and alone persists and freezes the selected image.
-7. Dispatch the Bitmap decomposition agent. If assets are required, dispatch the Asset planning agent to prepare the complete pre-slicing table; the controller presents it and waits for explicit confirmation. Only then dispatch the Asset production agent for confirmed rows.
-8. When required, dispatch the Pencil restoration agent as the sole active Pencil writer, restore into its assigned section of `docs/design/app-design.pen`, and validate its restoration and Flutter handoff evidence.
-9. Dispatch the routed engineer for the task scope: Flutter Engineer for client work, Backend/Data Engineer for API/schema/migration work, Tech Lead for assigned cross-cutting technical work, or DevOps/Release Engineer for build/pipeline/environment work. Use the matching core prompt plus one specialist prompt.
-10. Require the implementer return only its commit SHA, changed files, verification summary and blockers; do not create an implementer report or evidence manifest.
-11. Package an immutable review snapshot with commit/diff, changed-file list, canonical input links and test/screenshot links. Dispatch the independent acceptance owner and store the conclusion at `docs/tasks/<task-id>/review.md`. Any later fix makes the prior review stale.
-12. For UI tasks, include screenshots or golden links and have the QA Engineer add a named Visual QA section to the same `review.md`.
-13. Dispatch a fixer for Critical and Important findings.
-14. Re-review until approved.
-15. After the independent acceptance owner sets `acceptance.verdict: approved`, Controller runs `scripts/finalize-task.py` from its clean integration worktree. The script validates the task, creates the no-fast-forward merge, records `integrating`, removes the completed task worktree and local branch, and commits `accepted`; use `--remote origin` only for a pushed temporary branch that the team has authorized for deletion. Controller links both resulting commits and `review.md` from the ledger index.
-16. After all tasks and required high-fidelity restoration are complete, dispatch an independent QA Final reviewer against an immutable branch snapshot, obtain the Tech Lead integration verdict, and run the in-scope device, emulator, simulator, browser, or desktop runtime validation. Record platform evidence only at this final integration stage.
-17. When release is in scope, dispatch the DevOps/Release Engineer after QA acceptance. Require reproducible artifacts, signing and environment checks, monitoring, rollout, and rollback evidence before the Controller requests or records release authorization.
+### Build And Validate
 
-Use [references/design-subagent-orchestration.md](references/design-subagent-orchestration.md), [references/subagent-prompts.md](references/subagent-prompts.md), [references/progress-ledger.md](references/progress-ledger.md), and [references/collaboration-protocol.md](references/collaboration-protocol.md).
+1. Dispatch the routed implementer with a concise task brief, canonical inputs, exact write scope, non-goals, and verification commands.
+2. Let the implementer iterate in the same worktree until static checks, relevant tests, audit commands, and known regression fixtures execute successfully.
+3. Treat failures discovered during execution as construction feedback, not formal review findings. Do not create review snapshots or dispatch Product, QA, technical, or visual reviewers while deterministic checks are failing.
+4. When checks pass, create one candidate commit and package its immutable diff, changed files, canonical inputs, and evidence links.
 
-## Parallelism Rule
+### Review
 
-Parallelize read-only exploration, independent reviews, and disjoint page or asset production after their shared freeze exists. Serialize producer/reviewer pairs, user-confirmation gates, delivery across business-flow levels, overlapping write scopes, and every write to `docs/design/app-design.pen`. Disjoint Pencil node scopes do not make shared-file writes parallel-safe. Within one level, parallelize only when task branches/worktrees are isolated, contracts are established, and `docs/plans/module-map.md` marks the work parallel-safe.
+5. Dispatch only reviewers whose acceptance dimension is material. Product, QA, technical, and visual reviews may run in parallel against the same candidate snapshot.
+6. Store durable conclusions in named sections of `docs/tasks/<task-id>/review.md`; do not create implementer reports, separate evidence manifests, or duplicate visual-QA files.
+7. A reviewer must be independent only for the dimension it accepts. Do not require unrelated reviewers to repeat after a narrow change.
+8. Apply the selective invalidation rules from [references/task-risk-tiers.md](references/task-risk-tiers.md):
+   - Scope or acceptance changes invalidate Product and QA.
+   - Command, test matrix, audit script, dependency rule, or implementation changes invalidate QA and any directly affected technical review.
+   - Visual-only changes invalidate visual QA; include QA when behavior changed.
+   - Formatting, links, or non-semantic wording normally require only deterministic checks.
+9. Fix findings in the original task worktree, produce a new candidate commit, and re-dispatch only affected reviewers.
+
+### UI Conditions
+
+10. Use Page structure, effect-image, bitmap, asset, Pencil, and visual-QA specialists only when the page and risk tier require them.
+11. Generate one global direction or page candidate when the visual target is clear. Generate two or three only for requested exploration or unresolved material design tradeoffs.
+12. Require independent design review for high-value, high-risk, or exploratory designs; do not make external product-design tooling a dependency.
+
+### Finalize
+
+13. When all required review sections approve the same final candidate, set `acceptance.verdict: approved` and run `scripts/finalize-task.py` once from the clean integration worktree.
+14. The finalizer merges the task branch and removes the task worktree and local branch. Use `--remote origin` only when deletion of the pushed temporary branch is authorized.
+15. Link the final merge, accepted state, and `review.md` from the ledger. Do not create a new review cycle for cleanup-only metadata.
+
+## Parallelism
+
+Parallelize read-only exploration, deterministic environment discovery, and independent reviews of the same frozen candidate. Parallelize writable work only when scopes are disjoint and each writer has an isolated worktree. Serialize overlapping contracts, business-flow levels, user decisions, shared generated files, and final integration.
 
 ## Required Verification
 
-- `fvm flutter analyze`
-- relevant `fvm flutter test` targets
-- screenshots or golden tests for UI work
-
-After each business-flow level is merged into the integration branch, run `fvm flutter test integration_test` when relevant integration tests exist. Treat it as level regression evidence, not as a platform-verification claim. Run the full device, emulator, simulator, browser, and desktop matrix only after all module/page tasks have passed; task-level screenshots or goldens remain design evidence.
+- Run `fvm flutter analyze` when Flutter source is affected.
+- Run the relevant `fvm flutter test` targets.
+- Run task-specific audit scripts and known regression fixtures completely before review.
+- Capture screenshots or goldens when UI acceptance needs visual evidence.
+- Run level integration smoke after merge; reserve the full platform matrix for final integration or a task that explicitly owns it.
 
 ## Gate
 
-Do not create or dispatch a task before the module-level grilling confirmation and module scope refinement exist. Do not dispatch without a validated task-state claim, recorded task profile, enabled-role reasons, one DRI, one independent acceptance owner, agent IDs, accepted upstream links, base commit, dedicated branch/worktree, and non-overlapping write scopes. When subagent tools are available, do not silently perform delegable design production in the controller session; dispatch the required specialized role. Do not create a second project `.pen` file or run multiple Pencil writers concurrently. Do not let a producer review itself, let a subagent request or infer user approval, or let an agent write outside its assigned scope. Do not generate a UI module's page effect images before its Module Effect-Image Interrogation Gate passes. Do not advance on a stale review snapshot, a same-session high-risk review, `DONE_WITH_CONCERNS` containing Critical or Important findings, or missing mandatory evidence. Do not mark a task accepted while its task commit, `review.md`, required page decision, required asset manifest, command output, Critical/Important resolution, successful `finalize-task.py` result, or completed branch/worktree cleanup is missing.
+Do not dispatch implementation from an unresolved base branch. Do not recreate the worktree between review rounds. Do not ask a reviewer to discover errors that deterministic execution can expose. Do not treat every changed commit as invalidating every review dimension. Do not finalize without a passing final candidate, required independent acceptance, resolved Critical/Important findings, and successful cleanup.

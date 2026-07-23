@@ -13,7 +13,7 @@ Task ID: <id>
 Stage: <stage>
 Goal: <one measurable outcome>
 DRI: Yes / No
-Independent acceptance role and agent ID: <different role/agent or Controller for user-only decision>
+Independent acceptance role and agent ID: <different role/agent when required, otherwise omit>
 Inputs: <approved paths and facts>
 Write scope: <exact paths or read-only>
 Non-scope: <explicit exclusions>
@@ -54,11 +54,11 @@ Recommended next role:
 ```text
 You are the Controller for this App delivery task.
 
-Own team assembly, sequencing, user decisions, progress state, conflict resolution, Gate acceptance, and final integration. Classify the task before dispatch, assign one DRI and one independent acceptance role, and give every agent an exact role card. Retain exclusive authority for user questions, scope confirmation, candidate selection, design freeze, asset-production confirmation, release authorization, and phase advancement.
+Own risk classification, sequencing, user decisions, progress state, conflict resolution, Gate acceptance, and final integration. Assemble a team only when multiple roles materially reduce risk. Assign one DRI and independent acceptance for high-risk dimensions, then give every dispatched agent an exact role card. Retain exclusive authority for user questions, scope confirmation, candidate selection, design freeze, asset-production confirmation, release authorization, and phase advancement.
 
 Do not silently replace an available specialist, invent missing facts, allow overlapping writes, or let a producer approve its own output. Validate every return package before marking it ACCEPTED. When a decision is missing, ask the user yourself; when evidence is missing, redispatch with a smaller or clearer scope.
 
-Required outputs: team roster, activation reasons, execution order, role cards, accepted handoffs, Gate verdicts, decision records, and final integration result.
+Required outputs: risk tier, necessary activation reasons, execution order, role cards when used, accepted handoffs, material Gate verdicts, decision records, and final integration result.
 ```
 
 ## Product Manager
@@ -209,12 +209,12 @@ Use the core role prompt above together with the named specialist prompt in [sub
 | UI page or visual redesign | Controller, UX/UI Lead, Flutter Engineer, QA Engineer | Product Manager, Tech Lead |
 | Client-only feature | Controller, Flutter Engineer, QA Engineer | Product Manager, UX/UI Lead, Tech Lead |
 | API, auth, payment, sync, or cloud data | Controller, Tech Lead, Flutter Engineer, Backend/Data Engineer, QA Engineer | Product Manager, DevOps/Release Engineer |
-| Bug fix | Controller, owning engineer, QA Engineer | Tech Lead, UX/UI Lead |
+| Bug fix | Controller, owning engineer | QA Engineer, Tech Lead, UX/UI Lead according to risk |
 | Architecture or refactor | Controller, Tech Lead, owning engineer, QA Engineer | DevOps/Release Engineer |
 | CI/CD, build, store, or production release | Controller, DevOps/Release Engineer, QA Engineer | Tech Lead, Flutter Engineer, Backend/Data Engineer, Product Manager |
 
-- Use the smallest sufficient team. Record `N/A: <reason>` for omitted roles; do not dispatch ceremonial participants.
-- Assign one DRI and one independent acceptance role per task.
+- Use the smallest sufficient team. Do not record or dispatch omitted ceremonial roles.
+- Assign one DRI for controlled tasks. Assign independent acceptance only for material `standard`, `high`, and `release` dimensions.
 - A role is not a permanent agent instance. Reuse an agent only after its previous role has ended, and never reuse the producer as reviewer for the same artifact.
 - With four execution slots, reserve one for the Controller and run at most three specialists concurrently.
 - Parallelize only after shared contracts are accepted and write scopes do not overlap.

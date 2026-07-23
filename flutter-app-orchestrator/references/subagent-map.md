@@ -17,12 +17,14 @@ Form a temporary feature squad for the current task instead of dispatching every
 
 Specialized design, research, implementation, and review agents are temporary seats under one core role. Map them with [app-team-role-prompts.md](../../flutter-subagent-delivery/references/app-team-role-prompts.md); do not treat them as permanent team members.
 
-## Team Assembly Gate
+## Conditional Team Assembly
 
-Before dispatching work, the Controller must record:
+Use team assembly only for `high`, `release`, or genuinely multi-agent work. For `standard` work, record only the roles actually dispatched. `light` work needs no roster.
+
+For controlled multi-agent work, record:
 
 1. Task profile and current workflow Gate.
-2. Enabled core roles and `N/A: <reason>` for omitted roles.
+2. Enabled core roles and their purpose.
 3. One DRI role and agent.
 4. One independent reviewer or acceptance role and agent.
 5. Consulted roles, if any.
@@ -30,7 +32,7 @@ Before dispatching work, the Controller must record:
 7. Accepted upstream evidence and blocking dependencies.
 8. Parallel or serialized execution decision.
 
-Do not dispatch a task without a DRI, independent acceptance owner, and role activation reason.
+Do not dispatch a controlled multi-agent task without a DRI, required independent acceptance owner, and role activation reason.
 
 ## Task Routing
 
@@ -48,12 +50,12 @@ Do not dispatch a task without a DRI, independent acceptance owner, and role act
 
 ### Activation Conditions
 
-- Enable Backend/Data for API, account, auth, payment, cloud sync, remote data, schema, migration, server analytics, or service observability work. For a verified local-only App, record `N/A: no service or persisted remote-data scope`.
+- Enable Backend/Data for API, account, auth, payment, cloud sync, remote data, schema, migration, server analytics, or service observability work. Do not record it when the App is verified local-only.
 - Enable UX/UI for any user-visible structure, copy hierarchy, interaction, state, visual, asset, or accessibility change.
 - Enable Tech Lead for architecture, shared foundations, cross-module contracts, dependency changes, security/privacy risk, migrations, performance budgets, or integration decisions.
 - Enable QA before implementation planning when acceptance or regression scope must be defined, not only after coding.
 - Enable DevOps/Release during technical design when environments, CI/CD, signing, store distribution, observability, rollout, or rollback are in scope; it owns the Release Gate.
-- For a narrow, already-confirmed client task, Product Manager may be `N/A` when the task brief already carries accepted business scope.
+- For a narrow, already-confirmed client task, do not dispatch Product Manager when the task brief already carries accepted business scope.
 
 ## Specialist Seats
 
@@ -67,7 +69,7 @@ Do not dispatch a task without a DRI, independent acceptance owner, and role act
 | QA Engineer | Task reviewer, Visual QA agent, acceptance reviewer, Final reviewer |
 | DevOps/Release Engineer | Release agent, CI/CD implementer, rollout/rollback reviewer |
 
-Each specialist receives the core role prompt plus exactly one specialist prompt. The narrower specialist scope wins. A producer and reviewer must be different agent instances even when they share the same core discipline.
+Each specialist receives the core role prompt plus exactly one specialist prompt. The narrower specialist scope wins. A producer and reviewer must be different agent instances when the task risk requires independent acceptance.
 
 ## Parallel Safe
 

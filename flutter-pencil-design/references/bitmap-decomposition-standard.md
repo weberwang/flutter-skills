@@ -37,7 +37,7 @@ Repeated uses of the same icon may share one asset identity, but every placement
 
 ## Coverage Gate
 
-Create a coverage audit with region, layer order, visible element, content owner, runtime variability, classification, asset identity or N/A reason, and evidence. Approval requires:
+Create a coverage audit with region, layer order, visible element, content owner, runtime variability, classification, applicable asset identity, and evidence. Approval requires:
 
 - zero visible elements without an owner;
 - zero runtime-data visuals marked for bitmap export;

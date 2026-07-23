@@ -1,6 +1,6 @@
 # Module Scope Template
 
-Use this just in time when a module first becomes eligible for implementation. Do not fill the refinement sections or create task briefs until the module-level grilling confirmation is complete.
+Use this just in time when a module first becomes eligible for implementation. Audit existing decisions first; run the optional decision sections only when a material gap or conflict requires user input.
 
 ## Module
 
@@ -13,7 +13,7 @@ Use this just in time when a module first becomes eligible for implementation. D
 - Technical design:
 - Existing implementation evidence:
 
-## Module-Level Grilling Gate
+## Module Decision Audit
 
 - Grilling log entry:
 - Questions and user answers:
@@ -22,11 +22,12 @@ Use this just in time when a module first becomes eligible for implementation. D
 - Dependencies and accepted risks confirmed:
 - Shared-understanding confirmation:
 - Confirmation time:
-- Gate verdict: Confirmed / Blocked
+- Decision needed: Yes / No
+- Verdict: Ready / Blocked
 
 ## Confirmed Function Inventory
 
-Fill only after the gate verdict is `Confirmed`.
+Fill when the audit verdict is `Ready`.
 
 | Function | User outcome | Included behavior | Excluded behavior | Priority | Source decision | Acceptance evidence |
 |---|---|---|---|---|---|---|
@@ -38,9 +39,9 @@ Fill only after the confirmed function inventory is complete.
 | Page or state | Function | Entry condition | User action | Success result | Empty/loading/error states | Next interaction | Design gate |
 |---|---|---|---|---|---|---|---|
 
-## Module Effect-Image Interrogation Gate
+## Conditional Module Effect-Image Decision
 
-Complete after function/page refinement and before generating any page effect image.
+Complete only when visual scope, page budget, signature strength, or implementation/asset cost needs a new user decision.
 
 - Grilling log entry:
 - Module visual outcome:

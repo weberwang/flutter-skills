@@ -7,7 +7,7 @@ description: Use when converting Flutter product, UX, UI, or architecture specs 
 
 ## Overview
 
-Convert approved specs into a coarse cross-module build sequence, then refine each module just in time into small, verifiable Flutter implementation tasks after its module-level grilling gate. This keeps global dependencies visible without pretending every module and page function is settled before implementation reaches it.
+Convert approved specs into a coarse cross-module build sequence, then refine each eligible module into small, risk-classified and verifiable tasks. Re-enter product questioning only when the module exposes a new or conflicting decision.
 
 ## Inputs
 
@@ -16,7 +16,7 @@ Convert approved specs into a coarse cross-module build sequence, then refine ea
 - Technical design.
 - Module boundaries, page flow, and cross-module contracts.
 - Existing app structure, if this is not a greenfield app.
-- Product grilling log and the current module's implementation-stage confirmation when refining that module.
+- Product grilling log and any actual module-stage decisions.
 
 ## Module Planning Rules
 
@@ -28,18 +28,19 @@ Convert approved specs into a coarse cross-module build sequence, then refine ea
 - If two modules interact, identify the contract task before either module implements UI against that contract.
 - Do not split a module so finely that one user action requires multiple agents to change the same files in parallel.
 - Treat the initial implementation plan as coarse. Record module boundaries, known pages, dependencies, contracts, levels, and acceptance paths, but defer final function/page/task refinement until the module becomes eligible for implementation.
-- When a module first becomes eligible, run `grilling` again and confirm included functions, non-goals, page/state boundaries, dependencies, and its acceptance path. Only after explicit shared-understanding confirmation may `docs/plans/modules/<module-name>-scope.md` refine the module and page functions.
+- When a module first becomes eligible, audit included functions, non-goals, page/state boundaries, dependencies, and its acceptance path against existing evidence. Run `grilling` only for unresolved or conflicting decisions; otherwise refine directly.
 
 ## Task Rules
 
 - One task should produce one vertical slice or one isolated foundation.
 - Create task briefs from the confirmed module scope, not directly from the coarse global plan.
-- Route every task through `flutter-app-orchestrator/references/subagent-map.md`. Record one DRI core role, one independent acceptance role, optional specialist seat, consulted roles, omitted-role reasons, exact read/write/non-scope, and shared-resource locks.
+- Classify every task with [task-risk-tiers.md](../flutter-subagent-delivery/references/task-risk-tiers.md). Add a DRI, independent acceptance, specialist roles, and shared-resource locks only when the selected tier requires them.
 - Route Flutter work to Flutter Engineer, API/schema/migration work to Backend/Data Engineer, cross-cutting technical work to Tech Lead, quality evidence to QA Engineer, and build/pipeline/release work to DevOps/Release Engineer. Do not use a generic implementer when the owning discipline is known.
-- Each task must list scope, non-scope, files likely touched, acceptance criteria, verification commands, task-state path, integration base commit, task branch/worktree, Controller integration worktree, and the `finalize-task.py` command used after independent approval.
-- Keep an active task-state file only in the Controller integration worktree and uncommitted after the task branch is created; the task branch must not contain that active state file. The finalizer alone records `integrating` and `accepted` after its merge succeeds.
+- Each task must list risk tier, scope, non-scope, acceptance criteria, verified integration base, and executable verification commands. Add task-state, worktree and finalizer fields only for `high`, `release`, or concurrent multi-agent work.
+- For a controlled worktree task, keep one active task-state file in the Controller integration worktree and one task worktree through final acceptance. Do not recreate either for review rounds.
 - Each task must follow `docs/architecture/verification-platforms.md`; do not duplicate platform scope or claim an unrecorded platform as verified. Run integration smoke after each business-flow level merges to the integration branch; reserve the full device, emulator, simulator, browser, and desktop matrix for final integration.
 - UI tasks must include screenshot or golden evidence requirements.
+- Deterministic verification and known regression fixtures must execute successfully before formal review starts.
 - Risky shared foundations must happen before dependent feature tasks.
 - Module entry tasks must establish routing, state boundary, contracts, and test scaffolding before page tasks.
 - A task brief must name its business-flow level and the prior-level evidence it depends on.
@@ -51,9 +52,7 @@ Convert approved specs into a coarse cross-module build sequence, then refine ea
 - `docs/plans/module-map.md`
 - `docs/plans/modules/<module-name>-scope.md`
 - `docs/plans/implementation-plan.md`
-- `.codex-workflow/progress.md`
-- `.codex-workflow/tasks/<task-id>.yaml`
-- `docs/tasks/<task-id>/review.md`
+- `.codex-workflow/progress.md`, task-state YAML, and `review.md` only for tiers that require durable coordination or review
 
 Use [references/module-map-template.md](references/module-map-template.md), [references/module-scope-template.md](references/module-scope-template.md), [references/implementation-plan-template.md](references/implementation-plan-template.md), and [references/task-brief-template.md](references/task-brief-template.md).
 
@@ -69,4 +68,4 @@ Use [references/module-map-template.md](references/module-map-template.md), [ref
 
 ## Gate
 
-Do not refine or execute an implementation task until the current module has completed implementation-stage `grilling`, the explicit shared-understanding confirmation is recorded in `docs/product/grilling-log.md`, and `docs/plans/modules/<module-name>-scope.md` contains the confirmed function inventory and page-function refinement. Execution also requires an isolated task brief, a validated task-state claim, clean integration base commit, dedicated branch/worktree, a clean Controller-owned integration worktree, a recorded task profile, one DRI, one independent acceptance owner, role activation reasons, non-overlapping write scopes, shared-resource locks, `docs/architecture/verification-platforms.md`, named verification commands, `docs/plans/module-map.md`, `docs/architecture/flutter-init.md`, a generated project-local `flutter-dev` path for Flutter work, and evidence that all prerequisite business-flow levels have passed or are explicitly accepted. Follow [../flutter-subagent-delivery/references/collaboration-protocol.md](../flutter-subagent-delivery/references/collaboration-protocol.md).
+Do not execute from an uncertain integration base, unresolved material scope, missing acceptance criteria, or unexecutable verification plan. Do not require grilling, worktrees, task-state files, role assembly, independent review, or release evidence merely because the task exists; select them from the risk tier. For controlled multi-agent work, follow [collaboration-protocol.md](../flutter-subagent-delivery/references/collaboration-protocol.md).

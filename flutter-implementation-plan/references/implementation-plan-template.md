@@ -7,12 +7,12 @@
 - Use the generated project-local `flutter-dev` skill for implementation tasks.
 - Do not add features outside MVP scope.
 - UI tasks require screenshot or golden evidence.
-- UI page tasks require low-fidelity structure, Wireframe Review, page-level high-fidelity mockup approval, an exact frozen image under `.codex-workflow/visuals/pages/<page-name>/`, one page design decision, global freeze constraints, an asset manifest when required, and Pencil handoff constraints before page code starts.
+- UI page tasks require only the design evidence selected by page and task risk. Complex or high-risk pages may require wireframe review, high-fidelity freeze, assets, or Pencil handoff; ordinary reuse work may rely on the approved UI spec and page decision.
 - Module and page tasks must follow `docs/plans/module-map.md` for business-flow levels, module dependencies, cross-module contracts, and page interaction order. Finish and verify each level before starting the next; parallel work is limited to explicitly parallel-safe tasks in the same level.
-- Treat the cross-module task list as provisional until the current module becomes eligible. Re-run grilling for that module, record explicit shared understanding, then refine its functions, page functions, states, acceptance path, and task briefs in `docs/plans/modules/<module-name>-scope.md`.
+- Treat the cross-module task list as provisional until the current module becomes eligible. Audit existing decisions, run grilling only for material unresolved choices, then refine functions, states, acceptance paths, and task briefs.
 - Follow the global platform scope in `docs/architecture/verification-platforms.md`. Do not treat unlisted platforms as verified.
 - Run an integration smoke after each business-flow level merges to the integration branch. Defer the full device, emulator, simulator, browser, and desktop runtime matrix until final integration after all module/page tasks and required high-fidelity restoration are complete. Task-level screenshots or goldens are design evidence only.
-- Every task requires verification output.
+- Every task requires executed verification output before formal review.
 
 ## Module Map
 
@@ -91,5 +91,5 @@
 
 ## Task List
 
-| ID | Business-flow level | Module | Module scope confirmation | Task | Depends on and prior-level evidence | Write scope | Design gate | Verification | UI evidence |
-|---|---|---|---|---|---|---|---|---|---|
+| ID | Risk | Business-flow level | Module | Task | Depends on and prior-level evidence | Isolation | Write scope | Design gate | Verification | UI evidence |
+|---|---|---|---|---|---|---|---|---|---|---|
