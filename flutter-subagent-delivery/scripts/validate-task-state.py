@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""校验协作流程使用的受限 YAML 任务状态文件。"""
+"""校验并行写入任务使用的受限 YAML 状态文件。"""
 
 import argparse
 import re
@@ -7,24 +7,13 @@ import sys
 from pathlib import Path
 
 
-VALID_STATES = {
-    "planned",
-    "claimed",
-    "implementing",
-    "reviewing",
-    "integrating",
-    "accepted",
-    "blocked",
-}
-VALID_ACCEPTANCE_VERDICTS = {"pending", "approved", "changes_requested"}
-VALID_CLEANUP_STATES = {"pending", "completed"}
+VALID_STATES = {"planned", "claimed", "implementing", "reviewing", "blocked"}
 VALID_RISK_TIERS = {"standard", "high", "release"}
-VALID_ISOLATION_MODES = {"branch", "worktree"}
 VALID_VALIDATION_STATES = {"pending", "passed"}
+VALID_ACCEPTANCE_VERDICTS = {"pending", "approved", "changes_requested"}
 REQUIRED_ROOT_KEYS = {
     "id",
     "risk_tier",
-    "isolation",
     "state",
     "owner",
     "lease",
@@ -32,19 +21,17 @@ REQUIRED_ROOT_KEYS = {
     "branch",
     "worktree",
     "write_scope",
-    "inputs",
     "validation",
     "candidate_commit",
-    "reports",
+    "review",
     "acceptance",
-    "integration",
     "blocker",
 }
 
 
-# 仅解析本 skill 模板使用的两层 YAML，避免为流程校验新增第三方运行时依赖。
+# 仅解析模板实际使用的两层 YAML，避免为短生命周期状态引入第三方依赖。
 def parse_restricted_yaml(content: str) -> dict[str, object]:
-    """将任务状态模板允许的标量和二层映射解析为字典。"""
+    """将允许的标量和二层映射解析为字典。"""
     result: dict[str, object] = {}
     section: dict[str, str] | None = None
 
@@ -62,7 +49,6 @@ def parse_restricted_yaml(content: str) -> dict[str, object]:
         raw_value = value.strip()
         normalized = raw_value.strip('"')
         if indent == 0:
-            # 根级显式空字符串是标量；只有完全省略值的字段才开启二层映射。
             if raw_value == '""':
                 result[key] = ""
                 section = None
@@ -80,9 +66,8 @@ def parse_restricted_yaml(content: str) -> dict[str, object]:
     return result
 
 
-# 状态校验在任务认领和迁移时阻止缺失的隔离与可追溯性信息进入共享账本。
 def validate_task_state(data: dict[str, object]) -> list[str]:
-    """返回所有不符合协作协议的状态文件错误。"""
+    """返回并行任务状态中所有不符合协议的错误。"""
     errors: list[str] = []
     missing = REQUIRED_ROOT_KEYS - data.keys()
     if missing:
@@ -90,63 +75,45 @@ def validate_task_state(data: dict[str, object]) -> list[str]:
 
     task_id = str(data.get("id", ""))
     state = str(data.get("state", ""))
-    risk_tier = str(data.get("risk_tier", ""))
-    isolation = str(data.get("isolation", ""))
     validation = str(data.get("validation", ""))
     if not task_id:
         errors.append("id 不能为空")
+    if str(data.get("risk_tier", "")) not in VALID_RISK_TIERS:
+        errors.append(f"risk_tier 必须是以下值之一：{', '.join(sorted(VALID_RISK_TIERS))}")
     if state not in VALID_STATES:
         errors.append(f"state 必须是以下值之一：{', '.join(sorted(VALID_STATES))}")
-    if risk_tier not in VALID_RISK_TIERS:
-        errors.append(f"risk_tier 必须是以下值之一：{', '.join(sorted(VALID_RISK_TIERS))}")
-    if isolation not in VALID_ISOLATION_MODES:
-        errors.append(
-            "isolation 必须是以下值之一："
-            f"{', '.join(sorted(VALID_ISOLATION_MODES))}"
-        )
     if validation not in VALID_VALIDATION_STATES:
         errors.append(
             "validation 必须是以下值之一："
             f"{', '.join(sorted(VALID_VALIDATION_STATES))}"
         )
 
-    if state in {"reviewing", "integrating", "accepted"}:
-        if validation != "passed":
-            errors.append(f"{state} 状态需要 validation 为 passed")
-        if not str(data.get("candidate_commit", "")):
-            errors.append(f"{state} 状态需要 candidate_commit")
-
-    reports = data.get("reports")
-    if not isinstance(reports, dict):
-        errors.append("reports 必须是映射")
-    elif task_id:
-        expected_prefix = f"docs/tasks/{task_id}/"
-        for name in ("review",):
-            path = str(reports.get(name, ""))
-            if not path.startswith(expected_prefix):
-                errors.append(f"reports.{name} 必须位于 {expected_prefix}")
-
     if state != "planned":
-        for key in ("owner", "base_commit", "branch"):
+        for key in ("owner", "base_commit", "branch", "worktree"):
             if not str(data.get(key, "")):
                 errors.append(f"{state} 状态需要 {key}")
-        worktree = str(data.get("worktree", ""))
-        if isolation == "worktree" and not worktree:
-            errors.append(f"{state} 状态在 worktree 隔离模式下需要 worktree")
-        if isolation == "branch" and worktree:
-            errors.append("branch 隔离模式不得填写 worktree")
         if not str(data.get("branch", "")).startswith("codex/"):
-            errors.append("可写任务分支必须以 codex/ 开头")
+            errors.append("并行写入分支必须以 codex/ 开头")
         if str(data.get("write_scope", "[]")) in {"", "[]"}:
-            errors.append("可写任务必须声明非空 write_scope")
+            errors.append("并行写入任务必须声明非空 write_scope")
 
         lease = data.get("lease")
         if not isinstance(lease, dict):
-            errors.append("可写任务需要 lease 映射")
+            errors.append("并行写入任务需要 lease 映射")
         else:
             for key in ("holder", "issued_at", "expires_at"):
                 if not str(lease.get(key, "")):
-                    errors.append(f"可写任务需要 lease.{key}")
+                    errors.append(f"并行写入任务需要 lease.{key}")
+
+    if state == "reviewing":
+        if validation != "passed":
+            errors.append("reviewing 状态需要 validation 为 passed")
+        if not str(data.get("candidate_commit", "")):
+            errors.append("reviewing 状态需要 candidate_commit")
+
+    review = str(data.get("review", ""))
+    if task_id and not review.startswith(f"docs/tasks/{task_id}/"):
+        errors.append(f"review 必须位于 docs/tasks/{task_id}/")
 
     acceptance = data.get("acceptance")
     if not isinstance(acceptance, dict):
@@ -163,33 +130,12 @@ def validate_task_state(data: dict[str, object]) -> list[str]:
                 if not str(acceptance.get(key, "")):
                     errors.append(f"acceptance.verdict 为 approved 时需要 acceptance.{key}")
 
-    integration = data.get("integration")
-    if not isinstance(integration, dict):
-        errors.append("integration 必须是映射")
-    else:
-        cleanup = str(integration.get("cleanup", ""))
-        if cleanup not in VALID_CLEANUP_STATES:
-            errors.append(
-                "integration.cleanup 必须是以下值之一："
-                f"{', '.join(sorted(VALID_CLEANUP_STATES))}"
-            )
-
-        if state in {"integrating", "accepted"}:
-            if not str(integration.get("merged_commit", "")):
-                errors.append(f"{state} 状态需要 integration.merged_commit")
-            if not isinstance(acceptance, dict) or str(acceptance.get("verdict", "")) != "approved":
-                errors.append(f"{state} 状态需要 acceptance.verdict 为 approved")
-
-        if state == "accepted" and cleanup != "completed":
-            errors.append("accepted 状态需要 integration.cleanup 为 completed")
-
     return errors
 
 
-# 入口只输出可直接用于任务状态迁移门禁的诊断，便于 Controller 安全重试。
 def main() -> int:
-    """读取状态文件并以非零状态码报告协议违规。"""
-    parser = argparse.ArgumentParser(description="校验 Flutter 协作任务状态文件")
+    """读取状态文件并以非零退出码报告协议错误。"""
+    parser = argparse.ArgumentParser(description="校验并行 Flutter 任务状态文件")
     parser.add_argument("state_file", type=Path)
     args = parser.parse_args()
 

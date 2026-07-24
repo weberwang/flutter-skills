@@ -1,8 +1,7 @@
-# 仅 Controller 可修改；其他代理只读取此文件。
+# 仅并行写入任务使用；Controller 修改，其他代理只读。
 id: T01
-risk_tier: high # standard | high | release；light 任务不使用本模板
-isolation: branch # branch | worktree
-state: planned # planned | claimed | implementing | reviewing | integrating | accepted | blocked
+risk_tier: high # standard | high | release
+state: planned # planned | claimed | implementing | reviewing | blocked
 owner: ""
 lease:
   holder: ""
@@ -10,19 +9,13 @@ lease:
   expires_at: ""
 base_commit: ""
 branch: codex/T01
-worktree: "" # 仅 isolation=worktree 时填写
+worktree: ""
 write_scope: []
-inputs: []
 validation: pending # pending | passed
 candidate_commit: ""
-reports:
-  review: docs/tasks/T01/review.md
+review: docs/tasks/T01/review.md
 acceptance:
   verdict: pending # pending | approved | changes_requested
   approved_by: ""
   approved_at: ""
-integration:
-  merged_commit: ""
-  cleanup: pending # pending | completed
-  level_smoke: pending
 blocker: ""

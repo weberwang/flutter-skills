@@ -1,69 +1,56 @@
 ---
 name: flutter-subagent-delivery
-description: Use when coordinating controlled standard, multi-agent, high-risk, or release-sensitive implementation of an approved Flutter delivery plan with branch-first isolation, optional worktrees for true concurrency, deterministic pre-review validation, independent acceptance, targeted re-review, and automatic integration cleanup.
+description: Use when an approved Flutter delivery plan requires two or more disjoint writable tasks to run concurrently, with one worktree per writer, concise task state, deterministic validation, risk-based independent acceptance, targeted re-review, and automatic local integration cleanup.
 ---
 
 # Flutter Subagent Delivery
 
 ## Overview
 
-Use this skill only when the task needs multi-agent coordination, concurrent writes, high-risk isolation, or release-grade acceptance. Light and ordinary sequential tasks should use a simpler branch workflow from `flutter-app-orchestrator`.
+Use this skill only for simultaneous writable branches. Single-writer tasks, including `high` and `release`, use the normal branch or PR path from `flutter-app-orchestrator` without task-state automation.
 
-## Preflight
+## Prepare
 
-1. Classify the task with [references/task-risk-tiers.md](references/task-risk-tiers.md). Stop using this skill when a light workflow without durable task state is sufficient.
-2. Resolve the actual integration branch and base commit before creating the task. Confirm FVM, dependencies, upstream contracts, write scope, and executable verification commands.
-3. Assign one DRI and an independent acceptance owner. Add specialist roles only for material work; do not document omitted roles.
-4. Create one task branch from the verified base. Use `isolation: branch` by default; choose `worktree` only when multiple writable branches must run simultaneously.
-5. Create `.codex-workflow/tasks/<task-id>.yaml` from [references/task-state-template.yaml](references/task-state-template.yaml), record `risk_tier`, `isolation`, lease and write scope, then run `scripts/validate-task-state.py`.
-6. Keep the active task-state file uncommitted in the Controller working directory. Only the Controller updates task state and `.codex-workflow/progress.md`; the task branch must not track the active state file.
-7. Serialize all writes to `docs/design/app-design.pen` and every other shared generated file.
+1. Classify each task with [references/task-risk-tiers.md](references/task-risk-tiers.md).
+2. Confirm the integration branch, common base, executable verification commands, and disjoint write scopes before starting parallel work.
+3. Assign one DRI and lease per writable scope. Serialize shared dependencies, routes, themes, generated files, shared state, and `docs/design/app-design.pen`.
+4. Create one `codex/<task-id>` branch and one worktree per writer from the verified base.
+5. Create `.codex-workflow/tasks/<task-id>.yaml` from [references/task-state-template.yaml](references/task-state-template.yaml), then run `scripts/validate-task-state.py`.
+6. Keep task state uncommitted in the Controller workspace. Only the Controller updates state and `.codex-workflow/progress.md`.
 
-## Execution Loop
+## Execute And Review
 
-### Build And Validate
+1. Give each implementer a concise brief with canonical inputs, exact write scope, non-goals, and verification commands.
+2. Iterate in the same worktree until static checks, relevant tests, audit commands, and known regression fixtures pass.
+3. Treat deterministic failures as implementation feedback; do not dispatch formal review before they pass.
+4. Freeze one candidate commit and record it in task state.
+5. Dispatch only Product, QA, technical, or visual reviewers required by the risk tier. Review the same candidate snapshot in parallel when scopes are independent.
+6. Store durable conclusions in named sections of `docs/tasks/<task-id>/review.md`; do not create duplicate implementer or evidence reports.
+7. Fix findings in the same worktree. Re-review only dimensions affected by the new candidate:
+   - Scope or acceptance changes: Product and QA.
+   - Commands, tests, audit rules, dependencies, or implementation: QA and affected technical review.
+   - Visual-only changes: visual QA; include QA when behavior changed.
+   - Formatting or links: deterministic checks only.
 
-1. Dispatch the routed implementer with a concise task brief, canonical inputs, exact write scope, non-goals, and verification commands.
-2. Let the implementer iterate in the same task branch, using its optional worktree when selected, until static checks, relevant tests, audit commands, and known regression fixtures execute successfully.
-3. Treat failures discovered during execution as construction feedback, not formal review findings. Do not create review snapshots or dispatch Product, QA, technical, or visual reviewers while deterministic checks are failing.
-4. When checks pass, create one candidate commit and package its immutable diff, changed files, canonical inputs, and evidence links.
+## Finalize
 
-### Review
+1. After required reviewers approve the same candidate, set `state: reviewing` and `acceptance.verdict: approved`.
+2. Keep the Controller on the integration branch and run:
 
-5. Dispatch only reviewers whose acceptance dimension is material. Product, QA, technical, and visual reviews may run in parallel against the same candidate snapshot.
-6. Store durable conclusions in named sections of `docs/tasks/<task-id>/review.md`; do not create implementer reports, separate evidence manifests, or duplicate visual-QA files.
-7. A reviewer must be independent only for the dimension it accepts. Do not require unrelated reviewers to repeat after a narrow change.
-8. Apply the selective invalidation rules from [references/task-risk-tiers.md](references/task-risk-tiers.md):
-   - Scope or acceptance changes invalidate Product and QA.
-   - Command, test matrix, audit script, dependency rule, or implementation changes invalidate QA and any directly affected technical review.
-   - Visual-only changes invalidate visual QA; include QA when behavior changed.
-   - Formatting, links, or non-semantic wording normally require only deterministic checks.
-9. Fix findings on the original task branch and optional worktree, produce a new candidate commit, and re-dispatch only affected reviewers.
+   ```text
+   scripts/finalize-task.py <state> --repository <Controller 工作目录> --integration-branch <分支>
+   ```
 
-### UI Conditions
-
-10. Use Page structure, effect-image, bitmap, asset, Pencil, and visual-QA specialists only when the page and risk tier require them.
-11. Generate one global direction or page candidate when the visual target is clear. Generate two or three only for requested exploration or unresolved material design tradeoffs.
-12. Require independent design review for high-value, high-risk, or exploratory designs; do not make external product-design tooling a dependency.
-
-### Finalize
-
-13. When all required review sections approve the same final candidate, set `acceptance.verdict: approved` and run `scripts/finalize-task.py` once with `--repository <Controller 工作目录>`.
-14. In branch mode, the finalizer safely switches from the task branch to the integration branch when needed, merges and deletes the local task branch. In worktree mode it also verifies and removes the task worktree. Use `--remote origin` only when deletion of the pushed temporary branch is authorized.
-15. Link the final merge, accepted state, and `review.md` from the ledger. Do not create a new review cycle for cleanup-only metadata.
-
-## Parallelism
-
-Parallelize read-only exploration, deterministic environment discovery, and independent reviews of the same frozen candidate. Parallelize writable work only when scopes are disjoint and each writer has an isolated worktree. Serialize overlapping contracts, business-flow levels, user decisions, shared generated files, and final integration.
+3. The finalizer confirms the worktree branch and candidate, checks the common base and `git diff --check`, merges once, removes the worktree and local branch, then deletes the runtime state file.
+4. Record the merge and integration smoke in the ledger or `review.md`, then remove the completed ledger row. Handle pushes and remote branch deletion through the normal authorized Git workflow.
 
 ## Required Verification
 
 - Run `fvm flutter analyze` when Flutter source is affected.
-- Run the relevant `fvm flutter test` targets.
-- Run task-specific audit scripts and known regression fixtures completely before review.
+- Run relevant `fvm flutter test` targets and task-specific regression fixtures.
 - Capture screenshots or goldens when UI acceptance needs visual evidence.
-- Run level integration smoke after merge; reserve the full platform matrix for final integration or a task that explicitly owns it.
+- Run business-flow integration smoke after merge; reserve the full platform matrix for final integration or release.
 
 ## Gate
 
-Do not dispatch implementation from an unresolved base branch. Do not use worktree as a risk or review gate, and do not recreate one between review rounds when concurrency requires it. Do not ask a reviewer to discover errors that deterministic execution can expose. Do not treat every changed commit as invalidating every review dimension. Do not finalize without a passing final candidate, required independent acceptance, resolved Critical/Important findings, and successful cleanup.
+Do not use this skill for sequential work, read-only parallel review, or risk tier alone. Do not start writers with overlapping scopes or an uncertain base. Do not recreate worktrees between review rounds. Do not finalize before deterministic validation, required independent acceptance, and resolution of Critical or Important findings.

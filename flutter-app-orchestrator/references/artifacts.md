@@ -27,16 +27,16 @@
 | 页面有固定视觉资产 | `docs/design/pages/<page-name>/asset-manifest.md` | 资产来源、许可、生产/背景/切图决定、Flutter 路径和保真结论 |
 | 需要可编辑 Pencil 交接 | `docs/design/app-design.pen` | 稳定页面/节点 ID；详情链接页面设计决策 |
 | 页面冻结 | `.codex-workflow/visuals/pages/<page-name>/frozen-<slug>.png` | 唯一选中原图 |
-| 受控 `standard`、`high`、`release` 或多代理任务 | `.codex-workflow/tasks/<task-id>.yaml` | 风险、隔离模式、验证、候选提交、租约、分支、范围、验收和合并记录 |
+| 多个可写分支同时执行 | `.codex-workflow/tasks/<task-id>.yaml` | 风险、验证、候选提交、租约、分支、worktree、范围和验收 |
 | 任务需要持久化独立验收 | `docs/tasks/<task-id>/review.md` | 各审查维度的覆盖范围、快照、结论、测试/截图链接、发现与清理结果 |
 | 发布 | `docs/release/release-checklist.md` | 仅发布范围内的证据和阻塞项 |
 
-未满足条件时不创建占位文件，也不写 `N/A` 文档。轻量任务不创建任务状态、进度账本条目或自动收尾记录。
+未满足条件时不创建占位文件，也不写 `N/A` 文档。顺序任务无论风险等级都不创建任务状态、进度账本条目或自动收尾记录。
 
 ## 交接规则
 
 - 实现者先完成确定性验证，再返回提交 SHA、变更文件、验证摘要和阻塞项；需要独立验收时，这些信息写入 `review.md`，不再生成实现报告或证据清单。
 - UI 审阅、视觉 QA 和技术验收写入同一 `review.md` 的具名小节；每个小节保留作者、快照和结论。
 - 资产、Pencil 和冻结细节只存到对应页面工件，不复制进任务简报、进度账本或审阅报告。
-- `.codex-workflow/progress.md` 只索引使用任务状态的受控任务；以任务状态、页面决策和审阅记录为真相来源。
+- `.codex-workflow/progress.md` 只索引并行写入任务；合并后删除对应状态和索引行，以页面决策和审阅记录保留长期事实。
 - 截图、golden、命令输出和冻结图使用文件路径或 SHA 引用，不转写内容。

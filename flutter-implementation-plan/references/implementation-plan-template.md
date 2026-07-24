@@ -91,5 +91,5 @@
 
 ## Task List
 
-| ID | Risk | Business-flow level | Module | Task | Depends on and prior-level evidence | Isolation | Write scope | Design gate | Verification | UI evidence |
+| ID | Risk | Business-flow level | Module | Task | Depends on and prior-level evidence | Write scope | Parallel worktree (conditional) | Design gate | Verification | UI evidence |
 |---|---|---|---|---|---|---|---|---|---|---|

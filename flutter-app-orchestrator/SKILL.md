@@ -32,8 +32,10 @@ Coordinate Flutter delivery with the smallest process that protects the current 
 1. Resolve the correct integration branch and base commit before drafting or reviewing a task. Discover FVM, dependencies, existing contracts, and required commands during this preflight.
 2. `light`: work directly or on a short branch, run deterministic checks, and do not create task state, worktree, team assembly, or independent-review artifacts.
 3. `standard`: use a normal task branch and concise task brief. Add one independent review after validation when the change affects behavior or acceptance.
-4. `high`, `release`, or controlled multi-agent work: use `flutter-subagent-delivery`, a validated task-state file, one task branch, one DRI, and independent acceptance. Add a worktree only when multiple writable branches must run simultaneously.
-5. Escalate the tier when scope, irreversibility, shared ownership, security, data, payment, migration, visual fidelity, or release risk increases.
+4. `high`: use a normal task branch, one DRI, durable `review.md`, and independent acceptance; do not create task-state automation solely for risk.
+5. `release`: use a candidate branch, PR, CI, release evidence, and independent QA/technical gates.
+6. When multiple writable branches must run simultaneously, use `flutter-subagent-delivery` with one worktree and short-lived task state per writer.
+7. Escalate the tier when scope, irreversibility, shared ownership, security, data, payment, migration, visual fidelity, or release risk increases.
 
 ### Build, Validate, Review
 
@@ -54,8 +56,8 @@ Coordinate Flutter delivery with the smallest process that protects the current 
 
 ### Integration And Release
 
-1. For controlled branch or worktree tasks, run `flutter-subagent-delivery/scripts/finalize-task.py` once after final approval. It merges the task, removes the local branch, and removes the worktree only when one was created.
-2. For light tasks without task state, use the normal branch integration path and do not manufacture state transitions.
+1. Integrate sequential tasks through the normal branch or PR path without manufacturing task state.
+2. Run `flutter-subagent-delivery/scripts/finalize-task.py` only for approved parallel worktree tasks; it merges the candidate and removes local task resources.
 3. Run business-flow integration smoke after the relevant level merges. Run the complete platform matrix only for final integration or when the current task explicitly owns it.
 4. Use `flutter-release-readiness` only when release is in scope. Publishing, production mutation, signing, rollout, and remote branch deletion still require the applicable authorization.
 5. After integration, list exactly one next eligible task.
@@ -80,4 +82,4 @@ Use [references/artifacts.md](references/artifacts.md). Create only artifacts re
 
 ## Routing
 
-Use [references/subagent-map.md](references/subagent-map.md) only after the risk tier shows that multiple roles are useful. Use [app-team-role-prompts.md](../flutter-subagent-delivery/references/app-team-role-prompts.md) for core responsibility, [subagent-prompts.md](../flutter-subagent-delivery/references/subagent-prompts.md) for a necessary specialist seat, and [collaboration-protocol.md](../flutter-subagent-delivery/references/collaboration-protocol.md) only for isolated multi-agent or high-risk writable tasks.
+Use [references/subagent-map.md](references/subagent-map.md) only after the risk tier shows that multiple roles are useful. Use [app-team-role-prompts.md](../flutter-subagent-delivery/references/app-team-role-prompts.md) for core responsibility, [subagent-prompts.md](../flutter-subagent-delivery/references/subagent-prompts.md) for a necessary specialist seat, and [collaboration-protocol.md](../flutter-subagent-delivery/references/collaboration-protocol.md) only when multiple writable branches run simultaneously.

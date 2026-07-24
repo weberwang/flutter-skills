@@ -62,7 +62,7 @@ npx -y github:weberwang/flutter-skills
 - `flutter-tech-design`: Flutter 技术方案和模块边界。
 - `flutter-project-init`: Flutter 初始化、固定插件栈、生成项目级 `flutter-dev` skill。
 - `flutter-implementation-plan`: 模块拆分、任务简报、验收路径。
-- `flutter-subagent-delivery`: 使用专业 Codex 子代理推进产品/UX 草拟、视觉方向、页面设计、位图拆解、资产生产、Pencil 还原、Flutter 实现、独立审阅和修复。
+- `flutter-subagent-delivery`: 隔离并协调必须同时执行的多个可写 Flutter 任务。
 - `flutter-quality-review`: 商业交付质量审阅。
 - `flutter-release-readiness`: 发布前检查。
 
@@ -76,13 +76,13 @@ npx -y github:weberwang/flutter-skills
 4. 在同一分支或 worktree 中完成实现与全部确定性验证。
 5. 验证通过后冻结候选提交，并按风险并行执行必要审查。
 6. 修复后只重做受影响的 Product、QA、技术或视觉审查。
-7. 最终批准后执行一次自动合并；普通分支模式删除任务分支，worktree 模式额外清理 worktree。
+7. 最终批准后，普通任务走正常分支或 PR 集成；只有并行 worktree 任务运行自动合并与本地清理。
 
 ## 关键约束
 
 - 轻量任务不创建任务状态、进度账本、worktree 或独立验收报告。
-- 标准、高风险和发布任务都默认使用普通任务分支；风险等级只决定审查强度。
-- 只有多个分支需要同时写入时才创建 worktree；创建后持续复用到最终验收。
+- 标准和高风险任务默认使用普通任务分支，发布任务使用候选分支、PR 和 CI；风险等级只决定审查强度。
+- 只有多个分支需要同时写入时才创建 worktree、任务状态和进度账本；创建后持续复用到最终验收。
 - 正式审查必须等待静态检查、测试、审计命令和已知回归夹具实际通过。
 - 产品范围变化重做 Product 与 QA；脚本、测试或实现变化只重做受影响的 QA/技术审查；视觉变化只重做受影响的视觉审查；格式变化通常不触发人工复审。
 - 全局方向和页面效果图默认只生成一个候选；仅在用户要求探索或存在实质设计取舍时生成两到三个。
