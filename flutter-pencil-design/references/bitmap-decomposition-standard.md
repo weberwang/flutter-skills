@@ -45,17 +45,21 @@ Create a coverage audit with region, layer order, visible element, content owner
 - every bitmap candidate linked to exactly one production verdict;
 - every repeated asset linked to all placements and states.
 
-## Pre-Slicing Confirmation Gate
+## Numbered Bitmap Overlay Confirmation Gate
 
-After coverage passes and before any bitmap is generated, adapted, extracted, exported, transparentized, or sliced, present one inline confirmation table to the user. Include every proposed asset and bitmap fill with:
+After coverage passes and before any bitmap is generated, adapted, extracted, exported, transparentized, or sliced, create a confirmation copy of the exact frozen page image. Never draw on or replace the frozen source.
 
-- asset ID and visible role;
-- all placements and states;
-- production verdict and proposed source;
-- crop boundary and whether clipped content is preserved;
-- background, transparency, mask, shadow, and glow handling;
-- logical display size and required output size;
-- reuse or maintenance risk;
-- proposed action: include, exclude, or revise.
+Annotate the confirmation copy as follows:
 
-Wait for explicit user confirmation. Record the confirmed table version, user decision, and confirmation time in the page `asset-manifest.md`. Any later change to asset membership, crop, source, background handling, dimensions, or production verdict invalidates confirmation for the affected rows and requires a revised table before work resumes.
+- Draw a tight, high-contrast rectangular outline around every proposed bitmap asset or bitmap fill.
+- Place one stable numeric badge on or immediately outside each rectangle. Use `1`, `2`, `3`, and so on; show no asset names, descriptions, legends, arrows, dimensions, or other text on the image.
+- Repeated placements of one shared asset use the same number on every placement. Distinct states or visually different outputs use different numbers.
+- Box only fixed production bitmaps. Do not box runtime data, native Flutter UI, representative content, or whole containers merely because they contain a bitmap.
+- Keep every visible candidate legible. When rectangles overlap, offset badges or use different high-contrast outline colors while keeping the numeric identity unambiguous.
+- Preserve the frozen image dimensions and pixels outside the annotation layer.
+
+Write the transient candidate overlay to `.codex-workflow/visuals/pages/<page-name>/bitmap-confirmation-v<version>.png`. Record its SHA-256 and the internal number-to-manifest mapping before presentation.
+
+The Controller must present only the annotated image to the user. Do not output an inline table, asset list, legend, mapping, dimensions, production notes, or explanatory prose. A single short confirmation question is allowed. The user may confirm all numbered regions or identify numbers to exclude or revise.
+
+After explicit confirmation, record the overlay version, path, SHA-256, confirmed numbers, user decision, and confirmation time in the page `asset-manifest.md`. Any later change to bitmap membership, numbered bounds, placement/state coverage, crop, source, background handling, dimensions, or production verdict invalidates the affected numbers and requires a newly rendered overlay version before work resumes.
