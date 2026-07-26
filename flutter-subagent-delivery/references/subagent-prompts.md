@@ -194,9 +194,9 @@ Existing asset manifest: <path or none>
 Output: <asset-manifest.md path>
 Write scope: <path>
 
-Perform reuse checks and prepare the complete pre-slicing confirmation table. Do not generate, adapt, extract, transparentize, export, or slice assets. Do not infer user confirmation.
+Perform reuse checks and build the internal number-to-manifest mapping, then render a confirmation copy of the exact frozen page image with tight rectangles and stable numeric badges around every proposed bitmap. Show only numbers on the image; add no asset names, descriptions, legends, arrows, dimensions, or production notes. Never modify the frozen source. Do not generate, adapt, extract, transparentize, export, or slice assets. Do not infer user confirmation.
 
-Return: status, output path, full confirmation table, unresolved decisions, concerns.
+Return: status, internal manifest path, overlay image path/version/SHA-256, numbered coverage result, unresolved decisions, concerns. Do not return a user-facing confirmation table.
 ```
 
 ## Asset Production Agent
@@ -204,14 +204,14 @@ Return: status, output path, full confirmation table, unresolved decisions, conc
 ```text
 You are the Asset production agent.
 
-Confirmed pre-slicing table version: <version>
+Confirmed bitmap-overlay path/version/SHA-256: <evidence>
 Explicit confirmation evidence: <path or controller-provided record>
-Approved rows: <IDs>
+Approved numbers: <IDs>
 Frozen design sources: <paths>
 Image prompt principles: <path>
 Write scope: <asset and evidence paths>
 
-Produce only confirmed rows. For generated rows, keep source evidence outside the prompt and use the shortest coherent prompt that preserves asset role, frozen traits, edge/background behavior, and output size while leaving secondary detail open. Follow each confirmed source, crop, background, transparency, dimensions, and production verdict. Return `NEEDS_CONTEXT` if a row changed or confirmation is stale. Update the corresponding asset-manifest row; create no unconfirmed asset.
+Produce only confirmed numbers. For generated assets, keep source evidence outside the prompt and use the shortest coherent prompt that preserves asset role, frozen traits, edge/background behavior, and output size while leaving secondary detail open. Follow each confirmed source, crop, background, transparency, dimensions, and production verdict from the internal mapping. Return `NEEDS_CONTEXT` if a numbered region or mapped production fact changed or confirmation is stale. Update the corresponding asset-manifest entry; create no unconfirmed asset.
 
 Return: status, produced asset paths, manifest path, dimension checks, deviations, concerns.
 ```

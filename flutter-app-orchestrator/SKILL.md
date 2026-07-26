@@ -51,7 +51,7 @@ Coordinate Flutter delivery with the smallest process that protects the current 
 1. Use a semantic page contract before high-fidelity work. Require Pencil wireframes only for structurally complex or high-risk pages.
 2. Generate one page candidate when direction is clear. Generate two or three only when the user requests exploration, the direction is unresolved, or materially different design tradeoffs need comparison.
 3. Require an independent effect-image review only for high-value, high-risk, or exploratory pages. The Controller records the user's selection and freezes the selected image.
-4. Run bitmap decomposition, asset planning/production, and Pencil restoration only when the selected design actually requires those outputs. Record their durable facts in the page design decision and asset manifest.
+4. Run bitmap decomposition, asset planning/production, and Pencil restoration only when the selected design actually requires those outputs. Before bitmap production, show the user only a confirmation copy of the frozen page with every proposed bitmap boxed and numbered; do not output the internal asset table, mapping, dimensions, or production notes. Record durable mapping and confirmation facts privately in the page asset manifest.
 5. Use `flutter-quality-review` for screenshot or golden-based visual acceptance. External product-design tooling is optional and must never be a workflow dependency unless the user explicitly requests it.
 
 ### Integration And Release
@@ -77,6 +77,7 @@ Use [references/artifacts.md](references/artifacts.md). Create only artifacts re
 - Do not let a producer independently approve its own high-risk output.
 - Do not run parallel writers against overlapping scopes or the shared `docs/design/app-design.pen` file.
 - Do not infer user approval for product scope, visual freeze, destructive action, external release, or accepted risk.
+- Do not generate, adapt, extract, export, transparentize, or slice a bitmap before the numbered overlay derived from the frozen page image has been shown by itself and explicitly confirmed.
 - Do not claim platform verification from task-level screenshots, goldens, builds, or static analysis.
 - Do not create standalone derivative reports when a canonical record already holds the decision or evidence.
 

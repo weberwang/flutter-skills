@@ -9,7 +9,7 @@ The controller must retain:
 - user questions and confirmation requests;
 - scope, priority, cost, risk, and acceptance decisions;
 - candidate presentation and user-choice recording;
-- global direction, page design, and pre-slicing confirmation gates;
+- global direction, page design, and numbered bitmap-overlay confirmation gates;
 - freeze, unfreeze, and final artifact acceptance;
 - cross-agent conflict resolution, sequencing, ledger state, and final integration.
 
@@ -29,8 +29,8 @@ No subagent may select its own proposal, infer user approval, freeze a design, b
 | Page high-fidelity agent | Generate required candidates with the compact image-prompt principles | Transient candidates only | Paste planning evidence into prompts; persist, select, or freeze candidates |
 | Effect Image Reviewer | Independently review completed candidates | Review report only | Modify or select a candidate |
 | Bitmap decomposition agent | Perform ownership classification, visual sweep, and coverage audit | Page `design-decision.md` section | Generate or cut assets |
-| Asset planning agent | Perform reuse checks and prepare the complete pre-slicing confirmation table | Assigned `asset-manifest.md` draft | Produce assets before confirmation |
-| Asset production agent | Generate with compact prompts, adapt, extract, transparentize, export, and slice confirmed rows | Confirmed asset paths and manifests | Paste planning evidence into prompts, change confirmed rows, or create unconfirmed assets |
+| Asset planning agent | Perform reuse checks, maintain the internal number mapping, and render the numbered confirmation overlay | Assigned `asset-manifest.md` draft and overlay image | Produce assets or expose the internal text mapping to the user |
+| Asset production agent | Generate with compact prompts, adapt, extract, transparentize, export, and slice confirmed numbers | Confirmed asset paths and manifests | Paste planning evidence into prompts, change confirmed numbers, or create unconfirmed assets |
 | Pencil restoration agent | Restore the frozen page and write Flutter handoff | Assigned nodes in `docs/design/app-design.pen` and page decision | Create another `.pen` or change the frozen design |
 | Visual QA agent | Compare implementation evidence with approved design | Named task-review section | Self-approve implementation |
 
@@ -50,7 +50,7 @@ confirmed product decisions
 → controller presents and freezes user selection
 → Bitmap decomposition agent
 → Asset planning agent
-→ controller presents pre-slicing table and waits
+→ controller presents only the numbered bitmap overlay and waits
 → Asset production agent
 → Pencil restoration agent when required
 → Implementer

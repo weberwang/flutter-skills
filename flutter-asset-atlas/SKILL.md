@@ -11,7 +11,7 @@ Use this skill after a page-level high-fidelity mockup is approved and before hi
 
 ## Orchestrated Roles
 
-In the full workflow, split this skill across two agents. The Asset planning agent performs reuse checks and prepares the pre-slicing table but cannot produce assets. The controller presents the table and records explicit user confirmation. Only then may the Asset production agent generate, adapt, extract, transparentize, export, or slice the confirmed rows. Any material row change returns control to the controller for reconfirmation.
+In the full workflow, split this skill across two agents. The Asset planning agent performs reuse checks, maintains the internal manifest mapping, and renders the numbered bitmap-confirmation overlay but cannot produce assets. The Controller presents only that annotated image and records explicit user confirmation. Only then may the Asset production agent generate, adapt, extract, transparentize, export, or slice the confirmed numbers. Any material mapping or visual-boundary change returns control to the Controller for a new overlay version and reconfirmation.
 
 ## Required Inputs
 
@@ -31,22 +31,39 @@ In the full workflow, split this skill across two agents. The Asset planning age
 4. Run a reuse check against brand assets, existing app assets, previous generated assets, source files, and existing page asset manifests.
 5. For each asset with 100%-match evidence, choose the production decision in this order: reuse existing asset, adapt existing asset, generate variant from existing source, generate a new single asset with the available image-generation capability, generate an atlas/contact sheet, export from an approved Pencil asset node, or extract from an approved mockup with explicit approval. If the resource cannot be verified as a 100% match, generate a new dedicated bitmap; do not use a near-match substitute.
 6. Decide background handling before generation or export: transparent background, retained full background, masked cutout, or non-transparent safe background for later removal. Record why.
-7. Fill [references/asset-manifest-template.md](references/asset-manifest-template.md) with reuse decisions, production strategy, background strategy, global/page freeze constraints, and the complete pre-slicing confirmation table.
-8. Present the same table inline to the user and wait for explicit confirmation. Record the confirmed version, decision, and confirmation time. Do not treat silence, prior page approval, or approval of the decomposition as approval to generate or cut assets.
+7. Fill [references/asset-manifest-template.md](references/asset-manifest-template.md) with the internal number-to-asset mapping, reuse decisions, production strategy, background strategy, output constraints, and global/page freeze evidence. Keep this text internal; never present it as the user confirmation surface.
+8. Render the numbered bitmap-confirmation overlay from the exact frozen page image using [bitmap-decomposition-standard.md](../flutter-pencil-design/references/bitmap-decomposition-standard.md). Present only the annotated image to the user, with no inline table, list, legend, mapping, dimensions, production notes, or explanatory prose. Wait for explicit confirmation, then record the overlay version, path, SHA-256, confirmed numbers, decision, and confirmation time. Do not treat silence, prior page approval, or approval of the decomposition as approval to generate or cut assets.
 9. After confirmation, generate or collect source assets at production quality. Use the `390 x 844` logical design frame as the sizing reference and provide only `2x` raster resources. For each new concrete bitmap, record its logical display size, generate it at twice that width and height, and verify the decoded pixel dimensions before accepting it. Only a full-screen bitmap uses `780 x 1688 px`. Default to single-asset generation with the available image-generation capability for new bitmaps; use atlas/contact sheet generation only when a coherent set must be reviewed together or sliced from one approved composite.
 10. Run the Background Transparentization Work Node for assets that must become transparent but were generated, extracted, or sourced with a non-transparent background.
 11. For transparent or masked assets, run transparent-background post-processing: alpha cleanup, matte or color-spill removal, edge decontamination, shadow/glow preservation, and target-background QA.
-12. Slice or export only the confirmed rows and update their manifest rows.
-13. Record source, reuse decision, generation prompt hash when used, background handling, transparentization, post-processing, license, Flutter path, size, density, format, fallback and review status in the same row.
-14. Run fidelity review against the approved mockup, global/page freeze, target background and confirmed pre-slicing table; record the verdict in the same row and one overall manifest verdict.
+12. Slice or export only the confirmed numbers and update their manifest entries.
+13. Record source, reuse decision, generation prompt hash when used, background handling, transparentization, post-processing, license, Flutter path, size, density, format, fallback and review status in the same manifest entry.
+14. Run fidelity review against the approved mockup, global/page freeze, target background, confirmed overlay, and internal manifest mapping; record the verdict in the same manifest entry and one overall manifest verdict.
 15. Hand off the single asset manifest to `flutter-pencil-design` and the task review.
 
 ## Output Files
 
 - `docs/design/pages/<page-name>/asset-manifest.md`
+- `.codex-workflow/visuals/pages/<page-name>/bitmap-confirmation-v<version>.png`
 - Exported assets under the target Flutter app asset directory, for example `assets/images/<module>/`.
 
 Do not create global inventory, slicing, atlas or fidelity documents. A page manifest can reference a shared source asset by ID.
+
+## Numbered Overlay Rendering
+
+Use `scripts/render-bitmap-confirmation.py` to produce the confirmation copy deterministically. Create a transient UTF-8 JSON input whose `regions` entries contain only the internal number, frozen-image bounds `[x, y, width, height]`, and optional outline color:
+
+```json
+{"regions":[{"number":1,"bounds":[24,180,128,96]},{"number":2,"bounds":[210,540,84,84]}]}
+```
+
+Run:
+
+```text
+python scripts/render-bitmap-confirmation.py --input <frozen.png> --regions <regions.json> --output <bitmap-confirmation-v1.png>
+```
+
+Verify the output dimensions equal the frozen input, record the printed SHA-256, then remove the transient regions JSON after its mapping is captured in the internal asset manifest. Never use generative image editing for the annotation layer.
 
 ## Asset Rules
 
@@ -75,7 +92,7 @@ Do not create global inventory, slicing, atlas or fidelity documents. A page man
 - Treat the page decomposition's separate-bitmap review as the entry criterion for asset work. Every icon, image, illustration, logo, texture, and bitmap unit needs a recorded 100%-match verdict. If any resource cannot match the approved visual content exactly, separate bitmap generation is mandatory, regardless of whether a near-match native Flutter icon, component, or existing asset is available.
 - Refuse any production asset whose pixels are derived from runtime data or representative mockup content. A fixed treatment around runtime content must be split and reviewed independently.
 - Require all background decorations and icon placements/states to appear in the coverage audit; repeated placements may share one asset ID.
-- Present the pre-slicing confirmation table inline and require explicit user confirmation before generating, adapting, extracting, exporting, transparentizing, or slicing any bitmap. Reconfirm affected rows after any material change.
+- Present only the numbered bitmap-confirmation overlay and require explicit user confirmation before generating, adapting, extracting, exporting, transparentizing, or slicing any bitmap. Never expose the internal mapping as an inline table, list, legend, or explanatory text. Re-render and reconfirm affected numbers after any material change.
 - Do not trace or recreate third-party art without a license or replacement decision.
 - Do not bury asset decisions inside the page design decision; keep the page manifest explicit.
 
@@ -92,4 +109,4 @@ Use this node only after source asset approval and before transparent-background
 
 ## Gate
 
-Do not generate, adapt, extract, export, transparentize, or slice required visual assets before the complete pre-slicing table is shown inline and explicitly confirmed by the user. Do not continue when confirmation is stale because asset membership, crop, source, background handling, dimensions, or production verdict changed. Also block work when the approved page mockup is not explicitly frozen under `.codex-workflow/visuals/pages/<page-name>/`, when the ownership and coverage audit has unowned elements, data-derived export candidates, missing background decorations, or missing icon placements/states, when the page decomposition has no per-unit separate-bitmap review verdict and 100%-match evidence, or when required production, export, license, and fidelity fields are missing from the asset manifest. If no exported assets are needed, record one inapplicability reason in the task brief or page decision.
+Do not generate, adapt, extract, export, transparentize, or slice required visual assets before a numbered confirmation overlay derived from the exact frozen page image is shown by itself and explicitly confirmed by the user. Do not show a textual confirmation table, asset list, legend, mapping, dimensions, production notes, or explanatory prose. Do not continue when confirmation is stale because bitmap membership, numbered bounds, placement/state coverage, crop, source, background handling, dimensions, or production verdict changed. Also block work when the approved page mockup is not explicitly frozen under `.codex-workflow/visuals/pages/<page-name>/`, when the overlay path or SHA-256 is missing, when the ownership and coverage audit has unowned elements, data-derived export candidates, missing background decorations, or missing icon placements/states, when the page decomposition has no per-unit separate-bitmap review verdict and 100%-match evidence, or when required production, export, license, and fidelity fields are missing from the asset manifest. If no exported assets are needed, record one inapplicability reason in the task brief or page decision.

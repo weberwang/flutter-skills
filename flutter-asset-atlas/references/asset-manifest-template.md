@@ -1,13 +1,31 @@
 # Asset Manifest
 
-每个有固定视觉资产的页面维护 `docs/design/pages/<page-name>/asset-manifest.md`。一行同时承担图集、切图、库存和保真审阅职责；不另建四份文档。
+Maintain one `docs/design/pages/<page-name>/asset-manifest.md` for each page with fixed visual assets. This is an internal production and audit artifact. Never present its table, mapping, notes, dimensions, or source decisions to the user during bitmap confirmation; the user sees only the numbered overlay image.
 
-- 页面 / 冻结图 SHA：
-- 预切图确认时间 / 确认人：
-- 整体保真结论：
+## Confirmation Evidence
 
-| ID | 视觉单元与 100% 匹配依据 | 决定与来源/许可 | 背景与处理 | 输出 / Flutter 路径 / 尺寸 | 验收 |
-|---|---|---|---|---|---|
-| | | reuse / adapt / generate / export / extract | transparent / retained / mask；必要处理 | | pass / blocked |
+- Page:
+- Frozen page image path:
+- Frozen page image SHA-256:
+- Numbered overlay path: `.codex-workflow/visuals/pages/<page-name>/bitmap-confirmation-v<version>.png`
+- Overlay version:
+- Overlay SHA-256:
+- Confirmed numbers:
+- User decision:
+- Confirmation time:
+- Overall fidelity verdict:
 
-只记录最终选中来源、必要提示词哈希和失败原因；候选、重复提示词和中间导出保持临时状态。
+## Internal Number Mapping
+
+| No. | Visual role | Placements/states | Box bounds | 100% match evidence | Decision/source/license | Crop/background/effects | Logical/output size | Flutter path | Status/fidelity |
+|---|---|---|---|---|---|---|---|---|---|
+| | | | x/y/w/h on frozen image | | reuse / adapt / generate / export / extract | transparent / retained / mask; shadow/glow handling | logical; exact 2x pixels | | planned / confirmed / produced / pass / blocked |
+
+Rules:
+
+- Use the same number for repeated placements of one shared asset; list every placement and state.
+- Use different numbers for distinct states or visually different outputs.
+- Keep production details internal even when the user excludes or revises a number.
+- Record only the selected source, required prompt hash, failure reason, license, output, fallback, and fidelity result.
+- A material change to membership, numbered bounds, placement/state coverage, crop, source, background handling, size, or production verdict invalidates the affected number and requires a new overlay version.
+- Keep unselected candidates, repeated prompts, and intermediate exports transient.
