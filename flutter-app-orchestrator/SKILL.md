@@ -7,7 +7,7 @@ description: Use when a user wants to build, redesign, commercialize, or ship a 
 
 ## Overview
 
-Coordinate Flutter delivery with the smallest process that protects the current risk. Keep one canonical source for each decision, complete deterministic validation before formal review, and escalate only when scope or risk requires it.
+Coordinate Flutter delivery with the smallest process that protects the current risk. Keep one canonical source for each decision and route review through the multi-level funnel so failed or low-risk candidates do not consume unnecessary specialist review.
 
 ## Operating Model
 
@@ -31,7 +31,7 @@ Coordinate Flutter delivery with the smallest process that protects the current 
 
 1. Resolve the correct integration branch and base commit before drafting or reviewing a task. Discover FVM, dependencies, existing contracts, and required commands during this preflight.
 2. `light`: work directly or on a short branch, run deterministic checks, and do not create task state, worktree, team assembly, or independent-review artifacts.
-3. `standard`: use a normal task branch and concise task brief. Add one independent review after validation when the change affects behavior or acceptance.
+3. `standard`: use a normal task branch and concise task brief. After F0/F1, route behavior or acceptance changes through the independent QA lane and add other lanes only when triggered.
 4. `high`: use a normal task branch, one DRI, durable `review.md`, and independent acceptance; do not create task-state automation solely for risk.
 5. `release`: use a candidate branch, PR, CI, release evidence, and independent QA/technical gates.
 6. When multiple writable branches must run simultaneously, use `flutter-subagent-delivery` with one worktree and short-lived task state per writer.
@@ -39,12 +39,13 @@ Coordinate Flutter delivery with the smallest process that protects the current 
 
 ### Build, Validate, Review
 
-1. Let the implementer iterate in the same branch or worktree until every deterministic command and known regression fixture passes. A task brief, audit script, test matrix, or implementation that has not executed successfully is not review-ready.
-2. Freeze one candidate commit and evidence snapshot only after validation passes.
-3. Dispatch the required Product, QA, technical, or visual reviewers against that same snapshot. Run independent reviews in parallel when their scopes do not depend on one another.
-4. Store all task conclusions in `docs/tasks/<task-id>/review.md` when a durable review is required.
-5. After a fix, invalidate only reviews whose covered facts changed. Scope changes invalidate Product and QA; command, test, audit, or implementation changes invalidate QA; visual-only changes invalidate visual QA; formatting-only changes normally require no new human review.
-6. Keep the same task branch or worktree during repair and targeted re-review.
+1. Use the four-level funnel from [review-funnel.md](../flutter-quality-review/references/review-funnel.md): F0 deterministic filtering, F1 change triage, F2 triggered specialist lanes, and F3 convergence acceptance.
+2. At F0, let the implementer iterate in the same branch or worktree until every deterministic command and known regression fixture passes. A task brief, audit script, test matrix, or implementation that has not executed successfully is not review-ready.
+3. Freeze one candidate commit and evidence snapshot only after F0 passes. At F1, verify snapshot identity, scope, risk, acceptance traceability, and evidence; return failures immediately and record the minimum required F2 lanes.
+4. At F2, dispatch only the triggered Product, QA, technical, visual, or Release lanes against that snapshot. Run independent read-only lanes in parallel when their scopes do not depend on one another.
+5. At F3, converge the valid lane verdicts without repeating their detailed review. Approve only when every required lane covers the effective snapshot and all Critical, Important, and mandatory-evidence blockers are resolved.
+6. Store F0 references, F1 routing, F2 lane conclusions, and F3 outcome in `docs/tasks/<task-id>/review.md` when durable review is required; do not create separate funnel reports.
+7. After a fix, rerun F0 and F1. Invalidate only lanes whose covered facts changed, and keep the same task branch or worktree during repair and targeted re-review.
 
 ### Conditional UI Delivery
 
@@ -70,6 +71,8 @@ Use [references/artifacts.md](references/artifacts.md). Create only artifacts re
 
 - Do not start from an uncertain integration branch or unverified base commit.
 - Do not request formal review before required deterministic validation succeeds.
+- Do not bypass F1 or dispatch every specialist by default; route only the lanes triggered by the candidate and risk tier.
+- Do not let F3 replace a missing Product, QA, technical, visual, or Release verdict.
 - Do not create a worktree solely because a task is high risk or release-related. When concurrency requires one, reuse it until final acceptance or explicit abandonment.
 - Do not invalidate unrelated reviews after a narrow fix.
 - Do not force three design candidates when one direction is already clear.

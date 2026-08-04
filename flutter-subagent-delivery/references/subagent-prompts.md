@@ -24,7 +24,7 @@ Verification: <commands or evidence>
 Review snapshot identifier: <commit/diff/artifact hash when reviewing>
 ```
 
-Do not dispatch formal review until deterministic verification passes. A changed snapshot invalidates only review dimensions whose covered facts changed; follow [task-risk-tiers.md](task-risk-tiers.md). Never mark a same-session producer/reviewer pass as independent when independence is required.
+Do not dispatch review until F0 deterministic verification passes and F1 identifies the required lanes. Every F2 reviewer receives one or more explicit lanes and the same immutable snapshot. A changed snapshot returns through F0/F1 and invalidates only lanes whose covered facts changed; follow [review-funnel.md](../../flutter-quality-review/references/review-funnel.md). Never mark a same-session producer/reviewer pass as independent when independence is required.
 
 ## Product Manager Specialist
 
@@ -355,14 +355,16 @@ You are the independent QA or technical review specialist for one task. You did 
 - Module acceptance result: <path or text when applicable>
 - Integration smoke result: <path or text when applicable>
 
-Review for spec compliance, code quality, regression risk, and evidence completeness against the immutable snapshot. Findings must lead. Mark severity as Critical, Important, or Minor. Return `NEEDS_CONTEXT` when the snapshot cannot be identified or the producer and reviewer identities are not demonstrably different.
+Assigned F2 lanes and F1 trigger reasons: <Product / QA / technical, with reasons>
+
+Review only the assigned lanes against the immutable snapshot. Use the applicable rubric checks for those lanes; do not repeat F1 routing or inspect unrelated dimensions. Findings must lead. Mark severity as Critical, Important, or Minor. Return `NEEDS_CONTEXT` when the snapshot cannot be identified, required lane evidence is absent, or the producer and reviewer identities are not demonstrably different.
 
 Return:
-1. Spec verdict
-2. Quality verdict
-3. Findings
-4. Missing evidence
-5. Required fixes
+1. Assigned lane and coverage
+2. Findings
+3. Missing evidence
+4. Required fixes
+5. Lane verdict: approved / changes_requested / blocked
 ```
 
 ## Visual QA Reviewer
@@ -376,6 +378,7 @@ Producer agent ID: <id>
 Reviewer agent ID: <different id>
 Immutable review snapshot: <commit/diff id and evidence hashes>
 Global verification platform scope: <path or none>
+F1 visual-lane trigger and coverage: <reason and exact changed units>
 
 Return:
 1. Visual verdict
@@ -407,7 +410,7 @@ Accepted task and Gate ledger: <path>
 Product, design, technical, and platform acceptance sources: <paths>
 Open risks and waivers: <paths>
 
-Review the complete immutable branch snapshot for scope compliance, cross-module behavior, unresolved Critical/Important findings, stale or missing reviews, verification coverage, platform evidence, security/privacy risk, release blockers, and accidental unrelated changes. Do not modify files or reuse task-level approval for a changed snapshot.
+Prepare an independent F3 convergence recommendation for the complete immutable branch snapshot. Confirm required F2 lane verdicts, scope compliance, cross-module behavior, unresolved Critical/Important findings, stale or missing reviews, verification coverage, platform evidence, security/privacy risk, release blockers, and accidental unrelated changes. Do not redo detailed F2 review, modify files, or reuse task-level approval for a changed snapshot. The Controller records the final F3 outcome.
 
 Return: status, branch verdict, Critical/Important/Minor findings, stale evidence, missing acceptance, release blockers, required actions.
 ```

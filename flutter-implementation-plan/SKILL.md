@@ -41,6 +41,7 @@ Convert approved specs into a coarse cross-module build sequence, then refine ea
 - Each task must follow `docs/architecture/verification-platforms.md`; do not duplicate platform scope or claim an unrecorded platform as verified. Run integration smoke after each business-flow level merges to the integration branch; reserve the full device, emulator, simulator, browser, and desktop matrix for final integration.
 - UI tasks must include screenshot or golden evidence requirements.
 - Deterministic verification and known regression fixtures must execute successfully before formal review starts.
+- Each task must define its expected [review funnel](../flutter-quality-review/references/review-funnel.md): F0 commands, F1 change dimensions, conditionally triggered F2 lanes, and the evidence F3 needs to converge. Do not pre-activate every specialist lane.
 - Risky shared foundations must happen before dependent feature tasks.
 - Module entry tasks must establish routing, state boundary, contracts, and test scaffolding before page tasks.
 - A task brief must name its business-flow level and the prior-level evidence it depends on.

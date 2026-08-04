@@ -21,12 +21,12 @@ Use this skill only for simultaneous writable branches. Single-writer tasks, inc
 ## Execute And Review
 
 1. Give each implementer a concise brief with canonical inputs, exact write scope, non-goals, and verification commands.
-2. Iterate in the same worktree until static checks, relevant tests, audit commands, and known regression fixtures pass.
-3. Treat deterministic failures as implementation feedback; do not dispatch formal review before they pass.
-4. Freeze one candidate commit and record it in task state.
-5. Dispatch only Product, QA, technical, or visual reviewers required by the risk tier. Review the same candidate snapshot in parallel when scopes are independent.
-6. Store durable conclusions in named sections of `docs/tasks/<task-id>/review.md`; do not create duplicate implementer or evidence reports.
-7. Fix findings in the same worktree. Re-review only dimensions affected by the new candidate:
+2. Run F0 in the same worktree until static checks, relevant tests, audit commands, and known regression fixtures pass; deterministic failures return directly to implementation.
+3. Freeze one candidate commit, record it in task state, then run F1 change triage from [review-funnel.md](../flutter-quality-review/references/review-funnel.md).
+4. F1 verifies the snapshot, scope, risk, acceptance trace, and evidence, then records only the F2 Product, QA, technical, visual, or Release lanes actually required.
+5. Dispatch the triggered F2 lanes against the same candidate snapshot. Review independent read-only lanes in parallel when scopes are independent.
+6. Run F3 only after every required lane has a valid verdict. Store F0 references, F1 routing, F2 lane conclusions, and F3 acceptance in named sections of `docs/tasks/<task-id>/review.md`; do not create duplicate reports.
+7. Fix findings in the same worktree, rerun F0/F1, and re-review only lanes affected by the new candidate:
    - Scope or acceptance changes: Product and QA.
    - Commands, tests, audit rules, dependencies, or implementation: QA and affected technical review.
    - Visual-only changes: visual QA; include QA when behavior changed.
@@ -34,7 +34,7 @@ Use this skill only for simultaneous writable branches. Single-writer tasks, inc
 
 ## Finalize
 
-1. After required reviewers approve the same candidate, set `state: reviewing` and `acceptance.verdict: approved`.
+1. After F3 confirms that all required lanes approve the effective candidate, set `state: reviewing` and `acceptance.verdict: approved`.
 2. Keep the Controller on the integration branch and run:
 
    ```text
@@ -53,4 +53,4 @@ Use this skill only for simultaneous writable branches. Single-writer tasks, inc
 
 ## Gate
 
-Do not use this skill for sequential work, read-only parallel review, or risk tier alone. Do not start writers with overlapping scopes or an uncertain base. Do not recreate worktrees between review rounds. Do not finalize before deterministic validation, required independent acceptance, and resolution of Critical or Important findings.
+Do not use this skill for sequential work, read-only parallel review, or risk tier alone. Do not start writers with overlapping scopes or an uncertain base. Do not recreate worktrees between review rounds. Do not bypass F1, dispatch untriggered F2 lanes by default, or finalize before F3 confirms deterministic validation, required independent acceptance, and resolution of Critical or Important findings.

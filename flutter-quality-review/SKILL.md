@@ -1,15 +1,17 @@
 ---
 name: flutter-quality-review
-description: Use when reviewing a Flutter app, feature branch, screen, implementation task, UI evidence, tests, architecture, security, privacy, monetization, or commercial delivery quality before accepting work.
+description: Use a risk-based multi-level review funnel when reviewing a Flutter app, feature branch, screen, implementation task, UI evidence, tests, architecture, security, privacy, monetization, or commercial delivery quality before accepting work.
 ---
 
 # Flutter Quality Review
 
 ## Overview
 
-Review against the task's declared risk and acceptance scope. Use release-blocking rigor for `high` and `release`; keep standard reviews focused on changed behavior and evidence.
+Review through a multi-level funnel: deterministic filtering, change triage, triggered specialist lanes, then convergence acceptance. Spend independent review effort only on candidates and dimensions that survive the earlier gates.
 
 ## Review Inputs
+
+Select only the inputs required by F1 or the assigned F2 lane:
 
 - Product scope and task brief.
 - Project-local `flutter-dev` implementation constraints.
@@ -25,7 +27,7 @@ Review against the task's declared risk and acceptance scope. Use release-blocki
 
 ## Rubric
 
-Use [references/review-rubric.md](references/review-rubric.md). Select checks that cover the changed behavior, declared risk, and acceptance criteria; do not expand a narrow review into a release audit. Applicable checks include:
+First use [references/review-funnel.md](references/review-funnel.md) to select the funnel depth and specialist lanes. Then use [references/review-rubric.md](references/review-rubric.md) only inside the triggered lanes. Do not expand a narrow review into a release audit. Applicable checks include:
 
 - Spec compliance.
 - Business-flow level, module dependency, cross-module contract, and page interaction order compliance.
@@ -58,13 +60,19 @@ Use [references/review-rubric.md](references/review-rubric.md). Select checks th
 
 ## Output Shape
 
-Report in this order:
+At F1, report the immutable snapshot, risk check, changed dimensions, required specialist lanes with reasons, missing entry evidence, and `return to implementation` / `route to specialist review` / `light self-check passed`.
 
-1. Findings by severity with file and line references where available.
-2. Aesthetic verdict for user-facing UI work: approved / approved with Minor findings / not approved, with the visual evidence and remaining actions.
+At F2, report only the assigned lane in this order:
+
+1. Assigned lane and covered facts.
+2. Findings by severity with file and line references where available.
 3. Missing evidence.
 4. Open questions.
-5. Short summary.
+5. Lane verdict: approved / changes_requested / blocked.
+
+For the visual lane, also include the aesthetic verdict: approved / approved with Minor findings / not approved, with the visual evidence and remaining actions.
+
+At F3, report the immutable snapshot, valid lane verdicts, closed blockers, integration or CI evidence required at this level, and the final verdict. Do not repeat detailed findings from F2.
 
 Severity:
 
@@ -74,4 +82,4 @@ Severity:
 
 ## Gate
 
-Do not start formal review until required deterministic commands and regression fixtures pass against a candidate commit. Approve against the declared risk tier: light work needs no durable independent review; standard work needs only evidence relevant to changed behavior; high work requires declared independent review sections; release work additionally requires PR and CI evidence. Task state is required only for simultaneous writable branches. After a fix, invalidate only review dimensions whose covered facts changed. Require level integration smoke only when a business-flow level closes and full runtime platform evidence only for final integration or release; do not write inapplicability records for unrelated checks.
+Do not enter F1 until required deterministic commands and regression fixtures pass against a candidate commit. F1 must reject stale evidence, scope drift, understated risk, and unidentified snapshots before specialist dispatch. F2 may open only the lanes triggered by the change and risk tier; independent acceptance is mandatory where the funnel requires it. F3 may approve only when every required lane covers the same effective snapshot and has no Critical, unresolved Important, or mandatory evidence gap. Task state is required only for simultaneous writable branches. After a fix, rerun F0 and F1, then invalidate only review lanes whose covered facts changed. Require level integration smoke only when a business-flow level closes and full runtime platform evidence only for final integration or release; do not write inapplicability records for unrelated checks.

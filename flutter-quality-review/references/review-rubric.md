@@ -79,9 +79,9 @@
 - Integration tests are run when a user path is changed and tests exist.
 - Task-level review reports static analysis, relevant tests, and screenshot/golden design evidence without claiming runtime platform verification. Final-integration review, after all modules/pages and high-fidelity restoration are complete, requires each globally in-scope platform's matching command output and runtime UI evidence; missing device, simulator, emulator, browser, or desktop evidence blocks final delivery and release claims.
 
-## Output
+## F2 通道输出
 
-Start with findings. Use this shape:
+本细则只用于 F1 已触发的 F2 通道。不要在此重复 F1 分诊或 F3 收敛。发现优先，使用以下结构：
 
 ```text
 Findings
@@ -89,7 +89,11 @@ Findings
 - [Important] ...
 - [Minor] ...
 
-Aesthetic verdict
+Lane and coverage
+- Product / QA / technical / visual / Release
+- Covered snapshot and facts: ...
+
+Aesthetic verdict (visual lane only)
 - approved / approved with Minor findings / not approved
 - Evidence and remaining actions: ...
 
@@ -99,6 +103,6 @@ Missing evidence
 Open questions
 -
 
-Summary
--
+Lane verdict
+- approved / changes_requested / blocked
 ```

@@ -1,4 +1,4 @@
 interface:
   display_name: "Flutter Quality Review"
   short_description: "Review Flutter app code and product quality."
-  default_prompt: "Use $flutter-quality-review to review only the changed risk dimensions after deterministic checks pass, escalating to independent visual or release review when required."
+  default_prompt: "Use $flutter-quality-review to run the F0-F3 review funnel, routing only changed risk dimensions to the required independent lanes."
