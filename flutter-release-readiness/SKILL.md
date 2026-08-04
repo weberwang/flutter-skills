@@ -7,7 +7,7 @@ description: Use when preparing a Flutter app for App Store, Google Play, TestFl
 
 ## Overview
 
-Check whether a Flutter app is ready for commercial release. Treat missing legal, account, payment, analytics, crash, and store evidence as release risks.
+Act as the Release lane in the multi-level review funnel after F0 and F1 pass. Check whether the immutable Flutter release candidate is ready for commercial release. Treat missing legal, account, payment, analytics, crash, and store evidence as release risks.
 
 This skill verifies launch evidence. Architecture choices for payments, analytics, crash reporting, signing, and environments belong in `flutter-tech-design`; release readiness checks whether those choices are implemented and documented.
 
@@ -51,7 +51,7 @@ Use `docs/architecture/verification-platforms.md` as the sole source of truth fo
 
 Produce:
 
-- Ready / Not ready verdict.
+- Release-lane verdict: approved / changes_requested / blocked.
 - Blocking issues.
 - Non-blocking risks.
 - Evidence paths.
@@ -59,4 +59,4 @@ Produce:
 
 ## Gate
 
-Do not mark release ready while any store, privacy, account, payment, crash reporting, or release build blocker remains unresolved.
+Do not approve the Release lane while any store, privacy, account, payment, crash reporting, or release build blocker remains unresolved. Release-lane approval does not itself complete F3: QA and technical verdicts, any triggered Product or visual verdict, PR/CI evidence, and explicit external-release authorization remain required.

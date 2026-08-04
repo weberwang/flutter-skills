@@ -1,4 +1,4 @@
 interface:
   display_name: "Flutter App Orchestrator"
   short_description: "Coordinate commercial Flutter app delivery."
-  default_prompt: "Use $flutter-app-orchestrator to choose the smallest safe risk tier, validate before review, and escalate to isolated multi-agent delivery only when the task requires it."
+  default_prompt: "Use $flutter-app-orchestrator to choose the smallest safe risk tier and run F0 filtering, F1 triage, triggered F2 review lanes, and F3 convergence."

@@ -12,7 +12,7 @@
 - Treat the cross-module task list as provisional until the current module becomes eligible. Audit existing decisions, run grilling only for material unresolved choices, then refine functions, states, acceptance paths, and task briefs.
 - Follow the global platform scope in `docs/architecture/verification-platforms.md`. Do not treat unlisted platforms as verified.
 - Run an integration smoke after each business-flow level merges to the integration branch. Defer the full device, emulator, simulator, browser, and desktop runtime matrix until final integration after all module/page tasks and required high-fidelity restoration are complete. Task-level screenshots or goldens are design evidence only.
-- Every task requires executed verification output before formal review.
+- Every task requires executed F0 verification output before F1 triage or F2 specialist review.
 
 ## Module Map
 

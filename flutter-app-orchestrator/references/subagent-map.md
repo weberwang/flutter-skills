@@ -43,7 +43,7 @@ Do not dispatch a controlled multi-agent task without a DRI, required independen
 | Architecture, cross-module contract, technical risk | Tech Lead | Independent Tech Lead reviewer or QA evidence review | Flutter, Backend/Data, DevOps | Technical |
 | Flutter page, state, route, client feature | Flutter Engineer | QA Engineer; Tech Lead for high-risk code | UX/UI Lead, Backend/Data Engineer | Task implementation |
 | API, auth, payment, sync, schema, migration, analytics pipeline | Backend/Data Engineer | QA Engineer; Tech Lead for contract/security | Flutter Engineer, DevOps/Release Engineer | Data/service implementation |
-| Test strategy, regression, acceptance, visual QA | QA Engineer | Controller validates independence and evidence | Product Manager, UX/UI Lead, Tech Lead | Quality |
+| F1 分诊协助、F2 QA/视觉审核、F3 收敛建议 | QA Engineer | Controller validates independence and records F3 | Product Manager, UX/UI Lead, Tech Lead | Quality |
 | CI/CD, signing, build, store, rollout, rollback | DevOps/Release Engineer | QA Engineer plus Controller authorization | Tech Lead, Flutter, Backend/Data, Product Manager | Release |
 | Bug fix | Owning Flutter or Backend/Data Engineer | QA Engineer | Tech Lead, UX/UI Lead | Task implementation |
 | Cross-cutting refactor or performance work | Tech Lead or owning engineer | Independent Tech Lead reviewer plus QA Engineer | DevOps/Release Engineer | Technical and Quality |
@@ -53,7 +53,7 @@ Do not dispatch a controlled multi-agent task without a DRI, required independen
 - Enable Backend/Data for API, account, auth, payment, cloud sync, remote data, schema, migration, server analytics, or service observability work. Do not record it when the App is verified local-only.
 - Enable UX/UI for any user-visible structure, copy hierarchy, interaction, state, visual, asset, or accessibility change.
 - Enable Tech Lead for architecture, shared foundations, cross-module contracts, dependency changes, security/privacy risk, migrations, performance budgets, or integration decisions.
-- Enable QA before implementation planning when acceptance or regression scope must be defined, not only after coding.
+- Enable QA before implementation planning when acceptance or regression scope must be defined. During review, use QA for behavior/acceptance changes, `high`/`release` requirements, or F1 assistance rather than as an automatic all-purpose reviewer.
 - Enable DevOps/Release during technical design when environments, CI/CD, signing, store distribution, observability, rollout, or rollback are in scope; it owns the Release Gate.
 - For a narrow, already-confirmed client task, do not dispatch Product Manager when the task brief already carries accepted business scope.
 
