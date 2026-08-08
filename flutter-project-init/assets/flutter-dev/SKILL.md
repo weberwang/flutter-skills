@@ -91,7 +91,19 @@ Do not create a provider for a constant, one-off callback, static config, or pur
 
 - Initialize once near the app root.
 - Prefer design tokens over scattered `.w`, `.h`, `.sp` calls.
-- Do not use ScreenUtil to hide poor responsive structure.
+- `ScreenUtil` only supplies root initialization and named shared size tokens; it is not the responsive layout engine. Do not use it to decide columns, navigation, scroll ownership, breakpoint structure, or global proportional scaling.
+
+## Responsive Layout Rules
+
+- Treat the page's layout/adaptation contract as the source of truth: record target logical-width ranges, structural breakpoints, content max width, columns/gutters, semantic anchors, docking, scroll ownership, system avoidance, keyboard behavior, and large-text/localization overflow policy before implementation.
+- Prefer constraints over coordinates. Use the parent constraint (`LayoutBuilder`) for component-level structure decisions, `MediaQuery.sizeOf` for available viewport size, and `MediaQuery.paddingOf`/`viewPaddingOf`/`viewInsetsOf` for system and keyboard insets. Do not cache the startup size for a resizable, split-screen, or foldable view.
+- Express relationships with the smallest behavior-fitting primitive: `Flexible`/`Expanded` for shared row or column space, `Wrap` for content that may form another line, `ConstrainedBox`/`Center` for min/max content width, `Align` for semantic alignment, and `Sliver`/scroll views for long content. A different widget is valid when its behavior is documented by the contract.
+- Use `Stack`/`Positioned` only for true overlays or anchored layers. Give every fixed, pinned, or floating element an explicit SafeArea/keyboard inset, content-occlusion padding, hit target, and narrow-height fallback; keep the main page structure in flow.
+- Give each scroll axis one owner. Add nested scrolling only when independent scroll semantics require it, and document controller, gesture competition, focus order, and `shrinkWrap` cost. Prefer slivers over a scroll view nested inside another scroll view solely to make layout fit.
+- Keep text and primary actions free to wrap. Validate large text, long localized strings, RTL, loading/error states, keyboard focus, landscape, and the contracted breakpoint edges; never solve overflow by clipping, arbitrary truncation, or shrinking the whole page.
+- Reuse one breakpoint resolver per feature/page instead of scattering width checks across child widgets. A breakpoint must describe a structural reason and a tested fallback, not just a device label.
+
+Avoid `FittedBox` or a global scale transform for a full page, all-coordinate `.w`/`.h` placement, fixed heights around variable text, or absolute offsets that merely reproduce a mockup screenshot. The high-fidelity image freezes visual intent; constraints and the page contract determine production geometry.
 
 ## Verification
 
