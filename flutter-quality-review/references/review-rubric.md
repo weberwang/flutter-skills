@@ -48,7 +48,12 @@
 - Implemented UI respects the page decision for scope, structure, states and interactions when low-fidelity Pencil wireframes are used.
 - Implemented UI respects the page decision's Pencil section when Pencil carries high-fidelity visual restoration.
 - Raw Pencil screenshots are not used as the sole implementation spec.
-- Layout works on target viewports.
+- A page-level layout/adaptation contract records target ranges, structural breakpoint triggers, max width, columns/gutters, relative anchors, overflow/localization behavior, scroll ownership, docking, and system/keyboard avoidance; low fidelity and a frozen screenshot do not substitute for it.
+- Layout works on the contract's target viewports and both sides of each applicable structural breakpoint; evidence verifies structural change rather than proportional scaling.
+- Fixed, pinned, and floating elements document scroll direction, occlusion padding, hit target, SafeArea/gesture inset, keyboard behavior, and narrow-height fallback; no content or focused field is covered.
+- SafeArea, system bars, keyboard `viewInsets`, fold/hinge display features, and split-screen constraints are handled at the right boundary and are represented in evidence when in scope.
+- Each scroll axis has a clear owner; nested scrolling is intentional, documented, and does not trap gestures or accessibility focus.
+- ScreenUtil is limited to root initialization and shared sizing tokens. Columns, navigation, max width, scrolling, and structural decisions come from constraints/`LayoutBuilder`/`MediaQuery`, not global proportional scaling or scattered size checks.
 - Empty, loading, error, success, disabled, and permission-denied states are covered where relevant.
 - CTA hierarchy is clear.
 - The first-value path is understandable, and the user sees applicable privacy, payment, permission, or recovery conditions before a high-friction or irreversible step.

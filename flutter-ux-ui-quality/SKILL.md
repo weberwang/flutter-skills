@@ -15,19 +15,19 @@ When used inside `flutter-app-orchestrator`, dispatch Product/UX, Global directi
 
 ## Required Sequence
 
-1. Write `docs/design/ui-spec.md` with [references/ui-brief-template.md](references/ui-brief-template.md), covering navigation, screen inventory, state coverage, cross-module page flows, first-value delivery, trust, safe-to-try conditions, quality gates and the active visual expression preset.
+1. Write `docs/design/ui-spec.md` with [references/ui-brief-template.md](references/ui-brief-template.md), covering navigation, screen inventory, state coverage, cross-module page flows, first-value delivery, trust, safe-to-try conditions, quality gates, the active visual expression preset, and a filled responsive layout contract. Use [references/responsive-layout-strategy.md](references/responsive-layout-strategy.md) as the authority for breakpoints, constraints, docking, system avoidance, scroll ownership, and evidence.
 2. Select or define the Flutter design system using [references/flutter-design-system.md](references/flutter-design-system.md).
 3. Confirm the product brief recorded a derived expression preset and completed any needed visual interrogation. Define one market-informed direction when the user already supplied a clear brand or reference; define two or three when exploration or a material visual tradeoff remains. Describe cross-page color, typography, shape, imagery, material, motion, signature, implementation cost, and system-extension rules; do not generate a page, representative-page, module, or screen effect image.
 4. Present the requested direction definitions, wait for the user's selection when alternatives exist, and run the global direction freeze confirmation. Record the selected direction, signature confirmation when required, implementation-cost acceptance, any `pin` / `raise` / `loosen` override, and explicit freeze intent in `docs/design/global-design-freeze.md`. Do not create `.codex-workflow/visuals/global/`.
 5. Feed global flows, screen inventory, and page interaction order into `docs/plans/module-map.md`.
-6. During each UI module or page implementation task, use `flutter-pencil-design` first for low-fidelity structure and Wireframe Review; store the semantic contract in that page's `design-decision.md`.
+6. During each UI module or page implementation task, use `flutter-pencil-design` first for low-fidelity structure and Wireframe Review; store the semantic contract and the page-level layout/adaptation contract in that page's `design-decision.md`. Low fidelity freezes semantic relationships and behavior, not exact coordinates or final geometry.
 7. Before generating an effect image, check whether visual goals, required pages/states, page budget, signature strength, or implementation/asset cost still needs a user decision. Record only new decisions; otherwise reuse the existing global and page constraints.
 8. After low-fidelity structure is reviewed, use `flutter-hifi-mockup` for the concrete page. On confirmation, persist the exact selected image first in `.codex-workflow/visuals/pages/<page-name>/`, then write one page `design-decision.md`.
 9. After page-level high-fidelity approval and a page design decision, use `flutter-asset-atlas` when required visual assets need reuse checks, generation, background transparentization, slicing, export, inventory, or fidelity review.
 10. After required asset-manifest evidence exists, use `flutter-pencil-design` for high-fidelity Pencil restoration when editable visual handoff is required.
-11. Implement the screen against `docs/design/ui-spec.md`, the page `design-decision.md`, and its `asset-manifest.md` when present.
-12. Capture evidence using screenshots, golden tests, or integration screenshots.
-13. Review evidence with [references/visual-qa-rubric.md](references/visual-qa-rubric.md), then run an independent visual-QA review for user-facing flows.
+11. Implement the screen against `docs/design/ui-spec.md`, the page `design-decision.md`, [references/responsive-layout-strategy.md](references/responsive-layout-strategy.md), and its `asset-manifest.md` when present. Use constraints and semantic anchors for structure; do not use ScreenUtil as a responsive layout engine.
+12. Capture evidence using screenshots, golden tests, or integration screenshots at the contract's risk-selected viewports, including both sides of each structural breakpoint when applicable.
+13. Review evidence with [references/visual-qa-rubric.md](references/visual-qa-rubric.md) and the evidence matrix in [references/responsive-layout-strategy.md](references/responsive-layout-strategy.md), then run an independent visual-QA review for user-facing flows.
 14. Fix Critical and Important issues, then repeat evidence capture and audit when the UI flow changed.
 
 ## Flutter UI Standards
@@ -36,14 +36,19 @@ When used inside `flutter-app-orchestrator`, dispatch Product/UX, Global directi
 - Centralize tokens: color, typography, spacing, radius, elevation, motion.
 - Build reusable primitives for buttons, text fields, scaffold, empty state, error state, and loading skeletons.
 - Use real user content examples. Avoid generic fake names and filler content.
-- Test at small phone, normal phone, tablet, and large text scale where relevant.
+- Define a page-level layout/adaptation contract before high-fidelity handoff: target widths, structural breakpoints, maximum content width, columns/gutters, semantic anchors, scroll owner, docking behavior, system/keyboard avoidance, and overflow/localization strategy.
+- Prefer parent constraints (`LayoutBuilder`, `MediaQuery` size/insets, `Flexible`/`Expanded`/`Wrap`/`ConstrainedBox`) for responsive structure. `ScreenUtil` is limited to root initialization and shared size tokens; it must not decide columns, navigation, scroll ownership, or global proportional scaling.
+- Test at the risk-selected small phone, breakpoint edges, tablet/expanded view, and large text scale; add landscape, keyboard, foldable, or split-screen evidence when the contract says they are in scope.
 - Treat visual quality as task clarity, system consistency, reliable feedback, and recognizable product character at the strength required by the visual expression preset. Decorations, gradient, shadow, texture, illustration, unconventional composition, or motion is allowed when it reinforces hierarchy, state, storytelling, or brand character within the page-type budget; require purpose and preset fit, not visual austerity.
 
 ## Rejection Criteria
 
 - No loading, empty, error, success, disabled, and permission-denied states where applicable.
 - Text overflow, clipped controls, inaccessible contrast, or unclear primary action.
-- Layout only verified on one viewport.
+- Missing or untestable layout/adaptation contract (breakpoints, relative anchors, max width/columns/gutters, scroll owner, docking, or system avoidance).
+- Layout only verified on one viewport, or evidence shows a scaled desktop/mobile composition instead of the contracted structural change.
+- Fixed, pinned, or floating elements obscure content, keyboard focus, SafeArea, or gesture regions; nested scroll has no explicit owner.
+- ScreenUtil is used as the responsive layout engine, or absolute coordinates are used for the primary page structure without a documented constraint reason.
 - A high-risk or exploratory page generates high-fidelity effects before its required semantic review.
 - A high-value page starts implementation without the page-level visual evidence selected by its risk tier.
 - Module page order contradicts the primary user flow or skips required transition states.
@@ -64,4 +69,4 @@ When used inside `flutter-app-orchestrator`, dispatch Product/UX, Global directi
 
 ## Gate
 
-Do not generate effect images during global direction positioning. For pages whose risk tier requires a visual target, complete the semantic contract and any needed review before generation, then persist only the explicitly frozen selection and its identifiers. Do not force high-fidelity images, asset manifests, Pencil evidence, or independent visual QA onto ordinary reuse work. Call a screen complete only when the design evidence, screenshots or goldens, and review selected by its risk tier have passed.
+Do not generate effect images during global direction positioning. For pages whose risk tier requires a visual target, complete the semantic and layout/adaptation contract and any needed review before generation, then persist only the explicitly frozen selection and its identifiers. Do not force high-fidelity images, asset manifests, Pencil evidence, or independent visual QA onto ordinary reuse work. Call a screen complete only when the contract is implemented, the risk-selected multi-viewport evidence covers structural changes and system avoidance, and the screenshots or goldens and review selected by its risk tier have passed.

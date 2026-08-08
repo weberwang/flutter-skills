@@ -74,7 +74,7 @@ Generate `flutter-dev/SKILL.md` in the target app repo, or another project-local
 - Use Freezed for immutable models, unions, and state objects.
 - Use `fpdart` for typed failures and functional result flows where domain errors matter.
 - Use json annotations and generated serialization for API or persisted data.
-- Use ScreenUtil through app-level initialization and design tokens.
+- Use ScreenUtil only through app-level initialization and named shared size tokens; use constraints for breakpoints, columns, navigation, and structural adaptation.
 - Minimize state changes and rebuild scope.
 - Use FVM for every Flutter and Dart command.
 

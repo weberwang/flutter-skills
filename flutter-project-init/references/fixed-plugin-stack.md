@@ -12,7 +12,7 @@ Use this stack by default for every initialized Flutter app.
 | `freezed_annotation` | Generated immutable APIs | Models, state objects, unions, failures |
 | `json_annotation` | Serialization annotations | API DTOs and persisted JSON |
 | `fpdart` | Typed functional flows | `Either`, `TaskEither`, `Option` for domain and repository failures |
-| `flutter_screenutil` | Responsive sizing | App-level scale helpers and token mapping |
+| `flutter_screenutil` | Root initialization and named shared size tokens | App-level setup and token mapping; not breakpoints, columns, navigation, or structural adaptation |
 
 ## Dev Dependencies
 
@@ -42,5 +42,5 @@ fvm flutter test
 - Do not handwrite JSON serialization for generated DTOs.
 - Do not handwrite copy, equality, union, or immutable state boilerplate that Freezed can generate.
 - Use annotations and `build_runner` for models, DTOs, unions, state objects, failures, and JSON serialization.
-- Do not create custom responsive scaling when ScreenUtil and design tokens cover the need.
+- Use ScreenUtil only for root initialization and named shared size tokens; derive breakpoints, columns, navigation, and structural adaptation from constraints instead of treating ScreenUtil as a responsive layout engine.
 - Before adding any package, check whether the fixed stack or existing project packages already solve it.

@@ -11,6 +11,22 @@
 - Accessibility, responsive, and localization constraints:
 - Shared interaction and state rules:
 
+## Global Responsive Strategy
+
+> Fill this table before page high-fidelity handoff. Values are a product baseline, not a device checklist; every structural switch needs a reason and evidence viewport. See [responsive-layout-strategy.md](responsive-layout-strategy.md).
+
+| Layout class / width range (logical px) | Structural trigger and rationale | Navigation pattern | Content max width / edge inset | Columns / min column width / gutter | Evidence viewports |
+|---|---|---|---|---|---|
+| Compact: | | | | | |
+| Medium: | | | | | |
+| Expanded: | | | | | |
+| Product-specific landscape / fold / split: | | | | | |
+
+- Shared overflow/localization policy:
+- Shared SafeArea, system-bar, gesture-inset, and keyboard policy:
+- Shared scroll ownership and nested-scroll policy:
+- ScreenUtil boundary (root initialization and shared tokens only):
+
 ## Screen
 
 - Name:
@@ -49,11 +65,22 @@
 
 ## Layout Requirements
 
-- Small phone:
-- Standard phone:
-- Tablet:
-- Large text:
-- Landscape, if relevant:
+- Target viewport range(s) and orientation:
+- Layout class / breakpoint trigger(s) used by this page:
+- Content max width / edge insets / columns / minimum column width / gutter:
+- Relative anchors and constraints (what is aligned to what, gap token, wrap/collapse rule):
+- Small phone structure and fallback:
+- Standard phone structure and fallback:
+- Tablet / Expanded structure and fallback:
+- Navigation structure at each applicable class:
+- Flow elements (participate in document scroll):
+- Docked elements (fixed / pinned / floating; anchor, occlusion padding, hide/show rule):
+- Scroll owner per axis and any intentional nested scroll:
+- SafeArea, system bar, gesture inset, fold/split avoidance:
+- Keyboard behavior (resize, scroll-to-focus, docked CTA transformation):
+- Large text / long content / localization / RTL behavior:
+- Overflow policy (wrap, truncate with accessible alternative, collapse, or explicit scroll):
+- Required evidence viewports, text scale, states, and interaction traces:
 
 ## Visual Direction
 
