@@ -1,48 +1,37 @@
 ---
 name: flutter-tech-design
-description: Use when designing Flutter app architecture, state management, routing, storage, API boundaries, authentication, payments, analytics, crash reporting, environment configuration, testing strategy, or commercial app technical decisions.
+description: Use when designing Flutter architecture, dependency capabilities, routing, persistence, API/service boundaries, authentication, migrations, testing, platform verification, deployment, or commercial app technical decisions.
 ---
 
 # Flutter Tech Design
 
 ## Overview
 
-Create a practical technical design for a commercial Flutter app. The design must support the MVP without speculative architecture.
-
-This skill selects and documents integration strategy. It does not certify launch readiness; use `flutter-release-readiness` to verify production evidence before release.
+Create the smallest practical technical design that supports the approved product. This skill selects architecture and integration strategy; release evidence belongs to `flutter-release-readiness`.
 
 ## Process
 
 1. Read product and UX artifacts before choosing architecture.
-2. Identify app type: local-first, API-backed, subscription, content, community, commerce, AI, or enterprise.
-3. Choose state, routing, persistence, networking, auth, payments, analytics, crash reporting, and environment strategy.
-4. Define module boundaries, data flow, routing ownership, and cross-module contracts.
-5. Define the global verification platform scope, required evidence, test layers, the integration-smoke target for each business-flow level, and final runtime-validation timing. Do not repeat platform scope in task briefs or progress records; full device, emulator, simulator, browser, and desktop runtime validation occurs only after all modules/pages and required high-fidelity restoration are complete.
-6. Write `docs/architecture/technical-design.md` with [references/technical-design-template.md](references/technical-design-template.md).
-7. Write `docs/architecture/verification-platforms.md` with [references/verification-platforms-template.md](references/verification-platforms-template.md).
+2. Identify the app and service shape: local-first, API-backed, subscription, content, community, commerce, AI, or enterprise.
+3. Choose only required state, routing, persistence, networking, auth, payment, observability, environment, and dependency capabilities.
+4. Define module/data ownership and cross-module contracts.
+5. For APIs/services, define contract and versioning, authentication/authorization, idempotency/retry/timeout, migration/rollback, service tests, deployment/monitoring, backup/recovery, and client compatibility. If server implementation is out of scope, record only external dependencies, owners, assumptions, and client boundaries.
+6. Define layered platform verification: foundation startup/routing/plugin smoke; primary-target runtime smoke after critical business flows; complete platform matrix at final integration/release. Never auto-start physical-device acceptance.
+7. Write `docs/architecture/technical-design.md` with [references/technical-design-template.md](references/technical-design-template.md) and `docs/architecture/verification-platforms.md` with [references/verification-platforms-template.md](references/verification-platforms-template.md).
 
-## Default Flutter Bias
+## Dependency Capability Bias
 
-- Prefer boring, well-supported packages.
-- Use the `flutter-project-init` fixed stack as the default implementation foundation.
-- Prefer Riverpod, hooks, Freezed, fpdart, json generation, and ScreenUtil before adding alternatives.
-- Require annotations plus `build_runner` for Freezed and JSON generated code.
-- Prefer feature modules with clear presentation, application, domain, and data boundaries only when the app complexity justifies them.
-- Module boundaries must align with product flow, route ownership, data ownership, and implementation sequencing.
-- Do not add offline sync, plugin abstraction, multi-backend support, or custom design engines unless the MVP requires them.
-- Centralize app configuration and secrets handling. Never hardcode keys.
+- Prefer SDK features, existing packages, and boring well-supported dependencies.
+- Use [dependency-profiles.md](../flutter-project-init/references/dependency-profiles.md) to enable only needed core, data/API, complex-domain, and UI-token profiles.
+- Record why each package/profile is enabled and which lighter option was rejected.
+- Require annotations and generation only for actually adopted generated-model/serialization profiles.
+- Do not add offline sync, plugin abstraction, multi-backend support, or a custom design engine unless the MVP requires it.
+- Centralize configuration and secrets; never hardcode keys.
 
 ## Commercial Requirements
 
-Explicitly address:
-
-- Account lifecycle and deletion.
-- Privacy-sensitive data.
-- Subscription or purchase restoration if monetized.
-- Crash reporting and analytics.
-- Feature flags or remote config only when needed.
-- CI, build flavors, and release signing assumptions.
+Explicitly address applicable account lifecycle, privacy-sensitive data, payment restoration, analytics/crash reporting, feature flags, CI, build flavors, release signing, service rollout, monitoring and recovery.
 
 ## Gate
 
-Do not move to implementation planning until the design states architecture decisions, rejected alternatives, module boundaries, data ownership, cross-module contracts, verification commands, and the global verification platform scope.
+Do not move to implementation planning until decisions, rejected alternatives, dependency profile reasons, module/data ownership, contracts, service boundaries, verification commands, layered platform scope, migrations/rollback, and production-risk ownership are explicit.

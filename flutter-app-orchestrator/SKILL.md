@@ -12,7 +12,7 @@ Coordinate Flutter delivery with the smallest process that protects the current 
 ## Operating Model
 
 1. Classify the request with [task-risk-tiers.md](../flutter-subagent-delivery/references/task-risk-tiers.md) before assembling roles or creating task infrastructure.
-2. Use `light` for deterministic small work, `standard` for bounded feature work, `high` for risky or concurrent work, and `release` for production delivery.
+2. Use `light` for deterministic small work, `standard` for bounded feature work, `high` for risky work, and `release` for production delivery. Risk changes review depth, not the default execution topology.
 3. Ask the user only for decisions that cannot be established from code, configuration, existing artifacts, or deterministic execution.
 4. Use `grilling` only when material scope, priority, tradeoff, risk, acceptance, dependency, visual direction, or release authority remains unresolved. Do not repeat it merely because a new phase or module started.
 5. Activate only roles that produce or independently accept material work. Do not record omitted ceremonial roles.
@@ -30,22 +30,22 @@ Coordinate Flutter delivery with the smallest process that protects the current 
 ### Task Preparation
 
 1. Resolve the correct integration branch and base commit before drafting or reviewing a task. Discover FVM, dependencies, existing contracts, and required commands during this preflight.
-2. `light`: work directly or on a short branch, run deterministic checks, and do not create task state, worktree, team assembly, or independent-review artifacts.
+2. `light`: work directly or on a short branch, run deterministic checks, and do not create worktrees, team assembly, or independent-review artifacts.
 3. `standard`: use a normal task branch and concise task brief. After F0/F1, route behavior or acceptance changes through the independent QA lane and add other lanes only when triggered.
-4. `high`: use a normal task branch, one DRI, durable `review.md`, and independent acceptance; do not create task-state automation solely for risk.
+4. `high`: use a normal task branch, one DRI, durable `review.md`, and independent acceptance.
 5. `release`: use a candidate branch, PR, CI, release evidence, and independent QA/technical gates.
-6. When multiple writable branches must run simultaneously, use `flutter-subagent-delivery` with one worktree and short-lived task state per writer.
+6. Default to one writer and sequential handoff. Run independent read-only review in parallel when useful. Use `flutter-subagent-delivery` for parallel writers or worktrees only when the user explicitly requests that topology.
 7. Escalate the tier when scope, irreversibility, shared ownership, security, data, payment, migration, visual fidelity, or release risk increases.
 
 ### Build, Validate, Review
 
 1. Use the four-level funnel from [review-funnel.md](../flutter-quality-review/references/review-funnel.md): F0 deterministic filtering, F1 change triage, F2 triggered specialist lanes, and F3 convergence acceptance.
-2. At F0, let the implementer iterate in the same branch or worktree until every deterministic command and known regression fixture passes. A task brief, audit script, test matrix, or implementation that has not executed successfully is not review-ready.
+2. At F0, let the implementer run the project's native build, analysis, test, audit, and known-regression commands in the task branch until they pass. A planned command or synthetic status record is not execution evidence.
 3. Freeze one candidate commit and evidence snapshot only after F0 passes. At F1, verify snapshot identity, scope, risk, acceptance traceability, and evidence; return failures immediately and record the minimum required F2 lanes.
-4. At F2, dispatch only the triggered Product, QA, technical, visual, or Release lanes against that snapshot. Run independent read-only lanes in parallel when their scopes do not depend on one another.
+4. At F2, dispatch only the triggered Product, QA, technical, visual, or Release lanes against that snapshot. Reviewers are read-only and return structured conclusions to the Controller; independent lanes may run in parallel.
 5. At F3, converge the valid lane verdicts without repeating their detailed review. Approve only when every required lane covers the effective snapshot and all Critical, Important, and mandatory-evidence blockers are resolved.
-6. Store F0 references, F1 routing, F2 lane conclusions, and F3 outcome in `docs/tasks/<task-id>/review.md` when durable review is required; do not create separate funnel reports.
-7. After a fix, rerun F0 and F1. Invalidate only lanes whose covered facts changed, and keep the same task branch or worktree during repair and targeted re-review.
+6. When durable review is required, the Controller is the only writer of `docs/tasks/<task-id>/review.md`. It records the candidate SHA, F0 evidence references, F1 routing, copied F2 conclusions, invalidation history, and F3 outcome; it is not automation input.
+7. After a fix, rerun F0 and F1. Bind review to the new candidate SHA and invalidate only lanes whose covered facts changed.
 
 ### Conditional UI Delivery
 
@@ -57,9 +57,9 @@ Coordinate Flutter delivery with the smallest process that protects the current 
 
 ### Integration And Release
 
-1. Integrate sequential tasks through the normal branch or PR path without manufacturing task state.
-2. Run `flutter-subagent-delivery/scripts/finalize-task.py` only for approved parallel worktree tasks; it merges the candidate and removes local task resources.
-3. Run business-flow integration smoke after the relevant level merges. Run the complete platform matrix only for final integration or when the current task explicitly owns it.
+1. Integrate through standard Git, PR, and CI. Before merging, verify the current branch, approved candidate SHA, clean worktree, `git diff --check`, required tests/CI, required review verdicts, and merge authorization.
+2. Never use Markdown to trigger a merge and never automatically merge or clean up parallel branches/worktrees.
+3. After shared foundations, run representative startup, routing, and plugin smoke checks. After a critical business flow, run its primary-target runtime smoke. Run the complete platform matrix at final integration or release. Never turn task evidence into a full-platform claim or automatically start physical-device acceptance.
 4. Use `flutter-release-readiness` only when release is in scope. Publishing, production mutation, signing, rollout, and remote branch deletion still require the applicable authorization.
 5. After integration, list exactly one next eligible task.
 
@@ -73,17 +73,17 @@ Use [references/artifacts.md](references/artifacts.md). Create only artifacts re
 - Do not request formal review before required deterministic validation succeeds.
 - Do not bypass F1 or dispatch every specialist by default; route only the lanes triggered by the candidate and risk tier.
 - Do not let F3 replace a missing Product, QA, technical, visual, or Release verdict.
-- Do not create a worktree solely because a task is high risk or release-related. When concurrency requires one, reuse it until final acceptance or explicit abandonment.
+- Do not create a worktree unless the user explicitly requests parallel writing or worktree use. If authorized, keep write scopes disjoint and leave merging to the normal authorized Git/PR path.
 - Do not invalidate unrelated reviews after a narrow fix.
 - Do not force three design candidates when one direction is already clear.
 - Do not require independent role separation for `light` work; require it for `high`, `release`, and materially risky `standard` work.
 - Do not let a producer independently approve its own high-risk output.
-- Do not run parallel writers against overlapping scopes or the shared `docs/design/app-design.pen` file.
+- Do not run parallel writers without explicit user authorization, or against overlapping scopes, shared generated files, or `docs/design/app-design.pen`.
 - Do not infer user approval for product scope, visual freeze, destructive action, external release, or accepted risk.
 - Do not generate, adapt, extract, export, transparentize, or slice a bitmap before the numbered overlay derived from the frozen page image has been shown by itself and explicitly confirmed.
-- Do not claim platform verification from task-level screenshots, goldens, builds, or static analysis.
+- Do not claim full platform verification from task-level screenshots, goldens, builds, static analysis, or an early smoke check.
 - Do not create standalone derivative reports when a canonical record already holds the decision or evidence.
 
 ## Routing
 
-Use [references/subagent-map.md](references/subagent-map.md) only after the risk tier shows that multiple roles are useful. Use [app-team-role-prompts.md](../flutter-subagent-delivery/references/app-team-role-prompts.md) for core responsibility, [subagent-prompts.md](../flutter-subagent-delivery/references/subagent-prompts.md) for a necessary specialist seat, and [collaboration-protocol.md](../flutter-subagent-delivery/references/collaboration-protocol.md) only when multiple writable branches run simultaneously.
+Use [references/subagent-map.md](references/subagent-map.md) only after the risk tier shows that multiple roles are useful. Use [app-team-role-prompts.md](../flutter-subagent-delivery/references/app-team-role-prompts.md) for core responsibility, [subagent-prompts.md](../flutter-subagent-delivery/references/subagent-prompts.md) for a necessary specialist seat, and [collaboration-protocol.md](../flutter-subagent-delivery/references/collaboration-protocol.md) only after the user explicitly requests parallel writers or worktrees.

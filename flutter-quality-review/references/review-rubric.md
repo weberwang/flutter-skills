@@ -11,7 +11,7 @@
 - Cross-module contracts are implemented before dependent UI or service work consumes them.
 - Module acceptance path and integration smoke path are preserved or updated when module behavior changes.
 - Module acceptance result and integration smoke result are reported when module boundaries, routes, cross-module contracts, or user flows change.
-- `docs/architecture/verification-platforms.md` records the global platform scope; unlisted platforms are not claimed as verified, and device/emulator/simulator/browser/desktop runtime validation is deferred to final integration.
+- `docs/architecture/verification-platforms.md` records representative foundation smoke, primary-target critical-flow smoke, and the final matrix. Early evidence proves only its named scope; unlisted or unrun platforms are not claimed as verified.
 
 ## Flutter Code Quality
 
@@ -20,9 +20,8 @@
 - Widgets are focused and not oversized.
 - Shared UI primitives are reused.
 - Existing plugins and primitives are preferred before new dependencies.
-- Riverpod, hooks, Freezed, fpdart, json generation, and ScreenUtil are used according to the fixed stack.
-- Annotation-based generation is used for Freezed and JSON models; generated boilerplate is not handwritten.
-- `build_runner` was run after annotated model, state, failure, union, or DTO changes.
+- Only dependency profiles actually enabled by the technical design are required, and each adopted package has an explicit capability reason.
+- Annotation-based generation and `build_runner` are checked only when the adopted data/API or complex-domain profile uses them.
 - State changes are minimal and rebuild scope is controlled.
 - Async work handles loading, error, retry, and cancellation where relevant.
 - Platform permissions are requested with clear user value.
@@ -53,7 +52,7 @@
 - Fixed, pinned, and floating elements document scroll direction, occlusion padding, hit target, SafeArea/gesture inset, keyboard behavior, and narrow-height fallback; no content or focused field is covered.
 - SafeArea, system bars, keyboard `viewInsets`, fold/hinge display features, and split-screen constraints are handled at the right boundary and are represented in evidence when in scope.
 - Each scroll axis has a clear owner; nested scrolling is intentional, documented, and does not trap gestures or accessibility focus.
-- ScreenUtil is limited to root initialization and shared sizing tokens. Columns, navigation, max width, scrolling, and structural decisions come from constraints/`LayoutBuilder`/`MediaQuery`, not global proportional scaling or scattered size checks.
+- When the UI-token profile adopts ScreenUtil, it is limited to root initialization and shared sizing tokens. Columns, navigation, max width, scrolling, and structural decisions still come from constraints/`LayoutBuilder`/`MediaQuery`.
 - Empty, loading, error, success, disabled, and permission-denied states are covered where relevant.
 - CTA hierarchy is clear.
 - The first-value path is understandable, and the user sees applicable privacy, payment, permission, or recovery conditions before a high-friction or irreversible step.
@@ -76,13 +75,22 @@
 - Payments handle failure and restoration when monetized.
 - Analytics and crash reporting are present or explicitly out of scope.
 
+## API And Service (Conditional)
+
+- Contract source, version policy, request/response/error schema, and client compatibility are explicit.
+- Authentication, authorization, permissions and sensitive-data boundaries are tested.
+- Retry, timeout, rate-limit and idempotency behavior prevents unsafe duplicate operations.
+- Schema/data migration has a rehearsed rollback; destructive changes have backup and recovery evidence.
+- In-scope server implementation has unit/integration/contract tests plus deployment, monitoring, alert and restore evidence.
+- When server implementation is out of scope, the review is limited to documented external owner, dependency assumptions, client boundary and escalation path.
+
 ## Testing
 
 - `fvm flutter analyze` output is reported.
 - Relevant unit/widget tests are reported.
 - Golden or screenshot evidence exists for UI work.
 - Integration tests are run when a user path is changed and tests exist.
-- Task-level review reports static analysis, relevant tests, and screenshot/golden design evidence without claiming runtime platform verification. Final-integration review, after all modules/pages and high-fidelity restoration are complete, requires each globally in-scope platform's matching command output and runtime UI evidence; missing device, simulator, emulator, browser, or desktop evidence blocks final delivery and release claims.
+- Shared-foundation review includes representative startup/routing/plugin smoke; critical-flow review includes primary-target runtime smoke. Neither may claim full platform verification. Final-integration/release review requires every in-scope platform's matching command and runtime evidence. Physical-device acceptance requires explicit user authorization.
 
 ## F2 通道输出
 
@@ -96,7 +104,7 @@ Findings
 
 Lane and coverage
 - Product / QA / technical / visual / Release
-- Covered snapshot and facts: ...
+- Candidate SHA, covered facts and evidence: ...
 
 Aesthetic verdict (visual lane only)
 - approved / approved with Minor findings / not approved
@@ -111,3 +119,5 @@ Open questions
 Lane verdict
 - approved / changes_requested / blocked
 ```
+
+F2 reviewers return this structure to the Controller and never edit shared `docs/tasks/<task-id>/review.md`.

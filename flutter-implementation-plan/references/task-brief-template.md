@@ -1,68 +1,73 @@
 # Task Brief
 
-仅保留实施者完成当前任务所需的信息。链接权威工件，不复制其内容；不适用的条件字段直接删除。
+This Markdown file is a human handoff record, not runtime state or automation input. Delete conditional sections that do not apply.
 
-## 任务
+## Task
 
-- ID / 名称：
-- 风险等级：light / standard / high / release
-- 模块 / 业务流等级：
-- 目标：
-- 前置等级证据：
-- 已验证集成分支 / 基线提交：
-- 任务分支：
+- ID / name:
+- Risk tier / business-flow level:
+- Goal:
+- Verified integration branch / base SHA:
+- Ordinary task branch:
+- Prior-level evidence:
 
-## 责任与范围
+## Ownership And Scope
 
-- DRI 核心角色 / agent ID：
-- 独立验收角色 / agent ID（按风险需要）：
-- 已启用专家席位与原因：
-- 读范围：
-- 唯一写范围：
-- 非目标：
-- 共享资源锁：
+- DRI:
+- Read scope:
+- Unique write scope:
+- Non-goals / prohibited changes:
+- Shared resources and single owner:
+- Independent acceptance role when required:
 
-## 并行写入（仅多个可写分支同时执行时保留）
+## Explicit Parallel Authorization (Conditional)
 
-- 短生命周期任务状态：
-- worktree：
-- 租约：
-- 自动收尾命令：
+- User authorization and date:
+- Parallel writer or worktree scope explicitly requested:
+- Disjoint branch/write scope:
+- Controller coordination boundary:
 
-## 权威输入
+No YAML/JSON workflow state or automatic merge is created even when this section applies.
 
-- 产品简报：
-- UI 规格：
-- 技术设计：
-- 模块图 / 已确认模块 scope：
-- 项目本地 `flutter-dev`：
-- 平台验证范围：
+## Canonical Inputs
 
-## 条件输入
+- Product / design / technical / module references:
+- API contract and version:
+- Candidate design/asset evidence:
 
-- 页面设计决策：`docs/design/pages/<page-name>/design-decision.md`
-- 资产清单：`docs/design/pages/<page-name>/asset-manifest.md`
-- Pencil 节点 ID：`docs/design/app-design.pen`
-- 冻结图：`.codex-workflow/visuals/pages/<page-name>/...`
+## API / Service Conditions (Conditional)
 
-## 验收
+- Service implementation owned by this task: Yes / No
+- External service owner/dependency when No:
+- Auth/permission and security boundary:
+- Idempotency, retry, timeout and rate limit:
+- Migration/rollback:
+- Service tests and contract tests:
+- Deployment/monitoring and backup/recovery:
+- Client compatibility/deprecation:
 
-- 功能与状态：
-- 可访问性 / 性能 / 安全约束：
-- UI 证据（截图或 golden）：
-- 验证命令：
-  - `fvm flutter analyze`
-  - `fvm flutter test <相关目标>`
-- 已知回归夹具：
-- 审查就绪条件：以上确定性检查全部实际通过
+## Acceptance
 
-## 漏斗审核
+- Functional and failure-state criteria:
+- API/service criteria when applicable:
+- UI evidence when applicable:
+- Security/privacy/data criteria when applicable:
 
-- F0 确定性过滤：复用上方命令、回归夹具和 UI 证据要求
-- F1 预期变化维度：产品 / 行为与验收 / 技术风险 / 视觉与交互 / 发布
-- F2 条件通道及触发条件：Product / QA / 技术 / 视觉 / Release
-- F3 收敛证据：必需通道结论、阻塞关闭；按任务层级补充集成 smoke、PR 或 CI
+## Verification
 
-## 交付
+- F0 project-native commands:
+- Known regression fixtures:
+- Foundation startup/routing/plugin smoke (foundation tasks):
+- Primary-target runtime smoke (critical-flow tasks):
+- Full matrix owner/reference: `docs/architecture/verification-platforms.md`
 
-实现者先完成 F0，再返回：状态、候选提交 SHA、变更文件、验证摘要、阻塞项。Controller 完成 F1 并只派发触发的 F2 通道；审阅者将覆盖范围、快照、发现、测试/截图路径和通道结论写入同一个 `docs/tasks/<task-id>/review.md`，Controller 在其中记录 F3。修复后重新通过 F0/F1，只重做受影响的通道小节。
+Task evidence proves only the named scope and cannot claim the complete platform matrix. Do not automatically start physical-device acceptance.
+
+## Review Funnel
+
+- F1 expected change/risk dimensions:
+- Conditional F2 read-only lanes and triggers:
+- F2 return shape: lane, candidate SHA, covered facts, findings, missing evidence, questions, verdict
+- F3 required evidence and authorization:
+
+The implementer returns candidate SHA, changed files, F0 evidence and blockers. Only the Controller writes `docs/tasks/<task-id>/review.md` and copies F2 conclusions into it.

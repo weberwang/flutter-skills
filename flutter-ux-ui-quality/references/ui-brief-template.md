@@ -25,7 +25,7 @@
 - Shared overflow/localization policy:
 - Shared SafeArea, system-bar, gesture-inset, and keyboard policy:
 - Shared scroll ownership and nested-scroll policy:
-- ScreenUtil boundary (root initialization and shared tokens only):
+- ScreenUtil boundary when the UI-token profile adopts it (root initialization and shared tokens only):
 
 ## Screen
 

@@ -1,4 +1,4 @@
 interface:
   display_name: "Flutter Subagent Delivery"
-  short_description: "Coordinate concurrent Flutter writers with isolated worktrees."
-  default_prompt: "Use $flutter-subagent-delivery to coordinate disjoint writable Flutter tasks in parallel worktrees, validate candidates, and clean up local task resources."
+  short_description: "Coordinate explicitly authorized parallel Flutter writers."
+  default_prompt: "Use $flutter-subagent-delivery only after the user explicitly requests parallel writers or worktrees; coordinate disjoint branches with Markdown briefs, read-only review, and standard Git/PR/CI integration without runtime state files or automatic merging."

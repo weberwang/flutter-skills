@@ -259,7 +259,7 @@ Existing architecture and code evidence: <paths>
 Assigned architecture output or review target: <path>
 Write scope: <paths or read-only>
 
-Define or independently review module boundaries, data and route ownership, API contracts, persistence, security/privacy, failure behavior, performance, observability, migration, rollback, verification, and implementation order. Separate facts, decisions, assumptions, and risks. When reviewing, do not modify the source and do not approve work you produced.
+Define or independently review module boundaries, data and route ownership, dependency capabilities, API contracts/versioning, persistence, security/privacy, idempotency/retry, failure behavior, performance, observability, migration/rollback, backup/recovery, client compatibility, layered verification, and implementation order. If server implementation is out of scope, record only its owner, dependencies and client boundary. Separate facts, decisions, assumptions, and risks. When reviewing, do not modify the source and do not approve work you produced.
 
 Return: status, output or verdict, Critical/Important/Minor findings, contract gaps, risks, required actions.
 ```
@@ -273,11 +273,9 @@ Task brief: <path>
 Accepted API/data contract: <path>
 Schema and migration context: <paths>
 Write scope: <paths>
-Report file: <path>
+Implement only the assigned API, schema, migration, authorization, job, analytics, or data-access scope. Cover contract versions, validation, error contracts, idempotency/retry, concurrency, privacy, client compatibility, observability, deployment, rollback, backup and recovery as required. Add service/contract tests plus migration, rollback and restore evidence. Do not expose secrets or production data, alter client behavior, or infer missing ownership.
 
-Implement only the assigned API, schema, migration, authorization, job, analytics, or data-access scope. Cover validation, error contracts, idempotency, concurrency, privacy, observability, and rollback as required. Add tests and migration/contract evidence. Do not expose secrets or production data, alter client behavior, or infer missing ownership.
-
-Return: status, changed files, contract/schema output, verification, migration and rollback evidence, concerns.
+Return only structured results: status, changed files, contract/schema output, service/contract verification, migration/rollback, deployment/monitoring, backup/recovery and compatibility evidence, concerns. Do not create a derivative report or edit Controller-owned task brief, review, or progress records.
 ```
 
 ## DevOps / Release Implementer
@@ -307,7 +305,6 @@ Module map: <path>
 Confirmed module scope: <docs/plans/modules/<module-name>-scope.md>
 Module grilling confirmation: <docs/product/grilling-log.md entry>
 Conditional module visual decision: <path or entry when applicable>
-Report file: <path>
 Global verification platform scope: <docs/architecture/verification-platforms.md>
 
 Rules:
@@ -319,7 +316,7 @@ Rules:
 - For UI page tasks, do not start page code unless the task brief links a page decision with the justified Full, Lightweight or Reuse level, reviewed semantic contract, approved mockup, frozen constraints, Pencil decision and handoff; link the asset manifest when fixed visual assets exist. Require Pencil evidence only for Full. An unmatched visual resource must complete dedicated bitmap generation and manifest review.
 - For UI page tasks, return `NEEDS_CONTEXT` if the module's Effect-Image Interrogation Gate is missing or blocked.
 - Add tests before or with behavior changes.
-- Run task-level static analysis and tests required by the brief. Do not perform or claim device, emulator, simulator, browser, or desktop runtime verification; that validation is deferred to final integration.
+- Run task-level static analysis and tests required by the brief. Follow its layered platform scope: foundation tasks run the assigned representative startup/routing/plugin smoke, and critical-flow tasks run the assigned primary-target runtime smoke. Report only the exact target and facts covered; never claim full-platform verification. Physical-device acceptance requires explicit user authorization.
 - For UI work, produce screenshot or golden design evidence required by the brief, or report the blocker. It does not verify a platform.
 
 Return only:
@@ -329,6 +326,8 @@ Return only:
 - Module acceptance result
 - Integration smoke result
 - Concerns
+
+Return these structured results to the Controller. Do not create a derivative report or edit Controller-owned task brief, review, or progress records.
 ```
 
 ## Task Reviewer
@@ -357,10 +356,10 @@ You are the independent QA or technical review specialist for one task. You did 
 
 Assigned F2 lanes and F1 trigger reasons: <Product / QA / technical, with reasons>
 
-Review only the assigned lanes against the immutable snapshot. Use the applicable rubric checks for those lanes; do not repeat F1 routing or inspect unrelated dimensions. Findings must lead. Mark severity as Critical, Important, or Minor. Return `NEEDS_CONTEXT` when the snapshot cannot be identified, required lane evidence is absent, or the producer and reviewer identities are not demonstrably different.
+Review only the assigned lanes against the immutable snapshot. Remain read-only and never edit shared `docs/tasks/<task-id>/review.md`; the Controller is its only writer. Use the applicable rubric checks for those lanes; do not repeat F1 routing or inspect unrelated dimensions. Findings must lead. Mark severity as Critical, Important, or Minor. Return `NEEDS_CONTEXT` when the snapshot cannot be identified, required lane evidence is absent, or the producer and reviewer identities are not demonstrably different.
 
 Return:
-1. Assigned lane and coverage
+1. Assigned lane, candidate SHA, covered facts and evidence
 2. Findings
 3. Missing evidence
 4. Required fixes
@@ -395,9 +394,7 @@ You are the Fixer specialist under the original task DRI's core engineering role
 
 Task brief: <path>
 Findings: <path or pasted list>
-Report file: <path>
-
-Fix Critical and Important findings only unless Minor findings are trivial. Re-run covering verification commands and append results to the report. Provide the new diff or commit identifier and identify which review dimensions changed so the Controller can request only the affected independent re-review.
+Fix Critical and Important findings only unless Minor findings are trivial. Re-run covering verification commands. Return structured results with status, changed files, verification evidence, the new diff or commit identifier, remaining concerns, and the review dimensions whose covered facts changed. Do not create a derivative report or edit Controller-owned task brief, review, or progress records; the Controller records the returned evidence and requests only affected independent re-review.
 ```
 
 ## Final Reviewer

@@ -50,21 +50,21 @@ First use [references/review-funnel.md](references/review-funnel.md) to select t
 - Page design decision, Pencil restoration, and recorded deviation compliance when Pencil is used.
 - Mobile and accessibility risks.
 - State management and data flow.
-- Fixed stack compliance: Riverpod, hooks, Freezed, fpdart, json generation, and ScreenUtil.
-- Annotation generation compliance: Freezed/json annotations and `build_runner` output for generated models, states, failures, unions, and DTOs.
+- Adopted dependency-profile compliance: review only packages and generation rules actually enabled by the technical design, including their recorded reasons.
+- API/service conditions when applicable: contract/version, permissions/security, idempotency/retry, migrations/rollback, service tests, deployment/monitoring, backup/recovery, and client compatibility. If server implementation is out of scope, check only dependencies and boundaries.
 - Error handling and recoverability.
 - Payment, privacy, account, analytics, and crash reporting when in scope.
 - Test sufficiency.
-- Verification platform compliance: use the global platform scope as the only source of truth; review runtime platform evidence only at final integration after all module/page functionality and high-fidelity restoration are complete.
+- Verification platform compliance: review representative foundation smoke early, primary-target runtime smoke after critical flows, and full platform coverage only at final integration/release.
 - Overengineering and unnecessary abstractions.
 
 ## Output Shape
 
 At F1, report the immutable snapshot, risk check, changed dimensions, required specialist lanes with reasons, missing entry evidence, and `return to implementation` / `route to specialist review` / `light self-check passed`.
 
-At F2, report only the assigned lane in this order:
+At F2, remain read-only and report only the assigned lane in this order:
 
-1. Assigned lane and covered facts.
+1. Assigned lane, candidate SHA, covered facts and evidence.
 2. Findings by severity with file and line references where available.
 3. Missing evidence.
 4. Open questions.
@@ -72,7 +72,7 @@ At F2, report only the assigned lane in this order:
 
 For the visual lane, also include the aesthetic verdict: approved / approved with Minor findings / not approved, with the visual evidence and remaining actions.
 
-At F3, report the immutable snapshot, valid lane verdicts, closed blockers, integration or CI evidence required at this level, and the final verdict. Do not repeat detailed findings from F2.
+Only the Controller writes `docs/tasks/<task-id>/review.md`, including candidate history, evidence references, F2 returned conclusions and invalidations. At F3, report the effective snapshot, valid lane verdicts, closed blockers, integration or CI evidence required at this level, and the final verdict. Do not repeat detailed findings from F2.
 
 Severity:
 
@@ -82,4 +82,4 @@ Severity:
 
 ## Gate
 
-Do not enter F1 until required deterministic commands and regression fixtures pass against a candidate commit. F1 must reject stale evidence, scope drift, understated risk, and unidentified snapshots before specialist dispatch. F2 may open only the lanes triggered by the change and risk tier; independent acceptance is mandatory where the funnel requires it. F3 may approve only when every required lane covers the same effective snapshot and has no Critical, unresolved Important, or mandatory evidence gap. Task state is required only for simultaneous writable branches. After a fix, rerun F0 and F1, then invalidate only review lanes whose covered facts changed. Require level integration smoke only when a business-flow level closes and full runtime platform evidence only for final integration or release; do not write inapplicability records for unrelated checks.
+Do not enter F1 until required project-native commands and regression fixtures actually pass against a candidate commit. F1 must reject stale evidence, scope drift, understated risk, and unidentified snapshots. F2 is read-only and may open only triggered lanes. F3 may approve only when every required lane covers the effective SHA and has no Critical, unresolved Important, or mandatory evidence gap. After a fix, rerun F0/F1 and invalidate only affected lanes. Markdown is never runtime state or an automatic merge signal. Apply layered platform evidence without turning early smoke into a full-platform claim or automatically starting physical-device acceptance.

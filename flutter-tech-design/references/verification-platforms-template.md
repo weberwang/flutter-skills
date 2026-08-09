@@ -1,33 +1,49 @@
 # Verification Platforms Template
 
-Use this file as the single source of truth for the app-wide verification scope. Task briefs, implementation plans, progress records, and review reports must reference it instead of copying platform lists.
+This is the single source of truth for app-wide platform scope. Task briefs and reviews link here instead of copying platform lists.
 
 ## Scope
 
-- Owner:
-- Last updated:
+- Owner / last updated:
+- Primary target platform:
 - Evidence root:
-- Level integration smoke: command, target, and owner after every business-flow-level merge; this is not platform verification
-- Runtime validation timing: final platform matrix only, after all modules, page functionality, and high-fidelity restoration are complete
+- Physical-device acceptance: only when explicitly authorized by the user
 
-## Required Platforms
+## Layer 1: Shared Foundation Smoke
 
-| Platform | Runtime target | Required evidence | Commands | Evidence path | Final integration status |
+Run as soon as the shared foundation is usable; do not wait for final integration.
+
+| Representative target | Startup | Routing | Enabled plugins | Command | Evidence / status |
 |---|---|---|---|---|---|
-| Android | Emulator or device | | | | |
-| iOS | Simulator or device | | | | |
+
+## Layer 2: Critical Business-Flow Smoke
+
+Run after each critical flow is complete on the primary target platform.
+
+| Flow | Target | Runtime path | Command | Evidence / status |
+|---|---|---|---|---|
+
+## Layer 3: Final Platform Matrix
+
+Run at final integration or release.
+
+| Platform | Runtime target | Required build/test/smoke | Commands | Evidence | Status |
+|---|---|---|---|---|---|
+| Android | Emulator or authorized device | | | | |
+| iOS | Simulator or authorized device | | | | |
 | Web | Browser | | | | |
 | Desktop | OS target | | | | |
 
-Remove rows that are out of scope and record them below. Keep this table current as the only platform verification record.
+Remove out-of-scope rows and record the reason below.
 
-## Out of Scope
+## Out Of Scope
 
 | Platform | Reason |
 |---|---|
 
 ## Evidence Rules
 
-- A platform is verified only during final integration, after all modules/pages and their high-fidelity restoration are complete, and after the required command, runtime evidence, and UI evidence are present when applicable.
-- Module/page tasks may capture screenshots or goldens for design review, but they must not mark a platform verified or substitute for final runtime validation.
-- Record blocked final validation in the platform row; do not mark the platform verified.
+- Layer 1 and Layer 2 prove only their named target, route/plugin, or business-flow facts; they never establish full platform coverage.
+- A platform is fully verified only when its Layer 3 commands and required runtime/UI evidence pass.
+- Record blocked evidence honestly. Do not mark an unrun command or unavailable target as passed.
+- Do not automatically launch physical-device acceptance.

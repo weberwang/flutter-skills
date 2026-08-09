@@ -90,7 +90,7 @@
 
 ## 9. ScreenUtil 与约束系统的边界
 
-`ScreenUtil` 只负责根初始化和共享尺寸 token（例如设计系统 spacing、图标基准）；它不是响应式布局引擎。结构和可用空间必须由 `LayoutBuilder` 的父约束、`MediaQuery.sizeOf`/`paddingOf`/`viewInsetsOf`、`Sliver` 约束和组件自身的最小/最大尺寸决定。
+只有技术设计启用 UI token 档并采用 `ScreenUtil` 时，它才负责根初始化和共享尺寸 token（例如设计系统 spacing、图标基准）；它不是默认依赖或响应式布局引擎。结构和可用空间必须由 `LayoutBuilder` 的父约束、`MediaQuery.sizeOf`/`paddingOf`/`viewInsetsOf`、`Sliver` 约束和组件自身的最小/最大尺寸决定。
 
 - 允许：根部 `ScreenUtilInit`、少量经过命名的 token、与产品视觉系统一致的字号/间距基准。
 - 必须：在需要结构变化的组件边界使用 `LayoutBuilder` 或共享 breakpoint resolver；在系统避让处读取 `MediaQuery`。

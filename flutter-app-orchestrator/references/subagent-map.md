@@ -50,7 +50,7 @@ Do not dispatch a controlled multi-agent task without a DRI, required independen
 
 ### Activation Conditions
 
-- Enable Backend/Data for API, account, auth, payment, cloud sync, remote data, schema, migration, server analytics, or service observability work. Do not record it when the App is verified local-only.
+- Enable Backend/Data for in-scope API, account, auth, payment, cloud sync, remote data, schema, migration, server analytics, or service observability implementation. When server implementation is out of scope, record the external owner and client dependency/boundary instead of dispatching a server implementer.
 - Enable UX/UI for any user-visible structure, copy hierarchy, interaction, state, visual, asset, or accessibility change.
 - Enable Tech Lead for architecture, shared foundations, cross-module contracts, dependency changes, security/privacy risk, migrations, performance budgets, or integration decisions.
 - Enable QA before implementation planning when acceptance or regression scope must be defined. During review, use QA for behavior/acceptance changes, `high`/`release` requirements, or F1 assistance rather than as an automatic all-purpose reviewer.
@@ -71,12 +71,11 @@ Do not dispatch a controlled multi-agent task without a DRI, required independen
 
 Each specialist receives the core role prompt plus exactly one specialist prompt. The narrower specialist scope wins. A producer and reviewer must be different agent instances when the task risk requires independent acceptance.
 
-## Parallel Safe
+## Parallel Rules
 
 - Read-only product, market, architecture, risk, or release exploration.
 - UX/UI and technical exploration after accepted product scope, when outputs do not overlap.
-- Independent vertical slices in the same business-flow level after contracts are accepted and write scopes are disjoint.
-- Independent page or asset production after shared design freezes and with disjoint paths.
+- Independent vertical slices or page/asset production only when the user explicitly authorizes parallel writers/worktrees, contracts/freezes are accepted, and write scopes are disjoint.
 - Independent read-only reviews.
 
 ## Parallel Unsafe

@@ -5,57 +5,53 @@
 - App name:
 - Target path:
 - New or existing:
-- Flutter version:
-- FVM SDK version:
+- Flutter / FVM SDK version:
 
 ## Technical Design Inputs
 
 - Technical design path:
-- Stack deviations:
+- Verification platform path:
 - Approved by:
 
-## Dependencies
+## Enabled Dependency Profiles
 
-Runtime:
+Delete profiles that are not enabled.
 
-- `flutter_riverpod`:
-- `hooks_riverpod`:
-- `flutter_hooks`:
-- `freezed_annotation`:
-- `json_annotation`:
-- `fpdart`:
-- `flutter_screenutil`:
+| Profile | Packages | Capability requiring it | Rejected lighter option | Runtime/size/maintenance/platform risk |
+|---|---|---|---|---|
+| Core | | | | |
+| Data/API | | | | |
+| Complex domain | | | | |
+| UI token | | | | |
 
-Dev:
+## API / Service Boundary
 
-- `build_runner`:
-- `freezed`:
-- `json_serializable`:
-- `riverpod_lint`:
-- `custom_lint`:
+- Service implementation owned here: Yes / No
+- Contract and version:
+- Auth/permission boundary:
+- Idempotency, retry, timeout:
+- Migration/rollback and client compatibility:
+- External owner/dependency when service implementation is out of scope:
 
 ## Generated Local Skill
 
 - Path:
-- Source template:
+- Active profiles reflected:
 - Notes:
 
-## Required App Setup
+## App Setup
 
-- `ProviderScope`:
-- `ScreenUtilInit`:
-- App theme:
-- Routing shell:
-- Lints:
-- Annotation code generation:
-- Freezed annotations:
-- JSON annotations:
+- App shell / theme / routing:
+- Lints and test scaffolding:
+- Conditional code generation:
 
 ## Verification
 
-- `fvm dart run build_runner build --delete-conflicting-outputs`:
+- Applicable generation command:
 - `fvm flutter analyze`:
 - `fvm flutter test`:
+- Representative startup/routing/plugin smoke:
+- Evidence and blockers:
 
 ## Open Risks
 

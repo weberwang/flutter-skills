@@ -35,10 +35,11 @@ Convert approved specs into a coarse cross-module build sequence, then refine ea
 - One task should produce one vertical slice or one isolated foundation.
 - Create task briefs from the confirmed module scope, not directly from the coarse global plan.
 - Classify every task with [task-risk-tiers.md](../flutter-subagent-delivery/references/task-risk-tiers.md). Add a DRI, independent acceptance, specialist roles, and shared-resource locks only when the selected tier requires them.
-- Route Flutter work to Flutter Engineer, API/schema/migration work to Backend/Data Engineer, cross-cutting technical work to Tech Lead, quality evidence to QA Engineer, and build/pipeline/release work to DevOps/Release Engineer. Do not use a generic implementer when the owning discipline is known.
-- Each task must list risk tier, scope, non-scope, acceptance criteria, verified integration base, and executable verification commands. Use the normal branch or PR path unless multiple writable branches must run simultaneously.
-- For simultaneous writable branches, add one worktree, short-lived task-state file, lease, unique write scope, and finalizer command per writer. Keep each worktree through final acceptance and do not recreate it for review rounds.
-- Each task must follow `docs/architecture/verification-platforms.md`; do not duplicate platform scope or claim an unrecorded platform as verified. Run integration smoke after each business-flow level merges to the integration branch; reserve the full device, emulator, simulator, browser, and desktop matrix for final integration.
+- Route Flutter work to Flutter Engineer, in-scope API/schema/migration work to Backend/Data Engineer, cross-cutting technical work to Tech Lead, quality evidence to QA Engineer, and build/pipeline/release work to DevOps/Release Engineer. When server implementation is out of scope, create only client dependency/contract/boundary tasks with an external owner.
+- Each task must list risk tier, scope, non-scope, acceptance criteria, verified integration base, and executable verification commands. Default to one writer, a normal branch, and sequential execution.
+- Read-only review may run in parallel. Plan parallel writers or worktrees only when the user explicitly requests them; use ordinary branches, Markdown briefs and Git/PR/CI facts without workflow YAML/JSON or automatic merging.
+- Each task must follow `docs/architecture/verification-platforms.md`: foundation tasks include representative startup/routing/plugin smoke; critical-flow tasks include primary-target runtime smoke; final integration/release owns the full matrix. No task-level evidence may claim full platform coverage, and physical-device acceptance is never automatic.
+- API/service tasks conditionally cover contract/version, auth/permissions, idempotency/retry/timeout, migrations/rollback, service tests, deployment/monitoring, backup/recovery and client compatibility. If server implementation is out of scope, record only the dependency, owner and client boundary.
 - UI tasks must include screenshot or golden evidence requirements.
 - Deterministic verification and known regression fixtures must execute successfully before formal review starts.
 - Each task must define its expected [review funnel](../flutter-quality-review/references/review-funnel.md): F0 commands, F1 change dimensions, conditionally triggered F2 lanes, and the evidence F3 needs to converge. Do not pre-activate every specialist lane.
@@ -53,7 +54,7 @@ Convert approved specs into a coarse cross-module build sequence, then refine ea
 - `docs/plans/module-map.md`
 - `docs/plans/modules/<module-name>-scope.md`
 - `docs/plans/implementation-plan.md`
-- `.codex-workflow/progress.md` and task-state YAML only for simultaneous writable branches; `review.md` whenever the selected risk tier requires durable independent acceptance
+- `docs/tasks/<task-id>/brief.md` when cross-role handoff needs durable scope; `docs/tasks/<task-id>/review.md` when the selected risk tier requires durable independent acceptance. Both are Markdown evidence records, never runtime state.
 
 Use [references/module-map-template.md](references/module-map-template.md), [references/module-scope-template.md](references/module-scope-template.md), [references/implementation-plan-template.md](references/implementation-plan-template.md), and [references/task-brief-template.md](references/task-brief-template.md).
 
@@ -69,4 +70,4 @@ Use [references/module-map-template.md](references/module-map-template.md), [ref
 
 ## Gate
 
-Do not execute from an uncertain integration base, unresolved material scope, missing acceptance criteria, or unexecutable verification plan. Do not require grilling, task-state files, role assembly, independent review, or release evidence merely because the task exists; select them from the risk tier. Create worktrees and task state only when multiple writable branches must run simultaneously; then follow [collaboration-protocol.md](../flutter-subagent-delivery/references/collaboration-protocol.md).
+Do not execute from an uncertain integration base, unresolved material scope, missing acceptance criteria, or unexecutable verification plan. Do not require grilling, role assembly, independent review, or release evidence merely because the task exists. Follow [collaboration-protocol.md](../flutter-subagent-delivery/references/collaboration-protocol.md) only after the user explicitly requests parallel writers or worktrees.

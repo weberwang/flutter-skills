@@ -34,6 +34,11 @@ Use this before implementation planning. It turns global design and architecture
 | Contract | Provider module | Consumer module | Data or event | Required before |
 |---|---|---|---|---|
 
+## API / Service Scope
+
+| Service/API | Implementation owner or external owner | Contract/version | Auth/permissions | Idempotency/retry | Migration/rollback | Tests/operations/recovery | Client compatibility |
+|---|---|---|---|---|---|---|---|
+
 ## Module Dependency Graph
 
 | Module | Depends on | Blocks | Reason |
@@ -66,9 +71,11 @@ The initial plan may leave refinement pending. Complete each row just in time wh
 | Level | Module | Page or state | Previous interaction | Next interaction | Required design gate | Exit evidence |
 |---|---|---|---|---|---|---|
 
-## Parallelization
+## Execution Topology
 
-| Business-flow level | Work item | DRI role | Acceptance role | Can run parallel | Why | Shared-resource locks |
+Default to a single writer and sequential levels. Independent read-only review may run in parallel. Fill the table only when the user explicitly authorizes parallel writers or worktrees.
+
+| Business-flow level | Work item | User authorization | DRI role | Acceptance role | Disjoint write scope | Shared-resource locks |
 |---|---|---|---|---|---|---|
 
 ## Risks

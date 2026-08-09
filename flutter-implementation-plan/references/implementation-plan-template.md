@@ -8,10 +8,10 @@
 - Do not add features outside MVP scope.
 - UI tasks require screenshot or golden evidence.
 - UI page tasks require only the design evidence selected by page and task risk. Complex or high-risk pages may require wireframe review, high-fidelity freeze, assets, or Pencil handoff; ordinary reuse work may rely on the approved UI spec and page decision.
-- Module and page tasks must follow `docs/plans/module-map.md` for business-flow levels, module dependencies, cross-module contracts, and page interaction order. Finish and verify each level before starting the next; parallel work is limited to explicitly parallel-safe tasks in the same level.
+- Module and page tasks must follow `docs/plans/module-map.md` for business-flow levels, module dependencies, cross-module contracts, and page interaction order. Finish and verify each level before starting the next. Default to one writer and sequential execution; only read-only work may parallelize unless the user explicitly authorizes parallel writing/worktrees.
 - Treat the cross-module task list as provisional until the current module becomes eligible. Audit existing decisions, run grilling only for material unresolved choices, then refine functions, states, acceptance paths, and task briefs.
 - Follow the global platform scope in `docs/architecture/verification-platforms.md`. Do not treat unlisted platforms as verified.
-- Run an integration smoke after each business-flow level merges to the integration branch. Defer the full device, emulator, simulator, browser, and desktop runtime matrix until final integration after all module/page tasks and required high-fidelity restoration are complete. Task-level screenshots or goldens are design evidence only.
+- Run representative startup/routing/plugin smoke after shared foundations, primary-target runtime smoke after critical business flows, and the complete platform matrix at final integration/release. Task-level evidence proves only its named coverage; never auto-start physical-device acceptance.
 - Every task requires executed F0 verification output before F1 triage or F2 specialist review.
 
 ## Module Map
@@ -54,6 +54,11 @@
 ### M2: Core Data and Services
 
 - Goal:
+- API contract/version and ownership:
+- Auth/permissions; idempotency/retry/timeout:
+- Migration/rollback and client compatibility:
+- Service tests, deployment/monitoring, backup/recovery (when service implementation is in scope):
+- External dependency/boundary (when service implementation is out of scope):
 - Tasks:
 - Verification:
 
@@ -91,5 +96,5 @@
 
 ## Task List
 
-| ID | Risk | Business-flow level | Module | Task | Depends on and prior-level evidence | Write scope | Parallel worktree (conditional) | Design gate | Verification | UI evidence |
-|---|---|---|---|---|---|---|---|---|---|---|
+| ID | Risk | Business-flow level | Module | Task | Depends on and prior-level evidence | Write scope | Explicit parallel authorization (conditional) | API/service condition | Design gate | Verification and smoke layer | UI evidence |
+|---|---|---|---|---|---|---|---|---|---|---|---|

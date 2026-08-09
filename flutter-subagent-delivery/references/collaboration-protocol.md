@@ -1,38 +1,36 @@
-# 并行写入协作协议
+# 协作协议
 
-本协议只用于多个可写分支必须同时执行的任务。普通、高风险和发布任务如果顺序执行，使用普通分支或 PR，不创建任务状态或 worktree。
+## 默认拓扑
 
-## 隔离与所有权
+- 默认单写者、普通分支、顺序交接；风险等级只改变审核深度。
+- 互不依赖的探索和 F2 审核可并行，但全部只读。
+- 只有用户明确要求并行写入或 worktree 时，Controller 才能安排多个写入者或创建 worktree。
 
-- Controller 先确认集成分支和共同基线，再创建并行任务。
-- 每个写入者使用一个 `codex/<task-id>` 分支、一个持续复用的 worktree 和一个互不重叠的写范围。
-- 依赖、路由、主题、代码生成配置、共享状态容器和 `docs/design/app-design.pen` 必须串行并由唯一写入者负责。
-- 只读探索和独立审查可以并行，不需要 worktree 或任务状态。
+## 显式并行写入
 
-## 状态与派发
+- Controller 先确认集成分支、共同基线 SHA、互斥写范围和项目原生验证命令。
+- 每个写入者使用普通任务分支；只有用户明确要求 worktree 时才创建，并持续复用到任务结束。
+- 依赖、路由、主题、代码生成、共享状态、API 契约、数据库迁移和 `docs/design/app-design.pen` 均须单写者串行负责。
+- 使用 `docs/tasks/<task-id>/brief.md` 交接目标、边界、分支、验收和命令；不创建 YAML/JSON 状态、租约或自动化状态机。
 
-Controller 是 `.codex-workflow/tasks/<task-id>.yaml` 和 `.codex-workflow/progress.md` 的唯一写入者。状态按 `planned → claimed → implementing → reviewing` 迁移；阻塞时使用 `blocked`，修复后返回 `implementing`。
+## 审核记录
 
-派发前记录风险、租约、共同基线、分支、worktree、唯一写范围和验证状态，并运行 `scripts/validate-task-state.py`。状态文件保持未提交；任务分支不得携带它。范围、权威输入、非目标和验证命令留在任务简报，不复制到状态文件。
+1. 实现者完成 F0 并返回候选 SHA、变更文件和命令证据。
+2. Controller 完成 F1，并把候选 SHA、路由和证据引用写入需要持久记录的 `docs/tasks/<task-id>/review.md`。
+3. F2 审阅者只读候选，返回通道、覆盖事实、发现、缺失证据、开放问题和结论；不得直接修改共享 `review.md`。
+4. Controller 是 `review.md` 唯一写入者，负责引用审阅结论、记录候选变更导致的失效，并在 F3 收敛。
 
-## 验证与审查
+## 集成
 
-1. 实现者在固定 worktree 中完成静态检查、相关测试、审计命令和已知回归夹具。
-2. 确定性检查未通过时保持 `implementing`，不创建正式审查快照。
-3. 检查通过后提交候选并转为 `reviewing`。
-4. 所需审查针对同一候选并行执行，结论写入 `docs/tasks/<task-id>/review.md` 的具名小节。
-5. 修复继续使用原 worktree，并只重新派发覆盖受影响事实的审阅者。选择规则见 [task-risk-tiers.md](task-risk-tiers.md)。
-
-## 集成与清理
-
-- 所有必需审查批准候选后，Controller 在集成分支运行 `finalize-task.py <state> --repository <工作目录> --integration-branch <分支>`。
-- 脚本只确认 worktree、候选提交、共同基线和 `git diff --check`，然后合并、删除本地 worktree 与任务分支，并删除运行期状态文件。
-- 合并冲突会触发 `git merge --abort`；任务所有者在原 worktree 修复后重试。
-- 推送、PR 和远端分支清理由正常授权流程处理，不属于本地收尾脚本。
-- 完成后在 `review.md` 或账本记录合并与业务流冒烟，再删除已完成任务的账本行。
+- 只走标准 Git、PR 和 CI，不根据 Markdown 自动合并，也不自动删除分支/worktree。
+- 合并前检查当前分支、已批准候选 SHA、干净工作区、`git diff --check`、必需测试/CI、必需审核结论和合并授权。
+- 冲突返回相应任务分支，由范围所有者解决并重新执行受影响的 F0/F1/F2。
 
 ## 验证层级
 
-- 任务：静态分析、相关测试、任务审计脚本、回归夹具、必要的截图或 golden。
-- 业务流等级：合并后执行集成冒烟。
-- 最终集成或发布：执行 `docs/architecture/verification-platforms.md` 的完整平台矩阵。
+- 任务 F0：项目原生静态分析、相关测试、构建/审计、迁移检查和已知回归夹具。
+- 共享基础完成：代表性目标上的启动、路由和插件烟测。
+- 关键业务流完成：主目标平台运行烟测。
+- 最终集成或发布：`docs/architecture/verification-platforms.md` 的完整平台矩阵。
+
+早期烟测和任务级截图只能证明其明确覆盖的事实，不能宣称平台全量通过。不得自动发起真机验收。

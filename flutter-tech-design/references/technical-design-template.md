@@ -2,90 +2,90 @@
 
 ## Context
 
-- Product:
-- MVP:
-- App type:
-- Verification platform scope: `docs/architecture/verification-platforms.md`
+- Product / MVP:
+- App and service type:
+- Verification platforms: `docs/architecture/verification-platforms.md`
+- Server implementation responsibility: In scope / Out of scope; owner and boundary:
 
 ## Architecture Decisions
 
 | Area | Decision | Reason | Rejected alternatives |
 |---|---|---|---|
-| State management | | | |
+| State and dependency injection | | | |
 | Routing | | | |
 | Persistence | | | |
 | Networking | | | |
-| Auth | | | |
+| Auth and permissions | | | |
 | Payments | | | |
-| Analytics | | | |
-| Crash reporting | | | |
-| Fixed Flutter stack | Riverpod, hooks, Freezed, fpdart, json generation, ScreenUtil | | |
-| Code generation | Freezed/json annotations plus build_runner | | |
+| Analytics / crash / logs | | | |
+| Environment / secrets | | | |
+
+## Dependency Capability Profiles
+
+Delete unused rows. Quality review checks only adopted items.
+
+| Profile | Package(s) | Capability requiring it | Rejected lighter option | Risk/maintenance notes |
+|---|---|---|---|---|
+| Core | | | | |
+| Data/API | | | | |
+| Complex domain | | | | |
+| UI token | | | | |
 
 ## Module Boundaries
 
-| Module | Responsibility | Route ownership | State owner | Data owner | External dependencies |
+| Module | Responsibility | Route owner | State owner | Data owner | External dependencies |
 |---|---|---|---|---|---|
 
 ## Cross-Module Contracts
 
-| Contract | Provider | Consumer | Data or event | Failure mode |
-|---|---|---|---|---|
+| Contract | Provider | Consumer | Data/event | Version | Failure behavior |
+|---|---|---|---|---|---|
 
-## Shared Foundations
+## API / Service Contract
 
-- Design system:
-- Routing shell:
-- Auth/session:
-- Error model:
-- Analytics/crash reporting:
-- Test utilities:
+If service implementation is out of scope, keep only dependency, owner, assumptions, compatibility and escalation boundaries.
 
-## Data Model
+- Contract source and versioning policy:
+- Request/response/error schema:
+- Authentication and authorization:
+- Idempotency, retry, timeout and rate limits:
+- Client compatibility and deprecation window:
+- External owner / availability dependency:
 
-| Entity | Owner | Persistence | Privacy sensitivity |
-|---|---|---|---|
+## Data, Migration And Recovery
+
+| Entity/store | Owner | Persistence | Privacy | Migration | Rollback | Backup/recovery |
+|---|---|---|---|---|---|---|
+
+## Service Delivery (Conditional)
+
+- Service unit/integration/contract tests:
+- Migration rehearsal and rollback verification:
+- Deployment environments and rollout:
+- Monitoring, logs, metrics, traces and alerts:
+- Backup restore test and recovery objectives:
 
 ## Error Handling
 
-- Network:
-- Auth:
-- Payment:
-- Offline:
-- Data corruption:
+- Network/auth/payment/offline/data-corruption behavior:
+- Retry safety and duplicate prevention:
+- User recovery and support escalation:
 
-## Environment and Secrets
+## Testing And Verification
 
-- Dev:
-- Staging:
-- Production:
-- Secret handling:
-
-## Flutter Init
-
-- `flutter-project-init` required: Yes / No
-- Generated `flutter-dev` path:
-- Flutter environment: FVM
-- Fixed stack deviations:
-- Approved package additions:
-
-## Testing Strategy
-
-- Unit:
-- Widget:
-- Golden:
-- Integration:
-- Level integration smoke target and command:
-- Runtime platform validation timing: final platform matrix only, after all module/page functionality and high-fidelity restoration are complete
-- Manual release checks:
+- Unit / widget / golden / integration:
+- API contract and service tests:
+- Foundation startup/routing/plugin smoke:
+- Critical-flow primary-target runtime smoke:
+- Final platform matrix: `docs/architecture/verification-platforms.md`
+- Manual physical-device acceptance: user-authorized only
 
 ## Verification Commands
 
-- `fvm flutter analyze`
-- `fvm flutter test`
-- `fvm flutter test integration_test`
+- Project-native analysis/test/build commands:
+- Contract/migration/service commands when in scope:
 
 ## Risks
 
-| Risk | Mitigation |
-|---|---|
+| Risk | Owner | Mitigation / rollback |
+|---|---|---|

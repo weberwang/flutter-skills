@@ -25,7 +25,7 @@ When used inside `flutter-app-orchestrator`, dispatch Product/UX, Global directi
 8. After low-fidelity structure is reviewed, use `flutter-hifi-mockup` for the concrete page. On confirmation, persist the exact selected image first in `.codex-workflow/visuals/pages/<page-name>/`, then write one page `design-decision.md`.
 9. After page-level high-fidelity approval and a page design decision, use `flutter-asset-atlas` when required visual assets need reuse checks, generation, background transparentization, slicing, export, inventory, or fidelity review.
 10. After required asset-manifest evidence exists, use `flutter-pencil-design` for high-fidelity Pencil restoration when editable visual handoff is required.
-11. Implement the screen against `docs/design/ui-spec.md`, the page `design-decision.md`, [references/responsive-layout-strategy.md](references/responsive-layout-strategy.md), and its `asset-manifest.md` when present. Use constraints and semantic anchors for structure; do not use ScreenUtil as a responsive layout engine.
+11. Implement the screen against `docs/design/ui-spec.md`, the page `design-decision.md`, [references/responsive-layout-strategy.md](references/responsive-layout-strategy.md), and its `asset-manifest.md` when present. Use constraints and semantic anchors for structure; if ScreenUtil is adopted, never use it as a responsive layout engine.
 12. Capture evidence using screenshots, golden tests, or integration screenshots at the contract's risk-selected viewports, including both sides of each structural breakpoint when applicable.
 13. Review evidence with [references/visual-qa-rubric.md](references/visual-qa-rubric.md) and the evidence matrix in [references/responsive-layout-strategy.md](references/responsive-layout-strategy.md), then run an independent visual-QA review for user-facing flows.
 14. Fix Critical and Important issues, then repeat evidence capture and audit when the UI flow changed.
@@ -37,7 +37,7 @@ When used inside `flutter-app-orchestrator`, dispatch Product/UX, Global directi
 - Build reusable primitives for buttons, text fields, scaffold, empty state, error state, and loading skeletons.
 - Use real user content examples. Avoid generic fake names and filler content.
 - Define a page-level layout/adaptation contract before high-fidelity handoff: target widths, structural breakpoints, maximum content width, columns/gutters, semantic anchors, scroll owner, docking behavior, system/keyboard avoidance, and overflow/localization strategy.
-- Prefer parent constraints (`LayoutBuilder`, `MediaQuery` size/insets, `Flexible`/`Expanded`/`Wrap`/`ConstrainedBox`) for responsive structure. `ScreenUtil` is limited to root initialization and shared size tokens; it must not decide columns, navigation, scroll ownership, or global proportional scaling.
+- Prefer parent constraints (`LayoutBuilder`, `MediaQuery` size/insets, `Flexible`/`Expanded`/`Wrap`/`ConstrainedBox`) for responsive structure. When the UI-token dependency profile adopts ScreenUtil, limit it to root initialization and shared size tokens; it must not decide columns, navigation, scroll ownership, or global proportional scaling.
 - Test at the risk-selected small phone, breakpoint edges, tablet/expanded view, and large text scale; add landscape, keyboard, foldable, or split-screen evidence when the contract says they are in scope.
 - Treat visual quality as task clarity, system consistency, reliable feedback, and recognizable product character at the strength required by the visual expression preset. Decorations, gradient, shadow, texture, illustration, unconventional composition, or motion is allowed when it reinforces hierarchy, state, storytelling, or brand character within the page-type budget; require purpose and preset fit, not visual austerity.
 
@@ -48,7 +48,7 @@ When used inside `flutter-app-orchestrator`, dispatch Product/UX, Global directi
 - Missing or untestable layout/adaptation contract (breakpoints, relative anchors, max width/columns/gutters, scroll owner, docking, or system avoidance).
 - Layout only verified on one viewport, or evidence shows a scaled desktop/mobile composition instead of the contracted structural change.
 - Fixed, pinned, or floating elements obscure content, keyboard focus, SafeArea, or gesture regions; nested scroll has no explicit owner.
-- ScreenUtil is used as the responsive layout engine, or absolute coordinates are used for the primary page structure without a documented constraint reason.
+- An adopted ScreenUtil setup is used as the responsive layout engine, or absolute coordinates are used for the primary page structure without a documented constraint reason.
 - A high-risk or exploratory page generates high-fidelity effects before its required semantic review.
 - A high-value page starts implementation without the page-level visual evidence selected by its risk tier.
 - Module page order contradicts the primary user flow or skips required transition states.

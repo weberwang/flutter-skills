@@ -28,10 +28,11 @@ Always cover:
 - Export compliance and encryption declaration.
 - iOS entitlements, Android permissions, and manifest disclosures.
 - Data collection disclosures consistent with runtime analytics, crash, ads, and payment SDK behavior.
+- API/service contract version compatibility, auth/permission controls, idempotent retry behavior, migration rollback, service tests, deployment monitoring, backup restore and recovery evidence when applicable. If server implementation is externally owned, verify only the recorded dependency, owner, compatibility and release boundary.
 - Accessibility, localization, network failures, and offline behavior.
 - Release build verification commands.
 - The global verification platform scope and its required release evidence.
-- Final device, emulator, simulator, browser, or desktop runtime validation after all modules/pages and high-fidelity restoration are complete.
+- Earlier foundation startup/routing/plugin smoke and critical-flow primary-target smoke are present without being overstated; final device/emulator/simulator/browser/desktop matrix is complete for release scope.
 
 ## Verification Commands
 
@@ -45,7 +46,7 @@ Select commands that match the app:
 - `fvm flutter build ios --release`
 
 Do not claim a platform build passed unless the command was run and output was observed.
-Use `docs/architecture/verification-platforms.md` as the sole source of truth for platform scope. Run and record its in-scope runtime validation only after all modules/pages and high-fidelity restoration are complete. Do not claim a platform is release-ready unless its required build, final runtime smoke, store, and privacy evidence exists. Mark unsupported platforms there as `N/A: <reason>`.
+Use `docs/architecture/verification-platforms.md` as the sole source of truth. Earlier smoke should already cover shared foundations and critical flows; release executes and records the complete in-scope matrix. Do not claim a platform release-ready unless required build, final runtime smoke, store, privacy and applicable service evidence exists. Never automatically start physical-device acceptance.
 
 ## Output
 
@@ -59,4 +60,4 @@ Produce:
 
 ## Gate
 
-Do not approve the Release lane while any store, privacy, account, payment, crash reporting, or release build blocker remains unresolved. Release-lane approval does not itself complete F3: QA and technical verdicts, any triggered Product or visual verdict, PR/CI evidence, and explicit external-release authorization remain required.
+Do not approve the Release lane while any store, privacy, account, payment, crash reporting, API/service rollout/recovery, or release build blocker remains unresolved. Release-lane approval does not itself complete F3: QA and technical verdicts, any triggered Product or visual verdict, PR/CI evidence, and explicit external-release authorization remain required.

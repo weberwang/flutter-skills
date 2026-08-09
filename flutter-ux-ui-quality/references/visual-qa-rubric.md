@@ -47,7 +47,7 @@ Report by severity:
 - Each scroll axis has an understandable owner; intentional nested scrolling does not trap gestures or focus.
 - Large text, long localized strings, RTL where applicable, landscape, and split/fold layouts do not clip or hide the primary action.
 - System bars, keyboard insets, hinge/display-feature bounds, and bottom gesture regions do not cover content.
-- ScreenUtil sizing tokens do not substitute for constraint-driven structure.
+- When adopted, ScreenUtil sizing tokens do not substitute for constraint-driven structure.
 - No generic AI UI tells: random gradients, fake metrics, filler avatars, inconsistent card shapes.
 - Decorations, gradients, shadows, textures, and motion have a stated hierarchy, feedback, or brand purpose; they do not compete with content or primary actions.
 - The screen meets the active visual expression preset and page-type budget: full-budget or wow-required pages show a restatable signature; dial-down pages stay clearer without abandoning system consistency.

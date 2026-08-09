@@ -58,6 +58,15 @@ Complete only when visual scope, page budget, signature strength, or implementat
 | Contract | Provider | Consumer | Data or event | Failure behavior | Required before |
 |---|---|---|---|---|---|
 
+## API / Service Boundary (Conditional)
+
+- Service implementation owner or external dependency:
+- Contract/version and client compatibility:
+- Auth/permissions; idempotency/retry/timeout:
+- Migration/rollback:
+- Service/contract tests:
+- Deployment/monitoring and backup/recovery:
+
 ## Module Acceptance Path
 
 - Start state:

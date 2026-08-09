@@ -65,5 +65,5 @@ confirmed product decisions
 - Require `DONE`, `DONE_WITH_CONCERNS`, `NEEDS_CONTEXT`, or `BLOCKED`; the controller validates the result before advancing.
 - Never let concurrent agents write the same artifact, Pencil frame, asset path, design freeze, ledger entry, theme, navigation, or shared configuration.
 - Treat `docs/design/app-design.pen` as one shared write scope: serialize every Page structure, Pencil restoration, or asset-synchronization writer even when node assignments do not overlap.
-- Parallelize only read-only research/review or independent page/asset scopes after their shared freeze exists.
+- Parallelize read-only research/review when independent. Parallel page/asset writers require explicit user authorization, an accepted shared freeze, and disjoint paths.
 - When subagents are unavailable, execute the same roles sequentially in the controller session and record the downgrade; do not silently collapse the role boundaries.
