@@ -20,4 +20,3 @@
 1. 重新运行验证器，确认规格与实现登记一致；确保每个 invariant 的 test id 被矩阵 case 实际执行。
 2. 验证可达、无截断、无遮挡、触控尺寸、滚动到末项、键盘聚焦和结构断点变化。
 3. 记录 `layout-spec.yaml`、validator 输出、关系测试命令和证据路径，交给 `flutter-implementation-plan` 与 `flutter-quality-review`；不得把 Markdown 当运行时状态。
-
