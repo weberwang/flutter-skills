@@ -53,7 +53,10 @@ Coordinate Flutter delivery with the smallest process that protects the current 
 2. Generate one page candidate when direction is clear. Generate two or three only when the user requests exploration, the direction is unresolved, or materially different design tradeoffs need comparison.
 3. Require an independent effect-image review only for high-value, high-risk, or exploratory pages. The Controller records the user's selection and freezes the selected image.
 4. Run bitmap decomposition, asset planning/production, and Pencil restoration only when the selected design actually requires those outputs. Before bitmap production, show the user only a confirmation copy of the frozen page with every proposed bitmap boxed and numbered; do not output the internal asset table, mapping, dimensions, or production notes. Record durable mapping and confirmation facts privately in the page asset manifest.
-5. Use `flutter-quality-review` for screenshot or golden-based visual acceptance. External product-design tooling is optional and must never be a workflow dependency unless the user explicitly requests it.
+5. Before page coding, invoke `adaptive-layout-implementation`; turn `design-decision.md`/`ui-spec.md` into `docs/design/pages/<page-name>/layout-spec.yaml`, run its validator, and block implementation until the specification passes.
+6. Implement the screen against the validated `layout-spec.yaml`, `docs/design/ui-spec.md`, the page `design-decision.md`, and its `asset-manifest.md` when present. Use constraints and semantic anchors for structure; if ScreenUtil is adopted, never use it as a responsive layout engine.
+7. Capture evidence using screenshots, golden tests, or integration screenshots at the layout specification's viewports, including both sides of each structural breakpoint when applicable.
+8. Use `flutter-quality-review` for screenshot or golden-based visual acceptance and provide the layout-spec validator result and relation-test evidence. External product-design tooling is optional and must never be a workflow dependency unless the user explicitly requests it.
 
 ### Integration And Release
 

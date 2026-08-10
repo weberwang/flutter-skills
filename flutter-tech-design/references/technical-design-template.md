@@ -36,6 +36,15 @@ Delete unused rows. Quality review checks only adopted items.
 | Module | Responsibility | Route owner | State owner | Data owner | External dependencies |
 |---|---|---|---|---|---|
 
+## Adaptive Layout Infrastructure
+
+- Shared breakpoint resolver and content-constraint policy:
+- Page container / maximum width / columns / gutter primitives:
+- Scroll-owner and nested-scroll policy:
+- Fixed, floating, pinned and docked primitives with occlusion padding:
+- SafeArea, system-bar, keyboard, fold and split-screen inset policy:
+- Layout-spec location and validator command:
+
 ## Cross-Module Contracts
 
 | Contract | Provider | Consumer | Data/event | Version | Failure behavior |

@@ -17,7 +17,8 @@ Create the smallest practical technical design that supports the approved produc
 4. Define module/data ownership and cross-module contracts.
 5. For APIs/services, define contract and versioning, authentication/authorization, idempotency/retry/timeout, migration/rollback, service tests, deployment/monitoring, backup/recovery, and client compatibility. If server implementation is out of scope, record only external dependencies, owners, assumptions, and client boundaries.
 6. Define layered platform verification: foundation startup/routing/plugin smoke; primary-target runtime smoke after critical business flows; complete platform matrix at final integration/release. Never auto-start physical-device acceptance.
-7. Write `docs/architecture/technical-design.md` with [references/technical-design-template.md](references/technical-design-template.md) and `docs/architecture/verification-platforms.md` with [references/verification-platforms-template.md](references/verification-platforms-template.md).
+7. Define the shared breakpoint resolver, constrained page container, scroll-owner policy, docking/overlay primitives, and system-inset/keyboard infrastructure that page layout specs will consume. Do not reimplement these decisions independently in each page.
+8. Write `docs/architecture/technical-design.md` with [references/technical-design-template.md](references/technical-design-template.md) and `docs/architecture/verification-platforms.md` with [references/verification-platforms-template.md](references/verification-platforms-template.md).
 
 ## Dependency Capability Bias
 

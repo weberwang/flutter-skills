@@ -6,6 +6,7 @@ const path = require("path");
 const SKILL_NAMES = [
   "grilling",
   "flutter-app-orchestrator",
+  "adaptive-layout-implementation",
   "flutter-product-spec",
   "flutter-ux-ui-quality",
   "flutter-hifi-mockup",

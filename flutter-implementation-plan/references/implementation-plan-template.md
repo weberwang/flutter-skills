@@ -7,6 +7,7 @@
 - Use the generated project-local `flutter-dev` skill for implementation tasks.
 - Do not add features outside MVP scope.
 - UI tasks require screenshot or golden evidence.
+- UI page tasks require a validated `docs/design/pages/<page-name>/layout-spec.yaml`, its validator command/result, relation invariants, and parameterized test matrix; screenshots/goldens do not replace these implementation inputs.
 - UI page tasks require only the design evidence selected by page and task risk. Complex or high-risk pages may require wireframe review, high-fidelity freeze, assets, or Pencil handoff; ordinary reuse work may rely on the approved UI spec and page decision.
 - Module and page tasks must follow `docs/plans/module-map.md` for business-flow levels, module dependencies, cross-module contracts, and page interaction order. Finish and verify each level before starting the next. Default to one writer and sequential execution; only read-only work may parallelize unless the user explicitly authorizes parallel writing/worktrees.
 - Treat the cross-module task list as provisional until the current module becomes eligible. Audit existing decisions, run grilling only for material unresolved choices, then refine functions, states, acceptance paths, and task briefs.
@@ -96,5 +97,5 @@
 
 ## Task List
 
-| ID | Risk | Business-flow level | Module | Task | Depends on and prior-level evidence | Write scope | Explicit parallel authorization (conditional) | API/service condition | Design gate | Verification and smoke layer | UI evidence |
-|---|---|---|---|---|---|---|---|---|---|---|---|
+| ID | Risk | Business-flow level | Module | Task | Depends on and prior-level evidence | Layout spec / invariants | Write scope | Explicit parallel authorization (conditional) | API/service condition | Design gate | Verification and smoke layer | UI evidence |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|

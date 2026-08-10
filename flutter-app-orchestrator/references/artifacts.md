@@ -24,6 +24,7 @@
 | 条件 | 工件 | 必须包含 |
 |---|---|---|
 | 页面有 UI 决策 | `docs/design/pages/<page-name>/design-decision.md` | 语义契约、线框级别/审阅、冻结图 ID/哈希、偏差、Pencil 决定与交接约束 |
+| 页面需要自适应布局实施 | `docs/design/pages/<page-name>/layout-spec.yaml` | 实施输入：目标视口、语义锚点、尺寸/断点、内容容器、系统避让、滚动/停靠、文本增长、不变量和参数化关系测试矩阵；不是运行时状态或合并信号 |
 | 页面有固定视觉资产 | `docs/design/pages/<page-name>/asset-manifest.md` | 资产来源、许可、生产/背景/切图决定、Flutter 路径和保真结论 |
 | 需要可编辑 Pencil 交接 | `docs/design/app-design.pen` | 稳定页面/节点 ID；详情链接页面设计决策 |
 | 页面冻结 | `.codex-workflow/visuals/pages/<page-name>/frozen-<slug>.png` | 唯一选中原图 |

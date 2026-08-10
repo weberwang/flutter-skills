@@ -54,6 +54,7 @@ npx -y github:weberwang/flutter-skills
 ## 包含的 Skills
 
 - `flutter-app-orchestrator`: 主流程编排入口。
+- `adaptive-layout-implementation`: 页面编码前的通用自适应布局规格、约束实施和参数化关系测试工作流。
 - `flutter-product-spec`: 产品目标、MVP、用户故事。
 - `flutter-ux-ui-quality`: 全局 UX/UI、状态覆盖、视觉质量门禁。
 - `flutter-hifi-mockup`: 高保真效果图生成、评审、冻结。

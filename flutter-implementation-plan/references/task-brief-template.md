@@ -32,6 +32,7 @@ No YAML/JSON workflow state or automatic merge is created even when this section
 ## Canonical Inputs
 
 - Product / design / technical / module references:
+- Layout implementation specification: `docs/design/pages/<page-name>/layout-spec.yaml`
 - API contract and version:
 - Candidate design/asset evidence:
 
@@ -51,6 +52,8 @@ No YAML/JSON workflow state or automatic merge is created even when this section
 - Functional and failure-state criteria:
 - API/service criteria when applicable:
 - UI evidence when applicable:
+- Layout-spec validator command and result:
+- Relation invariants and parameterized test matrix / test ids:
 - Security/privacy/data criteria when applicable:
 
 ## Verification

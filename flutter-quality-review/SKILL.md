@@ -17,6 +17,7 @@ Select only the inputs required by F1 or the assigned F2 lane:
 - Project-local `flutter-dev` implementation constraints.
 - Module map and implementation plan.
 - Page high-fidelity mockup frozen under `.codex-workflow/visuals/pages/<page-name>/`, plus its `design-decision.md` and global freeze.
+- Page implementation input `docs/design/pages/<page-name>/layout-spec.yaml`, the deterministic validator result, and parameterized relation-test evidence when layout-sensitive UI changed.
 - Page `asset-manifest.md` when illustrations, bitmaps, logos, photos, textures, generated assets or visual exports are present.
 - `design-decision.md` Pencil decision, frame/node IDs, restoration evidence and handoff constraints when Pencil is present.
 - Technical design or relevant architecture decisions.
