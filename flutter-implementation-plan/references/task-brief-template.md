@@ -45,6 +45,21 @@
 - Pencil 节点 ID：`docs/design/app-design.pen`
 - 冻结图：`.codex-workflow/visuals/pages/<page-name>/...`
 
+## 响应式布局契约（UI 任务必填）
+
+- 权威契约路径 / 版本：`flutter-ux-ui-quality/references/responsive-layout-strategy.md` / `1.1`
+- 页面契约路径 / 版本：
+- 区域树与布局实现映射完整性（区域 ID → 父约束 → Flutter 原语 → 尺寸模式 → 回退）：`100%` / 阻塞项：
+- 结构断点（可验证触发条件 → 结构变化 → 状态保持 → 回退）：
+- 允许叠层白名单（区域、中文原因、边界、命中区、遮挡 padding、无叠层回退）：无 / 已列明：
+- 禁止坐标声明：禁止把基准画布 `x/y/left/top`、比例坐标或全坐标 `.w/.h` 直译进实现：
+- 具体视口矩阵（逻辑宽×高、方向、文字比例、状态、键盘/inset、预期结构）：
+- 大字体 / 长文本 / 本地化或 RTL 证据：
+- 键盘 / SafeArea / 系统栏 / 手势区证据：
+- Widget / Golden / 响应式审计命令：
+- flutter-quality-review skill 实际目录（由 UI 预检解析，不假设安装位置）：
+- 缺少以上任一契约或仅提供单张图时：实现者必须返回 `NEEDS_CONTEXT`，不得猜测。
+
 ## 验收
 
 - 功能与状态：
@@ -53,6 +68,7 @@
 - 验证命令：
   - `fvm flutter analyze`
   - `fvm flutter test <相关目标>`
+  - `python <flutter-quality-review skill 目录>/scripts/audit-responsive_layout.py <Flutter 仓库> --task-brief <本文件> --page-decision <页面决策>`（UI 任务；实际 skill 目录由预检填写）
 - 已知回归夹具：
 - 审查就绪条件：以上确定性检查全部实际通过
 

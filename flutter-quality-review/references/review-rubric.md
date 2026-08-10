@@ -7,6 +7,7 @@
 - Required states and flows exist.
 - Product assumptions are not silently changed.
 - Task follows `docs/plans/module-map.md` for business-flow level, module dependency order, cross-module contracts, and page interaction order.
+- UI task preflight records `flutter-ux-ui-quality/references/responsive-layout-strategy.md@1.1` and the project-local `flutter-dev` version consistently; a missing or mismatched version blocks acceptance.
 - No task started before all required tasks, acceptance paths, and cross-module contracts of its preceding business-flow level passed or were explicitly accepted.
 - Cross-module contracts are implemented before dependent UI or service work consumes them.
 - Module acceptance path and integration smoke path are preserved or updated when module behavior changes.
@@ -49,11 +50,13 @@
 - Implemented UI respects the page decision's Pencil section when Pencil carries high-fidelity visual restoration.
 - Raw Pencil screenshots are not used as the sole implementation spec.
 - A page-level layout/adaptation contract records target ranges, structural breakpoint triggers, max width, columns/gutters, relative anchors, overflow/localization behavior, scroll ownership, docking, and system/keyboard avoidance; low fidelity and a frozen screenshot do not substitute for it.
+- The contract also records a semantic region tree, complete region-to-primitive mapping, size modes, flow/overlay boundaries, allowed overlay whitelist with Chinese reasons, prohibited coordinate translation, and a concrete viewport × state × text-scale × keyboard/SafeArea matrix. Mapping coverage is `100%` before handoff.
 - Layout works on the contract's target viewports and both sides of each applicable structural breakpoint; evidence verifies structural change rather than proportional scaling.
 - Fixed, pinned, and floating elements document scroll direction, occlusion padding, hit target, SafeArea/gesture inset, keyboard behavior, and narrow-height fallback; no content or focused field is covered.
 - SafeArea, system bars, keyboard `viewInsets`, fold/hinge display features, and split-screen constraints are handled at the right boundary and are represented in evidence when in scope.
 - Each scroll axis has a clear owner; nested scrolling is intentional, documented, and does not trap gestures or accessibility focus.
 - ScreenUtil is limited to root initialization and shared sizing tokens. Columns, navigation, max width, scrolling, and structural decisions come from constraints/`LayoutBuilder`/`MediaQuery`, not global proportional scaling or scattered size checks.
+- The responsive audit reports no primary-layout absolute positioning, proportional coordinates, whole-page `FittedBox`, all-coordinate `.w/.h`, fixed-height variable text, cached startup dimensions, or scattered breakpoints; true overlays have a narrow Chinese-reasoned exemption and fallback.
 - Empty, loading, error, success, disabled, and permission-denied states are covered where relevant.
 - CTA hierarchy is clear.
 - The first-value path is understandable, and the user sees applicable privacy, payment, permission, or recovery conditions before a high-friction or irreversible step.

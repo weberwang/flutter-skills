@@ -52,6 +52,7 @@ Do not dispatch a controlled multi-agent task without a DRI, required independen
 
 - Enable Backend/Data for API, account, auth, payment, cloud sync, remote data, schema, migration, server analytics, or service observability work. Do not record it when the App is verified local-only.
 - Enable UX/UI for any user-visible structure, copy hierarchy, interaction, state, visual, asset, or accessibility change.
+- New pages, page restoration, structural breakpoint changes, and other user-visible layout changes are at least `standard` and trigger the Visual QA lane. The lane reads the page decision and responsive contract, then checks both breakpoint sides, relative anchors, coordinate translation, keyboard, SafeArea, and the declared viewport matrix.
 - Enable Tech Lead for architecture, shared foundations, cross-module contracts, dependency changes, security/privacy risk, migrations, performance budgets, or integration decisions.
 - Enable QA before implementation planning when acceptance or regression scope must be defined. During review, use QA for behavior/acceptance changes, `high`/`release` requirements, or F1 assistance rather than as an automatic all-purpose reviewer.
 - Enable DevOps/Release during technical design when environments, CI/CD, signing, store distribution, observability, rollout, or rollback are in scope; it owns the Release Gate.

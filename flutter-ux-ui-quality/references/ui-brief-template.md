@@ -65,8 +65,13 @@
 
 ## Layout Requirements
 
+- Responsive contract path / version: `flutter-ux-ui-quality/references/responsive-layout-strategy.md@1.1`
+- Region tree (region ID, parent/child and sibling order, content/data/fixed-asset ownership):
+- Layout implementation mapping (region ID → parent constraint → Flutter primitive → size mode → fallback):
+- Mapping completeness: `100%` / blocking unresolved regions:
 - Target viewport range(s) and orientation:
 - Layout class / breakpoint trigger(s) used by this page:
+- Concrete structural breakpoint matrix (trigger, structure change, state preservation, fallback, both-side evidence viewports):
 - Content max width / edge insets / columns / minimum column width / gutter:
 - Relative anchors and constraints (what is aligned to what, gap token, wrap/collapse rule):
 - Small phone structure and fallback:
@@ -75,12 +80,15 @@
 - Navigation structure at each applicable class:
 - Flow elements (participate in document scroll):
 - Docked elements (fixed / pinned / floating; anchor, occlusion padding, hide/show rule):
+- Allowed overlay whitelist (region, Chinese reason, bounds, hit target, occlusion padding, no-overlay fallback):
+- Prohibited coordinate declaration: design/Pencil canvas `x/y/left/top` and proportional coordinates never enter implementation:
 - Scroll owner per axis and any intentional nested scroll:
 - SafeArea, system bar, gesture inset, fold/split avoidance:
 - Keyboard behavior (resize, scroll-to-focus, docked CTA transformation):
 - Large text / long content / localization / RTL behavior:
 - Overflow policy (wrap, truncate with accessible alternative, collapse, or explicit scroll):
-- Required evidence viewports, text scale, states, and interaction traces:
+- Required evidence viewports, text scale, states, keyboard/SafeArea/system inset, and interaction traces:
+- Widget / Golden / responsive-audit commands:
 
 ## Visual Direction
 

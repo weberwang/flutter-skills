@@ -7,6 +7,7 @@
 - Use the generated project-local `flutter-dev` skill for implementation tasks.
 - Do not add features outside MVP scope.
 - UI tasks require screenshot or golden evidence.
+- UI tasks require a complete responsive contract (`flutter-ux-ui-quality/references/responsive-layout-strategy.md` v1.1): region tree, implementation mapping, structural breakpoints, overlay whitelist, prohibited coordinate translation, concrete viewport matrix, large-text/long-content/keyboard/SafeArea evidence, and Widget/Golden/audit commands. Missing contract or a single image is `NEEDS_CONTEXT`.
 - UI page tasks require only the design evidence selected by page and task risk. Complex or high-risk pages may require wireframe review, high-fidelity freeze, assets, or Pencil handoff; ordinary reuse work may rely on the approved UI spec and page decision.
 - Module and page tasks must follow `docs/plans/module-map.md` for business-flow levels, module dependencies, cross-module contracts, and page interaction order. Finish and verify each level before starting the next; parallel work is limited to explicitly parallel-safe tasks in the same level.
 - Treat the cross-module task list as provisional until the current module becomes eligible. Audit existing decisions, run grilling only for material unresolved choices, then refine functions, states, acceptance paths, and task briefs.
@@ -91,5 +92,5 @@
 
 ## Task List
 
-| ID | Risk | Business-flow level | Module | Task | Depends on and prior-level evidence | Write scope | Parallel worktree (conditional) | Design gate | Verification | UI evidence |
+| ID | Risk | Business-flow level | Module | Task | Depends on and prior-level evidence | Write scope | Parallel worktree (conditional) | Design gate / responsive contract | Verification (Widget/Golden/audit) | UI evidence / viewport matrix |
 |---|---|---|---|---|---|---|---|---|---|---|

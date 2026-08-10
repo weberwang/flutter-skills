@@ -24,6 +24,7 @@ Select only the inputs required by F1 or the assigned F2 lane:
 - Test commands and outputs.
 - Global `docs/architecture/verification-platforms.md`, final-integration platform evidence when reviewing final delivery, and screenshots or golden evidence for UI changes.
 - Named Visual QA section when visual risk or acceptance requires independent visual review.
+- Responsive contract source: `flutter-ux-ui-quality/references/responsive-layout-strategy.md@1.1`, the page decision's region tree and layout implementation mapping, and the task brief's concrete viewport matrix.
 
 ## Rubric
 
@@ -39,6 +40,7 @@ First use [references/review-funnel.md](references/review-funnel.md) to select t
 - Freeze-record integrity: the selected page image is stored under `.codex-workflow/visuals/pages/<page-name>/` before the page decision records its candidate ID, decoded dimensions, SHA-256 and confirmation time.
 - Asset gate order: approved high-fidelity effect image, global/page freeze constraints, reuse and production decision, background handling, generation evidence when used, output path and fidelity verdict in one asset manifest, then Pencil restoration or Flutter implementation.
 - Pencil high-fidelity restoration decision quality: required screens are not skipped, and Not required decisions have a reason.
+- New pages, page restoration, structural breakpoint changes, and any user-visible layout change are at least `standard`; F1 must trigger the visual lane for those changes.
 - Data units are restored as editable text or representative placeholders and do not create bitmap-generation or extraction work.
 - Material visual uncertainties record their affected units, available evidence, required decision, and blocking status; no affected unit is approved or handed off while unresolved.
 - Mockup parity and recorded design deviations when a high-fidelity mockup exists.
@@ -57,6 +59,7 @@ First use [references/review-funnel.md](references/review-funnel.md) to select t
 - Test sufficiency.
 - Verification platform compliance: use the global platform scope as the only source of truth; review runtime platform evidence only at final integration after all module/page functionality and high-fidelity restoration are complete.
 - Overengineering and unnecessary abstractions.
+- Responsive audit and contract-specific multi-viewport Widget/Golden evidence pass at F0. A single screenshot, absent contract, or version mismatch is not review-ready.
 
 ## Output Shape
 
@@ -74,6 +77,8 @@ For the visual lane, also include the aesthetic verdict: approved / approved wit
 
 At F3, report the immutable snapshot, valid lane verdicts, closed blockers, integration or CI evidence required at this level, and the final verdict. Do not repeat detailed findings from F2.
 
+Visual QA must read the page decision before judging evidence. Check both sides of each structural breakpoint, relative anchors and region mappings, accidental coordinate translation, maximum width/columns/gutters, scroll and docking ownership, SafeArea/system insets, keyboard behavior, and the contract's large-text/long-content matrix.
+
 Severity:
 
 - Critical: blocks release or breaks core path.
@@ -83,3 +88,16 @@ Severity:
 ## Gate
 
 Do not enter F1 until required deterministic commands and regression fixtures pass against a candidate commit. F1 must reject stale evidence, scope drift, understated risk, and unidentified snapshots before specialist dispatch. F2 may open only the lanes triggered by the change and risk tier; independent acceptance is mandatory where the funnel requires it. F3 may approve only when every required lane covers the same effective snapshot and has no Critical, unresolved Important, or mandatory evidence gap. Task state is required only for simultaneous writable branches. After a fix, rerun F0 and F1, then invalidate only review lanes whose covered facts changed. Require level integration smoke only when a business-flow level closes and full runtime platform evidence only for final integration or release; do not write inapplicability records for unrelated checks.
+
+## F0 响应式审计
+
+UI 任务在 F0 运行标准库脚本，并把结果与任务简报中声明的 Widget/Golden 视口矩阵一起保存：
+
+```bash
+python <flutter-quality-review skill 目录>/scripts/audit-responsive_layout.py <Flutter 仓库> \
+  --task-brief <task-brief.md> \
+  --page-decision <design-decision.md> \
+  --require-contract
+```
+
+UI 预检必须先解析实际安装的 `flutter-quality-review` skill 目录并把路径填入任务简报；不得假设 `.agents/skills`、个人目录或其他固定安装位置。脚本会扫描 `.dart` 源码中的整页缩放、主结构绝对坐标、比例坐标、固定高度包可变文本、缓存启动尺寸和散落断点，并可选校验契约必填章节。真实叠层只能使用带中文原因的窄范围 `响应式审计豁免` 注释；错误会阻塞 F0，警告必须记录。

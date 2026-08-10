@@ -16,6 +16,7 @@ Coordinate Flutter delivery with the smallest process that protects the current 
 3. Ask the user only for decisions that cannot be established from code, configuration, existing artifacts, or deterministic execution.
 4. Use `grilling` only when material scope, priority, tradeoff, risk, acceptance, dependency, visual direction, or release authority remains unresolved. Do not repeat it merely because a new phase or module started.
 5. Activate only roles that produce or independently accept material work. Do not record omitted ceremonial roles.
+6. For every UI task, preflight that the task brief, page decision, and project-local `flutter-dev` all reference `flutter-ux-ui-quality/references/responsive-layout-strategy.md@1.1`; resolve the actual installed `flutter-quality-review` skill directory and fill its audit script path in the brief. A missing/mismatched version or unresolved path is `NEEDS_CONTEXT`.
 
 ## Project Workflow
 
@@ -31,7 +32,7 @@ Coordinate Flutter delivery with the smallest process that protects the current 
 
 1. Resolve the correct integration branch and base commit before drafting or reviewing a task. Discover FVM, dependencies, existing contracts, and required commands during this preflight.
 2. `light`: work directly or on a short branch, run deterministic checks, and do not create task state, worktree, team assembly, or independent-review artifacts.
-3. `standard`: use a normal task branch and concise task brief. After F0/F1, route behavior or acceptance changes through the independent QA lane and add other lanes only when triggered.
+3. `standard`: use a normal task branch and concise task brief. New pages, page restoration, or structural breakpoint changes are at least `standard`. After F0/F1, route behavior or acceptance changes through the independent QA lane and add other lanes only when triggered.
 4. `high`: use a normal task branch, one DRI, durable `review.md`, and independent acceptance; do not create task-state automation solely for risk.
 5. `release`: use a candidate branch, PR, CI, release evidence, and independent QA/technical gates.
 6. When multiple writable branches must run simultaneously, use `flutter-subagent-delivery` with one worktree and short-lived task state per writer.
@@ -46,6 +47,7 @@ Coordinate Flutter delivery with the smallest process that protects the current 
 5. At F3, converge the valid lane verdicts without repeating their detailed review. Approve only when every required lane covers the effective snapshot and all Critical, Important, and mandatory-evidence blockers are resolved.
 6. Store F0 references, F1 routing, F2 lane conclusions, and F3 outcome in `docs/tasks/<task-id>/review.md` when durable review is required; do not create separate funnel reports.
 7. After a fix, rerun F0 and F1. Invalidate only lanes whose covered facts changed, and keep the same task branch or worktree during repair and targeted re-review.
+8. F0 for every UI task includes the responsive-layout audit and the concrete multi-viewport Widget/Golden commands named by the page contract. A single screenshot is insufficient.
 
 ### Conditional UI Delivery
 
@@ -54,6 +56,7 @@ Coordinate Flutter delivery with the smallest process that protects the current 
 3. Require an independent effect-image review only for high-value, high-risk, or exploratory pages. The Controller records the user's selection and freezes the selected image.
 4. Run bitmap decomposition, asset planning/production, and Pencil restoration only when the selected design actually requires those outputs. Before bitmap production, show the user only a confirmation copy of the frozen page with every proposed bitmap boxed and numbered; do not output the internal asset table, mapping, dimensions, or production notes. Record durable mapping and confirmation facts privately in the page asset manifest.
 5. Use `flutter-quality-review` for screenshot or golden-based visual acceptance. External product-design tooling is optional and must never be a workflow dependency unless the user explicitly requests it.
+6. Any user-visible layout, page restoration, or structural breakpoint change triggers the visual lane. Visual QA reads the page decision and checks both sides of every structural breakpoint, semantic relative relationships, accidental coordinate translation, keyboard behavior, SafeArea/system insets, and the contract's evidence matrix.
 
 ### Integration And Release
 
@@ -83,6 +86,7 @@ Use [references/artifacts.md](references/artifacts.md). Create only artifacts re
 - Do not generate, adapt, extract, export, transparentize, or slice a bitmap before the numbered overlay derived from the frozen page image has been shown by itself and explicitly confirmed.
 - Do not claim platform verification from task-level screenshots, goldens, builds, or static analysis.
 - Do not create standalone derivative reports when a canonical record already holds the decision or evidence.
+- Do not introduce a responsive layout dependency; use the native constraint primitives required by the responsive strategy and project-local `flutter-dev` contract.
 
 ## Routing
 

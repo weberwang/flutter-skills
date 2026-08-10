@@ -44,3 +44,4 @@ fvm flutter test
 - Use annotations and `build_runner` for models, DTOs, unions, state objects, failures, and JSON serialization.
 - Use ScreenUtil only for root initialization and named shared size tokens; derive breakpoints, columns, navigation, and structural adaptation from constraints instead of treating ScreenUtil as a responsive layout engine.
 - Before adding any package, check whether the fixed stack or existing project packages already solve it.
+- Responsive layout is governed by `flutter-ux-ui-quality/references/responsive-layout-strategy.md@1.1`; do not add third-party responsive-layout dependencies. The project-local `flutter-dev` skill version must match this reference before UI work.

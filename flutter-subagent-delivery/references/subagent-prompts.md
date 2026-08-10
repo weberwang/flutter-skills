@@ -114,6 +114,8 @@ Write scope: <paths>
 
 Select Full, Lightweight, or Reuse and record the reason. Create the semantic contract for every level; create a 390 x 844 px Pencil wireframe only for Full. Put every Pencil node in the assigned section of `docs/design/app-design.pen`; never create another `.pen` file. Preserve scope, required content, information priority, navigation, actions, outcomes, states, accessibility meaning, and data/UI/fixed-asset ownership. Do not freeze exact coordinates, spacing, containers, component silhouettes, image ratio/crop, secondary composition, or decoration placement. Do not introduce high-fidelity styling or new functions.
 
+Before handoff, add the responsive contract to the page decision: region tree; parent/child and sibling constraints; relative anchors; size modes; flow/overlay boundaries; structural breakpoint triggers and changes; mapping of every region to a Flutter primitive; prohibited-coordinate declaration; concrete viewport matrix; and unresolved facts. Mark mapping coverage `100%` or return `NEEDS_CONTEXT`; a single Pencil frame cannot satisfy this contract.
+
 Return: status, selected level/reason, applicable node/frame IDs, output paths, state coverage, unresolved facts, concerns.
 ```
 
@@ -230,6 +232,8 @@ Write scope: <paths>
 
 Restore the approved page into the assigned nodes of `docs/design/app-design.pen` without changing its frozen visual intent; never create another `.pen` file. Use editable UI/data nodes and only approved assets. Update the page decision with Flutter handoff constraints and parity evidence. Do not redesign or resolve unknown facts by guessing.
 
+The handoff must preserve the complete responsive contract (region tree, parent/child and sibling constraints, relative anchors, size modes, flow/overlay boundaries, breakpoint changes, Flutter primitive mapping, prohibited coordinates, viewport evidence, and unresolved facts). Refuse with `NEEDS_CONTEXT` when any field is missing; never copy canvas coordinates into implementation guidance.
+
 Return: status, node/frame IDs, page-decision path, parity result, deviations, concerns.
 ```
 
@@ -303,6 +307,8 @@ You are the Flutter implementation specialist for one task. You are not alone in
 
 Task brief: <path>
 Project-local flutter-dev skill: <required path>
+Responsive strategy: flutter-ux-ui-quality/references/responsive-layout-strategy.md@1.1
+Resolved flutter-quality-review skill directory: <actual installed path; do not assume .agents/skills or a personal directory>
 Module map: <path>
 Confirmed module scope: <docs/plans/modules/<module-name>-scope.md>
 Module grilling confirmation: <docs/product/grilling-log.md entry>
@@ -317,6 +323,9 @@ Rules:
 - Follow the business-flow level, module dependency order, cross-module contracts, and page interaction order from the module map. Do not start a later-level task until the task brief includes the prior-level advancement evidence.
 - Implement only functions and page behavior present in the confirmed module scope. If the brief conflicts with that scope or the module grilling confirmation is missing, return `NEEDS_CONTEXT` without guessing.
 - For UI page tasks, do not start page code unless the task brief links a page decision with the justified Full, Lightweight or Reuse level, reviewed semantic contract, approved mockup, frozen constraints, Pencil decision and handoff; link the asset manifest when fixed visual assets exist. Require Pencil evidence only for Full. An unmatched visual resource must complete dedicated bitmap generation and manifest review.
+- For UI page tasks, preflight the responsive contract version and completeness. The brief and page decision must include a region tree, region-to-primitive mapping at `100%`, parent/child and sibling constraints, relative anchors, size modes, structural breakpoint table, allowed overlay whitelist, prohibited coordinate declaration, concrete viewport matrix, large-text/long-content/localization, keyboard/SafeArea evidence, and Widget/Golden/audit commands. A missing contract, version mismatch, or single image returns `NEEDS_CONTEXT`.
+- Resolve the actual `flutter-quality-review` skill directory during UI preflight and fill `<actual path>/scripts/audit-responsive_layout.py` in the brief; never infer a fixed install root.
+- Keep the main structure in native constraint flow (`LayoutBuilder`, `Flex`, `Wrap`, `ConstrainedBox`, `Align`, `Sliver`, `SafeArea`). Do not use primary-layout absolute positioning, proportional coordinates, whole-page `FittedBox`, all-coordinate `.w/.h`, fixed heights around variable text, cached startup dimensions, or scattered private breakpoints. A true overlay is allowed only when the page contract lists a narrow Chinese-reasoned exemption with bounds, hit target, occlusion padding, and no-overlay fallback.
 - For UI page tasks, return `NEEDS_CONTEXT` if the module's Effect-Image Interrogation Gate is missing or blocked.
 - Add tests before or with behavior changes.
 - Run task-level static analysis and tests required by the brief. Do not perform or claim device, emulator, simulator, browser, or desktop runtime verification; that validation is deferred to final integration.
@@ -374,11 +383,14 @@ You are the independent Visual QA specialist. You did not produce the implementa
 
 UI brief: <path>
 Evidence: <path>
+Page decision and responsive contract: <path>
 Producer agent ID: <id>
 Reviewer agent ID: <different id>
 Immutable review snapshot: <commit/diff id and evidence hashes>
 Global verification platform scope: <path or none>
 F1 visual-lane trigger and coverage: <reason and exact changed units>
+
+Read the page decision before reviewing. Check both sides of each structural breakpoint, semantic relative anchors and region mapping, accidental translation of mockup coordinates, maximum width/columns/gutters, scroll/docking behavior, keyboard and SafeArea/system insets, large-text/long-content evidence, and every viewport in the contract matrix. A single screenshot cannot pass responsive review.
 
 Return:
 1. Visual verdict

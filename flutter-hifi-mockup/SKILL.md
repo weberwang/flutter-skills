@@ -21,13 +21,14 @@ When used inside the full workflow, dispatch a Page high-fidelity agent to gener
 - Product brief and UI spec with the page's flow, state, and screen contract.
 - Global design freeze.
 - Reviewed Full, Lightweight, or Reuse semantic contract in `docs/design/pages/<page-name>/design-decision.md`; Pencil evidence is required only for Full.
+- Complete responsive contract in the page decision using `flutter-ux-ui-quality/references/responsive-layout-strategy.md@1.1`: region tree, layout implementation mapping, structural breakpoint table, overlay whitelist, prohibited coordinate declaration, and concrete multi-viewport evidence matrix.
 - Target device and required page state.
 - First-value, trust, permission, payment, privacy, and recovery constraints when applicable.
 
 ## Workflow
 
 1. Confirm function/page scope is settled. Read the module visual-decision record when one exists; do not require or repeat interrogation when existing constraints already answer the page.
-2. Confirm the page's justified wireframe level and semantic contract passed Wireframe Review in its `design-decision.md`. Require Pencil evidence only for Full.
+2. Confirm the page's justified wireframe level and semantic/responsive contract passed Wireframe Review in its `design-decision.md`. Require Pencil evidence only for Full. A missing contract or single image returns `NEEDS_CONTEXT`.
 3. Draft the page mockup brief with [references/mockup-brief-template.md](references/mockup-brief-template.md), including the global direction, expression preset, page-type budget dial, required state, and module effect-image decisions. Keep the brief, prompt, candidates, and review transient. Treat the brief as planning evidence, not generation prose.
 4. Prepare the page prompt from the orchestrator's page high-fidelity prompt template and [references/image-prompt-principles.md](references/image-prompt-principles.md). Keep full traceability in the planning artifact, then reduce the actual generation prompt to one clear outcome, essential structure/content, a concise visual direction, true non-negotiables, and output requirements. Do not paste PRD mappings, rationale, exhaustive component details, or repeated avoid lists into the image model.
 5. Use the product brief, module scope, and page prompt to generate one page-level effect-image candidate when the target is clear. Generate two or three only when the user requests exploration, the direction is unresolved, or material design tradeoffs need comparison. Do not require an external visual-design skill; if image generation is unavailable, record a blocker and do not fabricate image evidence.
@@ -37,7 +38,7 @@ When used inside the full workflow, dispatch a Page high-fidelity agent to gener
 9. Keep the mockup brief, full prompt, candidates and review prose transient; only their final identifiers and decisions belong in `design-decision.md`.
 10. Before asset work or Pencil restoration, apply the ownership-first decomposition in [bitmap-decomposition-standard.md](../flutter-pencil-design/references/bitmap-decomposition-standard.md): split runtime data from its renderer and fixed treatment, then classify every atomic unit as bitmap, UI, or data. Never turn representative runtime data into a production bitmap. Run the mandatory back-to-front visual sweep for backgrounds, decorations, overlays, icons, logos, textures, and clipped fragments; require a coverage audit with zero unowned visible elements. Record unresolved visual facts and native-Flutter feasibility evidence for UI units.
 11. Use `flutter-asset-atlas` for required bitmaps or bitmap fills. Require a confirmation copy of the exact frozen page image with every proposed bitmap tightly boxed and numbered. The Controller shows only that annotated image—no inline table, list, legend, mapping, dimensions, production notes, or explanatory prose—and obtains explicit confirmation before any asset generation, adaptation, extraction, export, transparentization, or slicing. Record the overlay evidence and confirmed numbers in the internal page `asset-manifest.md`.
-12. Restore the approved page in Pencil when editable high-fidelity handoff is required, then hand off the frozen constraints and evidence to implementation.
+12. Restore the approved page in Pencil when editable high-fidelity handoff is required, then hand off the frozen constraints and evidence to implementation. The handoff cannot contain mockup canvas coordinates; it must include region-to-primitive mappings and the contract's breakpoint, keyboard, SafeArea, and viewport evidence.
 
 ## Output Files
 
@@ -48,6 +49,7 @@ When used inside the full workflow, dispatch a Page high-fidelity agent to gener
 ## Generation Rules
 
 - Generate each effect image at exactly `780 x 1688 px` and verify decoded dimensions.
+- The effect-image canvas is visual evidence only; never translate its pixel coordinates or scale factors into Flutter production layout.
 - Use the shortest prompt that preserves task, state, signature, critical content, trust/accessibility boundaries, and output requirements. Guide secondary composition and detail instead of prescribing them.
 - Reject a prompt with duplicated constraints, contradictory directions, adjective stacks, unrelated style references, or planning rationale. Keep only material negative constraints.
 - Generate page effects only during module delivery, after module visual interrogation and semantic-contract Wireframe Review.

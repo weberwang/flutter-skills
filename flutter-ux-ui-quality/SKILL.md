@@ -7,7 +7,7 @@ description: Use when defining Flutter screen briefs, navigation flows, visual s
 
 ## Overview
 
-Use this skill to freeze the global visual-system direction, then stop low-quality page UI from shipping through module-time effect images and evidence.
+Use this skill to freeze the global visual-system direction, then stop low-quality page UI from shipping through module-time effect images and evidence. The sole responsive authority is [references/responsive-layout-strategy.md](references/responsive-layout-strategy.md) version `1.1`; page decisions, UI briefs, and project-local `flutter-dev` must reference that version.
 
 ## Orchestrated Roles
 
@@ -21,6 +21,7 @@ When used inside `flutter-app-orchestrator`, dispatch Product/UX, Global directi
 4. Present the requested direction definitions, wait for the user's selection when alternatives exist, and run the global direction freeze confirmation. Record the selected direction, signature confirmation when required, implementation-cost acceptance, any `pin` / `raise` / `loosen` override, and explicit freeze intent in `docs/design/global-design-freeze.md`. Do not create `.codex-workflow/visuals/global/`.
 5. Feed global flows, screen inventory, and page interaction order into `docs/plans/module-map.md`.
 6. During each UI module or page implementation task, use `flutter-pencil-design` first for low-fidelity structure and Wireframe Review; store the semantic contract and the page-level layout/adaptation contract in that page's `design-decision.md`. Low fidelity freezes semantic relationships and behavior, not exact coordinates or final geometry.
+   - The page contract must include a region tree, complete region-to-primitive mapping, structural breakpoints, allowed overlay whitelist, prohibited coordinate declaration, and concrete viewport × state × text-scale × keyboard/SafeArea evidence. Missing or mismatched version returns `NEEDS_CONTEXT`.
 7. Before generating an effect image, check whether visual goals, required pages/states, page budget, signature strength, or implementation/asset cost still needs a user decision. Record only new decisions; otherwise reuse the existing global and page constraints.
 8. After low-fidelity structure is reviewed, use `flutter-hifi-mockup` for the concrete page. On confirmation, persist the exact selected image first in `.codex-workflow/visuals/pages/<page-name>/`, then write one page `design-decision.md`.
 9. After page-level high-fidelity approval and a page design decision, use `flutter-asset-atlas` when required visual assets need reuse checks, generation, background transparentization, slicing, export, inventory, or fidelity review.
@@ -28,6 +29,7 @@ When used inside `flutter-app-orchestrator`, dispatch Product/UX, Global directi
 11. Implement the screen against `docs/design/ui-spec.md`, the page `design-decision.md`, [references/responsive-layout-strategy.md](references/responsive-layout-strategy.md), and its `asset-manifest.md` when present. Use constraints and semantic anchors for structure; do not use ScreenUtil as a responsive layout engine.
 12. Capture evidence using screenshots, golden tests, or integration screenshots at the contract's risk-selected viewports, including both sides of each structural breakpoint when applicable.
 13. Review evidence with [references/visual-qa-rubric.md](references/visual-qa-rubric.md) and the evidence matrix in [references/responsive-layout-strategy.md](references/responsive-layout-strategy.md), then run an independent visual-QA review for user-facing flows.
+   - Visual QA reads the page decision and checks breakpoint sides, relative relationships, coordinate translation, keyboard, SafeArea/system insets, scroll/docking, and the contract's large-text/long-content evidence.
 14. Fix Critical and Important issues, then repeat evidence capture and audit when the UI flow changed.
 
 ## Flutter UI Standards
@@ -46,6 +48,7 @@ When used inside `flutter-app-orchestrator`, dispatch Product/UX, Global directi
 - No loading, empty, error, success, disabled, and permission-denied states where applicable.
 - Text overflow, clipped controls, inaccessible contrast, or unclear primary action.
 - Missing or untestable layout/adaptation contract (breakpoints, relative anchors, max width/columns/gutters, scroll owner, docking, or system avoidance).
+- Missing region tree or incomplete region-to-primitive mapping, absent overlay reason/fallback, coordinate-based handoff, or unversioned responsive contract.
 - Layout only verified on one viewport, or evidence shows a scaled desktop/mobile composition instead of the contracted structural change.
 - Fixed, pinned, or floating elements obscure content, keyboard focus, SafeArea, or gesture regions; nested scroll has no explicit owner.
 - ScreenUtil is used as the responsive layout engine, or absolute coordinates are used for the primary page structure without a documented constraint reason.

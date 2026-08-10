@@ -12,7 +12,7 @@ Use this skill only for simultaneous writable branches. Single-writer tasks, inc
 ## Prepare
 
 1. Classify each task with [references/task-risk-tiers.md](references/task-risk-tiers.md).
-2. Confirm the integration branch, common base, executable verification commands, and disjoint write scopes before starting parallel work.
+2. Confirm the integration branch, common base, executable verification commands, and disjoint write scopes before starting parallel work. UI tasks additionally preflight the responsive contract version (`flutter-ux-ui-quality/references/responsive-layout-strategy.md@1.1`) against the task brief, page decision, and project-local `flutter-dev`.
 3. Assign one DRI and lease per writable scope. Serialize shared dependencies, routes, themes, generated files, shared state, and `docs/design/app-design.pen`.
 4. Create one `codex/<task-id>` branch and one worktree per writer from the verified base.
 5. Create `.codex-workflow/tasks/<task-id>.yaml` from [references/task-state-template.yaml](references/task-state-template.yaml), then run `scripts/validate-task-state.py`.
@@ -21,7 +21,7 @@ Use this skill only for simultaneous writable branches. Single-writer tasks, inc
 ## Execute And Review
 
 1. Give each implementer a concise brief with canonical inputs, exact write scope, non-goals, and verification commands.
-2. Run F0 in the same worktree until static checks, relevant tests, audit commands, and known regression fixtures pass; deterministic failures return directly to implementation.
+2. Run F0 in the same worktree until static checks, relevant tests, the responsive-layout audit, contract-specified multi-viewport Widget/Golden commands, and known regression fixtures pass; deterministic failures return directly to implementation.
 3. Freeze one candidate commit, record it in task state, then run F1 change triage from [review-funnel.md](../flutter-quality-review/references/review-funnel.md).
 4. F1 verifies the snapshot, scope, risk, acceptance trace, and evidence, then records only the F2 Product, QA, technical, visual, or Release lanes actually required.
 5. Dispatch the triggered F2 lanes against the same candidate snapshot. Review independent read-only lanes in parallel when scopes are independent.

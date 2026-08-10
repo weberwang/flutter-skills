@@ -7,7 +7,7 @@ description: Use when creating, bootstrapping, re-initializing, or standardizing
 
 ## Overview
 
-Use this skill to initialize a Flutter app for the commercial delivery workflow. It installs the fixed plugin stack, writes project-level constraints, and generates a project-local `flutter-dev` skill for all later implementation work.
+Use this skill to initialize a Flutter app for the commercial delivery workflow. It installs the fixed plugin stack, writes project-level constraints, and generates a project-local `flutter-dev` skill for all later implementation work. The generated skill carries the tracked responsive contract reference `flutter-ux-ui-quality/references/responsive-layout-strategy.md@1.1`.
 
 ## FVM Environment Rule
 
@@ -45,7 +45,8 @@ Annotation-based code generation is mandatory. Use Freezed and JSON annotations 
 5. Ensure `ScreenUtilInit`, `ProviderScope`, theme, routing shell, and code generation commands are planned.
 6. Generate the project-local `flutter-dev` skill from [assets/flutter-dev/SKILL.md](assets/flutter-dev/SKILL.md).
 7. Write `docs/architecture/flutter-init.md` using [references/init-report-template.md](references/init-report-template.md).
-8. Run verification commands.
+8. During UI-task preflight, compare the project-local `flutter-dev` responsive-contract version with the referenced strategy; a mismatch blocks the task until the generated skill is refreshed.
+9. Run verification commands.
 
 ## Required Commands
 
@@ -80,4 +81,4 @@ Generate `flutter-dev/SKILL.md` in the target app repo, or another project-local
 
 ## Gate
 
-Do not mark initialization complete until the FVM SDK version is recorded, dependencies are installed, annotation-based generated code succeeds through `build_runner`, `docs/architecture/flutter-init.md` records the generated `flutter-dev` path, and `fvm flutter analyze` plus relevant tests are reported.
+Do not mark initialization complete until the FVM SDK version is recorded, dependencies are installed, annotation-based generated code succeeds through `build_runner`, `docs/architecture/flutter-init.md` records the generated `flutter-dev` path and responsive-contract version, and `fvm flutter analyze` plus relevant tests are reported.

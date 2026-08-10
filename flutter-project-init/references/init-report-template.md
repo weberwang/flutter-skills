@@ -38,6 +38,7 @@ Dev:
 
 - Path:
 - Source template:
+- Responsive contract reference/version: `flutter-ux-ui-quality/references/responsive-layout-strategy.md@1.1`
 - Notes:
 
 ## Required App Setup
