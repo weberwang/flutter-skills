@@ -33,6 +33,11 @@ No YAML/JSON workflow state or automatic merge is created even when this section
 
 - Product / design / technical / module references:
 - Layout implementation specification: `docs/design/pages/<page-name>/layout-spec.yaml`
+- Layout phase: sketch / fidelity
+- Code Sketch Level and reviewed semantic contract:
+- Code Sketch candidate diff/SHA, external spec hash, screenshot hashes, reviewer ID/verdict:
+- Frozen high-fidelity target ID/SHA and contract back-check (fidelity only):
+- Asset manifest path or `N/A: no bitmap or exported visual assets` (fidelity only):
 - API contract and version:
 - Candidate design/asset evidence:
 
@@ -54,6 +59,8 @@ No YAML/JSON workflow state or automatic merge is created even when this section
 - UI evidence when applicable:
 - Layout-spec validator command and result:
 - Relation invariants and parameterized test matrix / test ids:
+- Actual Widget measurement output and target/Flutter parity cases (fidelity only):
+- Independent Visual QA result (fidelity only):
 - Security/privacy/data criteria when applicable:
 
 ## Verification

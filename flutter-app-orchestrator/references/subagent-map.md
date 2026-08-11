@@ -62,7 +62,9 @@ Do not dispatch a controlled multi-agent task without a DRI, required independen
 | Core role | Specialist seats |
 |---|---|
 | Product Manager | Market analysis agent, product-spec agent |
-| UX/UI Lead | UX agent, Global direction agent/reviewer, Page structure agent, Wireframe reviewer, Page high-fidelity agent, Effect Image Reviewer, Bitmap decomposition agent, Asset planning/production agent, Pencil restoration agent |
+| UX/UI Lead | UX agent, Global direction agent/reviewer, Page Contract Agent, Page high-fidelity agent, Effect Image Reviewer, Bitmap decomposition agent, Asset planning/production agent |
+| Flutter Engineer | Code Sketch Agent, page fidelity implementer |
+| QA Engineer | Code Sketch Reviewer, Visual QA Reviewer |
 | Tech Lead | Architecture agent, Module planner, technical reviewer |
 | Flutter Engineer | Flutter init agent, Flutter implementer, Flutter fixer |
 | Backend/Data Engineer | API/data implementer, migration implementer, service fixer |
@@ -86,7 +88,7 @@ Each specialist receives the core role prompt plus exactly one specialist prompt
 - Asset planning and production before explicit user confirmation.
 - Schema migration and a release that depends on it.
 - Any overlapping file, generated output, dependency, route, theme, state container, app configuration, environment, or secret reference.
-- Any two writers to `docs/design/app-design.pen`, even with disjoint node assignments.
+- Any two writers to one page layout-spec or the same production Flutter page.
 
 ## Dispatch Contract
 

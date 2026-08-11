@@ -15,7 +15,7 @@ Markdown records decisions, evidence, and conclusions only. It is never runtime 
 
 1. Classify each task with [references/task-risk-tiers.md](references/task-risk-tiers.md).
 2. Confirm the integration branch, common base SHA, executable project-native verification commands, and non-overlapping write scopes.
-3. Assign one DRI per writable scope. Serialize dependencies, routes, themes, generated files, shared state, migrations, API contracts, and `docs/design/app-design.pen` under one writer.
+3. Assign one DRI per writable scope. Serialize dependencies, routes, themes, generated files, shared state, migrations, API contracts, and each page layout-spec under one writer.
 4. Use ordinary task branches. Create worktrees only when the user explicitly requested worktrees; record branch and scope in `docs/tasks/<task-id>/brief.md`.
 5. The Controller coordinates through task briefs plus observed Git, PR, and CI facts. Do not create leases or structured status files.
 

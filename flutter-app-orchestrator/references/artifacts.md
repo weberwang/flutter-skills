@@ -23,10 +23,10 @@
 
 | 条件 | 工件 | 必须包含 |
 |---|---|---|
-| 页面有 UI 决策 | `docs/design/pages/<page-name>/design-decision.md` | 语义契约、线框级别/审阅、冻结图 ID/哈希、偏差、Pencil 决定与交接约束 |
+| 页面有 UI 决策 | `docs/design/pages/<page-name>/design-decision.md` | 语义契约、Code Sketch Level/审阅、冻结图 ID/哈希、合同回对、偏差与 Visual QA |
 | 页面需要自适应布局实施 | `docs/design/pages/<page-name>/layout-spec.yaml` | 实施输入：目标视口、语义锚点、尺寸/断点、内容容器、系统避让、滚动/停靠、文本增长、不变量和参数化关系测试矩阵；不是运行时状态或合并信号 |
 | 页面有固定视觉资产 | `docs/design/pages/<page-name>/asset-manifest.md` | 资产来源、许可、生产/背景/切图决定、Flutter 路径和保真结论 |
-| 需要可编辑 Pencil 交接 | `docs/design/app-design.pen` | 稳定页面/节点 ID；详情链接页面设计决策 |
+| 页面 Code Sketch | 生产 Flutter 页面与测试 | 中性生产骨架、稳定 key、关系测试与风险需要的截图 |
 | 页面冻结 | `.codex-workflow/visuals/pages/<page-name>/frozen-<slug>.png` | 唯一选中原图 |
 | 任务需要跨角色交接 | `docs/tasks/<task-id>/brief.md` | 目标、边界、唯一写范围、候选分支、验证命令与验收条件 |
 | 任务需要持久化独立验收 | `docs/tasks/<task-id>/review.md` | 候选 SHA、F0 证据引用、F1 分诊、F2 结构化结论、失效记录与 F3 结果；仅 Controller 写入 |
@@ -38,6 +38,6 @@
 
 - 实现者先完成项目原生 F0 命令，再返回候选 SHA、变更文件、验证摘要和阻塞项；需要独立验收时，由 Controller 将证据引用写入 `review.md`。
 - F2 审阅者只读候选并返回结构化结论，不直接写共享文件。Controller 是 `review.md` 唯一写入者，并记录作者、候选 SHA、覆盖事实、发现、结论和失效历史。
-- 资产、Pencil 和冻结细节只存到对应页面工件，不复制进任务简报、进度账本或审阅报告。
+- ownership、覆盖审计、编号映射和资产生产明细只存到页面 `asset-manifest.md`；冻结决策只存页面 decision，不复制进任务简报或进度账本。
 - 并行写入即使经用户明确授权，也只依赖普通分支、Markdown 任务简报和 Git/PR/CI 事实；不创建 YAML/JSON 状态，不自动合并。
 - 截图、golden、命令输出和冻结图使用文件路径或 SHA 引用，不转写内容。

@@ -1,3 +1,5 @@
+phase: sketch
+
 page:
   id: example-page
   min_width: 320

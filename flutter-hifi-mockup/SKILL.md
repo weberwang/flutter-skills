@@ -1,64 +1,28 @@
 ---
 name: flutter-hifi-mockup
-description: Use when generating, selecting, reviewing, or freezing page-level high-fidelity visual mockups, effect images, design references, image prompts, screen concepts, or visual target artifacts during Flutter module implementation.
+description: Generate, independently review, and freeze page-level high-fidelity Flutter visual targets after an approved semantic contract and code-first sketch. Use for premium UI target images, page visual exploration, design freeze, mockup review, and target-to-contract alignment before asset production or fidelity implementation.
 ---
 
-# Flutter HiFi Mockup
+# Flutter High-Fidelity Mockup
 
-## Overview
+仅在 Code Sketch Review 通过后生成页面目标图。高保真目标是最终视觉来源，但不能静默改变已审语义合同、状态、导航、滚动、断点、无障碍或 ownership。
 
-Generate and freeze page-level effect images during module implementation. Treat `docs/design/global-design-freeze.md` as the visual-system baseline; never generate global or representative-page effect images during global direction positioning.
+## 输入
 
-## Orchestrated Roles
+- 已审页面语义合同、Code Sketch Level 与 Code Sketch Review。
+- `phase: sketch` 的 `layout-spec.yaml`、外部 spec hash、关系测试和风险需要的截图证据。
+- 全局视觉方向、产品/模块范围与页面真实内容要求。
 
-When used inside the full workflow, dispatch a Page high-fidelity agent to generate transient candidates. Add a separate Effect Image Reviewer for high-value, high-risk, or exploratory work. Neither agent may persist, select, modify, approve, or freeze a candidate. The controller presents the results, records the user's decision, persists the exact selected image, and writes the freeze evidence.
+## 流程
 
-## Inputs
+1. 冻结前在对话中临时准备 brief、prompt 和候选；不要把未选方案、prompt 或评审草稿写进仓库。
+2. 方向清楚时生成一个候选；只有用户要求探索或存在实质取舍时生成两到三个。每张页面图必须精确 `780 x 1688 px`。
+3. 高风险/核心/探索页安排与 producer 不同的只读 Effect Image Reviewer，检查任务层级、状态、可读性、无障碍、系统区域和全局方向。
+4. Controller 获得用户明确选择后，把选中图持久化到 `.codex-workflow/visuals/pages/<page-name>/`，计算 SHA-256；随后才在 page design decision 写 candidate ID、hash、确认时间、约束与允许偏差。冻结前 brief/prompt/candidates 保持 transient。
+5. 将冻结目标与已审语义合同/layout-spec(sketch)逐项回对。若范围、状态、导航语义、滚动 owner、断点、无障碍或 data/UI/asset ownership 改变，返回 UX/UI 与 Code Sketch 阶段更新并独立重审。
+6. 回对通过后，调用 `flutter-asset-atlas` 完成 bitmap decomposition、覆盖审计、编号图确认和资产生产；`asset-manifest.md` 是明细唯一权威，design decision 只链接。
+7. 将同一 layout-spec 升级 `phase: fidelity` 后在同一生产 Flutter 骨架高保真还原，并执行 target/Flutter parity 与独立 Visual QA。
 
-- Confirmed module scope: `docs/plans/modules/<module-name>-scope.md`.
-- Module function and page-function refinement.
-- Module visual-decision record when a new scope, budget, signature, or cost choice was required.
-- Product brief and UI spec with the page's flow, state, and screen contract.
-- Global design freeze.
-- Reviewed Full, Lightweight, or Reuse semantic contract in `docs/design/pages/<page-name>/design-decision.md`; Pencil evidence is required only for Full.
-- Target device and required page state.
-- First-value, trust, permission, payment, privacy, and recovery constraints when applicable.
+## 禁止
 
-## Workflow
-
-1. Confirm function/page scope is settled. Read the module visual-decision record when one exists; do not require or repeat interrogation when existing constraints already answer the page.
-2. Confirm the page's justified wireframe level and semantic contract passed Wireframe Review in its `design-decision.md`. Require Pencil evidence only for Full.
-3. Draft the page mockup brief with [references/mockup-brief-template.md](references/mockup-brief-template.md), including the global direction, expression preset, page-type budget dial, required state, and module effect-image decisions. Keep the brief, prompt, candidates, and review transient. Treat the brief as planning evidence, not generation prose.
-4. Prepare the page prompt from the orchestrator's page high-fidelity prompt template and [references/image-prompt-principles.md](references/image-prompt-principles.md). Keep full traceability in the planning artifact, then reduce the actual generation prompt to one clear outcome, essential structure/content, a concise visual direction, true non-negotiables, and output requirements. Do not paste PRD mappings, rationale, exhaustive component details, or repeated avoid lists into the image model.
-5. Use the product brief, module scope, and page prompt to generate one page-level effect-image candidate when the target is clear. Generate two or three only when the user requests exploration, the direction is unresolved, or material design tradeoffs need comparison. Do not require an external visual-design skill; if image generation is unavailable, record a blocker and do not fabricate image evidence.
-6. For high-value, high-risk, or exploratory work, run one combined Effect Image Review with [references/mockup-review-rubric.md](references/mockup-review-rubric.md). Report usability issues and premium-feel improvements separately; use Apple Human Interface Guidelines as the interaction baseline and judge visual quality against the frozen global direction and active page budget.
-7. Present the candidate or alternatives and any required review, then ask the user to select when needed and explicitly freeze one image. Do not write any candidate or visual artifact before confirmation.
-8. Persist the exact selected image first at `.codex-workflow/visuals/pages/<page-name>/frozen-<slug>.png`. Then update the page `design-decision.md` with candidate ID, decoded dimensions, SHA-256, confirmation time, compact prompt hash, semantic contract and frozen constraints.
-9. Keep the mockup brief, full prompt, candidates and review prose transient; only their final identifiers and decisions belong in `design-decision.md`.
-10. Before asset work or Pencil restoration, apply the ownership-first decomposition in [bitmap-decomposition-standard.md](../flutter-pencil-design/references/bitmap-decomposition-standard.md): split runtime data from its renderer and fixed treatment, then classify every atomic unit as bitmap, UI, or data. Never turn representative runtime data into a production bitmap. Run the mandatory back-to-front visual sweep for backgrounds, decorations, overlays, icons, logos, textures, and clipped fragments; require a coverage audit with zero unowned visible elements. Record unresolved visual facts and native-Flutter feasibility evidence for UI units.
-11. Use `flutter-asset-atlas` for required bitmaps or bitmap fills. Require a confirmation copy of the exact frozen page image with every proposed bitmap tightly boxed and numbered. The Controller shows only that annotated image—no inline table, list, legend, mapping, dimensions, production notes, or explanatory prose—and obtains explicit confirmation before any asset generation, adaptation, extraction, export, transparentization, or slicing. Record the overlay evidence and confirmed numbers in the internal page `asset-manifest.md`.
-12. Restore the approved page in Pencil when editable high-fidelity handoff is required, then hand off the frozen constraints and evidence to implementation.
-
-## Output Files
-
-- `docs/design/pages/<page-name>/design-decision.md`.
-- `.codex-workflow/visuals/pages/<page-name>/frozen-<slug>.png`.
-- `asset-manifest.md` and Pencil node references only when required.
-
-## Generation Rules
-
-- Generate each effect image at exactly `780 x 1688 px` and verify decoded dimensions.
-- Use the shortest prompt that preserves task, state, signature, critical content, trust/accessibility boundaries, and output requirements. Guide secondary composition and detail instead of prescribing them.
-- Reject a prompt with duplicated constraints, contradictory directions, adjective stacks, unrelated style references, or planning rationale. Keep only material negative constraints.
-- Generate page effects only during module delivery, after module visual interrogation and semantic-contract Wireframe Review.
-- Treat the wireframe as a functional contract, not a composition reference. Preserve scope, content priority, task, states, navigation, interactions, outcomes, accessibility meaning, and ownership, while freely recomposing exact geometry, containers, whitespace, component silhouettes, image ratios/crops, text-image orientation, and decoration placement inside the frozen visual direction.
-- When comparing multiple candidates, keep the page, state, content, data, and device identical.
-- Follow the global design freeze without treating it as a page layout or page approval.
-- Use realistic content and do not invent features, states, claims, or visual exceptions.
-- Full-budget pages must express the frozen global signature; dial-down pages reduce decoration while preserving system identity.
-- Treat custom widgets, `CustomPainter`, shaders, motion, and dedicated bitmap assets as valid when their value and accepted cost are documented.
-- Never transform the selected image during freezing.
-
-## Gate
-
-Do not generate any effect image during global visual direction positioning. Do not generate a module page effect image before unresolved functional or visual decisions are confirmed and its semantic contract is complete. Do not require low-fidelity geometry parity or let Pencil evidence become a composition blueprint. Do not send the planning worksheet, source mapping, rationale, exhaustive detail list, or repeated negative constraints to the image model; block prompts with contradictions or no meaningful creative space. Do not write a candidate, prompt, brief, review, freeze, or ledger visual entry before explicit page freeze confirmation. Do not approve a page image without exact `780 x 1688 px` dimensions, global-direction alignment, any risk-required review, and the user's explicit freeze decision. Do not begin asset work, Pencil restoration, or Flutter page implementation until the selected page image and design decision exist. Do not approve decomposition while a runtime-data visual is marked for bitmap export or a visible element lacks ownership.
+不得把低保真截图当最终几何蓝图；不得在 Code Sketch Review 前生成页面目标；不得在用户冻结前写候选记录；不得在合同回对失败时继续资产或高保真实现；不得把资产 ownership/编号/覆盖明细复制到 design decision。

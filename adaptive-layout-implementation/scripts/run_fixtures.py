@@ -3,6 +3,7 @@
 
 from __future__ import annotations
 
+import copy
 import sys
 from pathlib import Path
 from typing import Any
@@ -38,7 +39,7 @@ def _resolve(root: dict[str, Any], path: str) -> tuple[dict[str, Any], str]:
 
 
 def _mutate(spec: dict[str, Any], mutation: dict[str, Any]) -> None:
-    """执行有限的 remove/set/append 操作，保持夹具声明可审阅。"""
+    """执行有限的 remove/set/append/duplicate 操作，保持夹具声明可审阅。"""
     parent, key = _resolve(spec, mutation["path"])
     operation = mutation["op"]
     if operation == "remove":
@@ -50,6 +51,12 @@ def _mutate(spec: dict[str, Any], mutation: dict[str, Any]) -> None:
         if not isinstance(target, list):
             raise ValueError(f"append target is not a list: {mutation['path']}")
         target.append(mutation.get("value"))
+    elif operation == "duplicate":
+        target = parent.get(key)
+        if not isinstance(target, list):
+            raise ValueError(f"duplicate target is not a list: {mutation['path']}")
+        source_index = mutation.get("source_index", 0)
+        target.append(copy.deepcopy(target[source_index]))
     else:
         raise ValueError(f"unknown mutation operation: {operation}")
 

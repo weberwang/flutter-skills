@@ -29,13 +29,14 @@ Coordinate Flutter delivery with the smallest process that protects the current 
 
 ### Task Preparation
 
-1. Resolve the correct integration branch and base commit before drafting or reviewing a task. Discover FVM, dependencies, existing contracts, and required commands during this preflight.
-2. `light`: work directly or on a short branch, run deterministic checks, and do not create worktrees, team assembly, or independent-review artifacts.
-3. `standard`: use a normal task branch and concise task brief. After F0/F1, route behavior or acceptance changes through the independent QA lane and add other lanes only when triggered.
-4. `high`: use a normal task branch, one DRI, durable `review.md`, and independent acceptance.
-5. `release`: use a candidate branch, PR, CI, release evidence, and independent QA/technical gates.
-6. Default to one writer and sequential handoff. Run independent read-only review in parallel when useful. Use `flutter-subagent-delivery` for parallel writers or worktrees only when the user explicitly requests that topology.
-7. Escalate the tier when scope, irreversibility, shared ownership, security, data, payment, migration, visual fidelity, or release risk increases.
+1. Resolve the correct integration branch and base commit before drafting or reviewing a task. Discover reusable healthy processes, FVM, dependencies, existing contracts, and required commands during this preflight.
+2. For a new project, complete technical design, Flutter initialization, module scope and task brief before page design or implementation. For an existing project, inspect and reuse these facts read-only unless the accepted task explicitly changes them.
+3. `light`: work directly or on a short branch, run deterministic checks, and do not create worktrees, team assembly, or independent-review artifacts.
+4. `standard`: use a normal task branch and concise task brief. After F0/F1, route behavior or acceptance changes through the independent QA lane and add other lanes only when triggered.
+5. `high`: use a normal task branch, one DRI, durable `review.md`, and independent acceptance.
+6. `release`: use a candidate branch, PR, CI, release evidence, and independent QA/technical gates.
+7. Default to one writer and sequential handoff. Run independent read-only review in parallel when useful. Use `flutter-subagent-delivery` for parallel writers or worktrees only when the user explicitly requests that topology.
+8. Escalate the tier when scope, irreversibility, shared ownership, security, data, payment, migration, visual fidelity, or release risk increases.
 
 ### Build, Validate, Review
 
@@ -49,14 +50,12 @@ Coordinate Flutter delivery with the smallest process that protects the current 
 
 ### Conditional UI Delivery
 
-1. Use a semantic page contract before high-fidelity work. Require Pencil wireframes only for structurally complex or high-risk pages.
+1. Let UX/UI Lead produce the semantic page contract and select Full, Lightweight, or Reuse. Create `phase: sketch` layout-spec, implement the Code Sketch on the production Flutter skeleton, and obtain independent Code Sketch Review before high-fidelity work.
 2. Generate one page candidate when direction is clear. Generate two or three only when the user requests exploration, the direction is unresolved, or materially different design tradeoffs need comparison.
 3. Require an independent effect-image review only for high-value, high-risk, or exploratory pages. The Controller records the user's selection and freezes the selected image.
-4. Run bitmap decomposition, asset planning/production, and Pencil restoration only when the selected design actually requires those outputs. Before bitmap production, show the user only a confirmation copy of the frozen page with every proposed bitmap boxed and numbered; do not output the internal asset table, mapping, dimensions, or production notes. Record durable mapping and confirmation facts privately in the page asset manifest.
-5. Before page coding, invoke `adaptive-layout-implementation`; turn `design-decision.md`/`ui-spec.md` into `docs/design/pages/<page-name>/layout-spec.yaml`, run its validator, and block implementation until the specification passes.
-6. Implement the screen against the validated `layout-spec.yaml`, `docs/design/ui-spec.md`, the page `design-decision.md`, and its `asset-manifest.md` when present. Use constraints and semantic anchors for structure; if ScreenUtil is adopted, never use it as a responsive layout engine.
-7. Capture evidence using screenshots, golden tests, or integration screenshots at the layout specification's viewports, including both sides of each structural breakpoint when applicable.
-8. Use `flutter-quality-review` for screenshot or golden-based visual acceptance and provide the layout-spec validator result and relation-test evidence. External product-design tooling is optional and must never be a workflow dependency unless the user explicitly requests it.
+4. After user freeze, compare the target with the reviewed semantic contract/sketch spec. Return to the semantic/sketch stage if scope, states, navigation, scrolling, breakpoints, accessibility, or ownership changed. Then run bitmap decomposition and asset planning/production only when required; the asset manifest is the sole authority for ownership, coverage, number mapping, and production facts.
+5. Upgrade the same layout-spec to `phase: fidelity`, implement high fidelity by refactoring the same skeleton, and block absolute overlay patching over the old sketch.
+6. Run fidelity validator, actual Widget relationship measurements, target/Flutter same-viewport screenshots, and independent Visual QA before F0/F1/F2/F3.
 
 ### Integration And Release
 
@@ -81,7 +80,7 @@ Use [references/artifacts.md](references/artifacts.md). Create only artifacts re
 - Do not force three design candidates when one direction is already clear.
 - Do not require independent role separation for `light` work; require it for `high`, `release`, and materially risky `standard` work.
 - Do not let a producer independently approve its own high-risk output.
-- Do not run parallel writers without explicit user authorization, or against overlapping scopes, shared generated files, or `docs/design/app-design.pen`.
+- Do not run parallel writers without explicit user authorization, or against overlapping scopes and shared generated files.
 - Do not infer user approval for product scope, visual freeze, destructive action, external release, or accepted risk.
 - Do not generate, adapt, extract, export, transparentize, or slice a bitmap before the numbered overlay derived from the frozen page image has been shown by itself and explicitly confirmed.
 - Do not claim full platform verification from task-level screenshots, goldens, builds, static analysis, or an early smoke check.

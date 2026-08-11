@@ -1,22 +1,11 @@
-# 实施工作流
+# Implementation Workflow
 
-## 编码前
+1. 完成 preflight 和页面语义合同，建立 `phase: sketch` 的 layout-spec。
+2. validator 通过后，在生产 Flutter 骨架中实现中性 Code Sketch；禁止建立一次性重复页面。
+3. 运行 analyze 与参数化 Widget/关系测试。结构通过后才渲染风险需要的确定性截图。
+4. 独立 Code Sketch Reviewer 审阅不可变 candidate diff/commit、spec hash、测试输出和截图 hash。
+5. 高保真目标冻结后回对语义合同。若范围、状态、导航、滚动 owner、断点、无障碍或 ownership 改变，退回更新 sketch 并重审。
+6. 将同一 layout-spec 升级为 `phase: fidelity`，在同一骨架中正常重构；禁止用绝对叠层覆盖旧草图凑像素。
+7. 依次执行 fidelity validator、实际 Widget 几何测量、target/Flutter 同视口截图 parity 和独立 Visual QA。
 
-1. 确认页面语义区域、内容优先级、状态和交互顺序来自已批准的设计输入。
-2. 复制模板并完成全部必填字段；为每个区域写双轴语义锚点和 min/preferred/max 尺寸。
-3. 由内容最低宽度推导断点和列数，指定共享 breakpoint resolver、根布局、滚动轴所有者及停靠回退。
-4. 生成参数化证据矩阵和不变量 test id，运行验证器；验证失败不得进入实现。
-
-## 编码中
-
-1. 先建立根约束树和语义区域，再填充组件；用父约束表达可变尺寸，不从截图复制绝对坐标。
-2. 统一从 resolver 读取结构断点；不要在多个组件手写互相矛盾的宽度条件。
-3. 每个滚动轴只保留一个 owner；停靠/悬浮层为其遮挡区预留内容空间，并处理键盘和 SafeArea。
-4. 使用 `Stack/Positioned`、固定尺寸、单行截断等信号时，立即补齐规格登记、回退和关系测试，不把它们简单删除或隐藏。
-5. 在断点边缘、横竖屏、大字号、最长文案和系统 inset 状态下运行关系测试；Golden 只作为冻结视口的精确视觉证据。
-
-## 交付前
-
-1. 重新运行验证器，确认规格与实现登记一致；确保每个 invariant 的 test id 被矩阵 case 实际执行。
-2. 验证可达、无截断、无遮挡、触控尺寸、滚动到末项、键盘聚焦和结构断点变化。
-3. 记录 `layout-spec.yaml`、validator 输出、关系测试命令和证据路径，交给 `flutter-implementation-plan` 与 `flutter-quality-review`；不得把 Markdown 当运行时状态。
+仅导航、键盘、SafeArea、系统栏或插件行为需要时复用健康 runtime 实例。真机验收必须用户明确授权。

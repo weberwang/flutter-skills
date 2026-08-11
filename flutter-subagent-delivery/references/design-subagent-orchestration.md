@@ -1,69 +1,22 @@
 # Design Subagent Orchestration
 
-Use this contract whenever subagent tools are available. The Controller assembles roles with [app-team-role-prompts.md](app-team-role-prompts.md); specialized UX/UI and QA seats perform design production and independent evidence work.
+## 角色
 
-## Controller-Only Authority
+| 角色 | 核心职责 | 禁止事项 |
+|---|---|---|
+| UX/UI Lead / Page Contract Agent | 输出语义合同、状态、交互、响应式边界、无障碍、ownership，并选择 Code Sketch Level | 写页面代码、自审结构实现 |
+| Code Sketch Agent（Flutter Engineer） | 在生产 Flutter 骨架实现中性草图、稳定 key、Widget/关系测试与结构证据 | 建一次性重复页、冻结最终视觉、自审放行 |
+| Code Sketch Reviewer（独立 QA/UX） | 只读审阅不可变 candidate、sketch spec hash、测试和截图 hash | 修改候选、与 producer 使用同一 agent |
+| Page High-Fidelity Agent | Code Sketch Review 后生成 transient 高保真候选 | 持久化未冻结候选、改变语义合同 |
+| Effect Image Reviewer | 独立审阅候选的产品/视觉质量与合同变化 | 修改、选择或冻结候选 |
+| Bitmap Decomposition / Asset Agents | 在 asset manifest 完成 ownership、覆盖、编号确认和生产 | 在 design decision 复制明细、未确认即生产 |
+| Fidelity Implementer | 在同一生产骨架重构高保真 UI，升级同一 layout-spec | 用绝对叠层覆盖旧草图凑像素 |
+| Visual QA Reviewer | 对 fidelity spec、实际测量和 target/Flutter 同视口截图做独立复核 | 用 validator、Golden 或单独目测替代完整 gate |
 
-The controller must retain:
+## 顺序
 
-- user questions and confirmation requests;
-- scope, priority, cost, risk, and acceptance decisions;
-- candidate presentation and user-choice recording;
-- global direction, page design, and numbered bitmap-overlay confirmation gates;
-- freeze, unfreeze, and final artifact acceptance;
-- cross-agent conflict resolution, sequencing, ledger state, and final integration.
+preflight → Page Contract Agent → `phase: sketch` layout-spec validator → Code Sketch Agent → analyze/Widget/关系测试 → 风险需要的确定性截图 → 独立 Code Sketch Reviewer → 高保真生成/审阅/用户冻结 → 高保真目标与合同回对 → bitmap decomposition/覆盖审计/编号确认/资产生产或 N/A → 同一 layout-spec 升级 `phase: fidelity` → 同一 Flutter 骨架还原 → fidelity validator/实际 Widget measurement/target↔Flutter screenshot parity → Visual QA → F0/F1/F2/F3。
 
-No subagent may select its own proposal, infer user approval, freeze a design, broaden scope, or continue past a missing confirmation.
+合同回对发现范围、状态、导航语义、滚动 owner、断点、无障碍或 data/UI/asset ownership 变化时，返回 Page Contract 与 Code Sketch 阶段更新并独立重审。
 
-## Required Design Roles
-
-| Role | Performs | May write | Must not do |
-|---|---|---|---|
-| Product Manager | Draft product scope, stories, business rules, metrics, and acceptance artifacts from confirmed decisions | Assigned product artifact paths | Perform UX/UI design or answer decision questions |
-| UX/UI Lead | Draft flows, states, navigation, screen semantics, accessibility, and design handoff from accepted product scope | Assigned design artifact paths | Add product scope or approve its own output |
-| Market agent | Produce market and category analysis | `market-analysis.md` | Select a visual direction |
-| Global direction agent | Produce one direction by default, or two to three when exploration is needed | Transient response or assigned draft | Generate page images or freeze a direction |
-| Global direction reviewer | Independently check traceability, differentiation, accessibility, cost, and preset compliance | Review report only | Redesign or select |
-| Page structure agent | Select Full, Lightweight, or Reuse and create the semantic contract; create Pencil evidence only for Full | Assigned nodes and page `design-decision.md` | Create another `.pen`, add scope, freeze visual geometry, or add high-fidelity styling |
-| Wireframe reviewer | Independently review level choice, semantic coverage, states, and interaction | Verdict for page `design-decision.md` | Modify the contract or judge low-fidelity visual polish |
-| Page high-fidelity agent | Generate required candidates with the compact image-prompt principles | Transient candidates only | Paste planning evidence into prompts; persist, select, or freeze candidates |
-| Effect Image Reviewer | Independently review completed candidates | Review report only | Modify or select a candidate |
-| Bitmap decomposition agent | Perform ownership classification, visual sweep, and coverage audit | Page `design-decision.md` section | Generate or cut assets |
-| Asset planning agent | Perform reuse checks, maintain the internal number mapping, and render the numbered confirmation overlay | Assigned `asset-manifest.md` draft and overlay image | Produce assets or expose the internal text mapping to the user |
-| Asset production agent | Generate with compact prompts, adapt, extract, transparentize, export, and slice confirmed numbers | Confirmed asset paths and manifests | Paste planning evidence into prompts, change confirmed numbers, or create unconfirmed assets |
-| Pencil restoration agent | Restore the frozen page and write Flutter handoff | Assigned nodes in `docs/design/app-design.pen` and page decision | Create another `.pen` or change the frozen design |
-| Visual QA agent | Compare implementation evidence with approved design | Named task-review section | Self-approve implementation |
-
-## Dispatch Sequence
-
-```text
-confirmed product decisions
-→ Product Manager + Market agent
-→ UX/UI Lead
-→ Global direction agent
-→ Global direction reviewer
-→ controller presents and freezes user selection
-→ Page structure agent
-→ Wireframe reviewer
-→ Page high-fidelity agent
-→ Effect Image Reviewer
-→ controller presents and freezes user selection
-→ Bitmap decomposition agent
-→ Asset planning agent
-→ controller presents only the numbered bitmap overlay and waits
-→ Asset production agent
-→ Pencil restoration agent when required
-→ Implementer
-→ Visual QA agent
-```
-
-## Dispatch Rules
-
-- Give each agent one core role, at most one specialist seat, agent ID, exact inputs, exact output shape, write scope, non-scope, and blocking conditions.
-- Keep producer and reviewer roles on different agents.
-- Bind every review to immutable artifact versions or hashes and record different producer/reviewer agent IDs when independence is required. A later change invalidates only the review dimensions whose covered facts changed.
-- Require `DONE`, `DONE_WITH_CONCERNS`, `NEEDS_CONTEXT`, or `BLOCKED`; the controller validates the result before advancing.
-- Never let concurrent agents write the same artifact, Pencil frame, asset path, design freeze, ledger entry, theme, navigation, or shared configuration.
-- Treat `docs/design/app-design.pen` as one shared write scope: serialize every Page structure, Pencil restoration, or asset-synchronization writer even when node assignments do not overlap.
-- Parallelize read-only research/review when independent. Parallel page/asset writers require explicit user authorization, an accepted shared freeze, and disjoint paths.
-- When subagents are unavailable, execute the same roles sequentially in the controller session and record the downgrade; do not silently collapse the role boundaries.
+所有写作用不重叠 scope 串行交接。冻结、用户确认、审阅收敛和 canonical decision 只由 Controller 记录。

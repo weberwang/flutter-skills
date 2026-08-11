@@ -1,48 +1,39 @@
 # 页面设计决策
 
-每个 UI 页面只维护一份 `docs/design/pages/<page-name>/design-decision.md`。候选、完整规划表和评审草稿保持在对话中，不写入仓库。
+每个页面只维护 `docs/design/pages/<page-name>/design-decision.md`。未冻结的 brief、prompt、候选和评审草稿只在对话中存在。
 
-## 页面与语义契约
+## 语义合同与 Code Sketch
 
 - 页面 / 状态 / 模块：
-- 线框级别：Full / Lightweight / Reuse；原因：
-- 必需内容、状态、交互与无障碍：
-- 线框审阅人 / 快照 / 结论：
+- Code Sketch Level：Full / Lightweight / Reuse；理由：
+- 范围、内容优先级、状态、交互、导航与结果：
+- 滚动 owner、断点/重排、系统避让、无障碍：
+- data/UI/asset ownership 边界：
+- `phase: sketch` layout-spec 路径 / validator / 外部 spec hash：
+- candidate commit/diff / code SHA / screenshot hashes：
+- 独立 Code Sketch Reviewer / 结论：
 
-## 布局与自适应契约
-
-> 这里冻结跨视口的关系和行为，不无必要地冻结绝对坐标、卡片像素尺寸、最终留白或图文裁切。低保真图只证明语义结构；高保真图也不能替代本契约。权威规则：`$flutter-ux-ui-quality` 技能中的 `references/responsive-layout-strategy.md`。
-
-- 目标平台、方向与视口范围：
-- 使用的布局分类 / 断点触发条件（每个断点的“条件 → 结构变化 → 回退”）：
-- 内容最大宽度 / 外侧 inset / 列数 / 最小列宽 / gutter：
-- 语义锚点与约束关系（对齐、间距 token、伸缩、换行、折叠）：
-- 导航模式及断点间结构变化（路由、选中状态和任务语义保持规则）：
-- 文档流区域：
-- 停靠元素：固定 / 吸顶 / 悬浮；视口锚点、显隐、层级、内容避让和命中区：
-- 每个滚动轴的唯一所有者；有意嵌套滚动的原因与手势/焦点规则：
-- SafeArea、系统栏、手势区、键盘、折叠铰链/分屏避让：
-- 大字体、长文本、本地化/RTL、横屏和溢出策略：
-- UI token 档启用 ScreenUtil 时仅用于根初始化和共享 token；约束驱动实现边界：
-- 证据矩阵（视口 × 状态 × 文字比例 × 键盘/方向）与通过条件：
-
-## 冻结
+## 高保真冻结
 
 - 全局方向：
-- 冻结图路径 / 候选 ID / SHA-256 / 尺寸：
-- 用户确认时间与变更处置：
-- 精简生图提示词哈希：
-- 必须遵守的视觉约束与允许偏差：
+- 冻结图路径 / candidate ID / SHA-256 / `780 x 1688 px` 尺寸：
+- 用户确认时间：
+- 必须遵守的视觉约束 / 允许偏差：
+- 合同回对结论：通过 / 返回语义与草图阶段
+- 回对发现的范围、状态、导航、滚动、断点、无障碍或 ownership 变化：
 
-## 资产与 Pencil
+## 资产
 
-- 分解覆盖审计与未决事实：
-- 资产清单（存在固定视觉资产时）：`asset-manifest.md`
-- Pencil：Required / Not required；原因：
-- `app-design.pen` 页面 / 节点 ID：
-- Flutter 交接约束：
+- `asset-manifest.md`：路径 / `N/A: no bitmap or exported visual assets`
 
-## 验收
+> ownership、覆盖审计、编号映射和资产生产明细只存在 asset manifest，不在此复制。
 
-- 截图或 golden 路径：
+## Fidelity 与验收
+
+- 同一 layout-spec 已升级 `phase: fidelity`：
+- candidate code SHA：
+- fidelity validator：
+- 实际 Widget measurement output：
+- target/Flutter 同视口 parity cases：
+- 独立 Visual QA 结论：
 - 已知偏差与接受人：

@@ -49,7 +49,7 @@ Convert approved specs into a coarse cross-module build sequence, then refine ea
 - Module entry tasks must establish routing, state boundary, contracts, and test scaffolding before page tasks.
 - A task brief must name its business-flow level and the prior-level evidence it depends on.
 - Task briefs must distinguish level integration smoke from the final platform matrix; task-level screenshots or goldens are design evidence only.
-- Do not plan parallel implementation tasks that write the same files, generated files, dependencies, routes, themes, shared state containers, or the canonical Pencil file. Record a single owner for every shared resource.
+- Do not plan parallel implementation tasks that write the same files, generated files, dependencies, routes, themes, shared state containers, or one page's layout-spec. Record a single owner for every shared resource.
 
 ## Output Files
 

@@ -100,11 +100,11 @@
 - Mockup required: Yes / No
 - Mockup reason:
 - Page design decision path:
-- Low-fidelity Pencil wireframe required: Yes / No
-- Wireframe verdict and semantic contract: page design decision
+- Code Sketch Level: Full / Lightweight / Reuse
+- Independent Code Sketch Review verdict and semantic contract: page design decision
 - Asset manifest required: Yes / No
 - Asset manifest path:
-- Pencil nodes and handoff: page design decision
+- Production Flutter sketch, relationship tests and screenshot hashes: page design decision
 - Color tokens:
 - Typography:
 - Spacing:

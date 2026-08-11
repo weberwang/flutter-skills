@@ -2,6 +2,14 @@
 
 Maintain one `docs/design/pages/<page-name>/asset-manifest.md` for each page with fixed visual assets. This is an internal production and audit artifact. Never present its table, mapping, notes, dimensions, or source decisions to the user during bitmap confirmation; the user sees only the numbered overlay image.
 
+This manifest is the sole authority for ownership, coverage audit, number mapping, production decisions, and asset fidelity. The page design decision links this file and must not duplicate these details. If no bitmap or exported visual asset exists, record `N/A: no bitmap or exported visual assets` here.
+
+## Ownership And Coverage Audit
+
+| Region/layer | Visible element | Owner | Runtime variability | Classification | Asset identity | Evidence/verdict |
+|---|---|---|---|---|---|---|
+| | | data / UI / fixed visual | | data / UI / bitmap | ID or N/A | |
+
 ## Confirmation Evidence
 
 - Page:

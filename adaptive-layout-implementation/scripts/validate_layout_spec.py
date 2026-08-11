@@ -1,467 +1,419 @@
 #!/usr/bin/env python3
-"""确定性验证自适应布局实施规格。
-
-验证器只检查规格的结构和显式矩阵字段，不扫描 Dart 源码，也不把实现信号
-直接判为错误。这样实现者可以选择合适的 Flutter 原语，同时留下可复现依据。
-"""
+"""确定性验证两阶段布局规格的结构、关系复算和证据元数据。"""
 
 from __future__ import annotations
 
 import argparse
-import sys
+import math
+import re
 from collections import defaultdict
 from pathlib import Path
-from typing import Any, Iterable
+from typing import Any
 
 import yaml
 
 
-REQUIRED_TOP_LEVEL = (
-    "page",
-    "regions",
-    "breakpoints",
-    "content",
-    "system_avoidance",
-    "scroll",
-    "text_behavior",
-    "overlays",
-    "implementation",
-    "invariants",
-    "implementation_signals",
-    "evidence_matrix",
+COMMON_FIELDS = (
+    "phase", "page", "regions", "breakpoints", "content", "system_avoidance",
+    "scroll", "text_behavior", "overlays", "implementation", "invariants",
+    "implementation_signals", "evidence_matrix",
 )
-SIGNALS = {
-    "Stack",
-    "Positioned",
-    "fixed_width",
-    "fixed_height",
-    "floating",
-    "single_line_truncation",
-    "handwritten_breakpoint",
-}
+SIGNALS = {"Stack", "Positioned", "fixed_width", "fixed_height", "floating", "single_line_truncation", "handwritten_breakpoint"}
+H_TYPES = {"start", "end", "center", "intentionally-offset"}
+V_TYPES = {"top", "bottom", "center", "intentionally-offset"}
+ABSOLUTE_RELATION = re.compile(r"^\s*[xy]\s*=")
+RELATION_OPERATOR = re.compile(r"(?:==|<=|>=|<|>)")
+SEMANTIC_REFERENCE = re.compile(r"^[A-Za-z_][A-Za-z0-9_-]*(?:\.[A-Za-z_][A-Za-z0-9_-]*)*$")
+COORDINATE_REFERENCE = re.compile(r"^\s*(?:left|top|right|bottom|x|y)\s*:", re.IGNORECASE)
+SHA256 = re.compile(r"^[0-9a-f]{64}$")
+CODE_SHA = re.compile(r"^[0-9a-f]{40,64}$")
 ORIENTATIONS = {"portrait", "landscape"}
-TEXT_SCALES = {"default", "large"}
 LOCALES = {"default", "longest_copy"}
 SAFE_AREAS = {"zero", "nonzero"}
 ACTION_STATES = {"default", "disabled", "submitting"}
+OVERLAY_BEHAVIORS = {"fixed", "floating", "pinned", "docked"}
 
 
 class ValidationErrors:
-    """收集所有错误后统一输出，保证 CI 结果稳定且便于一次修复。"""
+    """累积错误，保证一次验证能返回全部确定性缺口。"""
 
     def __init__(self) -> None:
         self.items: list[str] = []
 
-    def add(self, message: str) -> None:
-        self.items.append(message)
-
     def require(self, condition: bool, message: str) -> None:
+        """条件失败时记录错误。"""
         if not condition:
-            self.add(message)
+            self.items.append(message)
 
 
-def as_mapping(value: Any, path: str, errors: ValidationErrors) -> dict[str, Any]:
-    """将 YAML 节点限制为映射，避免后续检查因类型错误崩溃。"""
-    if not isinstance(value, dict):
-        errors.add(f"{path} must be a mapping")
-        return {}
-    return value
+def mapping(value: Any) -> dict[str, Any]:
+    """把未知 YAML 节点安全收窄为映射。"""
+    return value if isinstance(value, dict) else {}
 
 
-def as_list(value: Any, path: str, errors: ValidationErrors) -> list[Any]:
-    """将 YAML 节点限制为列表，同时保留可继续报告的空列表。"""
-    if not isinstance(value, list):
-        errors.add(f"{path} must be a list")
-        return []
-    return value
+def sequence(value: Any) -> list[Any]:
+    """把未知 YAML 节点安全收窄为列表。"""
+    return value if isinstance(value, list) else []
 
 
-def non_empty_text(value: Any) -> bool:
-    """判断字段是否为非空字符串。"""
+def text(value: Any) -> bool:
+    """判断字段是否为非空文本。"""
     return isinstance(value, str) and bool(value.strip())
 
 
-def positive_number(value: Any) -> bool:
-    """判断尺寸或断点是否为正数。"""
-    return isinstance(value, (int, float)) and not isinstance(value, bool) and value > 0
+def number(value: Any) -> bool:
+    """判断字段是否为有限数值且排除布尔值。"""
+    return isinstance(value, (int, float)) and not isinstance(value, bool) and math.isfinite(value)
 
 
-def validate_page(spec: dict[str, Any], errors: ValidationErrors) -> None:
-    """验证页面目标尺寸和方向，防止实现只针对单一设备。"""
-    page = as_mapping(spec.get("page"), "page", errors)
-    errors.require(non_empty_text(page.get("id")), "page.id is required")
-    for key in ("min_width", "max_width", "min_height", "max_height"):
-        errors.require(positive_number(page.get(key)), f"page.{key} must be positive")
-    if positive_number(page.get("min_width")) and positive_number(page.get("max_width")):
-        errors.require(page["min_width"] <= page["max_width"], "page min_width must not exceed max_width")
-    if positive_number(page.get("min_height")) and positive_number(page.get("max_height")):
-        errors.require(page["min_height"] <= page["max_height"], "page min_height must not exceed max_height")
-    orientation_values = as_list(page.get("orientations"), "page.orientations", errors)
-    errors.require(all(isinstance(item, str) for item in orientation_values), "page.orientations must contain strings")
-    orientations = {item for item in orientation_values if isinstance(item, str)}
-    errors.require(ORIENTATIONS.issubset(orientations), "page.orientations must include portrait and landscape")
+def semantic_relation(value: Any) -> bool:
+    """判断关系式是否引用语义节点/边界并包含可比较运算符。"""
+    return text(value) and "." in value and bool(RELATION_OPERATOR.search(value)) and not bool(ABSOLUTE_RELATION.match(value))
 
 
-def validate_anchor(anchor: Any, path: str, errors: ValidationErrors) -> None:
-    """验证单个锚点包含语义参照而不是裸坐标。"""
-    mapping = as_mapping(anchor, path, errors)
-    errors.require(non_empty_text(mapping.get("relation")), f"{path}.relation is required")
-    reference = mapping.get("reference")
-    errors.require(non_empty_text(reference), f"{path}.reference must name a semantic boundary")
-    if isinstance(reference, str):
-        errors.require(not any(token in reference.lower() for token in ("left:", "top:", "right:", "bottom:")), f"{path}.reference must not be a coordinate")
+def validate_anchor(value: Any, path: str, errors: ValidationErrors) -> None:
+    """验证锚点使用语义参照，而不是裸坐标或空映射。"""
+    anchor = mapping(value)
+    errors.require(text(anchor.get("relation")), f"{path}.relation is required")
+    reference = anchor.get("reference")
+    errors.require(
+        isinstance(reference, str)
+        and bool(SEMANTIC_REFERENCE.fullmatch(reference.strip()))
+        and not bool(COORDINATE_REFERENCE.match(reference)),
+        f"{path}.reference must be a stable semantic identifier or dotted boundary",
+    )
 
 
-def validate_regions(spec: dict[str, Any], errors: ValidationErrors) -> set[str]:
-    """验证区域的语义角色、双轴锚点和可增长尺寸。"""
-    regions = as_list(spec.get("regions"), "regions", errors)
-    errors.require(bool(regions), "regions must not be empty")
-    ids: set[str] = set()
-    for index, raw_region in enumerate(regions):
+def validate_regions(spec: dict[str, Any], errors: ValidationErrors) -> None:
+    """验证页面区域及双轴锚点。"""
+    regions = sequence(spec.get("regions"))
+    errors.require(bool(regions), "regions must be non-empty")
+    for index, raw in enumerate(regions):
+        region = mapping(raw)
         path = f"regions[{index}]"
-        region = as_mapping(raw_region, path, errors)
-        region_id = region.get("id")
-        errors.require(non_empty_text(region_id), f"{path}.id is required")
-        if isinstance(region_id, str):
-            errors.require(region_id not in ids, f"duplicate region id: {region_id}")
-            ids.add(region_id)
-        errors.require(non_empty_text(region.get("role")), f"{path}.role is required")
-        anchors = as_mapping(region.get("anchors"), f"{path}.anchors", errors)
+        errors.require(text(region.get("id")), f"{path}.id is required")
+        errors.require(text(region.get("role")), f"{path}.role is required")
+        anchors = mapping(region.get("anchors"))
         for axis in ("horizontal", "vertical"):
-            axis_anchors = as_mapping(anchors.get(axis), f"{path}.anchors.{axis}", errors)
-            errors.require(bool(axis_anchors), f"{path}.anchors.{axis} must contain relative anchors")
-            for anchor_name, anchor in axis_anchors.items():
-                validate_anchor(anchor, f"{path}.anchors.{axis}.{anchor_name}", errors)
-        sizes = as_mapping(region.get("size"), f"{path}.size", errors)
+            axis_anchors = mapping(anchors.get(axis))
+            errors.require(bool(axis_anchors), f"{path}.anchors.{axis} is required")
+            for name, anchor in axis_anchors.items():
+                validate_anchor(anchor, f"{path}.anchors.{axis}.{name}", errors)
+        sizes = mapping(region.get("size"))
+        errors.require(bool(sizes), f"{path}.size is required")
         for tier in ("min", "preferred", "max"):
-            size = as_mapping(sizes.get(tier), f"{path}.size.{tier}", errors)
+            size = mapping(sizes.get(tier))
             errors.require("width" in size and "height" in size, f"{path}.size.{tier} requires width and height")
-        if all(isinstance(sizes.get(tier), dict) for tier in ("min", "preferred", "max")):
-            for dimension in ("width", "height"):
-                values = [sizes[tier].get(dimension) for tier in ("min", "preferred", "max")]
-                if all(isinstance(value, (int, float)) for value in values):
-                    errors.require(values[0] <= values[1] <= values[2], f"{path}.size.{dimension} must satisfy min <= preferred <= max")
-    return ids
+        for dimension in ("width", "height"):
+            values = [mapping(sizes.get(tier)).get(dimension) for tier in ("min", "preferred", "max")]
+            if all(number(item) for item in values):
+                errors.require(values[0] <= values[1] <= values[2], f"{path}.size.{dimension} must satisfy min <= preferred <= max")
 
 
-def validate_breakpoints(spec: dict[str, Any], errors: ValidationErrors) -> dict[str, float]:
-    """验证断点的触发条件和结构回退，并返回断点值供矩阵检查。"""
-    breakpoints = as_list(spec.get("breakpoints"), "breakpoints", errors)
-    errors.require(bool(breakpoints), "breakpoints must not be empty")
-    values: dict[str, float] = {}
-    for index, raw_breakpoint in enumerate(breakpoints):
-        path = f"breakpoints[{index}]"
-        breakpoint = as_mapping(raw_breakpoint, path, errors)
-        identifier = breakpoint.get("id")
-        errors.require(non_empty_text(identifier), f"{path}.id is required")
-        if isinstance(identifier, str):
-            errors.require(identifier not in values, f"duplicate breakpoint id: {identifier}")
-        axis = breakpoint.get("axis")
-        errors.require(axis in ("width", "height"), f"{path}.axis must be width or height")
-        value = breakpoint.get("value")
-        errors.require(positive_number(value), f"{path}.value must be positive")
-        if isinstance(identifier, str) and isinstance(value, (int, float)):
-            values[identifier] = float(value)
-        for field in ("reason", "change", "preserves", "fallback"):
-            if field == "preserves":
-                preserve = breakpoint.get(field)
-                errors.require(isinstance(preserve, list) and bool(preserve), f"{path}.preserves must be a non-empty list")
-            else:
-                errors.require(non_empty_text(breakpoint.get(field)), f"{path}.{field} is required")
-    return values
-
-
-def validate_content_and_system(spec: dict[str, Any], errors: ValidationErrors) -> None:
-    """验证内容容器、系统边界和文本增长策略。"""
-    content = as_mapping(spec.get("content"), "content", errors)
-    errors.require(positive_number(content.get("max_width")), "content.max_width must be positive")
-    columns = as_mapping(content.get("columns"), "content.columns", errors)
-    for key in ("min", "preferred", "max", "min_item_width"):
-        errors.require(positive_number(columns.get(key)), f"content.columns.{key} must be positive")
-    if all(isinstance(columns.get(key), (int, float)) for key in ("min", "preferred", "max")):
+def validate_common(spec: dict[str, Any], errors: ValidationErrors) -> tuple[set[str], set[str]]:
+    """验证 sketch 与 fidelity 共用的结构合同。"""
+    for field in COMMON_FIELDS:
+        errors.require(field in spec, f"{field} is required")
+    page = mapping(spec.get("page"))
+    errors.require(text(page.get("id")), "page.id is required")
+    for field in ("min_width", "max_width", "min_height", "max_height"):
+        errors.require(number(page.get(field)) and page[field] > 0, f"page.{field} must be positive")
+    if all(number(page.get(field)) for field in ("min_width", "max_width")):
+        errors.require(page["min_width"] <= page["max_width"], "page width range is invalid")
+    if all(number(page.get(field)) for field in ("min_height", "max_height")):
+        errors.require(page["min_height"] <= page["max_height"], "page height range is invalid")
+    errors.require({"portrait", "landscape"} <= set(sequence(page.get("orientations"))), "page.orientations must include portrait and landscape")
+    validate_regions(spec, errors)
+    breakpoints = sequence(spec.get("breakpoints"))
+    errors.require(bool(breakpoints), "breakpoints must be non-empty")
+    breakpoint_by_id: dict[str, dict[str, Any]] = {}
+    for index, raw in enumerate(breakpoints):
+        item = mapping(raw)
+        for field in ("id", "axis", "reason", "change", "fallback"):
+            errors.require(text(item.get(field)), f"breakpoints[{index}].{field} is required")
+        errors.require(item.get("axis") in {"width", "height"}, f"breakpoints[{index}].axis must be width or height")
+        errors.require(number(item.get("value")) and item["value"] > 0, f"breakpoints[{index}].value must be positive")
+        errors.require(bool(sequence(item.get("preserves"))), f"breakpoints[{index}].preserves must be non-empty")
+        if text(item.get("id")):
+            errors.require(item["id"] not in breakpoint_by_id, f"duplicate breakpoint id: {item['id']}")
+            breakpoint_by_id[item["id"]] = item
+    for field in ("content", "system_avoidance", "scroll", "text_behavior", "implementation"):
+        errors.require(bool(mapping(spec.get(field))), f"{field} must be a non-empty mapping")
+    content = mapping(spec.get("content"))
+    errors.require(number(content.get("max_width")) and content["max_width"] > 0, "content.max_width must be positive")
+    columns = mapping(content.get("columns"))
+    for field in ("min", "preferred", "max", "min_item_width"):
+        errors.require(number(columns.get(field)) and columns[field] > 0, f"content.columns.{field} must be positive")
+    if all(number(columns.get(field)) for field in ("min", "preferred", "max")):
         errors.require(columns["min"] <= columns["preferred"] <= columns["max"], "content.columns must satisfy min <= preferred <= max")
-    for key in ("gutter", "margins"):
-        values = as_mapping(content.get(key), f"content.{key}", errors)
-        for tier in ("min", "preferred", "max"):
-            errors.require(positive_number(values.get(tier)), f"content.{key}.{tier} must be positive")
-    errors.require(non_empty_text(content.get("insufficient_width_fallback")), "content.insufficient_width_fallback is required")
-
-    system = as_mapping(spec.get("system_avoidance"), "system_avoidance", errors)
-    for key in ("safe_area", "system_bars", "keyboard", "fold", "split"):
-        entry = as_mapping(system.get(key), f"system_avoidance.{key}", errors)
-        errors.require(bool(entry), f"system_avoidance.{key} is required")
-    text = as_mapping(spec.get("text_behavior"), "text_behavior", errors)
-    for key in ("localization", "rtl"):
-        errors.require(text.get(key) is not None, f"text_behavior.{key} is required")
-    scale = as_mapping(text.get("text_scale"), "text_behavior.text_scale", errors)
-    errors.require(positive_number(scale.get("default")), "text_behavior.text_scale.default must be positive")
-    errors.require(positive_number(scale.get("large")) and scale.get("large", 0) > 1, "text_behavior.text_scale.large must exceed 1")
-    errors.require(scale.get("default") != scale.get("large"), "text_behavior.text_scale.default and large must differ")
-    for key in ("wrap", "growth"):
-        errors.require(non_empty_text(text.get(key)), f"text_behavior.{key} is required")
-    errors.require(text.get("critical_actions_allow_truncation") is False, "critical actions must forbid truncation")
-
-
-def validate_scroll(spec: dict[str, Any], errors: ValidationErrors) -> None:
-    """要求每个轴声明唯一 owner，即使该轴明确不滚动。"""
-    scroll = as_mapping(spec.get("scroll"), "scroll", errors)
+    for group in ("gutter", "margins"):
+        values = mapping(content.get(group))
+        for field in ("min", "preferred", "max"):
+            errors.require(number(values.get(field)) and values[field] > 0, f"content.{group}.{field} must be positive")
+        if all(number(values.get(field)) for field in ("min", "preferred", "max")):
+            errors.require(values["min"] <= values["preferred"] <= values["max"], f"content.{group} must satisfy min <= preferred <= max")
+    errors.require(text(content.get("insufficient_width_fallback")), "content.insufficient_width_fallback is required")
+    avoidance = mapping(spec.get("system_avoidance"))
+    for field in ("safe_area", "system_bars", "keyboard", "fold", "split"):
+        errors.require(bool(mapping(avoidance.get(field))), f"system_avoidance.{field} is required")
+    scroll = mapping(spec.get("scroll"))
     for axis in ("vertical", "horizontal"):
-        entry = as_mapping(scroll.get(axis), f"scroll.{axis}", errors)
-        owner = entry.get("owner")
-        errors.require(non_empty_text(owner), f"scroll.{axis}.owner is required; use none for an explicit non-scrolling axis")
-        errors.require(non_empty_text(entry.get("semantics")), f"scroll.{axis}.semantics is required")
-        errors.require(non_empty_text(entry.get("narrow_height_fallback")), f"scroll.{axis}.narrow_height_fallback is required")
-
-
-def validate_overlays(spec: dict[str, Any], errors: ValidationErrors) -> None:
-    """验证固定、悬浮、吸顶和停靠层具有避让、命中和回退规则。"""
-    overlays = as_list(spec.get("overlays"), "overlays", errors)
-    for index, raw_overlay in enumerate(overlays):
+        axis_scroll = mapping(scroll.get(axis))
+        for field in ("owner", "semantics", "narrow_height_fallback"):
+            errors.require(text(axis_scroll.get(field)), f"scroll.{axis}.{field} is required")
+    text_behavior = mapping(spec.get("text_behavior"))
+    errors.require({"default", "longest_copy"} <= set(sequence(text_behavior.get("localization"))), "text_behavior.localization must include default and longest_copy")
+    for field in ("rtl", "wrap", "growth"):
+        errors.require(text(text_behavior.get(field)), f"text_behavior.{field} is required")
+    text_scale = mapping(text_behavior.get("text_scale"))
+    default_scale = text_scale.get("default")
+    large_scale = text_scale.get("large")
+    errors.require(number(default_scale) and default_scale > 0, "text_behavior.text_scale.default must be positive")
+    errors.require(number(large_scale) and large_scale > 1, "text_behavior.text_scale.large must be greater than 1")
+    if number(default_scale) and number(large_scale):
+        errors.require(not math.isclose(default_scale, large_scale), "text_behavior text scales must differ")
+    errors.require(text_behavior.get("critical_actions_allow_truncation") is False, "critical actions must not allow truncation")
+    overlays = sequence(spec.get("overlays"))
+    for index, raw in enumerate(overlays):
+        overlay = mapping(raw)
         path = f"overlays[{index}]"
-        overlay = as_mapping(raw_overlay, path, errors)
-        errors.require(non_empty_text(overlay.get("id")), f"{path}.id is required")
-        errors.require(overlay.get("behavior") in ("fixed", "floating", "pinned", "docked"), f"{path}.behavior must be fixed/floating/pinned/docked")
+        for field in ("id", "behavior", "occlusion", "keyboard_fallback", "narrow_height_fallback"):
+            errors.require(text(overlay.get(field)), f"{path}.{field} is required")
+        errors.require(overlay.get("behavior") in OVERLAY_BEHAVIORS, f"{path}.behavior must be fixed, floating, pinned, or docked")
         validate_anchor(overlay.get("anchor"), f"{path}.anchor", errors)
-        for key in ("occlusion", "keyboard_fallback", "narrow_height_fallback"):
-            errors.require(non_empty_text(overlay.get(key)), f"{path}.{key} is required")
-        hit = as_mapping(overlay.get("hit_target"), f"{path}.hit_target", errors)
-        errors.require(positive_number(hit.get("min_width")) and positive_number(hit.get("min_height")), f"{path}.hit_target requires positive min_width/min_height")
-
-
-def validate_implementation(spec: dict[str, Any], errors: ValidationErrors) -> None:
-    """验证共享断点、根布局和约束原语来源。"""
-    implementation = as_mapping(spec.get("implementation"), "implementation", errors)
-    for key in ("breakpoint_resolver", "root_layout"):
-        errors.require(non_empty_text(implementation.get(key)), f"implementation.{key} is required")
-    primitives = implementation.get("constraint_primitives")
-    errors.require(isinstance(primitives, list) and bool(primitives), "implementation.constraint_primitives must be non-empty")
-
-
-def validate_invariants(spec: dict[str, Any], errors: ValidationErrors) -> dict[str, set[str]]:
-    """验证每条关系不变量都绑定参数化 test id。"""
-    invariants = as_list(spec.get("invariants"), "invariants", errors)
-    errors.require(bool(invariants), "invariants must not be empty")
-    result: dict[str, set[str]] = {}
-    invariant_ids: set[str] = set()
-    for index, raw_invariant in enumerate(invariants):
-        path = f"invariants[{index}]"
-        invariant = as_mapping(raw_invariant, path, errors)
-        identifier = invariant.get("id")
-        errors.require(non_empty_text(identifier), f"{path}.id is required")
-        if isinstance(identifier, str):
-            errors.require(identifier not in invariant_ids, f"duplicate invariant id: {identifier}")
-            invariant_ids.add(identifier)
-        test_ids = invariant.get("test_ids")
-        valid_test_ids = isinstance(test_ids, list) and bool(test_ids) and all(non_empty_text(item) for item in test_ids)
-        errors.require(valid_test_ids, f"{path}.test_ids must be non-empty strings")
-        if isinstance(identifier, str):
-            result[identifier] = set(test_ids) if valid_test_ids else set()
-        errors.require(non_empty_text(invariant.get("relation")), f"{path}.relation is required")
-    return result
-
-
-def validate_signals(spec: dict[str, Any], errors: ValidationErrors) -> dict[str, set[str]]:
-    """验证实现信号的依据字段，并返回信号到 test id 的映射。"""
-    signals = as_list(spec.get("implementation_signals"), "implementation_signals", errors)
-    found: dict[str, set[str]] = {}
-    for index, raw_signal in enumerate(signals):
-        path = f"implementation_signals[{index}]"
-        signal = as_mapping(raw_signal, path, errors)
-        name = signal.get("signal")
-        errors.require(isinstance(name, str) and name in SIGNALS, f"{path}.signal must be one of {sorted(SIGNALS)}")
-        for key in ("reason", "boundary", "fallback"):
-            errors.require(non_empty_text(signal.get(key)), f"{path}.{key} is required")
-        ids = signal.get("test_ids")
-        valid_ids = isinstance(ids, list) and bool(ids) and all(non_empty_text(item) for item in ids)
-        errors.require(valid_ids, f"{path}.test_ids must be non-empty strings")
-        if isinstance(name, str):
-            found.setdefault(name, set()).update(ids if valid_ids else ())
-    return found
-
-
-def validate_matrix(spec: dict[str, Any], breakpoints: dict[str, float], invariant_tests: dict[str, set[str]], signal_tests: dict[str, set[str]], errors: ValidationErrors) -> None:
-    """按显式字段验证最小充分矩阵，而不是信任 covers 标签。"""
-    matrix = as_mapping(spec.get("evidence_matrix"), "evidence_matrix", errors)
-    cases = as_list(matrix.get("cases"), "evidence_matrix.cases", errors)
-    errors.require(bool(cases), "evidence_matrix.cases must not be empty")
-    offsets: dict[str, set[int]] = defaultdict(set)
-    dimensions_by_group: dict[str, set[tuple[float, float]]] = defaultdict(set)
-    seen: dict[str, set[str]] = {"orientation": set(), "text_scale": set(), "locale": set(), "safe_area": set(), "action_state": set()}
-    case_ids: set[str] = set()
-    test_coverage: set[str] = set()
-    text_scale_config = as_mapping(as_mapping(spec.get("text_behavior"), "text_behavior", errors).get("text_scale"), "text_behavior.text_scale", errors)
-    default_scale = text_scale_config.get("default")
-    large_scale = text_scale_config.get("large")
-    for index, raw_case in enumerate(cases):
+        hit_target = mapping(overlay.get("hit_target"))
+        for field in ("min_width", "min_height"):
+            errors.require(number(hit_target.get(field)) and hit_target[field] > 0, f"{path}.hit_target.{field} must be positive")
+    implementation = mapping(spec.get("implementation"))
+    for field in ("breakpoint_resolver", "root_layout"):
+        errors.require(text(implementation.get(field)), f"implementation.{field} is required")
+    primitives = sequence(implementation.get("constraint_primitives"))
+    errors.require(bool(primitives) and all(text(primitive) for primitive in primitives), "implementation.constraint_primitives must be a non-empty string list")
+    invariants = sequence(spec.get("invariants"))
+    errors.require(bool(invariants), "invariants must be non-empty")
+    invariant_tests: set[str] = set()
+    for index, raw in enumerate(invariants):
+        item = mapping(raw)
+        errors.require(text(item.get("id")) and text(item.get("relation")), f"invariants[{index}] requires id and relation")
+        tests = sequence(item.get("test_ids"))
+        errors.require(bool(tests) and all(text(test) for test in tests), f"invariants[{index}].test_ids must be non-empty")
+        invariant_tests.update(test for test in tests if text(test))
+    cases = sequence(mapping(spec.get("evidence_matrix")).get("cases"))
+    errors.require(bool(cases), "evidence_matrix.cases must be non-empty")
+    executed: set[str] = set()
+    edge_offsets: dict[str, set[int]] = defaultdict(set)
+    matrix_values: dict[str, set[Any]] = defaultdict(set)
+    heights_by_width: dict[float, set[float]] = defaultdict(set)
+    for index, raw in enumerate(cases):
+        case = mapping(raw)
         path = f"evidence_matrix.cases[{index}]"
-        case = as_mapping(raw_case, path, errors)
-        identifier = case.get("id")
-        errors.require(non_empty_text(identifier), f"{path}.id is required")
-        if isinstance(identifier, str):
-            errors.require(identifier not in case_ids, f"duplicate evidence case id: {identifier}")
-            case_ids.add(identifier)
-        errors.require(positive_number(case.get("width")) and positive_number(case.get("height")), f"{path}.width and height must be positive")
-        orientation = case.get("orientation")
-        errors.require(isinstance(orientation, str) and orientation in ORIENTATIONS, f"{path}.orientation must be portrait or landscape")
-        if isinstance(orientation, str) and orientation in ORIENTATIONS:
-            seen["orientation"].add(orientation)
-        text_scale = case.get("text_scale")
-        errors.require(isinstance(text_scale, (int, float)) and not isinstance(text_scale, bool), f"{path}.text_scale must be numeric")
-        if isinstance(text_scale, (int, float)) and not isinstance(text_scale, bool):
-            errors.require(text_scale in (default_scale, large_scale), f"{path}.text_scale must equal text_behavior.text_scale.default or large")
-            if text_scale == default_scale:
-                seen["text_scale"].add("default")
-            elif text_scale == large_scale:
-                seen["text_scale"].add("large")
-            else:
-                seen["text_scale"].add("other")
-        locale = case.get("locale")
-        errors.require(isinstance(locale, str) and locale in LOCALES, f"{path}.locale must be default or longest_copy")
-        if isinstance(locale, str) and locale in LOCALES:
-            seen["locale"].add(locale)
-        safe_area = case.get("safe_area")
-        errors.require(isinstance(safe_area, str) and safe_area in SAFE_AREAS, f"{path}.safe_area must be zero or nonzero")
-        if isinstance(safe_area, str) and safe_area in SAFE_AREAS:
-            seen["safe_area"].add(safe_area)
-        action_state = case.get("action_state")
-        errors.require(isinstance(action_state, str) and action_state in ACTION_STATES, f"{path}.action_state must be default/disabled/submitting")
-        if isinstance(action_state, str) and action_state in ACTION_STATES:
-            seen["action_state"].add(action_state)
-        edge = case.get("breakpoint_edge")
-        if edge is not None:
-            edge_mapping = as_mapping(edge, f"{path}.breakpoint_edge", errors)
-            breakpoint_id = edge_mapping.get("id")
-            offset = edge_mapping.get("offset")
-            known_breakpoint = isinstance(breakpoint_id, str) and breakpoint_id in breakpoints
-            errors.require(known_breakpoint, f"{path}.breakpoint_edge.id must reference a breakpoint")
-            errors.require(offset in (-1, 0, 1), f"{path}.breakpoint_edge.offset must be -1, 0, or +1")
-            if known_breakpoint and offset in (-1, 0, 1):
-                offsets[breakpoint_id].add(offset)
-                edge_axis = next((item.get("axis") for item in as_list(spec.get("breakpoints"), "breakpoints", errors) if isinstance(item, dict) and item.get("id") == breakpoint_id), "width")
-                actual = case.get("width" if edge_axis == "width" else "height")
-                errors.require(isinstance(actual, (int, float)) and actual == breakpoints[breakpoint_id] + offset, f"{path} dimensions must equal breakpoint value plus offset")
-        group = case.get("same_width_group")
-        if group is not None and non_empty_text(group) and isinstance(case.get("width"), (int, float)) and isinstance(case.get("height"), (int, float)):
-            dimensions_by_group[group].add((float(case["width"]), float(case["height"])))
-        ids = case.get("test_ids")
-        valid_ids = isinstance(ids, list) and bool(ids) and all(non_empty_text(item) for item in ids)
-        errors.require(valid_ids, f"{path}.test_ids must be a non-empty list of strings")
-        if valid_ids:
-            test_coverage.update(ids)
-    for breakpoint_id in breakpoints:
-        errors.require(offsets[breakpoint_id] == {-1, 0, 1}, f"evidence_matrix must cover {breakpoint_id} at b-1, b, and b+1")
-    errors.require(any(len({width for width, _ in dimensions}) == 1 and len({height for _, height in dimensions}) >= 2 for dimensions in dimensions_by_group.values()), "evidence_matrix must include same-width different-height cases")
-    errors.require(seen["orientation"] == ORIENTATIONS, "evidence_matrix must cover portrait and landscape")
-    errors.require(seen["text_scale"] == TEXT_SCALES, "evidence_matrix must cover default and large text scale")
-    errors.require(seen["locale"] == LOCALES, "evidence_matrix must cover default and longest_copy locale")
-    errors.require(seen["safe_area"] == SAFE_AREAS, "evidence_matrix must cover zero and nonzero safe area")
-    errors.require(seen["action_state"] == ACTION_STATES, "evidence_matrix must cover default, disabled, and submitting actions")
-    invariant_test_ids = set().union(*invariant_tests.values()) if invariant_tests else set()
-    for invariant_id, test_ids in invariant_tests.items():
-        missing = sorted(test_ids - test_coverage)
-        errors.require(not missing, f"invariant {invariant_id} test ids missing from evidence_matrix: {', '.join(missing)}")
-    for signal_name, test_ids in signal_tests.items():
-        undeclared = sorted(test_ids - invariant_test_ids)
-        errors.require(not undeclared, f"implementation signal {signal_name} references undeclared test ids: {', '.join(undeclared)}")
-        unexecuted = sorted(test_ids - test_coverage)
-        errors.require(not unexecuted, f"implementation signal {signal_name} test ids missing from evidence_matrix: {', '.join(unexecuted)}")
+        for field in ("id", "orientation", "locale", "safe_area", "action_state"):
+            errors.require(text(case.get(field)), f"{path}.{field} is required")
+        errors.require(case.get("orientation") in ORIENTATIONS, f"{path}.orientation is invalid")
+        errors.require(case.get("locale") in LOCALES, f"{path}.locale is invalid")
+        errors.require(case.get("safe_area") in SAFE_AREAS, f"{path}.safe_area is invalid")
+        errors.require(case.get("action_state") in ACTION_STATES, f"{path}.action_state is invalid")
+        for field in ("width", "height", "text_scale"):
+            errors.require(number(case.get(field)), f"{path}.{field} must be numeric")
+        for field in ("orientation", "locale", "safe_area", "action_state", "text_scale"):
+            matrix_values[field].add(case.get(field))
+        if number(case.get("width")) and number(case.get("height")):
+            heights_by_width[float(case["width"])].add(float(case["height"]))
+        tests = sequence(case.get("test_ids"))
+        errors.require(bool(tests) and all(text(test) for test in tests), f"{path}.test_ids must be a non-empty string list")
+        executed.update(test for test in tests if text(test))
+        edge = mapping(case.get("breakpoint_edge"))
+        if text(edge.get("id")) and edge.get("offset") in (-1, 0, 1):
+            edge_offsets[edge["id"]].add(edge["offset"])
+            breakpoint = breakpoint_by_id.get(edge["id"])
+            errors.require(breakpoint is not None, f"{path}.breakpoint_edge.id is unknown")
+            if breakpoint is not None and number(breakpoint.get("value")):
+                axis = breakpoint.get("axis")
+                errors.require(axis in {"width", "height"}, f"breakpoint {edge['id']} axis must be width or height")
+                if axis in {"width", "height"} and number(case.get(axis)):
+                    expected = breakpoint["value"] + edge["offset"]
+                    errors.require(math.isclose(case[axis], expected, abs_tol=1e-9), f"{path}.{axis} must equal breakpoint value + offset ({expected})")
+    errors.require(invariant_tests <= executed, "every invariant test_id must execute in evidence_matrix")
+    errors.require({"portrait", "landscape"} <= matrix_values["orientation"], "evidence_matrix must cover portrait and landscape")
+    errors.require({"default", "longest_copy"} <= matrix_values["locale"], "evidence_matrix must cover default and longest_copy")
+    errors.require({"zero", "nonzero"} <= matrix_values["safe_area"], "evidence_matrix must cover zero and nonzero safe areas")
+    errors.require({"default", "disabled", "submitting"} <= matrix_values["action_state"], "evidence_matrix must cover all critical action states")
+    if number(default_scale) and number(large_scale):
+        errors.require({default_scale, large_scale} <= matrix_values["text_scale"], "evidence_matrix must cover declared default and large text scales")
+    errors.require(any(len(heights) > 1 for heights in heights_by_width.values()), "evidence_matrix must cover same width with different heights")
+    for raw in sequence(spec.get("breakpoints")):
+        breakpoint = mapping(raw)
+        identifier = breakpoint.get("id")
+        errors.require(text(identifier), "every breakpoint requires id")
+        if text(identifier):
+            errors.require(edge_offsets[identifier] == {-1, 0, 1}, f"breakpoint {identifier} requires b-1/b/b+1 evidence")
+    return invariant_tests, executed
+
+
+def validate_optical(optical: dict[str, Any], path: str, errors: ValidationErrors) -> None:
+    """验证几何中心、可见光学中心及偏移证据。"""
+    for field in ("offset_x", "offset_y"):
+        errors.require(number(optical.get(field)), f"{path}.{field} must be numeric")
+    errors.require(text(optical.get("node_or_container_center")), f"{path}.node_or_container_center is required")
+    errors.require(text(optical.get("visible_optical_center")), f"{path}.visible_optical_center is required")
+    errors.require(optical.get("unresolved") is False, f"{path}.unresolved must be false")
+    nonzero = any(number(optical.get(field)) and not math.isclose(optical[field], 0, abs_tol=1e-9) for field in ("offset_x", "offset_y"))
+    if nonzero:
+        errors.require(text(optical.get("evidence")), f"{path}.evidence is required for non-zero optical offset")
+
+
+def validate_geometry(geometry: dict[str, Any], path: str, errors: ValidationErrors) -> None:
+    """验证 target/Flutter 边界并复算中心。"""
+    for side in ("target", "flutter"):
+        item = mapping(geometry.get(side))
+        for field in ("x", "y", "width", "height", "center_x", "center_y", "reference_center_x", "reference_center_y"):
+            errors.require(number(item.get(field)), f"{path}.{side}.{field} must be numeric")
+        for field in ("width", "height"):
+            errors.require(number(item.get(field)) and item[field] > 0, f"{path}.{side}.{field} must be positive")
+        if all(number(item.get(field)) for field in ("x", "width", "center_x")):
+            errors.require(math.isclose(item["center_x"], item["x"] + item["width"] / 2, abs_tol=1e-6), f"{path}.{side}.center_x must be recomputable")
+        if all(number(item.get(field)) for field in ("y", "height", "center_y")):
+            errors.require(math.isclose(item["center_y"], item["y"] + item["height"] / 2, abs_tol=1e-6), f"{path}.{side}.center_y must be recomputable")
+
+
+def validate_alignments(spec: dict[str, Any], errors: ValidationErrors) -> set[str]:
+    """验证 fidelity 的 target↔Flutter 关键对齐合同。"""
+    alignments = sequence(spec.get("critical_alignments"))
+    errors.require(bool(alignments), "fidelity critical_alignments must be non-empty")
+    test_ids: set[str] = set()
+    identifiers: set[str] = set()
+    flutter_keys: set[str] = set()
+    for index, raw in enumerate(alignments):
+        item = mapping(raw)
+        path = f"critical_alignments[{index}]"
+        for field in ("id", "element", "flutter_key", "reference", "reference_flutter_key"):
+            errors.require(text(item.get(field)), f"{path}.{field} is required")
+        if text(item.get("id")):
+            errors.require(item["id"] not in identifiers, f"duplicate critical alignment id: {item['id']}")
+            identifiers.add(item["id"])
+        if text(item.get("flutter_key")):
+            errors.require(item["flutter_key"] not in flutter_keys, f"duplicate critical alignment flutter_key: {item['flutter_key']}")
+            flutter_keys.add(item["flutter_key"])
+        relations = mapping(item.get("relations"))
+        for axis, accepted in (("horizontal", H_TYPES), ("vertical", V_TYPES)):
+            relation = mapping(relations.get(axis))
+            errors.require(relation.get("type") in accepted, f"{path}.relations.{axis}.type is invalid")
+            for side in ("target", "flutter"):
+                value = relation.get(side)
+                errors.require(semantic_relation(value), f"{path}.relations.{axis}.{side} must contain a semantic boundary expression and relation operator")
+        geometry = mapping(item.get("geometry"))
+        validate_geometry(geometry, f"{path}.geometry", errors)
+        delta = mapping(item.get("delta"))
+        tolerance = item.get("tolerance_logical_px")
+        errors.require(number(tolerance) and 0 <= tolerance <= 1, f"{path}.tolerance_logical_px must be between 0 and 1")
+        target = mapping(geometry.get("target"))
+        flutter = mapping(geometry.get("flutter"))
+        for axis, center, reference in (("horizontal", "center_x", "reference_center_x"), ("vertical", "center_y", "reference_center_y")):
+            errors.require(number(delta.get(axis)), f"{path}.delta.{axis} must be numeric")
+            fields = (target.get(center), target.get(reference), flutter.get(center), flutter.get(reference), delta.get(axis))
+            if all(number(value) for value in fields):
+                expected = (fields[2] - fields[3]) - (fields[0] - fields[1])
+                errors.require(math.isclose(fields[4], expected, abs_tol=1e-6), f"{path}.delta.{axis} must equal Flutter/target relative-center difference")
+                if number(tolerance):
+                    errors.require(abs(fields[4]) <= tolerance, f"{path}.delta.{axis} exceeds tolerance")
+        validate_optical(mapping(item.get("optical")), f"{path}.optical", errors)
+        evidence = mapping(item.get("evidence"))
+        for field in ("target_screenshot", "flutter_screenshot", "actual_measurement_output"):
+            errors.require(text(evidence.get(field)), f"{path}.evidence.{field} is required")
+        ids = sequence(item.get("test_ids"))
+        errors.require(bool(ids) and all(text(value) for value in ids), f"{path}.test_ids must be non-empty")
+        test_ids.update(value for value in ids if text(value))
+        parity_ids = sequence(item.get("parity_case_ids"))
+        errors.require(bool(parity_ids) and all(text(value) for value in parity_ids), f"{path}.parity_case_ids must be non-empty")
+    return test_ids
+
+
+def validate_parity(spec: dict[str, Any], errors: ValidationErrors) -> set[str]:
+    """验证视觉 parity case 对单一冻结目标及候选快照的绑定。"""
+    cases = sequence(spec.get("parity_cases"))
+    errors.require(bool(cases), "fidelity parity_cases must be non-empty")
+    identifiers: set[str] = set()
+    for index, raw in enumerate(cases):
+        item = mapping(raw)
+        path = f"parity_cases[{index}]"
+        for field in ("id", "state", "orientation", "target_sha256", "candidate_code_sha", "target_screenshot", "flutter_screenshot"):
+            errors.require(text(item.get(field)), f"{path}.{field} is required")
+        errors.require(isinstance(item.get("target_sha256"), str) and bool(SHA256.fullmatch(item["target_sha256"])), f"{path}.target_sha256 must be a 64-character lowercase SHA-256")
+        errors.require(isinstance(item.get("candidate_code_sha"), str) and bool(CODE_SHA.fullmatch(item["candidate_code_sha"])), f"{path}.candidate_code_sha must be a 40-64 character lowercase commit/content SHA")
+        errors.require(item.get("orientation") in {"portrait", "landscape"}, f"{path}.orientation must be portrait or landscape")
+        viewport = mapping(item.get("viewport"))
+        errors.require(number(viewport.get("width")) and viewport["width"] > 0, f"{path}.viewport.width must be positive")
+        errors.require(number(viewport.get("height")) and viewport["height"] > 0, f"{path}.viewport.height must be positive")
+        if text(item.get("id")):
+            errors.require(item["id"] not in identifiers, f"duplicate parity case id: {item['id']}")
+            identifiers.add(item["id"])
+    return identifiers
+
+
+def validate_signals(spec: dict[str, Any], invariant_tests: set[str], executed: set[str], errors: ValidationErrors) -> set[str]:
+    """验证实现信号，并返回需人工关注的信号名称。"""
+    attention: set[str] = set()
+    for index, raw in enumerate(sequence(spec.get("implementation_signals"))):
+        item = mapping(raw)
+        signal = item.get("signal")
+        errors.require(signal in SIGNALS, f"implementation_signals[{index}].signal is invalid")
+        for field in ("reason", "boundary", "fallback"):
+            errors.require(text(item.get(field)), f"implementation_signals[{index}].{field} is required")
+        test_ids = sequence(item.get("test_ids"))
+        errors.require(bool(test_ids) and all(text(test_id) for test_id in test_ids), f"implementation_signals[{index}].test_ids is required")
+        declared = {test_id for test_id in test_ids if text(test_id)}
+        errors.require(declared <= invariant_tests, f"implementation_signals[{index}].test_ids must be declared by invariants")
+        errors.require(declared <= executed, f"implementation_signals[{index}].test_ids must execute in evidence_matrix")
+        if signal == "Positioned":
+            errors.require(text(item.get("viewport_scope")), f"implementation_signals[{index}].viewport_scope is required")
+        if signal in SIGNALS:
+            attention.add(signal)
+    return attention
 
 
 def validate(spec: dict[str, Any]) -> tuple[list[str], set[str]]:
-    """执行完整校验并返回错误和 implementation_attention 信号。"""
+    """执行完整验证并返回错误与实现关注信号。"""
     errors = ValidationErrors()
-    for key in REQUIRED_TOP_LEVEL:
-        errors.require(key in spec, f"missing top-level field: {key}")
-    validate_page(spec, errors)
-    validate_regions(spec, errors)
-    breakpoints = validate_breakpoints(spec, errors)
-    validate_content_and_system(spec, errors)
-    validate_scroll(spec, errors)
-    validate_overlays(spec, errors)
-    validate_implementation(spec, errors)
-    invariant_tests = validate_invariants(spec, errors)
-    signals = validate_signals(spec, errors)
-    validate_matrix(spec, breakpoints, invariant_tests, signals, errors)
-    return errors.items, set(signals)
+    invariant_tests, executed = validate_common(spec, errors)
+    phase = spec.get("phase")
+    errors.require(phase in {"sketch", "fidelity"}, "phase must be sketch or fidelity")
+    if phase == "sketch":
+        # sketch 不得预填未来视觉证据，避免把尚未发生的 parity 伪装为已验证事实。
+        errors.require("critical_alignments" not in spec, "sketch must not contain critical_alignments")
+        errors.require("parity_cases" not in spec, "sketch must not contain parity_cases")
+    elif phase == "fidelity":
+        alignment_tests = validate_alignments(spec, errors)
+        parity_ids = validate_parity(spec, errors)
+        executed = {test for case in sequence(mapping(spec.get("evidence_matrix")).get("cases")) for test in sequence(mapping(case).get("test_ids")) if text(test)}
+        errors.require(alignment_tests <= executed, "every critical alignment test_id must execute in evidence_matrix")
+        for index, raw in enumerate(sequence(spec.get("critical_alignments"))):
+            bound = set(sequence(mapping(raw).get("parity_case_ids")))
+            errors.require(bool(bound) and bound <= parity_ids, f"critical_alignments[{index}] references unknown parity case")
+    attention = validate_signals(spec, invariant_tests, executed, errors)
+    return errors.items, attention
 
 
-def parse_args(argv: Iterable[str]) -> argparse.Namespace:
-    """解析规格路径和可选 JSON 输出开关。"""
-    parser = argparse.ArgumentParser(description="Validate an adaptive layout implementation specification")
+def main() -> int:
+    """读取 YAML、运行验证并输出 CI 可用结果。"""
+    parser = argparse.ArgumentParser()
     parser.add_argument("spec", type=Path, help="layout-spec.yaml path")
-    parser.add_argument("--json", action="store_true", help="emit a machine-readable result")
-    return parser.parse_args(list(argv))
-
-
-def _resolve_fixture_path(root: dict[str, Any], path: str) -> tuple[dict[str, Any], str]:
-    """解析夹具 mutation 的点号路径。"""
-    parts = path.split(".")
-    parent: Any = root
-    for part in parts[:-1]:
-        parent = parent[int(part)] if isinstance(parent, list) else parent[part]
-    if not isinstance(parent, dict):
-        raise ValueError(f"mutation parent is not a mapping: {path}")
-    return parent, parts[-1]
-
-
-def _apply_fixture_mutation(spec: dict[str, Any], mutation: dict[str, Any]) -> None:
-    """应用夹具声明的有限 mutation，便于直接验证负向样例。"""
-    parent, key = _resolve_fixture_path(spec, mutation["path"])
-    operation = mutation["op"]
-    if operation == "remove":
-        parent.pop(key, None)
-    elif operation == "set":
-        parent[key] = mutation.get("value")
-    elif operation == "append":
-        target = parent.get(key)
-        if not isinstance(target, list):
-            raise ValueError(f"append target is not a list: {mutation['path']}")
-        target.append(mutation.get("value"))
-    else:
-        raise ValueError(f"unknown mutation operation: {operation}")
-
-
-def load_spec(path: Path) -> dict[str, Any]:
-    """读取普通规格，或展开 scripts/fixtures 下的可复现规格夹具。"""
-    with path.open("r", encoding="utf-8") as handle:
-        document = yaml.safe_load(handle)
-    if not isinstance(document, dict):
-        raise ValueError("root YAML value must be a mapping")
-    if "source" not in document or "expected" not in document:
-        return document
-    source_path = (path.parent / document["source"]).resolve()
-    with source_path.open("r", encoding="utf-8") as handle:
-        source = yaml.safe_load(handle)
-    if not isinstance(source, dict):
-        raise ValueError(f"fixture source is not a mapping: {source_path}")
-    for mutation in document.get("mutations", []):
-        _apply_fixture_mutation(source, mutation)
-    return source
-
-
-def main(argv: Iterable[str] | None = None) -> int:
-    """读取 YAML、运行验证并返回 CI 可用的退出码。"""
-    args = parse_args(argv or sys.argv[1:])
+    args = parser.parse_args()
     try:
-        spec = load_spec(args.spec)
-    except (OSError, ValueError, yaml.YAMLError) as exc:
+        loaded = yaml.safe_load(args.spec.read_text(encoding="utf-8"))
+    except (OSError, yaml.YAMLError) as exc:
         print(f"[FAIL] cannot read {args.spec}: {exc}")
         return 1
-    errors, signals = validate(spec)
-    if errors:
-        if args.json:
-            print(yaml.safe_dump({"valid": False, "errors": errors}, allow_unicode=True, sort_keys=True))
-        else:
-            for error in errors:
-                print(f"[FAIL] {error}")
+    if not isinstance(loaded, dict):
+        print("[FAIL] specification root must be a mapping")
         return 1
-    attention = sorted(signals)
-    if args.json:
-        print(yaml.safe_dump({"valid": True, "implementation_attention": attention}, allow_unicode=True, sort_keys=True))
-    else:
-        print(f"[PASS] {args.spec}")
-        if attention:
-            print(f"implementation_attention={','.join(attention)}")
+    errors, attention = validate(loaded)
+    if errors:
+        for error in errors:
+            print(f"[FAIL] {error}")
+        return 1
+    print(f"[PASS] {args.spec}")
+    if attention:
+        print(f"implementation_attention={','.join(sorted(attention))}")
     return 0
 
 

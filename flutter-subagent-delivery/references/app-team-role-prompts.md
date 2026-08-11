@@ -182,14 +182,15 @@ Use the core role prompt above together with the named specialist prompt in [sub
 | Market analysis agent | Product Manager | Product Manager reviewer or Controller validation |
 | Global direction agent | UX/UI Lead | Global direction reviewer |
 | Global direction reviewer | UX/UI Lead, independent reviewer instance | Controller validation |
-| Page structure agent | UX/UI Lead | Wireframe reviewer |
-| Wireframe reviewer | UX/UI Lead, independent reviewer instance | Controller validation |
+| Page Contract Agent | UX/UI Lead | Code Sketch Reviewer |
+| Code Sketch Agent | Flutter Engineer | Code Sketch Reviewer |
+| Code Sketch Reviewer | QA Engineer or UX/UI Lead, independent reviewer instance | Controller validation |
 | Page high-fidelity agent | UX/UI Lead | Effect Image Reviewer |
 | Effect Image Reviewer | UX/UI Lead, independent reviewer instance | Controller validation |
 | Bitmap decomposition agent | UX/UI Lead | UX/UI reviewer or Controller validation |
 | Asset planning agent | UX/UI Lead | Controller plus user confirmation |
 | Asset production agent | UX/UI Lead | Asset fidelity reviewer or Visual QA |
-| Pencil restoration agent | UX/UI Lead | Visual QA agent |
+| Fidelity implementer | Flutter Engineer | Visual QA agent |
 | Module planner | Tech Lead | Product Manager plus Controller validation |
 | Architecture agent | Tech Lead | Independent Tech Lead reviewer |
 | Flutter init agent | Flutter Engineer | Tech Lead |
@@ -218,4 +219,4 @@ Use the core role prompt above together with the named specialist prompt in [sub
 - A role is not a permanent agent instance. Reuse an agent only after its previous role has ended, and never reuse the producer as reviewer for the same artifact.
 - With four execution slots, reserve one for the Controller and run at most three specialists concurrently.
 - Parallelize read-only work when scopes are independent. Parallelize writers or use worktrees only after explicit user authorization, accepted shared contracts, and disjoint write scopes.
-- Serialize user decisions, Gate transitions, producer/reviewer pairs, schema migrations, dependency or generated-file changes, shared navigation/theme/state/configuration, and every write to `docs/design/app-design.pen`.
+- Serialize user decisions, Gate transitions, producer/reviewer pairs, schema migrations, dependency or generated-file changes, shared navigation/theme/state/configuration, and every write to one page layout-spec or production page.

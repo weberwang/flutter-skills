@@ -1,67 +1,23 @@
 ---
 name: flutter-ux-ui-quality
-description: Use when defining Flutter screen briefs, navigation flows, visual systems, responsive layout requirements, empty/loading/error states, screenshot evidence, golden evidence, or UX/UI quality gates.
+description: Define Flutter UX/UI semantics, states, interactions, responsive boundaries, visual direction, accessibility, and quality gates. Use for new or changed Flutter screens before code-first sketches, high-fidelity targets, assets, and implementation.
 ---
 
-# Flutter UX UI Quality
+# Flutter UX/UI Quality
 
-## Overview
+UX/UI Lead 负责页面语义与视觉输入，不写页面代码。
 
-Use this skill to freeze the global visual-system direction, then stop low-quality page UI from shipping through module-time effect images and evidence.
+## 流程
 
-## Orchestrated Roles
+1. 定义全局 UI spec、设计 token、导航语义、无障碍、内容策略与视觉方向。
+2. 对每个页面输出语义合同：范围、内容优先级、状态、交互、结果、导航、滚动 owner、断点/重排、文本增长、SafeArea/键盘/系统栏、无障碍与 data/UI/asset ownership。
+3. 依据 `flutter-code-sketch/references/code-sketch-level-standard.md` 选择 Full、Lightweight 或 Reuse 并记录理由。
+4. 调用 `adaptive-layout-implementation` 创建 `phase: sketch` 的页面 `layout-spec.yaml`；此阶段不含未来视觉 parity 字段。
+5. 由 Flutter Engineer 使用 `flutter-code-sketch` 在生产骨架实现中性草图、关系测试和风险选择的截图，再由独立 Code Sketch Reviewer 审阅。
+6. Review 通过后调用 `flutter-hifi-mockup` 生成、评审并由用户冻结高保真目标。
+7. 对冻结目标与语义合同/sketch spec 做合同回对。任何范围、状态、导航、滚动、断点、无障碍或 ownership 变化都返回更新并重审。
+8. 需要资产时调用 `flutter-asset-atlas`；随后把同一 layout-spec 升级为 `phase: fidelity`，在同一骨架还原并进入独立 Visual QA。
 
-When used inside `flutter-app-orchestrator`, dispatch Product/UX, Global direction, Global direction reviewer, and Visual QA subagents for their respective production or review work. The controller alone presents alternatives, requests user decisions, records confirmation, and freezes the selected direction or final verdict. Producer and reviewer must be different agents.
+## 完成条件
 
-## Required Sequence
-
-1. Write `docs/design/ui-spec.md` with [references/ui-brief-template.md](references/ui-brief-template.md), covering navigation, screen inventory, state coverage, cross-module page flows, first-value delivery, trust, safe-to-try conditions, quality gates, and the active visual expression preset. Use [references/responsive-layout-strategy.md](references/responsive-layout-strategy.md) for design-side layout inputs, then hand implementation rules to `adaptive-layout-implementation`.
-2. Select or define the Flutter design system using [references/flutter-design-system.md](references/flutter-design-system.md).
-3. Confirm the product brief recorded a derived expression preset and completed any needed visual interrogation. Define one market-informed direction when the user already supplied a clear brand or reference; define two or three when exploration or a material visual tradeoff remains. Describe cross-page color, typography, shape, imagery, material, motion, signature, implementation cost, and system-extension rules; do not generate a page, representative-page, module, or screen effect image.
-4. Present the requested direction definitions, wait for the user's selection when alternatives exist, and run the global direction freeze confirmation. Record the selected direction, signature confirmation when required, implementation-cost acceptance, any `pin` / `raise` / `loosen` override, and explicit freeze intent in `docs/design/global-design-freeze.md`. Do not create `.codex-workflow/visuals/global/`.
-5. Feed global flows, screen inventory, and page interaction order into `docs/plans/module-map.md`.
-6. During each UI module or page implementation task, use `flutter-pencil-design` first for low-fidelity structure and Wireframe Review; store semantic roles, content priority and visual constraints in that page's `design-decision.md`. Then invoke `adaptive-layout-implementation` to produce and validate the page `layout-spec.yaml`; low fidelity freezes semantic relationships and behavior, not exact coordinates or final geometry.
-7. Before generating an effect image, check whether visual goals, required pages/states, page budget, signature strength, or implementation/asset cost still needs a user decision. Record only new decisions; otherwise reuse the existing global and page constraints.
-8. After low-fidelity structure is reviewed, use `flutter-hifi-mockup` for the concrete page. On confirmation, persist the exact selected image first in `.codex-workflow/visuals/pages/<page-name>/`, then write one page `design-decision.md`.
-9. After page-level high-fidelity approval and a page design decision, use `flutter-asset-atlas` when required visual assets need reuse checks, generation, background transparentization, slicing, export, inventory, or fidelity review.
-10. After required asset-manifest evidence exists, use `flutter-pencil-design` for high-fidelity Pencil restoration when editable visual handoff is required.
-11. Hand the validated `layout-spec.yaml` and its relation-test matrix to the implementation task; this skill supplies semantic and visual inputs, while `adaptive-layout-implementation` owns layout implementation rules.
-12. Capture evidence using screenshots, golden tests, or integration screenshots at the viewports named by the layout specification.
-13. Review visual evidence with [references/visual-qa-rubric.md](references/visual-qa-rubric.md) and record design deviations; do not restate implementation rules in this skill.
-14. Fix Critical and Important visual or interaction issues, then hand updated constraints back to the implementation workflow.
-
-## Flutter UI Standards
-
-- Use Apple Human Interface Guidelines and iOS conventions as the interaction, accessibility, and semantic baseline, not as a mandatory visual language. Define an authored component system whenever the approved product character benefits from shapes, composition, materials, imagery, or motion beyond stock Cupertino components.
-- Centralize tokens: color, typography, spacing, radius, elevation, motion.
-- Build reusable primitives for buttons, text fields, scaffold, empty state, error state, and loading skeletons.
-- Use real user content examples. Avoid generic fake names and filler content.
-- Provide semantic regions, content priority, visual anchors, state copy, localization samples, and any design-side viewport or system-boundary constraints to `adaptive-layout-implementation`; do not duplicate its implementation contract here.
-- Treat visual quality as task clarity, system consistency, reliable feedback, and recognizable product character at the strength required by the visual expression preset. Decorations, gradient, shadow, texture, illustration, unconventional composition, or motion is allowed when it reinforces hierarchy, state, storytelling, or brand character within the page-type budget; require purpose and preset fit, not visual austerity.
-
-## Rejection Criteria
-
-- No loading, empty, error, success, disabled, and permission-denied states where applicable.
-- Text overflow, clipped controls, inaccessible contrast, or unclear primary action.
-- Missing semantic layout inputs or a missing handoff to `adaptive-layout-implementation`.
-- A high-risk or exploratory page generates high-fidelity effects before its required semantic review.
-- A high-value page starts implementation without the page-level visual evidence selected by its risk tier.
-- Module page order contradicts the primary user flow or skips required transition states.
-- A first-time user cannot understand the value, safely begin, or reach the specified first-value moment from the planned flow.
-- Implementation claims "polished" without screenshots or golden evidence.
-- Visual style diverges from the selected design system without written reason.
-- Global visual direction is frozen while a material visual uncertainty remains unresolved or, when exploration is required, without meaningfully distinct alternatives.
-- A global, representative-page, module, or screen effect image is generated during global direction positioning.
-- A module page effect image is generated before the module effect-image interrogation and Wireframe Review pass.
-- Full-budget or wow-required pages ship without a restatable visual signature, or exploration defaults to universal restraint instead of the derived preset.
-
-## Output Files
-
-- `docs/design/ui-spec.md`
-- `docs/design/global-design-freeze.md`
-- Page `design-decision.md`, frozen effect image and `asset-manifest.md` only when their conditions apply
-- Screenshot or golden paths linked from task `review.md`
-
-## Gate
-
-Do not generate effect images during global direction positioning. For pages whose risk tier requires a visual target, complete the semantic and layout/adaptation contract and any needed review before generation, then persist only the explicitly frozen selection and its identifiers. Do not force high-fidelity images, asset manifests, Pencil evidence, or independent visual QA onto ordinary reuse work. Call a screen complete only when the contract is implemented, the risk-selected multi-viewport evidence covers structural changes and system avoidance, and the screenshots or goldens and review selected by its risk tier have passed.
+页面只有在风险选择的结构证据、高保真目标、资产证据（或 N/A）、fidelity validator、实际 Widget 关系测量、target/Flutter 同视口截图和独立 Visual QA 全部满足时完成。低保真截图只约束功能与层级，进入高保真后其 Golden 失效或被替换。
