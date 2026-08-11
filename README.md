@@ -1,6 +1,6 @@
 # Flutter Skills
 
-一组用于 Codex 交付商业化 Flutter App 的独立 skills。工作流覆盖产品定义、UX/UI 质量、高保真效果图、Pencil 设计稿、Flutter 初始化、模块拆分、子代理交付、质量审阅和发布检查。
+一组用于 Codex 交付商业化 Flutter App 的独立 skills。工作流覆盖产品定义、UX/UI 质量、Flutter Code Sketch、高保真目标、Flutter 初始化、模块拆分、子代理交付、质量审阅和发布检查。
 
 ## 一句命令安装
 
@@ -59,7 +59,7 @@ npx -y github:weberwang/flutter-skills
 - `flutter-ux-ui-quality`: 全局 UX/UI、状态覆盖、视觉质量门禁。
 - `flutter-hifi-mockup`: 高保真效果图生成、评审、冻结。
 - `flutter-asset-atlas`: 高保真图后的资产复用检查、生图、背景透明化、单图/图集导出、清单和还原验收。
-- `flutter-pencil-design`: Pencil 低保真结构稿、高保真还原、Flutter handoff。
+- `flutter-code-sketch`: 在生产 Flutter 骨架实现、测试并独立审阅中性 Code Sketch。
 - `flutter-tech-design`: Flutter 技术方案和模块边界。
 - `flutter-project-init`: Flutter 初始化、按需依赖档、生成项目级 `flutter-dev` skill。
 - `flutter-implementation-plan`: 模块拆分、任务简报、验收路径。
@@ -90,9 +90,9 @@ npx -y github:weberwang/flutter-skills
 - F1 只开启变化和风险实际触发的通道；F3 只收敛结论，不能替代缺失的专业审核。
 - 产品范围变化重做 Product 与 QA；脚本、测试或实现变化只重做受影响的 QA/技术审查；视觉变化只重做受影响的视觉审查；格式变化通常不触发人工复审。
 - 全局方向和页面效果图默认只生成一个候选；仅在用户要求探索或存在实质设计取舍时生成两到三个。
-- 页面只使用与风险相称的语义契约、效果图、资产和 Pencil 证据；普通复用页面不强制完整设计代理链。
+- 页面只使用与风险相称的语义契约、Code Sketch、高保真目标和资产证据；普通复用页面不强制完整设计代理链。
 - 外部产品设计工具不是依赖；只有用户明确要求时才使用。
-- 所有项目只允许一个 `docs/design/app-design.pen`，并串行写入。
+- 页面只维护一个两阶段 `layout-spec.yaml`，从 `phase: sketch` 升级为 `phase: fidelity`。
 - 平台验证分层进行：共享基础完成后做代表性启动、路由和插件烟测；关键业务流完成后做主目标平台运行烟测；最终集成或发布执行完整平台矩阵。任务证据不得宣称平台全量通过，也不得自动发起真机验收。
 - Flutter 依赖按核心、数据/API、复杂领域和 UI token 能力档按需启用；技术设计记录每个实际依赖的启用原因，质量审核不要求未采用项。
 - API/服务端工作按范围记录契约与版本、权限安全、幂等重试、迁移回滚、服务端测试、部署监控、备份恢复和客户端兼容；不负责服务端实现时只记录依赖与边界。

@@ -1,6 +1,6 @@
 # Mockup Brief Template
 
-Fill this transiently during module implementation before generating page images or dispatching a visual agent. Write it only after the user confirms a page freeze and the exact selected image is persisted under `.codex-workflow/visuals/pages/<page-name>/`.
+Fill this transiently in conversation before generating page images or dispatching a visual agent. Do not persist the brief, prompt, candidates, or review drafts. After the user freezes a selection and the image is persisted, write only its ID, hash, decision, constraints, and confirmation facts to the page design decision.
 
 ## Freeze Record
 
@@ -21,7 +21,7 @@ Fill this transiently during module implementation before generating page images
 - First-value contribution:
 - Safe-to-try condition:
 - UX/UI decision to confirm:
-- Source wireframe level and semantic contract:
+- Source Code Sketch Level and reviewed semantic contract:
 - High-fidelity recomposition freedom: exact geometry, containers, whitespace, component silhouettes, image ratios/crops, text-image orientation, and decoration placement
 - Primary action:
 - Secondary actions:

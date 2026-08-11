@@ -32,21 +32,23 @@
 - UI evidence exists for screen changes.
 - Independent visual-QA findings for user-facing flows are resolved or explicitly accepted.
 - Page implementation order does not skip required prior interactions, states, or transitions from the module map.
-- Page-level high-fidelity mockup was generated after low-fidelity structure and Wireframe Review, both recorded in the page decision.
-- Pencil restoration decision and reason are recorded in the page decision; required restoration evidence exists for critical, complex, asset-heavy, or visual-parity-sensitive pages.
-- High-fidelity Pencil restoration uses the selected page-level mockup and page decision as the visual source of truth; the semantic contract applies only to scope, structure, states and interactions.
+- Page-level high-fidelity target was generated only after a validated sketch spec, production Code Sketch/tests, and independent Code Sketch Review.
+- The user-frozen target was checked back against the reviewed semantic contract; scope, states, navigation, scrolling, breakpoints, accessibility or ownership changes returned to sketch review.
+- Fidelity implementation refactors the same production skeleton and does not overlay the old sketch with absolute positioning to fake pixels.
 - Implemented UI respects the selected mockup and page decision constraints when present.
 - A page asset manifest exists when approved mockups include required visual assets.
 - Asset source, reuse decision, generation prompt constraints, background handling, license status, output/Flutter path, loading fallback and error fallback are recorded in the manifest.
-- New bitmap assets use available image-generation evidence by default; Pencil exports are approved only when the exported node is the recorded production asset source.
+- New bitmap assets use approved generation/reuse evidence and never derive from representative runtime data.
 - Every icon, image, illustration, logo, texture, and bitmap unit has 100%-match evidence and a separate-asset review verdict. An unmatched resource completed dedicated bitmap generation and asset fidelity review; near-match system icons, Flutter components, and existing assets are rejected.
 - Transparent or composited assets have clean alpha edges, preserved shadows/glows, and no unintended background halos.
 - Transparent-background post-processing records matte removal, alpha cleanup, edge decontamination, padding, and target-background QA when applicable.
 - New generated assets reference global visual-direction and page-design-decision constraints and explain why existing assets were not reused.
 - Icon, image, illustration, logo, texture, and bitmap fidelity matches the approved mockup 100%; only documented rasterization or scaling tolerance is allowed.
-- Implemented UI respects the page decision for scope, structure, states and interactions when low-fidelity Pencil wireframes are used.
-- Implemented UI respects the page decision's Pencil section when Pencil carries high-fidelity visual restoration.
-- Raw Pencil screenshots are not used as the sole implementation spec.
+- Implemented UI respects the reviewed semantic contract and Code Sketch for scope, structure, states, interactions, scrolling, breakpoints and ownership.
+- Critical elements have a complete target↔Flutter parity contract with stable element/reference keys, typed dual-axis relations, recomputable geometry/delta, actual Widget measurement and same-viewport screenshot evidence. Validator or “No layout problems” cannot establish actual parity.
+- Critical axes are within 1 logical px; text, Logo and irregular outlines distinguish container center from visible-content optical center. Optical offsets without cited evidence and unresolved visual facts block approval.
+- Flutter handoff preserves semantic references and dual-axis relations. Frozen-view `x/y` is auxiliary; a `Positioned` exception names its semantic boundary, viewport scope, and responsive fallback.
+- Low-fidelity screenshots constrain function and hierarchy only; their Goldens expire or are replaced after fidelity work starts.
 - A page-level layout/adaptation contract records target ranges, structural breakpoint triggers, max width, columns/gutters, relative anchors, overflow/localization behavior, scroll ownership, docking, and system/keyboard avoidance; low fidelity and a frozen screenshot do not substitute for it.
 - Layout works on the contract's target viewports and both sides of each applicable structural breakpoint; evidence verifies structural change rather than proportional scaling.
 - Fixed, pinned, and floating elements document scroll direction, occlusion padding, hit target, SafeArea/gesture inset, keyboard behavior, and narrow-height fallback; no content or focused field is covered.
@@ -109,6 +111,10 @@ Lane and coverage
 Aesthetic verdict (visual lane only)
 - approved / approved with Minor findings / not approved
 - Evidence and remaining actions: ...
+
+Critical-alignment verdict (visual lane only)
+- approved / changes_requested / blocked
+- Geometry measurements, target/Flutter screenshots, parity-case gaps: ...
 
 Missing evidence
 -

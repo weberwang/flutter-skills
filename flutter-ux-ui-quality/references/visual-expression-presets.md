@@ -85,7 +85,7 @@ Start from the product preset, then dial per page type:
 | 浏览型内容流、数据总览、对话主界面 | keep signature, moderate decoration |
 | 设置、表单、权限、账户、错误恢复、法律协议 | dial down decoration and wow; keep system consistency and task clarity |
 
-Wireframe may lock scope, structure, states, and interactions. On full-budget pages, composition, hero treatment, material, and imagery may still express the preset signature without changing product meaning.
+The reviewed semantic contract and Code Sketch lock scope, structure, states, and interactions without locking final geometry. On full-budget pages, composition, hero treatment, material, and imagery may express the preset signature without changing product meaning.
 
 ## Light Visual Interrogation
 
