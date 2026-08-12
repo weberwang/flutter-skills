@@ -17,7 +17,7 @@
 
 1. 设计或低保真评审冻结语义关系、内容优先级、状态和视觉方向，不冻结生产坐标。
 2. 页面实现前调用 `adaptive-layout-implementation`，将上述输入写入 `docs/design/pages/<page-name>/layout-spec.yaml`。
-3. 实现者运行 `scripts/validate_layout_spec.py`，并按其 Flutter adapter 和测试矩阵落地；验证器输出和关系测试 id 随任务简报交接。
+3. 实现者运行 `adaptive-layout-implementation/scripts/validate-layout-spec.js`，并按其 Flutter adapter 和测试矩阵落地；验证器输出和关系测试 id 随任务简报交接。
 4. UX/UI 复核只评估视觉方向、层级、状态反馈、可理解性和与已批准设计输入的一致性；布局关系问题回写规格，不在本文件新增页面特例。
 
 ## 视觉证据边界

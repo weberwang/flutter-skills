@@ -26,6 +26,12 @@
     "flutter-skills": "./bin/install-flutter-skills.js"
   },
   "scripts": {
-    "install:remote": "node ./bin/install-flutter-skills.js"
+    "install:remote": "node ./bin/install-flutter-skills.js",
+    "validate:layout-spec": "node ./adaptive-layout-implementation/scripts/validate-layout-spec.js",
+    "test:layout-fixtures": "node ./adaptive-layout-implementation/scripts/run-fixtures.js"
+  },
+  "dependencies": {
+    "sharp": "0.35.3",
+    "yaml": "2.9.0"
   }
 }

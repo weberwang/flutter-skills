@@ -50,6 +50,7 @@
 - Flutter handoff preserves semantic references and dual-axis relations. Frozen-view `x/y` is auxiliary; a `Positioned` exception names its semantic boundary, viewport scope, and responsive fallback.
 - Low-fidelity screenshots constrain function and hierarchy only; their Goldens expire or are replaced after fidelity work starts.
 - A page-level layout/adaptation contract records target ranges, structural breakpoint triggers, max width, columns/gutters, relative anchors, overflow/localization behavior, scroll ownership, docking, and system/keyboard avoidance; low fidelity and a frozen screenshot do not substitute for it.
+- Text line breaking satisfies the authoritative [Adaptive Layout Implementation](../../adaptive-layout-implementation/SKILL.md) contract: body, heading/critical copy, control labels, atomic text, dynamic containers, fallback order, and longest-copy plus large-text evidence are all present; fixed-height clipping, display-string line-break hacks, `FittedBox`, and font shrinking block approval.
 - Layout works on the contract's target viewports and both sides of each applicable structural breakpoint; evidence verifies structural change rather than proportional scaling.
 - Fixed, pinned, and floating elements document scroll direction, occlusion padding, hit target, SafeArea/gesture inset, keyboard behavior, and narrow-height fallback; no content or focused field is covered.
 - SafeArea, system bars, keyboard `viewInsets`, fold/hinge display features, and split-screen constraints are handled at the right boundary and are represented in evidence when in scope.
@@ -58,7 +59,7 @@
 - Empty, loading, error, success, disabled, and permission-denied states are covered where relevant.
 - CTA hierarchy is clear.
 - The first-value path is understandable, and the user sees applicable privacy, payment, permission, or recovery conditions before a high-friction or irreversible step.
-- Text is readable and not clipped.
+- Text is readable, semantically wrapped, and not clipped.
 - Accessibility basics are respected.
 
 ## Visual Aesthetics And Premium Feel

@@ -12,7 +12,7 @@ Code Sketch Reviewer 必须独立于 Code Sketch Agent，只读审阅同一个�
 ## 审阅内容
 
 - 页面范围、内容优先级、状态、导航、交互与结果是否完整。
-- 滚动 owner、停靠/叠层、断点重排、文本增长、键盘与 SafeArea/系统栏避让是否符合合同。
+- 滚动 owner、停靠/叠层、断点重排、文本增长、键盘与 SafeArea/系统栏避让是否符合合同。文本断行按 [Adaptive Layout Implementation](../../adaptive-layout-implementation/SKILL.md) 的权威合同审阅；缺少角色化 `line_break` 或最长文案+大字号实际测试时不得通过。
 - 无障碍语义、焦点顺序、关键动作可达性是否存在结构性缺口。
 - Flutter 骨架是否为生产实现，是否出现一次性重复页面或用绝对定位伪造结构。
 - evidence_matrix 中 test id 是否实际执行，截图是否只被用作低保真功能/层级证据。

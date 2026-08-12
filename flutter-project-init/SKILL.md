@@ -31,7 +31,7 @@ Do not install Riverpod, hooks, Freezed, fpdart, JSON generators, or ScreenUtil 
 3. Preserve accepted existing structure and dependencies; do not rewrite unrelated configuration.
 4. Install only dependencies from approved capability profiles and any separately approved package additions.
 5. Set up the app shell, theme, routing, linting, test scaffolding, and code generation only when the selected profiles require them.
-6. Generate the project-local `flutter-dev` skill with `scripts/create_flutter_dev_skill.py`, then adapt its dependency sections to the actual selected profiles.
+6. Generate the project-local `flutter-dev` skill with `node scripts/create_flutter_dev_skill.js`, then adapt its dependency sections to the actual selected profiles.
 7. Write `docs/architecture/flutter-init.md` from [references/init-report-template.md](references/init-report-template.md).
 
 ## Verification

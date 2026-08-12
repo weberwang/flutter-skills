@@ -79,7 +79,17 @@ text_behavior:
   localization: [default, longest_copy]
   rtl: logical-start-end
   text_scale: {default: 1.0, large: 1.5}
-  wrap: headings-and-actions-may-wrap
+  line_break:
+    width_constraint: bounded-by-parent
+    body: {strategy: natural-soft-wrap}
+    heading: {strategy: phrase-aware, orphan_control: prevent}
+    critical_copy: {strategy: phrase-aware, orphan_control: prevent}
+    control_label: {breaking: forbidden, fallback: expand-parent-or-reflow}
+    atomic_text: {breaking: forbidden}
+    dynamic_container: {fixed_height: forbidden, truncation: forbidden}
+    anti_hacks: {manual_line_breaks: forbidden, fitted_box: forbidden, font_shrink: forbidden}
+    fallback_order: [widen-container, reflow-parent, grow-height, semantic-wrap]
+    test_ids: [text_wrap_semantics]
   growth: container-grows-with-content
   critical_actions_allow_truncation: false
 
@@ -104,6 +114,9 @@ invariants:
   - id: primary-action-reachable
     relation: 关键动作在所有矩阵场景可见、可达且不被键盘或停靠层遮挡
     test_ids: [primary_action_reachable]
+  - id: text-wrap-is-semantic
+    relation: 文本在父级有限宽度内按语言规则换行，不含为视觉塑形插入的手工换行，且不可拆分词元保持完整
+    test_ids: [text_wrap_semantics]
 
 implementation_signals: []
 
@@ -138,7 +151,7 @@ evidence_matrix:
       safe_area: nonzero
       action_state: submitting
       breakpoint_edge: {id: compact-to-medium, offset: 1}
-      test_ids: [content_header_relation, primary_action_reachable]
+      test_ids: [content_header_relation, primary_action_reachable, text_wrap_semantics]
     - id: medium-to-expanded-minus
       width: 839
       height: 500

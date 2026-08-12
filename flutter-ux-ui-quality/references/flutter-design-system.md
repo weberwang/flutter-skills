@@ -30,6 +30,7 @@ During global direction positioning, define the intended component, material, im
 - Define product semantic color roles in `AppColors`; map system-aware values through `CupertinoDynamicColor` when light, dark, contrast, or elevation variants are required.
 - Avoid hardcoded sizes inside screens when a token exists.
 - Avoid one-off buttons or fields that bypass shared primitives.
+- Shared text and control primitives must expose the roles required by the authoritative [Adaptive Layout Implementation](../../adaptive-layout-implementation/SKILL.md) line-break contract. Dynamic text containers cannot impose fixed heights or hide failures with `FittedBox`, font shrinking, or display-string line breaks.
 - Add Chinese comments only for non-obvious logic in source code, not for simple widget declarations.
 
 ## Accessibility
