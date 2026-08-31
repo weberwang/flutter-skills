@@ -1,6 +1,6 @@
 ---
 name: adaptive-layout-implementation
-description: Define and validate a two-phase, framework-independent adaptive layout specification for Flutter code sketches and high-fidelity implementation. Use for responsive pages, breakpoints, scrolling, SafeArea, keyboard, overlays, Stack or Positioned, fixed dimensions, localization, RTL, large text, or target-to-Flutter visual parity.
+description: Use when the user explicitly asks to define or validate a responsive Flutter layout specification, breakpoint contract, scrolling rule, or target-to-Flutter relationship, or when flutter-app-orchestrator routes the accepted layout stage.
 ---
 
 # Adaptive Layout Implementation

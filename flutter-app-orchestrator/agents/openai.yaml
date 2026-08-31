@@ -1,4 +1,4 @@
 interface:
   display_name: "Flutter App Orchestrator"
-  short_description: "Coordinate commercial Flutter app delivery."
-  default_prompt: "Use $flutter-app-orchestrator with default single-writer sequential delivery, project-native F0 checks, Controller F1 triage, read-only triggered F2 lanes, and Controller F3 convergence."
+  short_description: "Route Flutter work through the minimal safe workflow."
+  default_prompt: "Use $flutter-app-orchestrator to route the smallest risk-based Flutter workflow with one writer, an eight-field contract, snapshot-bound review, and only triggered skills."

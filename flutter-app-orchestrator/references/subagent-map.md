@@ -1,116 +1,34 @@
-# App Team and Subagent Map
+# 角色与派发地图
 
-Use this file as the single source of truth for App team assembly, task routing, and subagent boundaries. Read [app-team-role-prompts.md](../../flutter-subagent-delivery/references/app-team-role-prompts.md) before creating role cards and [design-subagent-orchestration.md](../../flutter-subagent-delivery/references/design-subagent-orchestration.md) for the design-only production sequence.
+本文件只定义“何时启用谁”；角色卡和返回格式见[公共角色契约](../../flutter-subagent-delivery/references/app-team-role-prompts.md)，专项差异见[四类提示模板](../../flutter-subagent-delivery/references/subagent-prompts.md)。默认单写者，只有用户明确授权并行可写任务时才组装多个写入者。
 
-## Operating Model
+## 核心角色
 
-Form a temporary feature squad for the current task instead of dispatching every available specialist:
+| 角色 | 负责范围 | 默认何时启用 |
+|---|---|---|
+| Controller | 风险、排序、用户决定、Gate、冲突和最终集成 | 始终 |
+| Product Manager | 价值、范围、指标、业务验收 | 新范围或产品决策 |
+| UX/UI Lead | 流程、语义、视觉、无障碍、设计交接 | 用户可见结构/交互变化 |
+| Tech Lead | 架构、依赖、契约、非功能风险 | 共享基础、跨模块、数据或技术决策 |
+| Flutter Engineer | 客户端实现与测试 | Flutter 代码变化 |
+| Backend/Data Engineer | API、认证、数据、迁移、服务测试 | 服务端/数据在范围内 |
+| QA Engineer | 独立证据、回归和质量结论 | F2 被触发或验收需独立定义 |
+| DevOps/Release Engineer | 构建、环境、签名、发布和回滚 | 发布或交付基础设施在范围内 |
 
-- Controller: orchestration, user decisions, Gate recording, conflict resolution, and final integration.
-- Product Manager: product value, scope, priority, metrics, and business acceptance criteria.
-- UX/UI Lead: flows, interaction, visual system, accessibility, assets, and design handoff.
-- Tech Lead: architecture, contracts, non-functional requirements, engineering order, and technical verdict.
-- Flutter Engineer: client implementation and client-side tests.
-- Backend/Data Engineer: APIs, auth, schemas, migrations, data quality, and service-side tests.
-- QA Engineer: independent test strategy, review evidence, regression, and quality verdict.
-- DevOps/Release Engineer: build, CI/CD, environments, signing, artifacts, monitoring, rollout, and rollback.
+## 路由
 
-Specialized design, research, implementation, and review agents are temporary seats under one core role. Map them with [app-team-role-prompts.md](../../flutter-subagent-delivery/references/app-team-role-prompts.md); do not treat them as permanent team members.
+| 任务特征 | DRI | 条件性独立验收 |
+|---|---|---|
+| 文案/窄修复 | 当前范围所有者 | `light` 自检 |
+| 普通功能或 Bug | Flutter/Backend Engineer | 行为或验收变化启用 QA |
+| 页面结构或视觉 | UX/UI 或 Flutter Engineer | 页面风险触发 Code Sketch/Visual QA |
+| 认证、支付、迁移、共享契约 | Tech Lead 或 Backend/Data | QA + 技术，必要时 Product |
+| 发布、生产、分发 | DevOps/Release | QA + 技术 + Release |
 
-## Conditional Team Assembly
+只读探索和互不依赖的 F2 可以并行。任何可写并行都要用户明确授权、共同基线和互斥范围；不要把角色名当成必需团队规模。
 
-Use team assembly only for `high`, `release`, or genuinely multi-agent work. For `standard` work, record only the roles actually dispatched. `light` work needs no roster.
+## 派发包
 
-For controlled multi-agent work, record:
+每次只传：一个核心角色、可选一个专项模板、[八字段任务契约](../../flutter-implementation-plan/references/task-brief-template.md)、已接受的上游路径、精确读写范围、获授权的验证命令、snapshot（审核时）和独立验收者身份。禁止粘贴完整会话或上游全文。
 
-1. Task profile and current workflow Gate.
-2. Enabled core roles and their purpose.
-3. One DRI role and agent.
-4. One independent reviewer or acceptance role and agent.
-5. Consulted roles, if any.
-6. Exact read and write scopes.
-7. Accepted upstream evidence and blocking dependencies.
-8. Parallel or serialized execution decision.
-
-Do not dispatch a controlled multi-agent task without a DRI, required independent acceptance owner, and role activation reason.
-
-## Task Routing
-
-| Task profile | DRI | Independent acceptance | Consult when needed | Gate |
-|---|---|---|---|---|
-| Product discovery, PRD, scope, metrics | Product Manager | Controller records user acceptance | UX/UI Lead, Tech Lead, QA Engineer | Product |
-| User flow, page structure, visual direction, design assets | UX/UI Lead specialist | Independent UX/UI reviewer; QA for implementation evidence | Product Manager, Flutter Engineer | Design |
-| Architecture, cross-module contract, technical risk | Tech Lead | Independent Tech Lead reviewer or QA evidence review | Flutter, Backend/Data, DevOps | Technical |
-| Flutter page, state, route, client feature | Flutter Engineer | QA Engineer; Tech Lead for high-risk code | UX/UI Lead, Backend/Data Engineer | Task implementation |
-| API, auth, payment, sync, schema, migration, analytics pipeline | Backend/Data Engineer | QA Engineer; Tech Lead for contract/security | Flutter Engineer, DevOps/Release Engineer | Data/service implementation |
-| F1 分诊协助、F2 QA/视觉审核、F3 收敛建议 | QA Engineer | Controller validates independence and records F3 | Product Manager, UX/UI Lead, Tech Lead | Quality |
-| CI/CD, signing, build, store, rollout, rollback | DevOps/Release Engineer | QA Engineer plus Controller authorization | Tech Lead, Flutter, Backend/Data, Product Manager | Release |
-| Bug fix | Owning Flutter or Backend/Data Engineer | QA Engineer | Tech Lead, UX/UI Lead | Task implementation |
-| Cross-cutting refactor or performance work | Tech Lead or owning engineer | Independent Tech Lead reviewer plus QA Engineer | DevOps/Release Engineer | Technical and Quality |
-
-### Activation Conditions
-
-- Enable Backend/Data for in-scope API, account, auth, payment, cloud sync, remote data, schema, migration, server analytics, or service observability implementation. When server implementation is out of scope, record the external owner and client dependency/boundary instead of dispatching a server implementer.
-- Enable UX/UI for any user-visible structure, copy hierarchy, interaction, state, visual, asset, or accessibility change.
-- Enable Tech Lead for architecture, shared foundations, cross-module contracts, dependency changes, security/privacy risk, migrations, performance budgets, or integration decisions.
-- Enable QA before implementation planning when acceptance or regression scope must be defined. During review, use QA for behavior/acceptance changes, `high`/`release` requirements, or F1 assistance rather than as an automatic all-purpose reviewer.
-- Enable DevOps/Release during technical design when environments, CI/CD, signing, store distribution, observability, rollout, or rollback are in scope; it owns the Release Gate.
-- For a narrow, already-confirmed client task, do not dispatch Product Manager when the task brief already carries accepted business scope.
-
-## Specialist Seats
-
-| Core role | Specialist seats |
-|---|---|
-| Product Manager | Market analysis agent, product-spec agent |
-| UX/UI Lead | UX agent, Global direction agent/reviewer, Page Contract Agent, Page high-fidelity agent, Effect Image Reviewer, Bitmap decomposition agent, Asset planning/production agent |
-| Flutter Engineer | Code Sketch Agent, page fidelity implementer |
-| QA Engineer | Code Sketch Reviewer, Visual QA Reviewer |
-| Tech Lead | Architecture agent, Module planner, technical reviewer |
-| Flutter Engineer | Flutter init agent, Flutter implementer, Flutter fixer |
-| Backend/Data Engineer | API/data implementer, migration implementer, service fixer |
-| QA Engineer | Task reviewer, Visual QA agent, acceptance reviewer, Final reviewer |
-| DevOps/Release Engineer | Release agent, CI/CD implementer, rollout/rollback reviewer |
-
-Each specialist receives the core role prompt plus exactly one specialist prompt. The narrower specialist scope wins. A producer and reviewer must be different agent instances when the task risk requires independent acceptance.
-
-## Parallel Rules
-
-- Read-only product, market, architecture, risk, or release exploration.
-- UX/UI and technical exploration after accepted product scope, when outputs do not overlap.
-- Independent vertical slices or page/asset production only when the user explicitly authorizes parallel writers/worktrees, contracts/freezes are accepted, and write scopes are disjoint.
-- Independent read-only reviews.
-
-## Parallel Unsafe
-
-- A producer and its reviewer before production is complete.
-- Flutter initialization and feature implementation in the same project.
-- Client and service implementation before their API/data contract is accepted.
-- Asset planning and production before explicit user confirmation.
-- Schema migration and a release that depends on it.
-- Any overlapping file, generated output, dependency, route, theme, state container, app configuration, environment, or secret reference.
-- Any two writers to one page layout-spec or the same production Flutter page.
-
-## Dispatch Contract
-
-Every subagent receives the role-card envelope from [app-team-role-prompts.md](../../flutter-subagent-delivery/references/app-team-role-prompts.md), plus:
-
-- one core role and, when applicable, one specialist seat;
-- one task brief or artifact path;
-- accepted upstream Gate evidence;
-- exact scope and non-scope;
-- exact read and write paths;
-- required output and verification;
-- independent reviewer identity;
-- instruction to return `NEEDS_CONTEXT` instead of inferring confirmation;
-- status shape: `DONE`, `DONE_WITH_CONCERNS`, `NEEDS_CONTEXT`, or `BLOCKED`.
-
-Do not paste full session history into subagent prompts. Package only the accepted facts and artifacts needed by the assigned role.
-
-## Decision Authority
-
-- Product Manager recommends the product verdict; the user or Sponsor approves business scope.
-- UX/UI Lead and independent design reviewers issue design verdicts; the user selects candidates and the Controller records freezes.
-- Tech Lead issues technical verdicts and integration constraints.
-- QA Engineer has evidence-based quality veto for Critical, unresolved Important, failed acceptance, or missing mandatory evidence.
-- DevOps/Release Engineer issues release-readiness verdicts; actual external release requires explicit Controller-recorded authorization.
-- Controller validates process completeness and records Gate outcomes but must not impersonate a missing product, design, technical, quality, or release verdict.
+角色遇到缺失事实返回 `NEEDS_CONTEXT`，遇到无法执行返回 `BLOCKED`；不得猜测用户决定、扩大范围或批准自己的产出。Controller 只在确认返回包后记录接受结果。

@@ -73,7 +73,7 @@ The initial plan may leave refinement pending. Complete each row just in time wh
 
 ## Execution Topology
 
-Default to a single writer and sequential levels. Independent read-only review may run in parallel. Fill the table only when the user explicitly authorizes parallel writers or worktrees.
+Default to the current checkout, a single writer, and sequential levels. Independent read-only review may run in parallel. Fill the table only when the user explicitly authorizes branches, worktrees, commits, PRs, or parallel writers.
 
 | Business-flow level | Work item | User authorization | DRI role | Acceptance role | Disjoint write scope | Shared-resource locks |
 |---|---|---|---|---|---|---|

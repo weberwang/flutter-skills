@@ -1,6 +1,6 @@
 ---
 name: flutter-asset-atlas
-description: Plan, confirm, produce, and audit Flutter bitmap assets from an approved frozen high-fidelity target. Use for illustrations, photos, logos, textures, backgrounds, icons, atlases, transparency, slicing, export, or asset fidelity before high-fidelity Flutter implementation.
+description: Use when the user explicitly asks to plan or produce bitmap assets from an approved frozen Flutter visual target, or when flutter-app-orchestrator routes the accepted asset stage.
 ---
 
 # Flutter Asset Atlas

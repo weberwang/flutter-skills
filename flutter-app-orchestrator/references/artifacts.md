@@ -1,43 +1,34 @@
 # 最小工件矩阵
 
-只为决策、可复现验证或跨角色交接创建工件。一个事实只能有一个权威位置；其他文档只链接，不复制字段、`N/A` 理由或证据摘要。
+一个事实只有一个权威位置；其他文档只链接，不复制会话、上游全文、命令输出或审核细节。普通单代理任务不落盘任务 brief。
 
-## 全局工件
+## 全局与阶段工件
 
-| 工件 | 创建时机 | 权威内容 |
+沿用已有产品、设计、架构、模块和页面工件；只有对应阶段发生且需要决策或可复现证据时才创建：
+
+| 工件 | 创建条件 | 权威内容 |
 |---|---|---|
-| `docs/product/product-brief.md` | 产品确认 | MVP、用户故事、验收、市场依据与产品性格 |
-| `docs/product/grilling-log.md` | 用户作出关键决定 | 确认记录与尚未解决的决定 |
-| `docs/design/ui-spec.md` | UX/UI 设计 | 流程、页面/状态和全局质量约束 |
-| `docs/design/global-design-freeze.md` | 用户冻结方向 | 选定方向、签名、成本承诺和精简提示词哈希 |
-| `docs/architecture/technical-design.md` | 技术门禁 | 架构、依赖能力档、API/服务边界、迁移恢复与风险决策 |
-| `docs/architecture/flutter-init.md` | 项目初始化 | 已启用依赖能力档、启用原因与项目本地 `flutter-dev` 路径 |
-| `docs/architecture/verification-platforms.md` | 技术设计 | 平台范围、分层烟测、完整矩阵命令和运行时证据 |
-| `docs/plans/module-map.md` | 实施规划 | 模块、依赖、业务流等级和共享资源所有者 |
-| `docs/plans/implementation-plan.md` | 实施规划 | 粗粒度里程碑和模块顺序 |
-| `docs/plans/modules/<module-name>-scope.md` | 模块变为可实施时 | 已确认的功能、非目标、契约与验收路径 |
+| 产品/设计/架构/计划文档 | 对应阶段需要新决策 | 该阶段的接受事实和约束 |
+| 页面 `layout-spec.yaml` | 页面需要自适应布局实施 | 两阶段布局输入和关系不变量；不是状态机 |
+| 页面 `asset-manifest.md` | 冻结目标含固定视觉资产 | 来源、ownership、覆盖、生产和保真结论 |
+| 页面 `design-decision.md` | 页面有用户选择的视觉决策 | 选中目标、合同回对、偏差和审核引用 |
+| `docs/tasks/<task-id>/brief.md` | 跨角色交接、高风险持久上下文或用户明确要求 | 八字段任务契约及必要上游路径 |
+| `docs/tasks/<task-id>/review.md` | 高风险/发布的持久独立验收或用户明确要求 | snapshot、F0/F1、F2 结论、失效和 F3；仅 Controller 写 |
+| `docs/release/release-checklist.md` | 发布在范围内 | 发布证据和阻塞项 |
 
-不要另建 MVP、用户故事、市场分析、流程、屏幕规格或 UI 质量门禁文档；这些是产品简报或 UI 规格中的章节。只有用户要求独立交付件时才拆出。
+未满足条件时不创建占位文件，也不写 `N/A` 文档。`snapshot-id` 是命令输出，不落盘运行时状态。
 
-## 条件工件
+## 八字段任务契约
 
-| 条件 | 工件 | 必须包含 |
-|---|---|---|
-| 页面有 UI 决策 | `docs/design/pages/<page-name>/design-decision.md` | 语义契约、Code Sketch Level/审阅、冻结图 ID/哈希、合同回对、偏差与 Visual QA |
-| 页面需要自适应布局实施 | `docs/design/pages/<page-name>/layout-spec.yaml` | 实施输入：目标视口、语义锚点、尺寸/断点、内容容器、系统避让、滚动/停靠、文本增长、不变量和参数化关系测试矩阵；不是运行时状态或合并信号 |
-| 页面有固定视觉资产 | `docs/design/pages/<page-name>/asset-manifest.md` | 资产来源、许可、生产/背景/切图决定、Flutter 路径和保真结论 |
-| 页面 Code Sketch | 生产 Flutter 页面与测试 | 中性生产骨架、稳定 key、关系测试与风险需要的截图 |
-| 页面冻结 | `.codex-workflow/visuals/pages/<page-name>/frozen-<slug>.png` | 唯一选中原图 |
-| 任务需要跨角色交接 | `docs/tasks/<task-id>/brief.md` | 目标、边界、唯一写范围、候选分支、验证命令与验收条件 |
-| 任务需要持久化独立验收 | `docs/tasks/<task-id>/review.md` | 候选 SHA、F0 证据引用、F1 分诊、F2 结构化结论、失效记录与 F3 结果；仅 Controller 写入 |
-| 发布 | `docs/release/release-checklist.md` | 仅发布范围内的证据和阻塞项 |
+任务交接唯一使用[八字段模板](../../flutter-implementation-plan/references/task-brief-template.md)：
 
-未满足条件时不创建占位文件，也不写 `N/A` 文档。所有流程状态、任务简报与审核/决策记录使用 Markdown，只用于决策、证据和结论留痕，不是运行期状态机、自动化输入或合并信号；视觉、设计和代码资产保持其原生格式。
+`目标`、`验收条件`、`写入范围`、`禁止改动`、`确认事实`、`风险等级`、`验证命令`、`授权边界`。
 
-## 交接规则
+普通单代理在当前对话中传递这八项；跨角色时才把同一份内容写入 brief。不得复制完整会话或上游文档，引用路径即可。
 
-- 实现者先完成项目原生 F0 命令，再返回候选 SHA、变更文件、验证摘要和阻塞项；需要独立验收时，由 Controller 将证据引用写入 `review.md`。
-- F2 审阅者只读候选并返回结构化结论，不直接写共享文件。Controller 是 `review.md` 唯一写入者，并记录作者、候选 SHA、覆盖事实、发现、结论和失效历史。
-- ownership、覆盖审计、编号映射和资产生产明细只存到页面 `asset-manifest.md`；冻结决策只存页面 decision，不复制进任务简报或进度账本。
-- 并行写入即使经用户明确授权，也只依赖普通分支、Markdown 任务简报和 Git/PR/CI 事实；不创建 YAML/JSON 状态，不自动合并。
-- 截图、golden、命令输出和冻结图使用文件路径或 SHA 引用，不转写内容。
+## 证据交接
+
+- 实现者返回状态、变更文件、F0 命令证据、阻塞项和剩余风险；没有执行的命令不得写成通过。
+- F1/F2 使用 `snapshot-id` 及文件/命令路径；已有且获授权的提交才补充 SHA。
+- Controller 是 `review.md` 的唯一写入者；审阅者只返回[结构化结论](../../flutter-quality-review/references/review-funnel.md)。
+- 并行写入即使获授权，也必须使用互斥范围和明确授权；不创建 YAML/JSON 状态，不自动合并。

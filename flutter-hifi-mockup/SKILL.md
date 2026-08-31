@@ -1,6 +1,6 @@
 ---
 name: flutter-hifi-mockup
-description: Generate, independently review, and freeze page-level high-fidelity Flutter visual targets after an approved semantic contract and code-first sketch. Use for premium UI target images, page visual exploration, design freeze, mockup review, and target-to-contract alignment before asset production or fidelity implementation.
+description: Use when the user explicitly asks for a page high-fidelity target, visual exploration, mockup review, or design freeze after the code sketch stage, or when flutter-app-orchestrator routes the accepted high-fidelity stage.
 ---
 
 # Flutter High-Fidelity Mockup

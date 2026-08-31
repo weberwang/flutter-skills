@@ -1,6 +1,6 @@
 ---
 name: flutter-product-spec
-description: Use when defining or refining a Flutter app idea, MVP, product brief, commercial model, target users, user stories, acceptance criteria, or feature boundaries before design or implementation.
+description: Use when the user explicitly asks to define or refine Flutter product scope, MVP, user stories, or acceptance criteria, or when flutter-app-orchestrator routes the accepted product stage.
 ---
 
 # Flutter Product Spec

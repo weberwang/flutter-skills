@@ -1,86 +1,26 @@
 ---
 name: flutter-quality-review
-description: Use a risk-based multi-level review funnel when reviewing a Flutter app, feature branch, screen, implementation task, UI evidence, tests, architecture, security, privacy, monetization, or commercial delivery quality before accepting work.
+description: Use when the user explicitly asks to review or accept Flutter implementation, UI evidence, architecture, security, privacy, or release quality, or when flutter-app-orchestrator routes the accepted quality-review stage.
 ---
 
 # Flutter Quality Review
 
-## Overview
+只审核已进入范围的事实。先读[审核漏斗](references/review-funnel.md)决定深度和通道，再按需读取[审核 rubric](references/review-rubric.md)；不把窄审查扩大成发布审计。
 
-Review through a multi-level funnel: deterministic filtering, change triage, triggered specialist lanes, then convergence acceptance. Spend independent review effort only on candidates and dimensions that survive the earlier gates.
+## 输入
 
-## Review Inputs
+只加载 F1 或指定 F2 通道需要的路径：八字段任务契约、变更文件、F0 命令证据、`snapshot-id`、相关产品/设计/技术决策、页面 layout-spec/资产 manifest、以及该层级要求的平台烟测。没有 snapshot 或必要证据时返回 `NEEDS_CONTEXT`。
 
-Select only the inputs required by F1 or the assigned F2 lane:
+## 检查范围
 
-- Product scope and task brief.
-- Project-local `flutter-dev` implementation constraints.
-- Module map and implementation plan.
-- Page high-fidelity mockup frozen under `.codex-workflow/visuals/pages/<page-name>/`, plus its `design-decision.md` and global freeze.
-- Page implementation input `docs/design/pages/<page-name>/layout-spec.yaml`, the deterministic validator result, and parameterized relation-test evidence when layout-sensitive UI changed.
-- Page `asset-manifest.md` when illustrations, bitmaps, logos, photos, textures, generated assets or visual exports are present.
-- Code Sketch Level, independent Code Sketch Review, candidate/spec/screenshot hashes, and fidelity evidence when UI changed.
-- Technical design or relevant architecture decisions.
-- Diff or changed files.
-- Test commands and outputs.
-- Global `docs/architecture/verification-platforms.md`, final-integration platform evidence when reviewing final delivery, and screenshots or golden evidence for UI changes.
-- Named Visual QA section when visual risk or acceptance requires independent visual review.
+- F1：范围、风险、验收追踪、输入指纹和 F0 证据；只选择实际触发的 Product、QA、technical、visual、Release 通道。
+- F2：只读检查被分配的专业事实；UI 变化才检查语义合同、Code Sketch、冻结目标、资产、测量和同视口 parity。
+- F3：确认有效通道覆盖当前 snapshot、阻塞已关闭、平台证据与集成条件满足；不重做 F2。
 
-## Rubric
+按需复用已有设计、服务和[关键对齐门禁](../adaptive-layout-implementation/references/critical-alignment-gate.md)。低保真截图只证明结构；局部烟测不得声称全平台通过。
 
-First use [references/review-funnel.md](references/review-funnel.md) to select the funnel depth and specialist lanes. Then use [references/review-rubric.md](references/review-rubric.md) only inside the triggered lanes. Do not expand a narrow review into a release audit. Applicable checks include:
+## 输出
 
-- Spec compliance.
-- Business-flow level, module dependency, cross-module contract, and page interaction order compliance.
-- Module acceptance and integration smoke results when module boundaries, routes, cross-module contracts, or user flows change.
-- User path completeness.
-- First-value, safe-to-try, trust, and recovery conditions for user-facing adoption flows.
-- UI state coverage.
-- Page design gate order: semantic contract/level, sketch layout-spec, production Code Sketch/tests, independent review, high-fidelity generation/review/user freeze, contract back-check, assets or N/A, fidelity upgrade, measurements/parity, Visual QA.
-- Freeze-record integrity: the selected page image is stored under `.codex-workflow/visuals/pages/<page-name>/` before the page decision records its candidate ID, decoded dimensions, SHA-256 and confirmation time.
-- Asset gate order: approved frozen target, contract back-check, ownership/coverage audit and numbered user confirmation, production/background evidence and fidelity verdict in one authoritative asset manifest, then fidelity implementation.
-- Data units are restored as editable text or representative placeholders and do not create bitmap-generation or extraction work.
-- Material visual uncertainties record their affected units, available evidence, required decision, and blocking status; no affected unit is approved or handed off while unresolved.
-- Mockup parity and recorded design deviations when a high-fidelity mockup exists.
-- Independent critical-alignment gate: for every critical element verify reproducible target↔Flutter geometry relations, actual Widget measurement and same-viewport screenshot evidence against `adaptive-layout-implementation/references/critical-alignment-gate.md`. “No layout problems” is never proof of parity.
-- Visual aesthetics and intended premium feel: hierarchy, spacing, typography, color and contrast, component consistency, asset quality, and decoration that meets the active visual expression preset’s signature strength and page-type budget without harming task clarity. Compare the implementation screenshot with the approved mockup and page-design-decision constraints; record an explicit aesthetic verdict and actionable findings. Do not treat restraint as the default premium standard.
-- Product-fit quality: visual character supports the intended audience and product promise; polish does not hide unclear value, unnecessary friction, or unresolved trust concerns.
-- Independent visual-QA findings are resolved or explicitly accepted when visual risk requires that review.
-- Asset source, reuse decision, generation prompt constraints, background handling, license, output/Flutter path, fallback and fidelity compliance from the page manifest.
-- Bitmap source compliance: new bitmaps default to approved generation/reuse evidence and never derive pixels from representative runtime data.
-- Page design decision, semantic contract, Code Sketch Review, contract back-check and recorded deviation compliance.
-- Mobile and accessibility risks.
-- State management and data flow.
-- Adopted dependency-profile compliance: review only packages and generation rules actually enabled by the technical design, including their recorded reasons.
-- API/service conditions when applicable: contract/version, permissions/security, idempotency/retry, migrations/rollback, service tests, deployment/monitoring, backup/recovery, and client compatibility. If server implementation is out of scope, check only dependencies and boundaries.
-- Error handling and recoverability.
-- Payment, privacy, account, analytics, and crash reporting when in scope.
-- Test sufficiency.
-- Verification platform compliance: review representative foundation smoke early, primary-target runtime smoke after critical flows, and full platform coverage only at final integration/release.
-- Overengineering and unnecessary abstractions.
+F1 返回 snapshot、变化维度、通道和理由；F2 按[统一返回契约](../flutter-implementation-plan/references/task-brief-template.md)返回发现、缺失证据和结论；F3 返回有效通道、关闭阻塞、剩余风险和最终 verdict。严重级别为 Critical、Important、Minor。
 
-## Output Shape
-
-At F1, report the immutable snapshot, risk check, changed dimensions, required specialist lanes with reasons, missing entry evidence, and `return to implementation` / `route to specialist review` / `light self-check passed`.
-
-At F2, remain read-only and report only the assigned lane in this order:
-
-1. Assigned lane, candidate SHA, covered facts and evidence.
-2. Findings by severity with file and line references where available.
-3. Missing evidence.
-4. Open questions.
-5. Lane verdict: approved / changes_requested / blocked.
-
-For the visual lane, also include the aesthetic verdict and a separate critical-alignment verdict: approved / changes_requested / blocked, with geometry measurements, screenshot evidence and remaining actions.
-
-Only the Controller writes `docs/tasks/<task-id>/review.md`, including candidate history, evidence references, F2 returned conclusions and invalidations. At F3, report the effective snapshot, valid lane verdicts, closed blockers, integration or CI evidence required at this level, and the final verdict. Do not repeat detailed findings from F2.
-
-Severity:
-
-- Critical: blocks release or breaks core path.
-- Important: must fix before accepting the task.
-- Minor: should fix if cheap or track in ledger.
-
-## Gate
-
-Do not enter F1 until required project-native commands and regression fixtures actually pass against a candidate commit. F1 must reject stale evidence, scope drift, understated risk, and unidentified snapshots. F2 is read-only and may open only triggered lanes. F3 may approve only when every required lane covers the effective SHA and has no Critical, unresolved Important, or mandatory evidence gap. After a fix, rerun F0/F1 and invalidate only affected lanes. Markdown is never runtime state or an automatic merge signal. Apply layered platform evidence without turning early smoke into a full-platform claim or automatically starting physical-device acceptance.
+只有 Controller 在需要持久记录时写 `docs/tasks/<task-id>/review.md`。修复后只重跑失败或受影响命令，只重开输入指纹变化的通道。Markdown 不驱动状态、合并或发布；真机验收、外部写入和发布需单独授权。

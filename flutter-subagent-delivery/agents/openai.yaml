@@ -1,4 +1,4 @@
 interface:
   display_name: "Flutter Subagent Delivery"
   short_description: "Coordinate explicitly authorized parallel Flutter writers."
-  default_prompt: "Use $flutter-subagent-delivery only after the user explicitly requests parallel writers or worktrees; coordinate disjoint branches with Markdown briefs, read-only review, and standard Git/PR/CI integration without runtime state files or automatic merging."
+  default_prompt: "Use $flutter-subagent-delivery only after explicit parallel-writer or worktree authorization, with disjoint scopes and snapshot-bound read-only review."

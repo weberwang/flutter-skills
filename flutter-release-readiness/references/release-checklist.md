@@ -89,8 +89,8 @@
 
 ## Integration Gate
 
-- Current candidate branch and approved SHA:
-- Clean worktree and `git diff --check`:
+- Current checkout snapshot-id:
+- Existing authorized commit SHA (if any) and clean worktree evidence:
 - Required tests / CI:
 - Required F2 conclusions and F3 verdict:
 - Merge / release authorization:

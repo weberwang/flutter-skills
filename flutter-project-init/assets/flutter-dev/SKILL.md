@@ -1,6 +1,6 @@
 ---
 name: flutter-dev
-description: Use when implementing, refactoring, reviewing, or debugging Flutter app code in this project according to its approved architecture and active dependency profiles.
+description: Use for implementation, refactoring, or debugging Flutter code after the project-local architecture and task contract are accepted.
 ---
 
 # Flutter Dev

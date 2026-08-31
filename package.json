@@ -20,6 +20,7 @@
     "flutter-subagent-delivery",
     "flutter-quality-review",
     "flutter-release-readiness",
+    "scripts",
     "README.md"
   ],
   "bin": {
@@ -27,6 +28,8 @@
   },
   "scripts": {
     "install:remote": "node ./bin/install-flutter-skills.js",
+    "workflow:snapshot": "node ./scripts/workflow-snapshot.js",
+    "validate:workflow": "node ./scripts/validate-workflow.js",
     "validate:layout-spec": "node ./adaptive-layout-implementation/scripts/validate-layout-spec.js",
     "test:layout-fixtures": "node ./adaptive-layout-implementation/scripts/run-fixtures.js"
   },

@@ -1,41 +1,25 @@
 ---
 name: flutter-subagent-delivery
-description: Use only when the user explicitly requests parallel writable Flutter tasks or worktrees; coordinate disjoint writers with normal branches, Markdown briefs, read-only review, and standard Git/PR/CI integration.
+description: Use only when the user explicitly requests parallel writable Flutter tasks or worktrees; otherwise use the orchestrator's single-writer flow.
 ---
 
 # Flutter Subagent Delivery
 
-## Overview
+本 skill 只处理用户明确授权的并行可写任务或 worktree。普通任务默认由当前分支 checkout 中的一个写入者顺序完成，风险等级不改变拓扑。
 
-Default Flutter delivery is single-writer and sequential. Use this skill only after the user explicitly authorizes parallel writers or worktrees. Read-only exploration and review may run in parallel without this skill.
+## 交接
 
-Markdown records decisions, evidence, and conclusions only. It is never runtime state, automation input, a merge signal, or a state machine. Do not create YAML or JSON workflow state.
+1. 先读[风险分级](references/task-risk-tiers.md)和[八字段任务契约](../flutter-implementation-plan/references/task-brief-template.md)。
+2. Controller 记录明确授权、共同基线、互斥写入范围、所有者和项目原生命令；不得把完整会话粘进提示词。
+3. 只有跨角色交接或用户要求时才创建 Markdown brief；不创建 YAML/JSON 状态、租约或自动化状态机。
 
-## Prepare
+## 执行与审核
 
-1. Classify each task with [references/task-risk-tiers.md](references/task-risk-tiers.md).
-2. Confirm the integration branch, common base SHA, executable project-native verification commands, and non-overlapping write scopes.
-3. Assign one DRI per writable scope. Serialize dependencies, routes, themes, generated files, shared state, migrations, API contracts, and each page layout-spec under one writer.
-4. Use ordinary task branches. Create worktrees only when the user explicitly requested worktrees; record branch and scope in `docs/tasks/<task-id>/brief.md`.
-5. The Controller coordinates through task briefs plus observed Git, PR, and CI facts. Do not create leases or structured status files.
+1. 每个写入者只接收一个范围，依赖、路由、主题、生成文件、共享状态、迁移和单页 spec 保持单写者串行。
+2. 获得测试等级授权后先实际执行 F0，再按[审核漏斗](../flutter-quality-review/references/review-funnel.md)进行 F1/F2/F3。
+3. 审核者只读并返回统一结论；Controller 是持久 review 记录唯一写入者。普通审核以 snapshot 绑定，不强制提交。
+4. 修复后只重跑失败或受影响命令，并重开输入指纹已变化的通道。
 
-## Execute And Review
+## 集成边界
 
-1. Give each writer a Markdown brief with canonical inputs, exact write scope, non-goals, acceptance criteria, and executable verification commands.
-2. At F0, run the project's native analysis, build, test, audit, migration, and regression commands in the task branch until they pass.
-3. Freeze one candidate commit. At F1, the Controller checks its SHA, scope, risk, acceptance trace, and evidence, then selects only required F2 lanes.
-4. F2 reviewers are read-only. Independent lanes may run in parallel and must return the structured conclusion defined by [review-funnel.md](../flutter-quality-review/references/review-funnel.md); they never edit shared `review.md`.
-5. When durable review is required, only the Controller writes `docs/tasks/<task-id>/review.md`, binds each conclusion to its candidate SHA and evidence, and records invalidation after fixes.
-6. After changes, rerun F0 and F1. Reopen only F2 lanes whose covered facts changed, then let the Controller perform F3 convergence.
-
-## Integration
-
-1. Use standard Git, PR, and CI; do not automatically merge branches or remove worktrees.
-2. Before merge, the Controller verifies the current integration branch, approved candidate SHA, clean worktree, `git diff --check`, required tests and CI, required review conclusions, and explicit merge authority.
-3. Resolve conflicts in the owning task branch and repeat affected verification/review. Markdown must not drive merge behavior.
-4. After shared foundations, run representative startup, routing, and plugin smoke checks. After critical business flows, run the primary-target runtime smoke. Final integration or release owns the complete platform matrix.
-5. Task-level evidence and early smoke checks must not claim full platform coverage. Never automatically start physical-device acceptance.
-
-## Gate
-
-Do not use this skill for sequential work, read-only parallel review, or risk tier alone. Do not start parallel writers without explicit user authorization, with overlapping scopes, or from an uncertain base. Do not create workflow YAML/JSON, let reviewers write shared `review.md`, automate merges from Markdown, or approve F3 before all required conclusions cover the effective candidate SHA.
+分支、提交、PR、合并、worktree 清理、发布和任何外部写入都必须另有明确授权；Markdown 不驱动这些动作。早期烟测只能证明命名覆盖，完整平台矩阵由最终集成/发布承担，真机验收需单独授权。

@@ -1,127 +1,65 @@
 # Flutter Skills
 
-一组用于 Codex 交付商业化 Flutter App 的独立 skills。工作流覆盖产品定义、UX/UI 质量、Flutter Code Sketch、高保真目标、Flutter 初始化、模块拆分、子代理交付、质量审阅和发布检查。
+一组用于 Codex 交付 Flutter App 的阶段化 skills。推荐从 `flutter-app-orchestrator` 进入；它先路由最小流程，再按需要加载产品、设计、技术、实现、审核或发布 skill。
 
-## 一句命令安装
-
-不克隆仓库，不使用压缩包 URL。直接从 GitHub 仓库安装：
+## 安装
 
 ```powershell
 npx -y github:weberwang/flutter-skills
 ```
 
-默认安装到当前执行命令目录下的 `.agents/skills`。安装完成后重启 Codex，让新 skills 生效。
-
-例如在 `D:\Git\my-app` 下执行，默认安装到：
-
-```text
-D:\Git\my-app\.agents\skills
-```
-
-## 可选参数
-
-安装到指定目录：
+默认安装到当前目录的 `.agents/skills`。也可指定目录或预览：
 
 ```powershell
 npx -y github:weberwang/flutter-skills --dest "D:\codex-skills"
-```
-
-安装到 Codex 个人 skills 目录：
-
-```powershell
-npx -y github:weberwang/flutter-skills --dest "$env:USERPROFILE\.codex\skills"
-```
-
-覆盖已存在的同名 skill：
-
-```powershell
-npx -y github:weberwang/flutter-skills --force
-```
-
-只查看将要安装的内容，不写入文件：
-
-```powershell
 npx -y github:weberwang/flutter-skills --dry-run
 ```
 
-也可以用环境变量覆盖默认安装目录：
+## 最短工作流
+
+1. 预检仓库、既有决策、依赖、健康服务和项目原生命令。
+2. 按[风险分级](flutter-subagent-delivery/references/task-risk-tiers.md)选择 `light`、`standard`、`high` 或 `release`。
+3. 在当前对话填写[八字段任务契约](flutter-implementation-plan/references/task-brief-template.md)：目标、验收条件、写入范围、禁止改动、确认事实、风险等级、验证命令、授权边界。
+4. 默认当前 checkout、单写者、顺序执行；普通单代理不创建 brief。只有跨角色、高风险持久审核或用户明确要求时才创建 Markdown 工件。
+5. 单写者完成改动后，报告推荐测试等级和命令并等待人工选择；选择后实现者执行 F0。未执行的命令不能作为通过证据。
+6. F1 只按真实变更分诊，普通审核使用 `workflow:snapshot` 的可复算 `snapshot-id`；已有且获授权的提交才绑定 SHA。
+7. 只派发触发的只读 F2，F3 由 Controller 收敛。修复后只重跑失败或受影响命令，只重开输入指纹变化的通道。
+
+分支、worktree、提交、PR、并行写入、外部写入、发布和真机验收都必须单独获得用户明确授权；Markdown 不驱动状态机、合并或发布。
+
+## Skills
+
+- `flutter-app-orchestrator`：唯一工作流入口和阶段路由。
+- `flutter-product-spec` / `flutter-ux-ui-quality`：产品范围与 UX/UI 输入。
+- `adaptive-layout-implementation` / `flutter-code-sketch`：布局规格与生产骨架草图。
+- `flutter-hifi-mockup` / `flutter-asset-atlas`：冻结目标与确认后的视觉资产。
+- `flutter-tech-design` / `flutter-project-init`：技术设计与工程初始化。
+- `flutter-implementation-plan`：模块、任务和验收拆分。
+- `flutter-quality-review`：按风险触发 F0–F3 审核。
+- `flutter-release-readiness`：发布范围内的证据检查。
+- `flutter-subagent-delivery`：仅用于明确授权的并行可写任务或 worktree。
+
+专业 skill 只在用户明确请求对应阶段，或 orchestrator 已路由到该阶段时加载；保持自动发现，不要求用户记住内部文件名。
+
+## 本地工作流工具
 
 ```powershell
-$env:FLUTTER_SKILLS_DEST = "D:\codex-skills"
-npx -y github:weberwang/flutter-skills
-```
-
-## 包含的 Skills
-
-- `flutter-app-orchestrator`: 主流程编排入口。
-- `adaptive-layout-implementation`: 页面编码前的通用自适应布局规格、约束实施和参数化关系测试工作流。
-- `flutter-product-spec`: 产品目标、MVP、用户故事。
-- `flutter-ux-ui-quality`: 全局 UX/UI、状态覆盖、视觉质量门禁。
-- `flutter-hifi-mockup`: 高保真效果图生成、评审、冻结。
-- `flutter-asset-atlas`: 高保真图后的资产复用检查、生图、背景透明化、单图/图集导出、清单和还原验收。
-- `flutter-code-sketch`: 在生产 Flutter 骨架实现、测试并独立审阅中性 Code Sketch。
-- `flutter-tech-design`: Flutter 技术方案和模块边界。
-- `flutter-project-init`: Flutter 初始化、按需依赖档、生成项目级 `flutter-dev` skill。
-- `flutter-implementation-plan`: 模块拆分、任务简报、验收路径。
-- `flutter-subagent-delivery`: 隔离并协调必须同时执行的多个可写 Flutter 任务。
-- `flutter-quality-review`: 商业交付质量审阅。
-- `flutter-release-readiness`: 发布前检查。
-
-## 推荐入口
-
-在 Codex 中优先从 `flutter-app-orchestrator` 开始。它先选择最小安全流程，再按需要调用专业技能：
-
-1. 确认真实集成分支、基线、环境、依赖和验证命令。
-2. 将任务分为 `light`、`standard`、`high` 或 `release`。
-3. 只在存在未决产品、设计、技术或发布选择时进入提问和确认。
-4. 默认由单写者在普通分支顺序实现，并实际执行项目原生的 F0 命令。
-5. F0 通过后冻结候选 SHA；F1 由 Controller 分诊快照、范围、风险和证据。
-6. F2 仅开启实际触发的只读 Product、QA、技术、视觉或 Release 通道；互不依赖的只读审核可以并行，F3 由 Controller 收敛同一候选的结论。
-7. 修复后重新通过 F0/F1，只重做覆盖事实已变化的 F2 通道。
-8. F3 批准后走标准 Git、PR 和 CI 集成；Markdown 只留存决策、证据和结论，不驱动状态机或自动合并。
-
-## 关键约束
-
-- 所有风险等级默认单写者、顺序执行；标准和高风险任务使用普通任务分支，发布任务使用候选分支、PR 和 CI。
-- 只有用户明确要求并行写入或明确要求 worktree 时才使用并行分支/worktree；即使如此也不创建 YAML/JSON 运行期状态、不自动合并，并由 Controller 通过 Markdown 简报及 Git/PR/CI 事实协调。
-- 持久流程状态、任务简报与审核/决策记录只使用 Markdown，且只记录决策、证据和结论，不作为自动化输入；视觉、设计和代码资产保持原生格式。`docs/tasks/<task-id>/review.md` 只能由 Controller 写入；F2 审阅者返回结构化结论。
-- 正式审查必须等待静态检查、测试、审计命令和已知回归夹具实际通过。
-- 审核采用 F0 确定性过滤 → F1 变更分诊 → F2 专项审核 → F3 收敛验收；前一级未放行时不占用后一级审查资源。
-- F1 只开启变化和风险实际触发的通道；F3 只收敛结论，不能替代缺失的专业审核。
-- 产品范围变化重做 Product 与 QA；脚本、测试或实现变化只重做受影响的 QA/技术审查；视觉变化只重做受影响的视觉审查；格式变化通常不触发人工复审。
-- 全局方向和页面效果图默认只生成一个候选；仅在用户要求探索或存在实质设计取舍时生成两到三个。
-- 页面只使用与风险相称的语义契约、Code Sketch、高保真目标和资产证据；普通复用页面不强制完整设计代理链。
-- 外部产品设计工具不是依赖；只有用户明确要求时才使用。
-- 页面只维护一个两阶段 `layout-spec.yaml`，从 `phase: sketch` 升级为 `phase: fidelity`。
-- 平台验证分层进行：共享基础完成后做代表性启动、路由和插件烟测；关键业务流完成后做主目标平台运行烟测；最终集成或发布执行完整平台矩阵。任务证据不得宣称平台全量通过，也不得自动发起真机验收。
-- Flutter 依赖按核心、数据/API、复杂领域和 UI token 能力档按需启用；技术设计记录每个实际依赖的启用原因，质量审核不要求未采用项。
-- API/服务端工作按范围记录契约与版本、权限安全、幂等重试、迁移回滚、服务端测试、部署监控、备份恢复和客户端兼容；不负责服务端实现时只记录依赖与边界。
-- 发布、生产修改、签名、远端分支删除和其他不可逆操作仍需要明确授权。
-
-## 本地开发调试
-
-克隆仓库后可以直接运行本地 CLI：
-
-```powershell
+npm run workflow:snapshot -- --base HEAD
+npm run validate:workflow
 npm run install:remote -- --dry-run
 ```
 
-或：
+`workflow:snapshot` 只向 stdout 输出确定性 JSON，不写运行时状态；它包含基线、排序后的变更和工作树文件 blob ID，也覆盖未跟踪、删除、重命名、空工作树和含空格路径。`validate:workflow` 检查 skill 结构、Markdown 链接、包装清单、权威规则、提示契约和五类内置路由场景。
+
+## 验证授权停点
+
+代码修改完成后，代理必须先说明推荐测试等级、理由和命令；在人工选择前不运行测试、lint、构建或审核命令。测试结束须报告实际等级、结果、失败项和未执行项。完整平台矩阵属于最终集成/发布，不能由局部任务证据代替。
+
+## 开发与重装
 
 ```powershell
 node .\bin\install-flutter-skills.js --dry-run
-```
-
-## 重装
-
-安装器默认拒绝覆盖已存在的 skill，避免覆盖本地修改。需要重装时，使用：
-
-```powershell
 npx -y github:weberwang/flutter-skills --force
 ```
 
-如果只想删除当前目录下的某一个 skill：
-
-```powershell
-Remove-Item -Recurse -Force ".\flutter-app-orchestrator"
-```
+安装器默认拒绝覆盖已有同名 skill；需要重装时显式使用 `--force`。

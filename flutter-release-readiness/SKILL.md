@@ -1,6 +1,6 @@
 ---
 name: flutter-release-readiness
-description: Use when preparing a Flutter app for App Store, Google Play, TestFlight, internal testing, production launch, privacy review, subscriptions, store metadata, release builds, or commercial release readiness.
+description: Use when the user explicitly asks to check Flutter release readiness, store evidence, signing, rollout, or production launch, or when flutter-app-orchestrator routes the accepted release stage.
 ---
 
 # Flutter Release Readiness
@@ -60,4 +60,4 @@ Produce:
 
 ## Gate
 
-Do not approve the Release lane while any store, privacy, account, payment, crash reporting, API/service rollout/recovery, or release build blocker remains unresolved. Release-lane approval does not itself complete F3: QA and technical verdicts, any triggered Product or visual verdict, PR/CI evidence, and explicit external-release authorization remain required.
+Do not approve the Release lane while any store, privacy, account, payment, crash reporting, API/service rollout/recovery, or release build blocker remains unresolved. Release-lane approval does not itself complete F3: QA and technical verdicts, any triggered Product or visual verdict, and explicit external-release authorization remain required. PR/CI evidence is required only when it is applicable to the current release scope and has been explicitly authorized; missing authorization must not trigger PR/CI creation.

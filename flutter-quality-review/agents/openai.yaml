@@ -1,4 +1,4 @@
 interface:
   display_name: "Flutter Quality Review"
-  short_description: "Review Flutter app code and product quality."
-  default_prompt: "Use $flutter-quality-review to run F0 project-native checks, Controller F1 triage, read-only F2 lanes, and Controller F3 convergence bound to one candidate SHA."
+  short_description: "Review only the triggered Flutter quality risks."
+  default_prompt: "Use $flutter-quality-review for snapshot-bound F1 triage, triggered read-only F2 lanes, and Controller-led F3 convergence."

@@ -1,6 +1,6 @@
 ---
 name: flutter-ux-ui-quality
-description: Define Flutter UX/UI semantics, states, interactions, responsive boundaries, visual direction, accessibility, and quality gates. Use for new or changed Flutter screens before code-first sketches, high-fidelity targets, assets, and implementation.
+description: Use when the user explicitly asks to define or review Flutter UX/UI semantics, visual direction, responsive behavior, or accessibility, or when flutter-app-orchestrator routes the accepted UX/UI stage.
 ---
 
 # Flutter UX/UI Quality

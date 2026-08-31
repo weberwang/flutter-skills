@@ -1,83 +1,37 @@
-# Task Brief
+# 八字段任务契约
 
-This Markdown file is a human handoff record, not runtime state or automation input. Delete conditional sections that do not apply.
+本模板是唯一任务交接格式。普通单代理直接在当前对话传递；只有跨角色交接、高风险持久审核或用户明确要求时才复制为 `docs/tasks/<task-id>/brief.md`。不要粘贴完整会话或上游文档全文，使用路径引用。
 
-## Task
+```text
+目标：<一个可观察结果>
+验收条件：<可执行、可判定的条件>
+写入范围：<唯一允许修改的路径>
+禁止改动：<非目标、共享资源和明确禁止事项>
+确认事实：<已接受的路径、版本、决定和前置证据>
+风险等级：<light | standard | high | release>
+验证命令：<获授权后执行的项目原生命令；含必要回归/烟测>
+授权边界：<测试等级、分支/worktree、提交/PR、外部写入、发布或真机授权；未授权写“无”>
+```
 
-- ID / name:
-- Risk tier / business-flow level:
-- Goal:
-- Verified integration branch / base SHA:
-- Ordinary task branch:
-- Prior-level evidence:
+## Controller 交接附加信息（仅在需要时）
 
-## Ownership And Scope
+- 任务 ID / 名称：
+- DRI 与独立验收者：
+- 业务流等级及前置证据：
+- 关联 canonical artifact 路径：
+- 预期 F1 变化维度和条件性 F2 通道：
+- 结果接收者：
 
-- DRI:
-- Read scope:
-- Unique write scope:
-- Non-goals / prohibited changes:
-- Shared resources and single owner:
-- Independent acceptance role when required:
+## 返回契约
 
-## Explicit Parallel Authorization (Conditional)
+实现者或审阅者统一返回：
 
-- User authorization and date:
-- Parallel writer or worktree scope explicitly requested:
-- Disjoint branch/write scope:
-- Controller coordination boundary:
+```text
+状态：DONE | DONE_WITH_CONCERNS | NEEDS_CONTEXT | BLOCKED
+变更文件：<路径列表；只读时写无>
+验证结果：<实际执行的命令/证据及覆盖范围>
+阻塞项：<无则写无；含解除条件>
+剩余风险：<所有未关闭风险及责任人>
+```
 
-No YAML/JSON workflow state or automatic merge is created even when this section applies.
-
-## Canonical Inputs
-
-- Product / design / technical / module references:
-- Layout implementation specification: `docs/design/pages/<page-name>/layout-spec.yaml`
-- Layout phase: sketch / fidelity
-- Code Sketch Level and reviewed semantic contract:
-- Code Sketch candidate diff/SHA, external spec hash, screenshot hashes, reviewer ID/verdict:
-- Frozen high-fidelity target ID/SHA and contract back-check (fidelity only):
-- Asset manifest path or `N/A: no bitmap or exported visual assets` (fidelity only):
-- API contract and version:
-- Candidate design/asset evidence:
-
-## API / Service Conditions (Conditional)
-
-- Service implementation owned by this task: Yes / No
-- External service owner/dependency when No:
-- Auth/permission and security boundary:
-- Idempotency, retry, timeout and rate limit:
-- Migration/rollback:
-- Service tests and contract tests:
-- Deployment/monitoring and backup/recovery:
-- Client compatibility/deprecation:
-
-## Acceptance
-
-- Functional and failure-state criteria:
-- API/service criteria when applicable:
-- UI evidence when applicable:
-- Layout-spec validator command and result:
-- Relation invariants and parameterized test matrix / test ids:
-- Actual Widget measurement output and target/Flutter parity cases (fidelity only):
-- Independent Visual QA result (fidelity only):
-- Security/privacy/data criteria when applicable:
-
-## Verification
-
-- F0 project-native commands:
-- Known regression fixtures:
-- Foundation startup/routing/plugin smoke (foundation tasks):
-- Primary-target runtime smoke (critical-flow tasks):
-- Full matrix owner/reference: `docs/architecture/verification-platforms.md`
-
-Task evidence proves only the named scope and cannot claim the complete platform matrix. Do not automatically start physical-device acceptance.
-
-## Review Funnel
-
-- F1 expected change/risk dimensions:
-- Conditional F2 read-only lanes and triggers:
-- F2 return shape: lane, candidate SHA, covered facts, findings, missing evidence, questions, verdict
-- F3 required evidence and authorization:
-
-The implementer returns candidate SHA, changed files, F0 evidence and blockers. Only the Controller writes `docs/tasks/<task-id>/review.md` and copies F2 conclusions into it.
+正式审核追加 `Snapshot ID`、覆盖事实、发现严重级别、结论和失效通道；已有且获授权的提交才追加 commit SHA。物理真机验收、发布和外部写入始终单独授权。

@@ -4,7 +4,7 @@ Code Sketch Reviewer 必须独立于 Code Sketch Agent，只读审阅同一个�
 
 ## 输入完整性
 
-- candidate commit 或完整 diff、候选代码 SHA。
+- snapshot-id 或完整 diff；已有且获授权的提交才记录代码 SHA。
 - `phase: sketch` 的 layout-spec、外部记录的 spec hash、validator 结果。
 - analyze、Widget/关系测试输出；按级别要求提供确定性截图及 SHA-256。
 - 页面语义合同、Code Sketch Level 与复用来源/delta（如适用）。

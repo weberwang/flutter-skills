@@ -1,6 +1,6 @@
 ---
 name: flutter-tech-design
-description: Use when designing Flutter architecture, dependency capabilities, routing, persistence, API/service boundaries, authentication, migrations, testing, platform verification, deployment, or commercial app technical decisions.
+description: Use when the user explicitly asks for Flutter architecture, dependency, API, migration, security, or platform technical decisions, or when flutter-app-orchestrator routes the accepted technical-design stage.
 ---
 
 # Flutter Tech Design

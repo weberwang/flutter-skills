@@ -10,7 +10,7 @@
 - 滚动 owner、断点/重排、系统避让、无障碍：
 - data/UI/asset ownership 边界：
 - `phase: sketch` layout-spec 路径 / validator / 外部 spec hash：
-- candidate commit/diff / code SHA / screenshot hashes：
+- snapshot-id / diff / code SHA（仅已有且获授权的提交）/ screenshot hashes：
 - 独立 Code Sketch Reviewer / 结论：
 
 ## 高保真冻结

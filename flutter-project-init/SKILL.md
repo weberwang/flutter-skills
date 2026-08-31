@@ -1,6 +1,6 @@
 ---
 name: flutter-project-init
-description: Use when creating, bootstrapping, re-initializing, or standardizing a Flutter project with FVM, architecture-approved dependency profiles, project structure, linting, tests, and a generated project-local flutter-dev skill.
+description: Use when the user explicitly asks to initialize or standardize a Flutter project and its approved dependency profiles, or when flutter-app-orchestrator routes the accepted project-initialization stage.
 ---
 
 # Flutter Project Init

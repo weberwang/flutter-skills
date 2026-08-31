@@ -1,6 +1,6 @@
 ---
 name: flutter-code-sketch
-description: Build and independently review neutral, code-first Flutter page sketches on the production app skeleton before high-fidelity design. Use for new or structurally changed Flutter pages that need a semantic contract, responsive relationship tests, deterministic structural evidence, or a reviewed low-fidelity implementation without disposable duplicate screens.
+description: Use when the user explicitly asks to implement or review a neutral code-first Flutter page sketch on the production skeleton, or when flutter-app-orchestrator routes the accepted code-sketch stage.
 ---
 
 # Flutter Code Sketch
@@ -23,10 +23,10 @@ description: Build and independently review neutral, code-first Flutter page ske
 
 ## 组织独立审阅
 
-1. 冻结 candidate commit/diff、`phase: sketch` 的 layout-spec、结构测试输出和截图哈希；由任务审阅记录 spec hash，禁止把 spec 自身 SHA 写回 spec。
+1. 固定当前工作树 diff、`phase: sketch` 的 layout-spec、结构测试输出和截图哈希，并计算 `snapshot-id`；由任务审阅记录 spec hash，禁止把 spec 自身 SHA 写回 spec。
 2. 派发与 producer 不同的只读 Code Sketch Reviewer，按 [审阅 rubric](references/code-sketch-review-rubric.md) 检查语义、状态、导航、滚动、断点、无障碍和系统避让。
 3. 低保真截图只证明功能层级和结构事实，不约束高保真几何。进入高保真阶段后，草图 Golden 必须失效或被高保真证据替换。
-4. 审阅不通过时回到同一生产骨架修复并重新冻结候选；不得由 producer 自审放行。
+4. 审阅不通过时回到同一生产骨架修复并重新计算 snapshot；不得由 producer 自审放行。
 
 ## 高保真交接
 
@@ -40,4 +40,4 @@ description: Build and independently review neutral, code-first Flutter page ske
 - 页面语义合同与 Code Sketch Level 决策。
 - `phase: sketch` 的同一个 `layout-spec.yaml` 及 validator 结果。
 - 生产 Flutter 骨架、Widget/关系测试与风险选择的截图证据。
-- 独立 Code Sketch Review：candidate commit/diff、spec hash、截图 hash、结论与未决项。
+- 独立 Code Sketch Review：snapshot-id/diff、spec hash、截图 hash、结论与未决项。
