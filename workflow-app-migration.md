@@ -39,6 +39,7 @@
   → 全元素拆解确认图与独立确认
   → 从已确认拆解推导唯一布局
   → 布局层级确认图与独立确认
+  → 显示层分支：宿主效果图齐全则进入该层还原；缺图则记录待补项，依赖宿主图部分挂起，宿主与独立目标继续
   → 必要的固定视觉资产与资产证据
   → 同一 layout-spec 升级为 phase: fidelity
   → 同一生产骨架还原并实现
@@ -54,6 +55,8 @@
 - `phase: fidelity` 在同一布局文件和同一生产骨架上还原目标；低保真截图进入高保真后失效或由新的证据替代。
 
 页面没有结构或视觉变化时，不能因为参考了 Phaser 工作流就强行走完整 UI 链。页面复用、普通功能、服务端或发布任务按第 8 节分流。
+
+场景宿主与 display layer 的推进可以解耦：缺少某个弹窗的宿主效果图，仅挂起依赖缺失宿主图的还原与同屏验收，不暂停宿主场景、已明确的共享接口或不依赖该图的其他场景。若弹窗已有独立冻结目标、布局合同和独立目标证据，可继续实现与独立目标还原，不必等待宿主图。
 
 ## 3. 当前 Flutter 工作流事实
 
@@ -139,6 +142,8 @@ Code Sketch Review 通过后才可以生成高保真页面目标。当前图、b
 
 ### 4.2 八字段任务契约
 
+已登记且已明确授权的显示层子任务可按独立合同和互斥文件范围并行，不因同一范围再次重复询问；这只是方案中的并行例外，不创建实际 Codex 任务，也不自动建立 worktree、分支或提交。
+
 每个迁移任务都在当前对话传递下面八项；只有跨角色、高风险持久上下文或用户明确要求时才写入 `docs/tasks/<task-id>/brief.md`：
 
 ```text
@@ -179,7 +184,7 @@ Code Sketch Review 通过后才可以生成高保真页面目标。当前图、b
 | 固定插画、Logo、纹理、背景装饰 | asset-manifest 和 Flutter 资源路径 | 只保留 fixed visual；来源、许可、状态和使用位置可追溯 |
 | 运行时文本、数值、头像、进度和远程内容 | data owner 与 Widget renderer | 禁止裁切、生成或打包为生产位图 |
 | 纹理键、加载和 fallback | Flutter asset path、loading/error/fallback 合同 | 记录真实消费和失败行为；loaded 不等于功能完成 |
-| 场景弹窗、HUD、toast、drawer | 宿主页面的 display layer | persistent 与 transient 分开；瞬态必须保留宿主上下文和焦点恢复 |
+| 场景弹窗、HUD、toast、drawer | 宿主页面的 display layer | persistent 与 transient 分开；瞬态必须保留宿主上下文和焦点恢复；缺宿主效果图时记录待补项，不阻断宿主 |
 | 场景交互重放 | 关键业务流 smoke、Widget/集成测试 | 在主目标平台验证实际打开、交互、关闭、恢复；不以资源加载代替运行证据 |
 | Phaser 截图 parity | `phase: fidelity` 的 target/Flutter parity case | 同一 viewport/state/orientation 对照；不得声称整屏逐像素或全平台 parity |
 | Phaser 原始流程文档 | 产品、UX、技术输入或变更记录 | 只作为待核验输入；当前 Flutter 文件优先，冲突必须显式裁决 |
@@ -239,13 +244,27 @@ Code Sketch Review 通过后才可以生成高保真页面目标。当前图、b
 
 在这组文件落地前，现有项目继续使用当前数字图能力。不得在没有实现支持时宣称这两张增强图可用，也不得通过给当前 regions JSON 加中文字段来伪造增强能力。
 
+#### 6.2.1 图文映射与递归停靠规范（迁移建议）
+
+用户提供的“左侧只有细框、右侧只有 GROUP/VISUAL 和技术坐标”的图只能作为问题示例，不能当作已批准的布局目标或量测来源。增强图中每个父容器、子节点和 placement 都有唯一稳定的 `layout_node_id`；例如 `P01`、`P01-C01` 只是可读示例，不强制现有 schema 采用这些编号。技术数据保留真实 `parent_id`。
+
+左图框旁放与结构数据相同的 ID 徽标和中文短名，右栏按父层优先列出同 ID、同名和层级分组；缺框、缺说明或无法一一对应均不通过。颜色只作层级辅助，同层同色不能代替 ID。`layout_node_id` 独立于 `asset_no`：同一资产的多个实例使用不同布局 ID，但共享一个 `asset_no`，由 manifest membership 关联。
+
+右栏每个父条必须写明：相对哪个父或安全区域、水平停靠、垂直停靠、偏移/内外边距、宽高策略和内部排列；子条写相对父的关系，不能只有 GROUP 标题和 child 像素坐标。根容器也要说明 viewport、SafeArea 和 inset 的归属，避免重复安全区；空容器同样需要关系说明。父链必须完整、无悬挂、无循环，且每个父节点同时是上一层的子节点。
+
+停靠覆盖 `left/center/right/stretch` 与 `top/center/bottom/stretch` 的有效组合，并说明固定、内容自适应、填充或比例宽高，以及 `Row`、`Column`、`Wrap`、`Overlay` 等内部布局、间距、对齐、滚动 owner、键盘和断点行为。固定宽度不能再同时声明左右拉伸；视口变化服从已冻结合同，不能凭截图另行设计。
+
+中文说明使用能理解的语义；raw `GROUP/VISUAL`、`LEFT/RIGHT/TOP`、像素矩阵和长 hash 放入结构数据，不挤占用户图。必要的设计尺寸以 logical px 写明参照。说明栏自然换行，必要时拓宽右栏或按父组增补；保留同一冻结原图版本，不能缩整图到不可读或裁掉文字。徽标不得遮挡关键内容，密集区域可用短引线，端点清楚且不交叉；主图和分组图复用同一 ID 时不重复确认。
+
+交付前检查全部 ID 唯一、框/文字/结构三方映射、parent 停靠完整、文字无截断、标注无错位遮挡。未满足时只重渲染当前标注版并重新确认，不重生成高保真目标；在检查未实现前，不得声称现有脚本已支持这些规则。
+
 ### 6.3 版本与失效
 
 用户确认必须绑定他实际看到的图、结构数据、冻结目标和版本身份。图在查看期间被替换时，旧确认不能接受到新版本上。
 
 拆解的元素 membership、bounds、state、component 或 ownership 变化，会使拆解确认、布局图、布局确认、资产生产计划和 fidelity 证据失效。
 
-只有布局关系变化而拆解元素、membership 和冻结目标不变时，只重生成布局图并重新确认布局；不无故重做拆解或重新批准相同 bitmap。
+只有布局关系变化而拆解元素、membership 和冻结目标不变时，只重生成布局图并重新确认布局；不无故重做拆解或重新批准相同 bitmap。新增或修改 `parent_id`、reference、dock 或 size 只使受影响的布局确认及下游证据失效；即使只是说明版式变化而语义未变，也必须绑定当前图版，不能偷沿旧图 hash 确认。
 
 固定资产的编号归属、bounds、placement/state、crop、source、background、尺寸或 production verdict 变化时，必须生成新的确认版本，并使受影响资产及 fidelity 证据失效。
 
@@ -289,6 +308,16 @@ UX/UI Lead 将已确认的页面或场景目的、状态和交互转换为 Flutt
 - data、runtime UI、fixed asset 的 ownership、来源和 fallback。
 
 显示层必须绑定宿主。HUD 或 persistent layer 作为宿主页面的一部分；modal、popup、drawer、toast 等 transient layer 记录触发、关闭、输入阻断、z-order、遮罩、焦点恢复、互斥/共存和响应式回退。孤立弹窗图可以辅助审阅，但不能代替宿主同屏语义。
+
+### 7.3.1 显示层缺图时的独立推进
+
+弹窗、toast 等每个独立 display layer 先登记为当前 implementation plan 的显示层子任务；唯一计划记录位置是该子任务清单，不为每层强制创建另一份任务文件。登记不要求宿主效果图齐全。只有确需跨角色协作或持久上下文时，才按八字段补 brief，不引入状态机。最小记录为 `task_id`/`task_name`、`layer`/`host`/`state`、范围与验收、owner、依赖、文件写范围、待补宿主图和补齐节点。
+
+缺少弹窗或其他 display layer 的宿主效果图时，先记录 `layer_id`、`host`、`state`、缺口描述、负责人、依赖和计划补齐节点。该记录仅挂起依赖缺失宿主图的还原与同屏验收，不把整个宿主页面标为 blocked，也不自动切换到弹窗工作或自动生成图片。若弹窗已有独立冻结目标、布局合同和独立目标证据，可继续实现与独立目标还原，不必等待宿主图。
+
+宿主已经明确的页面结构、状态接口和实现范围继续推进，并执行不依赖缺图的范围内验证。用户可以另行并行推进该 display layer，或与宿主、其他无依赖显示层并行推进；这不等于本任务启动其他实现。接口已知时，显示层任务应有独立的状态、参数和事件合同，以及互斥的文件范围；共享路由、theme、layout 和 state 入口由单一 owner 接线，真正依赖处串行。
+
+缺图不能虚构视觉通过。宿主开发进度与 display layer 联合验收分别记录；最终声明该页面或业务流完整通过前，必须补齐适用的宿主同屏目标和 `open → interact → close → restore` 证据。只有真实共享接口缺失或冲突时，才暂停依赖该接口的局部，其余宿主和场景继续。既有“必须补宿主上下文”是该显示层验收责任，不是宿主场景开发前置条件。
 
 ### 7.4 `phase: sketch` 布局规格
 
@@ -334,7 +363,7 @@ Controller 或 UX/UI Lead 将冻结目标与语义合同、Code Sketch Review �
 
 每个元素必须声明 data、runtime UI 或 fixed visual ownership，并为 fixed visual 决定 reuse、adapt、variant、new generation、atlas 或明确批准提取。程序绘制和原生 Flutter 组件不因为在参考图中可见就自动变成位图。
 
-迁移到 Flutter 时还要拆清宿主 overlay、键盘、导航、焦点、系统避让、滚动 owner 和恢复行为。仅有一张孤立 Phaser 弹窗图时，必须补充它在宿主页面中的状态和上下文合同。
+迁移到 Flutter 时还要拆清宿主 overlay、键盘、导航、焦点、系统避让、滚动 owner 和恢复行为。仅有孤立弹窗图或缺少宿主效果图时，先记录 `layer_id`、host、state、缺口、负责人、依赖和补齐节点；仅挂起依赖缺失宿主图的还原与同屏验收，不停止宿主，也不自动切换任务去补图。若弹窗已有独立冻结目标、布局合同和独立目标证据，可继续实现与独立目标还原，不必等待宿主图。补宿主上下文是该显示层验收责任，不是场景开发前置。
 
 ### 7.9 拆解确认
 
@@ -355,6 +384,8 @@ Controller 只展示当前版本，用户可修改元素、状态、归属或 me
 布局是唯一方案。禁止重新排列确认元素、擅自改变冻结目标位置尺寸、重新生成参考效果图或从旧布局节点偷偷导入。确有变化时编辑当前布局提案并重新确认，而不是新增布局候选。
 
 从唯一布局生成第二张布局层级确认图。图中表达父子容器、同层级同色、空容器和关系说明；布局确认不能替代拆解确认，也不能反向批准资产生产。
+
+布局说明按父层优先展开：根容器写 viewport/SafeArea/inset 归属及相对参照，每个父容器写完整水平/垂直停靠、偏移/边距、宽高策略和内部排列，子节点再写相对父的关系。`layout_node_id`、真实 `parent_id`、停靠组合、尺寸策略和断点/键盘/滚动 owner 必须与图文一一对应；父链完整且无循环后才可确认。
 
 布局确认后才形成实现参数。对其他 viewport 仍使用 `LayoutBuilder`、`MediaQuery`、`SafeArea`、`ConstrainedBox`、`Flexible`、`Wrap` 或 Sliver 等关系实现；`Positioned` 只能用于合同登记的真实 overlay。
 
@@ -386,7 +417,9 @@ F2 只检查被触发的事实。页面变化触发 visual/QA，认证或数据�
 
 修复后只重跑失败或受影响命令，只重开输入指纹变化的通道。新代码候选使相关 parity 和审核证据过期时，更新 candidate 内容摘要和 snapshot；未变化的结论可继续使用。
 
-只有全部获授权模块、页面、状态和关键业务流完成，才进入完整集成。完整平台矩阵属于最终集成或发布，早期 foundation smoke 和 primary-target critical-flow smoke 不能宣称全平台通过。
+缺少 display layer 宿主效果图时，宿主场景、已明确的接口部分和不依赖该图的范围内验证可以继续；若显示层已有独立冻结目标、布局合同和独立目标证据，其实现与独立目标还原也可以继续。用户也可另行并行推进该层，这不要求本任务启动其他实现。只有真实共享路由、theme、layout 或 state 入口缺失/冲突时，才暂停依赖它的局部；不要求弹窗完成才能接着实现其他场景。宿主开发进度与显示层联合验收分开记录。
+
+只有全部获授权模块、页面、状态和关键业务流完成，才进入完整集成或声明整体完成。缺图期间不能宣称该显示层的视觉还原通过；页面或业务流最终通过前，必须补齐适用的宿主同屏目标和 `open → interact → close → restore` 证据。完整平台矩阵属于最终集成或发布，早期 foundation smoke 和 primary-target critical-flow smoke 不能宣称全平台通过。
 
 已授权本地代码范围内的接线集成随任务授权执行；超范围或破坏性迁移/删除、分支或 worktree、提交或 PR、外部构建或渠道配置、发布和真机验收，仍需针对精确动作单独授权。开发完成不自动等于发布批准。
 
@@ -451,7 +484,7 @@ Reuse 不自动批准新 bitmap。目标只有布局或容器变化时，布局�
 | QA Engineer | 被触发质量维度的独立只读证据和结论 | 修代码或审查未触发范围 |
 | Release Engineer | 构建、环境、签名、渠道、监控和回退判断 | 未授权外部写入或发布 |
 
-当前默认单写者。layout-spec、共享路由、主题、生成文件、迁移文件和集成边界保持单写者串行；只读探索和独立审阅可并行。
+当前默认单写者。layout-spec、共享路由、主题、生成文件、迁移文件和集成边界保持单写者串行；已登记且已明确授权的 display layer 子任务构成有限并行例外，不因同范围授权重复询问，可在独立状态/参数/事件合同和互斥文件范围内并行，共享入口仍由单一 owner 接线；不自动建立 worktree、分支或提交。只读探索和独立审阅可并行。
 
 ### 9.3 建议保存的事实实体
 
@@ -483,10 +516,12 @@ Reuse 不自动批准新 bitmap。目标只有布局或容器变化时，布局�
 | 产品 | `docs/product/product-brief.md`、`docs/product/grilling-log.md` | 新范围或商业产品事实变化 | Product；范围、非目标、用户结果、确认 | 范围可测试 |
 | 技术 | `docs/architecture/technical-design.md`、`docs/architecture/verification-platforms.md` | 架构、服务、平台或依赖需要决策 | Tech；边界、依赖、合同、验证平台 | 基础可实施 |
 | 计划 | `docs/plans/module-map.md`、module scope、implementation plan | 模块或业务流进入实施 | Controller/Planner；模块、级别、契约、顺序 | 当前模块 eligible |
+| 显示层子任务计划 | implementation plan 的显示层子任务清单（条件性计划记录，不是每层强制文件） | 存在独立 popup、toast、HUD、drawer 等 display layer，或需要跨角色协调 | Controller/Planner；task id/name、layer/host/state、范围/验收、owner、依赖、文件写范围、待补宿主图和补齐节点 | 依赖满足后各自进入实现与验收；共享入口单 owner |
 | 语义 | 页面语义合同、UI spec | 页面结构/交互/视觉变化 | UX/UI；状态、导航、系统和 ownership | 可建立 layout-spec |
 | sketch | `docs/design/pages/<page>/layout-spec.yaml`，`phase: sketch` | 自适应页面或结构事实需要合同 | UX/UI/Flutter；关系、不变量和测试矩阵 | validator + Code Sketch |
 | 草图审核 | 生产骨架、关系测试、风险需要的截图、snapshot、spec hash | Code Sketch 级别要求 | Flutter + 独立 Reviewer；结构证据 | Code Sketch approved |
 | 高保真 | `.codex-workflow/visuals/pages/<page>/`、design decision | 用户选择页面视觉目标 | Controller/UX/UI；选中目标、SHA、回对 | 目标冻结且回对通过 |
+| 显示层上下文 | 页面语义合同或模块 scope 中的待补记录 | 缺 display layer 宿主效果图 | UX/UI/Controller；layer/host/state、缺口、负责人、依赖、补齐节点 | 仅挂起依赖缺图的还原与同屏验收 |
 | 拆解 | 全元素拆解图、结构数据；现阶段可用数字图 | 目标需要拆解/布局确认或 ownership 核对；无 fixed visual 时 asset mapping 可为空 | Asset Planning；ownership、状态、placements | 拆解确认 |
 | 布局确认 | 布局层级图、关系数据 | 拆解确认后且布局关系需要确认 | UX/UI/Controller；唯一关系方案 | 布局确认 |
 | 资产 | `docs/design/pages/<page>/asset-manifest.md` | 冻结目标含 fixed visual；无资产则 N/A | Asset Planning；coverage、mapping、生产与保真 | 资产可消费 |
@@ -507,12 +542,14 @@ Reuse 不自动批准新 bitmap。目标只有布局或容器变化时，布局�
 | Code Sketch 门 | 生产骨架、关系测试和适用级别审阅通过 | 修同一骨架并重新计算输入指纹 |
 | hifi 门 | 目标候选被用户明确选择并持久化 | 保持候选临时，不开始资产或还原 |
 | 回对门 | 冻结目标没有未处理语义、范围或 ownership 变化 | 返回语义/草图并使下游失效 |
+| 显示层上下文门 | 缺宿主效果图时只记录 layer/host/state、缺口、负责人、依赖和补齐节点；宿主及不依赖部分可继续，已有独立目标证据的显示层可继续 | 仅挂起依赖缺失宿主图的还原与同屏验收，不阻断宿主，不自动生成弹窗或切换任务 |
 | 拆解门 | 状态和 ownership 全覆盖，当前拆解图和数据获得确认 | 停在拆解；不生成或提取资产，不推导布局 |
 | 布局门 | 唯一布局由已确认拆解推导，布局图和关系获得独立确认 | 修当前方案并重新确认 |
+| 布局标注门 | 每个节点的 ID、框、中文说明、parent 停靠和尺寸策略可一一对应，文字可读且父链完整 | 只重渲染当前标注版并重新确认；未实现检查前不宣称现有脚本支持 |
 | 资产门 | manifest coverage 完整、来源清楚、资源可消费，或记录 N/A | 修 manifest/资源；无资产不伪造门 |
 | fidelity 门 | 同一 layout-spec、实际测量、同视口 parity、响应式和 Visual QA 有证据 | 只重跑受影响范围，不能目测代替 |
 | F0–F3 门 | 测试等级已选、F0 真实完成、F1/F2/F3 当前 snapshot 有效 | 标为待验证、changes requested 或 blocked |
-| 集成门 | 全部获授权范围和跨模块合同闭合，平台层级不被夸大 | 返回具体模块/流，不用集成测试掩盖缺口 |
+| 集成门 | 全部获授权范围和跨模块合同闭合；显示层同屏与四步证据齐全，平台层级不被夸大 | 允许宿主与独立显示层继续开发，但不声明整体完成；返回具体模块/流 |
 | 发布门 | release checklist、构建、平台、商店和外部授权齐全 | 独立发布任务等待授权；不宣称上线 |
 
 ### 10.3 失效传播
@@ -522,8 +559,10 @@ Reuse 不自动批准新 bitmap。目标只有布局或容器变化时，布局�
 | 产品范围、核心状态或模块合同变化 | 受影响语义、sketch、hifi、资产、fidelity 和审核 | 未受影响模块的已接受输入 |
 | 共享 breakpoint、系统避让或路由基础变化 | 依赖它的 layout-spec、Code Sketch、测量、parity | 独立产品和资产来源事实 |
 | 冻结目标图、viewport、state 或方向变化 | 回对之后的拆解、布局、资产和 fidelity | 上游产品语义，若回对证明未变 |
+| display layer 宿主效果图缺失或待补 | 仅挂起依赖缺失宿主图的还原与同屏验收 | 宿主语义、已明确实现、范围内验证、独立目标证据齐全的显示层和不依赖该图的其他场景 |
+| 共享路由、theme、layout 或 state 入口缺失/冲突 | 仅暂停依赖该接口的 display layer 局部及其联合证据 | 宿主其他部分和不依赖该接口的场景 |
 | 拆解元素、ownership、membership 或状态变化 | 旧拆解确认、布局、资产生产和 fidelity | 未受影响的产品/技术合同 |
-| 只有布局关系变化 | 布局图、布局确认、受影响 fidelity | 拆解确认和未受影响资产 mapping |
+| 只有布局关系、`parent_id`、reference、dock 或 size 变化，或说明版式变化 | 受影响布局图、布局确认和下游 fidelity；说明版式即使语义不变也重新绑定当前图版 | 拆解确认和未受影响资产 mapping；不能沿用旧图 hash 确认 |
 | 资产来源、编号 bounds、crop、background、尺寸或 verdict 变化 | 受影响资产确认、输出、fidelity 和视觉审核 | 其他资产的独立确认 |
 | 代码、runtime 资源、配置或锁文件变化 | 相关 candidate code SHA、parity、F2/F3 证据 | 输入指纹未变的独立通道 |
 | F0 命令失败、缺失或证据过期 | 当前批次和后续审核结论 | 上一候选历史记录，不能当当前通过 |
@@ -548,12 +587,20 @@ Reuse 不自动批准新 bitmap。目标只有布局或容器变化时，布局�
 - [ ] 多 viewport/方向按合同分别验证，不能用一张截图宣称所有设备通过。
 - [ ] 状态分析先于 component inventory；component、placements、交互热区和 data/UI/asset ownership 分开。
 - [ ] 宿主 overlay、键盘、导航、焦点、系统避让和恢复关系在迁移输入中有归属。
+- [ ] 每个独立弹窗、toast 等先登记在 implementation plan 的显示层子任务清单，至少具备 task id/name、layer/host/state、范围/验收、owner、依赖、文件写范围、待补宿主图和补齐节点；不必等待效果图齐全，也不为登记创建实际 Codex 任务。
+- [ ] 缺少 display layer 宿主效果图时记录 layer/host/state、缺口、负责人、依赖和补齐节点，不阻断宿主、不自动切换或生成弹窗任务。
+- [ ] 宿主已明确部分可继续实现和验证；已登记的显示层子任务可与宿主或其他无依赖显示层并行推进，状态/参数/事件与文件范围互斥，共享入口由单一 owner 接线；真正依赖处串行，不因同范围授权重复询问。
+- [ ] 宿主进度与显示层联合验收分开记录；页面/业务流完整通过前补齐适用同屏目标及 `open → interact → close → restore` 证据。
 
 ### 11.2 确认图和资产验收
 
 - [ ] 当前数字图能力被准确描述为 `regions(number,bounds,color)` 渲染器，包含连续编号、整数边界、不覆盖原图、原尺寸 PNG 和 SHA。
 - [ ] 文档没有把当前数字图说成支持中文说明、图例、箭头、全元素 ownership、父子布局或用户确认校验。
 - [ ] 增强版明确为两张串行确认图：全元素拆解图先确认，唯一布局层级图后确认。
+- [ ] 每个父容器、子节点和 placement 都有稳定唯一 `layout_node_id`，左图徽标、右栏中文短名和结构数据一一对应；布局 ID 与 `asset_no` 独立，同资产多实例共享资产号但使用不同布局 ID。
+- [ ] 布局图递归说明根容器的 viewport/SafeArea/inset、每个父容器的参照/停靠/边距/尺寸/内部排列及子节点相对关系；父链无悬挂或循环，空容器也有方案。
+- [ ] 说明覆盖有效水平/垂直停靠、尺寸策略、Row/Column/Wrap/Overlay、间距对齐、滚动/键盘/断点；中文可读，raw 坐标和 hash 留在结构数据，不能用同色代替 ID。
+- [ ] 交付前检查 ID 唯一、框/文字/结构映射、父停靠完整和文字无截断遮挡；当前脚本未实现检查前，不声称增强图能力，问题示例图也不作为批准布局或量测来源。
 - [ ] fixed visual 保留独立 `asset_no`，重复 placements/states 通过 manifest membership 关联，不新增重复 bitmap 批准。
 - [ ] 增强版被标为建议，并要求标准、脚本、模板成套更新；落地前仍按当前数字图运行。
 - [ ] 零 bitmap 时记录 `N/A: no bitmap or exported visual assets`，不伪造资产门；需要布局确认时仍先完成全元素拆解确认，目标布局变化仍可触发布局确认。
@@ -581,12 +628,12 @@ Reuse 不自动批准新 bitmap。目标只有布局或容器变化时，布局�
 
 | 批次 | 需同步的实际文件 | 完整验收条件 | 拟命令 |
 | --- | --- | --- | --- |
-| A：主线与角色 | `flutter-app-orchestrator/SKILL.md`、`flutter-ux-ui-quality/SKILL.md`、`flutter-code-sketch/SKILL.md`、`flutter-hifi-mockup/SKILL.md`、`flutter-asset-atlas/SKILL.md`、`flutter-app-orchestrator/references/artifacts.md` | 主线、Full/Lightweight/Reuse、每个页面/状态每轮单图、用户触发重生成、用户冻结、资产 N/A、单写者和待统一的 hifi Review 冲突一致；不新增控制状态机 | `npm run validate:workflow`；`npm run workflow:snapshot -- --base HEAD` |
-| B：布局合同 | `adaptive-layout-implementation/references/` 下的 layout-spec、workflow、adapter、test-matrix、alignment-gate；`assets/layout-spec-template.yaml`、`assets/layout-spec-fidelity-template.yaml`；`scripts/validate-layout-spec.js` | sketch 不含未来视觉字段；fidelity 按“计划→实现→真实证据”收敛；同一 spec、候选内容摘要与整仓 snapshot 语义清楚；不新增第二套 layout spec | `npm run validate:workflow`；`npm run test:layout-fixtures`；`npm run validate:layout-spec -- <spec>` |
-| C：确认图与资产 | `flutter-asset-atlas/references/bitmap-decomposition-standard.md`、`flutter-asset-atlas/references/asset-manifest-template.md`、`flutter-asset-atlas/scripts/render-bitmap-confirmation.js` | 两张串行 PNG 均为左原图右中文说明，原图区域像素尺寸不变、总画布可增宽；asset_no/membership、复用、零 bitmap N/A 与全元素拆解边界完整 | `npm run validate:workflow`；`node flutter-asset-atlas/scripts/render-bitmap-confirmation.js --help`；使用专用 fixture 渲染并检查 PNG/SHA |
-| D：路由与夹具 | `scripts/validate-workflow.js`、`adaptive-layout-implementation/scripts/fixtures/` 及其运行脚本 | 文档、普通功能、页面功能、认证迁移、发布、Reuse 和无 bitmap 路由覆盖当前规则；旧 Phaser 名称不被当作可执行状态；链接和正/负夹具一致 | `npm run validate:workflow`；`npm run test:layout-fixtures` |
+| A：主线与角色 | `flutter-app-orchestrator/SKILL.md`、`flutter-ux-ui-quality/SKILL.md`、`flutter-code-sketch/SKILL.md`、`flutter-hifi-mockup/SKILL.md`、`flutter-asset-atlas/SKILL.md`、`flutter-app-orchestrator/references/artifacts.md`、`flutter-app-orchestrator/references/subagent-map.md`、`flutter-subagent-delivery/references/collaboration-protocol.md` | 主线、Full/Lightweight/Reuse、每个页面/状态每轮单图、用户触发重生成、用户冻结、宿主/显示层解耦、显示层子任务唯一计划记录与并行/串行边界、单写者与用户另行并行边界、资产 N/A 和待统一的 hifi Review 冲突一致；不新增控制状态机或实际 Codex 任务 | `npm run validate:workflow`；`npm run workflow:snapshot -- --base HEAD` |
+| B：布局合同 | `adaptive-layout-implementation/references/` 下的 layout-spec、workflow、adapter、test-matrix、alignment-gate；`assets/layout-spec-template.yaml`、`assets/layout-spec-fidelity-template.yaml`；`scripts/validate-layout-spec.js` | sketch 不含未来视觉字段；fidelity 按“计划→实现→真实证据”收敛；同一 spec、候选内容摘要与整仓 snapshot 语义清楚；补齐 `layout_node_id`/`parent_id`、reference、dock、size、内部排列和说明版式绑定字段；不新增第二套 layout spec | `npm run validate:workflow`；`npm run test:layout-fixtures`；`npm run validate:layout-spec -- <spec>` |
+| C：确认图与资产 | `flutter-asset-atlas/references/bitmap-decomposition-standard.md`、`flutter-asset-atlas/references/asset-manifest-template.md`、`flutter-asset-atlas/scripts/render-bitmap-confirmation.js` | 两张串行 PNG 均为左原图右中文说明，原图区域像素尺寸不变、总画布可增宽；ID/框/文字/结构一一对应，递归父停靠和可读性检查完整；asset_no/membership、复用、零 bitmap N/A 与全元素拆解边界完整 | `npm run validate:workflow`；`node flutter-asset-atlas/scripts/render-bitmap-confirmation.js --help`；使用专用 fixture 渲染并检查 PNG/SHA |
+| D：路由与夹具 | `scripts/validate-workflow.js`、`adaptive-layout-implementation/scripts/fixtures/` 及其运行脚本 | 文档、普通功能、页面功能、认证迁移、发布、Reuse、无 bitmap 和缺显示层宿主图路由覆盖当前规则；布局正/负夹具覆盖缺父停靠、重复/失联 ID、同色节点混淆和文本截断；缺图只影响该层验收，旧 Phaser 名称不被当作可执行状态；链接和正/负夹具一致 | `npm run validate:workflow`；`npm run test:layout-fixtures` |
 
-实际 Flutter 项目按当前路由继续执行：先把已核验的 Phaser 方法映射为模块、页面、状态和宿主 display layer；自适应页面依次完成 sketch、Code Sketch、高保真冻结、合同回对、拆解确认、布局确认、必要资产、fidelity 和 Visual QA；最后由 Controller 对获授权范围集成并按需进入发布流程。每一步仍使用八字段契约、当前 checkout 和单写者边界。
+实际 Flutter 项目按当前路由继续执行：先把已核验的 Phaser 方法映射为模块、页面、状态和宿主 display layer；弹窗、toast 等独立显示层先登记到 implementation plan 子任务清单，具备独立合同和互斥文件范围后可与宿主或其他无依赖层并行，真正依赖处串行，共享入口由单一 owner 接线；本节不创建实际 Codex 任务。自适应页面依次完成 sketch、Code Sketch、高保真冻结、合同回对、拆解确认、布局确认、必要资产、fidelity 和 Visual QA；最后由 Controller 对获授权范围集成并按需进入发布流程。每一步仍使用八字段契约、当前 checkout 和单写者边界。
 
 ## 13. 权威依据索引
 
